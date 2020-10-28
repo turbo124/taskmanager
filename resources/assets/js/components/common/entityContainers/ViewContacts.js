@@ -5,19 +5,19 @@ import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import FormatDate from '../FormatDate'
 
-export default function ViewContacts ( props ) {
-    const listClass = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'list-group-item-dark' : ''
-    const customer = props.customers && props.customers.length ? props.customers.filter ( customer => customer.id === parseInt ( props.entity.customer_id ) ) : []
+export default function ViewContacts (props) {
+    const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
+    const customer = props.customers && props.customers.length ? props.customers.filter(customer => customer.id === parseInt(props.entity.customer_id)) : []
 
     let contactList = null
 
-    if ( customer.length ) {
-        const customerModel = new CustomerModel ( customer[ 0 ] )
+    if (customer.length) {
+        const customerModel = new CustomerModel(customer[0])
         const invitations = props.entity.invitations
 
-        contactList = invitations.map ( ( invitation, index ) => {
-            const link = props.entity.invitation_link.replace ( '$key', invitation.key )
-            const contact = customerModel.findContact ( invitation.contact_id )
+        contactList = invitations.map((invitation, index) => {
+            const link = props.entity.invitation_link.replace('$key', invitation.key)
+            const contact = customerModel.findContact(invitation.contact_id)
 
             return <ListGroupItem key={index} className={listClass}>
                 <a href={link}>
@@ -32,10 +32,10 @@ export default function ViewContacts ( props ) {
                     }
                 </a>
                 <p className="small"><span
-                    onClick={( e ) => props.entity.copyToClipboard ( link )}> {translations.copy_to_clipboard}</span>
+                    onClick={(e) => props.entity.copyToClipboard(link)}> {translations.copy_to_clipboard}</span>
                 </p>
             </ListGroupItem>
-        } )
+        })
     }
 
     return <ListGroup className="mt-2 col-12">

@@ -17,8 +17,8 @@ import Select from 'react-select'
 import { translations } from '../utils/_translations'
 
 class AddRole extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             modal: false,
             name: '',
@@ -30,100 +30,100 @@ class AddRole extends React.Component {
             permissions: [],
             message: ''
         }
-        this.toggle = this.toggle.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
-        this.handleMultiSelect = this.handleMultiSelect.bind ( this )
-        this.buildPermissionList = this.buildPermissionList.bind ( this )
+        this.toggle = this.toggle.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.handleMultiSelect = this.handleMultiSelect.bind(this)
+        this.buildPermissionList = this.buildPermissionList.bind(this)
     }
 
     componentDidMount () {
-        this.getPermissions ()
+        this.getPermissions()
     }
 
-    handleMultiSelect ( e ) {
-        this.setState ( { attachedPermissions: Array.from ( e.target.selectedOptions, ( item ) => item.value ) } )
+    handleMultiSelect (e) {
+        this.setState({ attachedPermissions: Array.from(e.target.selectedOptions, (item) => item.value) })
     }
 
-    handleInput ( e ) {
-        this.setState ( {
-            [ e.target.name ]: e.target.value
-        } )
+    handleInput (e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
     getPermissions () {
-        axios.get ( '/api/permissions' )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get('/api/permissions')
+            .then((r) => {
+                this.setState({
                     permissions: r.data
-                } )
-            } )
-            .catch ( ( e ) => {
-                console.error ( e )
-            } )
+                })
+            })
+            .catch((e) => {
+                console.error(e)
+            })
     }
 
     handleClick () {
-        axios.post ( '/api/roles', {
+        axios.post('/api/roles', {
             name: this.state.name,
             description: this.state.description,
             permissions: this.state.attachedPermissions
-        } )
-            .then ( ( response ) => {
+        })
+            .then((response) => {
                 const newUser = response.data
-                this.props.roles.push ( newUser )
-                this.props.action ( this.props.roles )
-                this.setState ( {
+                this.props.roles.push(newUser)
+                this.props.action(this.props.roles)
+                this.setState({
                     name: null,
                     description: null
-                } )
-                this.toggle ()
-            } )
-            .catch ( ( error ) => {
-                if ( error.response.data.errors ) {
-                    this.setState ( {
+                })
+                this.toggle()
+            })
+            .catch((error) => {
+                if (error.response.data.errors) {
+                    this.setState({
                         errors: error.response.data.errors
-                    } )
+                    })
                 } else {
-                    this.setState ( { message: error.response.data } )
+                    this.setState({ message: error.response.data })
                 }
-            } )
+            })
     }
 
     toggle () {
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: [],
             message: ''
-        } )
+        })
     }
 
     buildPermissionList () {
         let permissionsList = null
-        console.log ( 'state', this.state )
-        if ( !this.state.permissions.length ) {
+        console.log('state', this.state)
+        if (!this.state.permissions.length) {
             permissionsList = <option value="">Loading...</option>
         } else {
-            permissionsList = this.state.permissions.map ( ( permission, index ) => {
-                const selected = this.state.attachedPermissions.indexOf ( permission.id ) > -1 ? 'selected' : ''
+            permissionsList = this.state.permissions.map((permission, index) => {
+                const selected = this.state.attachedPermissions.indexOf(permission.id) > -1 ? 'selected' : ''
                 return (
                     <option selected={selected} key={index} value={permission.id}>{permission.name}</option>
                 )
-            } )
+            })
         }
 
         return permissionsList
@@ -150,12 +150,12 @@ class AddRole extends React.Component {
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
-                            <Input className={this.hasErrorFor ( 'name' ) ? 'is-invalid' : ''}
-                                   placeholder="Name"
-                                   type="text"
-                                   name="name"
-                                   onChange={this.handleInput.bind ( this )}/>
-                            {this.renderErrorFor ( 'name' )}
+                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
+                                placeholder="Name"
+                                type="text"
+                                name="name"
+                                onChange={this.handleInput.bind(this)}/>
+                            {this.renderErrorFor('name')}
                         </InputGroup>
 
                         <Label>{translations.description}</Label>
@@ -163,12 +163,12 @@ class AddRole extends React.Component {
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
-                            <Input className={this.hasErrorFor ( 'description' ) ? 'is-invalid' : ''}
-                                   placeholder="Description"
-                                   type="text"
-                                   name="description"
-                                   onChange={this.handleInput.bind ( this )}/>
-                            {this.renderErrorFor ( 'description' )}
+                            <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
+                                placeholder="Description"
+                                type="text"
+                                name="description"
+                                onChange={this.handleInput.bind(this)}/>
+                            {this.renderErrorFor('description')}
                         </InputGroup>
 
                         <Label>Assign Permissions</Label>
@@ -179,8 +179,8 @@ class AddRole extends React.Component {
 
                             <Select
                                 onChange={options => {
-                                    if ( Array.isArray ( options ) ) {
-                                        this.setState ( { attachedPermissions: options.map ( opt => opt.id ) } )
+                                    if (Array.isArray(options)) {
+                                        this.setState({ attachedPermissions: options.map(opt => opt.id) })
                                     }
                                 }}
                                 getOptionLabel={option => option.name}
@@ -199,7 +199,7 @@ class AddRole extends React.Component {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind ( this )}>{translations.save}</Button>
+                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
                         <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
                     </ModalFooter>
                 </Modal>

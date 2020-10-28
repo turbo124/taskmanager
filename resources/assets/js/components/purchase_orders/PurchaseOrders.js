@@ -11,8 +11,8 @@ import CompanyRepository from '../repositories/CompanyRepository'
 import queryString from 'query-string'
 
 export default class PurchaseOrders extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             isOpen: window.innerWidth > 670,
             error: '',
@@ -34,99 +34,99 @@ export default class PurchaseOrders extends Component {
             dropdownButtonActions: ['email', 'download', 'clone_quote_to_invoice'],
             filters: {
                 status_id: 'active',
-                user_id: queryString.parse ( this.props.location.search ).user_id || '',
-                company_id: queryString.parse ( this.props.location.search ).company_id || '',
-                project_id: queryString.parse ( this.props.location.search ).project_id || '',
+                user_id: queryString.parse(this.props.location.search).user_id || '',
+                company_id: queryString.parse(this.props.location.search).company_id || '',
+                project_id: queryString.parse(this.props.location.search).project_id || '',
                 searchText: '',
                 start_date: '',
                 end_date: ''
             },
             showRestoreButton: false,
-            entity_id: queryString.parse ( this.props.location.search ).entity_id || false,
-            entity_type: queryString.parse ( this.props.location.search ).entity_type || false,
+            entity_id: queryString.parse(this.props.location.search).entity_id || false,
+            entity_type: queryString.parse(this.props.location.search).entity_type || false,
             ignoredColumns: ['tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'currency_id', 'exchange_rate', 'account_id', 'assigned_to', 'gateway_fee', 'gateway_percentage', 'files', 'shipping_cost_tax', 'audits', 'user_id', 'customer_name', 'emails', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'custom_surcharge_tax2', 'design_id', 'invitations', 'next_send_date', 'id', 'custom_value1', 'invoice_id', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'use_inclusive_taxes', 'terms', 'footer', 'last_sent_date', 'uses_inclusive_taxes', 'line_items', 'next_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total']
 
         }
 
-        this.updateInvoice = this.updateInvoice.bind ( this )
-        this.userList = this.userList.bind ( this )
-        this.filterInvoices = this.filterInvoices.bind ( this )
+        this.updateInvoice = this.updateInvoice.bind(this)
+        this.userList = this.userList.bind(this)
+        this.filterInvoices = this.filterInvoices.bind(this)
     }
 
     componentDidMount () {
-        this.getCompanies ()
-        this.getCustomFields ()
+        this.getCompanies()
+        this.getCustomFields()
     }
 
-    updateInvoice ( purchase_orders ) {
+    updateInvoice (purchase_orders) {
         const cachedData = !this.state.cachedData.length ? purchase_orders : this.state.cachedData
-        this.setState ( {
+        this.setState({
             purchase_orders: purchase_orders,
             cachedData: cachedData
-        } )
+        })
     }
 
-    filterInvoices ( filters ) {
-        this.setState ( { filters: filters } )
+    filterInvoices (filters) {
+        this.setState({ filters: filters })
     }
 
     handleClose () {
-        this.setState ( { error: '', show_success: false } )
+        this.setState({ error: '', show_success: false })
     }
 
-    userList ( props ) {
+    userList (props) {
         const { purchase_orders, custom_fields, companies } = this.state
         return <PurchaseOrderItem showCheckboxes={props.showCheckboxes} purchase_orders={purchase_orders}
-                                  companies={companies}
-                                  custom_fields={custom_fields}
-                                  viewId={props.viewId}
-                                  ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
-                                  toggleViewedEntity={props.toggleViewedEntity}
-                                  bulk={props.bulk}
-                                  onChangeBulk={props.onChangeBulk}/>
+            companies={companies}
+            custom_fields={custom_fields}
+            viewId={props.viewId}
+            ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
+            toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
+            onChangeBulk={props.onChangeBulk}/>
     }
 
     getCompanies () {
-        const companyRepository = new CompanyRepository ()
-        companyRepository.get ().then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const companyRepository = new CompanyRepository()
+        companyRepository.get().then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( { companies: response }, () => {
-                console.log ( 'companies', this.state.companies )
-            } )
-        } )
+            this.setState({ companies: response }, () => {
+                console.log('companies', this.state.companies)
+            })
+        })
     }
 
     getCustomFields () {
-        axios.get ( 'api/accounts/fields/PurchaseOrder' )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get('api/accounts/fields/PurchaseOrder')
+            .then((r) => {
+                this.setState({
                     custom_fields: r.data.fields
-                } )
-            } )
-            .catch ( ( e ) => {
-                this.setState ( {
+                })
+            })
+            .catch((e) => {
+                this.setState({
                     loading: false,
                     error: e
-                } )
-            } )
+                })
+            })
     }
 
-    setFilterOpen ( isOpen ) {
-        this.setState ( { isOpen: isOpen } )
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
-    setError ( message = null ) {
-        this.setState ( { error: true, error_message: message === null ? translations.unexpected_error : message } )
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
     }
 
-    setSuccess ( message = null ) {
-        this.setState ( {
+    setSuccess (message = null) {
+        this.setState({
             show_success: true,
             success_message: message === null ? translations.success_message : message
-        } )
+        })
     }
 
     render () {
@@ -144,7 +144,7 @@ export default class PurchaseOrders extends Component {
             invoices={purchase_orders}
             modal={true}
         /> : null
-        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call ( localStorage, 'datatable_collapsed' ) && localStorage.getItem ( 'datatable_collapsed' ) === true)
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
@@ -154,20 +154,20 @@ export default class PurchaseOrders extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <PurchaseOrderFilters setFilterOpen={this.setFilterOpen.bind ( this )}
-                                                      purchase_orders={purchase_orders}
-                                                      companies={companies}
-                                                      updateIgnoredColumns={this.updateIgnoredColumns}
-                                                      filters={filters} filter={this.filterInvoices}
-                                                      saveBulk={this.saveBulk}
-                                                      ignoredColumns={this.state.ignoredColumns}/>
+                                <PurchaseOrderFilters setFilterOpen={this.setFilterOpen.bind(this)}
+                                    purchase_orders={purchase_orders}
+                                    companies={companies}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={filters} filter={this.filterInvoices}
+                                    saveBulk={this.saveBulk}
+                                    ignoredColumns={this.state.ignoredColumns}/>
                                 {addButton}
                             </CardBody>
                         </Card>
                     </div>
 
                     {error &&
-                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
                             {error_message}
                         </Alert>
@@ -175,7 +175,7 @@ export default class PurchaseOrders extends Component {
                     }
 
                     {show_success &&
-                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="success">
                             {success_message}
                         </Alert>
@@ -186,8 +186,8 @@ export default class PurchaseOrders extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
-                                    setSuccess={this.setSuccess.bind ( this )}
-                                    setError={this.setError.bind ( this )}
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
                                     companies={companies}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="PurchaseOrder"

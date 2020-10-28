@@ -16,22 +16,22 @@ export class StatsCard extends Component {
                                     <div className="events" style={{ width: '1140px' }}>
                                         <ol className="list-unstyled">
                                             <li><a href="#0" data-date="16/01/2015" className="selected p-0"
-                                                   style={{ left: '120px' }}>16 Jan</a></li>
+                                                style={{ left: '120px' }}>16 Jan</a></li>
                                             <li><a href="#0" data-date="28/02/2015" className="p-0"
-                                                   style={{ left: '300px' }}>28 Feb</a></li>
+                                                style={{ left: '300px' }}>28 Feb</a></li>
                                             <li><a href="#0" data-date="20/04/2015" className="p-0"
-                                                   style={{ left: '480px' }}>20 Mar</a></li>
+                                                style={{ left: '480px' }}>20 Mar</a></li>
                                             <li><a href="#0" data-date="20/05/2015" className="p-0"
-                                                   style={{ left: '600px' }}>20 May</a></li>
+                                                style={{ left: '600px' }}>20 May</a></li>
                                             <li><a href="#0" data-date="09/07/2015" className="p-0"
-                                                   style={{ left: '780px' }}>09 Jul</a></li>
+                                                style={{ left: '780px' }}>09 Jul</a></li>
                                             <li><a href="#0" data-date="30/08/2015" className="p-0"
-                                                   style={{ left: '960px' }}>30 Aug</a></li>
+                                                style={{ left: '960px' }}>30 Aug</a></li>
                                             <li><a href="#0" data-date="15/09/2015" className="p-0"
-                                                   style={{ left: '1020px' }}>15 Sep</a></li>
+                                                style={{ left: '1020px' }}>15 Sep</a></li>
                                         </ol>
                                         <span className="filling-line" aria-hidden="true"
-                                              style={{ transform: 'scaleX(0.12794)' }}/>
+                                            style={{ transform: 'scaleX(0.12794)' }}/>
                                     </div>
                                 </div>
                                 <ul className="cd-timeline-navigation list-unstyled">
@@ -45,7 +45,7 @@ export class StatsCard extends Component {
                                         <div className="media">
                                             <div className="media-left mr-1">
                                                 <img className="media-object avatar avatar-md rounded-circle"
-                                                     src="/files/avatar-s-4.png" alt="Generic placeholder image"/>
+                                                    src="/files/avatar-s-4.png" alt="Generic placeholder image"/>
                                             </div>
                                             <div className="media-body">
                                                 <p className="text-bold-600 m-0">Philip Garrett</p>
@@ -72,7 +72,7 @@ export class StatsCard extends Component {
                                         <div className="media">
                                             <div className="media-left mr-1">
                                                 <img className="media-object avatar avatar-md rounded-circle"
-                                                     src="/files/avatar-s-4.png" alt="Generic placeholder image"/>
+                                                    src="/files/avatar-s-4.png" alt="Generic placeholder image"/>
                                             </div>
                                             <div className="media-body">
                                                 <p className="text-bold-600 m-0">Philip Garrett</p>
@@ -99,7 +99,7 @@ export class StatsCard extends Component {
                                         <div className="media">
                                             <div className="media-left mr-1">
                                                 <img className="media-object avatar avatar-md rounded-circle"
-                                                     src="/files/avatar-s-4.png" alt="Generic placeholder image"/>
+                                                    src="/files/avatar-s-4.png" alt="Generic placeholder image"/>
                                             </div>
                                             <div className="media-body">
                                                 <p className="text-bold-600 m-0">Philip Garrett</p>
@@ -126,7 +126,7 @@ export class StatsCard extends Component {
                                         <div className="media">
                                             <div className="media-left mr-1">
                                                 <img className="media-object avatar avatar-md rounded-circle"
-                                                     src="/files/avatar-s-4.png" alt="Generic placeholder image"/>
+                                                    src="/files/avatar-s-4.png" alt="Generic placeholder image"/>
                                             </div>
                                             <div className="media-body">
                                                 <p className="text-bold-600 m-0">Philip Garrett</p>
@@ -153,7 +153,7 @@ export class StatsCard extends Component {
                                         <div className="media">
                                             <div className="media-left mr-1">
                                                 <img className="media-object avatar avatar-md rounded-circle"
-                                                     src="/files/avatar-s-4.png" alt="Generic placeholder image"/>
+                                                    src="/files/avatar-s-4.png" alt="Generic placeholder image"/>
                                             </div>
                                             <div className="media-body">
                                                 <p className="text-bold-600 m-0">Philip Garrett</p>
@@ -181,7 +181,7 @@ export class StatsCard extends Component {
                                         <div className="media">
                                             <div className="media-left mr-1">
                                                 <img className="media-object avatar avatar-md rounded-circle"
-                                                     src="/files/avatar-s-4.png" alt="Generic placeholder image"/>
+                                                    src="/files/avatar-s-4.png" alt="Generic placeholder image"/>
                                             </div>
                                             <div className="media-body">
                                                 <p className="text-bold-600 m-0">Philip Garrett</p>
@@ -208,7 +208,7 @@ export class StatsCard extends Component {
                                         <div className="media">
                                             <div className="media-left mr-1">
                                                 <img className="media-object avatar avatar-md rounded-circle"
-                                                     src="/files/avatar-s-4.png" alt="Generic placeholder image"/>
+                                                    src="/files/avatar-s-4.png" alt="Generic placeholder image"/>
                                             </div>
                                             <div className="media-body">
                                                 <p className="text-bold-600 m-0">Philip Garrett</p>

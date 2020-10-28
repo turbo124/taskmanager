@@ -4,54 +4,54 @@ import Select from 'react-select'
 import { translations } from '../../utils/_translations'
 
 export default class LanguageDropdown extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             languages: []
         }
 
-        this.getLanguages = this.getLanguages.bind ( this )
+        this.getLanguages = this.getLanguages.bind(this)
     }
 
     componentDidMount () {
-        if ( Object.prototype.hasOwnProperty.call ( localStorage, 'languages' ) ) {
-            this.setState ( { languages: JSON.parse ( localStorage.getItem ( 'languages' ) ) } )
+        if (Object.prototype.hasOwnProperty.call(localStorage, 'languages')) {
+            this.setState({ languages: JSON.parse(localStorage.getItem('languages')) })
         } else {
-            this.getLanguages ()
+            this.getLanguages()
         }
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback d-block'>
-                    <strong>{this.props.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.props.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
-    hasErrorFor ( field ) {
-        return this.props.errors && !!this.props.errors[ field ]
+    hasErrorFor (field) {
+        return this.props.errors && !!this.props.errors[field]
     }
 
     getLanguages () {
-        axios.get ( '/api/languages' )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get('/api/languages')
+            .then((r) => {
+                this.setState({
                     langauges: r.data
                 }, function () {
-                    if ( !this.props.multiple ) {
-                        this.state.languages.unshift ( { id: '', name: 'Select Language' } )
+                    if (!this.props.multiple) {
+                        this.state.languages.unshift({ id: '', name: 'Select Language' })
                     }
-                } )
-            } )
-            .catch ( ( e ) => {
-                console.error ( e )
-            } )
+                })
+            })
+            .catch((e) => {
+                console.error(e)
+            })
     }
 
-    handleChange ( value, name ) {
+    handleChange (value, name) {
         const e = {
             target: {
                 id: name,
@@ -60,11 +60,11 @@ export default class LanguageDropdown extends Component {
             }
         }
 
-        this.props.handleInputChanges ( e )
+        this.props.handleInputChanges(e)
     }
 
     render () {
-        const language = this.props.language_id ? this.state.languages.filter ( option => option.id === parseInt ( this.props.language_id ) ) : null
+        const language = this.props.language_id ? this.state.languages.filter(option => option.id === parseInt(this.props.language_id)) : null
         const name = this.props.name ? this.props.name : 'language_id'
         return (
             <React.Fragment>
@@ -77,9 +77,9 @@ export default class LanguageDropdown extends Component {
                     options={this.state.languages}
                     getOptionLabel={option => option.name}
                     getOptionValue={option => option.id}
-                    onChange={( value ) => this.handleChange ( value, name )}
+                    onChange={(value) => this.handleChange(value, name)}
                 />
-                {this.renderErrorFor ( name )}
+                {this.renderErrorFor(name)}
             </React.Fragment>
         )
     }

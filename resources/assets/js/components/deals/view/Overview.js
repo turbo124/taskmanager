@@ -7,10 +7,10 @@ import { icons } from '../../utils/_icons'
 import FieldGrid from '../../common/entityContainers/FieldGrid'
 import FormatMoney from '../../common/FormatMoney'
 
-export default function Overview ( props ) {
+export default function Overview (props) {
     return <React.Fragment>
         <ViewEntityHeader heading_1={translations.valued_at}
-                          value_1={<FormatMoney amount={props.entity.valued_at}/>}/>
+            value_1={<FormatMoney amount={props.entity.valued_at}/>}/>
 
         {props.entity.name.length &&
         <Alert color="dark col-12 mt-2">
@@ -25,8 +25,8 @@ export default function Overview ( props ) {
         }
 
         <Row>
-            <EntityListTile entity={translations.customer} title={props.customer[ 0 ].name}
-                            icon={icons.customer}/>
+            <EntityListTile entity={translations.customer} title={props.customer[0].name}
+                icon={icons.customer}/>
         </Row>
 
         {!!props.user &&

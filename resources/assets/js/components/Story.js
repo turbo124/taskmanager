@@ -5,39 +5,39 @@ import Tooltips from './tooltip'
 import axios from 'axios'
 
 export default class Story extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             columns: [],
             loading: true
         }
 
-        this.buildColumn = this.buildColumn.bind ( this )
-        this.getColumns = this.getColumns.bind ( this )
+        this.buildColumn = this.buildColumn.bind(this)
+        this.getColumns = this.getColumns.bind(this)
     }
 
     componentDidMount () {
-        this.getColumns ()
+        this.getColumns()
     }
 
     getColumns () {
-        axios.get ( `/api/status/${this.props.task_type}` )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get(`/api/status/${this.props.task_type}`)
+            .then((r) => {
+                this.setState({
                     columns: r.data,
                     loading: false
-                } )
-            } )
-            .catch ( ( e ) => {
-                console.warn ( e )
-                console.error ( e )
-            } )
+                })
+            })
+            .catch((e) => {
+                console.warn(e)
+                console.error(e)
+            })
     }
 
-    buildColumn ( column ) {
+    buildColumn (column) {
         return (
             <div data-status={column.id} style={{ borderColor: column.column_color }}
-                 className={`tasks col-12 col-md-6 col-lg-4 mcolor${column.id}`}>
+                className={`tasks col-12 col-md-6 col-lg-4 mcolor${column.id}`}>
                 <div className="task-header story">
                     <h3 className="task-title mr-auto"> {column.title} <span className="badge text-muted">(3)</span>
                     </h3>
@@ -74,9 +74,9 @@ export default class Story extends Component {
     }
 
     render () {
-        const columns = this.state.columns.map ( ( column, index ) => {
-            return this.buildColumn ( column )
-        } )
+        const columns = this.state.columns.map((column, index) => {
+            return this.buildColumn(column)
+        })
 
         const loading = this.state.loading === true
             ? <div className="space">

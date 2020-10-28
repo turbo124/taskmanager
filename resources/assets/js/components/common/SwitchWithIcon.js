@@ -1,14 +1,14 @@
 import React from 'react'
 import { CustomInput } from 'reactstrap'
 
-export default function SwitchWithIcon ( props ) {
+export default function SwitchWithIcon (props) {
     return (
         <a href="#"
-           className="mt-2 mb-2 list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+            className="mt-2 mb-2 list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
             <div className="d-flex w-100 justify-content-between">
                 <h5 className="mb-1">
                     <i style={{ fontSize: '24px', marginRight: '20px' }}
-                       className={`fa ${props.icon}`}/>
+                        className={`fa ${props.icon}`}/>
                     {props.label}
                 </h5>
                 <CustomInput

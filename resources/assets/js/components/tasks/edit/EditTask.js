@@ -36,83 +36,83 @@ import DropdownMenuBuilder from '../../common/DropdownMenuBuilder'
 import { toast, ToastContainer } from 'react-toastify'
 
 class EditTask extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        this.taskModel = new TaskModel ( this.props.task, this.props.customers )
+        this.taskModel = new TaskModel(this.props.task, this.props.customers)
         this.initialState = this.taskModel.fields
         this.taskModel.start_date = this.initialState.start_date
         this.taskModel.due_date = this.initialState.due_date
 
         this.state = this.initialState
 
-        this.handleSave = this.handleSave.bind ( this )
-        this.handleDelete = this.handleDelete.bind ( this )
-        this.handleChange = this.handleChange.bind ( this )
-        this.handleMultiSelect = this.handleMultiSelect.bind ( this )
-        this.timerAction = this.timerAction.bind ( this )
-        this.toggle = this.toggle.bind ( this )
-        this.toggleTab = this.toggleTab.bind ( this )
-        this.updateList = this.updateList.bind ( this )
-        this.toggleMenu = this.toggleMenu.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.handleSave = this.handleSave.bind(this)
+        this.handleDelete = this.handleDelete.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleMultiSelect = this.handleMultiSelect.bind(this)
+        this.timerAction = this.timerAction.bind(this)
+        this.toggle = this.toggle.bind(this)
+        this.toggleTab = this.toggleTab.bind(this)
+        this.updateList = this.updateList.bind(this)
+        this.toggleMenu = this.toggleMenu.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
     toggle () {
-        if ( this.state.modal && this.state.changesMade ) {
-            if ( window.confirm ( 'Your changes have not been saved?' ) ) {
-                this.setState ( { ...this.initialState } )
+        if (this.state.modal && this.state.changesMade) {
+            if (window.confirm('Your changes have not been saved?')) {
+                this.setState({ ...this.initialState })
             }
 
             return
         }
 
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: []
-        } )
+        })
     }
 
-    toggleMenu ( event ) {
-        this.setState ( {
+    toggleMenu (event) {
+        this.setState({
             dropdownOpen: !this.state.dropdownOpen
-        } )
+        })
     }
 
-    toggleTab ( tab ) {
-        if ( this.state.activeTab !== tab ) {
-            this.setState ( { activeTab: tab } )
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
         }
     }
 
-    timerAction ( e ) {
+    timerAction (e) {
         const data = {
             action: e.target.id
         }
 
-        this.taskModel.timerAction ( data ).then ( response => {
-            if ( !response ) {
-                this.setState ( { errors: this.taskModel.errors, message: this.taskModel.error_message } )
+        this.taskModel.timerAction(data).then(response => {
+            if (!response) {
+                this.setState({ errors: this.taskModel.errors, message: this.taskModel.error_message })
                 return
             }
 
-            this.setState ( { action: e.target.id } )
-        } )
+            this.setState({ action: e.target.id })
+        })
     }
 
     getFormData () {
@@ -130,8 +130,8 @@ class EditTask extends Component {
             name: this.state.name,
             description: this.state.description,
             contributors: this.state.selectedUsers,
-            due_date: moment ( this.state.due_date ).format ( 'YYYY-MM-DD' ),
-            start_date: moment ( this.state.start_date ).format ( 'YYYY-MM-DD' ),
+            due_date: moment(this.state.due_date).format('YYYY-MM-DD'),
+            start_date: moment(this.state.start_date).format('YYYY-MM-DD'),
             custom_value1: this.state.custom_value1,
             custom_value2: this.state.custom_value2,
             custom_value3: this.state.custom_value3,
@@ -143,64 +143,64 @@ class EditTask extends Component {
         }
     }
 
-    updateList ( response, toggle = true ) {
-        if ( this.props.allTasks ) {
-            const index = this.props.allTasks.findIndex ( task => task.id === this.props.task.id )
-            this.props.allTasks[ index ] = response
-            this.props.action ( this.props.allTasks )
-            this.setState ( { timers: response.timers } )
-            this.taskModel = new TaskModel ( response, this.props.customers )
+    updateList (response, toggle = true) {
+        if (this.props.allTasks) {
+            const index = this.props.allTasks.findIndex(task => task.id === this.props.task.id)
+            this.props.allTasks[index] = response
+            this.props.action(this.props.allTasks)
+            this.setState({ timers: response.timers })
+            this.taskModel = new TaskModel(response, this.props.customers)
         }
     }
 
     handleSave () {
-        this.taskModel.update ( this.getFormData () ).then ( response => {
-            if ( !response ) {
-                this.setState ( { errors: this.taskModel.errors, message: this.taskModel.error_message } )
+        this.taskModel.update(this.getFormData()).then(response => {
+            if (!response) {
+                this.setState({ errors: this.taskModel.errors, message: this.taskModel.error_message })
                 return
             }
 
-            if ( this.props.allTasks ) {
-                const index = this.props.allTasks.findIndex ( task => task.id === this.props.task.id )
-                this.props.allTasks[ index ] = response
-                this.props.action ( this.props.allTasks )
-                this.setState ( {
+            if (this.props.allTasks) {
+                const index = this.props.allTasks.findIndex(task => task.id === this.props.task.id)
+                this.props.allTasks[index] = response
+                this.props.action(this.props.allTasks)
+                this.setState({
                     editMode: false,
                     changesMade: false
-                } )
-                this.toggle ()
+                })
+                this.toggle()
             }
-        } )
+        })
     }
 
     handleDelete () {
-        this.setState ( {
+        this.setState({
             editMode: false
-        } )
-        if ( this.props.onDelete ) {
-            this.props.onDelete ( this.props.task )
+        })
+        if (this.props.onDelete) {
+            this.props.onDelete(this.props.task)
         }
     }
 
-    handleChange ( e ) {
+    handleChange (e) {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-        this.setState ( {
-            [ e.target.name ]: value,
+        this.setState({
+            [e.target.name]: value,
             changesMade: true
-        } )
+        })
     }
 
-    handleMultiSelect ( e ) {
-        this.setState ( { selectedUsers: Array.from ( e.target.selectedOptions, ( item ) => item.value ) } )
+    handleMultiSelect (e) {
+        this.setState({ selectedUsers: Array.from(e.target.selectedOptions, (item) => item.value) })
     }
 
     render () {
-        console.log ( 'timers', this.state.timers )
+        console.log('timers', this.state.timers)
         const email_editor = this.state.id
             ? <Emails width={400} model={this.taskModel} emails={this.state.emails} template="email_template_task"
-                      show_editor={true}
-                      customers={this.props.customers} entity_object={this.state} entity="task"
-                      entity_id={this.state.id}/> : null
+                show_editor={true}
+                customers={this.props.customers} entity_object={this.state} entity="task"
+                entity_id={this.state.id}/> : null
         const button_action = (this.taskModel.isRunning) ? ('stop_timer') : ((!this.state.timers || !this.state.timers.length) ? ('start_timer') : ('resume_timer'))
         const button_text = (this.taskModel.isRunning) ? (translations.stop) : ((!this.state.timers || !this.state.timers.length) ? (translations.start) : (translations.resume))
 
@@ -210,7 +210,7 @@ class EditTask extends Component {
                     <NavLink
                         className={this.state.activeTab === '1' ? 'active' : ''}
                         onClick={() => {
-                            this.toggleTab ( '1' )
+                            this.toggleTab('1')
                         }}>
                         {translations.details}
                     </NavLink>
@@ -220,7 +220,7 @@ class EditTask extends Component {
                     <NavLink
                         className={this.state.activeTab === '2' ? 'active' : ''}
                         onClick={() => {
-                            this.toggleTab ( '2' )
+                            this.toggleTab('2')
                         }}>
                         {translations.times}
                     </NavLink>
@@ -230,7 +230,7 @@ class EditTask extends Component {
                     <NavLink
                         className={this.state.activeTab === '3' ? 'active' : ''}
                         onClick={() => {
-                            this.toggleTab ( '3' )
+                            this.toggleTab('3')
                         }}>
                         {translations.documents}
                     </NavLink>
@@ -240,7 +240,7 @@ class EditTask extends Component {
                     <NavLink
                         className={this.state.activeTab === '4' ? 'active' : ''}
                         onClick={() => {
-                            this.toggleTab ( '4' )
+                            this.toggleTab('4')
                         }}>
                         {translations.email}
                     </NavLink>
@@ -250,7 +250,7 @@ class EditTask extends Component {
                     <NavLink
                         className={this.state.activeTab === '5' ? 'active' : ''}
                         onClick={() => {
-                            this.toggleTab ( '5' )
+                            this.toggleTab('5')
                         }}>
                         {translations.comments}
                     </NavLink>
@@ -259,18 +259,18 @@ class EditTask extends Component {
 
             <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId="1">
-                    <DropdownMenuBuilder invoices={this.state} formData={this.getFormData ()}
-                                         model={this.taskModel}
-                                         action={this.props.action}/>
+                    <DropdownMenuBuilder invoices={this.state} formData={this.getFormData()}
+                        model={this.taskModel}
+                        action={this.props.action}/>
 
                     <Card>
                         <CardHeader>{translations.details}</CardHeader>
                         <CardBody>
                             <TaskDetails renderErrorFor={this.renderErrorFor} hasErrorFor={this.hasErrorFor}
-                                         task={this.state} setTimeRange={this.setTimeRange}
-                                         customers={this.props.customers}
-                                         errors={this.state.errors} handleMultiSelect={this.handleMultiSelect}
-                                         users={this.props.users} handleInput={this.handleChange}/>
+                                task={this.state} setTimeRange={this.setTimeRange}
+                                customers={this.props.customers}
+                                errors={this.state.errors} handleMultiSelect={this.handleMultiSelect}
+                                users={this.props.users} handleInput={this.handleChange}/>
 
                             <FormGroup>
                                 <Label>Start / End date</Label>
@@ -280,26 +280,26 @@ class EditTask extends Component {
                                     endDate={this.state.due_date} // momentPropTypes.momentObj or null,
                                     endDateId="due_date" // PropTypes.string.isRequired,
                                     displayFormat="DD-MM-YYYY"
-                                    onDatesChange={( { startDate, endDate } ) => this.setState ( {
+                                    onDatesChange={({ startDate, endDate }) => this.setState({
                                         start_date: startDate,
                                         due_date: endDate
-                                    } )} // PropTypes.func.isRequired,
+                                    })} // PropTypes.func.isRequired,
                                     focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-                                    onFocusChange={focusedInput => this.setState ( { focusedInput } )} // PropTypes.func.isRequired,
+                                    onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
                                 />
                             </FormGroup>
 
                             <CustomFieldsForm handleInput={this.handleChange} custom_value1={this.state.custom_value1}
-                                              custom_value2={this.state.custom_value2}
-                                              custom_value3={this.state.custom_value3}
-                                              custom_value4={this.state.custom_value4}
-                                              custom_fields={this.props.custom_fields}/>
+                                custom_value2={this.state.custom_value2}
+                                custom_value3={this.state.custom_value3}
+                                custom_value4={this.state.custom_value4}
+                                custom_fields={this.props.custom_fields}/>
 
                             <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
-                                   handleInput={this.handleChange}/>
+                                handleInput={this.handleChange}/>
 
                             <RecurringForm renderErrorFor={this.renderErrorFor} hasErrorFor={this.hasErrorFor}
-                                           recurring={this.state} handleInput={this.handleChange}/>
+                                recurring={this.state} handleInput={this.handleChange}/>
                         </CardBody>
                     </Card>
                 </TabPane>
@@ -309,7 +309,7 @@ class EditTask extends Component {
                         <CardHeader>{translations.times}</CardHeader>
                         <CardBody>
                             <EditTaskTimes timers={this.props.task.timers} model={this.taskModel}
-                                           task_id={this.props.task.id}/>
+                                task_id={this.props.task.id}/>
                         </CardBody>
                     </Card>
                 </TabPane>
@@ -319,7 +319,7 @@ class EditTask extends Component {
                         <CardHeader>{translations.documents}</CardHeader>
                         <CardBody>
                             <FileUploads entity_type="Task" entity={this.state}
-                                         user_id={this.state.user_id}/>
+                                user_id={this.state.user_id}/>
                         </CardBody>
                     </Card>
                 </TabPane>
@@ -330,17 +330,17 @@ class EditTask extends Component {
 
                 <TabPane tabId="5">
                     <Comments entity_type="Task" entity={this.state}
-                              user_id={this.state.user_id}/>
+                        user_id={this.state.user_id}/>
                 </TabPane>
             </TabContent>
 
-            <Button onClick={( e ) => {
-                this.taskModel.completeAction ( this.state, button_action ).then ( response => {
-                    this.setState ( { show_success: true }, () => {
-                        this.updateList ( response, false )
-                    } )
+            <Button onClick={(e) => {
+                this.taskModel.completeAction(this.state, button_action).then(response => {
+                    this.setState({ show_success: true }, () => {
+                        this.updateList(response, false)
+                    })
 
-                    toast.success ( translations.times_updated, {
+                    toast.success(translations.times_updated, {
                         position: 'top-center',
                         autoClose: 5000,
                         hideProgressBar: false,
@@ -348,15 +348,15 @@ class EditTask extends Component {
                         pauseOnHover: true,
                         draggable: true,
                         progress: undefined
-                    } )
-                } )
+                    })
+                })
             }}>{button_text}</Button>
         </React.Fragment>
 
         const button = this.props.listView && this.props.listView === true
             ? <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>Edit</DropdownItem>
             : null
-        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return this.props.modal && this.props.modal === true
             ? <React.Fragment>
@@ -380,8 +380,8 @@ class EditTask extends Component {
                         {form}
                     </ModalBody>
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                                        saveData={this.handleSave.bind ( this )}
-                                        loading={false}/>
+                        saveData={this.handleSave.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment> : form
     }

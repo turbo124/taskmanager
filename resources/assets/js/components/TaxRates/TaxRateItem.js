@@ -8,38 +8,38 @@ import { Input } from 'reactstrap'
 import TaxRatePresenter from '../presenters/TaxRatePresenter'
 
 export default class TaxRateItem extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        this.deleteTaxRate = this.deleteTaxRate.bind ( this )
+        this.deleteTaxRate = this.deleteTaxRate.bind(this)
     }
 
-    deleteTaxRate ( id, archive = false ) {
+    deleteTaxRate (id, archive = false) {
         const url = archive === true ? `/api/taxRates/archive/${id}` : `/api/taxRates/${id}`
         const self = this
-        axios.delete ( url )
-            .then ( function ( response ) {
+        axios.delete(url)
+            .then(function (response) {
                 const arrTaxRates = [...self.props.taxRates]
-                const index = arrTaxRates.findIndex ( taxRate => taxRate.id === id )
-                arrTaxRates.splice ( index, 1 )
-                self.props.addUserToState ( arrTaxRates )
-            } )
-            .catch ( function ( error ) {
-                self.setState (
+                const index = arrTaxRates.findIndex(taxRate => taxRate.id === id)
+                arrTaxRates.splice(index, 1)
+                self.props.addUserToState(arrTaxRates)
+            })
+            .catch(function (error) {
+                self.setState(
                     {
                         error: error.response.data
                     }
                 )
-            } )
+            })
     }
 
     render () {
         const { taxRates, ignoredColumns } = this.props
-        if ( taxRates && taxRates.length ) {
-            return taxRates.map ( taxRate => {
+        if (taxRates && taxRates.length) {
+            return taxRates.map(taxRate => {
                 const restoreButton = taxRate.deleted_at
                     ? <RestoreModal id={taxRate.id} entities={taxRates} updateState={this.props.addUserToState}
-                                    url={`/api/taxRate/restore/${taxRate.id}`}/> : null
+                        url={`/api/taxRate/restore/${taxRate.id}`}/> : null
 
                 const deleteButton = !taxRate.deleted_at
                     ? <DeleteModal archive={false} deleteFunction={this.deleteTaxRate} id={taxRate.id}/> : null
@@ -51,30 +51,30 @@ export default class TaxRateItem extends Component {
                     ? <EditTaxRate taxRate={taxRate} taxRates={taxRates} action={this.props.addUserToState}/>
                     : null
 
-                const columnList = Object.keys ( taxRate ).filter ( key => {
-                    return ignoredColumns && !ignoredColumns.includes ( key )
-                } ).map ( key => {
+                const columnList = Object.keys(taxRate).filter(key => {
+                    return ignoredColumns && !ignoredColumns.includes(key)
+                }).map(key => {
                     return <TaxRatePresenter edit={editButton} key={key}
-                                             toggleViewedEntity={this.props.toggleViewedEntity}
-                                             field={key} entity={taxRate}/>
-                } )
+                        toggleViewedEntity={this.props.toggleViewedEntity}
+                        field={key} entity={taxRate}/>
+                })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const isChecked = this.props.bulk.includes ( taxRate.id )
+                const isChecked = this.props.bulk.includes(taxRate.id)
                 const selectedRow = this.props.viewId === taxRate.id ? 'table-row-selected' : ''
                 const actionMenu = this.props.showCheckboxes !== true
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                                   restore={restoreButton}/> : null
+                        restore={restoreButton}/> : null
 
                 return <tr className={selectedRow} key={taxRate.id}>
                     <td>
                         <Input checked={isChecked} className={checkboxClass} value={taxRate.id} type="checkbox"
-                               onChange={this.props.onChangeBulk}/>
+                            onChange={this.props.onChangeBulk}/>
                         {actionMenu}
                     </td>
                     {columnList}
                 </tr>
-            } )
+            })
         } else {
             return <tr>
                 <td className="text-center">No Records Found.</td>

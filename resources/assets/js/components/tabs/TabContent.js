@@ -12,7 +12,7 @@ import EditOrder from '../orders/edit/EditOrder'
 
 export default class TabContent extends Component {
     render () {
-        const userId = JSON.parse ( localStorage.getItem ( 'appState' ) ).user.id
+        const userId = JSON.parse(localStorage.getItem('appState')).user.id
 
         return (
             <div className="container mt-5">

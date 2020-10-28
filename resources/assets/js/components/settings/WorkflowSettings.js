@@ -10,100 +10,100 @@ import Header from './Header'
 import AccountRepository from '../repositories/AccountRepository'
 
 export default class WorkflowSettings extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
         this.state = {
-            id: localStorage.getItem ( 'account_id' ),
+            id: localStorage.getItem('account_id'),
             settings: {},
             activeTab: '1',
             success: false,
             error: false
         }
 
-        this.handleSettingsChange = this.handleSettingsChange.bind ( this )
-        this.handleChange = this.handleChange.bind ( this )
-        this.handleSubmit = this.handleSubmit.bind ( this )
-        this.getAccount = this.getAccount.bind ( this )
-        this.toggle = this.toggle.bind ( this )
+        this.handleSettingsChange = this.handleSettingsChange.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.getAccount = this.getAccount.bind(this)
+        this.toggle = this.toggle.bind(this)
     }
 
     componentDidMount () {
-        this.getAccount ()
+        this.getAccount()
     }
 
-    toggle ( tab, e ) {
-        if ( this.state.activeTab !== tab ) {
-            this.setState ( { activeTab: tab } )
+    toggle (tab, e) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
         }
 
         const parent = e.currentTarget.parentNode
-        const rect = parent.getBoundingClientRect ()
-        const rect2 = parent.nextSibling.getBoundingClientRect ()
-        const rect3 = parent.previousSibling.getBoundingClientRect ()
+        const rect = parent.getBoundingClientRect()
+        const rect2 = parent.nextSibling.getBoundingClientRect()
+        const rect3 = parent.previousSibling.getBoundingClientRect()
         const winWidth = window.innerWidth || document.documentElement.clientWidth
         const widthScroll = winWidth * 33 / 100
 
-        if ( rect.left <= 10 || rect3.left <= 10 ) {
-            const container = document.getElementsByClassName ( 'setting-tabs' )[ 0 ]
+        if (rect.left <= 10 || rect3.left <= 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
             container.scrollLeft -= widthScroll
         }
 
-        if ( rect.right >= winWidth - 10 || rect2.right >= winWidth - 10 ) {
-            const container = document.getElementsByClassName ( 'setting-tabs' )[ 0 ]
+        if (rect.right >= winWidth - 10 || rect2.right >= winWidth - 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
             container.scrollLeft += widthScroll
         }
     }
 
     getAccount () {
-        const accountRepository = new AccountRepository ()
-        accountRepository.getById ( this.state.id ).then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const accountRepository = new AccountRepository()
+        accountRepository.getById(this.state.id).then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( {
+            this.setState({
                 loaded: true,
                 settings: response.settings
             }, () => {
-                console.log ( response )
-            } )
-        } )
+                console.log(response)
+            })
+        })
     }
 
-    handleChange ( event ) {
-        this.setState ( { [ event.target.name ]: event.target.value } )
+    handleChange (event) {
+        this.setState({ [event.target.name]: event.target.value })
     }
 
-    handleSettingsChange ( event ) {
+    handleSettingsChange (event) {
         const name = event.target.name
         const value = event.target.value
 
-        this.setState ( prevState => ({
+        this.setState(prevState => ({
             settings: {
                 ...prevState.settings,
-                [ name ]: value
+                [name]: value
             }
-        }) )
+        }))
     }
 
-    handleSubmit ( e ) {
-        const formData = new FormData ()
-        formData.append ( 'settings', JSON.stringify ( this.state.settings ) )
-        formData.append ( '_method', 'PUT' )
+    handleSubmit (e) {
+        const formData = new FormData()
+        formData.append('settings', JSON.stringify(this.state.settings))
+        formData.append('_method', 'PUT')
 
-        axios.post ( `/api/accounts/${this.state.id}`, formData, {
+        axios.post(`/api/accounts/${this.state.id}`, formData, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
-        } )
-            .then ( ( response ) => {
-                this.setState ( { success: true } )
-            } )
-            .catch ( ( error ) => {
-                console.error ( error )
-                this.setState ( { error: true } )
-            } )
+        })
+            .then((response) => {
+                this.setState({ success: true })
+            })
+            .catch((error) => {
+                console.error(error)
+                this.setState({ error: true })
+            })
     }
 
     getPurchaseOrderFields () {
@@ -456,18 +456,18 @@ export default class WorkflowSettings extends Component {
     }
 
     handleClose () {
-        this.setState ( { success: false, error: false } )
+        this.setState({ success: false, error: false })
     }
 
     render () {
-        const modules = JSON.parse ( localStorage.getItem ( 'modules' ) )
+        const modules = JSON.parse(localStorage.getItem('modules'))
         const tabs = <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
             {modules && modules.invoices &&
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '1' ? 'active' : ''}
-                    onClick={( e ) => {
-                        this.toggle ( '1', e )
+                    onClick={(e) => {
+                        this.toggle('1', e)
                     }}>
                     {translations.invoices}
                 </NavLink>
@@ -478,8 +478,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '2' ? 'active' : ''}
-                    onClick={( e ) => {
-                        this.toggle ( '2', e )
+                    onClick={(e) => {
+                        this.toggle('2', e)
                     }}>
                     {translations.quotes}
                 </NavLink>
@@ -490,8 +490,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '3' ? 'active' : ''}
-                    onClick={( e ) => {
-                        this.toggle ( '3', e )
+                    onClick={(e) => {
+                        this.toggle('3', e)
                     }}>
                     {translations.leads}
                 </NavLink>
@@ -502,8 +502,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '4' ? 'active' : ''}
-                    onClick={( e ) => {
-                        this.toggle ( '4', e )
+                    onClick={(e) => {
+                        this.toggle('4', e)
                     }}>
                     {translations.orders}
                 </NavLink>
@@ -514,8 +514,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '5' ? 'active' : ''}
-                    onClick={( e ) => {
-                        this.toggle ( '5', e )
+                    onClick={(e) => {
+                        this.toggle('5', e)
                     }}>
                     {translations.deals}
                 </NavLink>
@@ -526,8 +526,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '6' ? 'active' : ''}
-                    onClick={( e ) => {
-                        this.toggle ( '6', e )
+                    onClick={(e) => {
+                        this.toggle('6', e)
                     }}>
                     {translations.POS}
                 </NavLink>
@@ -538,8 +538,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '7' ? 'active' : ''}
-                    onClick={( e ) => {
-                        this.toggle ( '7', e )
+                    onClick={(e) => {
+                        this.toggle('7', e)
                     }}>
                     {translations.cases}
                 </NavLink>
@@ -550,8 +550,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '8' ? 'active' : ''}
-                    onClick={( e ) => {
-                        this.toggle ( '8', e )
+                    onClick={(e) => {
+                        this.toggle('8', e)
                     }}>
                     {translations.payments}
                 </NavLink>
@@ -562,8 +562,8 @@ export default class WorkflowSettings extends Component {
             <NavItem>
                 <NavLink
                     className={this.state.activeTab === '9' ? 'active' : ''}
-                    onClick={( e ) => {
-                        this.toggle ( '9', e )
+                    onClick={(e) => {
+                        this.toggle('9', e)
                     }}>
                     {translations.expenses}
                 </NavLink>
@@ -573,14 +573,14 @@ export default class WorkflowSettings extends Component {
 
         return this.state.loaded === true ? (
             <React.Fragment>
-                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind ( this )} severity="success"
-                                 message={translations.settings_saved}/>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
+                    message={translations.settings_saved}/>
 
-                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind ( this )} severity="danger"
-                                 message={translations.settings_not_saved}/>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
+                    message={translations.settings_not_saved}/>
 
                 <Header title={translations.workflow_settings} handleSubmit={this.handleSubmit}
-                        tabs={tabs}/>
+                    tabs={tabs}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                     <TabPane className="px-0" tabId="1">
@@ -588,7 +588,7 @@ export default class WorkflowSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getInvoiceFields ()}
+                                    formFieldsRows={this.getInvoiceFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -599,7 +599,7 @@ export default class WorkflowSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getQuoteFields ()}
+                                    formFieldsRows={this.getQuoteFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -610,7 +610,7 @@ export default class WorkflowSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getLeadFields ()}
+                                    formFieldsRows={this.getLeadFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -621,7 +621,7 @@ export default class WorkflowSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderFields ()}
+                                    formFieldsRows={this.getOrderFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -632,7 +632,7 @@ export default class WorkflowSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderFields ()}
+                                    formFieldsRows={this.getOrderFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -643,7 +643,7 @@ export default class WorkflowSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPurchaseOrderFields ()}
+                                    formFieldsRows={this.getPurchaseOrderFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -654,7 +654,7 @@ export default class WorkflowSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getCaseFields ()}
+                                    formFieldsRows={this.getCaseFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -665,7 +665,7 @@ export default class WorkflowSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPaymentFields ()}
+                                    formFieldsRows={this.getPaymentFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -676,7 +676,7 @@ export default class WorkflowSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getExpenseFields ()}
+                                    formFieldsRows={this.getExpenseFields()}
                                 />
                             </CardBody>
                         </Card>

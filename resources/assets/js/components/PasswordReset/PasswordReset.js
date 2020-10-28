@@ -5,8 +5,8 @@ import './PasswordReset.css'
 import axios from 'axios'
 
 export default class ResetPassword extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
         this.state = {
             code: '',
@@ -21,45 +21,45 @@ export default class ResetPassword extends Component {
             isSendingCode: false
         }
 
-        this.handleChange = this.handleChange.bind ( this )
-        this.handleSendCodeClick = this.handleSendCodeClick.bind ( this )
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSendCodeClick = this.handleSendCodeClick.bind(this)
     }
 
     validateCodeForm () {
         return this.state.email.length > 0
     }
 
-    handleChange ( event ) {
-        this.setState ( {
-            [ event.target.id ]: event.target.value
-        } )
+    handleChange (event) {
+        this.setState({
+            [event.target.id]: event.target.value
+        })
     }
 
-    handleSendCodeClick ( event ) {
-        event.preventDefault ()
+    handleSendCodeClick (event) {
+        event.preventDefault()
 
-        if ( !this.validateCodeForm () ) {
-            this.setState ( { error: 'You must enter an email address' } )
+        if (!this.validateCodeForm()) {
+            this.setState({ error: 'You must enter an email address' })
             return false
         }
 
-        axios.post ( '/api/passwordReset/create', {
+        axios.post('/api/passwordReset/create', {
             email: this.state.email
-        } )
-            .then ( ( response ) => {
-                if ( response.data.success === true ) {
-                    this.setState ( {
+        })
+            .then((response) => {
+                if (response.data.success === true) {
+                    this.setState({
                         success: 'We have now emailed you a token for you to reset your email',
                         isSendingCode: true
-                    } )
+                    })
                 }
-            } )
-            .catch ( ( error ) => {
-                this.setState ( {
+            })
+            .catch((error) => {
+                this.setState({
                     isSendingCode: false,
                     error: error.response.data
-                } )
-            } )
+                })
+            })
     }
 
     renderRequestCodeForm () {
@@ -75,8 +75,8 @@ export default class ResetPassword extends Component {
                     <CardBody>
                         <div className="text-center">
 
-                            {this.renderErrorMessage ()}
-                            {this.renderSuccessMessage ()}
+                            {this.renderErrorMessage()}
+                            {this.renderSuccessMessage()}
 
                             <h3><i className="fa fa-lock fa-4x"/></h3>
                             <h2 className="text-center">Forgotten Your Password?</h2>
@@ -89,7 +89,7 @@ export default class ResetPassword extends Component {
                                             <i className="glyphicon glyphicon-envelope color-blue"/>
                                         </InputGroupAddon>
                                         <Input id="email" name="email" placeholder="email address"
-                                               type="email" value={this.state.email} onChange={this.handleChange}/>
+                                            type="email" value={this.state.email} onChange={this.handleChange}/>
                                     </InputGroup>
                                 </FormGroup>
 
@@ -105,7 +105,7 @@ export default class ResetPassword extends Component {
     }
 
     renderSuccessMessage () {
-        if ( !this.state.success.length ) {
+        if (!this.state.success.length) {
             return
         }
 
@@ -117,7 +117,7 @@ export default class ResetPassword extends Component {
     }
 
     renderErrorMessage () {
-        if ( !this.state.error.length ) {
+        if (!this.state.error.length) {
             return
         }
 
@@ -131,7 +131,7 @@ export default class ResetPassword extends Component {
     render () {
         return (
             <div className="ResetPassword">
-                {this.renderRequestCodeForm ()}
+                {this.renderRequestCodeForm()}
             </div>
         )
     }

@@ -12,93 +12,93 @@ import DefaultModalFooter from '../../common/ModalFooter'
 import { getExchangeRateWithMap } from '../../utils/_money'
 
 class AddExpense extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        this.expenseModel = new ExpenseModel ( null, this.props.customers )
+        this.expenseModel = new ExpenseModel(null, this.props.customers)
         this.initialState = this.expenseModel.fields
         this.state = this.initialState
 
-        this.toggle = this.toggle.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
-        this.handleInput = this.handleInput.bind ( this )
-        this.loadEntity = this.loadEntity.bind ( this )
+        this.toggle = this.toggle.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.handleInput = this.handleInput.bind(this)
+        this.loadEntity = this.loadEntity.bind(this)
     }
 
     componentDidMount () {
-        if ( Object.prototype.hasOwnProperty.call ( localStorage, 'expenseForm' ) ) {
-            const storedValues = JSON.parse ( localStorage.getItem ( 'expenseForm' ) )
-            this.setState ( { ...storedValues }, () => console.log ( 'new state', this.state ) )
+        if (Object.prototype.hasOwnProperty.call(localStorage, 'expenseForm')) {
+            const storedValues = JSON.parse(localStorage.getItem('expenseForm'))
+            this.setState({ ...storedValues }, () => console.log('new state', this.state))
         }
 
-        if ( this.props.entity_id && this.props.entity_type ) {
-            this.loadEntity ( this.props.entity_type )
+        if (this.props.entity_id && this.props.entity_type) {
+            this.loadEntity(this.props.entity_type)
         }
     }
 
-    loadEntity ( type ) {
+    loadEntity (type) {
         const key = (type === 'company') ? ('company_id') : ((type === 'project') ? ('project_id') : ('customer_id'))
 
-        this.setState ( { [ key ]: this.props.entity_id, modal: true } )
+        this.setState({ [key]: this.props.entity_id, modal: true })
     }
 
-    handleInput ( e ) {
-        if ( e.target.name === 'currency_id' || e.target.name === 'invoice_currency_id' ) {
+    handleInput (e) {
+        if (e.target.name === 'currency_id' || e.target.name === 'invoice_currency_id') {
             // const exchange_rate = this.expenseModel.getExchangeRateForCurrency(e.target.value)
 
-            const currencies = JSON.parse ( localStorage.getItem ( 'currencies' ) )
-            const exchange_rate = getExchangeRateWithMap ( currencies, this.state.currency_id, e.target.value )
+            const currencies = JSON.parse(localStorage.getItem('currencies'))
+            const exchange_rate = getExchangeRateWithMap(currencies, this.state.currency_id, e.target.value)
 
-            this.setState ( { exchange_rate: exchange_rate } )
+            this.setState({ exchange_rate: exchange_rate })
         }
 
-        if ( e.target.name === 'tax_rate' || e.target.name === 'tax_2' || e.target.name === 'tax_3' ) {
-            const name = e.target.options[ e.target.selectedIndex ].getAttribute ( 'data-name' )
-            const rate = e.target.options[ e.target.selectedIndex ].getAttribute ( 'data-rate' )
-            const tax_rate_name = e.target.name === 'tax_rate' ? 'tax_rate_name' : `tax_rate_name_${e.target.name.split ( '_' )[ 1 ]}`
+        if (e.target.name === 'tax_rate' || e.target.name === 'tax_2' || e.target.name === 'tax_3') {
+            const name = e.target.options[e.target.selectedIndex].getAttribute('data-name')
+            const rate = e.target.options[e.target.selectedIndex].getAttribute('data-rate')
+            const tax_rate_name = e.target.name === 'tax_rate' ? 'tax_rate_name' : `tax_rate_name_${e.target.name.split('_')[1]}`
 
-            this.setState ( {
-                [ e.target.name ]: rate,
-                [ tax_rate_name ]: name,
+            this.setState({
+                [e.target.name]: rate,
+                [tax_rate_name]: name,
                 changesMade: true
             }, () => {
-                localStorage.setItem ( 'invoiceForm', JSON.stringify ( this.state ) )
-                this.expenseModel.calculateTotals ( this.state )
-            } )
+                localStorage.setItem('invoiceForm', JSON.stringify(this.state))
+                this.expenseModel.calculateTotals(this.state)
+            })
 
             return
         }
 
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
 
-        this.setState ( {
-            [ e.target.name ]: value
-        }, () => localStorage.setItem ( 'expenseForm', JSON.stringify ( this.state ) ) )
+        this.setState({
+            [e.target.name]: value
+        }, () => localStorage.setItem('expenseForm', JSON.stringify(this.state)))
     }
 
-    toggleTab ( tab ) {
-        if ( this.state.activeTab !== tab ) {
-            this.setState ( { activeTab: tab } )
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
         }
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
     handleClick () {
-        this.setState ( { loading: true } )
+        this.setState({ loading: true })
 
         const data = {
             project_id: this.state.project_id,
@@ -136,32 +136,32 @@ class AddExpense extends React.Component {
             tax_total: this.state.tax_total
         }
 
-        this.expenseModel.save ( data ).then ( response => {
-            if ( !response ) {
-                this.setState ( { errors: this.expenseModel.errors, message: this.expenseModel.error_message } )
+        this.expenseModel.save(data).then(response => {
+            if (!response) {
+                this.setState({ errors: this.expenseModel.errors, message: this.expenseModel.error_message })
                 return
             }
-            this.props.expenses.push ( response )
-            this.props.action ( this.props.expenses )
-            localStorage.removeItem ( 'expenseForm' )
-            this.setState ( this.initialState )
-        } )
+            this.props.expenses.push(response)
+            this.props.action(this.props.expenses)
+            localStorage.removeItem('expenseForm')
+            this.setState(this.initialState)
+        })
     }
 
     toggle () {
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: []
         }, () => {
-            if ( !this.state.modal ) {
-                this.setState ( this.initialState, () => localStorage.removeItem ( 'expenseForm' ) )
+            if (!this.state.modal) {
+                this.setState(this.initialState, () => localStorage.removeItem('expenseForm'))
             }
-        } )
+        })
     }
 
     render () {
         const { message, loading } = this.state
-        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -180,7 +180,7 @@ class AddExpense extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '1' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab ( '1' )
+                                        this.toggleTab('1')
                                     }}>
                                     {translations.details}
                                 </NavLink>
@@ -190,7 +190,7 @@ class AddExpense extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '2' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab ( '2' )
+                                        this.toggleTab('2')
                                     }}>
                                     {translations.settings}
                                 </NavLink>
@@ -200,7 +200,7 @@ class AddExpense extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '3' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab ( '3' )
+                                        this.toggleTab('3')
                                     }}>
                                     {translations.notes}
                                 </NavLink>
@@ -209,35 +209,35 @@ class AddExpense extends React.Component {
                         <TabContent activeTab={this.state.activeTab}>
                             <TabPane tabId="1">
                                 <DetailsForm renderErrorFor={this.renderErrorFor} hasErrorFor={this.hasErrorFor}
-                                             errors={this.state.errors}
-                                             expense={this.state}
-                                             handleInput={this.handleInput}
-                                             customers={this.props.customers} companies={this.props.companies}/>
+                                    errors={this.state.errors}
+                                    expense={this.state}
+                                    handleInput={this.handleInput}
+                                    customers={this.props.customers} companies={this.props.companies}/>
 
                                 <CustomFieldsForm handleInput={this.handleInput}
-                                                  custom_value1={this.state.custom_value1}
-                                                  custom_value2={this.state.custom_value2}
-                                                  custom_value3={this.state.custom_value3}
-                                                  custom_value4={this.state.custom_value4}
-                                                  custom_fields={this.props.custom_fields}/>
+                                    custom_value1={this.state.custom_value1}
+                                    custom_value2={this.state.custom_value2}
+                                    custom_value3={this.state.custom_value3}
+                                    custom_value4={this.state.custom_value4}
+                                    custom_fields={this.props.custom_fields}/>
 
                             </TabPane>
 
                             <TabPane tabId="2">
                                 <SettingsForm expense={this.state} errors={this.state.errors}
-                                              handleInput={this.handleInput}/>
+                                    handleInput={this.handleInput}/>
                             </TabPane>
 
                             <TabPane tabId="3">
                                 <Notes errors={this.state.errors} public_notes={this.state.public_notes}
-                                       private_notes={this.state.private_notes} handleInput={this.handleInput}/>
+                                    private_notes={this.state.private_notes} handleInput={this.handleInput}/>
                             </TabPane>
                         </TabContent>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                                        saveData={this.handleClick.bind ( this )}
-                                        loading={loading}/>
+                        saveData={this.handleClick.bind(this)}
+                        loading={loading}/>
                 </Modal>
             </React.Fragment>
         )

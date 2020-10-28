@@ -9,82 +9,82 @@ import Header from './Header'
 import AccountRepository from '../repositories/AccountRepository'
 
 export default class CustomerPortalSettings extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
         this.state = {
-            id: localStorage.getItem ( 'account_id' ),
+            id: localStorage.getItem('account_id'),
             activeTab: '1',
             settings: {},
             success: false,
             error: false
         }
 
-        this.handleSettingsChange = this.handleSettingsChange.bind ( this )
-        this.handleChange = this.handleChange.bind ( this )
-        this.handleSubmit = this.handleSubmit.bind ( this )
-        this.getAccount = this.getAccount.bind ( this )
-        this.toggle = this.toggle.bind ( this )
+        this.handleSettingsChange = this.handleSettingsChange.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.getAccount = this.getAccount.bind(this)
+        this.toggle = this.toggle.bind(this)
     }
 
     componentDidMount () {
-        this.getAccount ()
+        this.getAccount()
     }
 
-    toggle ( tab ) {
-        if ( this.state.activeTab !== tab ) {
-            this.setState ( { activeTab: tab } )
+    toggle (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
         }
     }
 
     getAccount () {
-        const accountRepository = new AccountRepository ()
-        accountRepository.getById ( this.state.id ).then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const accountRepository = new AccountRepository()
+        accountRepository.getById(this.state.id).then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( {
+            this.setState({
                 loaded: true,
                 settings: response.settings
             }, () => {
-                console.log ( response )
-            } )
-        } )
+                console.log(response)
+            })
+        })
     }
 
-    handleChange ( event ) {
-        this.setState ( { [ event.target.name ]: event.target.value } )
+    handleChange (event) {
+        this.setState({ [event.target.name]: event.target.value })
     }
 
-    handleSettingsChange ( event ) {
+    handleSettingsChange (event) {
         const name = event.target.name
         const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
 
-        this.setState ( prevState => ({
+        this.setState(prevState => ({
             settings: {
                 ...prevState.settings,
-                [ name ]: value
+                [name]: value
             }
-        }) )
+        }))
     }
 
-    handleSubmit ( e ) {
-        const formData = new FormData ()
-        formData.append ( 'settings', JSON.stringify ( this.state.settings ) )
-        formData.append ( '_method', 'PUT' )
+    handleSubmit (e) {
+        const formData = new FormData()
+        formData.append('settings', JSON.stringify(this.state.settings))
+        formData.append('_method', 'PUT')
 
-        axios.post ( `/api/accounts/${this.state.id}`, formData, {
+        axios.post(`/api/accounts/${this.state.id}`, formData, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
-        } )
-            .then ( ( response ) => {
-                this.setState ( { success: true } )
-            } )
-            .catch ( ( error ) => {
-                this.setState ( { error: true } )
-            } )
+        })
+            .then((response) => {
+                this.setState({ success: true })
+            })
+            .catch((error) => {
+                this.setState({ error: true })
+            })
     }
 
     getSettingFields () {
@@ -208,7 +208,7 @@ export default class CustomerPortalSettings extends Component {
     }
 
     handleClose () {
-        this.setState ( { success: false, error: false } )
+        this.setState({ success: false, error: false })
     }
 
     render () {
@@ -217,7 +217,7 @@ export default class CustomerPortalSettings extends Component {
                 <NavLink
                     className={this.state.activeTab === '1' ? 'active' : ''}
                     onClick={() => {
-                        this.toggle ( '1' )
+                        this.toggle('1')
                     }}>
                     {translations.settings}
                 </NavLink>
@@ -227,7 +227,7 @@ export default class CustomerPortalSettings extends Component {
                 <NavLink
                     className={this.state.activeTab === '2' ? 'active' : ''}
                     onClick={() => {
-                        this.toggle ( '2' )
+                        this.toggle('2')
                     }}>
                     {translations.security}
                 </NavLink>
@@ -246,20 +246,20 @@ export default class CustomerPortalSettings extends Component {
 
         return this.state.loaded === true ? (
             <React.Fragment>
-                <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
+                <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="success">
                         {translations.settings_saved}
                     </Alert>
                 </Snackbar>
 
-                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
+                <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                     <Alert severity="danger">
                         {translations.settings_not_saved}
                     </Alert>
                 </Snackbar>
 
                 <Header tabs={tabs} title={translations.customer_portal}
-                        handleSubmit={this.handleSubmit.bind ( this )}/>
+                    handleSubmit={this.handleSubmit.bind(this)}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                     <TabPane tabId="1" className="px-0">
@@ -267,7 +267,7 @@ export default class CustomerPortalSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getSettingFields ()}
+                                    formFieldsRows={this.getSettingFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -278,7 +278,7 @@ export default class CustomerPortalSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getSecurityFields ()}
+                                    formFieldsRows={this.getSecurityFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -289,7 +289,7 @@ export default class CustomerPortalSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getBillingFields ()}
+                                    formFieldsRows={this.getBillingFields()}
                                 />
                             </CardBody>
                         </Card>

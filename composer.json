@@ -37,7 +37,8 @@
         "spatie/browsershot": "^3.33",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
         "stripe/stripe-php": "^7.52",
-        "tymon/jwt-auth": "^1.0"
+        "tymon/jwt-auth": "^1.0",
+        "vimeo/psalm": "^4.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

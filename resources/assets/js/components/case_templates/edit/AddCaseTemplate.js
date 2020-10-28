@@ -8,8 +8,8 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 
 class AddCaseTemplate extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             modal: false,
             name: '',
@@ -19,66 +19,66 @@ class AddCaseTemplate extends React.Component {
             errors: []
         }
 
-        this.toggle = this.toggle.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.toggle = this.toggle.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
 
-        this.handleInput = this.handleInput.bind ( this )
+        this.handleInput = this.handleInput.bind(this)
     }
 
-    handleInput ( e ) {
-        this.setState ( {
-            [ e.target.name ]: e.target.value
-        } )
+    handleInput (e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
     handleClick () {
-        axios.post ( '/api/case_template', {
+        axios.post('/api/case_template', {
             name: this.state.name,
             description: this.state.description,
             send_on: this.state.send_on
-        } )
-            .then ( ( response ) => {
-                this.toggle ()
+        })
+            .then((response) => {
+                this.toggle()
                 const newUser = response.data
-                this.props.templates.push ( newUser )
-                this.props.action ( this.props.templates )
-                this.setState ( {
+                this.props.templates.push(newUser)
+                this.props.action(this.props.templates)
+                this.setState({
                     name: null,
                     description: null,
                     send_on: null
-                } )
-            } )
-            .catch ( ( error ) => {
-                this.setState ( {
+                })
+            })
+            .catch((error) => {
+                this.setState({
                     errors: error.response.data.errors
-                } )
-            } )
+                })
+            })
     }
 
     toggle () {
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: []
-        } )
+        })
     }
 
     render () {
-        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -88,12 +88,12 @@ class AddCaseTemplate extends React.Component {
 
                     <ModalBody className={theme}>
                         <Details template={this.state} hasErrorFor={this.hasErrorFor} handleInput={this.handleInput}
-                                 renderErrorFor={this.renderErrorFor}/>
+                            renderErrorFor={this.renderErrorFor}/>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                                        saveData={this.handleClick.bind ( this )}
-                                        loading={false}/>
+                        saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

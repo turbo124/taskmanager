@@ -4,19 +4,19 @@ import AddTask from './tasks/edit/AddTask'
 import AddLeadForm from './leads/edit/AddLeadForm'
 
 class Tooltips extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        this.toggle = this.toggle.bind ( this )
+        this.toggle = this.toggle.bind(this)
         this.state = {
             tooltipOpen: false
         }
     }
 
     toggle () {
-        this.setState ( {
+        this.setState({
             tooltipOpen: !this.state.tooltipOpen
-        } )
+        })
     }
 
     render () {
@@ -45,7 +45,7 @@ class Tooltips extends Component {
             <span>
                 <i className="fa fa-question-circle" id={'Tooltip-' + this.props.id} data-toggle="tooltip"/>
                 <Tooltip placement={this.props.placement} isOpen={this.state.tooltipOpen}
-                         target={'Tooltip-' + this.props.id} toggle={this.toggle}>
+                    target={'Tooltip-' + this.props.id} toggle={this.toggle}>
                     {this.props.content}
                 </Tooltip>
 

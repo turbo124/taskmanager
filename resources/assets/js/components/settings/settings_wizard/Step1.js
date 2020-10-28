@@ -2,7 +2,7 @@ import React from 'react'
 import { translations } from '../../utils/_translations'
 import FormBuilder from '../FormBuilder'
 
-export default function Step1 ( props ) {
+export default function Step1 (props) {
     const settings = props.settings
 
     const formFields = [
@@ -42,7 +42,7 @@ export default function Step1 ( props ) {
         ]
     ]
 
-    if ( props.currentStep !== 1 ) {
+    if (props.currentStep !== 1) {
         return null
     }
     return <FormBuilder

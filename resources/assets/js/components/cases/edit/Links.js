@@ -11,18 +11,18 @@ export default class Links extends Component {
             <React.Fragment>
                 <FormGroup>
                     <Label for="subject">{translations.link_type} <span className="text-danger">*</span></Label>
-                    <Input className={this.props.hasErrorFor ( 'link_type' ) ? 'is-invalid' : ''} type="select"
-                           name="link_type"
-                           id="link_type" value={this.props.case.link_type}
-                           onChange={this.props.handleInput}>
+                    <Input className={this.props.hasErrorFor('link_type') ? 'is-invalid' : ''} type="select"
+                        name="link_type"
+                        id="link_type" value={this.props.case.link_type}
+                        onChange={this.props.handleInput}>
                         <option value="">{translations.select_option}</option>
                         <option value={consts.case_link_type_product}>{translations.product}</option>
                         <option value={consts.case_link_type_project}>{translations.project}</option>
                     </Input>
-                    {this.props.renderErrorFor ( 'link_type' )}
+                    {this.props.renderErrorFor('link_type')}
                 </FormGroup>
 
-                {parseInt ( this.props.case.link_type ) === consts.case_link_type_project &&
+                {parseInt(this.props.case.link_type) === consts.case_link_type_project &&
                 <FormGroup>
                     <Label for="message">{translations.project}<span className="text-danger">*</span></Label>
                     <ProjectDropdown
@@ -34,7 +34,7 @@ export default class Links extends Component {
                 </FormGroup>
                 }
 
-                {parseInt ( this.props.case.link_type ) === consts.case_link_type_product &&
+                {parseInt(this.props.case.link_type) === consts.case_link_type_product &&
                 <FormGroup>
                     <Label for="message">{translations.product}<span className="text-danger">*</span></Label>
                     <ProductDropdown

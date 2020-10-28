@@ -11,8 +11,8 @@ import queryString from 'query-string'
 import CompanyRepository from '../repositories/CompanyRepository'
 
 export default class Customers extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             isOpen: window.innerWidth > 670,
             per_page: 5,
@@ -29,7 +29,7 @@ export default class Customers extends Component {
             filters: {
                 status: 'active',
                 company_id: '',
-                group_settings_id: queryString.parse ( this.props.location.search ).group_settings_id || '',
+                group_settings_id: queryString.parse(this.props.location.search).group_settings_id || '',
                 searchText: '',
                 start_date: '',
                 end_date: ''
@@ -77,84 +77,84 @@ export default class Customers extends Component {
             showRestoreButton: false
         }
 
-        this.updateCustomers = this.updateCustomers.bind ( this )
-        this.customerList = this.customerList.bind ( this )
-        this.getCompanies = this.getCompanies.bind ( this )
-        this.filterCustomers = this.filterCustomers.bind ( this )
+        this.updateCustomers = this.updateCustomers.bind(this)
+        this.customerList = this.customerList.bind(this)
+        this.getCompanies = this.getCompanies.bind(this)
+        this.filterCustomers = this.filterCustomers.bind(this)
     }
 
     componentDidMount () {
-        this.getCompanies ()
-        this.getCustomFields ()
+        this.getCompanies()
+        this.getCustomFields()
     }
 
-    updateCustomers ( customers ) {
+    updateCustomers (customers) {
         const cachedData = !this.state.cachedData.length ? customers : this.state.cachedData
-        this.setState ( {
+        this.setState({
             customers: customers,
             cachedData: cachedData
-        } )
+        })
     }
 
     handleClose () {
-        this.setState ( { error: '', show_success: false } )
+        this.setState({ error: '', show_success: false })
     }
 
     getCompanies () {
-        const companyRepository = new CompanyRepository ()
-        companyRepository.get ().then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const companyRepository = new CompanyRepository()
+        companyRepository.get().then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( { companies: response }, () => {
-                console.log ( 'companies', this.state.companies )
-            } )
-        } )
+            this.setState({ companies: response }, () => {
+                console.log('companies', this.state.companies)
+            })
+        })
     }
 
     getCustomFields () {
-        axios.get ( 'api/accounts/fields/Customer' )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get('api/accounts/fields/Customer')
+            .then((r) => {
+                this.setState({
                     custom_fields: r.data.fields
-                } )
-            } )
-            .catch ( ( e ) => {
-                this.setState ( {
+                })
+            })
+            .catch((e) => {
+                this.setState({
                     loading: false,
                     error: e
-                } )
-            } )
+                })
+            })
     }
 
-    filterCustomers ( filters ) {
-        this.setState ( { filters: filters } )
+    filterCustomers (filters) {
+        this.setState({ filters: filters })
     }
 
-    customerList ( props ) {
+    customerList (props) {
         const { customers, custom_fields } = this.state
         return <CustomerItem viewId={props.viewId} showCheckboxes={props.showCheckboxes} customers={customers}
-                             custom_fields={custom_fields}
-                             ignoredColumns={props.ignoredColumns} updateCustomers={this.updateCustomers}
-                             deleteCustomer={this.deleteCustomer} toggleViewedEntity={props.toggleViewedEntity}
-                             bulk={props.bulk}
-                             onChangeBulk={props.onChangeBulk}/>
+            custom_fields={custom_fields}
+            ignoredColumns={props.ignoredColumns} updateCustomers={this.updateCustomers}
+            deleteCustomer={this.deleteCustomer} toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
+            onChangeBulk={props.onChangeBulk}/>
     }
 
-    setFilterOpen ( isOpen ) {
-        this.setState ( { isOpen: isOpen } )
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
-    setError ( message = null ) {
-        this.setState ( { error: true, error_message: message === null ? translations.unexpected_error : message } )
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
     }
 
-    setSuccess ( message = null ) {
-        this.setState ( {
+    setSuccess (message = null) {
+        this.setState({
             show_success: true,
             success_message: message === null ? translations.success_message : message
-        } )
+        })
     }
 
     render () {
@@ -167,7 +167,7 @@ export default class Customers extends Component {
             customers={customers}
             companies={companies}
         /> : null
-        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call ( localStorage, 'datatable_collapsed' ) && localStorage.getItem ( 'datatable_collapsed' ) === true)
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
 
@@ -177,18 +177,18 @@ export default class Customers extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <CustomerFilters setFilterOpen={this.setFilterOpen.bind ( this )} companies={companies}
-                                                 customers={customers}
-                                                 updateIgnoredColumns={this.updateIgnoredColumns}
-                                                 filters={filters} filter={this.filterCustomers}
-                                                 saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                <CustomerFilters setFilterOpen={this.setFilterOpen.bind(this)} companies={companies}
+                                    customers={customers}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={filters} filter={this.filterCustomers}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                                 {addButton}
                             </CardBody>
                         </Card>
                     </div>
 
                     {error &&
-                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
                             {error_message}
                         </Alert>
@@ -196,7 +196,7 @@ export default class Customers extends Component {
                     }
 
                     {show_success &&
-                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="success">
                             {success_message}
                         </Alert>
@@ -207,8 +207,8 @@ export default class Customers extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
-                                    setSuccess={this.setSuccess.bind ( this )}
-                                    setError={this.setError.bind ( this )}
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Customer"
                                     bulk_save_url="/api/customer/bulk"

@@ -13,17 +13,17 @@ import { LearnMoreUrl } from '../common/LearnMore'
  * A component which renders a form based on a given list of fields.
  */
 class FormBuilder extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        const formFields = this.getFormFields ()
+        const formFields = this.getFormFields()
 
         // dynamically construct our initial state by using
         // each form field's name as an object property.
-        const formFieldNames = formFields.reduce ( ( obj, field ) => {
-            obj[ field.name ] = ''
+        const formFieldNames = formFields.reduce((obj, field) => {
+            obj[field.name] = ''
             return obj
-        }, {} )
+        }, {})
 
         // define the initial state, so we can use it later on
         // when we'll need to reset the form
@@ -38,19 +38,19 @@ class FormBuilder extends React.Component {
         const { formFieldsRows } = this.props
         const formFields = []
 
-        formFieldsRows.forEach ( ( formFieldsRow ) => {
-            formFields.push ( ...formFieldsRow )
-        } )
+        formFieldsRows.forEach((formFieldsRow) => {
+            formFields.push(...formFieldsRow)
+        })
 
         return formFields
     }
 
-    buildSwitch ( field ) {
+    buildSwitch (field) {
         const class_name = field.class_name ? field.class_name : 'col-md-8'
 
         return (
             <a href="#"
-               className={`${class_name} list-group-item-dark list-group-item list-group-item-action flex-column align-items-start`}>
+                className={`${class_name} list-group-item-dark list-group-item list-group-item-action flex-column align-items-start`}>
                 <div className="d-flex w-100 justify-content-between">
                     <h5 className="mb-1">
                         {field.icon &&
@@ -64,7 +64,7 @@ class FormBuilder extends React.Component {
                         id={field.name}
                         name={field.name}
                         label=""
-                        onChange={this.props.handleChange.bind ( this )}/>
+                        onChange={this.props.handleChange.bind(this)}/>
                 </div>
                 {field.help_text &&
                 <h6 id="passwordHelpBlock" className="form-text text-muted">
@@ -75,9 +75,9 @@ class FormBuilder extends React.Component {
         )
     }
 
-    buildSelectList ( field ) {
+    buildSelectList (field) {
         const arrayOfData = field.options
-        const options = arrayOfData.map ( ( data ) =>
+        const options = arrayOfData.map((data) =>
             <option
                 key={data.value}
                 value={data.value}
@@ -97,24 +97,24 @@ class FormBuilder extends React.Component {
         )
     }
 
-    renderTextInput ( field ) {
+    renderTextInput (field) {
         let returnedField = null
 
-        if ( field.name === '' || field.type === '' || field.label === '' ) {
+        if (field.name === '' || field.type === '' || field.label === '') {
             return
         }
 
         const id = field.id ? field.id : ''
 
-        switch ( field.type ) {
+        switch (field.type) {
             case 'currency':
                 returnedField = <React.Fragment>
                     <FormGroup>
                         <Label>{field.label}</Label>
                         <CurrencyDropdown key={field.id}
-                                          currency_id={field.value}
-                                          errors={{}}
-                                          handleInputChanges={this.props.handleChange}
+                            currency_id={field.value}
+                            errors={{}}
+                            handleInputChanges={this.props.handleChange}
                         />
                     </FormGroup>
                 </React.Fragment>
@@ -125,9 +125,9 @@ class FormBuilder extends React.Component {
                     <FormGroup>
                         <Label>{field.label}</Label>
                         <LanguageDropdown key={field.id}
-                                          language_id={field.value}
-                                          errors={{}}
-                                          handleInputChanges={this.props.handleChange}
+                            language_id={field.value}
+                            errors={{}}
+                            handleInputChanges={this.props.handleChange}
                         />
                     </FormGroup>
                 </React.Fragment>
@@ -157,9 +157,9 @@ class FormBuilder extends React.Component {
                     <FormGroup>
                         <Label>{field.label}</Label>
                         <CountryDropdown key={field.id}
-                                         country={field.value}
-                                         errors={{}}
-                                         handleInputChanges={this.props.handleChange}
+                            country={field.value}
+                            errors={{}}
+                            handleInputChanges={this.props.handleChange}
                         />
                     </FormGroup>
                 </React.Fragment>
@@ -175,10 +175,10 @@ class FormBuilder extends React.Component {
                 break
 
             case 'select':
-                returnedField = this.buildSelectList ( field )
+                returnedField = this.buildSelectList(field)
                 break
             case 'switch':
-                returnedField = this.buildSwitch ( field )
+                returnedField = this.buildSwitch(field)
                 break
 
             default:
@@ -192,12 +192,12 @@ class FormBuilder extends React.Component {
                             }
                         </Label>
                         <Input type={field.type}
-                               className={field.inputClass || ''}
-                               id={id}
-                               value={field.value}
-                               name={field.name}
-                               placeholder={field.placeholder}
-                               onChange={this.props.handleChange}
+                            className={field.inputClass || ''}
+                            id={id}
+                            value={field.value}
+                            name={field.name}
+                            placeholder={field.placeholder}
+                            onChange={this.props.handleChange}
                         />
                     </FormGroup>
                 </React.Fragment>
@@ -213,11 +213,11 @@ class FormBuilder extends React.Component {
         return (
             <React.Fragment>
                 {/* eslint-disable react/no-array-index-key */}
-                {formFieldsRows.map ( ( formFieldsRow, i ) => (
+                {formFieldsRows.map((formFieldsRow, i) => (
                     <div key={`r-${i}`}>
-                        {formFieldsRow.map ( field => this.renderTextInput ( field ) )}
+                        {formFieldsRow.map(field => this.renderTextInput(field))}
                     </div>
-                ) )}
+                ))}
                 {/* eslint-enable react/no-array-index-key */}
             </React.Fragment>
         )

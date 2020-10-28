@@ -5,8 +5,8 @@ import Step1 from './Step1'
 import axios from 'axios'
 
 export default class SettingsWizard extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             currentStep: 1,
             settings: {},
@@ -14,67 +14,67 @@ export default class SettingsWizard extends Component {
             error: false
         }
 
-        this.handleChange = this.handleChange.bind ( this )
-        this.handleSettingsChange = this.handleSettingsChange.bind ( this )
-        this.handleSubmit = this.handleSubmit.bind ( this )
-        this._prev = this._prev.bind ( this )
-        this._next = this._next.bind ( this )
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSettingsChange = this.handleSettingsChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this._prev = this._prev.bind(this)
+        this._next = this._next.bind(this)
     }
 
-    handleSettingsChange ( event ) {
+    handleSettingsChange (event) {
         const name = event.target.name
         const value = event.target.value
 
-        this.setState ( prevState => ({
+        this.setState(prevState => ({
             settings: {
                 ...prevState.settings,
-                [ name ]: value
+                [name]: value
             }
-        }) )
+        }))
     }
 
-    handleChange ( event ) {
+    handleChange (event) {
         const { name, value } = event.target
-        this.setState ( {
-            [ name ]: value
-        } )
+        this.setState({
+            [name]: value
+        })
     }
 
-    handleSubmit ( event ) {
-        event.preventDefault ()
+    handleSubmit (event) {
+        event.preventDefault()
 
-        const formData = new FormData ()
-        formData.append ( 'settings', JSON.stringify ( this.state.settings ) )
+        const formData = new FormData()
+        formData.append('settings', JSON.stringify(this.state.settings))
         // formData.append('company_logo', this.state.company_logo)
 
-        axios.post ( '/api/accounts', formData, {
+        axios.post('/api/accounts', formData, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
-        } )
-            .then ( ( response ) => {
-                this.setState ( { success: true } )
-            } )
-            .catch ( ( error ) => {
-                console.error ( error )
-                this.setState ( { error: true } )
-            } )
+        })
+            .then((response) => {
+                this.setState({ success: true })
+            })
+            .catch((error) => {
+                console.error(error)
+                this.setState({ error: true })
+            })
     }
 
     _next () {
         let currentStep = this.state.currentStep
         currentStep = currentStep >= 2 ? 3 : currentStep + 1
-        this.setState ( {
+        this.setState({
             currentStep: currentStep
-        } )
+        })
     }
 
     _prev () {
         let currentStep = this.state.currentStep
         currentStep = currentStep <= 1 ? 1 : currentStep - 1
-        this.setState ( {
+        this.setState({
             currentStep: currentStep
-        } )
+        })
     }
 
     /*
@@ -82,7 +82,7 @@ export default class SettingsWizard extends Component {
     */
     previousButton () {
         const currentStep = this.state.currentStep
-        if ( currentStep !== 1 ) {
+        if (currentStep !== 1) {
             return (
                 <button
                     className="btn btn-secondary"
@@ -96,7 +96,7 @@ export default class SettingsWizard extends Component {
 
     nextButton () {
         const currentStep = this.state.currentStep
-        if ( currentStep < 3 ) {
+        if (currentStep < 3) {
             return (
                 <button
                     className="btn btn-primary float-right"
@@ -135,8 +135,8 @@ export default class SettingsWizard extends Component {
                         handleChange={this.handleChange}
                         password={this.state.password}
                     />
-                    {this.previousButton ()}
-                    {this.nextButton ()}
+                    {this.previousButton()}
+                    {this.nextButton()}
 
                 </form>
             </React.Fragment>

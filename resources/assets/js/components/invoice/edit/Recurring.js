@@ -4,29 +4,29 @@ import AddRecurringInvoice from '../../recurringInvoices/edit/AddRecurringInvoic
 import { translations } from '../../utils/_translations'
 
 export default class Recurring extends Component {
-    constructor ( props, context ) {
-        super ( props, context )
+    constructor (props, context) {
+        super(props, context)
         this.state = {
             is_recurring: false
         }
-        this.handleSlideClick = this.handleSlideClick.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.handleSlideClick = this.handleSlideClick.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
     }
 
-    handleSlideClick ( e ) {
-        this.setState ( { is_recurring: e.target.checked } )
+    handleSlideClick (e) {
+        this.setState({ is_recurring: e.target.checked })
     }
 
-    hasErrorFor ( field ) {
-        return this.props.errors && !!this.props.errors[ field ]
+    hasErrorFor (field) {
+        return this.props.errors && !!this.props.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.props.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.props.errors[field][0]}</strong>
                 </span>
             )
         }

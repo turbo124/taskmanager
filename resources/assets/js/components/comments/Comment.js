@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 
-export default function Comment ( props ) {
+export default function Comment (props) {
     const { comment, user, created_at } = props.comment
-    const date = new Date ( created_at )
+    const date = new Date(created_at)
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    const formattedDate = `${monthNames[ date.getMonth () ]} ${date.getDate ()}`
+    const formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}`
     return (
         <li className="media">
             <a href="#" className="pull-left">

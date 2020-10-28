@@ -10,131 +10,131 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 
 class EditGateway extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        this.gatewayModel = new GatewayModel ( this.props.gateway )
+        this.gatewayModel = new GatewayModel(this.props.gateway)
         this.initialState = this.gatewayModel.fields
         this.state = this.initialState
 
-        this.toggle = this.toggle.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
-        this.handleConfig = this.handleConfig.bind ( this )
-        this.updateCards = this.updateCards.bind ( this )
-        this.handleInput = this.handleInput.bind ( this )
-        this.updateFeesAndLimits = this.updateFeesAndLimits.bind ( this )
+        this.toggle = this.toggle.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.handleConfig = this.handleConfig.bind(this)
+        this.updateCards = this.updateCards.bind(this)
+        this.handleInput = this.handleInput.bind(this)
+        this.updateFeesAndLimits = this.updateFeesAndLimits.bind(this)
     }
 
-    handleConfig ( e ) {
+    handleConfig (e) {
         const name = e.target.name
         const value = e.target.value
-        this.setState ( {
+        this.setState({
             config: {
                 ...this.state.config,
-                [ name ]: value
+                [name]: value
             }
-        } )
+        })
     }
 
-    updateCards ( e ) {
+    updateCards (e) {
         const item = e.target.name
         const isChecked = e.target.checked
-        this.setState ( prevState => ({ accepted_cards: prevState.accepted_cards.set ( item, isChecked ) }), () => {
-            console.log ( 'cards', this.state.accepted_cards )
-        } )
+        this.setState(prevState => ({ accepted_cards: prevState.accepted_cards.set(item, isChecked) }), () => {
+            console.log('cards', this.state.accepted_cards)
+        })
     }
 
-    updateFeesAndLimits ( e ) {
+    updateFeesAndLimits (e) {
         const name = e.target.name
         let value = e.target.value
 
         const fees_and_limits = [...this.state.fees_and_limits]
-        const item = { ...fees_and_limits[ 0 ] }
+        const item = { ...fees_and_limits[0] }
 
-        if ( e.target.name === 'tax' || e.target.name === 'tax_2' || e.target.name === 'tax_3' ) {
-            const tax_name = e.target.options[ e.target.selectedIndex ].getAttribute ( 'data-name' )
-            value = e.target.options[ e.target.selectedIndex ].getAttribute ( 'data-rate' )
-            const tax_rate_name = e.target.name === 'tax' ? 'tax_rate_name' : `tax_rate_name_${e.target.name.split ( '_' )[ 1 ]}`
+        if (e.target.name === 'tax' || e.target.name === 'tax_2' || e.target.name === 'tax_3') {
+            const tax_name = e.target.options[e.target.selectedIndex].getAttribute('data-name')
+            value = e.target.options[e.target.selectedIndex].getAttribute('data-rate')
+            const tax_rate_name = e.target.name === 'tax' ? 'tax_rate_name' : `tax_rate_name_${e.target.name.split('_')[1]}`
 
-            item[ tax_rate_name ] = tax_name
+            item[tax_rate_name] = tax_name
         }
 
-        item[ name ] = value
-        fees_and_limits[ 0 ] = item
-        this.setState ( { fees_and_limits }, () => {
-            console.log ( 'fees', this.state.fees_and_limits )
-        } )
+        item[name] = value
+        fees_and_limits[0] = item
+        this.setState({ fees_and_limits }, () => {
+            console.log('fees', this.state.fees_and_limits)
+        })
     }
 
-    handleInput ( e ) {
+    handleInput (e) {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-        this.setState ( {
-            [ e.target.name ]: value
-        } )
+        this.setState({
+            [e.target.name]: value
+        })
     }
 
-    toggleTab ( tab ) {
-        if ( this.state.activeTab !== tab ) {
-            this.setState ( { activeTab: tab } )
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
         }
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
     handleClick () {
-        const formData = new FormData ()
-        formData.append ( 'accepted_credit_cards', Array.from ( this.state.accepted_cards.keys () ).join ( ',' ) )
-        formData.append ( 'fees_and_limits', JSON.stringify ( this.state.fees_and_limits ) )
-        formData.append ( 'config', JSON.stringify ( this.state.config ) )
-        formData.append ( 'update_details', this.state.update_details === true ? 1 : 0 )
-        formData.append ( 'gateway_key', this.state.gateway_key )
-        formData.append ( 'customer_id', this.props.customer_id )
-        formData.append ( 'name', this.state.name )
-        formData.append ( 'group_id', this.props.group_id )
-        formData.append ( 'show_billing_address', this.state.show_billing_address === true ? 1 : 0 )
-        formData.append ( 'show_shipping_address', this.state.show_shipping_address === true ? 1 : 0 )
-        formData.append ( 'require_cvv', this.state.require_cvv === true ? 1 : 0 )
-        formData.append ( '_method', 'PUT' )
+        const formData = new FormData()
+        formData.append('accepted_credit_cards', Array.from(this.state.accepted_cards.keys()).join(','))
+        formData.append('fees_and_limits', JSON.stringify(this.state.fees_and_limits))
+        formData.append('config', JSON.stringify(this.state.config))
+        formData.append('update_details', this.state.update_details === true ? 1 : 0)
+        formData.append('gateway_key', this.state.gateway_key)
+        formData.append('customer_id', this.props.customer_id)
+        formData.append('name', this.state.name)
+        formData.append('group_id', this.props.group_id)
+        formData.append('show_billing_address', this.state.show_billing_address === true ? 1 : 0)
+        formData.append('show_shipping_address', this.state.show_shipping_address === true ? 1 : 0)
+        formData.append('require_cvv', this.state.require_cvv === true ? 1 : 0)
+        formData.append('_method', 'PUT')
 
-        this.gatewayModel.save ( formData ).then ( response => {
-            if ( !response ) {
-                this.setState ( { errors: this.gatewayModel.errors, message: this.gatewayModel.error_message } )
+        this.gatewayModel.save(formData).then(response => {
+            if (!response) {
+                this.setState({ errors: this.gatewayModel.errors, message: this.gatewayModel.error_message })
                 return
             }
 
-            const index = this.props.gateways.findIndex ( gateway => gateway.id === this.props.gateway.id )
-            this.props.gateways[ index ] = response
-            this.props.action ( this.props.gateways )
-            this.setState ( {
+            const index = this.props.gateways.findIndex(gateway => gateway.id === this.props.gateway.id)
+            this.props.gateways[index] = response
+            this.props.action(this.props.gateways)
+            this.setState({
                 editMode: false,
                 changesMade: false
-            } )
-            this.toggle ()
-        } )
+            })
+            this.toggle()
+        })
     }
 
     toggle () {
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: []
-        } )
+        })
     }
 
     render () {
-        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -149,7 +149,7 @@ class EditGateway extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '1' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab ( '1' )
+                                        this.toggleTab('1')
                                     }}>
                                     {translations.credentials}
                                 </NavLink>
@@ -158,7 +158,7 @@ class EditGateway extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '2' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab ( '2' )
+                                        this.toggleTab('2')
                                     }}>
                                     {translations.settings}
                                 </NavLink>
@@ -168,7 +168,7 @@ class EditGateway extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '3' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab ( '3' )
+                                        this.toggleTab('3')
                                     }}>
                                     {translations.limits_and_fees}
                                 </NavLink>
@@ -178,31 +178,31 @@ class EditGateway extends React.Component {
                         <TabContent activeTab={this.state.activeTab}>
                             <TabPane tabId="1">
                                 <Details is_edit={true} renderErrorFor={this.renderErrorFor}
-                                         errors={this.state.errors}
-                                         handleInput={this.handleInput}
-                                         gateway={this.state}
-                                         handleConfig={this.handleConfig}/>
+                                    errors={this.state.errors}
+                                    handleInput={this.handleInput}
+                                    gateway={this.state}
+                                    handleConfig={this.handleConfig}/>
                             </TabPane>
 
                             <TabPane tabId="2">
                                 <Settings renderErrorFor={this.renderErrorFor} errors={this.state.errors}
-                                          handleInput={this.handleInput}
-                                          gateway={this.state}
-                                          updateCards={this.updateCards}/>
+                                    handleInput={this.handleInput}
+                                    gateway={this.state}
+                                    updateCards={this.updateCards}/>
                             </TabPane>
 
                             <TabPane tabId="3">
                                 <FeesAndLimits renderErrorFor={this.renderErrorFor} errors={this.state.errors}
-                                               handleInput={this.handleInput}
-                                               gateway={this.state}
-                                               updateFeesAndLimits={this.updateFeesAndLimits}/>
+                                    handleInput={this.handleInput}
+                                    gateway={this.state}
+                                    updateFeesAndLimits={this.updateFeesAndLimits}/>
                             </TabPane>
                         </TabContent>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                                        saveData={this.handleClick.bind ( this )}
-                                        loading={false}/>
+                        saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

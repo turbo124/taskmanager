@@ -30,15 +30,15 @@ Label2.defaultProps = {
 }
 
 class CalendarEvent extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         const attendees = this.props.event.attendees ? this.props.event.attendees : []
         const arrAttendees = []
-        attendees.map ( ( attendee, index ) => {
-            arrAttendees.push ( attendee.id )
-        } )
+        attendees.map((attendee, index) => {
+            arrAttendees.push(attendee.id)
+        })
 
-        console.log ( 'props', this.props )
+        console.log('props', this.props)
 
         this.state = {
             modal: false,
@@ -62,42 +62,42 @@ class CalendarEvent extends React.Component {
         }
 
         this.initialState = this.state
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
-        this.toggle = this.toggle.bind ( this )
-        this.handleMultiSelect = this.handleMultiSelect.bind ( this )
-        this.getUserList = this.getUserList.bind ( this )
-        this.deleteEvent = this.deleteEvent.bind ( this )
-        this.handleInput = this.handleInput.bind ( this )
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.toggle = this.toggle.bind(this)
+        this.handleMultiSelect = this.handleMultiSelect.bind(this)
+        this.getUserList = this.getUserList.bind(this)
+        this.deleteEvent = this.deleteEvent.bind(this)
+        this.handleInput = this.handleInput.bind(this)
     }
 
     componentDidMount () {
-        this.getUsers ()
+        this.getUsers()
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
-    handleInput ( e ) {
-        this.setState ( {
-            [ e.target.name ]: e.target.value,
+    handleInput (e) {
+        this.setState({
+            [e.target.name]: e.target.value,
             changesMade: true
-        } )
+        })
     }
 
-    handleClick ( event ) {
-        axios.put ( `/api/events/${this.props.event.id}`, {
+    handleClick (event) {
+        axios.put(`/api/events/${this.props.event.id}`, {
             customer_id: this.state.customer_id,
             users: this.state.attendees,
             title: this.state.title,
@@ -110,117 +110,117 @@ class CalendarEvent extends React.Component {
             custom_value2: this.state.custom_value2,
             custom_value3: this.state.custom_value3,
             custom_value4: this.state.custom_value4
-        } )
-            .then ( ( response ) => {
-                this.toggle ()
-                const index = this.props.allEvents.findIndex ( event => event.id === parseInt ( this.props.event.id ) )
-                const currentObject = this.props.allEvents[ index ]
+        })
+            .then((response) => {
+                this.toggle()
+                const index = this.props.allEvents.findIndex(event => event.id === parseInt(this.props.event.id))
+                const currentObject = this.props.allEvents[index]
                 currentObject.title = this.state.title
                 currentObject.location = this.state.location
                 currentObject.beginDate = this.state.beginDate
                 currentObject.endDate = this.state.endDate
-                this.props.action ( this.props.allEvents )
+                this.props.action(this.props.allEvents)
                 // const firstEvent = response.data
                 // this.props.events.push(firstEvent)
                 // this.props.action(this.props.events)
-            } )
-            .catch ( ( error ) => {
-                alert ( error )
-            } )
+            })
+            .catch((error) => {
+                alert(error)
+            })
     }
 
     toggle () {
-        if ( this.state.modal && this.state.changesMade ) {
-            if ( window.confirm ( 'Your changes have not been saved?' ) ) {
-                this.setState ( { ...this.initialState } )
+        if (this.state.modal && this.state.changesMade) {
+            if (window.confirm('Your changes have not been saved?')) {
+                this.setState({ ...this.initialState })
             }
 
             return
         }
 
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: []
-        } )
+        })
     }
 
-    deleteEvent ( id, archive = true ) {
+    deleteEvent (id, archive = true) {
         const url = archive === true ? `/api/events/archive/${id}` : `/api/events/${id}`
         const self = this
 
-        alert ( 'here' )
+        alert('here')
 
-        axios.delete ( url )
-            .then ( function ( response ) {
-                const filteredArray = self.props.allEvents.filter ( event => event.id !== parseInt ( id ) )
-                self.props.action ( filteredArray )
-            } )
-            .catch ( function ( error ) {
-                alert ( error )
-            } )
+        axios.delete(url)
+            .then(function (response) {
+                const filteredArray = self.props.allEvents.filter(event => event.id !== parseInt(id))
+                self.props.action(filteredArray)
+            })
+            .catch(function (error) {
+                alert(error)
+            })
     }
 
     getUsers () {
-        axios.get ( '/api/users' )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get('/api/users')
+            .then((r) => {
+                this.setState({
                     users: r.data
-                } )
-            } )
-            .catch ( ( e ) => {
-                console.error ( e )
-            } )
+                })
+            })
+            .catch((e) => {
+                console.error(e)
+            })
     }
 
-    convertDate ( inputFormat ) {
-        return moment ( inputFormat ).format ( 'YYYY-MM-DD hh:mm A' )
+    convertDate (inputFormat) {
+        return moment(inputFormat).format('YYYY-MM-DD hh:mm A')
     }
 
-    handleMultiSelect ( e ) {
-        this.setState ( { attendees: Array.from ( e.target.selectedOptions, ( item ) => item.value ) } )
+    handleMultiSelect (e) {
+        this.setState({ attendees: Array.from(e.target.selectedOptions, (item) => item.value) })
     }
 
     getUserList () {
         let userList
-        if ( !this.state.users.length ) {
+        if (!this.state.users.length) {
             userList = <option value="">Loading...</option>
         } else {
-            userList = this.state.users.map ( ( user, index ) => (
+            userList = this.state.users.map((user, index) => (
                 <option key={index} value={user.id}>{user.first_name + ' ' + user.last_name}</option>
-            ) )
+            ))
         }
 
         return (
             <FormGroup>
                 <Label for="users">Attendees</Label>
                 <Input value={this.state.attendees} onChange={this.handleMultiSelect} type="select"
-                       name="users" id="users" multiple>
+                    name="users" id="users" multiple>
                     {userList}
                 </Input>
-                {this.renderErrorFor ( 'users' )}
+                {this.renderErrorFor('users')}
             </FormGroup>
         )
     }
 
-    handleStartDate ( date ) {
-        this.setState ( { beginDate: date._d } )
+    handleStartDate (date) {
+        this.setState({ beginDate: date._d })
     }
 
-    handleEndDate ( date ) {
-        this.setState ( { endDate: date._d } )
+    handleEndDate (date) {
+        this.setState({ endDate: date._d })
     }
 
     render () {
         const { col, colSpan } = this.props
-        const userList = this.getUserList ()
+        const userList = this.getUserList()
         const customFields = this.props.custom_fields ? this.props.custom_fields : []
         const customForm = customFields && customFields.length ? <FormBuilder
-            handleChange={this.handleInput.bind ( this )}
+            handleChange={this.handleInput.bind(this)}
             formFieldsRows={customFields}
         /> : null
 
-        const beginDate = this.convertDate ( this.state.beginDate )
-        const endDate = this.convertDate ( this.state.endDate )
+        const beginDate = this.convertDate(this.state.beginDate)
+        const endDate = this.convertDate(this.state.endDate)
 
         const editLabel = this.props.calendar_type === 'day'
             ? <div className="mike" onClick={this.toggle}>{this.state.title}</div>
@@ -230,12 +230,12 @@ class CalendarEvent extends React.Component {
 
         const restoreButton = this.props.event.deleted_at
             ? <RestoreModal id={this.props.event.id} entities={this.props.allEvents} updateState={this.props.action}
-                            url={`/api/events/restore/${this.props.event.id}`}/> : null
+                url={`/api/events/restore/${this.props.event.id}`}/> : null
         const deleteButton = !this.props.event.deleted_at
             ? <DeleteModal archive={false} deleteFunction={this.deleteEvent} id={this.props.event.id}/> : null
         const archiveButton = !this.props.event.deleted_at
             ? <DeleteModal archive={true} deleteFunction={this.deleteEvent} id={this.props.event.id}/> : null
-        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -247,48 +247,48 @@ class CalendarEvent extends React.Component {
                     <ModalBody className={theme}>
                         <FormGroup>
                             <Label for="title">{translations.title}(*):</Label>
-                            <Input className={this.hasErrorFor ( 'title' ) ? 'is-invalid' : ''}
-                                   value={this.state.title}
-                                   type="text" name="title"
-                                   id="taskTitle" onChange={this.handleInput.bind ( this )}/>
-                            {this.renderErrorFor ( 'title' )}
+                            <Input className={this.hasErrorFor('title') ? 'is-invalid' : ''}
+                                value={this.state.title}
+                                type="text" name="title"
+                                id="taskTitle" onChange={this.handleInput.bind(this)}/>
+                            {this.renderErrorFor('title')}
                         </FormGroup>
 
                         <FormGroup>
                             <Label for="description">{translations.description}(*):</Label>
-                            <Input className={this.hasErrorFor ( 'description' ) ? 'is-invalid' : ''}
-                                   value={this.state.description}
-                                   type="text" name="description"
-                                   id="description" onChange={this.handleInput.bind ( this )}/>
-                            {this.renderErrorFor ( 'description' )}
+                            <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
+                                value={this.state.description}
+                                type="text" name="description"
+                                id="description" onChange={this.handleInput.bind(this)}/>
+                            {this.renderErrorFor('description')}
                         </FormGroup>
 
                         <FormGroup>
                             <Label for="location">{translations.location}:</Label>
-                            <Input className={this.hasErrorFor ( 'location' ) ? 'is-invalid' : ''} type="textarea"
-                                   value={this.state.location}
-                                   name="location"
-                                   id="location"
-                                   onChange={this.handleInput.bind ( this )}/>
-                            {this.renderErrorFor ( 'location' )}
+                            <Input className={this.hasErrorFor('location') ? 'is-invalid' : ''} type="textarea"
+                                value={this.state.location}
+                                name="location"
+                                id="location"
+                                onChange={this.handleInput.bind(this)}/>
+                            {this.renderErrorFor('location')}
                         </FormGroup>
 
                         <FormGroup>
                             <Label for="beginDate">{translations.start_date}:</Label>
-                            <DateTime viewDate={new Date ()} value={beginDate} dateFormat="YYYY-MM-DD"
-                                      inputProps={{ name: 'beginDate' }}
-                                      className={this.hasErrorFor ( 'beginDate' ) ? 'is-invalid' : ''}
-                                      onChange={this.handleStartDate.bind ( this )}/>
-                            {this.renderErrorFor ( 'beginDate' )}
+                            <DateTime viewDate={new Date()} value={beginDate} dateFormat="YYYY-MM-DD"
+                                inputProps={{ name: 'beginDate' }}
+                                className={this.hasErrorFor('beginDate') ? 'is-invalid' : ''}
+                                onChange={this.handleStartDate.bind(this)}/>
+                            {this.renderErrorFor('beginDate')}
                         </FormGroup>
 
                         <FormGroup>
                             <Label for="endDate">{translations.end_date}:</Label>
                             <DateTime value={endDate} dateFormat="YYYY-MM-DD" inputProps={{ name: 'endDate' }}
-                                      className={this.hasErrorFor ( 'endDate' ) ? 'is-invalid' : ''}
-                                      onChange={this.handleEndDate.bind ( this )}/>
+                                className={this.hasErrorFor('endDate') ? 'is-invalid' : ''}
+                                onChange={this.handleEndDate.bind(this)}/>
 
-                            {this.renderErrorFor ( 'endDate' )}
+                            {this.renderErrorFor('endDate')}
                         </FormGroup>
 
                         <FormGroup>
@@ -316,7 +316,7 @@ class CalendarEvent extends React.Component {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind ( this )}>{translations.save}</Button>
+                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
                         {deleteButton}
                         {archiveButton}
                         {restoreButton}

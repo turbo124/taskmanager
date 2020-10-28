@@ -8,11 +8,11 @@ import FormatMoney from '../../common/FormatMoney'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../utils/_icons'
 
-export default function Overview ( props ) {
+export default function Overview (props) {
     return <React.Fragment>
         <PlainEntityHeader heading_1={translations.duration} value_1={props.totalDuration}
-                           heading_2={translations.amount}
-                           value_2={<FormatMoney amount={props.calculatedAmount} customers={props.customers}/>}/>
+            heading_2={translations.amount}
+            value_2={<FormatMoney amount={props.calculatedAmount} customers={props.customers}/>}/>
 
         {!!props.entity.name.length &&
         <Row>
@@ -27,8 +27,8 @@ export default function Overview ( props ) {
         }
 
         <Row>
-            <EntityListTile entity={translations.customer} title={props.customer[ 0 ].name}
-                            icon={icons.customer}/>
+            <EntityListTile entity={translations.customer} title={props.customer[0].name}
+                icon={icons.customer}/>
         </Row>
 
         {!!props.user &&
@@ -51,7 +51,7 @@ export default function Overview ( props ) {
 
         <FieldGrid fields={props.fields}/>
 
-        {!!Object.keys ( props.recurring ).length &&
+        {!!Object.keys(props.recurring).length &&
         <div>
             <h5>{translations.recurring}</h5>
             <FieldGrid fields={props.recurring}/>

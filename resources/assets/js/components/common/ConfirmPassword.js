@@ -6,8 +6,8 @@ import DefaultModalHeader from './ModalHeader'
 import DefaultModalFooter from './ModalFooter'
 
 export default class ConfirmPassword extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             password: '',
             errors: [],
@@ -15,26 +15,26 @@ export default class ConfirmPassword extends Component {
             modal: false
         }
 
-        this.toggle = this.toggle.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.toggle = this.toggle.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
     }
 
-    handleInput ( e ) {
-        this.setState ( {
-            [ e.target.name ]: e.target.value
-        }, () => localStorage.setItem ( 'taxForm', JSON.stringify ( this.state ) ) )
+    handleInput (e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        }, () => localStorage.setItem('taxForm', JSON.stringify(this.state)))
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
@@ -45,31 +45,31 @@ export default class ConfirmPassword extends Component {
             password: this.state.password
         }
 
-        axios.delete ( this.props.url, { data: data } )
-            .then ( ( r ) => {
-                this.props.callback ( this.props.id )
-            } )
-            .catch ( ( error ) => {
-                if ( error.response.data.errors ) {
-                    this.setState ( {
+        axios.delete(this.props.url, { data: data })
+            .then((r) => {
+                this.props.callback(this.props.id)
+            })
+            .catch((error) => {
+                if (error.response.data.errors) {
+                    this.setState({
                         errors: error.response.data.errors
-                    } )
+                    })
                 } else {
-                    this.setState ( { message: error.response.data } )
+                    this.setState({ message: error.response.data })
                 }
-            } )
+            })
     }
 
     toggle () {
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: []
-        } )
+        })
     }
 
     render () {
         const { message } = this.state
-        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -85,17 +85,17 @@ export default class ConfirmPassword extends Component {
 
                         <FormGroup className="mb-3">
                             <Label>{translations.confirm_password}</Label>
-                            <Input className={this.hasErrorFor ( 'password' ) ? 'is-invalid' : ''} type="password"
-                                   name="password"
-                                   value={this.state.password} onChange={this.handleInput.bind ( this )}/>
-                            {this.renderErrorFor ( 'password' )}
+                            <Input className={this.hasErrorFor('password') ? 'is-invalid' : ''} type="password"
+                                name="password"
+                                value={this.state.password} onChange={this.handleInput.bind(this)}/>
+                            {this.renderErrorFor('password')}
                         </FormGroup>
 
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                                        saveData={this.handleClick.bind ( this )}
-                                        loading={false}/>
+                        saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

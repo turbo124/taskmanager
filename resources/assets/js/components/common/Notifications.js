@@ -4,8 +4,8 @@ import { consts } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 
 export default class Notifications extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             roles: [],
             modal: false,
@@ -103,59 +103,59 @@ export default class Notifications extends Component {
             ]
         }
 
-        this.customInputSwitched = this.customInputSwitched.bind ( this )
-        this.handleAllChecked = this.handleAllChecked.bind ( this )
+        this.customInputSwitched = this.customInputSwitched.bind(this)
+        this.handleAllChecked = this.handleAllChecked.bind(this)
     }
 
     componentDidMount () {
-        if ( this.props.notifications && Object.keys ( this.props.notifications ).length ) {
-            this.setState ( { notifications: this.props.notifications } )
+        if (this.props.notifications && Object.keys(this.props.notifications).length) {
+            this.setState({ notifications: this.props.notifications })
         }
     }
 
-    handleAllChecked ( event ) {
+    handleAllChecked (event) {
         const notifications = this.state.notifications
-        notifications.forEach ( notification => notification.isChecked = event.target.checked )
-        this.setState ( { notifications: notifications }, () => {
-            this.props.onChange ( this.state.notifications )
-        } )
+        notifications.forEach(notification => notification.isChecked = event.target.checked)
+        this.setState({ notifications: notifications }, () => {
+            this.props.onChange(this.state.notifications)
+        })
     }
 
-    customInputSwitched ( buttonName, e ) {
+    customInputSwitched (buttonName, e) {
         const checked = e.target.checked
         const notifications = this.state.notifications
 
-        notifications.forEach ( notification => {
-            if ( notification.value === buttonName ) {
+        notifications.forEach(notification => {
+            if (notification.value === buttonName) {
                 notification.isChecked = checked
             }
-        } )
-        this.setState ( { notifications: notifications }, () => {
-            this.props.onChange ( this.state.notifications )
-        } )
+        })
+        this.setState({ notifications: notifications }, () => {
+            this.props.onChange(this.state.notifications)
+        })
     }
 
     render () {
         return (<React.Fragment>
             <Label for="exampleCheckbox">Switches <input type="checkbox"
-                                                         onClick={this.handleAllChecked}/>Check
+                onClick={this.handleAllChecked}/>Check
                 all </Label>
-            {this.state.notifications.map ( ( notification, index ) => {
-                    const idName = 'exampleCustomSwitch' + index
+            {this.state.notifications.map((notification, index) => {
+                const idName = 'exampleCustomSwitch' + index
 
-                    return (
-                        <div key={index}>
-                            <CustomInput
-                                checked={notification.isChecked}
-                                type="switch"
-                                id={idName}
-                                name="customSwitch"
-                                label={notification.label}
-                                onChange={this.customInputSwitched.bind ( this, notification.value )}
-                            />
-                        </div>
-                    )
-                }
+                return (
+                    <div key={index}>
+                        <CustomInput
+                            checked={notification.isChecked}
+                            type="switch"
+                            id={idName}
+                            name="customSwitch"
+                            label={notification.label}
+                            onChange={this.customInputSwitched.bind(this, notification.value)}
+                        />
+                    </div>
+                )
+            }
             )}
         </React.Fragment>)
     }

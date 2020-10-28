@@ -12,8 +12,8 @@ import QuoteRepository from '../repositories/QuoteRepository'
 import queryString from 'query-string'
 
 export default class RecurringQuotes extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             isOpen: window.innerWidth > 670,
             error: '',
@@ -35,72 +35,72 @@ export default class RecurringQuotes extends Component {
             bulk: [],
             dropdownButtonActions: ['download', 'start_recurring', 'stop_recurring'],
             filters: {
-                user_id: queryString.parse ( this.props.location.search ).user_id || '',
+                user_id: queryString.parse(this.props.location.search).user_id || '',
                 status_id: 'Draft',
-                customer_id: queryString.parse ( this.props.location.search ).customer_id || '',
-                project_id: queryString.parse ( this.props.location.search ).project_id || '',
+                customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                project_id: queryString.parse(this.props.location.search).project_id || '',
                 searchText: '',
                 start_date: '',
                 end_date: ''
             },
             showRestoreButton: false,
-            entity_id: queryString.parse ( this.props.location.search ).entity_id || false,
-            entity_type: queryString.parse ( this.props.location.search ).entity_type || false,
+            entity_id: queryString.parse(this.props.location.search).entity_id || false,
+            entity_type: queryString.parse(this.props.location.search).entity_type || false,
             ignoredColumns: ['tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'schedule', 'grace_period', 'last_sent_date', 'quotes', 'currency_id', 'exchange_rate', 'gateway_fee', 'transaction_fee', 'shipping_cost', 'gateway_percentage', 'transaction_fee_tax', 'shipping_cost_tax', 'audits', 'invitations', 'files', 'id', 'custom_value1', 'invoice_id', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'use_inclusive_taxes', 'terms', 'footer', 'last_send_date', 'line_items', 'date_to_send', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total']
 
         }
 
         this.ignore = []
 
-        this.updateInvoice = this.updateInvoice.bind ( this )
-        this.userList = this.userList.bind ( this )
-        this.filterInvoices = this.filterInvoices.bind ( this )
-        this.getQuotes = this.getQuotes.bind ( this )
+        this.updateInvoice = this.updateInvoice.bind(this)
+        this.userList = this.userList.bind(this)
+        this.filterInvoices = this.filterInvoices.bind(this)
+        this.getQuotes = this.getQuotes.bind(this)
     }
 
     componentDidMount () {
-        this.getCustomers ()
-        this.getQuotes ()
+        this.getCustomers()
+        this.getQuotes()
     }
 
-    updateInvoice ( invoices ) {
+    updateInvoice (invoices) {
         const cachedData = !this.state.cachedData.length ? invoices : this.state.cachedData
-        this.setState ( {
+        this.setState({
             invoices: invoices,
             cachedData: cachedData
-        } )
+        })
     }
 
     getQuotes () {
-        const quoteRepository = new QuoteRepository ()
-        quoteRepository.get ().then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const quoteRepository = new QuoteRepository()
+        quoteRepository.get().then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( { allQuotes: response }, () => {
-                console.log ( 'allQuotes', this.state.allQuotes )
-            } )
-        } )
+            this.setState({ allQuotes: response }, () => {
+                console.log('allQuotes', this.state.allQuotes)
+            })
+        })
     }
 
-    filterInvoices ( filters ) {
-        this.setState ( { filters: filters } )
+    filterInvoices (filters) {
+        this.setState({ filters: filters })
     }
 
     handleClose () {
-        this.setState ( { error: '', show_success: false } )
+        this.setState({ error: '', show_success: false })
     }
 
-    userList ( props ) {
+    userList (props) {
         const { invoices, custom_fields, customers, allQuotes } = this.state
         return <RecurringQuoteItem showCheckboxes={props.showCheckboxes} allQuotes={allQuotes} invoices={invoices}
-                                   viewId={props.viewId}
-                                   customers={customers} custom_fields={custom_fields}
-                                   ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
-                                   toggleViewedEntity={props.toggleViewedEntity}
-                                   bulk={props.bulk}
-                                   onChangeBulk={props.onChangeBulk}/>
+            viewId={props.viewId}
+            customers={customers} custom_fields={custom_fields}
+            ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
+            toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
+            onChangeBulk={props.onChangeBulk}/>
     }
 
     renderErrorFor () {
@@ -108,46 +108,46 @@ export default class RecurringQuotes extends Component {
     }
 
     getCustomFields () {
-        axios.get ( 'api/accounts/fields/RecurringQuote' )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get('api/accounts/fields/RecurringQuote')
+            .then((r) => {
+                this.setState({
                     custom_fields: r.data.fields
-                } )
-            } )
-            .catch ( ( e ) => {
-                this.setState ( {
+                })
+            })
+            .catch((e) => {
+                this.setState({
                     loading: false,
                     error: e
-                } )
-            } )
+                })
+            })
     }
 
     getCustomers () {
-        const customerRepository = new CustomerRepository ()
-        customerRepository.get ().then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const customerRepository = new CustomerRepository()
+        customerRepository.get().then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( { customers: response }, () => {
-                console.log ( 'customers', this.state.customers )
-            } )
-        } )
+            this.setState({ customers: response }, () => {
+                console.log('customers', this.state.customers)
+            })
+        })
     }
 
-    setFilterOpen ( isOpen ) {
-        this.setState ( { isOpen: isOpen } )
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
-    setError ( message = null ) {
-        this.setState ( { error: true, error_message: message === null ? translations.unexpected_error : message } )
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
     }
 
-    setSuccess ( message = null ) {
-        this.setState ( {
+    setSuccess (message = null) {
+        this.setState({
             show_success: true,
             success_message: message === null ? translations.success_message : message
-        } )
+        })
     }
 
     render () {
@@ -166,7 +166,7 @@ export default class RecurringQuotes extends Component {
             invoices={invoices}
             modal={true}
         /> : null
-        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call ( localStorage, 'datatable_collapsed' ) && localStorage.getItem ( 'datatable_collapsed' ) === true)
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
@@ -176,19 +176,19 @@ export default class RecurringQuotes extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <RecurringQuoteFilters setFilterOpen={this.setFilterOpen.bind ( this )}
-                                                       invoices={invoices}
-                                                       updateIgnoredColumns={this.updateIgnoredColumns}
-                                                       filters={filters} filter={this.filterInvoices}
-                                                       saveBulk={this.saveBulk}
-                                                       ignoredColumns={this.state.ignoredColumns}/>
+                                <RecurringQuoteFilters setFilterOpen={this.setFilterOpen.bind(this)}
+                                    invoices={invoices}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={filters} filter={this.filterInvoices}
+                                    saveBulk={this.saveBulk}
+                                    ignoredColumns={this.state.ignoredColumns}/>
                                 {addButton}
                             </CardBody>
                         </Card>
                     </div>
 
                     {error &&
-                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
                             {error_message}
                         </Alert>
@@ -196,7 +196,7 @@ export default class RecurringQuotes extends Component {
                     }
 
                     {show_success &&
-                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="success">
                             {success_message}
                         </Alert>
@@ -207,8 +207,8 @@ export default class RecurringQuotes extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
-                                    setSuccess={this.setSuccess.bind ( this )}
-                                    setError={this.setError.bind ( this )}
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
                                     customers={this.state.customers}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="RecurringQuote"

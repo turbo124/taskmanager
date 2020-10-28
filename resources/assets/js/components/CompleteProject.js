@@ -3,14 +3,14 @@ import axios from 'axios'
 import React, { Component } from 'react'
 
 class CompleteProject extends Component {
-    constructor ( props ) {
-        super ( props )
-        this.handleMarkProjectAsCompleted = this.handleMarkProjectAsCompleted.bind ( this )
+    constructor (props) {
+        super(props)
+        this.handleMarkProjectAsCompleted = this.handleMarkProjectAsCompleted.bind(this)
     }
 
     handleMarkProjectAsCompleted () {
-        axios.put ( `/api/projects/${this.props.projectId}` )
-            .then ( response => window.location.href = '/dashboard' )
+        axios.put(`/api/projects/${this.props.projectId}`)
+            .then(response => window.location.href = '/dashboard')
     }
 
     render () {

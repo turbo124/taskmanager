@@ -5,13 +5,13 @@ import './PasswordReset.css'
 import axios from 'axios'
 
 export default class ResetPassword extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        alert ( new URLSearchParams ( this.props.location.search ).get ( 'token' ) )
+        alert(new URLSearchParams(this.props.location.search).get('token'))
 
         this.state = {
-            code: new URLSearchParams ( this.props.location.search ).get ( 'token' ),
+            code: new URLSearchParams(this.props.location.search).get('token'),
             email: '',
             error: '',
             success: '',
@@ -23,8 +23,8 @@ export default class ResetPassword extends Component {
             isSendingCode: false
         }
 
-        this.handleChange = this.handleChange.bind ( this )
-        this.handleConfirmClick = this.handleConfirmClick.bind ( this )
+        this.handleChange = this.handleChange.bind(this)
+        this.handleConfirmClick = this.handleConfirmClick.bind(this)
     }
 
     validateResetForm () {
@@ -34,38 +34,38 @@ export default class ResetPassword extends Component {
         )
     }
 
-    handleChange ( event ) {
-        this.setState ( {
-            [ event.target.id ]: event.target.value
-        } )
+    handleChange (event) {
+        this.setState({
+            [event.target.id]: event.target.value
+        })
     }
 
-    handleConfirmClick ( event ) {
-        event.preventDefault ()
+    handleConfirmClick (event) {
+        event.preventDefault()
 
-        if ( !this.validateResetForm () ) {
-            this.setState ( { error: 'Please ensure that you complete both password fields and that they match' } )
+        if (!this.validateResetForm()) {
+            this.setState({ error: 'Please ensure that you complete both password fields and that they match' })
             return false
         }
 
-        axios.post ( '/api/passwordReset/reset', {
+        axios.post('/api/passwordReset/reset', {
             email: this.state.email,
             token: this.state.code,
             password: this.state.password,
             password_confirmation: this.state.confirmPassword
-        } )
-            .then ( ( response ) => {
-                this.setState ( {
+        })
+            .then((response) => {
+                this.setState({
                     success: 'Your password has now been reset',
                     isSendingCode: true
-                } )
-            } )
-            .catch ( ( error ) => {
-                this.setState ( {
+                })
+            })
+            .catch((error) => {
+                this.setState({
                     isSendingCode: false,
                     error: error.response.data
-                } )
-            } )
+                })
+            })
     }
 
     renderConfirmationForm () {
@@ -81,8 +81,8 @@ export default class ResetPassword extends Component {
                     <CardBody>
                         <div className="text-center">
 
-                            {this.renderErrorMessage ()}
-                            {this.renderSuccessMessage ()}
+                            {this.renderErrorMessage()}
+                            {this.renderSuccessMessage()}
 
                             <h3><i className="fa fa-lock fa-4x"/></h3>
                             <h2 className="text-center">Reset Password</h2>
@@ -145,7 +145,7 @@ export default class ResetPassword extends Component {
     }
 
     renderSuccessMessage () {
-        if ( !this.state.success.length ) {
+        if (!this.state.success.length) {
             return
         }
 
@@ -157,7 +157,7 @@ export default class ResetPassword extends Component {
     }
 
     renderErrorMessage () {
-        if ( !this.state.error.length ) {
+        if (!this.state.error.length) {
             return
         }
 
@@ -171,7 +171,7 @@ export default class ResetPassword extends Component {
     render () {
         return (
             <div className="ResetPassword">
-                {this.renderConfirmationForm ()}
+                {this.renderConfirmationForm()}
             </div>
         )
     }

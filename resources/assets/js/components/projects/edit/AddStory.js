@@ -9,45 +9,45 @@ import DefaultModalFooter from '../../common/ModalFooter'
 import Details from './Details'
 
 class AddStory extends React.Component {
-    constructor ( props ) {
-        super ( props )
-        this.projectModel = new ProjectModel ( null )
+    constructor (props) {
+        super(props)
+        this.projectModel = new ProjectModel(null)
         this.initialState = this.projectModel.fields
         this.state = this.initialState
-        this.toggle = this.toggle.bind ( this )
-        this.handleChange = this.handleChange.bind ( this )
-        this.getStoryCount = this.getStoryCount.bind ( this )
-        this.handleClick = this.handleClick.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.toggle = this.toggle.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.getStoryCount = this.getStoryCount.bind(this)
+        this.handleClick = this.handleClick.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
     }
 
     componentDidMount () {
-        if ( Object.prototype.hasOwnProperty.call ( localStorage, 'projectForm' ) ) {
-            const storedValues = JSON.parse ( localStorage.getItem ( 'projectForm' ) )
-            this.setState ( { ...storedValues }, () => console.log ( 'new state', this.state ) )
+        if (Object.prototype.hasOwnProperty.call(localStorage, 'projectForm')) {
+            const storedValues = JSON.parse(localStorage.getItem('projectForm'))
+            this.setState({ ...storedValues }, () => console.log('new state', this.state))
         }
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    handleChange ( event ) {
-        this.setState ( { name: event.target.value } )
+    handleChange (event) {
+        this.setState({ name: event.target.value })
     }
 
-    handleInput ( e ) {
-        this.setState ( {
-            [ e.target.name ]: e.target.value
-        }, () => localStorage.setItem ( 'projectForm', JSON.stringify ( this.state ) ) )
+    handleInput (e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        }, () => localStorage.setItem('projectForm', JSON.stringify(this.state)))
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
@@ -55,21 +55,21 @@ class AddStory extends React.Component {
 
     /** To be done */
     getStoryCount () {
-        axios.get ( '/story/count' )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get('/story/count')
+            .then((r) => {
+                this.setState({
                     count: r.data.count,
                     err: ''
-                } )
-            } )
-            .catch ( ( e ) => {
-                this.setState ( {
+                })
+            })
+            .catch((e) => {
+                this.setState({
                     err: e
-                } )
-            } )
+                })
+            })
     }
 
-    handleClick ( event ) {
+    handleClick (event) {
         const data = {
             name: this.state.name,
             description: this.state.description,
@@ -83,32 +83,32 @@ class AddStory extends React.Component {
             task_rate: this.state.task_rate
         }
 
-        this.projectModel.save ( data ).then ( response => {
-            if ( !response ) {
-                this.setState ( { errors: this.projectModel.errors, message: this.projectModel.error_message } )
+        this.projectModel.save(data).then(response => {
+            if (!response) {
+                this.setState({ errors: this.projectModel.errors, message: this.projectModel.error_message })
                 return
             }
 
-            this.props.projects.push ( response )
-            this.props.action ( this.props.projects )
-            this.setState ( this.initialState )
-            localStorage.removeItem ( 'projectForm' )
-        } )
+            this.props.projects.push(response)
+            this.props.action(this.props.projects)
+            this.setState(this.initialState)
+            localStorage.removeItem('projectForm')
+        })
     }
 
     toggle () {
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: []
         }, () => {
-            if ( !this.state.modal ) {
-                this.setState ( this.initialState, () => localStorage.removeItem ( 'projectForm' ) )
+            if (!this.state.modal) {
+                this.setState(this.initialState, () => localStorage.removeItem('projectForm'))
             }
-        } )
+        })
     }
 
     render () {
-        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <div>
@@ -118,12 +118,12 @@ class AddStory extends React.Component {
 
                     <ModalBody className={theme}>
                         <Details errors={this.state.errors} project={this.state}
-                                 handleInput={this.handleInput.bind ( this )} hasErrorFor={this.hasErrorFor}
-                                 renderErrorFor={this.renderErrorFor} customers={this.props.customers}/>
+                            handleInput={this.handleInput.bind(this)} hasErrorFor={this.hasErrorFor}
+                            renderErrorFor={this.renderErrorFor} customers={this.props.customers}/>
                     </ModalBody>
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                                        saveData={this.handleClick.bind ( this )}
-                                        loading={false}/>
+                        saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </div>
         )

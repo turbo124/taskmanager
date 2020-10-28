@@ -7,8 +7,8 @@ import DefaultModalHeader from '../common/ModalHeader'
 import DefaultModalFooter from '../common/ModalFooter'
 
 class EditDepartment extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             modal: false,
             loading: false,
@@ -24,26 +24,26 @@ class EditDepartment extends React.Component {
         }
 
         this.initialState = this.state
-        this.toggle = this.toggle.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
-        this.buildUserOptions = this.buildUserOptions.bind ( this )
-        this.buildParentOptions = this.buildParentOptions.bind ( this )
+        this.toggle = this.toggle.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.buildUserOptions = this.buildUserOptions.bind(this)
+        this.buildParentOptions = this.buildParentOptions.bind(this)
     }
 
-    handleInput ( e ) {
-        this.setState ( { [ e.target.name ]: e.target.value } )
+    handleInput (e) {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
@@ -51,12 +51,12 @@ class EditDepartment extends React.Component {
 
     buildUserOptions () {
         let userContent
-        if ( !this.props.users.length ) {
+        if (!this.props.users.length) {
             userContent = <option value="">Loading...</option>
         } else {
-            userContent = this.props.users.map ( ( user, index ) => (
+            userContent = this.props.users.map((user, index) => (
                 <option key={index} value={user.id}>{user.first_name + ' ' + user.last_name}</option>
-            ) )
+            ))
         }
 
         return (
@@ -66,16 +66,16 @@ class EditDepartment extends React.Component {
                     <InputGroupAddon addonType="prepend">
                         <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                     </InputGroupAddon>
-                    <Input className={this.hasErrorFor ( 'department_manager' ) ? 'is-invalid' : ''}
-                           type="select"
-                           value={this.state.department_manager}
-                           name="department_manager"
-                           id="department_manager"
-                           onChange={this.handleInput.bind ( this )}>
+                    <Input className={this.hasErrorFor('department_manager') ? 'is-invalid' : ''}
+                        type="select"
+                        value={this.state.department_manager}
+                        name="department_manager"
+                        id="department_manager"
+                        onChange={this.handleInput.bind(this)}>
                         <option value="">Choose Department Manager</option>
                         {userContent}
                     </Input>
-                    {this.renderErrorFor ( 'department_manager' )}
+                    {this.renderErrorFor('department_manager')}
                 </InputGroup>
             </React.Fragment>
         )
@@ -83,12 +83,12 @@ class EditDepartment extends React.Component {
 
     buildParentOptions () {
         let departmentList
-        if ( !this.props.departments.length ) {
+        if (!this.props.departments.length) {
             departmentList = <option value="">Loading...</option>
         } else {
-            departmentList = this.props.departments.map ( ( department, index ) => (
+            departmentList = this.props.departments.map((department, index) => (
                 <option key={index} value={department.id}>{department.name}</option>
-            ) )
+            ))
         }
 
         return (
@@ -98,55 +98,55 @@ class EditDepartment extends React.Component {
                     <InputGroupAddon addonType="prepend">
                         <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                     </InputGroupAddon>
-                    <Input className={this.hasErrorFor ( 'parent' ) ? 'is-invalid' : ''}
-                           value={this.state.parent}
-                           type="select"
-                           name="parent"
-                           onChange={this.handleInput.bind ( this )}>
+                    <Input className={this.hasErrorFor('parent') ? 'is-invalid' : ''}
+                        value={this.state.parent}
+                        type="select"
+                        name="parent"
+                        onChange={this.handleInput.bind(this)}>
                         <option value="">Select Parent</option>
                         {departmentList}
                     </Input>
-                    {this.renderErrorFor ( 'parent' )}
+                    {this.renderErrorFor('parent')}
                 </InputGroup>
             </React.Fragment>
         )
     }
 
     handleClick () {
-        axios.put ( `/api/departments/${this.state.department_id}`, {
+        axios.put(`/api/departments/${this.state.department_id}`, {
             name: this.state.name,
             department_manager: this.state.department_manager,
             parent: this.state.parent
-        } )
-            .then ( ( response ) => {
+        })
+            .then((response) => {
                 this.initialState = this.state
-                const index = this.props.departments.findIndex ( department => department.id === this.props.department.id )
-                this.props.departments[ index ].name = this.state.name
-                this.props.departments[ index ].department_manager = this.state.department_manager
-                this.props.action ( this.props.departments )
-                this.toggle ()
-            } )
-            .catch ( ( error ) => {
-                this.setState ( {
+                const index = this.props.departments.findIndex(department => department.id === this.props.department.id)
+                this.props.departments[index].name = this.state.name
+                this.props.departments[index].department_manager = this.state.department_manager
+                this.props.action(this.props.departments)
+                this.toggle()
+            })
+            .catch((error) => {
+                this.setState({
                     errors: error.response.data.errors
-                } )
-            } )
+                })
+            })
     }
 
     toggle () {
-        if ( this.state.modal ) {
-            this.setState ( { ...this.initialState } )
+        if (this.state.modal) {
+            this.setState({ ...this.initialState })
         }
 
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: []
-        } )
+        })
     }
 
     render () {
-        const userOptions = this.buildUserOptions ()
-        const parentDropdown = this.buildParentOptions ()
+        const userOptions = this.buildUserOptions()
+        const parentDropdown = this.buildParentOptions()
 
         return (
             <React.Fragment>
@@ -160,13 +160,13 @@ class EditDepartment extends React.Component {
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
-                            <Input className={this.hasErrorFor ( 'name' ) ? 'is-invalid' : ''}
-                                   placeholder="Name"
-                                   type="text"
-                                   name="name"
-                                   value={this.state.name}
-                                   onChange={this.handleInput.bind ( this )}/>
-                            {this.renderErrorFor ( 'name' )}
+                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
+                                placeholder="Name"
+                                type="text"
+                                name="name"
+                                value={this.state.name}
+                                onChange={this.handleInput.bind(this)}/>
+                            {this.renderErrorFor('name')}
                         </InputGroup>
 
                         {parentDropdown}
@@ -175,8 +175,8 @@ class EditDepartment extends React.Component {
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                                        saveData={this.handleClick.bind ( this )}
-                                        loading={false}/>
+                        saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

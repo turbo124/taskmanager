@@ -10,8 +10,8 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 
 export default class Cases extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
         this.state = {
             isOpen: window.innerWidth > 670,
@@ -36,102 +36,102 @@ export default class Cases extends Component {
                 status: 'active',
                 start_date: '',
                 end_date: '',
-                customer_id: queryString.parse ( this.props.location.search ).customer_id || '',
-                category_id: queryString.parse ( this.props.location.search ).category_id || '',
-                priority_id: queryString.parse ( this.props.location.search ).priority_id || ''
+                customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                category_id: queryString.parse(this.props.location.search).category_id || '',
+                priority_id: queryString.parse(this.props.location.search).priority_id || ''
             }
         }
 
-        this.addUserToState = this.addUserToState.bind ( this )
-        this.userList = this.userList.bind ( this )
-        this.filterCases = this.filterCases.bind ( this )
-        this.getCustomers = this.getCustomers.bind ( this )
+        this.addUserToState = this.addUserToState.bind(this)
+        this.userList = this.userList.bind(this)
+        this.filterCases = this.filterCases.bind(this)
+        this.getCustomers = this.getCustomers.bind(this)
     }
 
     componentDidMount () {
-        this.getCustomers ()
+        this.getCustomers()
     }
 
-    addUserToState ( cases ) {
+    addUserToState (cases) {
         const cachedData = !this.state.cachedData.length ? cases : this.state.cachedData
-        this.setState ( {
+        this.setState({
             cases: cases,
             cachedData: cachedData
-        } )
+        })
     }
 
     handleClose () {
-        this.setState ( { error: '', show_success: false } )
+        this.setState({ error: '', show_success: false })
     }
 
     getCustomers () {
-        axios.get ( '/api/customers' )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get('/api/customers')
+            .then((r) => {
+                this.setState({
                     customers: r.data
-                } )
-            } )
-            .catch ( ( e ) => {
-                this.setState ( {
+                })
+            })
+            .catch((e) => {
+                this.setState({
                     loading: false,
                     error: e
-                } )
-            } )
+                })
+            })
     }
 
-    filterCases ( filters ) {
-        this.setState ( { filters: filters } )
+    filterCases (filters) {
+        this.setState({ filters: filters })
     }
 
     resetFilters () {
-        this.props.reset ()
+        this.props.reset()
     }
 
-    userList ( props ) {
+    userList (props) {
         const { cases, customers } = this.state
         return <CaseItem showCheckboxes={props.showCheckboxes} customers={customers} cases={cases}
-                         viewId={props.viewId}
-                         ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
-                         toggleViewedEntity={props.toggleViewedEntity}
-                         bulk={props.bulk}
-                         onChangeBulk={props.onChangeBulk}/>
+            viewId={props.viewId}
+            ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
+            toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
+            onChangeBulk={props.onChangeBulk}/>
     }
 
     getUsers () {
-        axios.get ( 'api/users' )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get('api/users')
+            .then((r) => {
+                this.setState({
                     users: r.data
-                } )
-            } )
-            .catch ( ( e ) => {
-                this.setState ( {
+                })
+            })
+            .catch((e) => {
+                this.setState({
                     loading: false,
                     error: e
-                } )
-            } )
+                })
+            })
     }
 
-    setFilterOpen ( isOpen ) {
-        this.setState ( { isOpen: isOpen } )
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
-    setError ( message = null ) {
-        this.setState ( { error: true, error_message: message === null ? translations.unexpected_error : message } )
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
     }
 
-    setSuccess ( message = null ) {
-        this.setState ( {
+    setSuccess (message = null) {
+        this.setState({
             show_success: true,
             success_message: message === null ? translations.success_message : message
-        } )
+        })
     }
 
     render () {
         const { searchText, status, start_date, end_date, customer_id, category_id, priority_id } = this.state.filters
         const { view, cases, customers, error, isOpen, error_message, success_message, show_success } = this.state
         const fetchUrl = `/api/cases?search_term=${searchText}&status=${status}&start_date=${start_date}&end_date=${end_date}&customer_id=${customer_id}&category_id=${category_id}&priority_id=${priority_id}`
-        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call ( localStorage, 'datatable_collapsed' ) && localStorage.getItem ( 'datatable_collapsed' ) === true)
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
 
@@ -141,11 +141,11 @@ export default class Cases extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <CaseFilters setFilterOpen={this.setFilterOpen.bind ( this )} cases={cases}
-                                             customers={customers}
-                                             updateIgnoredColumns={this.updateIgnoredColumns}
-                                             filters={this.state.filters} filter={this.filterCases}
-                                             saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                <CaseFilters setFilterOpen={this.setFilterOpen.bind(this)} cases={cases}
+                                    customers={customers}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={this.state.filters} filter={this.filterCases}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
 
                                 <AddCase
                                     customers={customers}
@@ -157,7 +157,7 @@ export default class Cases extends Component {
                     </div>
 
                     {error &&
-                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
                             {error_message}
                         </Alert>
@@ -165,7 +165,7 @@ export default class Cases extends Component {
                     }
 
                     {show_success &&
-                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="success">
                             {success_message}
                         </Alert>
@@ -176,8 +176,8 @@ export default class Cases extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
-                                    setSuccess={this.setSuccess.bind ( this )}
-                                    setError={this.setError.bind ( this )}
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
                                     customers={this.state.customers}
                                     columnMapping={{
                                         customer_id: 'CUSTOMER',

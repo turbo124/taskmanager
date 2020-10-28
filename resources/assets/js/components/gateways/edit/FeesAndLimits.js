@@ -5,16 +5,16 @@ import FormBuilder from '../../settings/FormBuilder'
 import TaxRateDropdown from '../../common/dropdowns/TaxRateDropdown'
 
 export default class FeesAndLimits extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        const account_id = JSON.parse ( localStorage.getItem ( 'appState' ) ).user.account_id
-        const user_account = JSON.parse ( localStorage.getItem ( 'appState' ) ).accounts.filter ( account => account.account_id === parseInt ( account_id ) )
-        this.settings = user_account[ 0 ].account.settings
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.settings = user_account[0].account.settings
     }
 
     getSettingFieldsSectionOne () {
-        const settings = this.props.gateway.fees_and_limits.length ? this.props.gateway.fees_and_limits[ 0 ] : ''
+        const settings = this.props.gateway.fees_and_limits.length ? this.props.gateway.fees_and_limits[0] : ''
 
         return [
             [
@@ -39,7 +39,7 @@ export default class FeesAndLimits extends React.Component {
     }
 
     getSettingFieldsSectionTwo () {
-        const settings = this.props.gateway.fees_and_limits.length ? this.props.gateway.fees_and_limits[ 0 ] : ''
+        const settings = this.props.gateway.fees_and_limits.length ? this.props.gateway.fees_and_limits[0] : ''
 
         return [
             [
@@ -77,7 +77,7 @@ export default class FeesAndLimits extends React.Component {
                 <CardBody>
                     <FormBuilder
                         handleChange={this.props.updateFeesAndLimits}
-                        formFieldsRows={this.getSettingFieldsSectionOne ()}
+                        formFieldsRows={this.getSettingFieldsSectionOne()}
                     />
                 </CardBody>
             </Card>
@@ -86,7 +86,7 @@ export default class FeesAndLimits extends React.Component {
                 <CardBody>
                     <FormBuilder
                         handleChange={this.props.updateFeesAndLimits}
-                        formFieldsRows={this.getSettingFieldsSectionTwo ()}
+                        formFieldsRows={this.getSettingFieldsSectionTwo()}
                     />
 
                     {this.settings.show_tax_rate1 &&

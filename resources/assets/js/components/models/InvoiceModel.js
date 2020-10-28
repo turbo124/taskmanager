@@ -9,15 +9,15 @@ export const invoice_pdf_fields = ['$invoice.number', '$invoice.po_number', '$in
 ]
 
 export default class InvoiceModel extends BaseModel {
-    constructor ( data = null, customers = [] ) {
-        super ()
+    constructor (data = null, customers = []) {
+        super()
         this.customers = customers
         this._url = '/api/invoice'
         this.entity = 'Invoice'
 
         this._file_count = 0
 
-        if ( data !== null && data.files ) {
+        if (data !== null && data.files) {
             this.fileCount = data.files
         }
 
@@ -35,10 +35,10 @@ export default class InvoiceModel extends BaseModel {
             customer_id: '',
             user_id: null,
             contacts: [],
-            due_date: moment ( new Date () ).add ( 1, 'days' ).format ( 'YYYY-MM-DD' ),
+            due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             quantity: '',
             id: null,
-            account_id: JSON.parse ( localStorage.getItem ( 'appState' ) ).user.account_id,
+            account_id: JSON.parse(localStorage.getItem('appState')).user.account_id,
             line_items: [],
             address: {},
             customerName: '',
@@ -57,9 +57,9 @@ export default class InvoiceModel extends BaseModel {
             tax_total: 0,
             sub_total: 0,
             data: [],
-            date: moment ( new Date () ).format ( 'YYYY-MM-DD' ),
+            date: moment(new Date()).format('YYYY-MM-DD'),
             partial: 0,
-            partial_due_date: moment ( new Date () ).add ( 1, 'days' ).format ( 'YYYY-MM-DD' ),
+            partial_due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             has_partial: false,
             public_notes: '',
             private_notes: '',
@@ -85,7 +85,7 @@ export default class InvoiceModel extends BaseModel {
             po_number: '',
             design_id: '',
             recurring_invoice_id: null,
-            currency_id: this.settings.currency_id.toString ().length ? this.settings.currency_id : consts.default_currency,
+            currency_id: this.settings.currency_id.toString().length ? this.settings.currency_id : consts.default_currency,
             exchange_rate: 1,
             success: false,
             showSuccessMessage: false,
@@ -103,34 +103,34 @@ export default class InvoiceModel extends BaseModel {
 
         this.customer = null
 
-        if ( data !== null ) {
+        if (data !== null) {
             this._fields = { ...this.fields, ...data }
 
-            if ( this.customers.length && this._fields.customer_id ) {
-                const customer = this.customers.filter ( customer => customer.id === parseInt ( this._fields.customer_id ) )
-                this.customer = customer[ 0 ]
+            if (this.customers.length && this._fields.customer_id) {
+                const customer = this.customers.filter(customer => customer.id === parseInt(this._fields.customer_id))
+                this.customer = customer[0]
             }
         }
 
         this.exchange_rate = this.currency ? this.currency.exchange_rate : 1
 
-        const account_id = JSON.parse ( localStorage.getItem ( 'appState' ) ).user.account_id
-        const user_account = JSON.parse ( localStorage.getItem ( 'appState' ) ).accounts.filter ( account => account.account_id === parseInt ( account_id ) )
-        this.account = user_account[ 0 ]
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.account = user_account[0]
     }
 
     get currency () {
-        const currency_id = this.customer.length && this.customer.currency_id.toString ().length ? this.customer.currency_id : this.settings.currency_id
+        const currency_id = this.customer.length && this.customer.currency_id.toString().length ? this.customer.currency_id : this.settings.currency_id
 
-        if ( !currency_id ) {
+        if (!currency_id) {
             return null
         }
 
-        return JSON.parse ( localStorage.getItem ( 'currencies' ) ).filter ( currency => currency.id === parseInt ( currency_id ) )[ 0 ]
+        return JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(currency_id))[0]
     }
 
     get isNew () {
-        return !this.fields.id || !this.fields.id.toString ().length || parseInt ( this.fields.id ) <= 0
+        return !this.fields.id || !this.fields.id.toString().length || parseInt(this.fields.id) <= 0
     }
 
     get fields () {
@@ -141,7 +141,7 @@ export default class InvoiceModel extends BaseModel {
         return this.fields.exchange_rate
     }
 
-    set exchange_rate ( exchange_rate ) {
+    set exchange_rate (exchange_rate) {
         this.fields.exchange_rate = exchange_rate
     }
 
@@ -149,36 +149,36 @@ export default class InvoiceModel extends BaseModel {
         return this._customer || []
     }
 
-    set customer ( customer ) {
+    set customer (customer) {
         this._customer = customer
     }
 
     get isApproved () {
-        return parseInt ( this.fields.status_id ) === this.approved
+        return parseInt(this.fields.status_id) === this.approved
     }
 
     get isReversed () {
-        return parseInt ( this.fields.status_id ) === this.reversed
+        return parseInt(this.fields.status_id) === this.reversed
     }
 
     get isCancelled () {
-        return parseInt ( this.fields.status_id ) === this.cancelled
+        return parseInt(this.fields.status_id) === this.cancelled
     }
 
     get isPaid () {
-        return parseInt ( this.fields.status_id ) === this.paid
+        return parseInt(this.fields.status_id) === this.paid
     }
 
     get isDraft () {
-        return parseInt ( this.fields.status_id ) === consts.invoice_status_draft
+        return parseInt(this.fields.status_id) === consts.invoice_status_draft
     }
 
     get isSent () {
-        return parseInt ( this.fields.status_id ) === this.sent
+        return parseInt(this.fields.status_id) === this.sent
     }
 
     get isPartial () {
-        return parseInt ( this.fields.status_id ) === this.partial
+        return parseInt(this.fields.status_id) === this.partial
     }
 
     get isDeleted () {
@@ -197,7 +197,7 @@ export default class InvoiceModel extends BaseModel {
         return this._file_count || 0
     }
 
-    set fileCount ( files ) {
+    set fileCount (files) {
         this._file_count = files ? files.length : 0
     }
 
@@ -210,20 +210,20 @@ export default class InvoiceModel extends BaseModel {
     }
 
     get getInvitationViewLink () {
-        return !this.invitations || !this.invitations.length ? '' : `http://${this.account.account.subdomain}portal/view/invoice/${this.invitations[ 0 ].key}`
+        return !this.invitations || !this.invitations.length ? '' : `http://${this.account.account.subdomain}portal/view/invoice/${this.invitations[0].key}`
     }
 
     get customer_id () {
         return this.fields.customer_id
     }
 
-    set customer_id ( customer_id ) {
+    set customer_id (customer_id) {
         this.fields.customer_id = customer_id
     }
 
     get contacts () {
-        const index = this.customers.findIndex ( customer => customer.id === this.fields.customer_id )
-        const customer = this.customers[ index ]
+        const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
+        const customer = this.customers[index]
         return customer.contacts ? customer.contacts : []
     }
 
@@ -231,17 +231,17 @@ export default class InvoiceModel extends BaseModel {
         return this._url
     }
 
-    buildInvitations ( contact, add = false ) {
+    buildInvitations (contact, add = false) {
         const invitations = this.fields.invitations
 
         // check if the check box is checked or unchecked
-        if ( add ) {
+        if (add) {
             // add the numerical value of the checkbox to options array
-            invitations.push ( { contact_id: contact } )
+            invitations.push({ contact_id: contact })
         } else {
             // or remove the value from the unchecked checkbox from the array
-            const index = invitations.findIndex ( contact => contact.contact_id === contact )
-            invitations.splice ( index, 1 )
+            const index = invitations.findIndex(contact => contact.contact_id === contact)
+            invitations.splice(index, 1)
         }
 
         return invitations
@@ -250,68 +250,68 @@ export default class InvoiceModel extends BaseModel {
     buildDropdownMenu () {
         const actions = []
 
-        if ( this.fields.invitations.length ) {
-            actions.push ( 'pdf' )
+        if (this.fields.invitations.length) {
+            actions.push('pdf')
         }
 
-        if ( this.fields.customer_id !== '' ) {
-            actions.push ( 'email' )
+        if (this.fields.customer_id !== '') {
+            actions.push('email')
         }
 
-        if ( !this.isPaid ) {
-            actions.push ( 'newPayment' )
+        if (!this.isPaid) {
+            actions.push('newPayment')
         }
 
-        if ( !this.isSent && this.isEditable ) {
-            actions.push ( 'markSent' )
+        if (!this.isSent && this.isEditable) {
+            actions.push('markSent')
         }
 
-        if ( this.isCancelled || this.isReversed ) {
-            actions.push ( 'reverse_status' )
+        if (this.isCancelled || this.isReversed) {
+            actions.push('reverse_status')
         }
 
-        if ( (this.isSent || this.isPartial) && !this.isPaid && this.isEditable ) {
-            actions.push ( 'markPaid' )
+        if ((this.isSent || this.isPartial) && !this.isPaid && this.isEditable) {
+            actions.push('markPaid')
         }
 
-        if ( !this.fields.is_deleted ) {
-            actions.push ( 'delete' )
+        if (!this.fields.is_deleted) {
+            actions.push('delete')
         }
 
-        if ( !this.fields.deleted_at ) {
-            actions.push ( 'archive' )
+        if (!this.fields.deleted_at) {
+            actions.push('archive')
         }
 
-        if ( !this.fields.deleted_at && this.isSent && !this.isCancelled ) {
-            actions.push ( 'cancel' )
+        if (!this.fields.deleted_at && this.isSent && !this.isCancelled) {
+            actions.push('cancel')
         }
 
-        if ( !this.fields.deleted_at && !this.isDraft && !this.isCancelled ) {
-            actions.push ( 'portal' )
+        if (!this.fields.deleted_at && !this.isDraft && !this.isCancelled) {
+            actions.push('portal')
         }
 
-        if ( !this.fields.deleted_at && (this.isSent || this.isPaid) && !this.isReversed ) {
-            actions.push ( 'reverse' )
+        if (!this.fields.deleted_at && (this.isSent || this.isPaid) && !this.isReversed) {
+            actions.push('reverse')
         }
 
-        if ( this.fields.task_id && this.fields.task_id !== '' && this.isEditable ) {
-            actions.push ( 'getProducts' )
+        if (this.fields.task_id && this.fields.task_id !== '' && this.isEditable) {
+            actions.push('getProducts')
         }
 
-        if ( this.isEditable ) {
-            actions.push ( 'cloneToInvoice' )
+        if (this.isEditable) {
+            actions.push('cloneToInvoice')
         }
 
-        if ( this.isModuleEnabled ( 'quotes' ) && this.isEditable ) {
-            actions.push ( 'cloneInvoiceToQuote' )
+        if (this.isModuleEnabled('quotes') && this.isEditable) {
+            actions.push('cloneInvoiceToQuote')
         }
 
-        if ( this.isModuleEnabled ( 'credits' ) && this.isEditable ) {
-            actions.push ( 'cloneToCredit' )
+        if (this.isModuleEnabled('credits') && this.isEditable) {
+            actions.push('cloneToCredit')
         }
 
-        if ( !this.fields.recurring_invoice_id && this.isModuleEnabled ( 'recurringInvoices' ) ) {
-            actions.push ( 'cloneToRecurringInvoice' )
+        if (!this.fields.recurring_invoice_id && this.isModuleEnabled('recurringInvoices')) {
+            actions.push('cloneToRecurringInvoice')
         }
 
         return actions
@@ -319,19 +319,19 @@ export default class InvoiceModel extends BaseModel {
 
     addItem () {
         // const newArray = this.fields.line_items.slice()
-        this.fields.line_items.push ( LineItem )
+        this.fields.line_items.push(LineItem)
         return this.fields.line_items
     }
 
-    removeItem ( index ) {
+    removeItem (index) {
         const array = [...this.fields.line_items] // make a separate copy of the array
-        array.splice ( index, 1 )
+        array.splice(index, 1)
         this.fields.line_items = array
         return array
     }
 
-    async completeAction ( data, action ) {
-        if ( !this.fields.id ) {
+    async completeAction (data, action) {
+        if (!this.fields.id) {
             return false
         }
 
@@ -339,22 +339,22 @@ export default class InvoiceModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.post ( `${this.url}/${this.fields.id}/${action}`, data )
+            const res = await axios.post(`${this.url}/${this.fields.id}/${action}`, data)
 
-            if ( res.status === 200 ) {
+            if (res.status === 200) {
                 // test for status you want, etc
-                console.log ( res.status )
+                console.log(res.status)
             }
             // Don't forget to return something
             return res.data
-        } catch ( e ) {
-            this.handleError ( e )
+        } catch (e) {
+            this.handleError(e)
             return false
         }
     }
 
-    async update ( data ) {
-        if ( !this.fields.id ) {
+    async update (data) {
+        if (!this.fields.id) {
             return false
         }
 
@@ -362,45 +362,45 @@ export default class InvoiceModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.put ( `${this.url}/${this.fields.id}`, data )
+            const res = await axios.put(`${this.url}/${this.fields.id}`, data)
 
-            if ( res.status === 200 ) {
+            if (res.status === 200) {
                 // test for status you want, etc
-                console.log ( res.status )
+                console.log(res.status)
             }
             // Don't forget to return something
             return res.data
-        } catch ( e ) {
-            this.handleError ( e )
+        } catch (e) {
+            this.handleError(e)
             return false
         }
     }
 
     isLate () {
-        const dueDate = moment ( this._fields.due_date ).format ( 'YYYY-MM-DD HH::MM:SS' )
+        const dueDate = moment(this._fields.due_date).format('YYYY-MM-DD HH::MM:SS')
         const pending_statuses = [consts.invoice_status_draft, consts.invoice_status_sent, consts.invoice_status_partial]
 
-        return moment ().isAfter ( dueDate ) && pending_statuses.includes ( this._fields.status_id )
+        return moment().isAfter(dueDate) && pending_statuses.includes(this._fields.status_id)
     }
 
-    async save ( data ) {
-        if ( this.fields.id ) {
-            return this.update ( data )
+    async save (data) {
+        if (this.fields.id) {
+            return this.update(data)
         }
 
         try {
             this.errors = []
             this.error_message = ''
-            const res = await axios.post ( this.url, data )
+            const res = await axios.post(this.url, data)
 
-            if ( res.status === 200 ) {
+            if (res.status === 200) {
                 // test for status you want, etc
-                console.log ( res.status )
+                console.log(res.status)
             }
             // Don't forget to return something
             return res.data
-        } catch ( e ) {
-            this.handleError ( e )
+        } catch (e) {
+            this.handleError(e)
             return false
         }
     }
@@ -409,25 +409,25 @@ export default class InvoiceModel extends BaseModel {
         try {
             this.errors = []
             this.error_message = ''
-            const res = await axios.post ( 'api/preview', { entity: this.entity, entity_id: this._fields.id } )
+            const res = await axios.post('api/preview', { entity: this.entity, entity_id: this._fields.id })
 
-            if ( res.status === 200 ) {
+            if (res.status === 200) {
                 // test for status you want, etc
-                console.log ( res.status )
+                console.log(res.status)
             }
 
             // Don't forget to return something
-            return this.buildPdf ( res.data )
-        } catch ( e ) {
-            alert ( e )
-            this.handleError ( e )
+            return this.buildPdf(res.data)
+        } catch (e) {
+            alert(e)
+            this.handleError(e)
             return false
         }
     }
 
-    customerChange ( customer_id ) {
-        const index = this.customers.findIndex ( customer => customer.id === parseInt ( customer_id ) )
-        const customer = this.customers[ index ]
+    customerChange (customer_id) {
+        const index = this.customers.findIndex(customer => customer.id === parseInt(customer_id))
+        const customer = this.customers[index]
         const address = customer.billing ? {
             line1: customer.billing.address_1,
             town: customer.billing.address_2,
@@ -446,37 +446,37 @@ export default class InvoiceModel extends BaseModel {
         }
     }
 
-    calculateTaxes ( usesInclusiveTaxes ) {
+    calculateTaxes (usesInclusiveTaxes) {
         let tax_total = 0
 
-        if ( this.fields.tax_rate > 0 ) {
-            const a_total = parseFloat ( this.fields.total )
-            const tax_percentage = parseFloat ( a_total ) * parseFloat ( this.fields.tax_rate ) / 100
+        if (this.fields.tax_rate > 0) {
+            const a_total = parseFloat(this.fields.total)
+            const tax_percentage = parseFloat(a_total) * parseFloat(this.fields.tax_rate) / 100
             tax_total += tax_percentage
         }
 
-        if ( this.fields.tax_2 && this.fields.tax_2 > 0 ) {
-            const a_total = parseFloat ( this.fields.total )
-            const tax_percentage = parseFloat ( a_total ) * parseFloat ( this.fields.tax_2 ) / 100
+        if (this.fields.tax_2 && this.fields.tax_2 > 0) {
+            const a_total = parseFloat(this.fields.total)
+            const tax_percentage = parseFloat(a_total) * parseFloat(this.fields.tax_2) / 100
             tax_total += tax_percentage
         }
 
-        if ( this.fields.tax_3 && this.fields.tax_3 > 0 ) {
-            const a_total = parseFloat ( this.fields.total )
-            const tax_percentage = parseFloat ( a_total ) * parseFloat ( this.fields.tax_3 ) / 100
+        if (this.fields.tax_3 && this.fields.tax_3 > 0) {
+            const a_total = parseFloat(this.fields.total)
+            const tax_percentage = parseFloat(a_total) * parseFloat(this.fields.tax_3) / 100
             tax_total += tax_percentage
         }
 
-        this.fields.line_items.map ( ( product ) => {
+        this.fields.line_items.map((product) => {
             const quantity = product.quantity === 0 ? 1 : product.quantity
             let line_total = product.unit_price * quantity
             let discount_total = 0
 
-            if ( product.unit_discount > 0 && this.fields.discount === 0 ) {
-                const n = parseFloat ( this.fields.total )
+            if (product.unit_discount > 0 && this.fields.discount === 0) {
+                const n = parseFloat(this.fields.total)
 
-                if ( this.fields.is_amount_discount === true ) {
-                    discount_total += parseFloat ( product.unit_discount )
+                if (this.fields.is_amount_discount === true) {
+                    discount_total += parseFloat(product.unit_discount)
                 } else {
                     const percentage = n * product.unit_discount / 100
                     discount_total += percentage
@@ -486,19 +486,19 @@ export default class InvoiceModel extends BaseModel {
                 line_total -= discount_total
             }
 
-            if ( product.unit_tax > 0 ) {
+            if (product.unit_tax > 0) {
                 const tax_percentage = line_total * product.unit_tax / 100
                 tax_total += tax_percentage
             }
-        } )
+        })
 
-        return Math.round ( tax_total, 2 )
+        return Math.round(tax_total, 2)
     }
 
-    calculateTax ( tax_amount ) {
-        const a_total = parseFloat ( this.fields.total )
-        const tax_percentage = parseFloat ( a_total ) * parseFloat ( tax_amount ) / 100
+    calculateTax (tax_amount) {
+        const a_total = parseFloat(this.fields.total)
+        const tax_percentage = parseFloat(a_total) * parseFloat(tax_amount) / 100
 
-        return Math.round ( tax_percentage, 2 )
+        return Math.round(tax_percentage, 2)
     }
 }

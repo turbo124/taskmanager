@@ -10,11 +10,11 @@ import Header from './Header'
 import AccountRepository from '../repositories/AccountRepository'
 
 class Settings extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
         this.state = {
-            id: this.props.match.params.add && this.props.match.params.add === 'true' ? null : localStorage.getItem ( 'account_id' ),
+            id: this.props.match.params.add && this.props.match.params.add === 'true' ? null : localStorage.getItem('account_id'),
             loaded: false,
             settings: {},
             company_logo: null,
@@ -22,91 +22,91 @@ class Settings extends Component {
             success: false
         }
 
-        this.handleSettingsChange = this.handleSettingsChange.bind ( this )
-        this.handleChange = this.handleChange.bind ( this )
-        this.handleSubmit = this.handleSubmit.bind ( this )
-        this.getAccount = this.getAccount.bind ( this )
-        this.toggle = this.toggle.bind ( this )
+        this.handleSettingsChange = this.handleSettingsChange.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.getAccount = this.getAccount.bind(this)
+        this.toggle = this.toggle.bind(this)
     }
 
     componentDidMount () {
-        this.getAccount ()
+        this.getAccount()
     }
 
-    toggle ( tab ) {
-        if ( this.state.activeTab !== tab ) {
-            this.setState ( { activeTab: tab } )
+    toggle (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
         }
     }
 
     getAccount () {
-        if ( this.state.id === null ) {
-            this.setState ( { loaded: true } )
+        if (this.state.id === null) {
+            this.setState({ loaded: true })
             return
         }
 
-        const accountRepository = new AccountRepository ()
-        accountRepository.getById ( this.state.id ).then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const accountRepository = new AccountRepository()
+        accountRepository.getById(this.state.id).then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( {
+            this.setState({
                 loaded: true,
                 settings: response.settings
             }, () => {
-                console.log ( response )
-            } )
-        } )
+                console.log(response)
+            })
+        })
     }
 
-    handleChange ( event ) {
-        this.setState ( { [ event.target.name ]: event.target.value } )
+    handleChange (event) {
+        this.setState({ [event.target.name]: event.target.value })
     }
 
-    handleSettingsChange ( event ) {
+    handleSettingsChange (event) {
         const name = event.target.name
         let value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
         value = value === 'true' ? true : value
         value = value === 'false' ? false : value
 
-        this.setState ( prevState => ({
+        this.setState(prevState => ({
             settings: {
                 ...prevState.settings,
-                [ name ]: value
+                [name]: value
             }
-        }) )
+        }))
     }
 
-    handleFileChange ( e ) {
-        this.setState ( {
-            [ e.target.name ]: e.target.files[ 0 ]
-        } )
+    handleFileChange (e) {
+        this.setState({
+            [e.target.name]: e.target.files[0]
+        })
     }
 
-    handleSubmit ( e ) {
+    handleSubmit (e) {
         const url = this.state.id === null ? '/api/accounts' : `/api/accounts/${this.state.id}`
 
-        const formData = new FormData ()
-        formData.append ( 'settings', JSON.stringify ( this.state.settings ) )
-        formData.append ( 'company_logo', this.state.company_logo )
+        const formData = new FormData()
+        formData.append('settings', JSON.stringify(this.state.settings))
+        formData.append('company_logo', this.state.company_logo)
 
-        if ( this.state.id !== null ) {
-            formData.append ( '_method', 'PUT' )
+        if (this.state.id !== null) {
+            formData.append('_method', 'PUT')
         }
 
-        axios.post ( url, formData, {
+        axios.post(url, formData, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
-        } )
-            .then ( ( response ) => {
-                this.setState ( { success: true } )
-            } )
-            .catch ( ( error ) => {
-                console.error ( error )
-                this.setState ( { error: true } )
-            } )
+        })
+            .then((response) => {
+                this.setState({ success: true })
+            })
+            .catch((error) => {
+                console.error(error)
+                this.setState({ error: true })
+            })
     }
 
     getAddressFields () {
@@ -352,94 +352,94 @@ class Settings extends Component {
 
         const defaults = []
 
-        const modules = JSON.parse ( localStorage.getItem ( 'modules' ) )
+        const modules = JSON.parse(localStorage.getItem('modules'))
 
-        if ( modules.invoices ) {
-            defaults.push ( {
+        if (modules.invoices) {
+            defaults.push({
                 name: 'invoice_terms',
                 label: translations.invoice_terms,
                 type: 'textarea',
                 placeholder: translations.invoice_terms,
                 value: settings.invoice_terms,
                 group: 1
-            } )
-            defaults.push ( {
+            })
+            defaults.push({
                 name: 'invoice_footer',
                 label: translations.invoice_footer,
                 type: 'textarea',
                 placeholder: translations.invoice_footer,
                 value: settings.invoice_footer,
                 group: 1
-            } )
+            })
         }
 
-        if ( modules.quotes ) {
-            defaults.push ( {
+        if (modules.quotes) {
+            defaults.push({
                 name: 'quote_terms',
                 label: translations.quote_terms,
                 type: 'textarea',
                 placeholder: translations.quote_terms,
                 value: settings.quote_terms,
                 group: 1
-            } )
+            })
 
-            defaults.push ( {
+            defaults.push({
                 name: 'quote_footer',
                 label: translations.quote_footer,
                 type: 'textarea',
                 placeholder: translations.quote_footer,
                 value: settings.quote_footer,
                 group: 1
-            } )
+            })
         }
 
-        if ( modules.credits ) {
-            defaults.push ( {
+        if (modules.credits) {
+            defaults.push({
                 name: 'credit_terms',
                 label: translations.credit_terms,
                 type: 'textarea',
                 placeholder: translations.credit_terms,
                 value: settings.credit_terms,
                 group: 1
-            } )
+            })
 
-            defaults.push ( {
+            defaults.push({
                 name: 'credit_footer',
                 label: translations.credit_footer,
                 type: 'textarea',
                 placeholder: translations.credit_footer,
                 value: settings.credit_footer,
                 group: 1
-            } )
+            })
         }
 
-        if ( modules.orders ) {
-            defaults.push ( {
+        if (modules.orders) {
+            defaults.push({
                 name: 'order_terms',
                 label: translations.order_terms,
                 type: 'textarea',
                 placeholder: translations.order_terms,
                 value: settings.order_terms,
                 group: 1
-            } )
+            })
 
-            defaults.push ( {
+            defaults.push({
                 name: 'order_footer',
                 label: translations.order_footer,
                 type: 'textarea',
                 placeholder: translations.order_footer,
                 value: settings.order_footer,
                 group: 1
-            } )
+            })
         }
 
         const formFields = []
-        formFields.push ( defaults )
+        formFields.push(defaults)
         return formFields
     }
 
     handleClose () {
-        this.setState ( { success: false } )
+        this.setState({ success: false })
     }
 
     render () {
@@ -448,7 +448,7 @@ class Settings extends Component {
                 <NavLink
                     className={this.state.activeTab === '1' ? 'active' : ''}
                     onClick={() => {
-                        this.toggle ( '1' )
+                        this.toggle('1')
                     }}>
                     {translations.details}
                 </NavLink>
@@ -457,7 +457,7 @@ class Settings extends Component {
                 <NavLink
                     className={this.state.activeTab === '2' ? 'active' : ''}
                     onClick={() => {
-                        this.toggle ( '2' )
+                        this.toggle('2')
                     }}>
                     {translations.address}
                 </NavLink>
@@ -466,7 +466,7 @@ class Settings extends Component {
                 <NavLink
                     className={this.state.activeTab === '3' ? 'active' : ''}
                     onClick={() => {
-                        this.toggle ( '3' )
+                        this.toggle('3')
                     }}>
                     {translations.logo}
                 </NavLink>
@@ -476,7 +476,7 @@ class Settings extends Component {
                 <NavLink
                     className={this.state.activeTab === '4' ? 'active' : ''}
                     onClick={() => {
-                        this.toggle ( '4' )
+                        this.toggle('4')
                     }}>
                     {translations.defaults}
                 </NavLink>
@@ -485,14 +485,14 @@ class Settings extends Component {
 
         return this.state.loaded === true ? (
             <React.Fragment>
-                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind ( this )} severity="success"
-                                 message={translations.settings_saved}/>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
+                    message={translations.settings_saved}/>
 
-                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind ( this )} severity="danger"
-                                 message={translations.settings_not_saved}/>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
+                    message={translations.settings_not_saved}/>
 
                 <Header title={translations.account_details} handleSubmit={this.handleSubmit}
-                        tabs={tabs}/>
+                    tabs={tabs}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                     <TabPane className="px-0" tabId="1">
@@ -500,7 +500,7 @@ class Settings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getFormFields ()}
+                                    formFieldsRows={this.getFormFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -510,7 +510,7 @@ class Settings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getAddressFields ()}
+                                    formFieldsRows={this.getAddressFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -521,10 +521,10 @@ class Settings extends Component {
                                 <FormGroup>
 
                                     <Label>{translations.logo}</Label>
-                                    <CustomInput className="mt-4 mb-4" onChange={this.handleFileChange.bind ( this )}
-                                                 type="file"
-                                                 id="company_logo" name="company_logo"
-                                                 label="Logo"/>
+                                    <CustomInput className="mt-4 mb-4" onChange={this.handleFileChange.bind(this)}
+                                        type="file"
+                                        id="company_logo" name="company_logo"
+                                        label="Logo"/>
                                 </FormGroup>
                             </CardBody>
                         </Card>
@@ -535,11 +535,11 @@ class Settings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPaymentTermFields ()}
+                                    formFieldsRows={this.getPaymentTermFields()}
                                 />
 
                                 <BlockButton icon={icons.cog} button_text={translations.configure_payment_terms}
-                                             button_link="/#/payment_terms"/>
+                                    button_link="/#/payment_terms"/>
                             </CardBody>
                         </Card>
 
@@ -547,7 +547,7 @@ class Settings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPaymentEmailFields ()}
+                                    formFieldsRows={this.getPaymentEmailFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -556,7 +556,7 @@ class Settings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getDefaultFields ()}
+                                    formFieldsRows={this.getDefaultFields()}
                                 />
                             </CardBody>
                         </Card>

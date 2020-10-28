@@ -10,17 +10,17 @@ import { consts } from '../utils/_consts'
 import ProjectDropdown from './dropdowns/ProjectDropdown'
 
 class LineItem extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         // this.state = Object.assign({}, props.lineItemData)
-        this.handleDeleteClick = this.handleDeleteClick.bind ( this )
-        const account_id = JSON.parse ( localStorage.getItem ( 'appState' ) ).user.account_id
-        const user_account = JSON.parse ( localStorage.getItem ( 'appState' ) ).accounts.filter ( account => account.account_id === parseInt ( account_id ) )
-        this.settings = user_account[ 0 ].account.settings
+        this.handleDeleteClick = this.handleDeleteClick.bind(this)
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.settings = user_account[0].account.settings
     }
 
     handleDeleteClick () {
-        this.props.onDelete ( this.props.id )
+        this.props.onDelete(this.props.id)
     }
 
     renderErrorFor () {
@@ -29,18 +29,16 @@ class LineItem extends Component {
 
     render () {
         const uses_inclusive_taxes = this.settings.inclusive_taxes
-        const color = localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true' ? 'text-secondary' : 'text-dark'
+        const color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'text-secondary' : 'text-dark'
 
-        console.log ( 'lines', this.props.rows )
-
-        return this.props.rows.map ( ( lineItem, index ) => {
+        return this.props.rows.map((lineItem, index) => {
             let total = 0
 
-            if ( lineItem.unit_price > 0 && lineItem.quantity > 0 ) {
+            if (lineItem.unit_price > 0 && lineItem.quantity > 0) {
                 total = lineItem.unit_price * lineItem.quantity
 
-                if ( lineItem.unit_discount > 0 ) {
-                    if ( this.props.invoice.is_amount_discount === true ) {
+                if (lineItem.unit_discount > 0) {
+                    if (this.props.invoice.is_amount_discount === true) {
                         total -= lineItem.unit_discount
                     } else {
                         const percentage = total * lineItem.unit_discount / 100
@@ -48,16 +46,16 @@ class LineItem extends Component {
                     }
                 }
 
-                if ( lineItem.unit_tax > 0 ) {
+                if (lineItem.unit_tax > 0) {
                     const tax_percentage = total * lineItem.unit_tax / 100
 
-                    if ( uses_inclusive_taxes === false ) {
+                    if (uses_inclusive_taxes === false) {
                         total += tax_percentage
                     }
                 }
             }
 
-            return <React.Fragment key={index}>
+            return lineItem.type_id === this.props.line_type ? <React.Fragment key={index}>
                 <Row className="border-bottom border-primary my-3" form>
                     {lineItem.type_id === 1 &&
                     <Col md={3} data-id={index}>
@@ -129,19 +127,19 @@ class LineItem extends Component {
 
                     <Col md={2} data-id={index}>
                         <FormGroup>
-                            <Label>{translations.price}</Label>
+                            <Label>{lineItem.type_id === consts.line_item_task ? translations.rate : translations.price}</Label>
                             <Input key={`a-${index}`} name="unit_price" data-line={index} type='text' data-column="5"
-                                   value={lineItem.unit_price} onChange={this.props.onChange}
-                                   className='pa2 mr2 f6 form-control'/>
+                                value={lineItem.unit_price} onChange={this.props.onChange}
+                                className='pa2 mr2 f6 form-control'/>
                         </FormGroup>
                     </Col>
 
                     <Col md={1} data-id={index}>
                         <FormGroup>
-                            <Label>{translations.quantity}</Label>
+                            <Label>{lineItem.type_id === consts.line_item_task ? translations.hours : translations.quantity}</Label>
                             <Input key={`b-${index}`} name="quantity" data-line={index} type='text'
-                                   value={lineItem.quantity}
-                                   onChange={this.props.onChange} className='pa2 mr2 f6 form-control'/>
+                                value={lineItem.quantity}
+                                onChange={this.props.onChange} className='pa2 mr2 f6 form-control'/>
                         </FormGroup>
                     </Col>
 
@@ -149,8 +147,8 @@ class LineItem extends Component {
                         <FormGroup>
                             <Label>{translations.discount}</Label>
                             <Input key={`c-${index}`} name="unit_discount" data-line={index} type='text'
-                                   value={lineItem.unit_discount}
-                                   onChange={this.props.onChange} className='pa2 mr2 f6 form-control'/>
+                                value={lineItem.unit_discount}
+                                onChange={this.props.onChange} className='pa2 mr2 f6 form-control'/>
                         </FormGroup>
                     </Col>
 
@@ -158,12 +156,12 @@ class LineItem extends Component {
                         <FormGroup>
                             <Label>{translations.tax}</Label>
                             <Input key={`d_${index}`} name="unit_tax" data-line={index} type='select'
-                                   value={lineItem.tax_rate_id}
-                                   onChange={this.props.onChange} className='pa2 mr2 f6 form-control'>
+                                value={lineItem.tax_rate_id}
+                                onChange={this.props.onChange} className='pa2 mr2 f6 form-control'>
                                 <option value="0">No Tax</option>
-                                {this.props.tax_rates.map ( tax_rate =>
+                                {this.props.tax_rates.map(tax_rate =>
                                     <option key={tax_rate.id} data-rate={tax_rate.rate}
-                                            value={tax_rate.id}>{`${tax_rate.name} (${tax_rate.rate})`}</option>
+                                        value={tax_rate.id}>{`${tax_rate.name} (${tax_rate.rate})`}</option>
                                 )}
                             </Input>
                         </FormGroup>
@@ -184,8 +182,8 @@ class LineItem extends Component {
                         <FormGroup>
                             <Label>{translations.description}</Label>
                             <Input key={`e-${index}`} name="description" data-line={index} type='text'
-                                   value={lineItem.description}
-                                   onChange={this.props.onChange} className='pa2 mr2 f6 form-control'/>
+                                value={lineItem.description}
+                                onChange={this.props.onChange} className='pa2 mr2 f6 form-control'/>
                         </FormGroup>
                     </Col>
 
@@ -207,10 +205,10 @@ class LineItem extends Component {
 
                     <Col className="pt-4" md={2} data-id={index}>
                         <a href="#" style={{ fontSize: '18px' }} className={`mr-1 ${color}`} color="danger"
-                           id={'Tooltip-' + index} onClick={( event ) => {
-                            this.props.onDelete ( index )
-                            event.preventDefault ()
-                        }}>
+                            id={'Tooltip-' + index} onClick={(event) => {
+                                this.props.onDelete(index)
+                                event.preventDefault()
+                            }}>
                             X
                         </a>
                         <UncontrolledTooltip
@@ -221,8 +219,8 @@ class LineItem extends Component {
                         </UncontrolledTooltip>
                     </Col>
                 </Row>
-            </React.Fragment>
-        } )
+            </React.Fragment> : null
+        })
     }
 }
 

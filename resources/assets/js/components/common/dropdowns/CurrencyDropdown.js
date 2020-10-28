@@ -4,54 +4,54 @@ import Select from 'react-select'
 import { translations } from '../../utils/_translations'
 
 export default class CurrencyDropdown extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             currencies: []
         }
 
-        this.getCurrencies = this.getCurrencies.bind ( this )
+        this.getCurrencies = this.getCurrencies.bind(this)
     }
 
     componentDidMount () {
-        if ( Object.prototype.hasOwnProperty.call ( localStorage, 'currencies' ) ) {
-            this.setState ( { currencies: JSON.parse ( localStorage.getItem ( 'currencies' ) ) } )
+        if (Object.prototype.hasOwnProperty.call(localStorage, 'currencies')) {
+            this.setState({ currencies: JSON.parse(localStorage.getItem('currencies')) })
         } else {
-            this.getCurrencies ()
+            this.getCurrencies()
         }
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback d-block'>
-                    <strong>{this.props.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.props.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
-    hasErrorFor ( field ) {
-        return this.props.errors && !!this.props.errors[ field ]
+    hasErrorFor (field) {
+        return this.props.errors && !!this.props.errors[field]
     }
 
     getCurrencies () {
-        axios.get ( '/api/currencies' )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get('/api/currencies')
+            .then((r) => {
+                this.setState({
                     currencies: r.data
                 }, function () {
-                    if ( !this.props.multiple ) {
-                        this.state.currencies.unshift ( { id: '', name: 'Select Currency' } )
+                    if (!this.props.multiple) {
+                        this.state.currencies.unshift({ id: '', name: 'Select Currency' })
                     }
-                } )
-            } )
-            .catch ( ( e ) => {
-                console.error ( e )
-            } )
+                })
+            })
+            .catch((e) => {
+                console.error(e)
+            })
     }
 
-    handleChange ( value, name ) {
+    handleChange (value, name) {
         const e = {
             target: {
                 id: name,
@@ -60,11 +60,11 @@ export default class CurrencyDropdown extends Component {
             }
         }
 
-        this.props.handleInputChanges ( e )
+        this.props.handleInputChanges(e)
     }
 
     render () {
-        const currency = this.props.currency_id ? this.state.currencies.filter ( option => option.id === parseInt ( this.props.currency_id ) ) : null
+        const currency = this.props.currency_id ? this.state.currencies.filter(option => option.id === parseInt(this.props.currency_id)) : null
         const name = this.props.name ? this.props.name : 'currency_id'
         return (
             <React.Fragment>
@@ -77,9 +77,9 @@ export default class CurrencyDropdown extends Component {
                     options={this.state.currencies}
                     getOptionLabel={option => option.name}
                     getOptionValue={option => option.id}
-                    onChange={( value ) => this.handleChange ( value, name )}
+                    onChange={(value) => this.handleChange(value, name)}
                 />
-                {this.renderErrorFor ( name )}
+                {this.renderErrorFor(name)}
             </React.Fragment>
         )
     }

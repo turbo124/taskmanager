@@ -25,15 +25,15 @@ import SnackbarMessage from '../common/SnackbarMessage'
 import Header from './Header'
 
 class ModuleSettings extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             success: false,
             error: false,
-            id: localStorage.getItem ( 'account_id' ),
+            id: localStorage.getItem('account_id'),
             activeTab: '1',
             showConfirm: false,
-            modules: Object.prototype.hasOwnProperty.call ( localStorage, 'modules' ) ? JSON.parse ( localStorage.getItem ( 'modules' ) ) : {
+            modules: Object.prototype.hasOwnProperty.call(localStorage, 'modules') ? JSON.parse(localStorage.getItem('modules')) : {
                 recurringInvoices: false,
                 recurringQuotes: false,
                 purchaseOrders: false,
@@ -181,53 +181,53 @@ class ModuleSettings extends Component {
             ]
         }
 
-        this.deleteAccount = this.deleteAccount.bind ( this )
-        this.customInputSwitched = this.customInputSwitched.bind ( this )
-        this.handleAllChecked = this.handleAllChecked.bind ( this )
-        this.toggleTab = this.toggleTab.bind ( this )
+        this.deleteAccount = this.deleteAccount.bind(this)
+        this.customInputSwitched = this.customInputSwitched.bind(this)
+        this.handleAllChecked = this.handleAllChecked.bind(this)
+        this.toggleTab = this.toggleTab.bind(this)
     }
 
-    toggleTab ( tab ) {
-        if ( this.state.activeTab !== tab ) {
-            this.setState ( { activeTab: tab } )
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
         }
     }
 
     deleteAccount () {
         const url = `/api/account/${this.state.id}`
-        axios.delete ( url )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.delete(url)
+            .then((r) => {
+                this.setState({
                     showConfirm: false
-                } )
-                alert ( 'The account has been deleted' )
+                })
+                alert('The account has been deleted')
                 location.href = '/Login#/login'
-            } )
-            .catch ( ( e ) => {
-                this.setState ( { error: true } )
-            } )
+            })
+            .catch((e) => {
+                this.setState({ error: true })
+            })
     }
 
-    handleAllChecked ( event ) {
+    handleAllChecked (event) {
         const modules = this.state.modules
-        Object.keys ( modules ).forEach ( module => modules[ module ] = event.target.checked )
-        this.setState ( { modules: modules }, () => localStorage.setItem ( 'modules', JSON.stringify ( this.state.modules ) ) )
+        Object.keys(modules).forEach(module => modules[module] = event.target.checked)
+        this.setState({ modules: modules }, () => localStorage.setItem('modules', JSON.stringify(this.state.modules)))
     }
 
-    customInputSwitched ( buttonName, e ) {
+    customInputSwitched (buttonName, e) {
         const name = e.target.id
         const checked = e.target.checked
 
-        this.setState ( prevState => ({
+        this.setState(prevState => ({
             modules: {
                 ...prevState.modules,
-                [ name ]: checked
+                [name]: checked
             }
-        }), () => localStorage.setItem ( 'modules', JSON.stringify ( this.state.modules ) ) )
+        }), () => localStorage.setItem('modules', JSON.stringify(this.state.modules)))
     }
 
     handleClose () {
-        this.setState ( { success: false, error: false } )
+        this.setState({ success: false, error: false })
     }
 
     render () {
@@ -236,7 +236,7 @@ class ModuleSettings extends Component {
                 <NavLink
                     className={this.state.activeTab === '1' ? 'active' : ''}
                     onClick={() => {
-                        this.toggleTab ( '1' )
+                        this.toggleTab('1')
                     }}>
                     {translations.overview}
                 </NavLink>
@@ -246,7 +246,7 @@ class ModuleSettings extends Component {
                 <NavLink
                     className={this.state.activeTab === '2' ? 'active' : ''}
                     onClick={() => {
-                        this.toggleTab ( '2' )
+                        this.toggleTab('2')
                     }}>
                     {translations.enable_modules}
                 </NavLink>
@@ -255,28 +255,28 @@ class ModuleSettings extends Component {
 
         return (
             <React.Fragment>
-                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind ( this )} severity="success"
-                                 message={translations.settings_saved}/>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
+                    message={translations.settings_saved}/>
 
-                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind ( this )} severity="danger"
-                                 message={translations.settings_not_saved}/>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
+                    message={translations.settings_not_saved}/>
 
                 <Header title={translations.account_management}
-                        tabs={tabs}/>
+                    tabs={tabs}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
                     <TabPane tabId="1" className="px-0">
                         <Card className="border-0">
                             <CardBody>
                                 <BlockButton icon={icons.link} button_text={translations.subscriptions}
-                                             button_link="/#/subscriptions"/>
+                                    button_link="/#/subscriptions"/>
                                 <BlockButton icon={icons.token} button_text={translations.tokens}
-                                             button_link="/#/tokens"/>
+                                    button_link="/#/tokens"/>
 
-                                <Button onClick={() => this.setState ( { showConfirm: true } )} color="danger" size="lg"
-                                        block>
+                                <Button onClick={() => this.setState({ showConfirm: true })} color="danger" size="lg"
+                                    block>
                                     <i style={{ marginRight: '14px', fontSize: '24px' }}
-                                       className={`fa ${icons.delete}`}/>{translations.delete_account}</Button>
+                                        className={`fa ${icons.delete}`}/>{translations.delete_account}</Button>
                             </CardBody>
                         </Card>
                     </TabPane>
@@ -287,24 +287,24 @@ class ModuleSettings extends Component {
                                 <Form>
                                     <FormGroup>
                                         <Label for="exampleCheckbox">Switches <input type="checkbox"
-                                                                                     onClick={this.handleAllChecked}/>Check
+                                            onClick={this.handleAllChecked}/>Check
                                             all </Label>
-                                        {this.state.moduleTypes.map ( ( module, index ) => {
-                                                const isChecked = this.state.modules[ module.id ]
+                                        {this.state.moduleTypes.map((module, index) => {
+                                            const isChecked = this.state.modules[module.id]
 
-                                                return (
-                                                    <div key={index}>
-                                                        <CustomInput
-                                                            checked={isChecked}
-                                                            type="switch"
-                                                            id={module.id}
-                                                            name="customSwitch"
-                                                            label={module.label}
-                                                            onChange={this.customInputSwitched.bind ( this, module.value )}
-                                                        />
-                                                    </div>
-                                                )
-                                            }
+                                            return (
+                                                <div key={index}>
+                                                    <CustomInput
+                                                        checked={isChecked}
+                                                        type="switch"
+                                                        id={module.id}
+                                                        name="customSwitch"
+                                                        label={module.label}
+                                                        onChange={this.customInputSwitched.bind(this, module.value)}
+                                                    />
+                                                </div>
+                                            )
+                                        }
                                         )}
                                     </FormGroup>
                                 </Form>
@@ -314,14 +314,14 @@ class ModuleSettings extends Component {
                 </TabContent>
 
                 <Modal isOpen={this.state.showConfirm} fade="false"
-                       toggle={() => this.setState ( { showConfirm: false } )}>
-                    <ModalHeader toggle={() => this.setState ( { showConfirm: false } )}>Are you sure?</ModalHeader>
+                    toggle={() => this.setState({ showConfirm: false })}>
+                    <ModalHeader toggle={() => this.setState({ showConfirm: false })}>Are you sure?</ModalHeader>
                     <ModalBody>
                         {translations.delete_company_message}
                     </ModalBody>
                     <ModalFooter>
 
-                        <Button onClick={() => this.setState ( { showConfirm: false } )}>Cancel</Button>
+                        <Button onClick={() => this.setState({ showConfirm: false })}>Cancel</Button>
                         <Button onClick={this.deleteAccount} color="danger">Delete</Button>
                     </ModalFooter>
                 </Modal>

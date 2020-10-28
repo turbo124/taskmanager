@@ -23,23 +23,23 @@ import DefaultHeader from './DefaultHeader'
 import AccountList from '../../common/AccountList'
 
 class DefaultLayout extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.loading = <div className="animated fadeIn pt-1 text-center">Loading...</div>
     }
 
-    signOut ( e ) {
-        e.preventDefault ()
-        this.props.history.push ( '/login' )
+    signOut (e) {
+        e.preventDefault()
+        this.props.history.push('/login')
     }
 
     render () {
-        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
         return (
             <div className={`app ${theme}`}>
                 <AppHeader fixed>
                     <Suspense fallback={this.loading}>
-                        <DefaultHeader onLogout={e => this.signOut ( e )}/>
+                        <DefaultHeader onLogout={e => this.signOut(e)}/>
                     </Suspense>
                 </AppHeader>
                 <div className="app-body">
@@ -62,7 +62,7 @@ class DefaultLayout extends Component {
                         <Container>
                             <Suspense fallback={this.loading}>
                                 <Switch>
-                                    {routes.map ( ( route, idx ) => {
+                                    {routes.map((route, idx) => {
                                         return route.component ? (
                                             <PrivateRoute
                                                 key={idx}
@@ -74,7 +74,7 @@ class DefaultLayout extends Component {
                                                     <route.component {...props} />
                                                 )}/>
                                         ) : (null)
-                                    } )}
+                                    })}
                                     <Redirect from="/" to="/dashboard"/>
                                 </Switch>
                             </Suspense>

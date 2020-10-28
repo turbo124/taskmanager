@@ -8,34 +8,34 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 
 class EditTaxRate extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        this.taxRateModel = new TaxRateModel ( this.props.taxRate )
+        this.taxRateModel = new TaxRateModel(this.props.taxRate)
         this.initialState = this.taxRateModel.fields
         this.state = this.initialState
 
-        this.toggle = this.toggle.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.toggle = this.toggle.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
     }
 
-    handleInput ( e ) {
-        this.setState ( {
-            [ e.target.name ]: e.target.value,
+    handleInput (e) {
+        this.setState({
+            [e.target.name]: e.target.value,
             changesMade: true
-        } )
+        })
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
@@ -47,41 +47,41 @@ class EditTaxRate extends React.Component {
             rate: this.state.rate
         }
 
-        this.taxRateModel.save ( formData ).then ( response => {
-            if ( !response ) {
-                this.setState ( { errors: this.taxRateModel.errors, message: this.taxRateModel.error_message } )
+        this.taxRateModel.save(formData).then(response => {
+            if (!response) {
+                this.setState({ errors: this.taxRateModel.errors, message: this.taxRateModel.error_message })
                 return
             }
 
-            const index = this.props.taxRates.findIndex ( taxRate => taxRate.id === this.props.taxRate.id )
-            this.props.taxRates[ index ] = response
-            this.props.action ( this.props.taxRates )
-            this.setState ( {
+            const index = this.props.taxRates.findIndex(taxRate => taxRate.id === this.props.taxRate.id)
+            this.props.taxRates[index] = response
+            this.props.action(this.props.taxRates)
+            this.setState({
                 editMode: false,
                 changesMade: false
-            } )
-            this.toggle ()
-        } )
+            })
+            this.toggle()
+        })
     }
 
     toggle () {
-        if ( this.state.modal && this.state.changesMade ) {
-            if ( window.confirm ( 'Your changes have not been saved?' ) ) {
-                this.setState ( { ...this.initialState } )
+        if (this.state.modal && this.state.changesMade) {
+            if (window.confirm('Your changes have not been saved?')) {
+                this.setState({ ...this.initialState })
             }
 
             return
         }
 
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: []
-        } )
+        })
     }
 
     render () {
         const { message } = this.state
-        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -97,12 +97,12 @@ class EditTaxRate extends React.Component {
                         </div>}
 
                         <Details hasErrorFor={this.hasErrorFor} tax_rate={this.state}
-                                 renderErrorFor={this.renderErrorFor} handleInput={this.handleInput.bind ( this )}/>
+                            renderErrorFor={this.renderErrorFor} handleInput={this.handleInput.bind(this)}/>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                                        saveData={this.handleClick.bind ( this )}
-                                        loading={false}/>
+                        saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

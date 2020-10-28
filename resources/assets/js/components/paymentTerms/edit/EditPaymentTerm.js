@@ -7,8 +7,8 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 
 class EditPaymentTerm extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             modal: false,
             id: this.props.payment_term.id,
@@ -20,68 +20,68 @@ class EditPaymentTerm extends React.Component {
         }
 
         this.initialState = this.state
-        this.toggle = this.toggle.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.toggle = this.toggle.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
     }
 
-    handleInput ( e ) {
-        this.setState ( {
-            [ e.target.name ]: e.target.value,
+    handleInput (e) {
+        this.setState({
+            [e.target.name]: e.target.value,
             changesMade: true
-        } )
+        })
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
     handleClick () {
-        axios.put ( `/api/payment_terms/${this.state.id}`, {
+        axios.put(`/api/payment_terms/${this.state.id}`, {
             name: this.state.name,
             number_of_days: this.state.number_of_days
-        } )
-            .then ( ( response ) => {
-                const index = this.props.payment_terms.findIndex ( payment_term => payment_term.id === this.state.id )
-                this.props.payment_terms[ index ] = response.data
-                this.props.action ( this.props.payment_terms )
-                this.setState ( { changesMade: false } )
-                this.toggle ()
-            } )
-            .catch ( ( error ) => {
-                this.setState ( {
+        })
+            .then((response) => {
+                const index = this.props.payment_terms.findIndex(payment_term => payment_term.id === this.state.id)
+                this.props.payment_terms[index] = response.data
+                this.props.action(this.props.payment_terms)
+                this.setState({ changesMade: false })
+                this.toggle()
+            })
+            .catch((error) => {
+                this.setState({
                     errors: error.response.data.errors
-                } )
-            } )
+                })
+            })
     }
 
     toggle () {
-        if ( this.state.modal && this.state.changesMade ) {
-            if ( window.confirm ( 'Your changes have not been saved?' ) ) {
-                this.setState ( { ...this.initialState } )
+        if (this.state.modal && this.state.changesMade) {
+            if (window.confirm('Your changes have not been saved?')) {
+                this.setState({ ...this.initialState })
             }
 
             return
         }
 
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: []
-        } )
+        })
     }
 
     render () {
-        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -92,30 +92,30 @@ class EditPaymentTerm extends React.Component {
                     <ModalBody className={theme}>
                         <FormGroup>
                             <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
-                            <Input className={this.hasErrorFor ( 'name' ) ? 'is-invalid' : ''}
-                                   value={this.state.name}
-                                   type="text"
-                                   name="name"
-                                   id="name"
-                                   placeholder={translations.name} onChange={this.handleInput.bind ( this )}/>
-                            {this.renderErrorFor ( 'name' )}
+                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
+                                value={this.state.name}
+                                type="text"
+                                name="name"
+                                id="name"
+                                placeholder={translations.name} onChange={this.handleInput.bind(this)}/>
+                            {this.renderErrorFor('name')}
                         </FormGroup>
 
                         <FormGroup>
                             <Label for="name">{translations.number_of_days} <span
                                 className="text-danger">*</span></Label>
-                            <Input className={this.hasErrorFor ( 'name' ) ? 'is-invalid' : ''} type="text"
-                                   name="number_of_days"
-                                   id="number_of_days" value={this.state.number_of_days}
-                                   placeholder={translations.number_of_days}
-                                   onChange={this.handleInput.bind ( this )}/>
-                            {this.renderErrorFor ( 'number_of_days' )}
+                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text"
+                                name="number_of_days"
+                                id="number_of_days" value={this.state.number_of_days}
+                                placeholder={translations.number_of_days}
+                                onChange={this.handleInput.bind(this)}/>
+                            {this.renderErrorFor('number_of_days')}
                         </FormGroup>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                                        saveData={this.handleClick.bind ( this )}
-                                        loading={false}/>
+                        saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

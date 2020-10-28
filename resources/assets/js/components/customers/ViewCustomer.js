@@ -3,9 +3,9 @@ import React from 'react'
 import { Form, FormGroup, Label } from 'reactstrap'
 
 class ViewCustomer extends React.Component {
-    constructor ( props ) {
-        super ( props )
-        console.log ( 'task', this.props.task )
+    constructor (props) {
+        super(props)
+        console.log('task', this.props.task)
         this.state = {
             modal: false,
             id: this.props.task.customer_id,
@@ -15,15 +15,15 @@ class ViewCustomer extends React.Component {
     }
 
     componentDidMount () {
-        axios.get ( `/api/customers/${this.state.id}` ).then ( data => {
-            const customerData = { ...data.data, ...data.data.addresses[ 0 ] }
+        axios.get(`/api/customers/${this.state.id}`).then(data => {
+            const customerData = { ...data.data, ...data.data.addresses[0] }
             delete customerData.addresses
-            this.setState ( { customer: customerData } )
-        } )
+            this.setState({ customer: customerData })
+        })
     }
 
     render () {
-        alert ( this.state.customer.name )
+        alert(this.state.customer.name)
         return (
             <div>
                 <Form>

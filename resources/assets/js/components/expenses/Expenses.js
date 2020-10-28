@@ -12,8 +12,8 @@ import CustomerRepository from '../repositories/CustomerRepository'
 import CompanyRepository from '../repositories/CompanyRepository'
 
 export default class Expenses extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             isOpen: window.innerWidth > 670,
             error: '',
@@ -34,11 +34,11 @@ export default class Expenses extends Component {
             dropdownButtonActions: ['generate_invoice'],
             filters: {
                 status_id: 'active',
-                user_id: queryString.parse ( this.props.location.search ).user_id || '',
-                customer_id: queryString.parse ( this.props.location.search ).customer_id || '',
-                category_id: queryString.parse ( this.props.location.search ).category_id || '',
-                searchText: queryString.parse ( this.props.location.search ).number || '',
-                company_id: queryString.parse ( this.props.location.search ).company_id || '',
+                user_id: queryString.parse(this.props.location.search).user_id || '',
+                customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                category_id: queryString.parse(this.props.location.search).category_id || '',
+                searchText: queryString.parse(this.props.location.search).number || '',
+                company_id: queryString.parse(this.props.location.search).company_id || '',
                 start_date: '',
                 end_date: ''
             },
@@ -92,105 +92,105 @@ export default class Expenses extends Component {
             custom_fields: [],
             customers: [],
             showRestoreButton: false,
-            entity_id: queryString.parse ( this.props.location.search ).entity_id || false,
-            entity_type: queryString.parse ( this.props.location.search ).entity_type || false
+            entity_id: queryString.parse(this.props.location.search).entity_id || false,
+            entity_type: queryString.parse(this.props.location.search).entity_type || false
         }
 
-        this.updateExpenses = this.updateExpenses.bind ( this )
-        this.expenseList = this.expenseList.bind ( this )
-        this.filterExpenses = this.filterExpenses.bind ( this )
-        this.getCompanies = this.getCompanies.bind ( this )
-        this.getCustomers = this.getCustomers.bind ( this )
+        this.updateExpenses = this.updateExpenses.bind(this)
+        this.expenseList = this.expenseList.bind(this)
+        this.filterExpenses = this.filterExpenses.bind(this)
+        this.getCompanies = this.getCompanies.bind(this)
+        this.getCustomers = this.getCustomers.bind(this)
     }
 
     componentDidMount () {
-        this.getCustomers ()
-        this.getCustomFields ()
-        this.getCompanies ()
+        this.getCustomers()
+        this.getCustomFields()
+        this.getCompanies()
     }
 
     handleClose () {
-        this.setState ( { error: '', show_success: false } )
+        this.setState({ error: '', show_success: false })
     }
 
     getCompanies () {
-        const companyRepository = new CompanyRepository ()
-        companyRepository.get ().then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const companyRepository = new CompanyRepository()
+        companyRepository.get().then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( { companies: response }, () => {
-                console.log ( 'companies', this.state.companies )
-            } )
-        } )
+            this.setState({ companies: response }, () => {
+                console.log('companies', this.state.companies)
+            })
+        })
     }
 
-    filterExpenses ( filters ) {
-        this.setState ( { filters: filters } )
+    filterExpenses (filters) {
+        this.setState({ filters: filters })
     }
 
     getCustomers () {
-        const customerRepository = new CustomerRepository ()
-        customerRepository.get ().then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const customerRepository = new CustomerRepository()
+        customerRepository.get().then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( { customers: response }, () => {
-                console.log ( 'customers', this.state.customers )
-            } )
-        } )
+            this.setState({ customers: response }, () => {
+                console.log('customers', this.state.customers)
+            })
+        })
     }
 
-    updateExpenses ( expenses ) {
+    updateExpenses (expenses) {
         const cachedData = !this.state.cachedData.length ? expenses : this.state.cachedData
-        this.setState ( {
+        this.setState({
             expenses: expenses,
             cachedData: cachedData
-        } )
+        })
     }
 
-    expenseList ( props ) {
+    expenseList (props) {
         const { expenses, customers, custom_fields, companies } = this.state
         return <ExpenseItem showCheckboxes={props.showCheckboxes} expenses={expenses} customers={customers}
-                            viewId={props.viewId}
-                            companies={companies}
-                            custom_fields={custom_fields}
-                            ignoredColumns={props.ignoredColumns} updateExpenses={this.updateExpenses}
-                            toggleViewedEntity={props.toggleViewedEntity}
-                            bulk={props.bulk}
-                            onChangeBulk={props.onChangeBulk}/>
+            viewId={props.viewId}
+            companies={companies}
+            custom_fields={custom_fields}
+            ignoredColumns={props.ignoredColumns} updateExpenses={this.updateExpenses}
+            toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
+            onChangeBulk={props.onChangeBulk}/>
     }
 
     getCustomFields () {
-        axios.get ( 'api/accounts/fields/Expense' )
-            .then ( ( r ) => {
-                this.setState ( {
-                    custom_fields: r.data.fields && Object.keys ( r.data.fields ).length ? r.data.fields : []
-                } )
-            } )
-            .catch ( ( e ) => {
-                this.setState ( {
+        axios.get('api/accounts/fields/Expense')
+            .then((r) => {
+                this.setState({
+                    custom_fields: r.data.fields && Object.keys(r.data.fields).length ? r.data.fields : []
+                })
+            })
+            .catch((e) => {
+                this.setState({
                     loading: false,
                     error: e
-                } )
-            } )
+                })
+            })
     }
 
-    setFilterOpen ( isOpen ) {
-        this.setState ( { isOpen: isOpen } )
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
-    setError ( message = null ) {
-        this.setState ( { error: true, error_message: message === null ? translations.unexpected_error : message } )
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
     }
 
-    setSuccess ( message = null ) {
-        this.setState ( {
+    setSuccess (message = null) {
+        this.setState({
             show_success: true,
             success_message: message === null ? translations.success_message : message
-        } )
+        })
     }
 
     render () {
@@ -206,7 +206,7 @@ export default class Expenses extends Component {
             action={this.updateExpenses}
             expenses={expenses}
         /> : null
-        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call ( localStorage, 'datatable_collapsed' ) && localStorage.getItem ( 'datatable_collapsed' ) === true)
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
 
@@ -216,18 +216,18 @@ export default class Expenses extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <ExpenseFilters setFilterOpen={this.setFilterOpen.bind ( this )} customers={customers}
-                                                expenses={expenses} companies={companies}
-                                                updateIgnoredColumns={this.updateIgnoredColumns}
-                                                filters={this.state.filters} filter={this.filterExpenses}
-                                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                <ExpenseFilters setFilterOpen={this.setFilterOpen.bind(this)} customers={customers}
+                                    expenses={expenses} companies={companies}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={this.state.filters} filter={this.filterExpenses}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                                 {addButton}
                             </CardBody>
                         </Card>
                     </div>
 
                     {error &&
-                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
                             {error_message}
                         </Alert>
@@ -235,7 +235,7 @@ export default class Expenses extends Component {
                     }
 
                     {show_success &&
-                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="success">
                             {success_message}
                         </Alert>
@@ -246,8 +246,8 @@ export default class Expenses extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
-                                    setSuccess={this.setSuccess.bind ( this )}
-                                    setError={this.setError.bind ( this )}
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
                                     customers={customers}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Expense"

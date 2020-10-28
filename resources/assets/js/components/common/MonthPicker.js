@@ -3,8 +3,8 @@ import Picker from 'react-month-picker'
 import MonthBox from './MonthBox'
 
 export default class MonthPicker extends Component {
-    constructor ( props, context ) {
-        super ( props, context )
+    constructor (props, context) {
+        super(props, context)
 
         this.state = {
             mvalue: { year: 2014, month: 11 },
@@ -16,32 +16,32 @@ export default class MonthPicker extends Component {
             mrange2: { from: { year: 2013, month: 11 }, to: { year: 2016, month: 3 } }
         }
 
-        this.handleClickMonthBox = this.handleClickMonthBox.bind ( this )
-        this.handleAMonthChange = this.handleAMonthChange.bind ( this )
-        this.handleAMonthDissmis = this.handleAMonthDissmis.bind ( this )
+        this.handleClickMonthBox = this.handleClickMonthBox.bind(this)
+        this.handleAMonthChange = this.handleAMonthChange.bind(this)
+        this.handleAMonthDissmis = this.handleAMonthDissmis.bind(this)
 
-        this.handleClickMonthBox2 = this.handleClickMonthBox2.bind ( this )
-        this.handleAMonthChange2 = this.handleAMonthChange2.bind ( this )
-        this.handleAMonthDissmis2 = this.handleAMonthDissmis2.bind ( this )
+        this.handleClickMonthBox2 = this.handleClickMonthBox2.bind(this)
+        this.handleAMonthChange2 = this.handleAMonthChange2.bind(this)
+        this.handleAMonthDissmis2 = this.handleAMonthDissmis2.bind(this)
 
-        this._handleClickRangeBox = this._handleClickRangeBox.bind ( this )
-        this.handleRangeChange = this.handleRangeChange.bind ( this )
-        this.handleRangeDissmis = this.handleRangeDissmis.bind ( this )
+        this._handleClickRangeBox = this._handleClickRangeBox.bind(this)
+        this.handleRangeChange = this.handleRangeChange.bind(this)
+        this.handleRangeDissmis = this.handleRangeDissmis.bind(this)
 
-        this._handleClickRangeBox2 = this._handleClickRangeBox2.bind ( this )
-        this.handleRangeChange2 = this.handleRangeChange2.bind ( this )
-        this.handleRangeDissmis2 = this.handleRangeDissmis2.bind ( this )
+        this._handleClickRangeBox2 = this._handleClickRangeBox2.bind(this)
+        this.handleRangeChange2 = this.handleRangeChange2.bind(this)
+        this.handleRangeDissmis2 = this.handleRangeDissmis2.bind(this)
     }
 
-    componentWillReceiveProps ( nextProps ) {
-        this.setState ( {
+    componentWillReceiveProps (nextProps) {
+        this.setState({
             value: nextProps.value || 'N/A'
-        } )
+        })
     }
 
     render () {
-        const previousYear = new Date ()
-        previousYear.setFullYear ( previousYear.getFullYear () - 1 )
+        const previousYear = new Date()
+        previousYear.setFullYear(previousYear.getFullYear() - 1)
 
         const pickerLang = {
             months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -52,7 +52,7 @@ export default class MonthPicker extends Component {
         const mrange = this.state.mrange
 
         const makeText = m => {
-            if ( m && m.year && m.month ) return (pickerLang.months[ m.month - 1 ] + '. ' + m.year)
+            if (m && m.year && m.month) return (pickerLang.months[m.month - 1] + '. ' + m.year)
             return '?'
         }
 
@@ -65,11 +65,11 @@ export default class MonthPicker extends Component {
                             ref="pickRange"
                             years={{
                                 min: {
-                                    year: previousYear.getFullYear (),
+                                    year: previousYear.getFullYear(),
                                     month: 1
                                 },
                                 max: {
-                                    year: new Date ().getFullYear (),
+                                    year: new Date().getFullYear(),
                                     month: 12
                                 }
                             }}
@@ -80,7 +80,7 @@ export default class MonthPicker extends Component {
                             onDismiss={this.handleRangeDissmis}
                         >
                             <MonthBox
-                                value={makeText ( mrange.from ) + ' ~ ' + makeText ( mrange.to )}
+                                value={makeText(mrange.from) + ' ~ ' + makeText(mrange.to)}
                                 onClick={this._handleClickRangeBox}/>
                         </Picker>
                     </div>
@@ -89,11 +89,11 @@ export default class MonthPicker extends Component {
         )
     }
 
-    handleClickMonthBox ( e ) {
-        this.refs.pickAMonth.show ()
+    handleClickMonthBox (e) {
+        this.refs.pickAMonth.show()
     }
 
-    handleAMonthChange ( year, month ) {
+    handleAMonthChange (year, month) {
         /* var firstDay = new Date(year, (month - 1), 1)
         var lastDay = new Date(year, month, 0)
         const obj = {year: year, month}
@@ -103,66 +103,66 @@ export default class MonthPicker extends Component {
         }) */
     }
 
-    handleAMonthDissmis ( value ) {
-        this.setState ( { mvalue: value } )
+    handleAMonthDissmis (value) {
+        this.setState({ mvalue: value })
     }
 
-    handleClickMonthBox2 ( e ) {
-        this.refs.pickAMonth2.show ()
+    handleClickMonthBox2 (e) {
+        this.refs.pickAMonth2.show()
     }
 
-    handleAMonthChange2 ( value, text ) {
+    handleAMonthChange2 (value, text) {
         //
     }
 
-    handleAMonthDissmis2 ( value ) {
-        this.setState ( { mvalue2: value } )
+    handleAMonthDissmis2 (value) {
+        this.setState({ mvalue2: value })
     }
 
-    _handleClickRangeBox ( e ) {
-        this.refs.pickRange.show ()
+    _handleClickRangeBox (e) {
+        this.refs.pickRange.show()
     }
 
-    handleRangeChange ( value, text, listIndex ) {
-        if ( listIndex === 0 ) {
-            const firstDay = new Date ( value, (text - 1), 1 )
+    handleRangeChange (value, text, listIndex) {
+        if (listIndex === 0) {
+            const firstDay = new Date(value, (text - 1), 1)
             const dateObj = { start_date: firstDay }
             const newState = {
                 ...this.state.mrange,
                 from: { year: value, month: text }
             }
 
-            this.setState ( { mrange: newState }, () => {
-                this.props.onChange ( dateObj )
-            } )
+            this.setState({ mrange: newState }, () => {
+                this.props.onChange(dateObj)
+            })
             return
         }
 
-        const lastDay = new Date ( value, text, 0 )
+        const lastDay = new Date(value, text, 0)
         const dateObj = { end_date: lastDay }
 
         const newState = {
             ...this.state.mrange,
             to: { year: value, month: text }
         }
-        this.setState ( { mrange: newState }, () => {
-            this.props.onChange ( dateObj )
-        } )
+        this.setState({ mrange: newState }, () => {
+            this.props.onChange(dateObj)
+        })
     }
 
-    handleRangeDissmis ( value ) {
-        this.setState ( { mrange: value } )
+    handleRangeDissmis (value) {
+        this.setState({ mrange: value })
     }
 
-    _handleClickRangeBox2 ( e ) {
-        this.refs.pickRange2.show ()
+    _handleClickRangeBox2 (e) {
+        this.refs.pickRange2.show()
     }
 
-    handleRangeChange2 ( value, text, listIndex ) {
+    handleRangeChange2 (value, text, listIndex) {
         //
     }
 
-    handleRangeDissmis2 ( value ) {
-        this.setState ( { mrange2: value } )
+    handleRangeDissmis2 (value) {
+        this.setState({ mrange2: value })
     }
 }

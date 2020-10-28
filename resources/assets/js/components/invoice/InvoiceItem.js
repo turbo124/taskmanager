@@ -8,37 +8,37 @@ import EditInvoice from './edit/EditInvoice'
 import InvoicePresenter from '../presenters/InvoicePresenter'
 
 export default class InvoiceItem extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        this.deleteInvoice = this.deleteInvoice.bind ( this )
+        this.deleteInvoice = this.deleteInvoice.bind(this)
     }
 
-    deleteInvoice ( id, archive = false ) {
+    deleteInvoice (id, archive = false) {
         const url = archive === true ? `/api/invoice/archive/${id}` : `/api/invoice/${id}`
         const self = this
-        axios.delete ( url ).then ( function ( response ) {
+        axios.delete(url).then(function (response) {
             const arrQuotes = [...self.props.invoices]
-            const index = arrQuotes.findIndex ( payment => payment.id === id )
-            arrQuotes.splice ( index, 1 )
-            self.props.updateInvoice ( arrQuotes )
-        } )
-            .catch ( function ( error ) {
-                self.setState (
+            const index = arrQuotes.findIndex(payment => payment.id === id)
+            arrQuotes.splice(index, 1)
+            self.props.updateInvoice(arrQuotes)
+        })
+            .catch(function (error) {
+                self.setState(
                     {
                         error: error.response.data
                     }
                 )
-            } )
+            })
     }
 
     render () {
         const { invoices, customers, custom_fields } = this.props
-        if ( invoices && invoices.length && customers.length ) {
-            return invoices.map ( invoice => {
+        if (invoices && invoices.length && customers.length) {
+            return invoices.map(invoice => {
                 const restoreButton = invoice.deleted_at
                     ? <RestoreModal id={invoice.id} entities={invoices} updateState={this.props.updateInvoice}
-                                    url={`/api/invoice/restore/${invoice.id}`}/> : null
+                        url={`/api/invoice/restore/${invoice.id}`}/> : null
 
                 const archiveButton = !invoice.deleted_at
                     ? <DeleteModal archive={true} deleteFunction={this.deleteInvoice} id={invoice.id}/> : null
@@ -57,32 +57,32 @@ export default class InvoiceItem extends Component {
                     invoices={invoices}
                 /> : null
 
-                const columnList = Object.keys ( invoice ).filter ( key => {
-                    return this.props.ignoredColumns && !this.props.ignoredColumns.includes ( key )
-                } ).map ( key => {
+                const columnList = Object.keys(invoice).filter(key => {
+                    return this.props.ignoredColumns && !this.props.ignoredColumns.includes(key)
+                }).map(key => {
                     return <InvoicePresenter key={key} customers={customers}
-                                             toggleViewedEntity={this.props.toggleViewedEntity}
-                                             field={key} entity={invoice} edit={editButton}/>
-                } )
+                        toggleViewedEntity={this.props.toggleViewedEntity}
+                        field={key} entity={invoice} edit={editButton}/>
+                })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const isChecked = this.props.bulk.includes ( invoice.id )
+                const isChecked = this.props.bulk.includes(invoice.id)
                 const selectedRow = this.props.viewId === invoice.id ? 'table-row-selected' : ''
                 const actionMenu = this.props.showCheckboxes !== true
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                                   restore={restoreButton}/> : null
+                        restore={restoreButton}/> : null
 
                 return (
                     <tr className={selectedRow} key={invoice.id}>
                         <td>
                             <Input checked={isChecked} className={checkboxClass} value={invoice.id} type="checkbox"
-                                   onChange={this.props.onChangeBulk}/>
+                                onChange={this.props.onChangeBulk}/>
                             {actionMenu}
                         </td>
                         {columnList}
                     </tr>
                 )
-            } )
+            })
         } else {
             return <tr>
                 <td className="text-center">No Records Found.</td>

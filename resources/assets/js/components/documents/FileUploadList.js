@@ -3,21 +3,21 @@ import React from 'react'
 import FileUpload from './FileUpload'
 
 export default class FileUploadList extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             files: this.props.files ? this.props.files : [],
             errors: []
         }
 
-        this.deleteFile = this.deleteFile.bind ( this )
+        this.deleteFile = this.deleteFile.bind(this)
     }
 
-    deleteFile ( id ) {
+    deleteFile (id) {
         const arrFiles = [...this.state.files]
-        const index = arrFiles.findIndex ( file => file.id === id )
-        arrFiles.splice ( index, 1 )
-        this.setState ( { files: arrFiles } )
+        const index = arrFiles.findIndex(file => file.id === id)
+        arrFiles.splice(index, 1)
+        this.setState({ files: arrFiles })
     }
 
     render () {
@@ -31,9 +31,9 @@ export default class FileUploadList extends React.Component {
                 ) : null}
 
                 {
-                    this.state.files.map ( ( file, index ) => (
+                    this.state.files.map((file, index) => (
                         <FileUpload key={index} delete={this.deleteFile} file={file}/>
-                    ) )
+                    ))
                 }
             </div>
         )

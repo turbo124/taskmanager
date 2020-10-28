@@ -1,17 +1,17 @@
 import React from 'react'
 import FormatDate from '../common/FormatDate'
 
-export default function TaxRatePresenter ( props ) {
+export default function TaxRatePresenter (props) {
     const { field, entity } = props
 
-    switch ( field ) {
+    switch (field) {
         case 'due_date':
-            return <td><FormatDate date={entity[ field ]}/></td>
+            return <td><FormatDate date={entity[field]}/></td>
         case 'rate':
-            return <td onClick={() => props.toggleViewedEntity ( entity, entity.name, props.edit )} key={field}
-                       data-label={field}>{`${parseFloat ( entity[ field ] ).toFixed ( 2 )}%`}</td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)} key={field}
+                data-label={field}>{`${parseFloat(entity[field]).toFixed(2)}%`}</td>
         default:
-            return <td onClick={() => props.toggleViewedEntity ( entity, entity.name, props.edit )} key={field}
-                       data-label={field}>{entity[ field ]}</td>
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)} key={field}
+                data-label={field}>{entity[field]}</td>
     }
 }

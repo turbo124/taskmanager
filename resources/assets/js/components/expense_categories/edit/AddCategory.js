@@ -7,67 +7,67 @@ import DefaultModalFooter from '../../common/ModalFooter'
 import ExpenseCategoryModel from '../../models/ExpenseCategoryModel'
 
 class AddCategory extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        this.categoryModel = new ExpenseCategoryModel ( null )
+        this.categoryModel = new ExpenseCategoryModel(null)
         this.initialState = this.categoryModel.fields
         this.state = this.initialState
 
-        this.toggle = this.toggle.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
-        this.handleFileChange = this.handleFileChange.bind ( this )
+        this.toggle = this.toggle.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.handleFileChange = this.handleFileChange.bind(this)
     }
 
-    handleFileChange ( e ) {
-        this.setState ( {
-            [ e.target.name ]: e.target.files[ 0 ]
-        } )
+    handleFileChange (e) {
+        this.setState({
+            [e.target.name]: e.target.files[0]
+        })
     }
 
-    handleInput ( e ) {
-        this.setState ( {
-            [ e.target.name ]: e.target.value
-        } )
+    handleInput (e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
     handleClick () {
-        this.categoryModel.save ( { name: this.state.name } ).then ( response => {
-            if ( !response ) {
-                this.setState ( { errors: this.categoryModel.errors, message: this.categoryModel.error_message } )
+        this.categoryModel.save({ name: this.state.name }).then(response => {
+            if (!response) {
+                this.setState({ errors: this.categoryModel.errors, message: this.categoryModel.error_message })
                 return
             }
 
-            this.props.categories.push ( response )
-            this.props.action ( this.props.categories )
-            this.setState ( this.initialState )
-        } )
+            this.props.categories.push(response)
+            this.props.action(this.props.categories)
+            this.setState(this.initialState)
+        })
     }
 
     toggle () {
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: []
-        } )
+        })
     }
 
     render () {
-        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -78,15 +78,15 @@ class AddCategory extends React.Component {
                     <ModalBody className={theme}>
                         <FormGroup>
                             <Label for="name">{translations.name} <span className="text-danger">*</span></Label>
-                            <Input className={this.hasErrorFor ( 'name' ) ? 'is-invalid' : ''} type="text" name="name"
-                                   id="name" placeholder={translations.name} onChange={this.handleInput.bind ( this )}/>
-                            {this.renderErrorFor ( 'name' )}
+                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
+                                id="name" placeholder={translations.name} onChange={this.handleInput.bind(this)}/>
+                            {this.renderErrorFor('name')}
                         </FormGroup>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                                        saveData={this.handleClick.bind ( this )}
-                                        loading={false}/>
+                        saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

@@ -8,34 +8,34 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 
 export default class EditSubscription extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        this.subscriptionModel = new SubscriptionModel ( this.props.subscription )
+        this.subscriptionModel = new SubscriptionModel(this.props.subscription)
         this.initialState = this.subscriptionModel.fields
         this.state = this.initialState
 
-        this.toggle = this.toggle.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
+        this.toggle = this.toggle.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
     }
 
-    handleInput ( e ) {
-        this.setState ( {
-            [ e.target.name ]: e.target.value,
+    handleInput (e) {
+        this.setState({
+            [e.target.name]: e.target.value,
             changesMade: true
-        } )
+        })
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
@@ -48,43 +48,43 @@ export default class EditSubscription extends React.Component {
             event_id: this.state.event_id
         }
 
-        this.subscriptionModel.save ( data ).then ( response => {
-            if ( !response ) {
-                this.setState ( {
+        this.subscriptionModel.save(data).then(response => {
+            if (!response) {
+                this.setState({
                     errors: this.subscriptionModel.errors,
                     message: this.subscriptionModel.error_message
-                } )
+                })
                 return
             }
 
-            const index = this.props.subscriptions.findIndex ( subscription => subscription.id === this.props.subscription.id )
-            this.props.subscriptions[ index ] = response
-            this.props.action ( this.props.subscriptions )
-            this.setState ( {
+            const index = this.props.subscriptions.findIndex(subscription => subscription.id === this.props.subscription.id)
+            this.props.subscriptions[index] = response
+            this.props.action(this.props.subscriptions)
+            this.setState({
                 editMode: false,
                 changesMade: false
-            } )
-            this.toggle ()
-        } )
+            })
+            this.toggle()
+        })
     }
 
     toggle () {
-        if ( this.state.modal && this.state.changesMade ) {
-            if ( window.confirm ( 'Your changes have not been saved?' ) ) {
-                this.setState ( { ...this.initialState } )
+        if (this.state.modal && this.state.changesMade) {
+            if (window.confirm('Your changes have not been saved?')) {
+                this.setState({ ...this.initialState })
             }
 
             return
         }
 
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: []
-        } )
+        })
     }
 
     render () {
-        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -95,12 +95,12 @@ export default class EditSubscription extends React.Component {
 
                     <ModalBody className={theme}>
                         <Details hasErrorFor={this.hasErrorFor} subscription={this.state}
-                                 renderErrorFor={this.renderErrorFor} handleInput={this.handleInput.bind ( this )}/>
+                            renderErrorFor={this.renderErrorFor} handleInput={this.handleInput.bind(this)}/>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                                        saveData={this.handleClick.bind ( this )}
-                                        loading={false}/>
+                        saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

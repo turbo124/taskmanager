@@ -11,8 +11,8 @@ import CustomerRepository from '../repositories/CustomerRepository'
 import queryString from 'query-string'
 
 export default class Credits extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             isOpen: window.innerWidth > 670,
             error: '',
@@ -35,96 +35,96 @@ export default class Credits extends Component {
             ignoredColumns: ['tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'project_id', 'currency_id', 'exchange_rate', 'account_id', 'gateway_fee', 'gateway_percentage', 'files', 'audits', 'customer_name', 'emails', 'due_date', 'assigned_to', 'invoice_id', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
             filters: {
                 status_id: 'active',
-                customer_id: queryString.parse ( this.props.location.search ).customer_id || '',
-                user_id: queryString.parse ( this.props.location.search ).user_id || '',
-                project_id: queryString.parse ( this.props.location.search ).project_id || '',
+                customer_id: queryString.parse(this.props.location.search).customer_id || '',
+                user_id: queryString.parse(this.props.location.search).user_id || '',
+                project_id: queryString.parse(this.props.location.search).project_id || '',
                 searchText: '',
                 start_date: '',
                 end_date: ''
             },
             showRestoreButton: false,
-            entity_id: queryString.parse ( this.props.location.search ).entity_id || false,
-            entity_type: queryString.parse ( this.props.location.search ).entity_type || false
+            entity_id: queryString.parse(this.props.location.search).entity_id || false,
+            entity_type: queryString.parse(this.props.location.search).entity_type || false
         }
 
-        this.updateCustomers = this.updateCustomers.bind ( this )
-        this.customerList = this.customerList.bind ( this )
-        this.filterCredits = this.filterCredits.bind ( this )
+        this.updateCustomers = this.updateCustomers.bind(this)
+        this.customerList = this.customerList.bind(this)
+        this.filterCredits = this.filterCredits.bind(this)
     }
 
     componentDidMount () {
-        this.getCustomers ()
-        this.getCustomFields ()
+        this.getCustomers()
+        this.getCustomFields()
     }
 
-    filterCredits ( filters ) {
-        this.setState ( { filters: filters } )
+    filterCredits (filters) {
+        this.setState({ filters: filters })
     }
 
     handleClose () {
-        this.setState ( { error: '', show_success: false } )
+        this.setState({ error: '', show_success: false })
     }
 
     getCustomers () {
-        const customerRepository = new CustomerRepository ()
-        customerRepository.get ().then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const customerRepository = new CustomerRepository()
+        customerRepository.get().then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( { customers: response }, () => {
-                console.log ( 'customers', this.state.customers )
-            } )
-        } )
+            this.setState({ customers: response }, () => {
+                console.log('customers', this.state.customers)
+            })
+        })
     }
 
     getCustomFields () {
-        axios.get ( 'api/accounts/fields/Credit' )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get('api/accounts/fields/Credit')
+            .then((r) => {
+                this.setState({
                     custom_fields: r.data.fields
-                } )
-            } )
-            .catch ( ( e ) => {
-                this.setState ( {
+                })
+            })
+            .catch((e) => {
+                this.setState({
                     loading: false,
                     error: e
-                } )
-            } )
+                })
+            })
     }
 
-    updateCustomers ( credits ) {
+    updateCustomers (credits) {
         const cachedData = !this.state.cachedData.length ? credits : this.state.cachedData
-        this.setState ( {
+        this.setState({
             credits: credits,
             cachedData: cachedData
-        } )
+        })
     }
 
-    customerList ( props ) {
+    customerList (props) {
         const { credits, customers, custom_fields } = this.state
         return <CreditItem showCheckboxes={props.showCheckboxes} credits={credits} customers={customers}
-                           custom_fields={custom_fields}
-                           viewId={props.viewId}
-                           ignoredColumns={props.ignoredColumns} updateCustomers={this.updateCustomers}
-                           toggleViewedEntity={props.toggleViewedEntity}
-                           bulk={props.bulk}
-                           onChangeBulk={props.onChangeBulk}/>
+            custom_fields={custom_fields}
+            viewId={props.viewId}
+            ignoredColumns={props.ignoredColumns} updateCustomers={this.updateCustomers}
+            toggleViewedEntity={props.toggleViewedEntity}
+            bulk={props.bulk}
+            onChangeBulk={props.onChangeBulk}/>
     }
 
-    setFilterOpen ( isOpen ) {
-        this.setState ( { isOpen: isOpen } )
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
-    setError ( message = null ) {
-        this.setState ( { error: true, error_message: message === null ? translations.unexpected_error : message } )
+    setError (message = null) {
+        this.setState({ error: true, error_message: message === null ? translations.unexpected_error : message })
     }
 
-    setSuccess ( message = null ) {
-        this.setState ( {
+    setSuccess (message = null) {
+        this.setState({
             show_success: true,
             success_message: message === null ? translations.success_message : message
-        } )
+        })
     }
 
     render () {
@@ -140,7 +140,7 @@ export default class Credits extends Component {
             credits={credits}
             modal={true}
         /> : null
-        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call ( localStorage, 'datatable_collapsed' ) && localStorage.getItem ( 'datatable_collapsed' ) === true)
+        const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
 
@@ -150,18 +150,18 @@ export default class Credits extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <CreditFilters setFilterOpen={this.setFilterOpen.bind ( this )} credits={credits}
-                                               customers={customers}
-                                               updateIgnoredColumns={this.updateIgnoredColumns}
-                                               filters={filters} filter={this.filterCredits}
-                                               saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                <CreditFilters setFilterOpen={this.setFilterOpen.bind(this)} credits={credits}
+                                    customers={customers}
+                                    updateIgnoredColumns={this.updateIgnoredColumns}
+                                    filters={filters} filter={this.filterCredits}
+                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
                                 {addButton}
                             </CardBody>
                         </Card>
                     </div>
 
                     {error &&
-                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
+                    <Snackbar open={error} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="danger">
                             {error_message}
                         </Alert>
@@ -169,7 +169,7 @@ export default class Credits extends Component {
                     }
 
                     {show_success &&
-                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind ( this )}>
+                    <Snackbar open={show_success} autoHideDuration={3000} onClose={this.handleClose.bind(this)}>
                         <Alert severity="success">
                             {success_message}
                         </Alert>
@@ -180,8 +180,8 @@ export default class Credits extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
-                                    setSuccess={this.setSuccess.bind ( this )}
-                                    setError={this.setError.bind ( this )}
+                                    setSuccess={this.setSuccess.bind(this)}
+                                    setError={this.setError.bind(this)}
                                     customers={customers}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Credit"

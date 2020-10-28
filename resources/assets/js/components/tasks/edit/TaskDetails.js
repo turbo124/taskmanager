@@ -5,39 +5,39 @@ import { translations } from '../../utils/_translations'
 import TaskStatusDropdown from '../../common/dropdowns/TaskStatusDropdown'
 import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
 import DesignDropdown from '../../common/dropdowns/DesignDropdown'
-import { icons } from "../../utils/_icons";
-import SwitchWithIcon from "../../common/SwitchWithIcon";
+import { icons } from '../../utils/_icons'
+import SwitchWithIcon from '../../common/SwitchWithIcon'
 
-export default function TaskDetails ( props ) {
+export default function TaskDetails (props) {
     let userContent
-    if ( !props.users ) {
+    if (!props.users) {
         userContent = <option value="">Loading...</option>
     } else {
-        userContent = props.users.map ( ( user, index ) => (
+        userContent = props.users.map((user, index) => (
             <option key={index} value={user.id}>{user.first_name + ' ' + user.last_name}</option>
-        ) )
+        ))
     }
 
     const userOptions =
         <FormGroup>
             <Label for="contributors">{translations.assigned_user}:</Label>
-            <Input className={props.hasErrorFor ( 'contributors' ) ? 'is-invalid' : ''} multiple
-                   type="select"
-                   value={props.task.selectedUsers}
-                   name="contributors" id="contributors" onChange={props.handleMultiSelect}>
+            <Input className={props.hasErrorFor('contributors') ? 'is-invalid' : ''} multiple
+                type="select"
+                value={props.task.selectedUsers}
+                name="contributors" id="contributors" onChange={props.handleMultiSelect}>
                 {userContent}
             </Input>
-            {props.renderErrorFor ( 'contributors' )}
+            {props.renderErrorFor('contributors')}
         </FormGroup>
 
     return (
         <React.Fragment>
             <FormGroup>
                 <Label for="name">{translations.name}(*):</Label>
-                <Input className={props.hasErrorFor ( 'name' ) ? 'is-invalid' : ''} type="text" name="name"
-                       value={props.task.name}
-                       id="taskTitle" onChange={props.handleInput.bind ( this )}/>
-                {props.renderErrorFor ( 'name' )}
+                <Input className={props.hasErrorFor('name') ? 'is-invalid' : ''} type="text" name="name"
+                    value={props.task.name}
+                    id="taskTitle" onChange={props.handleInput.bind(this)}/>
+                {props.renderErrorFor('name')}
             </FormGroup>
 
             {!props.task.invoice_id &&
@@ -49,7 +49,7 @@ export default function TaskDetails ( props ) {
                     handleInputChanges={props.handleInput}
                     customers={props.customers}
                 />
-                {props.renderErrorFor ( 'customer_id' )}
+                {props.renderErrorFor('customer_id')}
             </FormGroup>
             }
 
@@ -64,17 +64,17 @@ export default function TaskDetails ( props ) {
             <FormGroup>
                 <Label>{translations.project}</Label>
                 <ProjectDropdown handleInputChanges={props.handleInput} customer-id={props.task.customer_id}
-                                 project={props.task.project_id} name="project_id"
+                    project={props.task.project_id} name="project_id"
                 />
             </FormGroup>
             }
 
             <FormGroup>
                 <Label for="description">{translations.description}:</Label>
-                <Input className={props.hasErrorFor ( 'description' ) ? 'is-invalid' : ''} type="textarea"
-                       name="description" value={props.task.description} id="description"
-                       onChange={props.handleInput.bind ( this )}/>
-                {props.renderErrorFor ( 'description' )}
+                <Input className={props.hasErrorFor('description') ? 'is-invalid' : ''} type="textarea"
+                    name="description" value={props.task.description} id="description"
+                    onChange={props.handleInput.bind(this)}/>
+                {props.renderErrorFor('description')}
             </FormGroup>
 
             {userOptions}

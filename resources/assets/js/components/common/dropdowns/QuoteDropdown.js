@@ -4,48 +4,48 @@ import { translations } from '../../utils/_translations'
 import QuoteRepository from '../../repositories/QuoteRepository'
 
 export default class QuoteDropdown extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             quotes: []
         }
 
-        this.getQuotes = this.getQuotes.bind ( this )
+        this.getQuotes = this.getQuotes.bind(this)
     }
 
     componentDidMount () {
-        if ( !this.props.quotes || !this.props.quotes.length ) {
-            this.getQuotes ()
+        if (!this.props.quotes || !this.props.quotes.length) {
+            this.getQuotes()
         } else {
             this.state.quotes = this.props.quotes
         }
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback d-block'>
-                    <strong>{this.props.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.props.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
-    hasErrorFor ( field ) {
-        return this.props.errors && !!this.props.errors[ field ]
+    hasErrorFor (field) {
+        return this.props.errors && !!this.props.errors[field]
     }
 
     getQuotes () {
-        const quoteRepository = new QuoteRepository ()
-        quoteRepository.get ().then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const quoteRepository = new QuoteRepository()
+        quoteRepository.get().then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( { quotes: response }, () => {
-                console.log ( 'quotes', this.state.quotes )
-            } )
-        } )
+            this.setState({ quotes: response }, () => {
+                console.log('quotes', this.state.quotes)
+            })
+        })
     }
 
     render () {
@@ -53,23 +53,23 @@ export default class QuoteDropdown extends Component {
 
         const quotes = this.props.quotes ? this.props.quotes : this.state.quotes
 
-        if ( !quotes ) {
+        if (!quotes) {
             quoteList = <option value="">Loading...</option>
         } else {
-            quoteList = quotes.map ( ( quote, index ) => (
+            quoteList = quotes.map((quote, index) => (
                 <option key={index} value={quote.id}>{quote.number}</option>
-            ) )
+            ))
         }
 
         const name = this.props.name && this.props.name ? this.props.name : 'quotes_id'
 
         const selectList = this.props.multiple && this.props.multiple === true ? (
             <Input onChange={this.props.handleInputChanges} multiple type="select"
-                   name={name} id={name}>
+                name={name} id={name}>
                 {quoteList}
             </Input>
         ) : <Input value={this.props.quote_id} onChange={this.props.handleInputChanges} type="select"
-                   name={name} id={name}>
+            name={name} id={name}>
             <option value="">{translations.select_option}</option>
             {quoteList}
         </Input>
@@ -77,7 +77,7 @@ export default class QuoteDropdown extends Component {
         return (
             <FormGroup>
                 {selectList}
-                {this.renderErrorFor ( name )}
+                {this.renderErrorFor(name)}
             </FormGroup>
         )
     }

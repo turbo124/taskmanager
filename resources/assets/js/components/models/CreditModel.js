@@ -9,14 +9,14 @@ export const credit_pdf_fields = ['$credit.number', '$credit.po_number', '$credi
 ]
 
 export default class CreditModel extends BaseModel {
-    constructor ( data = null, customers = [] ) {
-        super ()
+    constructor (data = null, customers = []) {
+        super()
         this.customers = customers
         this._url = '/api/credit'
         this.entity = 'Credit'
         this._file_count = 0
 
-        if ( data !== null && data.files ) {
+        if (data !== null && data.files) {
             this.fileCount = data.files
         }
 
@@ -25,7 +25,7 @@ export default class CreditModel extends BaseModel {
             modalOpen: false,
             is_amount_discount: false,
             id: null,
-            account_id: JSON.parse ( localStorage.getItem ( 'appState' ) ).user.account_id,
+            account_id: JSON.parse(localStorage.getItem('appState')).user.account_id,
             showSuccessMessage: false,
             showErrorMessage: false,
             invitations: [],
@@ -39,8 +39,8 @@ export default class CreditModel extends BaseModel {
             number: '',
             design_id: '',
             file_count: 0,
-            date: moment ( new Date () ).format ( 'YYYY-MM-DD' ),
-            due_date: moment ( new Date () ).add ( 1, 'days' ).format ( 'YYYY-MM-DD' ),
+            date: moment(new Date()).format('YYYY-MM-DD'),
+            due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             custom_value1: '',
             public_notes: '',
             private_notes: '',
@@ -73,11 +73,11 @@ export default class CreditModel extends BaseModel {
             line_items: [],
             partial: 0,
             has_partial: false,
-            partial_due_date: moment ( new Date () ).add ( 1, 'days' ).format ( 'YYYY-MM-DD' ),
+            partial_due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             activeTab: '1',
             po_number: '',
             return_to_stock: false,
-            currency_id: this.settings.currency_id.toString ().length ? this.settings.currency_id : consts.default_currency,
+            currency_id: this.settings.currency_id.toString().length ? this.settings.currency_id : consts.default_currency,
             exchange_rate: 1,
             loading: false,
             dropdownOpen: false,
@@ -91,35 +91,35 @@ export default class CreditModel extends BaseModel {
 
         this.customer = null
 
-        if ( data !== null ) {
+        if (data !== null) {
             this._fields = { ...this.fields, ...data }
 
-            if ( this.customers.length && this._fields.customer_id ) {
-                const customer = this.customers.filter ( customer => customer.id === parseInt ( this._fields.customer_id ) )
-                this.customer = customer[ 0 ]
+            if (this.customers.length && this._fields.customer_id) {
+                const customer = this.customers.filter(customer => customer.id === parseInt(this._fields.customer_id))
+                this.customer = customer[0]
             }
         }
 
-        if ( this.customer && this.customer.currency_id.toString ().length ) {
-            const currency = JSON.parse ( localStorage.getItem ( 'currencies' ) ).filter ( currency => currency.id === this.customer.currency_id )
-            this.exchange_rate = currency[ 0 ].exchange_rate
+        if (this.customer && this.customer.currency_id.toString().length) {
+            const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.customer.currency_id)
+            this.exchange_rate = currency[0].exchange_rate
         }
 
-        const account_id = JSON.parse ( localStorage.getItem ( 'appState' ) ).user.account_id
-        const user_account = JSON.parse ( localStorage.getItem ( 'appState' ) ).accounts.filter ( account => account.account_id === parseInt ( account_id ) )
-        this.account = user_account[ 0 ]
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.account = user_account[0]
     }
 
     get exchange_rate () {
         return this.fields.exchange_rate
     }
 
-    set exchange_rate ( exchange_rate ) {
+    set exchange_rate (exchange_rate) {
         this.fields.exchange_rate = exchange_rate
     }
 
     get isNew () {
-        return !this.fields.id || !this.fields.id.toString ().length || parseInt ( this.fields.id ) <= 0
+        return !this.fields.id || !this.fields.id.toString().length || parseInt(this.fields.id) <= 0
     }
 
     get id () {
@@ -130,7 +130,7 @@ export default class CreditModel extends BaseModel {
         return this._customer
     }
 
-    set customer ( customer ) {
+    set customer (customer) {
         this._customer = customer
     }
 
@@ -146,7 +146,7 @@ export default class CreditModel extends BaseModel {
         return this._file_count || 0
     }
 
-    set fileCount ( files ) {
+    set fileCount (files) {
         this._file_count = files ? files.length : 0
     }
 
@@ -158,7 +158,7 @@ export default class CreditModel extends BaseModel {
         return this.fields.customer_id
     }
 
-    set customer_id ( customer_id ) {
+    set customer_id (customer_id) {
         this.fields.customer_id = customer_id
     }
 
@@ -167,37 +167,37 @@ export default class CreditModel extends BaseModel {
     }
 
     get getInvitationViewLink () {
-        return !this.invitations || !this.invitations.length ? '' : `http://${this.account.account.subdomain}portal/view/credit/${this.invitations[ 0 ].key}`
+        return !this.invitations || !this.invitations.length ? '' : `http://${this.account.account.subdomain}portal/view/credit/${this.invitations[0].key}`
     }
 
     get isSent () {
-        return parseInt ( this.fields.status_id ) === this.sent
+        return parseInt(this.fields.status_id) === this.sent
     }
 
     get isDraft () {
-        return parseInt ( this.fields.status_id ) === consts.credit_status_draft
+        return parseInt(this.fields.status_id) === consts.credit_status_draft
     }
 
     get isApproved () {
-        return parseInt ( this.fields.status_id ) === this.approved
+        return parseInt(this.fields.status_id) === this.approved
     }
 
     get contacts () {
-        const index = this.customers.findIndex ( customer => customer.id === this.fields.customer_id )
-        const customer = this.customers[ index ]
+        const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
+        const customer = this.customers[index]
         return customer.contacts ? customer.contacts : []
     }
 
     addItem () {
-        const newArray = this.fields.line_items.slice ()
-        newArray.push ( LineItem )
+        const newArray = this.fields.line_items.slice()
+        newArray.push(LineItem)
         this.fields.line_items = newArray
         return newArray
     }
 
-    removeItem ( index ) {
+    removeItem (index) {
         const array = [...this.fields.line_items] // make a separate copy of the array
-        array.splice ( index, 1 )
+        array.splice(index, 1)
         this.fields.line_items = array
         return array
     }
@@ -205,62 +205,62 @@ export default class CreditModel extends BaseModel {
     buildDropdownMenu () {
         const actions = []
 
-        console.log ( 'invitations', this.fields.invitations )
+        console.log('invitations', this.fields.invitations)
 
-        if ( this.fields.invitations.length ) {
-            actions.push ( 'pdf' )
+        if (this.fields.invitations.length) {
+            actions.push('pdf')
         }
 
-        if ( this.fields.customer_id !== '' ) {
-            actions.push ( 'email' )
+        if (this.fields.customer_id !== '') {
+            actions.push('email')
         }
 
-        if ( !this.isSent ) {
-            actions.push ( 'markSent' )
+        if (!this.isSent) {
+            actions.push('markSent')
         }
 
-        if ( !this.fields.is_deleted ) {
-            actions.push ( 'delete' )
+        if (!this.fields.is_deleted) {
+            actions.push('delete')
         }
 
-        if ( !this.fields.deleted_at ) {
-            actions.push ( 'archive' )
-            actions.push ( 'cloneToCredit' )
+        if (!this.fields.deleted_at) {
+            actions.push('archive')
+            actions.push('cloneToCredit')
         }
 
-        if ( !this.fields.deleted_at && !this.isDraft ) {
-            actions.push ( 'portal' )
+        if (!this.fields.deleted_at && !this.isDraft) {
+            actions.push('portal')
         }
 
-        if ( this.isModuleEnabled ( 'invoices' ) && !this.isApproved ) {
-            actions.push ( 'convert' )
+        if (this.isModuleEnabled('invoices') && !this.isApproved) {
+            actions.push('convert')
         }
 
-        if ( this.isModuleEnabled ( 'quotes' ) ) {
-            actions.push ( 'cloneCreditToQuote' )
+        if (this.isModuleEnabled('quotes')) {
+            actions.push('cloneCreditToQuote')
         }
 
         return actions
     }
 
-    buildInvitations ( contact, add = false ) {
+    buildInvitations (contact, add = false) {
         const invitations = this.fields.invitations
 
         // check if the check box is checked or unchecked
-        if ( add ) {
+        if (add) {
             // add the numerical value of the checkbox to options array
-            invitations.push ( { contact_id: contact } )
+            invitations.push({ contact_id: contact })
         } else {
             // or remove the value from the unchecked checkbox from the array
-            const index = invitations.findIndex ( contact => contact.contact_id === contact )
-            invitations.splice ( index, 1 )
+            const index = invitations.findIndex(contact => contact.contact_id === contact)
+            invitations.splice(index, 1)
         }
 
         return invitations
     }
 
-    async update ( data ) {
-        if ( !this.fields.id ) {
+    async update (data) {
+        if (!this.fields.id) {
             return false
         }
 
@@ -268,22 +268,22 @@ export default class CreditModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.put ( `${this.url}/${this.fields.id}`, data )
+            const res = await axios.put(`${this.url}/${this.fields.id}`, data)
 
-            if ( res.status === 200 ) {
+            if (res.status === 200) {
                 // test for status you want, etc
-                console.log ( res.status )
+                console.log(res.status)
             }
             // Don't forget to return something
             return res.data
-        } catch ( e ) {
-            this.handleError ( e )
+        } catch (e) {
+            this.handleError(e)
             return false
         }
     }
 
-    async completeAction ( data, action ) {
-        if ( !this.fields.id ) {
+    async completeAction (data, action) {
+        if (!this.fields.id) {
             return false
         }
 
@@ -291,16 +291,16 @@ export default class CreditModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.post ( `${this.url}/${this.fields.id}/${action}`, data )
+            const res = await axios.post(`${this.url}/${this.fields.id}/${action}`, data)
 
-            if ( res.status === 200 ) {
+            if (res.status === 200) {
                 // test for status you want, etc
-                console.log ( res.status )
+                console.log(res.status)
             }
             // Don't forget to return something
             return res.data
-        } catch ( e ) {
-            this.handleError ( e )
+        } catch (e) {
+            this.handleError(e)
             return false
         }
     }
@@ -309,47 +309,47 @@ export default class CreditModel extends BaseModel {
         try {
             this.errors = []
             this.error_message = ''
-            const res = await axios.post ( 'api/preview', { entity: this.entity, entity_id: this._fields.id } )
+            const res = await axios.post('api/preview', { entity: this.entity, entity_id: this._fields.id })
 
-            if ( res.status === 200 ) {
+            if (res.status === 200) {
                 // test for status you want, etc
-                console.log ( res.status )
+                console.log(res.status)
             }
 
             // Don't forget to return something
-            return this.buildPdf ( res.data )
-        } catch ( e ) {
-            alert ( e )
-            this.handleError ( e )
+            return this.buildPdf(res.data)
+        } catch (e) {
+            alert(e)
+            this.handleError(e)
             return false
         }
     }
 
-    async save ( data ) {
-        if ( this.fields.id ) {
-            return this.update ( data )
+    async save (data) {
+        if (this.fields.id) {
+            return this.update(data)
         }
 
         try {
             this.errors = []
             this.error_message = ''
-            const res = await axios.post ( this.url, data )
+            const res = await axios.post(this.url, data)
 
-            if ( res.status === 200 ) {
+            if (res.status === 200) {
                 // test for status you want, etc
-                console.log ( res.status )
+                console.log(res.status)
             }
             // Don't forget to return something
             return res.data
-        } catch ( e ) {
-            this.handleError ( e )
+        } catch (e) {
+            this.handleError(e)
             return false
         }
     }
 
-    customerChange ( customer_id ) {
-        const index = this.customers.findIndex ( customer => customer.id === parseInt ( customer_id ) )
-        const customer = this.customers[ index ]
+    customerChange (customer_id) {
+        const index = this.customers.findIndex(customer => customer.id === parseInt(customer_id))
+        const customer = this.customers[index]
         const address = customer.billing ? {
             line1: customer.billing.address_1,
             town: customer.billing.address_2,

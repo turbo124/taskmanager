@@ -9,43 +9,43 @@ import FileUploads from '../../documents/FileUploads'
 import Overview from './Overview'
 
 export default class Product extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
         this.state = {
             activeTab: '1',
             show_success: false
         }
 
-        this.productModel = new ProductModel ( this.props.entity )
+        this.productModel = new ProductModel(this.props.entity)
 
         // this.triggerAction = this.triggerAction.bind(this)
-        this.toggleTab = this.toggleTab.bind ( this )
+        this.toggleTab = this.toggleTab.bind(this)
     }
 
-    toggleTab ( tab ) {
-        if ( this.state.activeTab !== tab ) {
-            this.setState ( { activeTab: tab } )
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
         }
     }
 
     render () {
-        const variations = this.props.entity.attributes.length ? this.props.entity.attributes.map ( ( attribute, index ) => {
-            const values = attribute.values.length ? Array.prototype.map.call ( attribute.values, function ( value ) {
+        const variations = this.props.entity.attributes.length ? this.props.entity.attributes.map((attribute, index) => {
+            const values = attribute.values.length ? Array.prototype.map.call(attribute.values, function (value) {
                 return value.value
-            } ).join ( ',' ) : null
+            }).join(',') : null
 
             return <ListGroup key={index} className="col-12 mt-2">
                 <InfoItem icon={icons.credit_card}
-                          value={<FormatMoney amount={attribute.price}/>} title={translations.price}/>
+                    value={<FormatMoney amount={attribute.price}/>} title={translations.price}/>
                 <InfoItem icon={icons.credit_card}
-                          value={`${attribute.cost}`} title={translations.cost}/>
+                    value={`${attribute.cost}`} title={translations.cost}/>
                 <InfoItem icon={icons.list}
-                          value={`${attribute.quantity}`} title={translations.quantity}/>
+                    value={`${attribute.quantity}`} title={translations.quantity}/>
                 <InfoItem icon={icons.list}
-                          value={`${values}`} title={translations.variations}/>
+                    value={`${values}`} title={translations.variations}/>
             </ListGroup>
-        } ) : null
+        }) : null
 
         return (
             <React.Fragment>
@@ -54,7 +54,7 @@ export default class Product extends Component {
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab ( '1' )
+                                this.toggleTab('1')
                             }}
                         >
                             {translations.overview}
@@ -64,7 +64,7 @@ export default class Product extends Component {
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab ( '2' )
+                                this.toggleTab('2')
                             }}
                         >
                             {translations.variations}
@@ -75,7 +75,7 @@ export default class Product extends Component {
                         <NavLink
                             className={this.state.activeTab === '3' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab ( '3' )
+                                this.toggleTab('3')
                             }}
                         >
                             {translations.documents} ({this.productModel.fileCount})
@@ -101,7 +101,7 @@ export default class Product extends Component {
                                     <CardHeader> {translations.documents} </CardHeader>
                                     <CardBody>
                                         <FileUploads entity_type="Product" entity={this.props.entity}
-                                                     user_id={this.props.entity.user_id}/>
+                                            user_id={this.props.entity.user_id}/>
                                     </CardBody>
                                 </Card>
                             </Col>

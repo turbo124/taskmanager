@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function Step3 ( props ) {
-    if ( props.currentStep !== 3 ) {
+export default function Step3 (props) {
+    if (props.currentStep !== 3) {
         return null
     }
     return (

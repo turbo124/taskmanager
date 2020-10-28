@@ -10,36 +10,36 @@ import Contacts from './Contacts'
 import Links from './Links'
 
 export default class AddCase extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        this.caseModel = new CaseModel ( null, this.props.customers )
+        this.caseModel = new CaseModel(null, this.props.customers)
         this.initialState = this.caseModel.fields
         this.state = this.initialState
 
-        this.toggle = this.toggle.bind ( this )
-        this.handleInput = this.handleInput.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
-        this.handleContactChange = this.handleContactChange.bind ( this )
+        this.toggle = this.toggle.bind(this)
+        this.handleInput = this.handleInput.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.handleContactChange = this.handleContactChange.bind(this)
     }
 
     componentDidMount () {
-        if ( Object.prototype.hasOwnProperty.call ( localStorage, 'caseForm' ) ) {
-            const storedValues = JSON.parse ( localStorage.getItem ( 'caseForm' ) )
-            this.setState ( { ...storedValues }, () => console.log ( 'new state', this.state ) )
+        if (Object.prototype.hasOwnProperty.call(localStorage, 'caseForm')) {
+            const storedValues = JSON.parse(localStorage.getItem('caseForm'))
+            this.setState({ ...storedValues }, () => console.log('new state', this.state))
         }
     }
 
-    handleInput ( e ) {
-        if ( e.target.name === 'customer_id' ) {
-            const customer_data = this.caseModel.customerChange ( e.target.value )
+    handleInput (e) {
+        if (e.target.name === 'customer_id') {
+            const customer_data = this.caseModel.customerChange(e.target.value)
 
-            this.setState ( {
+            this.setState({
                 customerName: customer_data.name,
                 contacts: customer_data.contacts,
                 address: customer_data.address
-            }, () => localStorage.setItem ( 'caseForm', JSON.stringify ( this.state ) ) )
+            }, () => localStorage.setItem('caseForm', JSON.stringify(this.state)))
 
             // if (this.settings.convert_product_currency === true) {
             //     const customer = new CustomerModel(customer_data.customer)
@@ -50,29 +50,29 @@ export default class AddCase extends React.Component {
             // }
         }
 
-        this.setState ( {
-            [ e.target.name ]: e.target.value
-        }, () => localStorage.setItem ( 'caseForm', JSON.stringify ( this.state ) ) )
+        this.setState({
+            [e.target.name]: e.target.value
+        }, () => localStorage.setItem('caseForm', JSON.stringify(this.state)))
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
-    handleContactChange ( e ) {
-        const invitations = this.caseModel.buildInvitations ( e.target.value, e.target.checked )
+    handleContactChange (e) {
+        const invitations = this.caseModel.buildInvitations(e.target.value, e.target.checked)
         // update the state with the new array of options
-        this.setState ( { invitations: invitations }, () => console.log ( 'invitations', invitations ) )
+        this.setState({ invitations: invitations }, () => console.log('invitations', invitations))
     }
 
     handleClick () {
@@ -90,31 +90,31 @@ export default class AddCase extends React.Component {
             link_value: this.state.link_value
         }
 
-        this.caseModel.save ( data ).then ( response => {
-            if ( !response ) {
-                this.setState ( { errors: this.caseModel.errors, message: this.caseModel.error_message } )
+        this.caseModel.save(data).then(response => {
+            if (!response) {
+                this.setState({ errors: this.caseModel.errors, message: this.caseModel.error_message })
                 return
             }
-            this.props.cases.push ( response )
-            this.props.action ( this.props.cases )
-            this.setState ( this.initialState )
-            localStorage.removeItem ( 'caseForm' )
-        } )
+            this.props.cases.push(response)
+            this.props.action(this.props.cases)
+            this.setState(this.initialState)
+            localStorage.removeItem('caseForm')
+        })
     }
 
-    toggleTab ( tab ) {
-        if ( this.state.activeTab !== tab ) {
-            this.setState ( { activeTab: tab } )
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
         }
     }
 
     toggle () {
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: []
         }, () => {
-            if ( !this.state.modal ) {
-                this.setState ( {
+            if (!this.state.modal) {
+                this.setState({
                     subject: '',
                     message: '',
                     customer_id: '',
@@ -122,13 +122,13 @@ export default class AddCase extends React.Component {
                     private_notes: '',
                     priority_id: '',
                     category_id: ''
-                }, () => localStorage.removeItem ( 'caseForm' ) )
+                }, () => localStorage.removeItem('caseForm'))
             }
-        } )
+        })
     }
 
     render () {
-        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -142,7 +142,7 @@ export default class AddCase extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '1' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab ( '1' )
+                                        this.toggleTab('1')
                                     }}>
                                     {translations.details}
                                 </NavLink>
@@ -151,7 +151,7 @@ export default class AddCase extends React.Component {
                                 <NavLink
                                     className={this.state.activeTab === '2' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab ( '2' )
+                                        this.toggleTab('2')
                                     }}>
                                     {translations.comments}
                                 </NavLink>
@@ -163,24 +163,24 @@ export default class AddCase extends React.Component {
                                 <Card>
                                     <CardBody>
                                         <Details cases={this.props.cases} customers={this.props.customers}
-                                                 errors={this.state.errors}
-                                                 hasErrorFor={this.hasErrorFor} case={this.state}
-                                                 handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
+                                            errors={this.state.errors}
+                                            hasErrorFor={this.hasErrorFor} case={this.state}
+                                            handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
                                     </CardBody>
                                 </Card>
 
                                 <Contacts handleInput={this.handleInput} case={this.state}
-                                          errors={this.state.errors}
-                                          contacts={this.state.contacts}
-                                          invitations={this.state.invitations}
-                                          handleContactChange={this.handleContactChange}/>
+                                    errors={this.state.errors}
+                                    contacts={this.state.contacts}
+                                    invitations={this.state.invitations}
+                                    handleContactChange={this.handleContactChange}/>
 
                                 <Card>
                                     <CardBody>
                                         <Links cases={this.props.cases} customers={this.props.customers}
-                                               errors={this.state.errors}
-                                               hasErrorFor={this.hasErrorFor} case={this.state}
-                                               handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
+                                            errors={this.state.errors}
+                                            hasErrorFor={this.hasErrorFor} case={this.state}
+                                            handleInput={this.handleInput} renderErrorFor={this.renderErrorFor}/>
                                     </CardBody>
                                 </Card>
 
@@ -191,8 +191,8 @@ export default class AddCase extends React.Component {
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                                        saveData={this.handleClick.bind ( this )}
-                                        loading={false}/>
+                        saveData={this.handleClick.bind(this)}
+                        loading={false}/>
                 </Modal>
             </React.Fragment>
         )

@@ -12,37 +12,37 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 
 class AddLeadForm extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        this.leadModel = new LeadModel ( null )
+        this.leadModel = new LeadModel(null)
         this.initialState = this.leadModel.fields
         this.state = this.initialState
 
-        this.toggle = this.toggle.bind ( this )
-        this.toggleTab = this.toggleTab.bind ( this )
-        this.handleInputChanges = this.handleInputChanges.bind ( this )
-        this.handleClick = this.handleClick.bind ( this )
+        this.toggle = this.toggle.bind(this)
+        this.toggleTab = this.toggleTab.bind(this)
+        this.handleInputChanges = this.handleInputChanges.bind(this)
+        this.handleClick = this.handleClick.bind(this)
     }
 
     componentDidMount () {
-        this.getSourceTypes ()
+        this.getSourceTypes()
     }
 
-    toggleTab ( tab ) {
-        if ( this.state.activeTab !== tab ) {
-            this.setState ( { activeTab: tab } )
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
         }
     }
 
-    handleInputChanges ( e ) {
-        this.setState ( {
-            [ e.target.name ]: e.target.value
-        } )
+    handleInputChanges (e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
 
-    handleClick ( event ) {
-        this.setState ( { loading: true } )
+    handleClick (event) {
+        this.setState({ loading: true })
         const data = {
             public_notes: this.state.public_notes,
             private_notes: this.state.private_notes,
@@ -67,56 +67,56 @@ class AddLeadForm extends React.Component {
             task_status: this.state.task_status
         }
 
-        this.leadModel.save ( data ).then ( response => {
-            if ( !response ) {
-                this.setState ( { errors: this.leadModel.errors, message: this.leadModel.error_message } )
+        this.leadModel.save(data).then(response => {
+            if (!response) {
+                this.setState({ errors: this.leadModel.errors, message: this.leadModel.error_message })
                 return
             }
-            this.props.leads.push ( response )
-            this.props.action ( this.props.leads )
-            this.setState ( this.initialState )
-            localStorage.removeItem ( 'leadForm' )
-        } )
+            this.props.leads.push(response)
+            this.props.action(this.props.leads)
+            this.setState(this.initialState)
+            localStorage.removeItem('leadForm')
+        })
     }
 
     toggle () {
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal
-        } )
+        })
     }
 
     getSourceTypes () {
-        axios.get ( '/api/tasks/source-types' )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get('/api/tasks/source-types')
+            .then((r) => {
+                this.setState({
                     sourceTypes: r.data,
                     err: ''
-                } )
-            } )
-            .then ( ( r ) => {
-                console.warn ( this.state.users )
-            } )
-            .catch ( ( e ) => {
-                console.error ( e )
-                this.setState ( {
+                })
+            })
+            .then((r) => {
+                console.warn(this.state.users)
+            })
+            .catch((e) => {
+                console.error(e)
+                this.setState({
                     err: e
-                } )
-            } )
+                })
+            })
     }
 
     render () {
         const { loading } = this.state
         const contact = <Contact handleInputChanges={this.handleInputChanges} errors={this.state.errors}
-                                 lead={this.state}/>
+            lead={this.state}/>
         const address = <Address handleInputChanges={this.handleInputChanges} errors={this.state.errors}
-                                 lead={this.state}/>
+            lead={this.state}/>
         const details = <Details users={this.props.users} sourceTypes={this.state.sourceTypes}
-                                 handleInputChanges={this.handleInputChanges} errors={this.state.errors}
-                                 lead={this.state}/>
+            handleInputChanges={this.handleInputChanges} errors={this.state.errors}
+            lead={this.state}/>
 
         const notes = <Notes handleInput={this.handleInputChanges} private_notes={this.state.private_notes}
-                             public_notes={this.state.public_notes}/>
-        const theme = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'dark-theme' : 'light-theme'
+            public_notes={this.state.public_notes}/>
+        const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
         return (
             <React.Fragment>
@@ -132,7 +132,7 @@ class AddLeadForm extends React.Component {
                                     <NavLink
                                         className={this.state.activeTab === '1' ? 'active' : ''}
                                         onClick={() => {
-                                            this.toggleTab ( '1' )
+                                            this.toggleTab('1')
                                         }}>
                                         {translations.details}
                                     </NavLink>
@@ -142,7 +142,7 @@ class AddLeadForm extends React.Component {
                                     <NavLink
                                         className={this.state.activeTab === '2' ? 'active' : ''}
                                         onClick={() => {
-                                            this.toggleTab ( '2' )
+                                            this.toggleTab('2')
                                         }}>
                                         {translations.contact}
                                     </NavLink>
@@ -152,7 +152,7 @@ class AddLeadForm extends React.Component {
                                     <NavLink
                                         className={this.state.activeTab === '3' ? 'active' : ''}
                                         onClick={() => {
-                                            this.toggleTab ( '3' )
+                                            this.toggleTab('3')
                                         }}>
                                         {translations.address}
                                     </NavLink>
@@ -162,7 +162,7 @@ class AddLeadForm extends React.Component {
                                     <NavLink
                                         className={this.state.activeTab === '4' ? 'active' : ''}
                                         onClick={() => {
-                                            this.toggleTab ( '4' )
+                                            this.toggleTab('4')
                                         }}>
                                         {translations.notes}
                                     </NavLink>
@@ -190,8 +190,8 @@ class AddLeadForm extends React.Component {
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
-                                        saveData={this.handleClick.bind ( this )}
-                                        loading={loading}/>
+                        saveData={this.handleClick.bind(this)}
+                        loading={loading}/>
                 </Modal>
             </React.Fragment>
         )

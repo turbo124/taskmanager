@@ -9,100 +9,100 @@ import Header from './Header'
 import AccountRepository from '../repositories/AccountRepository'
 
 export default class ExpenseSettings extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
         this.state = {
-            id: localStorage.getItem ( 'account_id' ),
+            id: localStorage.getItem('account_id'),
             settings: {},
             activeTab: '1',
             success: false,
             error: false
         }
 
-        this.handleSettingsChange = this.handleSettingsChange.bind ( this )
-        this.handleChange = this.handleChange.bind ( this )
-        this.handleSubmit = this.handleSubmit.bind ( this )
-        this.getAccount = this.getAccount.bind ( this )
-        this.toggle = this.toggle.bind ( this )
+        this.handleSettingsChange = this.handleSettingsChange.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.getAccount = this.getAccount.bind(this)
+        this.toggle = this.toggle.bind(this)
     }
 
     componentDidMount () {
-        this.getAccount ()
+        this.getAccount()
     }
 
-    toggle ( tab, e ) {
-        if ( this.state.activeTab !== tab ) {
-            this.setState ( { activeTab: tab } )
+    toggle (tab, e) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
         }
 
         const parent = e.currentTarget.parentNode
-        const rect = parent.getBoundingClientRect ()
-        const rect2 = parent.nextSibling.getBoundingClientRect ()
-        const rect3 = parent.previousSibling.getBoundingClientRect ()
+        const rect = parent.getBoundingClientRect()
+        const rect2 = parent.nextSibling.getBoundingClientRect()
+        const rect3 = parent.previousSibling.getBoundingClientRect()
         const winWidth = window.innerWidth || document.documentElement.clientWidth
         const widthScroll = winWidth * 33 / 100
 
-        if ( rect.left <= 10 || rect3.left <= 10 ) {
-            const container = document.getElementsByClassName ( 'setting-tabs' )[ 0 ]
+        if (rect.left <= 10 || rect3.left <= 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
             container.scrollLeft -= widthScroll
         }
 
-        if ( rect.right >= winWidth - 10 || rect2.right >= winWidth - 10 ) {
-            const container = document.getElementsByClassName ( 'setting-tabs' )[ 0 ]
+        if (rect.right >= winWidth - 10 || rect2.right >= winWidth - 10) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
             container.scrollLeft += widthScroll
         }
     }
 
     getAccount () {
-        const accountRepository = new AccountRepository ()
-        accountRepository.getById ( this.state.id ).then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const accountRepository = new AccountRepository()
+        accountRepository.getById(this.state.id).then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( {
+            this.setState({
                 loaded: true,
                 settings: response.settings
             }, () => {
-                console.log ( response )
-            } )
-        } )
+                console.log(response)
+            })
+        })
     }
 
-    handleChange ( event ) {
-        this.setState ( { [ event.target.name ]: event.target.value } )
+    handleChange (event) {
+        this.setState({ [event.target.name]: event.target.value })
     }
 
-    handleSettingsChange ( event ) {
+    handleSettingsChange (event) {
         const name = event.target.name
         const value = event.target.value
 
-        this.setState ( prevState => ({
+        this.setState(prevState => ({
             settings: {
                 ...prevState.settings,
-                [ name ]: value
+                [name]: value
             }
-        }) )
+        }))
     }
 
-    handleSubmit ( e ) {
-        const formData = new FormData ()
-        formData.append ( 'settings', JSON.stringify ( this.state.settings ) )
-        formData.append ( '_method', 'PUT' )
+    handleSubmit (e) {
+        const formData = new FormData()
+        formData.append('settings', JSON.stringify(this.state.settings))
+        formData.append('_method', 'PUT')
 
-        axios.post ( `/api/accounts/${this.state.id}`, formData, {
+        axios.post(`/api/accounts/${this.state.id}`, formData, {
             headers: {
                 'content-type': 'multipart/form-data'
             }
-        } )
-            .then ( ( response ) => {
-                this.setState ( { success: true } )
-            } )
-            .catch ( ( error ) => {
-                console.error ( error )
-                this.setState ( { error: true } )
-            } )
+        })
+            .then((response) => {
+                this.setState({ success: true })
+            })
+            .catch((error) => {
+                console.error(error)
+                this.setState({ error: true })
+            })
     }
 
     getExpenseFields () {
@@ -151,17 +151,17 @@ export default class ExpenseSettings extends Component {
     }
 
     handleClose () {
-        this.setState ( { success: false, error: false } )
+        this.setState({ success: false, error: false })
     }
 
     render () {
         return this.state.loaded === true ? (
             <React.Fragment>
-                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind ( this )} severity="success"
-                                 message={translations.settings_saved}/>
+                <SnackbarMessage open={this.state.success} onClose={this.handleClose.bind(this)} severity="success"
+                    message={translations.settings_saved}/>
 
-                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind ( this )} severity="danger"
-                                 message={translations.settings_not_saved}/>
+                <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
+                    message={translations.settings_not_saved}/>
 
                 <Header title={translations.expense_settings} handleSubmit={this.handleSubmit}/>
 
@@ -170,7 +170,7 @@ export default class ExpenseSettings extends Component {
                         <CardBody>
                             <FormBuilder
                                 handleChange={this.handleSettingsChange}
-                                formFieldsRows={this.getExpenseFields ()}
+                                formFieldsRows={this.getExpenseFields()}
                             />
                         </CardBody>
                     </Card>

@@ -3,28 +3,28 @@ import BaseRepository from './BaseRepository'
 
 export default class AccountRepository extends BaseRepository {
     constructor () {
-        super ()
+        super()
 
         this._url = '/api/accounts'
     }
 
-    async getById ( id ) {
+    async getById (id) {
         this.errors = []
         this.error_message = ''
 
         try {
             const url = `${this._url}/${id}`
-            const res = await axios.get ( url )
+            const res = await axios.get(url)
 
-            if ( res.status === 200 ) {
+            if (res.status === 200) {
                 // test for status you want, etc
-                console.log ( res.status )
+                console.log(res.status)
             }
 
             // Don't forget to return something
             return res.data
-        } catch ( e ) {
-            this.handleError ( e )
+        } catch (e) {
+            this.handleError(e)
             return false
         }
     }

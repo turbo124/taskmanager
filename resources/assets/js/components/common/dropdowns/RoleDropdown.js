@@ -3,94 +3,94 @@ import axios from 'axios'
 import { FormGroup, Input, Label } from 'reactstrap'
 
 export default class RoleDropdown extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             roles: []
         }
 
-        this.getRoles = this.getRoles.bind ( this )
+        this.getRoles = this.getRoles.bind(this)
     }
 
     componentDidMount () {
-        if ( !this.props.roles || !this.props.roles.length ) {
-            this.getRoles ()
+        if (!this.props.roles || !this.props.roles.length) {
+            this.getRoles()
         } else {
-            this.setState ( { roles: this.props.roles } )
+            this.setState({ roles: this.props.roles })
         }
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback d-block'>
-                    <strong>{this.props.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.props.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
-    hasErrorFor ( field ) {
-        return this.props.errors && !!this.props.errors[ field ]
+    hasErrorFor (field) {
+        return this.props.errors && !!this.props.errors[field]
     }
 
     getRoles () {
-        axios.get ( '/api/roles' )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get('/api/roles')
+            .then((r) => {
+                this.setState({
                     roles: r.data
-                } )
-            } )
-            .catch ( ( e ) => {
-                console.error ( e )
-            } )
+                })
+            })
+            .catch((e) => {
+                console.error(e)
+            })
     }
 
-    multiSelect ( roleList, name ) {
+    multiSelect (roleList, name) {
         return (
             <FormGroup>
                 <Label>Select Roles for user</Label>
                 <Input value={this.props.role} onChange={this.props.handleInputChanges} type="select"
-                       name={name} id={name}
-                       multiple="multiple"
+                    name={name} id={name}
+                    multiple="multiple"
                 >
                     {roleList}
                 </Input>
-                {this.renderErrorFor ( 'role' )}
+                {this.renderErrorFor('role')}
             </FormGroup>
         )
     }
 
-    singleSelect ( roleList, name ) {
+    singleSelect (roleList, name) {
         return (
             <FormGroup>
                 <Input value={this.props.role} onChange={this.props.handleInputChanges} type="select"
-                       name={name} id={name}
+                    name={name} id={name}
                 >
                     <option value="">Select Role</option>
                     {roleList}
                 </Input>
-                {this.renderErrorFor ( 'role' )}
+                {this.renderErrorFor('role')}
             </FormGroup>
         )
     }
 
     render () {
         let roleList = null
-        if ( !this.state.roles.length ) {
+        if (!this.state.roles.length) {
             roleList = <option value="">Loading...</option>
         } else {
-            roleList = this.state.roles.map ( ( role, index ) => (
+            roleList = this.state.roles.map((role, index) => (
                 <option key={index} value={role.id}>{role.name}</option>
-            ) )
+            ))
         }
 
         const name = this.props.name && this.props.name ? this.props.name : 'role'
 
-        if ( this.props.multiple && this.props.multiple === true ) {
-            return this.multiSelect ( roleList, name )
+        if (this.props.multiple && this.props.multiple === true) {
+            return this.multiSelect(roleList, name)
         }
 
-        return this.singleSelect ( roleList, name )
+        return this.singleSelect(roleList, name)
     }
 }

@@ -9,8 +9,8 @@ import FilterTile from '../common/FilterTile'
 import StatusDropdown from '../common/StatusDropdown'
 
 export default class ProductFilters extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             dropdownButtonActions: ['download'],
             isOpen: false,
@@ -24,41 +24,41 @@ export default class ProductFilters extends Component {
             }
         }
 
-        this.getFilters = this.getFilters.bind ( this )
-        this.filterProducts = this.filterProducts.bind ( this )
+        this.getFilters = this.getFilters.bind(this)
+        this.filterProducts = this.filterProducts.bind(this)
     }
 
-    setFilterOpen ( isOpen ) {
-        this.setState ( { isOpen: isOpen } )
+    setFilterOpen (isOpen) {
+        this.setState({ isOpen: isOpen })
     }
 
-    filterProducts ( event ) {
-        if ( 'start_date' in event ) {
-            this.setState ( prevState => ({
+    filterProducts (event) {
+        if ('start_date' in event) {
+            this.setState(prevState => ({
                 filters: {
                     ...prevState.filters,
                     start_date: event.start_date,
                     end_date: event.end_date
                 }
-            }), () => this.props.filter ( this.state.filters ) )
+            }), () => this.props.filter(this.state.filters))
             return
         }
 
         const column = event.target.id
         const value = event.target.value
 
-        if ( value === 'all' ) {
-            const updatedRowState = this.state.filters.filter ( filter => filter.column !== column )
-            this.setState ( { filters: updatedRowState }, () => this.props.filter ( this.state.filters ) )
+        if (value === 'all') {
+            const updatedRowState = this.state.filters.filter(filter => filter.column !== column)
+            this.setState({ filters: updatedRowState }, () => this.props.filter(this.state.filters))
             return true
         }
 
-        this.setState ( prevState => ({
+        this.setState(prevState => ({
             filters: {
                 ...prevState.filters,
-                [ column ]: value
+                [column]: value
             }
-        }), () => this.props.filter ( this.state.filters ) )
+        }), () => this.props.filter(this.state.filters))
 
         return true
     }
@@ -97,7 +97,7 @@ export default class ProductFilters extends Component {
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter filename="products.csv"
-                                 url={`/api/products?search_term=${searchText}&status=${status}&category_id=${category_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
+                        url={`/api/products?search_term=${searchText}&status=${status}&category_id=${category_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">
@@ -110,7 +110,7 @@ export default class ProductFilters extends Component {
     }
 
     render () {
-        const filters = this.getFilters ()
+        const filters = this.getFilters()
 
         return (<FilterTile setFilterOpen={this.props.setFilterOpen} filters={filters}/>)
     }

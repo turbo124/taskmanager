@@ -2,20 +2,20 @@ import * as React from 'react'
 import { Card, CardBody } from 'reactstrap'
 
 class MessageDialog extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             messageText: this.props.message ? this.props.message.comment : ''
         }
-        this.onChange = this.onChange.bind ( this )
+        this.onChange = this.onChange.bind(this)
     }
 
-    onChange ( e ) {
+    onChange (e) {
         const value = e.target.value
-        this.props.setActiveMessage ( value )
-        this.setState ( {
+        this.props.setActiveMessage(value)
+        this.setState({
             messageText: value
-        } )
+        })
     }
 
     render () {
@@ -29,12 +29,12 @@ class MessageDialog extends React.Component {
                         <h4>What's New</h4>
                         <div className="form-group p-2">
                             <textarea value={this.props.message} className="form-control"
-                                      placeholder="Update your status"
-                                      onChange={this.onChange}/>
+                                placeholder="Update your status"
+                                onChange={this.onChange}/>
                         </div>
-                        <button onClick={() => submitMessage ( messageText, mode )}
-                                className="btn btn-primary pull-right"
-                                type="button">Post
+                        <button onClick={() => submitMessage(messageText, mode)}
+                            className="btn btn-primary pull-right"
+                            type="button">Post
                         </button>
                         <ul className="list-inline">
                             <li><a href=""><i className="glyphicon glyphicon-upload"/></a></li>

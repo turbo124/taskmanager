@@ -5,39 +5,39 @@ import Datepicker from '../../common/Datepicker'
 import { icons } from '../../utils/_icons'
 import { frequencyOptions } from '../../utils/_consts'
 
-export default function Recurring ( props ) {
+export default function Recurring (props) {
     return (
         <React.Fragment>
             {props.recurring_invoice.last_sent_date.length
                 ? <FormGroup>
                     <Label for="date_to_send">{translations.next_send_date}(*):</Label>
                     <Datepicker name="date_to_send" date={props.recurring_invoice.date_to_send}
-                                handleInput={props.handleInput}
-                                className={props.hasErrorFor ( 'date_to_send' ) ? 'form-control is-invalid' : 'form-control'}/>
-                    {props.renderErrorFor ( 'date_to_send' )}
+                        handleInput={props.handleInput}
+                        className={props.hasErrorFor('date_to_send') ? 'form-control is-invalid' : 'form-control'}/>
+                    {props.renderErrorFor('date_to_send')}
                 </FormGroup>
                 : <FormGroup>
                     <Label for="start_date">{translations.start_date}(*):</Label>
                     <Datepicker name="start_date" date={props.recurring_invoice.start_date}
-                                handleInput={props.handleInput}
-                                className={props.hasErrorFor ( 'start_date' ) ? 'form-control is-invalid' : 'form-control'}/>
-                    {props.renderErrorFor ( 'start_date' )}
+                        handleInput={props.handleInput}
+                        className={props.hasErrorFor('start_date') ? 'form-control is-invalid' : 'form-control'}/>
+                    {props.renderErrorFor('start_date')}
                 </FormGroup>
             }
 
             <FormGroup>
                 <Label for="expiry_date">{translations.end_date}(*):</Label>
                 <Datepicker name="expiry_date" date={props.recurring_invoice.expiry_date}
-                            handleInput={props.handleInput}
-                            className={props.hasErrorFor ( 'expiry_date' ) ? 'form-control is-invalid' : 'form-control'}/>
-                {props.renderErrorFor ( 'expiry_date' )}
+                    handleInput={props.handleInput}
+                    className={props.hasErrorFor('expiry_date') ? 'form-control is-invalid' : 'form-control'}/>
+                {props.renderErrorFor('expiry_date')}
             </FormGroup>
 
             <FormGroup>
                 <Label for="due_date">{translations.due_date}(*):</Label>
                 <Datepicker name="due_date" date={props.recurring_invoice.due_date} handleInput={props.handleInput}
-                            className={props.hasErrorFor ( 'due_date' ) ? 'form-control is-invalid' : 'form-control'}/>
-                {props.renderErrorFor ( 'due_date' )}
+                    className={props.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
+                {props.renderErrorFor('due_date')}
             </FormGroup>
 
             <FormGroup>
@@ -50,9 +50,9 @@ export default function Recurring ( props ) {
                     id='frequency'
                     onChange={props.handleInput}
                 >
-                    {Object.keys ( frequencyOptions ).map ( ( frequency ) => (
-                        <option value={frequency}>{translations[ frequencyOptions[ frequency ] ]}</option>
-                    ) )}
+                    {Object.keys(frequencyOptions).map((frequency) => (
+                        <option value={frequency}>{translations[frequencyOptions[frequency]]}</option>
+                    ))}
                 </Input>
             </FormGroup>
 
@@ -73,7 +73,7 @@ export default function Recurring ( props ) {
             </FormGroup>
 
             <a href="#"
-               className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+                className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
                     <h5 className="mb-1">
                         <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.credit_card}`}/>

@@ -7,21 +7,21 @@ class WeekCalendars extends Component {
         events: [
             {
                 name: 'Event 1',
-                date: new Date ()
+                date: new Date()
             },
             {
                 name: 'Event 2',
-                date: new Date ()
+                date: new Date()
             },
             {
                 name: 'Event 3',
-                date: new Date ()
+                date: new Date()
             }
         ]
     }
 
-    eventRender = ( event, i ) => (
-        <div onClick={() => console.log ( `Event: ${event.name} on position: ${i}` )}>
+    eventRender = (event, i) => (
+        <div onClick={() => console.log(`Event: ${event.name} on position: ${i}`)}>
             {event.name}
         </div>
     )

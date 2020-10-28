@@ -25,24 +25,24 @@ class CalendarWeekRow extends React.Component {
 
         return (
             <Row>
-                {dates.map ( date => (
+                {dates.map(date => (
                     <DayHeader
-                        dimmed={date.getFullYear () !== year || date.getMonth () !== month - 1}
+                        dimmed={date.getFullYear() !== year || date.getMonth() !== month - 1}
                         key={date}
                     >
-                        {date.getDate ()}
+                        {date.getDate()}
                     </DayHeader>
-                ) )}
-                {events.map ( event => {
-                    const beginDate = new Date ( Date.parse ( event.beginDate ) )
-                    const endDate = new Date ( Date.parse ( event.endDate ) )
+                ))}
+                {events.map(event => {
+                    const beginDate = new Date(Date.parse(event.beginDate))
+                    const endDate = new Date(Date.parse(event.endDate))
                     const col =
-                        dates.findIndex (
-                            date => date.valueOf () === beginDate.valueOf ()
+                        dates.findIndex(
+                            date => date.valueOf() === beginDate.valueOf()
                         ) + 1 || 1
                     const colSpan =
-                        (dates.findIndex (
-                            date => date.valueOf () === endDate.valueOf ()
+                        (dates.findIndex(
+                            date => date.valueOf() === endDate.valueOf()
                         ) + 1 || 7) -
                         col +
                         1
@@ -58,7 +58,7 @@ class CalendarWeekRow extends React.Component {
                             key={event.id}
                         />
                     )
-                } )}
+                })}
             </Row>
         )
     }

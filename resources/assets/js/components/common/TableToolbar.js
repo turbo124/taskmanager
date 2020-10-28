@@ -4,8 +4,8 @@ import { icons } from '../utils/_icons'
 import { UncontrolledTooltip } from 'reactstrap'
 import { translations } from '../utils/_translations'
 
-export default function TableToolbar ( props ) {
-    const text_color = localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true' ? 'text-white' : 'text-dark'
+export default function TableToolbar (props) {
+    const text_color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'text-white' : 'text-dark'
 
     return (
         <React.Fragment>
@@ -34,15 +34,15 @@ export default function TableToolbar ( props ) {
                     dropdownButtonActions={props.dropdownButtonActions}
                     saveBulk={props.saveBulk}/>}
                 <i onClick={props.handleTableActions} id="refresh" className={`fa ${icons.refresh} ${text_color}`}
-                   style={{ fontSize: '28px', cursor: 'pointer', marginRight: '6px' }}/>
+                    style={{ fontSize: '28px', cursor: 'pointer', marginRight: '6px' }}/>
                 <i onClick={props.handleTableActions} id="toggle-checkbox" className={`fa ${icons.checkbox} mr-2`}
-                   style={{ fontSize: '28px' }}/>
+                    style={{ fontSize: '28px' }}/>
                 <i onClick={props.handleTableActions} id="toggle-table" className={`fa ${icons.table} mr-2`}
-                   style={{ fontSize: '28px' }}/>
+                    style={{ fontSize: '28px' }}/>
                 <i onClick={props.handleTableActions} id="toggle-columns" className={`fa ${icons.columns} mr-2`}
-                   style={{ fontSize: '28px' }}/>
+                    style={{ fontSize: '28px' }}/>
                 <i onClick={props.handleTableActions} id="view-entity" className={`fa ${icons.view} mr-4`}
-                   style={{ fontSize: '28px' }}/>
+                    style={{ fontSize: '28px' }}/>
             </div>
         </React.Fragment>
 

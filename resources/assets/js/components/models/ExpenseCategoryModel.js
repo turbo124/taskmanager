@@ -2,12 +2,12 @@ import axios from 'axios'
 import BaseModel from './BaseModel'
 
 export default class ExpenseCategoryModel extends BaseModel {
-    constructor ( data = null ) {
-        super ()
+    constructor (data = null) {
+        super()
 
         this.errors = []
         this.error_message = ''
-        this.currencies = JSON.parse ( localStorage.getItem ( 'currencies' ) )
+        this.currencies = JSON.parse(localStorage.getItem('currencies'))
         this._url = '/api/expense-categories'
         this.entity = 'ExpenseCategory'
 
@@ -18,7 +18,7 @@ export default class ExpenseCategoryModel extends BaseModel {
             errors: []
         }
 
-        if ( data !== null ) {
+        if (data !== null) {
             this._fields = { ...this.fields, ...data }
         }
     }
@@ -37,17 +37,17 @@ export default class ExpenseCategoryModel extends BaseModel {
 
     buildDropdownMenu () {
         const actions = []
-        if ( !this.fields.is_deleted ) {
-            actions.push ( 'newInvoice' )
+        if (!this.fields.is_deleted) {
+            actions.push('newInvoice')
         }
 
-        actions.push ( 'cloneExpense' )
+        actions.push('cloneExpense')
 
         return actions
     }
 
-    async completeAction ( data, action ) {
-        if ( !this.fields.id ) {
+    async completeAction (data, action) {
+        if (!this.fields.id) {
             return false
         }
 
@@ -55,22 +55,22 @@ export default class ExpenseCategoryModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.post ( `${this.url}/${this.fields.id}/${action}`, data )
+            const res = await axios.post(`${this.url}/${this.fields.id}/${action}`, data)
 
-            if ( res.status === 200 ) {
+            if (res.status === 200) {
                 // test for status you want, etc
-                console.log ( res.status )
+                console.log(res.status)
             }
             // Don't forget to return something
             return res.data
-        } catch ( e ) {
-            this.handleError ( e )
+        } catch (e) {
+            this.handleError(e)
             return false
         }
     }
 
-    async update ( data ) {
-        if ( !this.fields.id ) {
+    async update (data) {
+        if (!this.fields.id) {
             return false
         }
 
@@ -78,34 +78,34 @@ export default class ExpenseCategoryModel extends BaseModel {
         this.error_message = ''
 
         try {
-            const res = await axios.put ( `${this.url}/${this.fields.id}`, data )
+            const res = await axios.put(`${this.url}/${this.fields.id}`, data)
 
-            if ( res.status === 200 ) {
+            if (res.status === 200) {
                 // test for status you want, etc
-                console.log ( res.status )
+                console.log(res.status)
             }
             // Don't forget to return something
             return res.data
-        } catch ( e ) {
-            this.handleError ( e )
+        } catch (e) {
+            this.handleError(e)
             return false
         }
     }
 
-    async save ( data ) {
+    async save (data) {
         try {
             this.errors = []
             this.error_message = ''
-            const res = await axios.post ( this.url, data )
+            const res = await axios.post(this.url, data)
 
-            if ( res.status === 200 ) {
+            if (res.status === 200) {
                 // test for status you want, etc
-                console.log ( res.status )
+                console.log(res.status)
             }
             // Don't forget to return something
             return res.data
-        } catch ( e ) {
-            this.handleError ( e )
+        } catch (e) {
+            this.handleError(e)
             return false
         }
     }

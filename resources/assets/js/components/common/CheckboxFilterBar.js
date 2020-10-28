@@ -14,7 +14,7 @@ export default class CheckboxFilterBar extends Component {
                     <FormGroup check>
                         <Label check>
                             <Input style={{ height: '16px', width: '16px' }} checked={this.props.isChecked}
-                                   id="selectAll" onClick={this.props.checkAll} type="checkbox" name="radio1"/>
+                                id="selectAll" onClick={this.props.checkAll} type="checkbox" name="radio1"/>
                             {translations.select_all}
                         </Label>
                     </FormGroup>

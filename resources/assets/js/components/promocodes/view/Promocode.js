@@ -12,22 +12,22 @@ export default class Promocode extends Component {
         return (
             <React.Fragment>
                 <ViewEntityHeader heading_1={translations.amount} value_1={this.props.entity.reward}
-                                  heading_2={translations.amount_type} value_2={this.props.entity.amount_type}/>
+                    heading_2={translations.amount_type} value_2={this.props.entity.amount_type}/>
 
                 <Row>
                     <ListGroup className="col-12">
                         <InfoItem icon={icons.credit_card} value={<FormatMoney amount={this.props.entity.reward}/>}
-                                  title={translations.amount}/>
+                            title={translations.amount}/>
                         <InfoItem icon={icons.link} value={this.props.entity.code}
-                                  title={translations.code}/>
+                            title={translations.code}/>
                         <InfoItem icon={icons.building} value={this.props.entity.description}
-                                  title={translations.description}/>
+                            title={translations.description}/>
                         <InfoItem icon={icons.percent} value={this.props.entity.amount_type}
-                                  title={translations.amount_type}/>
+                            title={translations.amount_type}/>
                         <InfoItem icon={icons.list} value={this.props.entity.quantity}
-                                  title={translations.quantity}/>
+                            title={translations.quantity}/>
                         <InfoItem icon={icons.calendar} value={<FormatDate date={this.props.entity.expires_at}/>}
-                                  title={translations.expiry_date}/>
+                            title={translations.expiry_date}/>
                     </ListGroup>
                 </Row>
 

@@ -10,43 +10,43 @@ import Refund from './edit/Refund'
 import PaymentModel from '../models/PaymentModel'
 
 export default class PaymentItem extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
-        this.deletePayment = this.deletePayment.bind ( this )
+        this.deletePayment = this.deletePayment.bind(this)
     }
 
-    deletePayment ( id, archive = true ) {
+    deletePayment (id, archive = true) {
         const url = archive === true ? `/api/payments/archive/${id}` : `/api/payments/${id}`
         const self = this
-        axios.delete ( url )
-            .then ( function ( response ) {
+        axios.delete(url)
+            .then(function (response) {
                 const arrPayments = [...self.props.payments]
-                const index = arrPayments.findIndex ( payment => payment.id === id )
-                arrPayments.splice ( index, 1 )
-                self.props.updateCustomers ( arrPayments )
-            } )
-            .catch ( function ( error ) {
-                self.setState (
+                const index = arrPayments.findIndex(payment => payment.id === id)
+                arrPayments.splice(index, 1)
+                self.props.updateCustomers(arrPayments)
+            })
+            .catch(function (error) {
+                self.setState(
                     {
                         error: error.response.data
                     }
                 )
-            } )
+            })
     }
 
     render () {
         const { payments, custom_fields, invoices, customers, credits } = this.props
 
-        if ( payments && payments.length && customers.length && invoices.length && credits.length ) {
-            return payments.map ( payment => {
-                const paymentModel = new PaymentModel ( invoices, payment, credits )
+        if (payments && payments.length && customers.length && invoices.length && credits.length) {
+            return payments.map(payment => {
+                const paymentModel = new PaymentModel(invoices, payment, credits)
                 const paymentableInvoices = invoices && invoices.length ? paymentModel.paymentableInvoices : null
                 const paymentableCredits = credits && credits.length ? paymentModel.paymentableCredits : null
 
                 const restoreButton = paymentModel.isDeleted
                     ? <RestoreModal id={payment.id} entities={payments} updateState={this.props.updateCustomers}
-                                    url={`/api/payments/restore/${payment.id}`}/> : null
+                        url={`/api/payments/restore/${payment.id}`}/> : null
 
                 const archiveButton = paymentModel.isActive
                     ? <DeleteModal archive={true} deleteFunction={this.deletePayment} id={payment.id}/> : null
@@ -65,44 +65,44 @@ export default class PaymentItem extends Component {
                     modal={true}
                 /> : null
 
-                const columnList = Object.keys ( payment ).filter ( key => {
-                    return this.props.ignoredColumns && !this.props.ignoredColumns.includes ( key )
-                } ).map ( key => {
+                const columnList = Object.keys(payment).filter(key => {
+                    return this.props.ignoredColumns && !this.props.ignoredColumns.includes(key)
+                }).map(key => {
                     return <PaymentPresenter key={key} customers={customers} field={key}
-                                             paymentables={paymentableInvoices} paymentable_credits={paymentableCredits}
-                                             entity={payment} edit={editButton}
-                                             toggleViewedEntity={this.props.toggleViewedEntity}/>
-                } )
+                        paymentables={paymentableInvoices} paymentable_credits={paymentableCredits}
+                        entity={payment} edit={editButton}
+                        toggleViewedEntity={this.props.toggleViewedEntity}/>
+                })
 
                 const refundButton = paymentableInvoices.length && invoices.length
                     ? <Refund customers={customers} payment={payment}
-                              modal={true}
-                              allInvoices={paymentableInvoices}
-                              allCredits={paymentableCredits}
-                              invoices={invoices}
-                              credits={credits}
-                              payments={payments}
-                              paymentables={payment.paymentables}
-                              action={this.props.updateCustomers}/> : null
+                        modal={true}
+                        allInvoices={paymentableInvoices}
+                        allCredits={paymentableCredits}
+                        invoices={invoices}
+                        credits={credits}
+                        payments={payments}
+                        paymentables={payment.paymentables}
+                        action={this.props.updateCustomers}/> : null
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const isChecked = this.props.bulk.includes ( payment.id )
+                const isChecked = this.props.bulk.includes(payment.id)
                 const selectedRow = this.props.viewId === payment.id ? 'table-row-selected' : ''
                 const actionMenu = this.props.showCheckboxes !== true
                     ? <ActionsMenu refund={refundButton} edit={editButton} delete={deleteButton} archive={archiveButton}
-                                   restore={restoreButton}/> : null
+                        restore={restoreButton}/> : null
 
                 return (
                     <tr className={selectedRow} key={payment.id}>
                         <td>
                             <Input checked={isChecked} className={checkboxClass} value={payment.id} type="checkbox"
-                                   onChange={this.props.onChangeBulk}/>
+                                onChange={this.props.onChangeBulk}/>
                             {actionMenu}
                         </td>
                         {columnList}
                     </tr>
                 )
-            } )
+            })
         } else {
             return <tr>
                 <td className="text-center">No Records Found.</td>

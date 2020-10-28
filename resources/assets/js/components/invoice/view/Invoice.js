@@ -14,8 +14,8 @@ import AddPayment from '../../payments/edit/AddPayment'
 import Overview from './Overview'
 
 export default class Invoice extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             entity: this.props.entity,
             activeTab: '1',
@@ -23,103 +23,103 @@ export default class Invoice extends Component {
             show_success: false
         }
 
-        this.invoiceModel = new InvoiceModel ( this.state.entity )
-        this.toggleTab = this.toggleTab.bind ( this )
-        this.loadPdf = this.loadPdf.bind ( this )
-        this.triggerAction = this.triggerAction.bind ( this )
-        this.refresh = this.refresh.bind ( this )
+        this.invoiceModel = new InvoiceModel(this.state.entity)
+        this.toggleTab = this.toggleTab.bind(this)
+        this.loadPdf = this.loadPdf.bind(this)
+        this.triggerAction = this.triggerAction.bind(this)
+        this.refresh = this.refresh.bind(this)
     }
 
-    refresh ( entity ) {
-        this.invoiceModel = new InvoiceModel ( entity )
-        this.setState ( { entity: entity } )
+    refresh (entity) {
+        this.invoiceModel = new InvoiceModel(entity)
+        this.setState({ entity: entity })
     }
 
-    triggerAction ( action, is_add = false ) {
-        this.invoiceModel.completeAction ( this.state.entity, action ).then ( response => {
-            this.setState ( { show_success: true }, () => {
-                this.props.updateState ( response, this.refresh, is_add )
-            } )
+    triggerAction (action, is_add = false) {
+        this.invoiceModel.completeAction(this.state.entity, action).then(response => {
+            this.setState({ show_success: true }, () => {
+                this.props.updateState(response, this.refresh, is_add)
+            })
 
-            setTimeout (
+            setTimeout(
                 function () {
-                    this.setState ( { show_success: false } )
+                    this.setState({ show_success: false })
                 }
-                    .bind ( this ),
+                    .bind(this),
                 2000
             )
-        } )
+        })
     }
 
     loadPdf () {
-        this.invoiceModel.loadPdf ().then ( url => {
-            console.log ( 'url', url )
-            this.setState ( { obj_url: url }, () => URL.revokeObjectURL ( url ) )
-        } )
+        this.invoiceModel.loadPdf().then(url => {
+            console.log('url', url)
+            this.setState({ obj_url: url }, () => URL.revokeObjectURL(url))
+        })
     }
 
-    toggleTab ( tab ) {
-        if ( this.state.activeTab !== tab ) {
-            this.setState ( { activeTab: tab }, () => {
-                if ( this.state.activeTab === '5' ) {
-                    this.loadPdf ()
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab }, () => {
+                if (this.state.activeTab === '5') {
+                    this.loadPdf()
                 }
-            } )
+            })
         }
     }
 
     render () {
-        const customer = this.props.customers.filter ( customer => customer.id === parseInt ( this.state.entity.customer_id ) )
+        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
 
         let user = null
 
-        if ( this.state.entity.assigned_to ) {
-            const assigned_user = JSON.parse ( localStorage.getItem ( 'users' ) ).filter ( user => user.id === parseInt ( this.state.entity.assigned_to ) )
+        if (this.state.entity.assigned_to) {
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
             user = <EntityListTile entity={translations.user}
-                                   title={`${assigned_user[ 0 ].first_name} ${assigned_user[ 0 ].last_name}`}
-                                   icon={icons.user}/>
+                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
+                icon={icons.user}/>
         }
 
         let recurring = null
 
-        if ( this.state.entity.recurring ) {
+        if (this.state.entity.recurring) {
             recurring = <EntityListTile entity={translations.recurring_invoice}
-                                        title={`${this.state.entity.recurring.number}`}
-                                        icon={getEntityIcon ( 'RecurringInvoice' )}/>
+                title={`${this.state.entity.recurring.number}`}
+                icon={getEntityIcon('RecurringInvoice')}/>
         }
 
         const fields = []
 
-        if ( this.state.entity.custom_value1.length ) {
-            const label1 = this.invoiceModel.getCustomFieldLabel ( 'Invoice', 'custom_value1' )
-            fields[ label1 ] = this.invoiceModel.formatCustomValue (
+        if (this.state.entity.custom_value1.length) {
+            const label1 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value1')
+            fields[label1] = this.invoiceModel.formatCustomValue(
                 'Invoice',
                 'custom_value1',
                 this.state.entity.custom_value1
             )
         }
 
-        if ( this.state.entity.custom_value2.length ) {
-            const label2 = this.invoiceModel.getCustomFieldLabel ( 'Invoice', 'custom_value2' )
-            fields[ label2 ] = this.invoiceModel.formatCustomValue (
+        if (this.state.entity.custom_value2.length) {
+            const label2 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value2')
+            fields[label2] = this.invoiceModel.formatCustomValue(
                 'Invoice',
                 'custom_value2',
                 this.state.entity.custom_value2
             )
         }
 
-        if ( this.state.entity.custom_value3.length ) {
-            const label3 = this.invoiceModel.getCustomFieldLabel ( 'Invoice', 'custom_value3' )
-            fields[ label3 ] = this.invoiceModel.formatCustomValue (
+        if (this.state.entity.custom_value3.length) {
+            const label3 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value3')
+            fields[label3] = this.invoiceModel.formatCustomValue(
                 'Invoice',
                 'custom_value3',
                 this.state.entity.custom_value3
             )
         }
 
-        if ( this.state.entity.custom_value4.length ) {
-            const label4 = this.invoiceModel.getCustomFieldLabel ( 'Invoice', 'custom_value4' )
-            fields[ label4 ] = this.invoiceModel.formatCustomValue (
+        if (this.state.entity.custom_value4.length) {
+            const label4 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value4')
+            fields[label4] = this.invoiceModel.formatCustomValue(
                 'Invoice',
                 'custom_value4',
                 this.state.entity.custom_value4
@@ -129,18 +129,18 @@ export default class Invoice extends Component {
         fields.date = <FormatDate date={this.state.entity.date}/>
         fields.due_date = <FormatDate date={this.state.entity.due_date}/>
 
-        if ( this.state.entity.po_number && this.state.entity.po_number.length ) {
+        if (this.state.entity.po_number && this.state.entity.po_number.length) {
             fields.po_number = this.state.entity.po_number
         }
 
-        if ( this.state.entity.discount_total && this.state.entity.discount_total.toString ().length ) {
+        if (this.state.entity.discount_total && this.state.entity.discount_total.toString().length) {
             fields.discount = <FormatMoney customers={this.props.customers}
-                                           amount={this.state.entity.discount_total}/>
+                amount={this.state.entity.discount_total}/>
         }
 
-        const tax_total = this.invoiceModel.calculateTaxes ( false )
+        const tax_total = this.invoiceModel.calculateTaxes(false)
 
-        const button_2_action = this.invoiceModel.isPaid ? ( e ) => this.triggerAction ( 'clone_to_invoice', true ) : ( e ) => this.toggleTab ( '6' )
+        const button_2_action = this.invoiceModel.isPaid ? (e) => this.triggerAction('clone_to_invoice', true) : (e) => this.toggleTab('6')
         const button_2_text = this.invoiceModel.isPaid ? translations.clone_invoice : translations.add_payment
 
         return (
@@ -151,7 +151,7 @@ export default class Invoice extends Component {
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab ( '1' )
+                                this.toggleTab('1')
                             }}
                         >
                             {translations.details}
@@ -162,7 +162,7 @@ export default class Invoice extends Component {
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab ( '2' )
+                                this.toggleTab('2')
                             }}
                         >
                             {translations.contacts}
@@ -173,7 +173,7 @@ export default class Invoice extends Component {
                         <NavLink
                             className={this.state.activeTab === '3' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab ( '3' )
+                                this.toggleTab('3')
                             }}
                         >
                             {translations.documents} ({this.invoiceModel.fileCount})
@@ -184,7 +184,7 @@ export default class Invoice extends Component {
                         <NavLink
                             className={this.state.activeTab === '4' ? 'active' : ''}
                             onClick={() => {
-                                this.toggleTab ( '4' )
+                                this.toggleTab('4')
                             }}
                         >
                             {translations.history}
@@ -195,8 +195,8 @@ export default class Invoice extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <Overview entity={this.state.entity} customers={this.props.customers} recurring={recurring}
-                                  user={user}
-                                  customer={customer} fields={fields}/>
+                            user={user}
+                            customer={customer} fields={fields}/>
                     </TabPane>
 
                     <TabPane tabId="2">
@@ -214,7 +214,7 @@ export default class Invoice extends Component {
                                     <CardHeader> {translations.documents} </CardHeader>
                                     <CardBody>
                                         <FileUploads entity_type="Invoice" entity={this.state.entity}
-                                                     user_id={this.state.entity.user_id}/>
+                                            user_id={this.state.entity.user_id}/>
                                     </CardBody>
                                 </Card>
                             </Col>
@@ -236,8 +236,8 @@ export default class Invoice extends Component {
                                     <CardHeader> {translations.pdf} </CardHeader>
                                     <CardBody>
                                         <iframe style={{ width: '400px', height: '400px' }}
-                                                className="embed-responsive-item" id="viewer"
-                                                src={this.state.obj_url}/>
+                                            className="embed-responsive-item" id="viewer"
+                                            src={this.state.obj_url}/>
                                     </CardBody>
                                 </Card>
                             </Col>
@@ -255,10 +255,10 @@ export default class Invoice extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={( e ) => this.toggleTab ( '5' )}
-                                         button1={{ label: translations.view_pdf }}
-                                         button2_click={button_2_action}
-                                         button2={{ label: button_2_text }}/>
+                <BottomNavigationButtons button1_click={(e) => this.toggleTab('5')}
+                    button1={{ label: translations.view_pdf }}
+                    button2_click={button_2_action}
+                    button2={{ label: button_2_text }}/>
             </React.Fragment>
 
         )

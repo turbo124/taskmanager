@@ -7,28 +7,28 @@ import { account_pdf_fields } from '../models/AccountModel'
 import { user_pdf_fields } from '../models/UserModel'
 
 export default class Variables extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             show_email_variables: false,
             success: false,
             error: false,
-            id: localStorage.getItem ( 'account_id' ),
+            id: localStorage.getItem('account_id'),
             activeTab: '1',
             showConfirm: false
         }
 
-        this.toggleTab = this.toggleTab.bind ( this )
+        this.toggleTab = this.toggleTab.bind(this)
     }
 
-    toggleTab ( tab ) {
-        if ( this.state.activeTab !== tab ) {
-            this.setState ( { activeTab: tab } )
+    toggleTab (tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
         }
     }
 
     handleClose () {
-        this.setState ( { success: false, error: false } )
+        this.setState({ success: false, error: false })
     }
 
     render () {
@@ -46,7 +46,7 @@ export default class Variables extends Component {
                                 <NavLink
                                     className={this.state.activeTab === '1' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab ( '1' )
+                                        this.toggleTab('1')
                                     }}>
                                     {translations.invoice}
                                 </NavLink>
@@ -56,7 +56,7 @@ export default class Variables extends Component {
                                 <NavLink
                                     className={this.state.activeTab === '2' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab ( '2' )
+                                        this.toggleTab('2')
                                     }}>
                                     {translations.customer}
                                 </NavLink>
@@ -66,7 +66,7 @@ export default class Variables extends Component {
                                 <NavLink
                                     className={this.state.activeTab === '3' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab ( '3' )
+                                        this.toggleTab('3')
                                     }}>
                                     {translations.account}
                                 </NavLink>
@@ -76,7 +76,7 @@ export default class Variables extends Component {
                                 <NavLink
                                     className={this.state.activeTab === '4' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab ( '4' )
+                                        this.toggleTab('4')
                                     }}>
                                     {translations.user}
                                 </NavLink>
@@ -87,7 +87,7 @@ export default class Variables extends Component {
                                 <NavLink
                                     className={this.state.activeTab === '5' ? 'active' : ''}
                                     onClick={() => {
-                                        this.toggleTab ( '5' )
+                                        this.toggleTab('5')
                                     }}>
                                     {translations.user}
                                 </NavLink>
@@ -144,12 +144,12 @@ export default class Variables extends Component {
 
 class VariableGrid extends Component {
     render () {
-        const listClass = !Object.prototype.hasOwnProperty.call ( localStorage, 'dark_theme' ) || (localStorage.getItem ( 'dark_theme' ) && localStorage.getItem ( 'dark_theme' ) === 'true') ? 'list-group-item-dark' : ''
+        const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
         return (<ListGroup style={{ height: '400px', overflowY: 'auto' }}>
-            {this.props.fields.map ( ( field, idx ) => {
+            {this.props.fields.map((field, idx) => {
                 return <ListGroupItem key={idx} className={listClass}>{field}</ListGroupItem>
-            } )}
+            })}
         </ListGroup>)
     }
 }

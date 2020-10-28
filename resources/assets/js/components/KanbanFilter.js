@@ -9,8 +9,8 @@ import TaskStatusDropdown from './common/dropdowns/TaskStatusDropdown'
 import TableSearch from './common/TableSearch'
 
 export default class KanbanFilter extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             filters: {
                 task_status: '',
@@ -21,95 +21,95 @@ export default class KanbanFilter extends Component {
             },
             stories: []
         }
-        this.handleChange = this.handleChange.bind ( this )
-        this.handleProjectChange = this.handleProjectChange.bind ( this )
-        this.handleSubmit = this.handleSubmit.bind ( this )
-        this.resetFilters = this.resetFilters.bind ( this )
+        this.handleChange = this.handleChange.bind(this)
+        this.handleProjectChange = this.handleProjectChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.resetFilters = this.resetFilters.bind(this)
     }
 
     componentDidMount () {
-        this.getStoryDetails ()
+        this.getStoryDetails()
     }
 
     getStoryDetails () {
-        axios.get ( '/api/projects' )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get('/api/projects')
+            .then((r) => {
+                this.setState({
                     stories: r.data
-                } )
-            } )
-            .catch ( ( e ) => {
-                console.warn ( e )
-            } )
+                })
+            })
+            .catch((e) => {
+                console.warn(e)
+            })
     }
 
-    handleProjectChange ( event ) {
+    handleProjectChange (event) {
         const projectId = event.target.value
-        if ( this.props.updateProjectId ) {
-            this.props.updateProjectId ( projectId )
+        if (this.props.updateProjectId) {
+            this.props.updateProjectId(projectId)
         }
 
-        this.handleChange ( event )
+        this.handleChange(event)
     }
 
-    handleChange ( event ) {
+    handleChange (event) {
         const column = event.target.id
         const value = event.target.value
 
-        if ( value === 'all' ) {
-            const updatedRowState = this.state.filters.filter ( filter => filter.column !== column )
-            this.setState ( { filters: updatedRowState }, function () {
-                if ( !this.props.handleFilters ) {
-                    this.handleSubmit ()
+        if (value === 'all') {
+            const updatedRowState = this.state.filters.filter(filter => filter.column !== column)
+            this.setState({ filters: updatedRowState }, function () {
+                if (!this.props.handleFilters) {
+                    this.handleSubmit()
                 }
-            } )
+            })
             return true
         }
 
-        this.setState ( prevState => ({
+        this.setState(prevState => ({
             filters: {
                 ...prevState.filters,
-                [ column ]: value
+                [column]: value
             }
         }), function () {
-            if ( this.props.handleFilters ) {
-                this.props.handleFilters ( this.state.filters )
+            if (this.props.handleFilters) {
+                this.props.handleFilters(this.state.filters)
             } else {
-                this.handleSubmit ()
+                this.handleSubmit()
             }
-        } )
+        })
 
         return true
     }
 
     resetFilters () {
-        this.props.reset ()
+        this.props.reset()
     }
 
-    handleSubmit ( event ) {
-        axios.post ( `/api/tasks/filterTasks/${this.props.task_type}`,
-            this.state.filters )
-            .then ( ( response ) => {
-                this.props.action ( response.data )
-            } )
-            .catch ( ( error ) => {
-                alert ( error )
-            } )
+    handleSubmit (event) {
+        axios.post(`/api/tasks/filterTasks/${this.props.task_type}`,
+            this.state.filters)
+            .then((response) => {
+                this.props.action(response.data)
+            })
+            .catch((error) => {
+                alert(error)
+            })
     }
 
     buildProjectOptions () {
         let storyTable = null
-        if ( this.state.stories && this.state.stories.length ) {
-            storyTable = this.state.stories.map ( ( story, index ) => {
+        if (this.state.stories && this.state.stories.length) {
+            storyTable = this.state.stories.map((story, index) => {
                 return (
                     <option key={story.id} value={story.id}>{story.title}</option>
                 )
-            } )
+            })
         }
 
         return (
             <Input id="project_id" name="project_id" type="select" onChange={this.handleProjectChange}
-                   value={this.props.project_id}>
+                value={this.props.project_id}>
                 <option>Choose Project</option>
                 {storyTable}
             </Input>
@@ -121,7 +121,7 @@ export default class KanbanFilter extends Component {
     }
 
     render () {
-        const projectContent = this.props.task_type !== 2 && this.props.task_type !== 3 ? this.buildProjectOptions () : ''
+        const projectContent = this.props.task_type !== 2 && this.props.task_type !== 3 ? this.buildProjectOptions() : ''
         const addButton = this.props.task_type !== 2 && this.props.task_type !== 3
             ? <AddStory customers={this.props.customers} addProject={this.props.addProject}/>
             : ''

@@ -2,12 +2,12 @@ import React from 'react'
 import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../utils/_translations'
 
-export default function Notes ( props ) {
+export default function Notes (props) {
     return (
         <Card>
             <CardHeader>{translations.notes}</CardHeader>
             <CardBody>
-                {Object.prototype.hasOwnProperty.call ( props, 'private_notes' ) &&
+                {Object.prototype.hasOwnProperty.call(props, 'private_notes') &&
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                     <Label>{translations.private_notes}</Label>
                     <Input
@@ -20,7 +20,7 @@ export default function Notes ( props ) {
                 </FormGroup>
                 }
 
-                {Object.prototype.hasOwnProperty.call ( props, 'public_notes' ) &&
+                {Object.prototype.hasOwnProperty.call(props, 'public_notes') &&
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                     <Label>{translations.public_notes}</Label>
                     <Input
@@ -33,7 +33,7 @@ export default function Notes ( props ) {
                 </FormGroup>
                 }
 
-                {Object.prototype.hasOwnProperty.call ( props, 'terms' ) &&
+                {Object.prototype.hasOwnProperty.call(props, 'terms') &&
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                     <Label>{translations.terms}</Label>
                     <Input
@@ -46,7 +46,7 @@ export default function Notes ( props ) {
                 </FormGroup>
                 }
 
-                {Object.prototype.hasOwnProperty.call ( props, 'footer' ) &&
+                {Object.prototype.hasOwnProperty.call(props, 'footer') &&
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                     <Label>{translations.footer}</Label>
                     <Input

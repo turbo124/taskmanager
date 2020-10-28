@@ -4,10 +4,10 @@ import TaxRateDropdown from './dropdowns/TaxRateDropdown'
 import DesignDropdown from './dropdowns/DesignDropdown'
 import { translations } from '../utils/_translations'
 
-export default function InvoiceSettings ( props ) {
-    const account_id = JSON.parse ( localStorage.getItem ( 'appState' ) ).user.account_id
-    const user_account = JSON.parse ( localStorage.getItem ( 'appState' ) ).accounts.filter ( account => account.account_id === parseInt ( account_id ) )
-    const account_settings = user_account[ 0 ].account.settings
+export default function InvoiceSettings (props) {
+    const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+    const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+    const account_settings = user_account[0].account.settings
 
     return (
         <Card>
@@ -19,7 +19,7 @@ export default function InvoiceSettings ( props ) {
                         <FormGroup>
                             <Label for="exampleEmail">{translations.transaction_fee}</Label>
                             <Input onChange={props.handleSurcharge} type="text" name="transaction_fee"
-                                   id="transaction_fee" value={props.settings.transaction_fee}/>
+                                id="transaction_fee" value={props.settings.transaction_fee}/>
                         </FormGroup>
                     </Col>
                     }
@@ -29,7 +29,7 @@ export default function InvoiceSettings ( props ) {
                         <FormGroup>
                             <Label for="exampleEmail">{translations.shipping_cost}</Label>
                             <Input onChange={props.handleSurcharge} type="text" name="shipping_cost" id="shipping_cost"
-                                   value={props.settings.shipping_cost}/>
+                                value={props.settings.shipping_cost}/>
                         </FormGroup>
                         {/* <FormGroup check> */}
                         {/*    <Label check for="examplePassword"> */}
@@ -48,11 +48,11 @@ export default function InvoiceSettings ( props ) {
                         <FormGroup>
                             <Label for="exampleEmail">{translations.gateway_fee}</Label>
                             <Input onChange={props.handleSurcharge} type="text" name="gateway_fee" id="gateway_fee"
-                                   value={props.settings.gateway_fee}/>
+                                value={props.settings.gateway_fee}/>
 
                             <Label check for="examplePassword" className="pl-4">
                                 <Input onChange={props.handleSurcharge} type="checkbox" name="gateway_percentage"
-                                       id="examplePassword" checked={props.settings.gateway_percentage}/>
+                                    id="examplePassword" checked={props.settings.gateway_percentage}/>
                                 {translations.is_percentage}
                             </Label>
                         </FormGroup>

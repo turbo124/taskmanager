@@ -15,8 +15,8 @@ import axios from 'axios'
 import { translations } from '../utils/_translations'
 
 class EditRole extends React.Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             modal: false,
             loading: false,
@@ -29,102 +29,102 @@ class EditRole extends React.Component {
             role: [],
             message: ''
         }
-        this.toggle = this.toggle.bind ( this )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
-        this.handleMultiSelect = this.handleMultiSelect.bind ( this )
-        this.buildPermissionList = this.buildPermissionList.bind ( this )
+        this.toggle = this.toggle.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.handleMultiSelect = this.handleMultiSelect.bind(this)
+        this.buildPermissionList = this.buildPermissionList.bind(this)
     }
 
     componentDidMount () {
-        this.getRole ()
+        this.getRole()
     }
 
-    handleInput ( e ) {
-        this.setState ( { [ e.target.name ]: e.target.value } )
+    handleInput (e) {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
-    handleMultiSelect ( e ) {
-        this.setState ( { attachedPermissions: Array.from ( e.target.selectedOptions, ( item ) => item.value ) } )
+    handleMultiSelect (e) {
+        this.setState({ attachedPermissions: Array.from(e.target.selectedOptions, (item) => item.value) })
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
     handleClick () {
-        axios.put ( `/api/roles/${this.state.role.id}`, {
+        axios.put(`/api/roles/${this.state.role.id}`, {
             name: this.state.name,
             description: this.state.description,
             permissions: this.state.attachedPermissions
-        } )
-            .then ( ( response ) => {
-                this.toggle ()
-                const index = this.props.roles.findIndex ( role => role.id === this.props.role.id )
-                this.props.roles[ index ].name = this.state.name
-                this.props.roles[ index ].description = this.state.description
-                this.props.action ( this.props.roles )
-            } )
-            .catch ( ( error ) => {
-                if ( error.response.data.errors ) {
-                    this.setState ( {
+        })
+            .then((response) => {
+                this.toggle()
+                const index = this.props.roles.findIndex(role => role.id === this.props.role.id)
+                this.props.roles[index].name = this.state.name
+                this.props.roles[index].description = this.state.description
+                this.props.action(this.props.roles)
+            })
+            .catch((error) => {
+                if (error.response.data.errors) {
+                    this.setState({
                         errors: error.response.data.errors
-                    } )
+                    })
                 } else {
-                    this.setState ( { message: error.response.data } )
+                    this.setState({ message: error.response.data })
                 }
-            } )
+            })
     }
 
     getRole () {
-        axios.get ( `/api/roles/${this.props.role.id}` )
-            .then ( ( r ) => {
-                this.setState ( {
+        axios.get(`/api/roles/${this.props.role.id}`)
+            .then((r) => {
+                this.setState({
                     permissions: r.data.permissions,
                     attachedPermissions: r.data.attachedPermissions,
                     role: r.data.role
-                } )
-            } )
-            .catch ( ( e ) => {
-                console.error ( e )
-            } )
+                })
+            })
+            .catch((e) => {
+                console.error(e)
+            })
     }
 
     toggle () {
-        this.setState ( {
+        this.setState({
             modal: !this.state.modal,
             errors: [],
             message: ''
-        } )
+        })
     }
 
     buildPermissionList () {
         let permissionsList = null
-        if ( !this.state.permissions.length ) {
+        if (!this.state.permissions.length) {
             permissionsList = <option value="">Loading...</option>
         } else {
-            permissionsList = this.state.permissions.map ( ( permission, index ) => {
+            permissionsList = this.state.permissions.map((permission, index) => {
                 return (
                     <option key={index} value={permission.id}>{permission.name}</option>
                 )
-            } )
+            })
         }
 
         return permissionsList
     }
 
     render () {
-        const permissionsList = this.buildPermissionList ()
+        const permissionsList = this.buildPermissionList()
         const { message } = this.state
 
         return (
@@ -145,12 +145,12 @@ class EditRole extends React.Component {
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
-                            <Input className={this.hasErrorFor ( 'name' ) ? 'is-invalid' : ''}
-                                   placeholder="Name"
-                                   type="text" name="name"
-                                   value={this.state.name}
-                                   onChange={this.handleInput.bind ( this )}/>
-                            {this.renderErrorFor ( 'name' )}
+                            <Input className={this.hasErrorFor('name') ? 'is-invalid' : ''}
+                                placeholder="Name"
+                                type="text" name="name"
+                                value={this.state.name}
+                                onChange={this.handleInput.bind(this)}/>
+                            {this.renderErrorFor('name')}
                         </InputGroup>
 
                         <Label>{translations.description}</Label>
@@ -158,13 +158,13 @@ class EditRole extends React.Component {
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
-                            <Input className={this.hasErrorFor ( 'description' ) ? 'is-invalid' : ''}
-                                   placeholder="Description"
-                                   type="text"
-                                   name="description"
-                                   value={this.state.description}
-                                   onChange={this.handleInput.bind ( this )}/>
-                            {this.renderErrorFor ( 'description' )}
+                            <Input className={this.hasErrorFor('description') ? 'is-invalid' : ''}
+                                placeholder="Description"
+                                type="text"
+                                name="description"
+                                value={this.state.description}
+                                onChange={this.handleInput.bind(this)}/>
+                            {this.renderErrorFor('description')}
                         </InputGroup>
 
                         <Label>Assign Permissions</Label>
@@ -173,7 +173,7 @@ class EditRole extends React.Component {
                                 <InputGroupText><i className="fa fa-user-o"/></InputGroupText>
                             </InputGroupAddon>
                             <Input value={this.state.attachedPermissions} onChange={this.handleMultiSelect}
-                                   type="select" multiple>
+                                type="select" multiple>
                                 {permissionsList}
                             </Input>
                         </InputGroup>
@@ -181,7 +181,7 @@ class EditRole extends React.Component {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button color="primary" onClick={this.handleClick.bind ( this )}>{translations.save}</Button>
+                        <Button color="primary" onClick={this.handleClick.bind(this)}>{translations.save}</Button>
                         <Button color="secondary" onClick={this.toggle}>{translations.close}</Button>
                     </ModalFooter>
                 </Modal>

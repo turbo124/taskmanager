@@ -4,8 +4,8 @@ import 'react-dates/lib/css/_datepicker.css'
 import { DateRangePicker } from 'react-dates'
 
 export default class DateFilter extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
         this.state = {
             startDate: null,
@@ -13,18 +13,18 @@ export default class DateFilter extends Component {
             focusedInput: null
         }
 
-        this.onDatesChange = this.onDatesChange.bind ( this )
+        this.onDatesChange = this.onDatesChange.bind(this)
     }
 
-    onDatesChange ( { startDate, endDate } ) {
-        this.setState ( {
+    onDatesChange ({ startDate, endDate }) {
+        this.setState({
             startDate: startDate,
             endDate: endDate
         }, () => {
-            if ( this.state.startDate && this.state.endDate ) {
-                const startDate = this.state.startDate.format ( 'YYYY-MM-DD' )
-                const endDate = this.state.endDate.format ( 'YYYY-MM-DD' )
-                this.props.onChange ( { start_date: startDate, end_date: endDate } )
+            if (this.state.startDate && this.state.endDate) {
+                const startDate = this.state.startDate.format('YYYY-MM-DD')
+                const endDate = this.state.endDate.format('YYYY-MM-DD')
+                this.props.onChange({ start_date: startDate, end_date: endDate })
 
                 /* const data = this.props.data.filter(item => {
                     item.created_at = moment(item.created_at).format('YYYY-MM-DD')
@@ -34,7 +34,7 @@ export default class DateFilter extends Component {
                 this.setState({ data: data })
                 this.props.update(data) */
             }
-        } )
+        })
     }
 
     render () {
@@ -47,8 +47,8 @@ export default class DateFilter extends Component {
                 endDateId="your_unique_end_date_id" // PropTypes.string.isRequired,
                 onDatesChange={this.onDatesChange}
                 focusedInput={this.state.focusedInput}
-                onFocusChange={( focusedInput ) => {
-                    this.setState ( { focusedInput } )
+                onFocusChange={(focusedInput) => {
+                    this.setState({ focusedInput })
                 }}
             />
         )

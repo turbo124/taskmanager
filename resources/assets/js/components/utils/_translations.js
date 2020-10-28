@@ -1,5 +1,6 @@
 const _localizedValues = []
 _localizedValues.en = {
+    rate: 'Rate',
     resume: 'Resume',
     portal_settings: 'Customer Portal Settings',
     field_settings: 'Custom Fields',
@@ -191,6 +192,7 @@ _localizedValues.en = {
     edit_payment_term: 'Edit Payment Term',
     number_of_days: 'Number of days',
     budgeted: 'Budgeted',
+    hours: 'Hours',
     budgeted_hours: 'Budgeted Hours',
     applied: 'Applied',
     backordered: 'Backorder',
@@ -708,11 +710,11 @@ _localizedValues.en = {
     convert_expense_currency: 'Convert currency'
 }
 
-const account_id = JSON.parse ( localStorage.getItem ( 'appState' ) ).user.account_id
-const user_account = JSON.parse ( localStorage.getItem ( 'appState' ) ).accounts.filter ( account => account.account_id === parseInt ( account_id ) )
-const settings = user_account[ 0 ].account.settings
-const languages = JSON.parse ( localStorage.getItem ( 'languages' ) )
-const language = settings.language_id ? languages.filter ( language => language.id === parseInt ( settings.language_id ) ) : []
+const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+const settings = user_account[0].account.settings
+const languages = JSON.parse(localStorage.getItem('languages'))
+const language = settings.language_id ? languages.filter(language => language.id === parseInt(settings.language_id)) : []
 
-export const default_language = language.length ? language[ 0 ].locale : 'en'
-export const translations = _localizedValues[ default_language ]
+export const default_language = language.length ? language[0].locale : 'en'
+export const translations = _localizedValues[default_language]

@@ -7,8 +7,8 @@ import { icons } from '../../utils/_icons'
 import { consts } from '../../utils/_consts'
 
 class CustomerSettings extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
         this.state = {
             id: this.props.customer.id,
             activeTab: '1',
@@ -18,49 +18,49 @@ class CustomerSettings extends Component {
             errors: []
         }
 
-        this.customerModel = new CustomerModel ( this.props.customer )
-        this.hasErrorFor = this.hasErrorFor.bind ( this )
-        this.renderErrorFor = this.renderErrorFor.bind ( this )
-        this.handleSettingsChange = this.handleSettingsChange.bind ( this )
-        this.handleClick = this.handleClick.bind ( this )
+        this.customerModel = new CustomerModel(this.props.customer)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.handleSettingsChange = this.handleSettingsChange.bind(this)
+        this.handleClick = this.handleClick.bind(this)
     }
 
-    toggleTab ( tab, e ) {
-        if ( this.state.activeTab !== tab ) {
-            this.setState ( { activeTab: tab } )
+    toggleTab (tab, e) {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab })
         }
 
         const parent = e.currentTarget.parentNode
-        const rect = parent.getBoundingClientRect ()
-        const rect2 = parent.nextSibling.getBoundingClientRect ()
-        const rect3 = parent.previousSibling.getBoundingClientRect ()
+        const rect = parent.getBoundingClientRect()
+        const rect2 = parent.nextSibling.getBoundingClientRect()
+        const rect3 = parent.previousSibling.getBoundingClientRect()
         const winWidth = window.innerWidth || document.documentElement.clientWidth
         const widthScroll = winWidth * 33 / 100
         const diff = window.innerWidth <= 768 ? 10 : 400
 
-        if ( rect.left <= diff || rect3.left <= diff ) {
-            const container = document.getElementsByClassName ( 'setting-tabs' )[ 0 ]
+        if (rect.left <= diff || rect3.left <= diff) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
             container.scrollLeft -= widthScroll
         }
 
-        if ( rect.right >= winWidth - diff || rect2.right >= winWidth - diff ) {
-            const container = document.getElementsByClassName ( 'setting-tabs' )[ 0 ]
+        if (rect.right >= winWidth - diff || rect2.right >= winWidth - diff) {
+            const container = document.getElementsByClassName('setting-tabs')[0]
             container.scrollLeft += widthScroll
         }
     }
 
-    handleSettingsChange ( event ) {
+    handleSettingsChange (event) {
         const name = event.target.name
         let value = event.target.value
         value = value === 'true' ? true : value
         value = value === 'false' ? false : value
 
-        this.setState ( prevState => ({
+        this.setState(prevState => ({
             settings: {
                 ...prevState.settings,
-                [ name ]: value
+                [name]: value
             }
-        }) )
+        }))
     }
 
     getFormFields () {
@@ -632,7 +632,7 @@ class CustomerSettings extends Component {
     getInvoiceNumberFields () {
         const settings = this.state.settings
 
-        console.log ( 'settings', settings )
+        console.log('settings', settings)
 
         const formFields = [
             [
@@ -660,7 +660,7 @@ class CustomerSettings extends Component {
     getOrderNumberFields () {
         const settings = this.state.settings
 
-        console.log ( 'settings', settings )
+        console.log('settings', settings)
 
         const formFields = [
             [
@@ -1040,42 +1040,42 @@ class CustomerSettings extends Component {
         ]
     }
 
-    handleInput ( e ) {
-        this.setState ( {
-            [ e.target.name ]: e.target.value,
+    handleInput (e) {
+        this.setState({
+            [e.target.name]: e.target.value,
             changesMade: true
-        } )
+        })
     }
 
-    hasErrorFor ( field ) {
-        return !!this.state.errors[ field ]
+    hasErrorFor (field) {
+        return !!this.state.errors[field]
     }
 
-    renderErrorFor ( field ) {
-        if ( this.hasErrorFor ( field ) ) {
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
             return (
                 <span className='invalid-feedback'>
-                    <strong>{this.state.errors[ field ][ 0 ]}</strong>
+                    <strong>{this.state.errors[field][0]}</strong>
                 </span>
             )
         }
     }
 
     handleClick () {
-        this.customerModel.save ( {
+        this.customerModel.save({
             settings: this.state.settings,
             name: this.customerModel.fields.name
-        } ).then ( response => {
-            if ( !response ) {
-                this.setState ( { errors: this.customerModel.errors, message: this.customerModel.error_message } )
+        }).then(response => {
+            if (!response) {
+                this.setState({ errors: this.customerModel.errors, message: this.customerModel.error_message })
                 return
             }
-            alert ( 'good' )
-        } )
+            alert('good')
+        })
     }
 
     render () {
-        const modules = JSON.parse ( localStorage.getItem ( 'modules' ) )
+        const modules = JSON.parse(localStorage.getItem('modules'))
 
         return (
             <React.Fragment>
@@ -1083,8 +1083,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '1' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '1', e )
+                            onClick={(e) => {
+                                this.toggleTab('1', e)
                             }}>
                             {translations.details}
                         </NavLink>
@@ -1093,8 +1093,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '2' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '2', e )
+                            onClick={(e) => {
+                                this.toggleTab('2', e)
                             }}>
                             {translations.defaults}
                         </NavLink>
@@ -1104,8 +1104,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '3' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '3', e )
+                            onClick={(e) => {
+                                this.toggleTab('3', e)
                             }}>
                             {translations.invoices}
                         </NavLink>
@@ -1116,8 +1116,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '4' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '4', e )
+                            onClick={(e) => {
+                                this.toggleTab('4', e)
                             }}>
                             {translations.quotes}
                         </NavLink>
@@ -1128,8 +1128,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '5' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '5', e )
+                            onClick={(e) => {
+                                this.toggleTab('5', e)
                             }}>
                             {translations.leads}
                         </NavLink>
@@ -1140,8 +1140,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '6' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '6', e )
+                            onClick={(e) => {
+                                this.toggleTab('6', e)
                             }}>
                             {translations.orders}
                         </NavLink>
@@ -1152,8 +1152,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '7' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '7', e )
+                            onClick={(e) => {
+                                this.toggleTab('7', e)
                             }}>
                             {translations.credits}
                         </NavLink>
@@ -1164,8 +1164,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '8' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '8', e )
+                            onClick={(e) => {
+                                this.toggleTab('8', e)
                             }}>
                             {translations.payments}
                         </NavLink>
@@ -1176,8 +1176,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '9' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '9', e )
+                            onClick={(e) => {
+                                this.toggleTab('9', e)
                             }}>
                             {translations.deals}
                         </NavLink>
@@ -1188,8 +1188,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '10' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '10', e )
+                            onClick={(e) => {
+                                this.toggleTab('10', e)
                             }}>
                             {translations.cases}
                         </NavLink>
@@ -1200,8 +1200,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '11' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '11', e )
+                            onClick={(e) => {
+                                this.toggleTab('11', e)
                             }}>
                             {translations.pos}
                         </NavLink>
@@ -1212,8 +1212,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '12' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '12', e )
+                            onClick={(e) => {
+                                this.toggleTab('12', e)
                             }}>
                             {translations.recurring_invoices}
                         </NavLink>
@@ -1224,8 +1224,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '13' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '13', e )
+                            onClick={(e) => {
+                                this.toggleTab('13', e)
                             }}>
                             {translations.recurring_quotes}
                         </NavLink>
@@ -1236,8 +1236,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '14' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '14', e )
+                            onClick={(e) => {
+                                this.toggleTab('14', e)
                             }}>
                             {translations.tasks}
                         </NavLink>
@@ -1248,8 +1248,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '15' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '15', e )
+                            onClick={(e) => {
+                                this.toggleTab('15', e)
                             }}>
                             {translations.expenses}
                         </NavLink>
@@ -1260,8 +1260,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '16' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '16', e )
+                            onClick={(e) => {
+                                this.toggleTab('16', e)
                             }}>
                             {translations.projects}
                         </NavLink>
@@ -1272,8 +1272,8 @@ class CustomerSettings extends Component {
                     <NavItem>
                         <NavLink
                             className={this.state.activeTab === '17' ? 'active' : ''}
-                            onClick={( e ) => {
-                                this.toggleTab ( '17', e )
+                            onClick={(e) => {
+                                this.toggleTab('17', e)
                             }}>
                             {translations.companies}
                         </NavLink>
@@ -1289,7 +1289,7 @@ class CustomerSettings extends Component {
 
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getFormFields ()}
+                                    formFieldsRows={this.getFormFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1301,7 +1301,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getDefaultFields ()}
+                                    formFieldsRows={this.getDefaultFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1312,7 +1312,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getInvoiceFields ()}
+                                    formFieldsRows={this.getInvoiceFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1321,7 +1321,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getInvoiceNumberFields ()}
+                                    formFieldsRows={this.getInvoiceNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1332,7 +1332,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getQuoteFields ()}
+                                    formFieldsRows={this.getQuoteFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1341,7 +1341,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getQuoteNumberFields ()}
+                                    formFieldsRows={this.getQuoteNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1352,7 +1352,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getLeadFields ()}
+                                    formFieldsRows={this.getLeadFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1363,7 +1363,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderFields ()}
+                                    formFieldsRows={this.getOrderFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1372,7 +1372,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderNumberFields ()}
+                                    formFieldsRows={this.getOrderNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1383,7 +1383,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getCreditNumberFields ()}
+                                    formFieldsRows={this.getCreditNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1394,7 +1394,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPaymentFields ()}
+                                    formFieldsRows={this.getPaymentFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1403,7 +1403,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPaymentNumberFields ()}
+                                    formFieldsRows={this.getPaymentNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1414,7 +1414,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getDealFields ()}
+                                    formFieldsRows={this.getDealFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1423,7 +1423,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getDealNumberFields ()}
+                                    formFieldsRows={this.getDealNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1434,7 +1434,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getCaseFields ()}
+                                    formFieldsRows={this.getCaseFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1443,7 +1443,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getCaseNumberFields ()}
+                                    formFieldsRows={this.getCaseNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1454,7 +1454,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPurchaseOrderFields ()}
+                                    formFieldsRows={this.getPurchaseOrderFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1463,7 +1463,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPurchaseOrderNumberFields ()}
+                                    formFieldsRows={this.getPurchaseOrderNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1474,7 +1474,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getRecurringInvoiceNumberFields ()}
+                                    formFieldsRows={this.getRecurringInvoiceNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1485,7 +1485,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getRecurringQuoteNumberFields ()}
+                                    formFieldsRows={this.getRecurringQuoteNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1496,7 +1496,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getTaskNumberFields ()}
+                                    formFieldsRows={this.getTaskNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1507,7 +1507,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getExpenseFields ()}
+                                    formFieldsRows={this.getExpenseFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1516,7 +1516,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getExpenseNumberFields ()}
+                                    formFieldsRows={this.getExpenseNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1527,7 +1527,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getProjectNumberFields ()}
+                                    formFieldsRows={this.getProjectNumberFields()}
                                 />
                             </CardBody>
                         </Card>
@@ -1538,7 +1538,7 @@ class CustomerSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getCompanyNumberFields ()}
+                                    formFieldsRows={this.getCompanyNumberFields()}
                                 />
                             </CardBody>
                         </Card>

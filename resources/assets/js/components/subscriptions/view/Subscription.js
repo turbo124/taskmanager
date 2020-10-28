@@ -11,10 +11,10 @@ export default class Subscription extends Component {
                 <Row>
                     <ListGroup className="col-12">
                         <InfoItem icon={icons.building} value={this.props.entity.name}
-                                  title={translations.name}/>
+                            title={translations.name}/>
 
                         <InfoItem icon={icons.link} value={this.props.entity.target_url}
-                                  title={translations.target_url}/>
+                            title={translations.target_url}/>
                     </ListGroup>
                 </Row>
             </React.Fragment>

@@ -16,12 +16,12 @@ import ProjectDropdown from '../common/dropdowns/ProjectDropdown'
 import AddTaskStatus from '../taskStatus/edit/AddTaskStatus'
 
 export default class KanbanNew extends Component {
-    constructor ( props ) {
-        super ( props )
+    constructor (props) {
+        super(props)
 
         this.state = {
-            type: queryString.parse ( this.props.location.search ).type || 'task',
-            project_id: queryString.parse ( this.props.location.search ).project_id || '',
+            type: queryString.parse(this.props.location.search).type || 'task',
+            project_id: queryString.parse(this.props.location.search).project_id || '',
             columns: {},
             entities: {},
             statuses: {},
@@ -44,207 +44,207 @@ export default class KanbanNew extends Component {
             '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
             '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF']
 
-        this.formatColumns = this.formatColumns.bind ( this )
-        this.save = this.save.bind ( this )
-        this.load = this.load.bind ( this )
-        this.getCustomers = this.getCustomers.bind ( this )
-        this.toggleViewedEntity = this.toggleViewedEntity.bind ( this )
-        this.addUserToState = this.addUserToState.bind ( this )
-        this.handleInput = this.handleInput.bind ( this )
+        this.formatColumns = this.formatColumns.bind(this)
+        this.save = this.save.bind(this)
+        this.load = this.load.bind(this)
+        this.getCustomers = this.getCustomers.bind(this)
+        this.toggleViewedEntity = this.toggleViewedEntity.bind(this)
+        this.addUserToState = this.addUserToState.bind(this)
+        this.handleInput = this.handleInput.bind(this)
     }
 
     componentDidMount () {
-        this.load ()
-        this.getCustomers ()
+        this.load()
+        this.getCustomers()
     }
 
-    handleInput ( e ) {
+    handleInput (e) {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
 
-        this.setState ( {
-            [ e.target.name ]: value
+        this.setState({
+            [e.target.name]: value
         }, () => {
-            this.load ()
-        } )
+            this.load()
+        })
     }
 
-    addUserToState ( statuses ) {
+    addUserToState (statuses) {
         const cachedData = !this.state.cachedData.length ? statuses : this.state.cachedData
-        this.setState ( {
+        this.setState({
             statuses: statuses,
             cachedData: cachedData
-        } )
+        })
     }
 
     getCustomers () {
-        const customerRepository = new CustomerRepository ()
-        customerRepository.get ().then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const customerRepository = new CustomerRepository()
+        customerRepository.get().then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( { customers: response }, () => {
-                console.log ( 'customers', this.state.customers )
-            } )
-        } )
+            this.setState({ customers: response }, () => {
+                console.log('customers', this.state.customers)
+            })
+        })
     }
 
     async load () {
-        const task_type = taskTypes[ this.state.type ]
-        const taskRepository = new TaskRepository ()
-        taskRepository.getStatuses ( task_type ).then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const task_type = taskTypes[this.state.type]
+        const taskRepository = new TaskRepository()
+        taskRepository.getStatuses(task_type).then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( { statuses: response }, () => {
-                if ( this.state.type === 'task' ) {
-                    this.getTasks ()
+            this.setState({ statuses: response }, () => {
+                if (this.state.type === 'task') {
+                    this.getTasks()
                 }
 
-                if ( this.state.type === 'lead' ) {
-                    this.getLeads ()
+                if (this.state.type === 'lead') {
+                    this.getLeads()
                 }
 
-                if ( this.state.type === 'deal' ) {
-                    this.getDeals ()
+                if (this.state.type === 'deal') {
+                    this.getDeals()
                 }
 
-                console.log ( 'statuses', this.state.statuses )
-            } )
-        } )
+                console.log('statuses', this.state.statuses)
+            })
+        })
     }
 
     getTasks () {
-        const taskRepository = new TaskRepository ()
-        taskRepository.get ( null, null, this.state.project_id.length ? this.state.project_id : null ).then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const taskRepository = new TaskRepository()
+        taskRepository.get(null, null, this.state.project_id.length ? this.state.project_id : null).then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( { entities: response }, () => {
-                console.log ( 'entities', this.state.entities )
-                this.formatColumns ()
-            } )
-        } )
+            this.setState({ entities: response }, () => {
+                console.log('entities', this.state.entities)
+                this.formatColumns()
+            })
+        })
     }
 
     getLeads () {
-        const leadRepository = new LeadRepository ()
-        leadRepository.get ().then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const leadRepository = new LeadRepository()
+        leadRepository.get().then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( { entities: response }, () => {
-                console.log ( 'entities', this.state.entities )
-                this.formatColumns ()
-            } )
-        } )
+            this.setState({ entities: response }, () => {
+                console.log('entities', this.state.entities)
+                this.formatColumns()
+            })
+        })
     }
 
     getDeals () {
-        const dealRepository = new DealRepository ()
-        dealRepository.get ().then ( response => {
-            if ( !response ) {
-                alert ( 'error' )
+        const dealRepository = new DealRepository()
+        dealRepository.get().then(response => {
+            if (!response) {
+                alert('error')
             }
 
-            this.setState ( { entities: response }, () => {
-                console.log ( 'entities', this.state.entities )
-                this.formatColumns ()
-            } )
-        } )
+            this.setState({ entities: response }, () => {
+                console.log('entities', this.state.entities)
+                this.formatColumns()
+            })
+        })
     }
 
-    save ( element, status ) {
-        console.log ( 'element', element )
+    save (element, status) {
+        console.log('element', element)
 
         element.task_status = status
-        element.id = parseInt ( element.id )
+        element.id = parseInt(element.id)
 
         let model
 
-        switch ( this.state.type ) {
+        switch (this.state.type) {
             case 'task':
-                model = new TaskModel ( element )
+                model = new TaskModel(element)
                 break
 
             case 'deal':
-                model = new DealModel ( element )
+                model = new DealModel(element)
                 break
 
             case 'lead':
-                model = new LeadModel ( element )
+                model = new LeadModel(element)
                 break
         }
 
-        model.update ( element ).then ( response => {
-            if ( !response ) {
-                this.setState ( {
+        model.update(element).then(response => {
+            if (!response) {
+                this.setState({
                     showErrorMessage: true,
                     loading: false,
                     errors: this.model.errors,
                     message: this.model.error_message
-                } )
+                })
             }
-        } )
+        })
     }
 
-    updateSortOrder ( element, status ) {
-        console.log ( 'element', element )
+    updateSortOrder (element, status) {
+        console.log('element', element)
 
         element.task_status = status
-        element.id = parseInt ( element.id )
+        element.id = parseInt(element.id)
 
         let model
 
-        switch ( this.state.type ) {
+        switch (this.state.type) {
             case 'task':
-                model = new TaskModel ( element )
+                model = new TaskModel(element)
                 break
 
             case 'deal':
-                model = new DealModel ( element )
+                model = new DealModel(element)
                 break
 
             case 'lead':
-                model = new LeadModel ( element )
+                model = new LeadModel(element)
                 break
         }
 
-        model.updateSortOrder ( element ).then ( response => {
-            if ( !response ) {
-                this.setState ( {
+        model.updateSortOrder(element).then(response => {
+            if (!response) {
+                this.setState({
                     showErrorMessage: true,
                     loading: false,
                     errors: this.model.errors,
                     message: this.model.error_message
-                } )
+                })
             }
-        } )
+        })
     }
 
-    toggleViewedEntity ( id, title, edit, entity ) {
-        if ( !entity ) {
-            this.setState ( {
+    toggleViewedEntity (id, title, edit, entity) {
+        if (!entity) {
+            this.setState({
                 view: {
                     ...this.state.view,
                     viewMode: false
                 }
             }, () => {
-                this.setState ( {
+                this.setState({
                     view: {
                         ...this.state.view,
                         edit: edit
                     }
-                } )
-            } )
+                })
+            })
 
             return
         }
 
-        this.setState ( {
+        this.setState({
             view: {
                 ...this.state.view,
                 viewedId: entity,
@@ -252,86 +252,86 @@ export default class KanbanNew extends Component {
                 title: entity.name
             }
         }, () => {
-            this.setState ( { edit: edit } )
-        } )
+            this.setState({ edit: edit })
+        })
     }
 
     formatColumns () {
         const columns = []
 
-        this.state.statuses.map ( ( entity, index ) => {
-            if ( !columns[ entity.id ] ) {
-                columns[ entity.id ] = {
+        this.state.statuses.map((entity, index) => {
+            if (!columns[entity.id]) {
+                columns[entity.id] = {
                     name: entity.name,
                     items: []
                 }
             }
-        } )
+        })
 
-        this.state.entities.map ( ( entity, index ) => {
-            entity.id = entity.id.toString ()
+        this.state.entities.map((entity, index) => {
+            entity.id = entity.id.toString()
 
-            columns[ entity.task_status ].items.push ( entity )
-        } )
+            columns[entity.task_status].items.push(entity)
+        })
 
-        this.setState ( { columns: columns } )
+        this.setState({ columns: columns })
     }
 
-    onDragEnd ( result, columns, setColumns ) {
-        if ( !result.destination ) return
+    onDragEnd (result, columns, setColumns) {
+        if (!result.destination) return
         const { source, destination } = result
 
-        if ( source.droppableId !== destination.droppableId ) {
-            const sourceColumn = columns[ source.droppableId ]
-            const destColumn = columns[ destination.droppableId ]
+        if (source.droppableId !== destination.droppableId) {
+            const sourceColumn = columns[source.droppableId]
+            const destColumn = columns[destination.droppableId]
             const sourceItems = [...sourceColumn.items]
             const destItems = [...destColumn.items]
 
-            const entity = sourceItems[ source.index ]
+            const entity = sourceItems[source.index]
 
-            const [removed] = sourceItems.splice ( source.index, 1 )
-            destItems.splice ( destination.index, 0, removed )
+            const [removed] = sourceItems.splice(source.index, 1)
+            destItems.splice(destination.index, 0, removed)
 
-            columns[ source.droppableId ] = {
+            columns[source.droppableId] = {
                 ...sourceColumn,
                 items: sourceItems
             }
 
-            columns[ destination.droppableId ] = {
+            columns[destination.droppableId] = {
                 ...destColumn,
                 items: destItems
             }
 
-            this.setState ( { columns: columns }, () => {
-                this.save ( entity, destination.droppableId )
-            } )
+            this.setState({ columns: columns }, () => {
+                this.save(entity, destination.droppableId)
+            })
         } else {
-            const column = columns[ source.droppableId ]
+            const column = columns[source.droppableId]
             const copiedItems = [...column.items]
-            const [removed] = copiedItems.splice ( source.index, 1 )
-            copiedItems.splice ( destination.index, 0, removed )
+            const [removed] = copiedItems.splice(source.index, 1)
+            copiedItems.splice(destination.index, 0, removed)
 
-            columns[ source.droppableId ] = {
+            columns[source.droppableId] = {
                 ...column,
                 items: copiedItems
             }
 
             const taskIds = []
 
-            this.setState ( { columns: columns }, () => {
+            this.setState({ columns: columns }, () => {
                 const columns = this.state.columns
-                const column = columns[ source.droppableId ]
-                column.items.map ( ( entity, index ) => {
-                    column.items[ index ].task_sort_order = (index + 1)
-                    taskIds.push ( entity.id )
-                } )
+                const column = columns[source.droppableId]
+                column.items.map((entity, index) => {
+                    column.items[index].task_sort_order = (index + 1)
+                    taskIds.push(entity.id)
+                })
 
-                columns[ source.droppableId ] = column
+                columns[source.droppableId] = column
 
-                this.setState ( { columns: columns }, () => {
-                    console.log ( 'sort', this.state.columns )
-                } )
-            } )
+                this.setState({ columns: columns }, () => {
+                    console.log('sort', this.state.columns)
+                })
+            })
         }
     }
 
@@ -341,7 +341,7 @@ export default class KanbanNew extends Component {
         const { project_id, type, statuses, columns, customers, entities } = this.state
         const edit = this.state.type === 'task' && this.state.view.viewedId
             ? <EditTask listView={true} modal={true} show={this.state.view.edit} tasks={this.props.entities}
-                        task={this.state.view.viewedId}/> : null
+                task={this.state.view.viewedId}/> : null
 
         return customers.length && columns.length && entities.length ? (
             <React.Fragment>
@@ -350,7 +350,7 @@ export default class KanbanNew extends Component {
                         <div className="d-flex justify-content-between align-items-center">
                             {type === 'task' &&
                             <ProjectDropdown handleInputChanges={this.handleInput}
-                                             project={project_id} name="project_id"
+                                project={project_id} name="project_id"
                             />
                             }
 
@@ -367,9 +367,9 @@ export default class KanbanNew extends Component {
                     <Col className="w-100 overflow-auto pr-2" sm={12}>
                         <div style={{ display: 'flex', height: '100%' }}>
                             <DragDropContext
-                                onDragEnd={result => this.onDragEnd ( result, columns )}
+                                onDragEnd={result => this.onDragEnd(result, columns)}
                             >
-                                {Object.entries ( columns ).map ( ( [columnId, column], index ) => {
+                                {Object.entries(columns).map(([columnId, column], index) => {
                                     return (
                                         <div
                                             style={{
@@ -379,17 +379,17 @@ export default class KanbanNew extends Component {
                                             }}
                                             key={columnId}
                                         >
-                                            <div style={{ backgroundColor: this.colorArray[ index ] }}
-                                                 className="col-12">
+                                            <div style={{ backgroundColor: this.colorArray[index] }}
+                                                className="col-12">
                                                 <h4>{column.name}</h4>
                                             </div>
 
                                             <div style={{
                                                 margin: 8,
-                                                borderLeft: '4px solid ' + this.colorArray[ index ]
+                                                borderLeft: '4px solid ' + this.colorArray[index]
                                             }}>
                                                 <Droppable droppableId={columnId} key={columnId}>
-                                                    {( provided, snapshot ) => {
+                                                    {(provided, snapshot) => {
                                                         return (
                                                             <div
                                                                 {...provided.droppableProps}
@@ -403,14 +403,14 @@ export default class KanbanNew extends Component {
                                                                     minHeight: 500
                                                                 }}
                                                             >
-                                                                {column.items.map ( ( item, index ) => {
+                                                                {column.items.map((item, index) => {
                                                                     return (
                                                                         <Draggable
                                                                             key={item.id}
                                                                             draggableId={item.id}
                                                                             index={index}
                                                                         >
-                                                                            {( provided, snapshot ) => {
+                                                                            {(provided, snapshot) => {
                                                                                 return (
                                                                                     <div
                                                                                         ref={provided.innerRef}
@@ -429,15 +429,15 @@ export default class KanbanNew extends Component {
                                                                                         }}
                                                                                     >
                                                                                         <a style={{ padding: '12px' }}
-                                                                                           onClick={( e ) => {
-                                                                                               this.toggleViewedEntity ( null, null, false, item )
-                                                                                           }}>{item.name}</a>
+                                                                                            onClick={(e) => {
+                                                                                                this.toggleViewedEntity(null, null, false, item)
+                                                                                            }}>{item.name}</a>
                                                                                     </div>
                                                                                 )
                                                                             }}
                                                                         </Draggable>
                                                                     )
-                                                                } )}
+                                                                })}
                                                                 {provided.placeholder}
                                                             </div>
                                                         )
@@ -446,7 +446,7 @@ export default class KanbanNew extends Component {
                                             </div>
                                         </div>
                                     )
-                                } )}
+                                })}
                             </DragDropContext>
                         </div>
                     </Col>
@@ -459,7 +459,7 @@ export default class KanbanNew extends Component {
                     viewed={this.state.view.viewMode}
                     customers={this.state.customers}
                     entity={this.state.view.viewedId}
-                    entity_type={this.state.type.charAt ( 0 ).toUpperCase () + this.state.type.slice ( 1 )}
+                    entity_type={this.state.type.charAt(0).toUpperCase() + this.state.type.slice(1)}
                 />
 
             </React.Fragment>
