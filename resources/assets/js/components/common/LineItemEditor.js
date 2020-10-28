@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import LineItem from './LineItem'
-import { Button, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
+import { Button, CustomInput, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import axios from 'axios'
 import CustomerModel from '../models/CustomerModel'
 import { getExchangeRateWithMap } from '../utils/_money'
@@ -17,6 +17,11 @@ import InvoiceReducer from '../invoice/InvoiceReducer'
 class LineItemEditor extends Component {
     constructor (props) {
         super(props)
+
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.settings = user_account[0].account.settings
+
         this.state = {
             rowData: [],
             products: [],
@@ -25,13 +30,11 @@ class LineItemEditor extends Component {
             projects: [],
             expenses: [],
             attributes: [],
+            show_tasks: this.settings.show_tasks_onload === true,
+            show_expenses: false,
             line_type: this.props.line_type || consts.line_item_product,
             total: this.props.invoice.total
         }
-
-        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
-        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
-        this.settings = user_account[0].account.settings
 
         this.handleRowChange = this.handleRowChange.bind(this)
         this.handleRowDelete = this.handleRowDelete.bind(this)
@@ -41,6 +44,7 @@ class LineItemEditor extends Component {
         this.loadExpenses = this.loadExpenses.bind(this)
         this.handleLineTypeChange = this.handleLineTypeChange.bind(this)
         this.loadEntities = this.loadEntities.bind(this)
+        this.toggleTab = this.toggleTab.bind(this)
     }
 
     componentDidMount () {
@@ -48,6 +52,10 @@ class LineItemEditor extends Component {
         // this.loadTaxRates()
 
         this.loadEntities(this.state.line_type)
+    }
+
+    toggleTab (e, show) {
+        this.setState({ [e.target.name]: !show })
     }
 
     loadProducts () {
@@ -316,11 +324,32 @@ class LineItemEditor extends Component {
         const products = this.props.invoice.line_items.filter(line_item => parseInt(line_item.type_id) === consts.line_item_product)
         const tasks = this.props.invoice.line_items.filter(line_item => parseInt(line_item.type_id) === consts.line_item_task)
         const expenses = this.props.invoice.line_items.filter(line_item => parseInt(line_item.type_id) === consts.line_item_expense)
+        const show_task_tab = (this.state.show_tasks || tasks.length) && this.props.model.entity === 'Invoice'
+        const show_expense_tab = (this.state.show_expenses || tasks.length) && this.props.model.entity === 'Invoice'
 
         return (
             <React.Fragment>
 
-                <Nav tabs className="nav-justified setting-tabs disable-scrollbars">
+                {this.props.model.entity === 'Invoice' &&
+                <div className="d-flex col-12">
+                    <div className="flex-fill">
+                        <CustomInput checked={show_task_tab} onClick={(e) => {
+                            this.toggleTab(e, show_task_tab)
+                        }} type="switch" id="exampleCustomSwitch" name="show_tasks" label="Show Tasks"/>
+
+                    </div>
+
+                    <div className="flex-fill">
+                        <CustomInput checked={show_expense_tab} onClick={(e) => {
+                            this.toggleTab(e, show_expense_tab)
+                        }} type="switch"
+                        id="exampleCustomSwitch2" name="show_expenses" label="Show Expenses"/>
+                    </div>
+                </div>
+                }
+
+                <Nav tabs
+                    className={`${show_expense_tab || show_task_tab ? 'nav-justified' : ''} setting-tabs disable-scrollbars`}>
                     <NavItem>
                         <NavLink
                             className={this.state.line_type === consts.line_item_product ? 'active' : ''}
@@ -331,7 +360,7 @@ class LineItemEditor extends Component {
                         </NavLink>
                     </NavItem>
 
-                    {this.props.model.entity === 'Invoice' &&
+                    {!!show_task_tab &&
                     <NavItem>
                         <NavLink
                             className={this.state.line_type === consts.line_item_task ? 'active' : ''}
@@ -343,16 +372,16 @@ class LineItemEditor extends Component {
                     </NavItem>
                     }
 
-                    {this.props.model.entity === 'Invoice' &&
-                  <NavItem>
-                      <NavLink
-                          className={this.state.line_type === consts.line_item_expense ? 'active' : ''}
-                          onClick={() => {
-                              this.handleLineTypeChange(consts.line_item_expense)
-                          }}>
-                          {translations.expenses} {expenses.length > 0 ? expenses.length : null}
-                      </NavLink>
-                  </NavItem>
+                    {!!show_expense_tab &&
+                    <NavItem>
+                        <NavLink
+                            className={this.state.line_type === consts.line_item_expense ? 'active' : ''}
+                            onClick={() => {
+                                this.handleLineTypeChange(consts.line_item_expense)
+                            }}>
+                            {translations.expenses} {expenses.length > 0 ? expenses.length : null}
+                        </NavLink>
+                    </NavItem>
                     }
                 </Nav>
 

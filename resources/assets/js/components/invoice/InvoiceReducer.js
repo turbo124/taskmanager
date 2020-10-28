@@ -89,14 +89,16 @@ export default class InvoiceReducer {
         const task_rate = task.task_rate && task.task_rate > 0 ? task.task_rate : this.settings.task_rate
         let notes = task.description + '\n'
 
-        if (task.timers) {
-            task.timers.filter(time => {
-                return time.date.length && time.end_date.length
-            }).map(time => {
-                const start = formatDate(`${time.date} ${time.start_time}`, true)
-                const end = formatDate(`${time.end_date} ${time.end_time}`, true)
-                notes += `\n### ${start} - ${end}`
-            })
+        if (this.settings.include_times_on_invoice === true) {
+            if (task.timers) {
+                task.timers.filter(time => {
+                    return time.date.length && time.end_date.length
+                }).map(time => {
+                    const start = formatDate(`${time.date} ${time.start_time}`, true)
+                    const end = formatDate(`${time.end_date} ${time.end_time}`, true)
+                    notes += `\n### ${start} - ${end}`
+                })
+            }
         }
 
         const taskModel = new TaskModel(task)

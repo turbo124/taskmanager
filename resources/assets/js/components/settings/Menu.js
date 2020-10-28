@@ -18,6 +18,8 @@ export default class Menu extends Component {
                     <MenuItem section="gateway-settings"/>
                     <MenuItem section="tax-rates"/>
                     <MenuItem section="product-settings"/>
+                    <MenuItem section="expense-settings"/>
+                    <MenuItem section="task-settings"/>
                     <MenuItem section="account-management"/>
                     <MenuItem section="device-settings"/>
                     <DropdownItem divider/>
@@ -76,7 +78,7 @@ export class MenuItem extends Component {
         return (
             <DropdownItem className={window.location.href.includes(this.props.section) ? 'active' : ''} tag="a"
                 href={`/#/${this.props.section}`}><i
-                    className={`fa ${icon}`}/>{label}
+                    className={`fa ${icon}`}/>{translations[label]}
             </DropdownItem>
         )
     }

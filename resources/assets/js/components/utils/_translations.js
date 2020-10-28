@@ -212,6 +212,8 @@ _localizedValues.en = {
     clone_credit: 'Clone Credit',
     clone_expense: 'Clone Expense',
     expense_settings: 'Expense Settings',
+    account_settings: 'Account Settings',
+    task_settings: 'Task Settings',
     clone_invoice: 'Clone Invoice',
     clone_to_task: 'Clone to Task',
     clone_project: 'Clone Project',
@@ -707,7 +709,14 @@ _localizedValues.en = {
     create_expense_invoice: 'Create Invoice',
     include_expense_documents: 'Add documents to invoice',
     create_expense_payment: 'Create Payment',
-    convert_expense_currency: 'Convert currency'
+    convert_expense_currency: 'Convert currency',
+    task_automation_enabled: 'Start tasks automatically',
+    task_automation_enabled_help: 'Task should start automatically',
+    show_tasks_onload: 'Show tasks on load',
+    show_tasks_onload_help:
+        'Always show the tasks section when creating invoices',
+    include_times_on_invoice: 'Include times on invoice',
+    include_times_on_invoice_help: 'Add time details to the invoice line items'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id

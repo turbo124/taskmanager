@@ -47,6 +47,18 @@ class BaseSettings
             'default_value'    => false,
             'type'             => 'bool'
         ],
+        'show_tasks_onload'                    => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
+        'include_times_on_invoice'             => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
         'task_automation_enabled'              => [
             'required'         => false,
             'translated_value' => '',
@@ -101,7 +113,7 @@ class BaseSettings
             'default_value'    => true,
             'type'             => 'bool'
         ],
-        'include_task_documents'            => [
+        'include_task_documents'               => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => true,

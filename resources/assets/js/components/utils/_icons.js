@@ -186,6 +186,10 @@ export function getSettingsIcon (section) {
             return icons.list
         case 'product-settings':
             return icons.product
+        case 'expense-settings':
+            return icons.expense
+        case 'task-settings':
+            return icons.task
         case 'invoice-settings':
             return icons.pound_sign
         case 'gateway-settings':

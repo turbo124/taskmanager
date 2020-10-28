@@ -35,6 +35,8 @@ import Accounts from './settings/Settings'
 import Tokens from './tokens/Tokens'
 import Subscriptions from './subscriptions/Subscriptions'
 import Attributes from './attributes/Attributes'
+import ExpenseSettings from './settings/ExpenseSettings'
+import TaskSettings from './settings/TaskSettings'
 import TemplateSettings from './settings/TemplateSettings'
 import CustomFieldSettings from './settings/CustomFieldSettings'
 import EmailSettings from './settings/EmailSettings'
@@ -203,6 +205,16 @@ const routes = [
         path: '/email-settings',
         name: 'Templates',
         component: EmailSettings
+    },
+    {
+        path: '/expense-settings',
+        name: 'Expense Settings',
+        component: ExpenseSettings
+    },
+    {
+        path: '/task-settings',
+        name: 'Task Settings',
+        component: TaskSettings
     },
     {
         path: '/gateways',

@@ -77,7 +77,7 @@ export default class WorkflowSettings extends Component {
 
     handleSettingsChange (event) {
         const name = event.target.name
-        const value = event.target.value
+        const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
 
         this.setState(prevState => ({
             settings: {
@@ -178,6 +178,51 @@ export default class WorkflowSettings extends Component {
         ]
 
         return formFields
+    }
+
+    getTaskFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'task_automation_enabled',
+                    label: translations.task_automation_enabled,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.task_automation_enabled,
+                    help_text: translations.task_automation_enabled_help,
+                    group: 1
+                },
+                {
+                    name: 'include_task_documents',
+                    label: translations.include_expense_documents,
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.include_task_documents,
+                    help_text: translations.include_expense_documents_help,
+                    group: 1
+                },
+                {
+                    name: 'show_tasks_onload',
+                    label: translations.show_tasks_onload,
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.show_tasks_onload,
+                    help_text: translations.show_tasks_onload_help,
+                    group: 1
+                },
+                {
+                    name: 'include_times_on_invoice',
+                    label: translations.include_times_on_invoice,
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.include_times_on_invoice,
+                    help_text: translations.include_times_on_invoice_help,
+                    group: 1
+                }
+            ]
+        ]
     }
 
     getInvoiceFields () {
@@ -558,16 +603,27 @@ export default class WorkflowSettings extends Component {
             </NavItem>
             }
 
-            {modules && modules.expenses &&
-            <NavItem>
-                <NavLink
-                    className={this.state.activeTab === '9' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggle('9', e)
-                    }}>
-                    {translations.expenses}
-                </NavLink>
-            </NavItem>
+            { // modules && modules.expenses &&
+            // <NavItem>
+            //     <NavLink
+            //         className={this.state.activeTab === '9' ? 'active' : ''}
+            //         onClick={(e) => {
+            //             this.toggle('9', e)
+            //         }}>
+            //         {translations.expenses}
+            //     </NavLink>
+            // </NavItem>
+            }
+            {// modules && modules.tasks &&
+            // <NavItem>
+            //     <NavLink
+            //         className={this.state.activeTab === '10' ? 'active' : ''}
+            //         onClick={(e) => {
+            //             this.toggle('10', e)
+            //         }}>
+            //         {translations.tasks}
+            //     </NavLink>
+            // </NavItem>
             }
         </Nav>
 
@@ -677,6 +733,17 @@ export default class WorkflowSettings extends Component {
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
                                     formFieldsRows={this.getExpenseFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane className="pr-0 pl-0" tabId="10">
+                        <Card className="border-0">
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getTaskFields()}
                                 />
                             </CardBody>
                         </Card>
