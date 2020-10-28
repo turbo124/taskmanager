@@ -155,7 +155,10 @@ class EditInvoice extends Component {
     handleContactChange (e) {
         const invitations = this.quoteModel.buildInvitations(e.target.value, e.target.checked)
         // update the state with the new array of options
-        this.setState({ invitations: invitations, changesMade: true }, () => console.log('invitations', invitations))
+        this.setState({
+            invitations: invitations,
+            changesMade: true
+        }, () => console.log('invitations', invitations))
     }
 
     handleInput (e) {
@@ -346,7 +349,10 @@ class EditInvoice extends Component {
             invoice: this.state
         })
 
-        this.setState({ changesMade: true, line_items: line_items }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
+        this.setState({
+            changesMade: true,
+            line_items: line_items
+        }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
     }
 
     handleFieldChange (line_items, row) {

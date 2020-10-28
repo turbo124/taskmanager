@@ -98,7 +98,7 @@ export default class RecurringQuoteModel extends BaseModel {
             showSuccessMessage: false,
             showErrorMessage: false,
             loading: false,
-            changesMade: false,
+            changesMade: false
         }
 
         this.sent = 2

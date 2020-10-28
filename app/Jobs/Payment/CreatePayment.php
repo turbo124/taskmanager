@@ -128,6 +128,7 @@ class CreatePayment implements ShouldQueue
             $invoice->reduceBalance($amount);
 
             $payment->attachInvoice($invoice, $amount, true);
+            $payment->amount = $amount;
             $payment->applied = $amount;
             $payment->save();
         }

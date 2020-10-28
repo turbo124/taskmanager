@@ -5,6 +5,8 @@ import { translations } from '../../utils/_translations'
 import TaskStatusDropdown from '../../common/dropdowns/TaskStatusDropdown'
 import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
 import DesignDropdown from '../../common/dropdowns/DesignDropdown'
+import { icons } from '../../utils/_icons'
+import SwitchWithIcon from '../../common/SwitchWithIcon'
 
 export default function TaskDetails (props) {
     let userContent
@@ -90,6 +92,15 @@ export default function TaskDetails (props) {
                 <Label>{translations.design}</Label>
                 <DesignDropdown name="design_id" design={props.task.design_id} handleChange={props.handleInput}/>
             </FormGroup>
+
+            <SwitchWithIcon
+                icon={icons.customer}
+                label={translations.include_expense_documents}
+                checked={props.task.include_documents}
+                name="include_documents"
+                handleInput={props.handleInput}
+                help_text={translations.include_expense_documents_help}
+            />
         </React.Fragment>
     )
 }

@@ -1,20 +1,6 @@
 import React, { Component } from 'react'
 import FormBuilder from '../../settings/FormBuilder'
-import {
-    Button,
-    Card,
-    CardBody,
-    CardHeader,
-    CustomInput,
-    FormGroup,
-    Input,
-    Label,
-    Nav,
-    NavItem,
-    NavLink,
-    TabContent,
-    TabPane
-} from 'reactstrap'
+import { Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import { consts } from '../../utils/_consts'

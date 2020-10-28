@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { ListGroup, Row } from 'reactstrap'
-import { icons } from '../../utils/_icons'
+import { getEntityIcon, icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import InfoItem from '../../common/entityContainers/InfoItem'
 import PlainEntityHeader from '../../common/entityContainers/PlanEntityHeader'
@@ -26,63 +26,63 @@ export default class User extends Component {
                     </ListGroup>
                 </Row>
 
-                 <ListGroup className="col-12">
-                {modules && modules.invoices &&
-                <SectionItem link={`/#/invoice?user_id=${props.entity.id}`}
-                    icon={icons.document} title={translations.invoices}/>
-                }
+                <ListGroup className="col-12">
+                    {modules && modules.invoices &&
+                    <SectionItem link={`/#/invoice?user_id=${this.props.entity.id}`}
+                        icon={getEntityIcon('Invoice')} title={translations.invoices}/>
+                    }
 
-                {modules && modules.projects &&
-                <SectionItem link={`/#/projects?user_id=${props.entity.id}`}
-                    icon={icons.document} title={translations.projects}/>
-                }
+                    {modules && modules.projects &&
+                    <SectionItem link={`/#/projects?user_id=${this.props.entity.id}`}
+                        icon={getEntityIcon('Project')} title={translations.projects}/>
+                    }
 
-                {modules && modules.credits &&
-                <SectionItem link={`/#/credits?user_id=${props.entity.id}`}
-                    icon={icons.document} title={translations.credits}/>
-                }
+                    {modules && modules.credits &&
+                    <SectionItem link={`/#/credits?user_id=${this.props.entity.id}`}
+                        icon={getEntityIcon('Credit')} title={translations.credits}/>
+                    }
 
-                {modules && modules.quotes &&
-                <SectionItem link={`/#/quotes?user_id=${props.entity.id}`}
-                    icon={icons.document} title={translations.quotes}/>
-                }
+                    {modules && modules.quotes &&
+                    <SectionItem link={`/#/quotes?user_id=${this.props.entity.id}`}
+                        icon={getEntityIcon('Quote')} title={translations.quotes}/>
+                    }
 
-                {modules && modules.recurring_invoices &&
-                <SectionItem link={`/#/recurring-invoices?user_id=${props.entity.id}`}
-                    icon={icons.document} title={translations.recurring_invoices}/>
-                }
+                    {modules && modules.recurring_invoices &&
+                    <SectionItem link={`/#/recurring-invoices?user_id=${this.props.entity.id}`}
+                        icon={getEntityIcon('RecurringInvoice')} title={translations.recurring_invoices}/>
+                    }
 
-                {modules && modules.recurring_quotes &&
-                <SectionItem link={`/#/recurring-quotes?user_id=${props.entity.id}`}
-                    icon={icons.document} title={translations.recurring_quotes}/>
-                }
+                    {modules && modules.recurring_quotes &&
+                    <SectionItem link={`/#/recurring-quotes?user_id=${this.props.entity.id}`}
+                        icon={getEntityIcon('RecurringQuote')} title={translations.recurring_quotes}/>
+                    }
 
-                {modules && modules.tasks &&
-                <SectionItem link={`/#/tasks?user_id=${props.entity.id}`} icon={icons.task}
-                    title={translations.tasks}/>
-                }
+                    {modules && modules.tasks &&
+                    <SectionItem link={`/#/tasks?user_id=${this.props.entity.id}`} icon={getEntityIcon('Task')}
+                        title={translations.tasks}/>
+                    }
 
-                {modules && modules.deals &&
-                <SectionItem link={`/#/deals?user_id=${props.entity.id}`} icon={getEntityIcon('Deal')}
-                    title={translations.deals}/>
-                }
+                    {modules && modules.deals &&
+                    <SectionItem link={`/#/deals?user_id=${this.props.entity.id}`} icon={getEntityIcon('Deal')}
+                        title={translations.deals}/>
+                    }
 
-                {modules && modules.leads &&
-                <SectionItem link={`/#/leads?user_id=${props.entity.id}`} icon={getEntityIcon('Lead')}
-                    title={translations.leads}/>
-                }
+                    {modules && modules.leads &&
+                    <SectionItem link={`/#/leads?user_id=${this.props.entity.id}`} icon={getEntityIcon('Lead')}
+                        title={translations.leads}/>
+                    }
 
-                {modules && modules.expenses &&
-                <SectionItem link={`/#/expenses?user_id=${props.entity.id}`}
-                    icon={getEntityIcon('Expense')} title={translations.expenses}/>
-                }
+                    {modules && modules.expenses &&
+                    <SectionItem link={`/#/expenses?user_id=${this.props.entity.id}`}
+                        icon={getEntityIcon('Expense')} title={translations.expenses}/>
+                    }
 
-                {modules && modules.orders &&
-                <SectionItem link={`/#/orders?user_id=${props.entity.id}`} icon={getEntityIcon('Order')}
-                    title={translations.orders}/>
-                }
+                    {modules && modules.orders &&
+                    <SectionItem link={`/#/orders?user_id=${this.props.entity.id}`} icon={getEntityIcon('Order')}
+                        title={translations.orders}/>
+                    }
 
-            </ListGroup>
+                </ListGroup>
 
             </React.Fragment>
 

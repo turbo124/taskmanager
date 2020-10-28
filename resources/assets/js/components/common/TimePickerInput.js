@@ -1,12 +1,5 @@
 import React, { Component } from 'react'
-import {
-    Button,
-    Input,
-    InputAdornment,
-    IconButton,
-    Dialog,
-    DialogActions
-} from '@material-ui/core'
+import { Button, Dialog, DialogActions, IconButton, Input, InputAdornment } from '@material-ui/core'
 import { TimePicker } from 'material-ui-time-picker'
 import moment from 'moment'
 
@@ -88,7 +81,7 @@ export default class TimePickerInput extends Component {
                     endAdornment={
                         <InputAdornment position="end">
                             <IconButton onClick={this.openDialog}>
-                                <i className="fa fa-clock-o" />
+                                <i className="fa fa-clock-o"/>
                             </IconButton>
                         </InputAdornment>
                     }

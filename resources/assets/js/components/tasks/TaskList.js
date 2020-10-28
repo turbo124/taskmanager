@@ -47,6 +47,8 @@ export default class TaskList extends Component {
             custom_fields: [],
 
             ignoredColumns: [
+                'task_sort_order',
+                'include_documents',
                 'design_id',
                 'assigned_to',
                 'invoice_id',

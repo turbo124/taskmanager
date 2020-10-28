@@ -83,7 +83,6 @@ export default class GatewayItem extends Component {
                                 restore={restoreButton}/> : null
                         const dark = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'list-group-item-dark' : ''
 
-
                         return <li key={item.id}
                             className={`list-group-item d-flex justify-content-between align-items-center ${dark}`}>
                             <div className="d-flex justify-content-between">

@@ -136,6 +136,10 @@ class CreateOrder implements ShouldQueue
                 $order = $this->saveOrder($customer);
 
                 if (!$order) {
+
+                    Log::emergency('mike');
+                    die;
+
                     return null;
                 }
             }

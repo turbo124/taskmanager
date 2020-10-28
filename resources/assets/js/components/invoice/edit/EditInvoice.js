@@ -373,7 +373,10 @@ class EditInvoice extends Component {
             invoice: this.state
         })
 
-        this.setState({ line_items: line_items, changesMade: true }, () => localStorage.setItem('invoiceForm', JSON.stringify(this.state)))
+        this.setState({
+            line_items: line_items,
+            changesMade: true
+        }, () => localStorage.setItem('invoiceForm', JSON.stringify(this.state)))
     }
 
     handleFieldChange (line_items, row) {

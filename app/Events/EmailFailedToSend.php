@@ -4,13 +4,16 @@ namespace App\Events;
 
 use App\Models\Invoice;
 use Illuminate\Queue\SerializesModels;
+use robertogallea\LaravelMetrics\Models\Interfaces\PerformsMetrics;
+use robertogallea\LaravelMetrics\Models\Traits\Measurable;
 
 /**
  * Class InvoiceWasUpdated.
  */
-class EmailFailedToSend
+class EmailFailedToSend implements PerformsMetrics
 {
     use SerializesModels;
+    use Measurable;
 
     /**
      * @var Invoice
@@ -21,6 +24,8 @@ class EmailFailedToSend
      * @var array|string
      */
     public string $errors;
+
+    protected $meter = 'email-failed-to-send';
 
     /**
      * Create a new event instance.

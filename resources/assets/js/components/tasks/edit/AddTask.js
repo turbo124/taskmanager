@@ -95,6 +95,7 @@ class AddModal extends React.Component {
         })
 
         const data = {
+            include_documents: this.state.include_documents,
             is_recurring: this.state.is_recurring,
             recurring_start_date: this.state.recurring_start_date,
             recurring_end_date: this.state.recurring_end_date,

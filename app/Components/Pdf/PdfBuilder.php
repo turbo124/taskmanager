@@ -76,8 +76,9 @@ class PdfBuilder
         return $this;
     }
 
-    private function convertDateFormat($date_format) {
-        switch($date_format) {
+    private function convertDateFormat($date_format)
+    {
+        switch ($date_format) {
             case 'DD/MMM/YYYY':
                 return 'D M Y';
         }
@@ -106,15 +107,21 @@ class PdfBuilder
             }
         );
 
-       $new_array = array_values($new_array);
+        $new_array = array_values($new_array);
 
-        $date_format = (!empty($this->entity->customer)) ? $this->entity->customer->getSetting('date_format') : ((!empty($this->entity->account)) ? $this->entity->account->settings->date_format : 'd-m-Y');
+        $date_format = (!empty($this->entity->customer)) ? $this->entity->customer->getSetting(
+            'date_format'
+        ) : ((!empty($this->entity->account)) ? $this->entity->account->settings->date_format : 'd-m-Y');
         $date_format = $this->convertDateFormat($date_format);
 
         switch ($new_array[0]->type) {
             case 'date';
-            return Carbon::parse($value)->format($date_format);
-            break;
+                try {
+                    return Carbon::parse($value)->format($date_format);
+                } catch (\Exception $e) {
+                    return '';
+                }
+                break;
             case 'select':
             case 'text':
             case 'textarea':

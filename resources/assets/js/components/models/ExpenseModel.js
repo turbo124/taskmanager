@@ -157,6 +157,10 @@ export default class ExpenseModel extends BaseModel {
             : []
     }
 
+    get isConverted () {
+        return parseInt(this.fields.exchange_rate) !== 1 && parseInt(this.fields.exchange_rate) !== 0
+    }
+
     getExchangeRateForCurrency (currency_id) {
         const currency = this.currencies && this.currencies.length ? this.currencies.filter(currency => currency.id === parseInt(currency_id)) : []
 
@@ -174,10 +178,6 @@ export default class ExpenseModel extends BaseModel {
         actions.push('cloneExpense')
 
         return actions
-    }
-
-    get isConverted () {
-        return parseInt(this.fields.exchange_rate) !== 1 && parseInt(this.fields.exchange_rate) !== 0
     }
 
     async completeAction (data, action) {

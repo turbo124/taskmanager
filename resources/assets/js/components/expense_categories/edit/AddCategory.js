@@ -1,11 +1,9 @@
 import React from 'react'
 import { FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
-import axios from 'axios'
 import AddButtons from '../../common/AddButtons'
 import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
-import ExpenseModel from '../../models/ExpenseModel'
 import ExpenseCategoryModel from '../../models/ExpenseCategoryModel'
 
 class AddCategory extends React.Component {

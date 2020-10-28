@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
-import { Card, CardBody, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
+import { Card, CardBody } from 'reactstrap'
 import axios from 'axios'
 import { icons } from '../utils/_icons'
 import { translations } from '../utils/_translations'
-import { consts } from '../utils/_consts'
 import SnackbarMessage from '../common/SnackbarMessage'
 import Header from './Header'
 import AccountRepository from '../repositories/AccountRepository'
@@ -77,7 +76,7 @@ export default class ExpenseSettings extends Component {
 
     handleSettingsChange (event) {
         const name = event.target.name
-        const value = event.target.value
+        const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
 
         this.setState(prevState => ({
             settings: {
@@ -164,7 +163,7 @@ export default class ExpenseSettings extends Component {
                 <SnackbarMessage open={this.state.error} onClose={this.handleClose.bind(this)} severity="danger"
                     message={translations.settings_not_saved}/>
 
-                <Header title={translations.expense_settings} handleSubmit={this.handleSubmit} />
+                <Header title={translations.expense_settings} handleSubmit={this.handleSubmit}/>
 
                 <div className="fixed-margin-mobile bg-transparent">
                     <Card className="border-0">

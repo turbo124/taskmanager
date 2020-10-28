@@ -63,7 +63,7 @@ class PurchaseOrderService extends ServiceBase
             $contact = $this->purchase_order->company->primary_contact()->first();
         }
 
-        return CreatePdf::dispatchNow((new PurchaseOrderPdf($this->purchase_order)), $this->purchase_order, $contact, $update);
+        return CreatePdf::dispatchNow((new PurchaseOrderPdf($this->purchase_order)), $this->purchase_order, $contact, $update, 'purchase_order');
     }
 
     /**

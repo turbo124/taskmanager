@@ -2,7 +2,7 @@ import { ListGroup, ListGroupItem } from 'reactstrap'
 import { translations } from '../../utils/_translations'
 import React from 'react'
 import FormatMoney from '../FormatMoney'
-import InvoiceModel from "../../models/InvoiceModel";
+import InvoiceModel from '../../models/InvoiceModel'
 
 export default function TotalsBox (props) {
     const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
@@ -24,21 +24,24 @@ export default function TotalsBox (props) {
         <ListGroupItem
             className={`${listClass} d-flex justify-content-between align-items-center`}>
             {props.entity.tax_rate_name}
-            <span><FormatMoney amount={invoiceModel.calculateTax(props.entity.tax_rate)} customers={props.customers}/> ({props.entity.tax_3})</span>
+            <span><FormatMoney amount={invoiceModel.calculateTax(props.entity.tax_rate)}
+                customers={props.customers}/> ({props.entity.tax_3})</span>
         </ListGroupItem>
         }
         {settings.show_tax_rate2 && props.entity.tax_2 > 0 &&
         <ListGroupItem
             className={`${listClass} d-flex justify-content-between align-items-center`}>
             {props.entity.tax_rate_name_2}
-            <span><FormatMoney amount={invoiceModel.calculateTax(props.entity.tax_2)} customers={props.customers}/> ({props.entity.tax_3})</span>
+            <span><FormatMoney amount={invoiceModel.calculateTax(props.entity.tax_2)}
+                customers={props.customers}/> ({props.entity.tax_3})</span>
         </ListGroupItem>
         }
         {settings.show_tax_rate3 && props.entity.tax_3 > 0 &&
         <ListGroupItem
             className={`${listClass} d-flex justify-content-between align-items-center`}>
             {props.entity.tax_rate_name_3}
-            <span><FormatMoney amount={invoiceModel.calculateTax(props.entity.tax_3)} customers={props.customers}/> ({props.entity.tax_3})</span>
+            <span><FormatMoney amount={invoiceModel.calculateTax(props.entity.tax_3)}
+                customers={props.customers}/> ({props.entity.tax_3})</span>
         </ListGroupItem>
         }
 
@@ -55,7 +58,8 @@ export default function TotalsBox (props) {
         <ListGroupItem
             className={`${listClass} d-flex justify-content-between align-items-center`}>
             {translations.total}
-            <span><FormatMoney amount={props.entity.partial > 0 ? props.entity.partial : props.entity.total} customers={props.customers}/></span>
+            <span><FormatMoney amount={props.entity.partial > 0 ? props.entity.partial : props.entity.total}
+                customers={props.customers}/></span>
         </ListGroupItem>
     </ListGroup>
 }

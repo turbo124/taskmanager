@@ -52,7 +52,8 @@ class Task extends Model
         'recurring_due_date',
         'last_sent_date',
         'next_send_date',
-        'recurring_frequency'
+        'recurring_frequency',
+        'include_documents',
     ];
 
 

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import AddGateway from './edit/AddGateway'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
-import DataTable from '../common/DataTable'
 import GatewayItem from './GatewayItem'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
@@ -13,7 +11,7 @@ import GroupModel from '../models/GroupModel'
 import AccountModel from '../models/AccountModel'
 import FormBuilder from '../settings/FormBuilder'
 import Header from '../settings/Header'
-import { getSettingsIcon, icons } from '../utils/_icons'
+import { getSettingsIcon } from '../utils/_icons'
 import BlockButton from '../common/BlockButton'
 
 export default class GatewaySettings extends Component {
@@ -355,7 +353,8 @@ export default class GatewaySettings extends Component {
                         }
                     </div>
 
-                    <BlockButton icon={getSettingsIcon('gateway-settings')} button_text={translations.configure_gateways}
+                    <BlockButton icon={getSettingsIcon('gateway-settings')}
+                        button_text={translations.configure_gateways}
                         button_link="/#/gateways"/>
                 </div>
             </Row>

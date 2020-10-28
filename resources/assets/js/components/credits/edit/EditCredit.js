@@ -343,7 +343,10 @@ export default class EditCredit extends Component {
             invoice: this.state
         })
 
-        this.setState({ changesMade: true, line_items: line_items }, () => localStorage.setItem('creditForm', JSON.stringify(this.state)))
+        this.setState({
+            changesMade: true,
+            line_items: line_items
+        }, () => localStorage.setItem('creditForm', JSON.stringify(this.state)))
     }
 
     handleFieldChange (line_items, row) {

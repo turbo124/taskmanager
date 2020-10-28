@@ -58,6 +58,16 @@ const items = [
                 icon: `fa ${getSettingsIcon('product-settings')}`
             },
             {
+                name: translations.expense_settings,
+                url: '/expense-settings',
+                icon: `fa ${getSettingsIcon('expense-settings')}`
+            },
+            {
+                name: translations.task_settings,
+                url: '/task-settings',
+                icon: `fa ${getSettingsIcon('task-settings')}`
+            },
+            {
                 name: translations.number_settings,
                 url: '/number-settings',
                 icon: `fa ${getSettingsIcon('number-settings')}`

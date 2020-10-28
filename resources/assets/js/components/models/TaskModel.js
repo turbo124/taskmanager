@@ -5,7 +5,7 @@ import BaseModel from './BaseModel'
 const TaskTimeItem = {
     date: moment(new Date()).format('YYYY-MM-DD'),
     start_time: moment().format('HH:MM:ss'),
-    end_time: moment().add('1', 'hour').format('HH:MM:ss'),
+    end_time: moment().add('1', 'hour').format('HH:MM:ss')
 }
 
 export default class TaskModel extends BaseModel {
@@ -48,7 +48,8 @@ export default class TaskModel extends BaseModel {
             recurring_due_date: '',
             last_sent_date: '',
             next_send_date: '',
-            recurring_frequency: 0
+            recurring_frequency: 0,
+            include_documents: this.settings.include_task_documents || false
         }
 
         if (data !== null) {

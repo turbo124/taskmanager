@@ -51,7 +51,7 @@ class AutobillInvoice implements ShouldQueue
 
     private function build()
     {
-        if ($this->invoice->balance <= 0 && $this->invoice->partial <= 0) {
+        if ($this->invoice->balance <= 0 && $this->invoice->partial <= 0 && $this->invoice->customer->getSetting('credit_payments_enabled') === true) {
             return $this->completePaymentWithCredit();
         }
 

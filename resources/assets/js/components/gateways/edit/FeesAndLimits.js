@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardBody, Col, FormGroup, Label } from 'reactstrap'
+import { Card, CardBody, FormGroup, Label } from 'reactstrap'
 import { translations } from '../../utils/_translations'
 import FormBuilder from '../../settings/FormBuilder'
 import TaxRateDropdown from '../../common/dropdowns/TaxRateDropdown'

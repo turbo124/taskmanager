@@ -41,41 +41,41 @@ export default function Overview (props) {
             <ListGroup className="col-12">
                 {modules && modules.invoices &&
                 <SectionItem link={`/#/invoice?customer_id=${props.entity.id}`}
-                    icon={icons.document} title={translations.invoices}/>
+                    icon={getEntityIcon('Invoice')} title={translations.invoices}/>
                 }
 
                 {modules && modules.projects &&
                 <SectionItem link={`/#/projects?customer_id=${props.entity.id}`}
-                    icon={icons.document} title={translations.projects}/>
+                    icon={getEntityIcon('Project')} title={translations.projects}/>
                 }
 
                 {modules && modules.credits &&
                 <SectionItem link={`/#/credits?customer_id=${props.entity.id}`}
-                    icon={icons.document} title={translations.credits}/>
+                    icon={getEntityIcon('Credit')} title={translations.credits}/>
                 }
 
                 {modules && modules.quotes &&
                 <SectionItem link={`/#/quotes?customer_id=${props.entity.id}`}
-                    icon={icons.document} title={translations.quotes}/>
+                    icon={getEntityIcon('Quote')} title={translations.quotes}/>
                 }
 
                 {modules && modules.recurring_invoices &&
                 <SectionItem link={`/#/recurring-invoices?customer_id=${props.entity.id}`}
-                    icon={icons.document} title={translations.recurring_invoices}/>
+                    icon={getEntityIcon('RecurringInvoice')} title={translations.recurring_invoices}/>
                 }
 
                 {modules && modules.recurring_quotes &&
                 <SectionItem link={`/#/recurring-quotes?customer_id=${props.entity.id}`}
-                    icon={icons.document} title={translations.recurring_quotes}/>
+                    icon={getEntityIcon('RecurringQuote')} title={translations.recurring_quotes}/>
                 }
 
                 {modules && modules.payments &&
                 <SectionItem link={`/#/payments?customer_id=${props.entity.id}`}
-                    icon={icons.credit_card} title={translations.payments}/>
+                    icon={getEntityIcon('Payment')} title={translations.payments}/>
                 }
 
                 {modules && modules.tasks &&
-                <SectionItem link={`/#/tasks?customer_id=${props.entity.id}`} icon={icons.task}
+                <SectionItem link={`/#/tasks?customer_id=${props.entity.id}`} icon={getEntityIcon('Task')}
                     title={translations.tasks}/>
                 }
 

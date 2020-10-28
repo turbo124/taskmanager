@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { FormGroup, Input } from 'reactstrap'
-import TaxRateRepository from '../../repositories/TaxRateRepository'
 
 export default class TaxRateDropdown extends Component {
     constructor (props) {

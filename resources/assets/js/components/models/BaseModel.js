@@ -1,6 +1,6 @@
 import { consts } from '../utils/_consts'
 import { translations } from '../utils/_translations'
-import FormatDate, { formatDate } from '../common/FormatDate'
+import { formatDate } from '../common/FormatDate'
 
 export const LineItem = {
     unit_discount: 0,

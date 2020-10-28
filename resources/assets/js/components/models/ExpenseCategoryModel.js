@@ -1,7 +1,5 @@
 import axios from 'axios'
-import moment from 'moment'
 import BaseModel from './BaseModel'
-import { consts } from '../utils/_consts'
 
 export default class ExpenseCategoryModel extends BaseModel {
     constructor (data = null) {

@@ -31,8 +31,6 @@ class LineItem extends Component {
         const uses_inclusive_taxes = this.settings.inclusive_taxes
         const color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'text-secondary' : 'text-dark'
 
-        console.log('lines', this.props.rows)
-
         return this.props.rows.map((lineItem, index) => {
             let total = 0
 
@@ -57,7 +55,7 @@ class LineItem extends Component {
                 }
             }
 
-            return <React.Fragment key={index}>
+            return lineItem.type_id === this.props.line_type ? <React.Fragment key={index}>
                 <Row className="border-bottom border-primary my-3" form>
                     {lineItem.type_id === 1 &&
                     <Col md={3} data-id={index}>
@@ -129,7 +127,7 @@ class LineItem extends Component {
 
                     <Col md={2} data-id={index}>
                         <FormGroup>
-                            <Label>{translations.price}</Label>
+                            <Label>{lineItem.type_id === consts.line_item_task ? translations.rate : translations.price}</Label>
                             <Input key={`a-${index}`} name="unit_price" data-line={index} type='text' data-column="5"
                                 value={lineItem.unit_price} onChange={this.props.onChange}
                                 className='pa2 mr2 f6 form-control'/>
@@ -138,7 +136,7 @@ class LineItem extends Component {
 
                     <Col md={1} data-id={index}>
                         <FormGroup>
-                            <Label>{translations.quantity}</Label>
+                            <Label>{lineItem.type_id === consts.line_item_task ? translations.hours : translations.quantity}</Label>
                             <Input key={`b-${index}`} name="quantity" data-line={index} type='text'
                                 value={lineItem.quantity}
                                 onChange={this.props.onChange} className='pa2 mr2 f6 form-control'/>
@@ -221,7 +219,7 @@ class LineItem extends Component {
                         </UncontrolledTooltip>
                     </Col>
                 </Row>
-            </React.Fragment>
+            </React.Fragment> : null
         })
     }
 }
