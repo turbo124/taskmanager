@@ -29,7 +29,7 @@ class CloneLeadToTaskFactory
 
         $client_contact->user_id = $user->id;
         $client_contact->valued_at = $lead->valued_at;
-        $client_contact->task_status = TaskStatus::where('task_type', 3)->first()->id;
+        $client_contact->task_status_id = TaskStatus::where('task_type', 3)->first()->id;
         $client_contact->name = $lead->name;
         $client_contact->description = $lead->description;
         $client_contact->source_type = $lead->source_type;

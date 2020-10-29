@@ -86,7 +86,7 @@ export default class InvoiceReducer {
     }
 
     buildTask (task, line_item_only = false) {
-        const task_rate = task.task_rate && task.task_rate > 0 ? task.task_rate : this.settings.task_rate
+        const task_rate = task.calculated_task_rate && task.calculated_task_rate > 0 ? task.calculated_task_rate : this.settings.task_rate
         let notes = task.description + '\n'
 
         if (this.settings.include_times_on_invoice === true) {

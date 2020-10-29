@@ -31,7 +31,7 @@ export default class DealModel extends BaseModel {
             timers: [],
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             start_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
-            task_status: null,
+            task_status_id: null,
             project_id: null,
             loading: false,
             users: [],

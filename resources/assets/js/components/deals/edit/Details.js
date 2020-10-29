@@ -6,6 +6,7 @@ import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
 import Datepicker from '../../common/Datepicker'
 import TaskStatusDropdown from '../../common/dropdowns/TaskStatusDropdown'
 import DesignDropdown from '../../common/dropdowns/DesignDropdown'
+import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
 
 export default class Details extends React.Component {
     constructor (props) {
@@ -120,15 +121,23 @@ export default class Details extends React.Component {
                             <Label>{translations.status}</Label>
                             <TaskStatusDropdown
                                 task_type={2}
-                                status={this.props.deal.task_status}
+                                status={this.props.deal.task_status_id}
                                 handleInputChanges={this.props.handleInput}
                             />
                         </FormGroup>
 
                         <FormGroup>
                             <Label>{translations.design}</Label>
-                            <DesignDropdown name="design_id" design={this.props.design_id}
+                            <DesignDropdown name="design_id" design={this.props.deal.design_id}
                                 handleChange={this.props.handleInput}/>
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label>{translations.project}</Label>
+                            <ProjectDropdown handleInputChanges={this.props.handleInput}
+                                customer-id={this.props.deal.customer_id}
+                                project={this.props.deal.project_id} name="project_id"
+                            />
                         </FormGroup>
 
                         {sourceTypeOptions}

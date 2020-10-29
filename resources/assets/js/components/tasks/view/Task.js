@@ -200,7 +200,7 @@ export default class Task extends Component {
             return <TaskTimeItem key={index} taskTime={timer}/>
         }) : null
 
-        const task_rate = this.state.entity.task_rate && this.state.entity.task_rate > 0 ? this.state.entity.task_rate : this.settings.task_rate
+        const task_rate = this.state.entity.calculated_task_rate && this.state.entity.calculated_task_rate > 0 ? this.state.entity.calculated_task_rate : this.settings.task_rate
         const button1_action = !this.state.entity.invoice_id ? (e) => location.href = '/#/invoice?entity_type=task&entity_id=' + this.state.entity.id : (e) => this.toggleTab('6')
         const button1_label = !this.state.entity.invoice_id ? translations.new_invoice : translations.view_pdf
 

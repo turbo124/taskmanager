@@ -1,21 +1,18 @@
 import React from 'react'
 import { FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
-import axios from 'axios'
 import AddButtons from '../../common/AddButtons'
 import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
+import TaskStatusModel from '../../models/TaskStatusModel'
 
 class AddTaskStatus extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            name: '',
-            description: '',
-            loading: false,
-            errors: []
-        }
+
+        this.taskStatusModel = new TaskStatusModel(null)
+        this.initialState = this.taskStatusModel.fields
+        this.state = this.initialState
 
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
@@ -50,23 +47,19 @@ class AddTaskStatus extends React.Component {
     }
 
     handleClick () {
-        axios.post('/api/taskStatus', { name: this.state.name, description: this.state.description })
-            .then((response) => {
-                this.toggle()
-                const newUser = response.data
-                this.props.statuses.push(newUser)
-                this.props.action(this.props.statuses)
-                this.setState({
-                    name: null,
-                    description: null
-                })
-            })
-            .catch((error) => {
-                alert(error)
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
+        this.taskStatusModel.save({
+            name: this.state.name,
+            description: this.state.description
+        }).then(response => {
+            if (!response) {
+                this.setState({ errors: this.taskStatusModel.errors, message: this.taskStatusModel.error_message })
+                return
+            }
+
+            this.props.statuses.push(response)
+            this.props.action(this.props.statuses)
+            this.setState(this.initialState)
+        })
     }
 
     toggle () {

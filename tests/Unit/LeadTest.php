@@ -86,15 +86,15 @@ class LeadTest extends TestCase
     public function it_can_create_a_lead()
     {
         $data = [
-            'account_id'  => $this->account->id,
-            'user_id'     => $this->user->id,
-            'task_status' => 1,
-            'name'       => $this->faker->word,
-            'description' => $this->faker->sentence,
-            'first_name'  => $this->faker->firstName,
-            'last_name'   => $this->faker->lastName,
-            'phone'       => $this->faker->phoneNumber,
-            'email'       => $this->faker->safeEmail
+            'account_id'     => $this->account->id,
+            'user_id'        => $this->user->id,
+            'task_status_id' => 1,
+            'name'           => $this->faker->word,
+            'description'    => $this->faker->sentence,
+            'first_name'     => $this->faker->firstName,
+            'last_name'      => $this->faker->lastName,
+            'phone'          => $this->faker->phoneNumber,
+            'email'          => $this->faker->safeEmail
         ];
 
         $leadRepo = new LeadRepository(new Lead);

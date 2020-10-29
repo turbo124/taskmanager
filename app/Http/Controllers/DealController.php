@@ -166,4 +166,14 @@ class DealController extends Controller
                 break;
         }
     }
+
+    public function sortTasks(Request $request) {
+        foreach($request->input('tasks') as $data) {
+            $task = $this->deal_repo->findDealById($data['id']);
+
+            $task->task_sort_order = $data['task_sort_order'];
+            $task->save();
+        }
+
+    }
 }

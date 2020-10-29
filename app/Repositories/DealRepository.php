@@ -100,7 +100,7 @@ class DealRepository extends BaseRepository implements DealRepositoryInterface
      */
     public function getStatusCounts(int $task_type, int $account_id): Support
     {
-        return $this->model->join('task_statuses', 'task_statuses.id', '=', 'tasks.task_status')
+        return $this->model->join('task_statuses', 'task_statuses.id', '=', 'tasks.task_status_id')
                            ->select(
                                'task_statuses.name',
                                DB::raw('CEILING(count(*) * 100 / (select count(*) from tasks)) as value')

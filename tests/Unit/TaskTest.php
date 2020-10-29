@@ -109,7 +109,7 @@ class TaskTest extends TestCase
         $data = [
             'account_id'   => $this->account->id,
             'task_type'    => 1,
-            'task_status'  => 1,
+            'task_status_id'  => 1,
             'customer_id'  => $this->customer->id,
             'name'         => $this->faker->word,
             'description'      => $this->faker->sentence,
@@ -133,7 +133,7 @@ class TaskTest extends TestCase
             'project_id'   => $project->id,
             'account_id'   => $this->account->id,
             'task_type'    => 1,
-            'task_status'  => 1,
+            'task_status_id'  => 1,
             'customer_id'  => $this->customer->id,
             'name'         => $this->faker->word,
             'description'      => $this->faker->sentence,

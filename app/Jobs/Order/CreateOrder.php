@@ -11,6 +11,7 @@ use App\Models\Customer;
 use App\Models\CustomerContact;
 use App\Models\Order;
 use App\Models\Task;
+use App\Models\TaskStatus;
 use App\Models\User;
 use App\Repositories\CustomerContactRepository;
 use App\Repositories\CustomerRepository;
@@ -136,7 +137,6 @@ class CreateOrder implements ShouldQueue
                 $order = $this->saveOrder($customer);
 
                 if (!$order) {
-
                     Log::emergency('mike');
                     die;
 
@@ -261,14 +261,20 @@ class CreateOrder implements ShouldQueue
 
             $task = $this->task_repo->save(
                 [
-                    'due_date'    => $due_date,
-                    'created_by'  => $this->user->id,
-                    'source_type' => $this->request->source_type,
-                    'name'        => $this->request->title,
-                    'description' => isset($this->request->description) ? $this->request->description : '',
-                    'customer_id' => $customer->id,
-                    'valued_at'   => $this->request->valued_at,
-                    'task_status' => $this->request->task_status
+                    'due_date'       => $due_date,
+                    'created_by'     => $this->user->id,
+                    'source_type'    => $this->request->source_type,
+                    'name'           => $this->request->title,
+                    'description'    => isset($this->request->description) ? $this->request->description : '',
+                    'customer_id'    => $customer->id,
+                    'valued_at'      => $this->request->valued_at,
+                    'task_status_id' => !empty($this->request->task_status)
+                        ? $this->request->task_status
+                        : TaskStatus::where(
+                            'task_type',
+                            '=',
+                            1
+                        )->first()->id
                 ],
                 $task
             );

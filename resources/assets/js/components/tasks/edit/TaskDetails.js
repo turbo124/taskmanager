@@ -77,13 +77,21 @@ export default function TaskDetails (props) {
                 {props.renderErrorFor('description')}
             </FormGroup>
 
+            <FormGroup>
+                <Label for="task_rate">{translations.task_rate}:</Label>
+                <Input className={props.hasErrorFor('task_rate') ? 'is-invalid' : ''} type="text"
+                    name="task_rate" value={props.task.task_rate} id="task_rate"
+                    onChange={props.handleInput.bind(this)}/>
+                {props.renderErrorFor('task_rate')}
+            </FormGroup>
+
             {userOptions}
 
             <FormGroup>
                 <Label>{translations.status}</Label>
                 <TaskStatusDropdown
                     task_type={1}
-                    status={props.task.task_status}
+                    status={props.task.task_status_id}
                     handleInputChanges={props.handleInput}
                 />
             </FormGroup>

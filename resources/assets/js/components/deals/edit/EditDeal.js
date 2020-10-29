@@ -111,7 +111,9 @@ export default class EditDeal extends Component {
             custom_value3: this.state.custom_value3,
             custom_value4: this.state.custom_value4,
             public_notes: this.state.public_notes,
-            private_notes: this.state.private_notes
+            private_notes: this.state.private_notes,
+            task_status_id: this.state.task_status_id,
+            project_id: this.state.project_id
         }
     }
 

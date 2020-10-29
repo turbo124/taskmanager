@@ -15,8 +15,8 @@ use App\Models\Project;
 use App\Models\Task;
 use App\Models\Timer;
 use App\Repositories\TimerRepository;
+use App\Traits\DateFormatter;
 use App\Traits\Money;
-use Carbon\Carbon;
 use ReflectionClass;
 use ReflectionException;
 use stdClass;
@@ -28,6 +28,7 @@ use stdClass;
 class PdfBuilder
 {
     use Money;
+    use DateFormatter;
 
     protected $labels;
     protected $values;
@@ -76,16 +77,6 @@ class PdfBuilder
         return $this;
     }
 
-    private function convertDateFormat($date_format)
-    {
-        switch ($date_format) {
-            case 'DD/MMM/YYYY':
-                return 'D M Y';
-        }
-
-        return $date_format;
-    }
-
     protected function formatCustomField($entity, $field, $value)
     {
         if (empty($value)) {
@@ -109,18 +100,9 @@ class PdfBuilder
 
         $new_array = array_values($new_array);
 
-        $date_format = (!empty($this->entity->customer)) ? $this->entity->customer->getSetting(
-            'date_format'
-        ) : ((!empty($this->entity->account)) ? $this->entity->account->settings->date_format : 'd-m-Y');
-        $date_format = $this->convertDateFormat($date_format);
-
         switch ($new_array[0]->type) {
             case 'date';
-                try {
-                    return Carbon::parse($value)->format($date_format);
-                } catch (\Exception $e) {
-                    return '';
-                }
+                return $this->formatDate($this->entity, $value);
                 break;
             case 'select':
             case 'text':
@@ -535,8 +517,14 @@ class PdfBuilder
 
     public function setDate($date): self
     {
-        $this->data['$date'] = ['value' => $date ?: '&nbsp;', 'label' => trans('texts.date')];
-        $this->data['$' . $this->class . '.date'] = ['value' => $date ?: '&nbsp;', 'label' => trans('texts.date')];
+        $this->data['$date'] = [
+            'value' => $this->formatDate($this->entity, $date) ?: '&nbsp;',
+            'label' => trans('texts.date')
+        ];
+        $this->data['$' . $this->class . '.date'] = [
+            'value' => $this->formatDate($this->entity, $date) ?: '&nbsp;',
+            'label' => trans('texts.date')
+        ];
         return $this;
     }
 
@@ -712,11 +700,14 @@ class PdfBuilder
     public function setDueDate($due_date): self
     {
         $this->data['$' . $this->class . '.due_date'] = [
-            'value' => $due_date ?: '&nbsp;',
+            'value' => $this->formatDate($this->entity, $due_date) ?: '&nbsp;',
             'label' => trans('texts.due_date')
         ];
         $this->data['$due_date'] = &$this->data['$' . $this->class . '.due_date'];
-        $this->data['$quote.valid_until'] = ['value' => $due_date, 'label' => trans('texts.valid_until')];
+        $this->data['$quote.valid_until'] = [
+            'value' => $this->formatDate($this->entity, $due_date),
+            'label' => trans('texts.valid_until')
+        ];
         return $this;
     }
 
@@ -759,7 +750,6 @@ class PdfBuilder
                 )->first() : false;
                 $duration = (new TimerRepository(new Timer()))->getTotalDuration($this->entity);
                 $budgeted_hours = 0;
-                $task_rate = 0;
 
                 if (!empty($duration)) {
                     $budgeted_hours = $duration;
@@ -767,8 +757,9 @@ class PdfBuilder
 
                 if (!empty($project)) {
                     $budgeted_hours = $budgeted_hours === 0 ? $project->budgeted_hours : $budgeted_hours;
-                    $task_rate = $project->task_rate;
                 }
+
+                $task_rate = $this->entity->getTaskRate();
 
                 $cost = !empty($task_rate) && !empty($budgeted_hours) ? $task_rate * $budgeted_hours : 0;
 

@@ -42,7 +42,6 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
@@ -93,7 +92,7 @@ class TaskController extends Controller
             (new TaskFactory)->create(auth()->user(), auth()->user()->account_user()->account)
         );
 
-        if($task->customer->getSetting('task_automation_enabled') === true) {
+        if ($task->customer->getSetting('task_automation_enabled') === true) {
             return $this->timerAction('start_timer', $task);
         }
 
@@ -107,7 +106,7 @@ class TaskController extends Controller
      */
     public function markAsCompleted(int $task_id)
     {
-        $objTask = $this->task_repo->findTaskById($task_id);
+        $task = $this->task_repo->findTaskById($task_id);
         $task = $this->task_repo->save(['is_completed' => true], $task);
         return response()->json($task);
     }
@@ -166,7 +165,7 @@ class TaskController extends Controller
     public function updateStatus(Request $request, int $id)
     {
         $task = $this->task_repo->findTaskById($id);
-        $task = $this->task_repo->save(['task_status' => $request->task_status], $task);
+        $task = $this->task_repo->save(['task_status_id' => $request->task_status], $task);
         return response()->json($task);
     }
 
@@ -400,28 +399,24 @@ class TaskController extends Controller
         $timer_repo = new TimerRepository(new Timer());
 
         if ($action === 'stop_timer') {
-            $timer = $task->timers()->orderBy('started_at', 'desc')->first();
-
-            if(!empty($timer)) {
-               $timer->stopped_at = date('Y-m-d H:i:s');
-               $timer->save();
-            }
+            $timer_repo->stopTimer($task);
         }
 
         if ($action === 'resume_timer' || $action === 'start_timer') {
             $timer = TimerFactory::create(auth()->user(), auth()->user()->account_user()->account, $task);
-            $timer = $timer_repo->save(
-                $task,
-                $timer,
-                [
-                    'date'       => date('Y-m-d'),
-                    'start_time' => date('H:i:s'),
-                    'end_time'   => '',
-                    'name'       => date('Y-m-d H:i:s')
-                ]
-            );
+            $timer_repo->startTimer($timer, $task);
         }
 
         return response()->json($this->transformTask($task->fresh()));
+    }
+
+    public function sortTasks(Request $request) {
+        foreach($request->input('tasks') as $data) {
+            $task = $this->task_repo->findTaskById($data['id']);
+
+            $task->task_sort_order = $data['task_sort_order'];
+            $task->save();
+        }
+
     }
 }

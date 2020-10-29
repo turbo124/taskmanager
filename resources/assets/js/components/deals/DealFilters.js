@@ -21,7 +21,7 @@ export default class DealFilters extends Component {
                 end_date: '',
                 project_id: '',
                 status_id: 'active',
-                task_status: '',
+                task_status_id: '',
                 user_id: '',
                 customer_id: '',
                 task_type: '',

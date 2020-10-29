@@ -16,6 +16,7 @@ trait Balancer
 
         if ($this->balance === 0.0 && get_class($this) === 'App\Models\Invoice') {
             $this->setStatus(self::STATUS_PAID);
+            $this->date_to_send = null;
         }
 
         $this->save();

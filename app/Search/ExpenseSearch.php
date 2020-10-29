@@ -58,8 +58,8 @@ class ExpenseSearch extends BaseSearch
             $this->query->whereCompanyId($request->company_id);
         }
 
-        if ($request->filled('category_id')) {
-            $this->query->whereCategoryId($request->category_id);
+        if ($request->filled('expense_category_id')) {
+            $this->query->whereExpenseCategoryId($request->expense_category_id);
         }
 
         if ($request->filled('user_id')) {

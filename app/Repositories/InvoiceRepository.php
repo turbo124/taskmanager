@@ -138,7 +138,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
             if ($line_item->type_id === Invoice::TASK_TYPE) {
                 $task = Task::where('id', '=', $line_item->product_id)->first();
 
-                if (!$task || $task->task_status === Task::STATUS_INVOICED) {
+                if (!$task || $task->task_status_id === Task::STATUS_INVOICED) {
                     continue;
                 }
 

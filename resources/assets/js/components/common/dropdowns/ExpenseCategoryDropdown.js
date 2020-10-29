@@ -81,7 +81,7 @@ export default class ExpenseCategoryDropdown extends Component {
         return (
             <React.Fragment>
                 {input}
-                {this.renderErrorFor('category_id')}
+                {this.renderErrorFor('expense_category_id')}
             </React.Fragment>
         )
     }

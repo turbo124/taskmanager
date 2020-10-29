@@ -41,6 +41,10 @@ export default class Leads extends Component {
             },
             custom_fields: [],
             ignoredColumns: [
+                'project',
+                'project_id',
+                'task_status_id',
+                'design_id',
                 'industry_id',
                 'emails',
                 'created_at',

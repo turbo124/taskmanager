@@ -98,10 +98,7 @@ export default class OrderModel extends BaseModel {
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
 
-            if (this.customers.length && this._fields.customer_id) {
-                const customer = this.customers.filter(customer => customer.id === parseInt(this._fields.customer_id))
-                this.customer = customer[0]
-            }
+            this.updateCustomer()
         }
 
         if (this.customer && this.customer.currency_id.toString().length) {
@@ -200,10 +197,7 @@ export default class OrderModel extends BaseModel {
 
     set customer_id (customer_id) {
         this.fields.customer_id = customer_id
-    }
-
-    set customer_id (customer_id) {
-        this._fields.customer_id = customer_id
+        this.updateCustomer()
     }
 
     get isDeleted () {
@@ -222,6 +216,13 @@ export default class OrderModel extends BaseModel {
 
     set task_id (task_id) {
         this._fields.task_id = task_id
+    }
+
+    updateCustomer () {
+        if (this.customers.length && this._fields.customer_id) {
+            const customer = this.customers.filter(customer => customer.id === parseInt(this._fields.customer_id))
+            this.customer = customer[0]
+        }
     }
 
     hasInvoice () {

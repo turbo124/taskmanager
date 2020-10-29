@@ -165,7 +165,10 @@ class EditInvoice extends Component {
                 contacts: customer_data.contacts,
                 address: customer_data.address,
                 changesMade: true
-            }, () => localStorage.setItem('invoiceForm', JSON.stringify(this.state)))
+            }, () => {
+                this.invoiceModel.customer_id = e.target.value
+                localStorage.setItem('invoiceForm', JSON.stringify(this.state))
+            })
 
             if (this.settings.convert_product_currency === true) {
                 const customer = new CustomerModel(customer_data.customer)
@@ -637,7 +640,9 @@ class EditInvoice extends Component {
             handleDelete={this.handleDelete}/>
 
         const notes = !this.state.is_mobile
-            ? <NoteTabs projects={this.state.projects} invoice={this.state} private_notes={this.state.private_notes}
+            ? <NoteTabs show_exchange={this.invoiceModel.account_currency.exchange_rate !== this.state.exchange_rate}
+                projects={this.state.projects}
+                invoice={this.state} private_notes={this.state.private_notes}
                 public_notes={this.state.public_notes}
                 terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
                 handleInput={this.handleInput}/>

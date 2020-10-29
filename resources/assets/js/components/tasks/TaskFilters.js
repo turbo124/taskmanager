@@ -21,7 +21,7 @@ export default class TaskFilters extends Component {
                 end_date: '',
                 project_id: '',
                 status_id: 'active',
-                task_status: '',
+                task_status_id: '',
                 user_id: '',
                 customer_id: '',
                 task_type: '',
@@ -104,7 +104,7 @@ export default class TaskFilters extends Component {
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <StatusDropdown filterStatus={this.filterProjects}/>
+                        <StatusDropdown filterStatus={this.filterTasks}/>
                     </FormGroup>
                 </Col>
 

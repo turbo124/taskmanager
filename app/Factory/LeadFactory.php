@@ -19,7 +19,7 @@ class LeadFactory
         $lead->account_id = $account->id;
         $lead->user_id = $user->id;
         $lead->source_type = 1;
-        $lead->task_status = Lead::NEW_LEAD;
+        $lead->task_status_id = Lead::NEW_LEAD;
 
         return $lead;
     }

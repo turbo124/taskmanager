@@ -36,7 +36,7 @@ export default class TaskList extends Component {
             filters: {
                 project_id: queryString.parse(this.props.location.search).project_id || '',
                 status_id: 'active',
-                task_status: '',
+                task_status_id: '',
                 user_id: queryString.parse(this.props.location.search).user_id || '',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
                 task_type: '',
@@ -67,7 +67,7 @@ export default class TaskList extends Component {
                 'users',
                 'comments',
                 'is_completed',
-                'task_status',
+                'task_status_id',
                 'task_type',
                 'rating',
                 'customer_id',
@@ -197,8 +197,8 @@ export default class TaskList extends Component {
 
     render () {
         const { tasks, users, customers, custom_fields, isOpen, error_message, success_message, show_success } = this.state
-        const { project_id, task_status, task_type, customer_id, user_id, searchText, start_date, end_date } = this.state.filters
-        const fetchUrl = `/api/tasks?search_term=${searchText}&project_id=${project_id}&task_status=${task_status}&task_type=${task_type}&customer_id=${customer_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}`
+        const { project_id, task_status_id, task_type, customer_id, user_id, searchText, start_date, end_date } = this.state.filters
+        const fetchUrl = `/api/tasks?search_term=${searchText}&project_id=${project_id}&task_status=${task_status_id}&task_type=${task_type}&customer_id=${customer_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}`
         const { error, view } = this.state
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'

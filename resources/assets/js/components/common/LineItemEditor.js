@@ -348,6 +348,7 @@ class LineItemEditor extends Component {
                 </div>
                 }
 
+                {this.props.model.entity === 'Invoice' &&
                 <Nav tabs
                     className={`${show_expense_tab || show_task_tab ? 'nav-justified' : ''} setting-tabs disable-scrollbars`}>
                     <NavItem>
@@ -384,8 +385,9 @@ class LineItemEditor extends Component {
                     </NavItem>
                     }
                 </Nav>
+                }
 
-                <TabContent className="" activeTab={this.state.line_type}>
+                <TabContent className="" activeTab={this.state.line_type || !this.props.model.entity === 'Invoice'}>
                     <TabPane tabId={consts.line_item_product}>
                         {this.state.products.length &&
                         <LineItem

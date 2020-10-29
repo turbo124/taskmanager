@@ -35,7 +35,7 @@ class ConvertLead
 
     public function execute()
     {
-        if ($this->lead->task_status === Lead::STATUS_COMPLETED) {
+        if ($this->lead->task_status_id === Lead::STATUS_COMPLETED) {
             return false;
         }
 
@@ -72,7 +72,7 @@ class ConvertLead
                 return null;
             }
 
-            $this->lead->task_status = Lead::STATUS_COMPLETED;
+            $this->lead->task_status_id = Lead::STATUS_COMPLETED;
 
             if (!$this->lead->save()) {
                 DB::rollback();

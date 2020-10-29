@@ -97,6 +97,7 @@ class EditExpense extends React.Component {
 
     getFormData () {
         return {
+            assigned_to: this.state.assigned_to,
             project_id: this.state.project_id,
             is_recurring: this.state.is_recurring,
             recurring_start_date: this.state.recurring_start_date,
@@ -109,7 +110,7 @@ class EditExpense extends React.Component {
             customer_id: this.state.customer_id,
             company_id: this.state.company_id,
             payment_type_id: this.state.payment_type_id,
-            category_id: this.state.category_id,
+            expense_category_id: this.state.expense_category_id,
             public_notes: this.state.public_notes,
             private_notes: this.state.private_notes,
             currency_id: this.state.currency_id,

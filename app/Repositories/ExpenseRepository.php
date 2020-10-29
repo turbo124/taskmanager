@@ -41,7 +41,9 @@ class ExpenseRepository extends BaseRepository
     {
         $expense = $this->save($data, $expense);
 
-        if (!empty($data['create_invoice']) && $data['create_invoice'] === true) {
+        if (!empty($data['create_invoice']) && $data['create_invoice'] === true && $expense->customer->getSetting(
+                'expense_auto_create_invoice'
+            ) === true) {
             GenerateInvoice::dispatchNow(new InvoiceRepository(new Invoice), collect([$expense]), $data);
         }
 

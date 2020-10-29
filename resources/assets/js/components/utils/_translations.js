@@ -702,6 +702,8 @@ _localizedValues.en = {
     fees: 'Fees',
     prefix: 'Prefix',
     number_pattern: 'Number Pattern',
+    expense_auto_create_invoice: 'Automatically create invoice',
+    expense_auto_create_invoice_help: 'Automatically create an invoice when you create an expense',
     create_expense_payment_help: 'Track the expense has been paid',
     create_expense_invoice_help: 'Enable the expense to be invoiced',
     include_expense_documents_help: 'Make the documents visible',

@@ -36,7 +36,7 @@ export default class DealList extends Component {
             filters: {
                 // project_id: queryString.parse(this.props.location.search).project_id || '',
                 status_id: 'active',
-                task_status: '',
+                task_status_id: '',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
                 user_id: queryString.parse(this.props.location.search).user_id || '',
                 // task_type: '',
@@ -47,6 +47,9 @@ export default class DealList extends Component {
             custom_fields: [],
 
             ignoredColumns: [
+                'design_id',
+                'project',
+                'project_id',
                 'files',
                 'emails',
                 'public_notes',
@@ -55,7 +58,7 @@ export default class DealList extends Component {
                 'assigned_to',
                 'comments',
                 'is_completed',
-                'task_status',
+                'task_status_id',
                 'rating',
                 'customer_id',
                 'user_id',

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { FormGroup, Input } from 'reactstrap'
 import { translations } from '../../utils/_translations'
-import TaskRepository from '../../repositories/TaskRepository'
+import TaskStatusRepository from '../../repositories/TaskStatusRepository'
 
 export default class TaskStatusDropdown extends Component {
     constructor (props) {
@@ -36,8 +36,8 @@ export default class TaskStatusDropdown extends Component {
     }
 
     getStatuses () {
-        const taskRepository = new TaskRepository()
-        taskRepository.getStatuses(this.props.task_type).then(response => {
+        const taskStatusRepository = new TaskStatusRepository()
+        taskStatusRepository.get(this.props.task_type).then(response => {
             if (!response) {
                 alert('error')
             }
@@ -61,13 +61,13 @@ export default class TaskStatusDropdown extends Component {
         return (
             <FormGroup className="ml-2">
                 <Input value={this.props.status} onChange={this.props.handleInputChanges} type="select"
-                    name="task_status" id="task_status">
+                    name="task_status_id" id="task_status_id">
                     <option value="">{translations.select_option}</option>
                     {statusList}
                     {/* <option value="archived">Archived</option> */}
                     {/* <option value="deleted">Deleted</option> */}
                 </Input>
-                {this.renderErrorFor('task_status')}
+                {this.renderErrorFor('task_status_id')}
             </FormGroup>
         )
     }

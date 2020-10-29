@@ -101,10 +101,7 @@ export default class PurchaseOrderModel extends BaseModel {
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
 
-            if (this.companies.length && this._fields.company_id) {
-                const company = this.companies.filter(company => company.id === parseInt(this._fields.company_id))
-                this.company = company[0]
-            }
+            this.updateCustomer()
         }
 
         if (this.company && this.company.currency_id.toString().length) {
@@ -127,6 +124,8 @@ export default class PurchaseOrderModel extends BaseModel {
 
     set customer_id (customer_id) {
         this.fields.customer_id = customer_id
+        this.fields.company_id = customer_id
+        this.updateCustomer()
     }
 
     get isNew () {
@@ -185,6 +184,13 @@ export default class PurchaseOrderModel extends BaseModel {
         const index = this.companies.findIndex(company => company.id === this.fields.company_id)
         const company = this.companies[index]
         return company.contacts ? company.contacts : []
+    }
+
+    updateCustomer () {
+        if (this.companies.length && this._fields.company_id) {
+            const company = this.companies.filter(company => company.id === parseInt(this._fields.company_id))
+            this.company = company[0]
+        }
     }
 
     buildDropdownMenu () {

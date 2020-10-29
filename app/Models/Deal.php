@@ -16,6 +16,7 @@ class Deal extends Model
     use HasFactory;
 
     protected $fillable = [
+        'task_sort_order',
         'design_id',
         'name',
         'description',
@@ -23,7 +24,7 @@ class Deal extends Model
         'assigned_to',
         'due_date',
         'project_id',
-        'task_status',
+        'task_status_id',
         'created_by',
         'task_type',
         'customer_id',
@@ -76,7 +77,7 @@ class Deal extends Model
 
     public function taskStatus()
     {
-        return $this->belongsTo(TaskStatus::class, 'task_status');
+        return $this->belongsTo(TaskStatus::class);
     }
 
     public function getDesignId()
@@ -92,6 +93,11 @@ class Deal extends Model
     public function emails()
     {
         return Email::whereEntity(get_class($this))->whereEntityId($this->id)->get();
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 
     public function setNumber()

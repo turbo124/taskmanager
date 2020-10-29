@@ -26,6 +26,16 @@ export default class BaseModel {
         this.tax_rates = JSON.parse(localStorage.getItem('tax_rates'))
     }
 
+    get account_currency () {
+        const currency_id = this.settings.currency_id
+
+        if (!currency_id) {
+            return null
+        }
+
+        return JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(currency_id))[0]
+    }
+
     handleError (error) {
         if (error.response && error.response.data.message) {
             this.error_message = error.response.data.message

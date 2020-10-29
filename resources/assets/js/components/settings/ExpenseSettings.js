@@ -111,6 +111,15 @@ export default class ExpenseSettings extends Component {
         return [
             [
                 {
+                    name: 'expense_auto_create_invoice',
+                    label: translations.expense_auto_create_invoice,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.expense_auto_create_invoice,
+                    help_text: translations.expense_auto_create_invoice_help,
+                    group: 1
+                },
+                {
                     name: 'create_expense_invoice',
                     label: translations.create_expense_invoice,
                     icon: `fa ${icons.envelope}`,

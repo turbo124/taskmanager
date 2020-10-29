@@ -49,7 +49,7 @@ export default class ExpenseModel extends BaseModel {
             create_invoice: this.settings.create_expense_invoice || false,
             date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             company_id: '',
-            category_id: '',
+            expense_category_id: '',
             user_id: null,
             notes: '',
             loading: false,

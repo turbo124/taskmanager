@@ -179,7 +179,6 @@ export default class NoteTabs extends Component {
                                         <Label>{translations.project}</Label>
                                         <ProjectDropdown
                                             projects={this.props.projects}
-                                            renderErrorFor={this.renderErrorFor}
                                             name="project_id"
                                             handleInputChanges={this.props.handleInput}
                                             project={this.props.invoice.project_id}
@@ -187,6 +186,18 @@ export default class NoteTabs extends Component {
                                         />
                                     </FormGroup>
                                 </Col>
+
+                                {!!this.props.show_exchange &&
+                                <Col md={6}>
+                                    <FormGroup>
+                                        <Label for="po_number">{translations.exchange_rate}:</Label>
+                                        <Input value={this.props.invoice.exchange_rate} type="text" id="exchange_rate"
+                                            name="exchange_rate"
+                                            onChange={this.props.handleInput}/>
+                                    </FormGroup>
+                                </Col>
+                                }
+
                             </Row>
                         </TabPane>
                     </TabContent>

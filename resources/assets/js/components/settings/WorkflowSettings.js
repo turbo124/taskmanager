@@ -604,26 +604,26 @@ export default class WorkflowSettings extends Component {
             }
 
             { // modules && modules.expenses &&
-            // <NavItem>
-            //     <NavLink
-            //         className={this.state.activeTab === '9' ? 'active' : ''}
-            //         onClick={(e) => {
-            //             this.toggle('9', e)
-            //         }}>
-            //         {translations.expenses}
-            //     </NavLink>
-            // </NavItem>
+                // <NavItem>
+                //     <NavLink
+                //         className={this.state.activeTab === '9' ? 'active' : ''}
+                //         onClick={(e) => {
+                //             this.toggle('9', e)
+                //         }}>
+                //         {translations.expenses}
+                //     </NavLink>
+                // </NavItem>
             }
             {// modules && modules.tasks &&
-            // <NavItem>
-            //     <NavLink
-            //         className={this.state.activeTab === '10' ? 'active' : ''}
-            //         onClick={(e) => {
-            //             this.toggle('10', e)
-            //         }}>
-            //         {translations.tasks}
-            //     </NavLink>
-            // </NavItem>
+                // <NavItem>
+                //     <NavLink
+                //         className={this.state.activeTab === '10' ? 'active' : ''}
+                //         onClick={(e) => {
+                //             this.toggle('10', e)
+                //         }}>
+                //         {translations.tasks}
+                //     </NavLink>
+                // </NavItem>
             }
         </Nav>
 

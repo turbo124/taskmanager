@@ -25,7 +25,7 @@ trait ExpenseTransformable
             'bank_id'               => (string)$expense->bank_id ?: '',
             'invoice_currency_id'   => (int)$expense->invoice_currency_id ?: '',
             'currency_id'           => (int)$expense->currency_id ?: '',
-            'category_id'           => (int)$expense->category_id ?: '',
+            'expense_category_id'   => (int)$expense->expense_category_id ?: '',
             'payment_type_id'       => (int)$expense->payment_type_id ?: '',
             'recurring_expense_id'  => (int)$expense->recurring_expense_id ?: '',
             'is_deleted'            => (bool)$expense->is_deleted,
@@ -59,10 +59,10 @@ trait ExpenseTransformable
             'next_send_date'        => $expense->next_send_date ?: '',
             'recurring_frequency'   => (int)$expense->recurring_frequency ?: '',
             'category'              => $expense->category,
-            'tax_2'                => (float)$expense->tax_2,
-            'tax_3'                => (float)$expense->tax_3,
-            'tax_rate_name_2'      => $expense->tax_rate_name_2,
-            'tax_rate_name_3'      => $expense->tax_rate_name_3,
+            'tax_2'                 => (float)$expense->tax_2,
+            'tax_3'                 => (float)$expense->tax_3,
+            'tax_rate_name_2'       => $expense->tax_rate_name_2,
+            'tax_rate_name_3'       => $expense->tax_rate_name_3,
         ];
     }
 

@@ -16,10 +16,10 @@ class ExpenseCategory extends Model
     ];
 
     /**
-     * @return BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function expense()
+    public function expenses()
     {
-        return $this->belongsTo('App\Models\Expense');
+        return $this->hasMany(Expense::class);
     }
 }

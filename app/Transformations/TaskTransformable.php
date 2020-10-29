@@ -31,7 +31,7 @@ trait TaskTransformable
             'due_date'             => $task->due_date,
             'start_date'           => $task->start_date ?: '',
             'is_completed'         => $task->is_completed,
-            'task_status'          => (int)$task->task_status,
+            'task_status_id'       => (int)$task->task_status_id,
             'status_name'          => !empty($task->taskStatus) ? $task->taskStatus->name : '',
             'deleted_at'           => $task->deleted_at,
             'customer'             => $this->transformCustomer($task->customer),
@@ -50,7 +50,8 @@ trait TaskTransformable
             'public_notes'         => $task->public_notes ?: '',
             'private_notes'        => $task->private_notes ?: '',
             'duration'             => (new TimerRepository(new Timer()))->getTotalDuration($task),
-            'task_rate'            => !empty($task->project) ? $task->project->task_rate : 0,
+            'calculated_task_rate' => $task->getTaskRate(),
+            'task_rate'            => $task->task_rate,
             'task_sort_order'      => (int)$task->task_status_sort_order,
             'files'                => $this->transformTaskFiles($task->files),
             'emails'               => $this->transformTaskEmails($task->emails()),
@@ -64,7 +65,7 @@ trait TaskTransformable
             'project'              => $task->project,
             'invoice_id'           => $task->invoice_id,
             'invoice'              => $task->invoice,
-            'include_documents'    => (bool)$task->include_documents
+            'include_documents'    => (bool)$task->include_documents,
         ];
     }
 

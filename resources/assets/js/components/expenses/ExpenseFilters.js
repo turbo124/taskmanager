@@ -19,10 +19,11 @@ export default class ExpenseFilters extends Component {
                 status_id: 'active',
                 searchText: '',
                 customer_id: '',
-                category_id: '',
+                expense_category_id: '',
                 company_id: '',
                 start_date: '',
-                end_date: ''
+                end_date: '',
+                user_id: ''
             }
         }
 
@@ -111,8 +112,8 @@ export default class ExpenseFilters extends Component {
                 <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <FormGroup>
                         <ExpenseCategoryDropdown
-                            name="category_id"
-                            category={this.props.filters.category_id}
+                            name="expense_category_id"
+                            category={this.props.filters.expense_category_id}
                             renderErrorFor={this.renderErrorFor}
                             handleInputChanges={this.filterExpenses}
                         />
