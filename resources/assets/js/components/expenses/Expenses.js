@@ -22,7 +22,7 @@ export default class Expenses extends Component {
             success_message: translations.success_message,
             per_page: 5,
             view: {
-                ignore: ['user_id', 'assigned_to', 'company_id', 'customer_id', 'invoice_id', 'bank_id', 'deleted_at', 'customer_id', 'invoice_currency_id', 'payment_type_id', 'currency_id', 'recurring_expense_id', 'updated_at', 'category_id'],
+                ignore: ['user_id', 'assigned_to', 'company_id', 'customer_id', 'invoice_id', 'bank_id', 'deleted_at', 'customer_id', 'invoice_currency_id', 'payment_type_id', 'currency_id', 'recurring_expense_id', 'updated_at', 'expense_category_id'],
                 viewMode: false,
                 viewedId: null,
                 title: null
@@ -36,7 +36,7 @@ export default class Expenses extends Component {
                 status_id: 'active',
                 user_id: queryString.parse(this.props.location.search).user_id || '',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
-                category_id: queryString.parse(this.props.location.search).category_id || '',
+                expense_category_id: queryString.parse(this.props.location.search).category_id || '',
                 searchText: queryString.parse(this.props.location.search).number || '',
                 company_id: queryString.parse(this.props.location.search).company_id || '',
                 start_date: '',
@@ -65,7 +65,7 @@ export default class Expenses extends Component {
                     'invoice_id',
                     'assigned_to',
                     'bank_id',
-                    'category_id',
+                    'expense_category_id',
                     'create_invoice',
                     'include_documents',
                     'public_notes',
@@ -195,8 +195,8 @@ export default class Expenses extends Component {
 
     render () {
         const { expenses, customers, custom_fields, view, companies, error, isOpen, error_message, success_message, show_success } = this.state
-        const { searchText, status_id, customer_id, company_id, start_date, end_date, category_id, user_id } = this.state.filters
-        const fetchUrl = `/api/expenses?search_term=${searchText}&status=${status_id}&user_id=${user_id}&customer_id=${customer_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}&category_id=${category_id}`
+        const { searchText, status_id, customer_id, company_id, start_date, end_date, expense_category_id, user_id } = this.state.filters
+        const fetchUrl = `/api/expenses?search_term=${searchText}&status=${status_id}&user_id=${user_id}&customer_id=${customer_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}&expense_category_id=${expense_category_id}`
         const addButton = customers.length ? <AddExpense
             entity_id={this.state.entity_id}
             entity_type={this.state.entity_type}

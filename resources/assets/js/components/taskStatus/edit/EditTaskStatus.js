@@ -1,22 +1,18 @@
 import React from 'react'
 import { DropdownItem, FormGroup, Input, Label, Modal, ModalBody } from 'reactstrap'
-import axios from 'axios'
 import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
+import TaskStatusModel from '../../models/TaskStatusModel'
 
 class EditTaskStatus extends React.Component {
     constructor (props) {
         super(props)
-        this.state = {
-            modal: false,
-            name: this.props.task_status.name,
-            description: this.props.task_status.description,
-            id: this.props.task_status.id,
-            loading: false,
-            errors: []
-        }
+
+        this.taskStatusModel = new TaskStatusModel(this.props.task_status)
+        this.initialState = this.taskStatusModel.fields
+        this.state = this.initialState
 
         this.toggle = this.toggle.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
@@ -50,19 +46,27 @@ class EditTaskStatus extends React.Component {
         }
     }
 
+    getFormData () {
+        return {
+            name: this.state.name,
+            description: this.state.description
+        }
+    }
+
     handleClick () {
-        axios.put(`/api/taskStatus/${this.state.id}`, { name: this.state.name, description: this.state.description })
-            .then((response) => {
-                this.toggle()
-                const index = this.props.statuses.findIndex(task_status => task_status.id === this.state.id)
-                this.props.statuses[index] = response.data
-                this.props.action(this.props.statuses)
-            })
-            .catch((error) => {
-                this.setState({
-                    errors: error.response.data.errors
-                })
-            })
+        this.setState({ loading: true })
+        this.taskStatusModel.update(this.getFormData()).then(response => {
+            if (!response) {
+                this.setState({ errors: this.taskStatusModel.errors, message: this.taskStatusModel.error_message })
+                return
+            }
+
+            const index = this.props.statuses.findIndex(task_status => task_status.id === this.state.id)
+            this.props.statuses[index] = response
+            this.props.action(this.props.statuses)
+            this.setState({ changesMade: false, loading: false })
+            this.toggle()
+        })
     }
 
     toggle () {

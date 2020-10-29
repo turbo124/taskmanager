@@ -15,6 +15,7 @@ class Expense extends Model
     const STATUS_PENDING = 2;
     const STATUS_INVOICED = 3;
     protected $fillable = [
+        'assigned_to',
         'number',
         'customer_id',
         'status_id',
@@ -30,7 +31,7 @@ class Expense extends Model
         'private_notes',
         'bank_id',
         'transaction_id',
-        'category_id',
+        'expense_category_id',
         'tax_rate',
         'tax_rate_name',
         'tax_2',

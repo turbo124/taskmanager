@@ -23,6 +23,24 @@ export default function Overview (props) {
         </Alert>
         }
 
+        {props.entity.public_notes.length &&
+        <Alert color="dark col-12 mt-2">
+            {props.entity.public_notes}
+        </Alert>
+        }
+
+        {!!props.user &&
+        <Row>
+            {props.user}
+        </Row>
+        }
+
+        {!!props.project &&
+        <Row>
+            {props.project}
+        </Row>
+        }
+
         <Row>
             <ListGroup className="col-12">
                 <InfoItem icon={icons.user}

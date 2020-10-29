@@ -94,6 +94,11 @@ class ExpenseTest extends TestCase
     /** @test */
     public function it_can_create_a_expense_with_invoice()
     {
+        $settings = $this->account->settings;
+        $settings->expense_auto_create_invoice = true;
+        $this->account->settings = $settings;
+        $this->account->save();
+
         $factory = (new ExpenseFactory)->create($this->account, $this->user);
 
         $data = [

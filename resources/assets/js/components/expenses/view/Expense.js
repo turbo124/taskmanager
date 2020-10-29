@@ -107,7 +107,7 @@ export default class Expense extends Component {
     }
 
     render () {
-        const category = this.state.categories.length ? this.state.categories.filter(category => category.id === parseInt(this.state.entity.category_id)) : []
+        const category = this.state.categories.length ? this.state.categories.filter(category => category.id === parseInt(this.state.entity.expense_category_id)) : []
         const convertedAmount = this.expenseModel.convertedAmount
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
 

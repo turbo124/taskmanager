@@ -34,7 +34,7 @@ class DealFactory extends Factory
             'customer_id'  => $customer->id,
             'due_date'     => $this->faker->dateTime(),
             'source_type'  => 1,
-            'task_status'  => 1,
+            'task_status_id'  => 1,
             'valued_at'    => $this->faker->randomNumber(3)
         ];
     }

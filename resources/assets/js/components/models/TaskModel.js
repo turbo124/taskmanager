@@ -20,6 +20,7 @@ export default class TaskModel extends BaseModel {
         this._fields = {
             number: '',
             modal: false,
+            task_rate: 0,
             design_id: '',
             name: '',
             assigned_to: '',

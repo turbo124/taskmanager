@@ -18,6 +18,7 @@ export default class PurchaseOrderFilters extends Component {
             filters: {
                 status_id: 'active',
                 company_id: '',
+                user_id: '',
                 searchText: '',
                 start_date: '',
                 end_date: ''

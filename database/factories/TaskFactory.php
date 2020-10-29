@@ -25,7 +25,7 @@ class TaskFactory extends Factory
     {
         $customer = Customer::factory()->create();
         $user = User::factory()->create();
-        
+
         return [
             'account_id'   => 1,
             'user_id'      => $user->id,
@@ -35,7 +35,8 @@ class TaskFactory extends Factory
             'customer_id'  => $customer->id,
             'due_date'     => $this->faker->dateTime(),
             'source_type'  => 1,
-            'task_status'  => 1,
+            'task_status_id'  => 1,
+            'task_rate'    => null,
             'valued_at'    => $this->faker->randomNumber(3)
         ];
     }

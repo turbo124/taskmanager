@@ -57,8 +57,8 @@ export default class DetailsForm extends React.Component {
                 <FormGroup className="mr-2">
                     <Label for="date">{translations.category}(*):</Label>
                     <ExpenseCategoryDropdown
-                        name="category_id"
-                        category={this.props.expense.category_id}
+                        name="expense_category_id"
+                        category={this.props.expense.expense_category_id}
                         renderErrorFor={this.props.renderErrorFor}
                         handleInputChanges={this.props.handleInput}
                     />

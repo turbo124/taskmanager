@@ -18,6 +18,7 @@ export default class QuoteFilters extends Component {
             filters: {
                 status_id: 'active',
                 customer_id: '',
+                user_id: '',
                 searchText: '',
                 start_date: '',
                 end_date: ''

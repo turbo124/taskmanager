@@ -17,6 +17,7 @@ trait TaskStatusTransformable
             'id'           => (int)$taskStatus->id,
             'name'         => $taskStatus->name,
             'description'  => $taskStatus->description,
+            'task_count'   => $taskStatus->tasks->count(),
             'column_color' => $taskStatus->column_color
         ];
     }

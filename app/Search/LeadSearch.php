@@ -34,13 +34,13 @@ class LeadSearch extends BaseSearch
     public function filter(Request $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
-        $orderBy = !$request->column ? 'name' : $request->column;
+        $orderBy = !$request->column ? 'task_sort_order' : $request->column;
         $orderDir = !$request->order ? 'asc' : $request->order;
 
         $this->query = $this->model->select('*');
 
         if ($request->has('status')) {
-            $this->status('leads', $request->status, 'task_status');
+            $this->status('leads', $request->status, 'task_status_id');
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {

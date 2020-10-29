@@ -90,6 +90,7 @@ class EditLeadForm extends React.Component {
 
     getFormData () {
         return {
+            project_id: this.state.project_id,
             public_notes: this.state.public_notes,
             private_notes: this.state.private_notes,
             website: this.state.website,
@@ -110,7 +111,7 @@ class EditLeadForm extends React.Component {
             assigned_to: this.state.assigned_to,
             source_type: this.state.source_type,
             task_type: this.props.task_type,
-            task_status: this.state.task_status
+            task_status_id: this.state.task_status_id
         }
     }
 

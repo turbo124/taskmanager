@@ -117,6 +117,7 @@ class EditTask extends Component {
 
     getFormData () {
         return {
+            task_rate: this.state.task_rate,
             include_documents: this.state.include_documents,
             is_recurring: this.state.is_recurring,
             recurring_start_date: this.state.recurring_start_date,
@@ -139,7 +140,7 @@ class EditTask extends Component {
             public_notes: this.state.public_notes,
             private_notes: this.state.private_notes,
             project_id: this.state.project_id,
-            task_status: this.state.task_status
+            task_status_id: this.state.task_status_id
         }
     }
 

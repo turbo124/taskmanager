@@ -16,6 +16,7 @@ export default class RecurringInvoiceFilters extends Component {
             filters: {
                 status_id: 'Draft',
                 customer_id: '',
+                user_id: '',
                 searchText: '',
                 start_date: '',
                 end_date: ''

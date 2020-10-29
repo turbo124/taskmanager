@@ -180,7 +180,7 @@ class OrderTest extends TestCase
             'source_type'        => 1,
             'title'              => 'New web form request 2020/04/26',
             'task_type'          => 3,
-            'task_status'        => 9,
+            'task_status_id'     => 9,
             'line_items'         => [
                 0 => [
                     'is_amount_discount' => false,

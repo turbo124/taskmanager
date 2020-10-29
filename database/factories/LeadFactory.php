@@ -31,7 +31,7 @@ class LeadFactory extends Factory
             'source_type' => 1,
             'account_id'  => 1,
             'user_id'     => $user->id,
-            'task_status' => 1,
+            'task_status_id' => 1,
             'name'        => $this->faker->word,
             'description' => $this->faker->sentence,
             'first_name'  => $this->faker->firstName,

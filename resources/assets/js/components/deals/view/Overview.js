@@ -24,6 +24,12 @@ export default function Overview (props) {
         </Alert>
         }
 
+        {props.entity.public_notes.length &&
+        <Alert color="dark col-12 mt-2">
+            {props.entity.public_notes}
+        </Alert>
+        }
+
         <Row>
             <EntityListTile entity={translations.customer} title={props.customer[0].name}
                 icon={icons.customer}/>
@@ -32,6 +38,12 @@ export default function Overview (props) {
         {!!props.user &&
         <Row>
             {props.user}
+        </Row>
+        }
+
+        {!!props.project &&
+        <Row>
+            {props.project}
         </Row>
         }
 

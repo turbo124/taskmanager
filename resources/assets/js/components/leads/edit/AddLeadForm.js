@@ -64,7 +64,8 @@ class AddLeadForm extends React.Component {
             assigned_to: this.state.assigned_to,
             source_type: this.state.source_type,
             task_type: this.props.task_type,
-            task_status: this.state.task_status
+            task_status_id: this.state.task_status_id,
+            project_id: this.state.project_id
         }
 
         this.leadModel.save(data).then(response => {
@@ -81,7 +82,12 @@ class AddLeadForm extends React.Component {
 
     toggle () {
         this.setState({
-            modal: !this.state.modal
+            modal: !this.state.modal,
+            errors: []
+        }, () => {
+            if (!this.state.modal) {
+                this.setState(this.initialState, () => localStorage.removeItem('leadForm'))
+            }
         })
     }
 

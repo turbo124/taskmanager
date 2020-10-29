@@ -29,6 +29,7 @@ class Lead extends Model
     const UNQUALIFIED = 100;
     protected $presenter = 'App\Presenters\LeadPresenter';
     protected $fillable = [
+        'task_sort_order',
         'design_id',
         'number',
         'account_id',
@@ -48,11 +49,12 @@ class Lead extends Model
         'valued_at',
         'source_type',
         'assigned_to',
+        'project_id',
         'website',
         'industry_id',
         'private_notes',
         'public_notes',
-        'task_status'
+        'task_status_id'
     ];
 
     public function setNumber()
@@ -85,6 +87,11 @@ class Lead extends Model
         return $this->morphMany(File::class, 'fileable');
     }
 
+    public function taskStatus()
+    {
+        return $this->belongsTo(TaskStatus::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class)->withTrashed();
@@ -98,6 +105,11 @@ class Lead extends Model
     public function getDesignId()
     {
         return !empty($this->design_id) ? $this->design_id : $this->account->settings->lead_design_id;
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 
     public function getPdfFilename()

@@ -16,6 +16,7 @@ export default class RecurringQuoteFilters extends Component {
             filters: {
                 status_id: 'Draft',
                 customer_id: '',
+                user_id: '',
                 searchText: '',
                 start_date: '',
                 expiry_date: ''

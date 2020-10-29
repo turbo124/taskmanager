@@ -35,7 +35,7 @@ class TaskSearch extends BaseSearch
     public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
-        $orderBy = !$request->column ? 'name' : $request->column;
+        $orderBy = !$request->column ? 'task_sort_order' : $request->column;
         $orderDir = !$request->order ? 'asc' : $request->order;
 
         $this->query =
@@ -58,7 +58,7 @@ class TaskSearch extends BaseSearch
         }
 
         if ($request->filled('task_status')) {
-            $this->status('tasks', $request->task_status, 'task_status');
+            $this->status('tasks', $request->task_status, 'task_status_id');
         }
 
         if ($request->filled('task_type')) {

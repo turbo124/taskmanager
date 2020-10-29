@@ -10,7 +10,9 @@ export default class TaskStatusFilters extends Component {
             dropdownButtonActions: ['download'],
             filters: {
                 isOpen: false,
-                searchText: ''
+                searchText: '',
+                start_date: '',
+                end_date: ''
             }
         }
 

@@ -76,4 +76,54 @@ class TimerRepository extends BaseRepository
 
         return !empty($timer);
     }
+
+    public function getStartTime(Task $task)
+    {
+        $timer = Timer::where('task_id', '=', $task->id)->first();
+
+        if(empty($timer)) {
+            return null;
+        }
+
+        return $timer->started_at;
+    }
+
+    public function getEndTime(Task $task)
+    {
+        $timer = Timer::where('task_id', '=', $task->id)->last();
+
+        if(empty($timer)) {
+            return null;
+        }
+
+        return $timer[0]['stopped_at'];
+    }
+
+    public function stopTimer(Task $task): ?Timer
+    {
+        $timer = $task->timers()->orderBy('started_at', 'desc')->first();
+
+        if (!empty($timer)) {
+            $timer->stopped_at = date('Y-m-d H:i:s');
+            $timer->save();
+        }
+
+        return $timer;
+    }
+
+    public function startTimer(Timer $timer, Task $task): ?Timer
+    {
+        $timer = $this->save(
+            $task,
+            $timer,
+            [
+                'date'       => date('Y-m-d'),
+                'start_time' => date('H:i:s'),
+                'end_time'   => '',
+                'name'       => date('Y-m-d H:i:s')
+            ]
+        );
+
+        return $timer;
+    }
 }

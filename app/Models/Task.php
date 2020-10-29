@@ -22,6 +22,7 @@ class Task extends Model
     const STATUS_INVOICED = 2000;
 
     protected $fillable = [
+        'task_sort_order',
         'design_id',
         'name',
         'description',
@@ -30,7 +31,7 @@ class Task extends Model
         'due_date',
         'start_date',
         'project_id',
-        'task_status',
+        'task_status_id',
         'created_by',
         'customer_id',
         'rating',
@@ -54,6 +55,7 @@ class Task extends Model
         'next_send_date',
         'recurring_frequency',
         'include_documents',
+        'task_rate'
     ];
 
 
@@ -101,7 +103,7 @@ class Task extends Model
 
     public function taskStatus()
     {
-        return $this->belongsTo(Models\TaskStatus::class, 'task_status');
+        return $this->belongsTo(Models\TaskStatus::class);
     }
 
     public function customer()
@@ -146,7 +148,7 @@ class Task extends Model
 
     public function setStatus(int $status_id)
     {
-        $this->task_status = $status_id;
+        $this->task_status_id = $status_id;
         return true;
     }
 
@@ -163,5 +165,17 @@ class Task extends Model
     public function getNumber()
     {
         return $this->number;
+    }
+
+    public function getTaskRate() {
+        if(!empty($this->task_rate)) {
+            return (float) $this->task_rate;
+        }
+
+        if(!empty($this->project) && !empty($this->project->task_rate)) {
+            return (float) $this->project->task_rate;
+        }
+
+        return 0;
     }
 }

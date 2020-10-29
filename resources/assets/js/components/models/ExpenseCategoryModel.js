@@ -7,7 +7,6 @@ export default class ExpenseCategoryModel extends BaseModel {
 
         this.errors = []
         this.error_message = ''
-        this.currencies = JSON.parse(localStorage.getItem('currencies'))
         this._url = '/api/expense-categories'
         this.entity = 'ExpenseCategory'
 

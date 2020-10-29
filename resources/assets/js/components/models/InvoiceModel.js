@@ -106,10 +106,7 @@ export default class InvoiceModel extends BaseModel {
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
 
-            if (this.customers.length && this._fields.customer_id) {
-                const customer = this.customers.filter(customer => customer.id === parseInt(this._fields.customer_id))
-                this.customer = customer[0]
-            }
+            this.updateCustomer()
         }
 
         this.exchange_rate = this.currency ? this.currency.exchange_rate : 1
@@ -219,6 +216,7 @@ export default class InvoiceModel extends BaseModel {
 
     set customer_id (customer_id) {
         this.fields.customer_id = customer_id
+        this.updateCustomer()
     }
 
     get contacts () {
@@ -229,6 +227,13 @@ export default class InvoiceModel extends BaseModel {
 
     get url () {
         return this._url
+    }
+
+    updateCustomer () {
+        if (this.customers.length && this._fields.customer_id) {
+            const customer = this.customers.filter(customer => customer.id === parseInt(this._fields.customer_id))
+            this.customer = customer[0]
+        }
     }
 
     buildInvitations (contact, add = false) {

@@ -94,10 +94,7 @@ export default class CreditModel extends BaseModel {
         if (data !== null) {
             this._fields = { ...this.fields, ...data }
 
-            if (this.customers.length && this._fields.customer_id) {
-                const customer = this.customers.filter(customer => customer.id === parseInt(this._fields.customer_id))
-                this.customer = customer[0]
-            }
+            this.updateCustomer()
         }
 
         if (this.customer && this.customer.currency_id.toString().length) {
@@ -160,6 +157,7 @@ export default class CreditModel extends BaseModel {
 
     set customer_id (customer_id) {
         this.fields.customer_id = customer_id
+        this.updateCustomer()
     }
 
     get invitation_link () {
@@ -186,6 +184,13 @@ export default class CreditModel extends BaseModel {
         const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
         const customer = this.customers[index]
         return customer.contacts ? customer.contacts : []
+    }
+
+    updateCustomer () {
+        if (this.customers.length && this._fields.customer_id) {
+            const customer = this.customers.filter(customer => customer.id === parseInt(this._fields.customer_id))
+            this.customer = customer[0]
+        }
     }
 
     addItem () {

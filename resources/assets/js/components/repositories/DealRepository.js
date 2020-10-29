@@ -5,7 +5,7 @@ export default class DealRepository extends BaseRepository {
     constructor () {
         super()
 
-        this._url = '/api/payments'
+        this._url = '/api/deals'
         this.entity = 'Invoice'
     }
 
@@ -21,6 +21,24 @@ export default class DealRepository extends BaseRepository {
                 console.log(res.status)
             }
 
+            // Don't forget to return something
+            return res.data
+        } catch (e) {
+            this.handleError(e)
+            return false
+        }
+    }
+
+    async updateSortOrder (tasks) {
+        try {
+            this.errors = []
+            this.error_message = ''
+            const res = await axios.post(`${this._url}/sort`, { tasks: tasks })
+
+            if (res.status === 200) {
+                // test for status you want, etc
+                console.log(res.status)
+            }
             // Don't forget to return something
             return res.data
         } catch (e) {

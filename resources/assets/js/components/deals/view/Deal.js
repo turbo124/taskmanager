@@ -114,11 +114,18 @@ export default class Deal extends Component {
         const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
         let user = null
+        let project = null
 
         if (this.state.entity.assigned_to) {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
             user = <EntityListTile entity={translations.user}
                 title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
+                icon={icons.user}/>
+        }
+
+        if (this.state.entity.project_id && this.state.entity.project) {
+            project = <EntityListTile entity={translations.project}
+                title={`${this.state.entity.project.number} ${this.state.entity.project.name}`}
                 icon={icons.user}/>
         }
 
@@ -148,7 +155,8 @@ export default class Deal extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview entity={this.state.entity} customer={customer} fields={fields} user={user}
+                        <Overview project={project} entity={this.state.entity} customer={customer} fields={fields}
+                            user={user}
                             customers={this.props.customers}/>
 
                     </TabPane>

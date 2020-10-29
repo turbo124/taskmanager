@@ -83,6 +83,12 @@ class BaseSettings
             'default_value'    => true,
             'type'             => 'bool'
         ],
+        'expense_auto_create_invoice'               => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
         'create_expense_invoice'               => [
             'required'         => false,
             'translated_value' => '',

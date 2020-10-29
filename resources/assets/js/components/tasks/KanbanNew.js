@@ -14,6 +14,7 @@ import DealRepository from '../repositories/DealRepository'
 import CustomerRepository from '../repositories/CustomerRepository'
 import ProjectDropdown from '../common/dropdowns/ProjectDropdown'
 import AddTaskStatus from '../taskStatus/edit/AddTaskStatus'
+import TaskStatusRepository from '../repositories/TaskStatusRepository'
 
 export default class KanbanNew extends Component {
     constructor (props) {
@@ -91,8 +92,8 @@ export default class KanbanNew extends Component {
 
     async load () {
         const task_type = taskTypes[this.state.type]
-        const taskRepository = new TaskRepository()
-        taskRepository.getStatuses(task_type).then(response => {
+        const taskStatusRepository = new TaskStatusRepository()
+        taskStatusRepository.get(task_type).then(response => {
             if (!response) {
                 alert('error')
             }
@@ -160,7 +161,7 @@ export default class KanbanNew extends Component {
     save (element, status) {
         console.log('element', element)
 
-        element.task_status = status
+        element.task_status_id = status
         element.id = parseInt(element.id)
 
         let model
@@ -191,29 +192,27 @@ export default class KanbanNew extends Component {
         })
     }
 
-    updateSortOrder (element, status) {
-        console.log('element', element)
+    updateSortOrder (tasks) {
+        console.log('tasks', tasks)
 
-        element.task_status = status
-        element.id = parseInt(element.id)
-
-        let model
+        let repo
 
         switch (this.state.type) {
             case 'task':
-                model = new TaskModel(element)
+
+                repo = new TaskRepository()
                 break
 
             case 'deal':
-                model = new DealModel(element)
+                repo = new DealRepository()
                 break
 
             case 'lead':
-                model = new LeadModel(element)
+                repo = new LeadRepository()
                 break
         }
 
-        model.updateSortOrder(element).then(response => {
+        repo.updateSortOrder(tasks).then(response => {
             if (!response) {
                 this.setState({
                     showErrorMessage: true,
@@ -269,9 +268,12 @@ export default class KanbanNew extends Component {
         })
 
         this.state.entities.map((entity, index) => {
+            console.log('entity', entity)
+            console.log('items', columns)
+
             entity.id = entity.id.toString()
 
-            columns[entity.task_status].items.push(entity)
+            columns[entity.task_status_id].items.push(entity)
         })
 
         this.setState({ columns: columns })
@@ -330,6 +332,7 @@ export default class KanbanNew extends Component {
 
                 this.setState({ columns: columns }, () => {
                     console.log('sort', this.state.columns)
+                    this.updateSortOrder(column.items)
                 })
             })
         }
