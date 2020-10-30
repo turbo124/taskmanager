@@ -12,6 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\CalculateRecurring;
 
 class SendRecurringInvoice implements ShouldQueue
 {
@@ -73,7 +74,7 @@ class SendRecurringInvoice implements ShouldQueue
             }
 
             $recurring_invoice->date_to_send = $recurring_invoice->cycles_remaining === 0 ? null
-                : Carbon::today()->addDays($recurring_invoice->frequency);
+                : $this->calculateDate($recurring_invoice->frequency);
             $recurring_invoice->status_id = $recurring_invoice->cycles_remaining === 0 ? RecurringInvoice::STATUS_COMPLETED : $recurring_invoice->status_id;
             $recurring_invoice->save();
 
