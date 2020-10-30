@@ -16,7 +16,7 @@ use App\Traits\CalculateRecurring;
 
 class SendRecurringQuote implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, CalculateRecurring;
 
     /**
      * @var Quote
@@ -73,7 +73,7 @@ class SendRecurringQuote implements ShouldQueue
 
             $recurring_quote->last_sent_date = Carbon::today();
 
-            if ($recurring_quote->frequency !== 9000) {
+            if ($recurring_quote->frequency !== 'ENDLESS') {
                 $recurring_quote->cycles_remaining--;
             }
 
