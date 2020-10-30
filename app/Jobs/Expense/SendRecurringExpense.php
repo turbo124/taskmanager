@@ -10,10 +10,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\CalculateRecurring;
 
 class SendRecurringExpense implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, CalculateRecurring;
 
     /**
      * @var Expense
@@ -70,7 +71,7 @@ class SendRecurringExpense implements ShouldQueue
             $expense->service()->sendEmail(null, trans('texts.quote_subject'), trans('texts.quote_body'));
 
             $recurring_expense->last_sent_date = Carbon::today();
-            $recurring_expense->next_send_date = Carbon::today()->addDays($recurring_expense->frequency);
+            $recurring_expense->next_send_date = $this->calculateDate($recurring_expense->frequency);
             $recurring_expense->save();
         }
     }
