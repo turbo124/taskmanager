@@ -68,7 +68,7 @@ class SendRecurringInvoice implements ShouldQueue
 
             $recurring_invoice->last_sent_date = Carbon::today();
 
-            if ($recurring_invoice->frequency !== 9000) {
+            if ($recurring_invoice->frequency !== 'ENDLESS') {
                 $recurring_invoice->cycles_remaining--;
             }
 
