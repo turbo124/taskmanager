@@ -205,8 +205,8 @@ export default class Expense extends Component {
                 recurring.due_date = <FormatDate date={this.state.entity.recurring_due_date}/>
             }
 
-            if (this.state.entity.recurring_frequency.toString().length) {
-                recurring.frequency = this.state.entity.recurring_frequency.toString()
+            if (this.state.entity.recurring_frequency.length) {
+                fields.frequency = translations[frequencyOptions[this.state.entity.frequency]]
             }
         }
 
