@@ -16,7 +16,7 @@ use App\Traits\CalculateRecurring;
 
 class SendRecurringInvoice implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, CalculateRecurring;
 
     /**
      * @var Invoice
