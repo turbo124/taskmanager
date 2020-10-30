@@ -12,6 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\CalculateRecurring;
 
 class SendRecurringQuote implements ShouldQueue
 {
@@ -77,7 +78,7 @@ class SendRecurringQuote implements ShouldQueue
             }
 
             $recurring_quote->date_to_send = $recurring_quote->cycles_remaining === 0 ? null
-                : Carbon::today()->addDays($recurring_quote->frequency);
+                : $this->calculateDate($recurring_quote->frequency);
             $recurring_quote->status_id = $recurring_quote->cycles_remaining === 0 ? RecurringQuote::STATUS_COMPLETED : $recurring_quote->status_id;
             $recurring_quote->save();
         }
