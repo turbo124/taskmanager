@@ -35,6 +35,14 @@ trait CalculateRecurring
                 return Carbon::today()->addMonths(3);
             break;
 
+            case 'FOUR_MONTHS':
+                return Carbon::today()->addMonths(4);
+            break;
+ 
+            case 'SIX_MONTHS':
+                return Carbon::today()->addMonths(6);
+            break;
+
             case 'YEARLY':
                 return Carbon::today()->addYear();
             break;
