@@ -463,9 +463,15 @@ class PdfBuilder
         return $this;
     }
 
-    public function setTerms($terms): self
+    public function setTerms(?string $terms): self
     {
         $this->data['$terms'] = ['value' => $terms ?: '&nbsp;', 'label' => trans('texts.' . $this->class . '_terms')];
+        return $this;
+    }
+
+    public function setFooter(?string $footer): self
+    {
+        $this->data['$footer'] = ['value' => $footer ?: '&nbsp;', 'label' => ''];
         return $this;
     }
 

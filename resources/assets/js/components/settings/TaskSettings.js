@@ -111,6 +111,13 @@ export default class TaskSettings extends Component {
         return [
             [
                 {
+                    name: 'task_rate',
+                    label: translations.default_task_rate,
+                    type: 'text',
+                    value: settings.task_rate,
+                    group: 1
+                },
+                {
                     name: 'task_automation_enabled',
                     label: translations.task_automation_enabled,
                     icon: `fa ${icons.envelope}`,

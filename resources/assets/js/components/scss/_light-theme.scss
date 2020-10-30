@@ -282,6 +282,22 @@ body {
     background-color: transparent !important;
     border: none !important;
   }
+
+  //.MuiInputBase-input {
+  //  color: #FFF !important;
+  //}
+  //
+  //.MuiIconButton-label {
+  //  color: #FFF !important;
+  //}
+
+  .MuiFormControl-root, .MuiInputBase-root {
+    width: 100% !important;
+  }
+
+  //.MuiInput-underline:before {
+  //  border-bottom: 1px solid #CCC;
+  //}
 }
 
 .tab-content {

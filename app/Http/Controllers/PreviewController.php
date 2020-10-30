@@ -119,7 +119,7 @@ class PreviewController extends Controller
 
         DB::rollBack();
 
-        $data = CreatePdf::dispatchNow($objPdf, $invoice, $file_path, $designer, $contact);
+        $data = CreatePdf::dispatchNow($objPdf, $invoice, $contact, true);
 
         return response()->json(['data' => base64_encode(file_get_contents($data))]);
     }

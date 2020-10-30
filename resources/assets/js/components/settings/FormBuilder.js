@@ -8,6 +8,7 @@ import PaymentTermsDropdown from '../common/dropdowns/PaymentTermsDropdown'
 import { translations } from '../utils/_translations'
 import LanguageDropdown from '../common/dropdowns/LanguageDropdown'
 import { LearnMoreUrl } from '../common/LearnMore'
+import Datepicker from '../common/Datepicker'
 
 /**
  * A component which renders a form based on a given list of fields.
@@ -180,7 +181,9 @@ class FormBuilder extends React.Component {
             case 'switch':
                 returnedField = this.buildSwitch(field)
                 break
-
+            case 'date':
+                returnedField = <Datepicker name={field.name} date={field.value} handleInput={this.props.handleChange}/>
+                break
             default:
                 returnedField = <React.Fragment>
                     <FormGroup>

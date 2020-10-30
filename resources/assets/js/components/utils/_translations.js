@@ -437,6 +437,7 @@ _localizedValues.en = {
     quote_approved: 'Quote Approved',
     receive_all_notifications: 'Receive All Notifications',
     remove: 'Remove',
+    done: 'Done',
     account: 'Account',
     account_management: 'Account Management',
     cancel_account: 'Delete Account',
@@ -501,6 +502,7 @@ _localizedValues.en = {
     edit_subscription: 'Edit Subscription',
     subscriptions: 'Webhooks',
     name: 'Name',
+    change_duration: 'Change Duration',
     add_department: 'Add Department',
     edit_department: 'Edit Department',
     body: 'Body',
@@ -718,7 +720,8 @@ _localizedValues.en = {
     show_tasks_onload_help:
         'Always show the tasks section when creating invoices',
     include_times_on_invoice: 'Include times on invoice',
-    include_times_on_invoice_help: 'Add time details to the invoice line items'
+    include_times_on_invoice_help: 'Add time details to the invoice line items',
+    default_task_rate: 'Default Task Rate'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
