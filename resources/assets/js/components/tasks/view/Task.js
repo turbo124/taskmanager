@@ -11,6 +11,7 @@ import formatDuration from '../../utils/_formatting'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../utils/_icons'
 import FormatDate from '../../common/FormatDate'
+import { frequencyOptions } from '../../utils/_consts'
 
 export default class Task extends Component {
     constructor (props) {
