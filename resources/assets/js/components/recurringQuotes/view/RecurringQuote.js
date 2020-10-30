@@ -161,7 +161,7 @@ export default class RecurringQuote extends Component {
         }
 
         if (this.state.entity.frequency && this.state.entity.frequency.toString().length) {
-            fields.frequency = this.state.entity.frequency
+            fields.frequency = translations[frequencyOptions[this.state.entity.frequency]]
         }
 
         if (this.state.entity.start_date && this.state.entity.start_date.length) {
