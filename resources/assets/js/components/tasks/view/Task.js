@@ -193,7 +193,7 @@ export default class Task extends Component {
             }
 
             if (this.state.entity.recurring_frequency.toString().length) {
-                recurring.frequency = this.state.entity.recurring_frequency.toString()
+                fields.frequency = translations[frequencyOptions[this.state.entity.frequency]]
             }
         }
 
