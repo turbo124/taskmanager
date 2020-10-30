@@ -4,6 +4,8 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
 import { icons } from '../utils/_icons'
+import MomentUtils from "@date-io/moment";
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 export default class Datepicker extends Component {
     constructor (props) {
@@ -31,16 +33,18 @@ export default class Datepicker extends Component {
         const date = !this.props.date || this.props.date === 'undefined' || this.props.date === '' ? moment(new Date()).add(1, 'days').format('YYYY-MM-DD') : this.props.date
         const class_name = this.props.className === '' ? 'form-control' : this.props.className
         return (
-            <InputGroup>
-                <DatePicker selected={new Date(date)}
-                    dateFormat="MMMM d, yyyy"
-                    className={class_name}
-                    todayButton="Today"
-                    onChange={this.handleDateChange.bind(this)}/>
-                <InputGroupAddon addonType="append">
-                    <InputGroupText><i className={`fa ${icons.calendar}`}/></InputGroupText>
-                </InputGroupAddon>
-            </InputGroup>
+            <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils}>
+                <KeyboardDatePicker
+                    margin="normal"
+                    id={this.props.name}
+                    format="MMMM DD, YYYY"
+                    value={moment(date).format('YYYY-MM-DD')}
+                    onChange={this.handleDateChange}
+                    KeyboardButtonProps={{
+                        'aria-label': 'change date'
+                    }}
+                />
+            </MuiPickersUtilsProvider>
         )
     }
 }

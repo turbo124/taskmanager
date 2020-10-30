@@ -47,6 +47,7 @@ export default class TaskList extends Component {
             custom_fields: [],
 
             ignoredColumns: [
+                'id',
                 'task_sort_order',
                 'include_documents',
                 'design_id',
@@ -264,6 +265,7 @@ export default class TaskList extends Component {
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}
                                     updateState={this.addUserToState}
+                                    columnMapping={{ calculated_task_rate: translations.task_rate.toUpperCase() }}
                                 />
                             </CardBody>
                         </Card>

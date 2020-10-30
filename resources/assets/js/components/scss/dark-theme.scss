@@ -3046,5 +3046,21 @@ $color_iron_approx: #d6d6d6;
   .dashboard-border {
     border-left: 2px solid #9f9f9f;
   }
+
+  .MuiInputBase-input {
+    color: #FFF !important;
+  }
+
+  .MuiIconButton-label {
+    color: #FFF !important;
+  }
+
+  .MuiFormControl-root, .MuiInputBase-root {
+    width: 100% !important;
+  }
+
+  .MuiInput-underline:before {
+    border-bottom: 1px solid #CCC;
+  }
 }
 

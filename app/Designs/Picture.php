@@ -139,6 +139,7 @@ $costs
 </div>
         
         <div class="footer_class py-4 px-4" style="page-break-inside: avoid;">
+        $footer
         </div>
 </footer>
 </body>

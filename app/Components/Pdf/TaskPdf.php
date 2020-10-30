@@ -34,6 +34,7 @@ class TaskPdf extends PdfBuilder
              ->buildCustomerAddress($customer)
              ->buildAccount($this->entity->account)
              ->setTerms($this->entity->terms)
+             ->setFooter($this->entity->footer)
              ->setNotes($this->entity->public_notes)
              ->buildTask();
 

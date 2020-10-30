@@ -59,7 +59,7 @@ class CreatePdf implements ShouldQueue
         if($this->checkIfExists()) {
             return $this->file_path;
         }
-        
+
         $design = Design::find($this->entity->getDesignId());
         
         $entity = empty($this->entity_string) ? strtolower((new \ReflectionClass($this->entity))->getShortName()) : $this->entity_string;

@@ -2,20 +2,12 @@ import axios from 'axios'
 import moment from 'moment'
 import BaseModel from './BaseModel'
 
-const TaskTimeItem = {
-    date: moment(new Date()).format('YYYY-MM-DD'),
-    start_time: moment().format('HH:MM:ss'),
-    end_time: moment().add('1', 'hour').format('HH:MM:ss')
-}
-
 export default class TaskModel extends BaseModel {
     constructor (data = null, customers) {
         super()
         this.customers = customers
         this.entity = 'Task'
         this._url = '/api/tasks'
-        this._timerUrl = '/api/timer'
-        this._time_log = []
 
         this._fields = {
             number: '',
@@ -80,14 +72,6 @@ export default class TaskModel extends BaseModel {
         this.fields.due_date = moment(due_date, 'YYYY-MM-DD')
     }
 
-    get time_log () {
-        return this._time_log
-    }
-
-    set time_log (time_log) {
-        this._time_log = time_log
-    }
-
     get id () {
         return this.fields.id
     }
@@ -115,27 +99,6 @@ export default class TaskModel extends BaseModel {
 
     set customer_id (customer_id) {
         this.fields.customer_id = customer_id
-    }
-
-    addTaskTime () {
-        const newArray = this.time_log.slice()
-        newArray.push(TaskTimeItem)
-        this.time_log = newArray
-        return newArray
-    }
-
-    updateTaskTime (index, field, value) {
-        const data = [...this.time_log]
-        data[index][field] = value
-        this.time_log = data
-        return data
-    }
-
-    deleteTaskTime (index) {
-        const array = [...this.time_log] // make a separate copy of the array
-        array.splice(index, 1)
-        this.time_log = array
-        return array
     }
 
     calculateAmount (taskRate) {
@@ -218,24 +181,6 @@ export default class TaskModel extends BaseModel {
 
         try {
             const res = await axios.put(`${this.url}/${this.fields.id}`, data)
-
-            if (res.status === 200) {
-                // test for status you want, etc
-                console.log(res.status)
-            }
-            // Don't forget to return something
-            return res.data
-        } catch (e) {
-            this.handleError(e)
-            return false
-        }
-    }
-
-    async timerAction (data) {
-        try {
-            this.errors = []
-            this.error_message = ''
-            const res = await axios.post(`${this._timerUrl}/${this.fields.id}`, data)
 
             if (res.status === 200) {
                 // test for status you want, etc

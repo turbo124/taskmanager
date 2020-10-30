@@ -7,6 +7,10 @@ import ErrorMessage from '../../common/ErrorMessage'
 import ElapsedTime from './ElapsedTime'
 import { translations } from '../../utils/_translations'
 import TimePickerInput from '../../common/TimePickerInput'
+import Duration from '../../common/Duration'
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import MomentUtils from '@date-io/moment'
+import TimerModel from '../../models/TimerModel'
 
 class EditTaskTimes extends Component {
     constructor (props, context) {
@@ -21,11 +25,12 @@ class EditTaskTimes extends Component {
             dropdown2Open: true
         }
 
-        this.model = this.props.model
-        this.model.time_log = this.state.times
+        this.timerModel = new TimerModel()
+        this.timerModel.time_log = this.state.times
         this.handleSlideClick = this.handleSlideClick.bind(this)
         this.closeForm = this.closeForm.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.handleDateChange = this.handleDateChange.bind(this)
         this.handleDelete = this.handleDelete.bind(this)
         this.handleSave = this.handleSave.bind(this)
         this.handleTimeChange = this.handleTimeChange.bind(this)
@@ -49,26 +54,32 @@ class EditTaskTimes extends Component {
     }
 
     handleTimeChange (e) {
-        const times = this.model.updateTaskTime(e.index, e.name, e.value)
+        const times = this.timerModel.updateTaskTime(e.index, e.name, e.value)
         this.setState({ times: times })
         console.log('times', times)
         console.log('time', e.value)
     }
 
+    handleDateChange (date, index) {
+        const times = this.timerModel.updateTaskTime(index, 'date', moment(date).format('YYYY-MM-DD'))
+        this.setState({ times: times })
+        console.log('times', times)
+    }
+
     handleChange (e) {
         const value = e.target.value
 
-        /* if(e.target.name === 'end_time' || e.target.name === 'start_time') {
-            value = value.length > 1 ? moment(value.length).format('HH:MM:SS') : ''
-        } */
+        if (!value || !value.length) {
+            return true
+        }
 
-        const times = this.model.updateTaskTime(e.target.dataset.id, e.target.name, value)
+        const times = this.timerModel.addDuration(this.state.currentIndex, value)
         this.setState({ times: times })
         console.log('times', times)
     }
 
     handleDelete (idx) {
-        const times = this.model.deleteTaskTime(idx)
+        const times = this.timerModel.deleteTaskTime(idx)
 
         this.setState({
             times: times
@@ -79,7 +90,7 @@ class EditTaskTimes extends Component {
     }
 
     addTaskTime () {
-        const times = this.model.addTaskTime()
+        const times = this.timerModel.addTaskTime()
         this.setState({ times: times })
     }
 
@@ -90,10 +101,7 @@ class EditTaskTimes extends Component {
         })
             .then((response) => {
                 this.setState({ showSuccess: true, showError: false })
-
-                if (isDelete === false) {
-                    this.closeForm()
-                }
+                this.closeForm()
             })
             .catch((error) => {
                 this.setState({
@@ -129,14 +137,22 @@ class EditTaskTimes extends Component {
 
         const currentData = currentIndex !== null ? times[currentIndex] : null
 
-        const renderInput = props => <Input value={props.value} label={props.label}/>
-
         const form = currentData && Object.keys(currentData).length ? <React.Fragment>
             <FormGroup>
                 <Label>{translations.date}</Label>
-                <Input data-id={currentIndex} value={moment(currentData.date).format('YYYY-MM-DD')} name="date"
-                    type="date"
-                    onChange={this.handleChange}/>
+
+                <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils}>
+                    <KeyboardDatePicker
+                        margin="normal"
+                        id="date-picker-dialog"
+                        format="MMMM DD, YYYY"
+                        value={moment(currentData.date).format('YYYY-MM-DD')}
+                        onChange={(e) => { this.handleDateChange(e, currentIndex) }}
+                        KeyboardButtonProps={{
+                            'aria-label': 'change date'
+                        }}
+                    />
+                </MuiPickersUtilsProvider>
             </FormGroup>
 
             <FormGroup>
@@ -152,14 +168,12 @@ class EditTaskTimes extends Component {
             </FormGroup>
 
             <FormGroup>
-                <Label>{translations.duration}</Label>
-                <Input data-id={currentIndex}
-                    value={model.calculateDuration(currentData.start_time, currentData.end_time)}
-                    type="text" name="duration" onChange={this.handleChange}/>
+                <Label>{translations.duration} {model.calculateDuration(currentData.start_time, currentData.end_time)}</Label>
+                <Duration onChange={this.handleChange} />
             </FormGroup>
 
-            <Button color="primary" onClick={this.handleSave}>Done</Button>
-            <Button color="danger" onClick={() => this.handleDelete(currentIndex)}>Remove</Button>
+            <Button className="mr-2" color="primary" onClick={this.handleSave}>{translations.done}</Button>
+            <Button color="danger" onClick={() => this.handleDelete(currentIndex)}>{translations.remove}</Button>
         </React.Fragment> : null
 
         return (
@@ -168,7 +182,7 @@ class EditTaskTimes extends Component {
                 {showErrorMessage}
                 <div className={`list-group ${this.state.dropdown2Open ? 'collapse show' : 'collapse'}`}>
                     {timeList}
-                    <Button color="primary" onClick={this.addTaskTime}>Add</Button>
+                    <Button className="mt-2 mb-2" color="primary" onClick={this.addTaskTime}>{translations.add}</Button>
                 </div>
 
                 <div className={this.state.dropdownOpen ? 'collapse show' : 'collapse'}>

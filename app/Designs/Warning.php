@@ -136,6 +136,10 @@ $table_here
 			            $account_address
 			        </div>
 			    </div>
+			    
+			    <div class="mt-4">
+			    $footer
+</div>
 			</div>
                
 		

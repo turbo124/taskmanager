@@ -38,6 +38,7 @@ class PurchaseOrderPdf extends PdfBuilder
              ->buildCompanyAddress($company)
              ->buildAccount($this->entity->account)
              ->setTerms($this->entity->terms)
+             ->setFooter($this->entity->footer)
              ->setDiscount($company, $this->entity->discount_total)
              ->setShippingCost($company, $this->entity->shipping_cost)
              ->setVoucherCode(isset($this->entity->voucher_code) ? $this->entity->voucher_code : '')

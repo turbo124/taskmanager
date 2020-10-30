@@ -20,7 +20,7 @@ class Basic
 
     public function body()
     {
-        return '<div class="inline-block mr-4" style="width: 60%;">
+        return '<div class="inline-block mr-4 mt-4" style="width: 60%;">
                     $entity_details
         </div>
 
@@ -114,6 +114,7 @@ $table_here
        
         
         <div class="footer_class py-4 px-4" style="page-break-inside: avoid;">
+        $footer
         </div>
 </body>
 </html>';

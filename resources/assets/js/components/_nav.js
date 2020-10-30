@@ -21,7 +21,8 @@ const items = [
     {
         icon: 'fa fa-cog',
         name: 'Settings',
-        children: [
+        url: '/account-settings'
+        /* children: [
             {
                 name: translations.account_details,
                 url: '/account-settings',
@@ -137,7 +138,7 @@ const items = [
             //     url: '/tokens',
             //     icon: 'fa fa-dashboard'
             // }
-        ]
+        ] */
     }
 ]
 
@@ -218,7 +219,7 @@ if (modules && modules.recurringQuotes) {
 }
 
 if (modules && modules.payments) {
-    financial.children.push(
+    items.push(
         {
             name: 'Payments',
             url: '/payments',
@@ -228,7 +229,7 @@ if (modules && modules.payments) {
 }
 
 if (modules && modules.expenses) {
-    financial.children.push(
+    items.push(
         {
             name: 'Expenses',
             url: '/expenses',
@@ -240,7 +241,7 @@ if (modules && modules.expenses) {
 items.push(financial)
 
 const tasks = {
-    name: 'Tasks',
+    name: 'CRM',
     icon: `fa ${getEntityIcon('Task')}`,
     children: []
 }
@@ -396,13 +397,13 @@ items.push({
     icon: 'fa fa-address-book-o'
 })
 
-items.push(
-    {
-        name: 'Chat',
-        url: '/chat',
-        icon: 'fa fa-chain-broken'
-    }
-)
+// items.push(
+//     {
+//         name: 'Chat',
+//         url: '/chat',
+//         icon: 'fa fa-chain-broken'
+//     }
+// )
 
 export default {
     items: items

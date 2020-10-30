@@ -23,6 +23,7 @@ trait TaskTransformable
     {
         return [
             'id'                   => (int)$task->id,
+            'number'               => (string)$task->number,
             'customer_name'        => $task->customer->present()->name,
             'name'                 => $task->name,
             'description'          => $task->description,
