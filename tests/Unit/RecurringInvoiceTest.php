@@ -149,6 +149,7 @@ class RecurringInvoiceTest extends TestCase
     {
         $recurring_invoice = RecurringInvoice::factory()->create();
         $recurring_invoice->date_to_send = Carbon::now();
+        $recurring_invoice->frequency = 'MONTHLY';
         $recurring_invoice->customer_id = 5;
         $recurring_invoice->date = Carbon::now()->subDays(15);
         $recurring_invoice->start_date = Carbon::now()->subDays(1);
@@ -182,6 +183,7 @@ class RecurringInvoiceTest extends TestCase
         $recurring_invoice->start_date = Carbon::now()->subDays(1);
         $recurring_invoice->expiry_date = Carbon::now()->addDays(15);
         $recurring_invoice->auto_billing_enabled = 0;
+        $recurring_invoice->frequency = 'MONTHLY';
         $recurring_invoice->cycles_remaining = 1;
         $recurring_invoice->status_id = RecurringInvoice::STATUS_ACTIVE;
         $recurring_invoice->save();
@@ -209,7 +211,7 @@ class RecurringInvoiceTest extends TestCase
         $recurring_invoice->expiry_date = Carbon::now()->addDays(15);
         $recurring_invoice->auto_billing_enabled = 0;
         $recurring_invoice->cycles_remaining = 900;
-        $recurring_invoice->frequency = 9000;
+        $recurring_invoice->frequency = 'ENDLESS';
         $recurring_invoice->status_id = RecurringInvoice::STATUS_ACTIVE;
         $recurring_invoice->save();
 
@@ -236,6 +238,7 @@ class RecurringInvoiceTest extends TestCase
         $recurring_invoice->last_sent_date = Carbon::now();
         $recurring_invoice->date = Carbon::now()->subDays(15);
         $recurring_invoice->start_date = Carbon::now()->addDays(1);
+        $recurring_invoice->frequency = 'MONTHLY';
         $recurring_invoice->save();
 
         SendRecurringInvoice::dispatchNow(new InvoiceRepository(new Invoice()));
