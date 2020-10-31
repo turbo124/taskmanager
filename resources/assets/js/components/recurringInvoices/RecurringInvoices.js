@@ -10,6 +10,7 @@ import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
 import InvoiceRepository from '../repositories/InvoiceRepository'
 import queryString from 'query-string'
+import UpdateRecurringInvoice from './edit/UpdateRecurringInvoice'
 
 export default class RecurringInvoices extends Component {
     constructor (props) {
@@ -152,18 +153,17 @@ export default class RecurringInvoices extends Component {
         const { status_id, customer_id, searchText, start_date, end_date, project_id, user_id } = this.state.filters
         const fetchUrl = `/api/recurring-invoice?search_term=${searchText}&user_id=${user_id}&status=${status_id}&customer_id=${customer_id}&project_id=${project_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = customers.length && allInvoices.length
-            ? <AddRecurringInvoice
-                entity_id={this.state.entity_id}
-                entity_type={this.state.entity_type}
-                allInvoices={allInvoices}
-                custom_fields={custom_fields}
-                customers={customers}
-                invoice={{}}
-                add={false}
-                action={this.updateInvoice}
-                invoices={invoices}
-                modal={true}
-            /> : null
+            ?  <UpdateRecurringInvoice
+                    allInvoices={allInvoices}
+                    custom_fields={custom_fields}
+                    customers={customers}
+                    modal={true}
+                    add={true}
+                    invoice={}
+                    invoice_id={}
+                    action={this.updateInvoice}
+                    invoices={invoices}
+                /> : null
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'
