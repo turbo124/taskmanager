@@ -5,6 +5,7 @@ namespace App\Traits;
 use DateInterval;
 use DatePeriod;
 use DateTime;
+use App\Traits\CalculateRecurring;
 
 trait CalculateRecurringDateRanges
 {
