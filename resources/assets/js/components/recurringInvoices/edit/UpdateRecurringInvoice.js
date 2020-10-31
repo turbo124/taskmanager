@@ -820,7 +820,7 @@ class EditInvoice extends Component {
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
-                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_recurring_invoice}/>
+                        <DefaultModalHeader toggle={this.toggle} title={this.invoiceModel.isNew ? translations.add_recurring_invoice : translations.edit_recurring_invoice}/>
 
                         <ModalBody className={theme}>
                             {form}
