@@ -9,6 +9,7 @@ import CompanyModel from '../../models/CompanyModel'
 import InvoiceModel from '../../models/InvoiceModel'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../utils/_icons'
+import { frequencyOptions } from '../../utils/_consts'
 import Overview from './Overview'
 import InvoiceRepository from '../../repositories/InvoiceRepository'
 import ExpenseRepository from '../../repositories/ExpenseRepository'
@@ -204,8 +205,8 @@ export default class Expense extends Component {
                 recurring.due_date = <FormatDate date={this.state.entity.recurring_due_date}/>
             }
 
-            if (this.state.entity.recurring_frequency.toString().length) {
-                recurring.frequency = this.state.entity.recurring_frequency.toString()
+            if (this.state.entity.recurring_frequency.length) {
+                fields.frequency = translations[frequencyOptions[this.state.entity.frequency]]
             }
         }
 

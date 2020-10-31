@@ -318,7 +318,7 @@ class EditPurchaseOrder extends Component {
             modalOpen: !this.state.modalOpen,
             errors: []
         }, () => {
-            if (!this.state.modalOpen) {
+            if (!this.state.modalOpen && !this.state.id) {
                 this.setState(this.initialState, () => localStorage.removeItem('purchaseOrderForm'))
             }
         })

@@ -8,6 +8,7 @@ import RecurringQuoteModel from '../../models/RecurringQuoteModel'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../utils/_icons'
+import { frequencyOptions } from '../../utils/_consts'
 import Audit from '../../common/Audit'
 import ViewContacts from '../../common/entityContainers/ViewContacts'
 import ViewSchedule from '../../common/entityContainers/ViewSchedule'
@@ -102,7 +103,7 @@ export default class RecurringQuote extends Component {
 
         let stats = null
 
-        if (this.state.invoices.length) {
+        if (this.state.quotes && this.state.quotes.length) {
             stats = this.quoteModel.recurringInvoiceStatsForInvoice(this.state.entity.id, this.state.quotes)
         }
 
@@ -160,7 +161,7 @@ export default class RecurringQuote extends Component {
         }
 
         if (this.state.entity.frequency && this.state.entity.frequency.toString().length) {
-            fields.frequency = this.state.entity.frequency
+            fields.frequency = translations[frequencyOptions[this.state.entity.frequency]]
         }
 
         if (this.state.entity.start_date && this.state.entity.start_date.length) {

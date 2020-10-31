@@ -337,19 +337,15 @@ export const casePriorities = {
 }
 
 export const frequencyOptions = {
-    1: 'frequency_daily',
-    7: 'frequency_weekly',
-    14: 'frequency_two_weeks',
-    28: 'frequency_four_weeks',
-    31: 'frequency_monthly',
-    60: 'frequency_two_months',
-    91: 'frequency_three_months',
-    121: 'frequency_four_months',
-    182: 'frequency_six_months',
-    365: 'frequency_annually',
-    730: 'frequency_two_years',
-    1095: 'frequency_three_years',
-    9000: 'frequency_endless'
+    DAILY: 'frequency_daily',
+    WEEKLY: 'frequency_weekly',
+    FORTNIGHT: 'frequency_two_weeks',
+    MONTHLY: 'frequency_monthly',
+    TWO_MONTHS: 'frequency_two_months',
+    THREE_MONTHS: 'frequency_three_months',
+    FOUR_MONTHS: 'frequency_four_months',
+    SIX_MONTHS: 'frequency_six_months',
+    YEARLY: 'frequency_annually'
 }
 
 export const taskTypes = {

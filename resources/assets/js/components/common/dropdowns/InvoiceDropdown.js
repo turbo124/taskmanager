@@ -64,6 +64,10 @@ export default class InvoiceDropdown extends Component {
                 invoices = invoices.filter(invoice => this.props.allowed_invoices.includes(invoice.id))
             }
 
+            if (this.props.is_recurring) {
+                invoices = invoices.filter(invoice => !invoice.recurring_invoice_id)
+            }
+
             this.count = invoices.length
 
             invoiceList = invoices.map((invoice, index) => (

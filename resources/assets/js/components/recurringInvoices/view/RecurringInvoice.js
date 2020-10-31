@@ -5,6 +5,7 @@ import FormatMoney from '../../common/FormatMoney'
 import FormatDate from '../../common/FormatDate'
 import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
+import { frequencyOptions } from '../../utils/_consts'
 import RecurringInvoiceModel from '../../models/RecurringInvoiceModel'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
@@ -101,7 +102,7 @@ export default class RecurringInvoice extends Component {
 
         let stats = null
 
-        if (this.state.invoices.length) {
+        if (this.state.invoices && this.state.invoices.length) {
             stats = this.invoiceModel.recurringInvoiceStatsForInvoice(this.state.entity.id, this.state.invoices)
         }
 
@@ -156,7 +157,7 @@ export default class RecurringInvoice extends Component {
         }
 
         if (this.state.entity.frequency && this.state.entity.frequency.toString().length) {
-            fields.frequency = this.state.entity.frequency
+            fields.frequency = translations[frequencyOptions[this.state.entity.frequency]]
         }
 
         if (this.state.entity.start_date && this.state.entity.start_date.length) {

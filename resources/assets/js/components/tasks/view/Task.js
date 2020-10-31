@@ -11,6 +11,7 @@ import formatDuration from '../../utils/_formatting'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../utils/_icons'
 import FormatDate from '../../common/FormatDate'
+import { frequencyOptions } from '../../utils/_consts'
 
 export default class Task extends Component {
     constructor (props) {
@@ -192,7 +193,7 @@ export default class Task extends Component {
             }
 
             if (this.state.entity.recurring_frequency.toString().length) {
-                recurring.frequency = this.state.entity.recurring_frequency.toString()
+                fields.frequency = translations[frequencyOptions[this.state.entity.frequency]]
             }
         }
 

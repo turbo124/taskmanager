@@ -55,7 +55,7 @@ class RecurringInvoiceFactory extends Factory
             'due_date'       => $this->faker->date(),
             'line_items'     => $line_items,
             'terms'          => $this->faker->text(500),
-            'frequency'      => 1,
+            'frequency'      => 'MONTHLY',
             'start_date'     => $this->faker->date(),
             'expiry_date'    => $this->faker->date()
         ];

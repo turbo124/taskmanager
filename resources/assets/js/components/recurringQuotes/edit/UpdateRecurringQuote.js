@@ -27,26 +27,26 @@ import CustomFieldsForm from '../../common/CustomFieldsForm'
 import InvoiceSettings from '../../common/InvoiceSettings'
 import { CalculateLineTotals, CalculateSurcharges, CalculateTotal } from '../../common/InvoiceCalculations'
 import DropdownMenuBuilder from '../../common/DropdownMenuBuilder'
+import Emails from '../../emails/Emails'
 import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import { consts } from '../../utils/_consts'
 import NoteTabs from '../../common/NoteTabs'
 import Detailsm from './Detailsm'
 import Contactsm from './Contactsm'
+import Recurring from './Recurring'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
-import RecurringQuoteModel from '../../models/RecurringQuoteModel'
 import CustomerModel from '../../models/CustomerModel'
-import Emails from '../../emails/Emails'
-import Recurring from './Recurring'
 import TotalsBox from '../../invoice/edit/TotalsBox'
 import InvoiceReducer from '../../invoice/InvoiceReducer'
 import TaskRepository from '../../repositories/TaskRepository'
 import ExpenseRepository from '../../repositories/ExpenseRepository'
 import ProjectRepository from '../../repositories/ProjectRepository'
 import { getExchangeRateWithMap } from '../../utils/_money'
+import RecurringQuoteModel from '../../models/RecurringQuoteModel'
 
-class EditInvoice extends Component {
+class UpdateRecurringQuote extends Component {
     constructor (props, context) {
         super(props, context)
 
@@ -90,7 +90,9 @@ class EditInvoice extends Component {
     componentDidMount () {
         if (this.props.task_id) {
             this.loadInvoice()
-        } else if (!this.props.invoice.id) {
+        }
+
+        if (!this.props.invoice.id) {
             if (Object.prototype.hasOwnProperty.call(localStorage, 'recurringQuoteForm')) {
                 const storedValues = JSON.parse(localStorage.getItem('recurringQuoteForm'))
                 this.setState({ ...storedValues }, () => console.log('new state', this.state))
@@ -99,7 +101,7 @@ class EditInvoice extends Component {
 
         if (this.props.invoice && this.props.invoice.customer_id) {
             const contacts = this.quoteModel.contacts
-            this.setState({ changesMade: true, contacts: contacts })
+            this.setState({ contacts: contacts })
         }
 
         if (this.props.entity_id && this.props.entity_type) {
@@ -121,8 +123,6 @@ class EditInvoice extends Component {
             if (!response) {
                 alert('error')
             }
-
-            console.log('task', response)
 
             const data = reducer.build(type, response)
 
@@ -172,8 +172,8 @@ class EditInvoice extends Component {
         const invitations = this.quoteModel.buildInvitations(e.target.value, e.target.checked)
         // update the state with the new array of options
         this.setState({
-            changesMade: true,
-            invitations: invitations
+            invitations: invitations,
+            changesMade: true
         }, () => console.log('invitations', invitations))
     }
 
@@ -205,7 +205,7 @@ class EditInvoice extends Component {
             }
 
             if (this.state.project_id && original_customer_id !== parseInt(e.target.value)) {
-                this.setState({ changesMade: true, project_id: '' })
+                this.setState({ project_id: '', changesMade: true })
             }
         }
 
@@ -235,6 +235,22 @@ class EditInvoice extends Component {
         if (e.target.name === 'is_amount_discount') {
             this.setState({ changesMade: true, is_amount_discount: e.target.value === 'true' })
             return
+        }
+
+        if (e.target.name === 'quote_id') {
+            if (!e.target.value.length) {
+                this.setState(this.initialState)
+                return true
+            }
+
+            const quote = this.props.allQuotes.filter(quote => quote.id === parseInt(e.target.value))
+
+            if (quote.length) {
+                this.quoteModel.cloneQuote(quote[0])
+                const initialState = this.quoteModel.fields
+                initialState.contacts = this.quoteModel.contacts
+                this.setState(initialState)
+            }
         }
 
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -336,7 +352,7 @@ class EditInvoice extends Component {
             modalOpen: !this.state.modalOpen,
             errors: []
         }, () => {
-            if (!this.state.modalOpen) {
+            if (!this.state.modalOpen && !this.state.id) {
                 this.setState(this.initialState, () => localStorage.removeItem('recurringQuoteForm'))
             }
         })
@@ -411,15 +427,18 @@ class EditInvoice extends Component {
 
     getFormData () {
         return {
-            currency_id: this.state.currency_id,
-            exchange_rate: this.state.exchange_rate,
             start_date: this.state.start_date,
             date_to_send: this.state.date_to_send,
             quote_id: this.state.quote_id,
             expiry_date: this.state.expiry_date,
             frequency: this.state.frequency,
+            grace_period: this.state.grace_period,
+            auto_billing_enabled: this.state.auto_billing_enabled,
+            currency_id: this.state.currency_id,
+            exchange_rate: this.state.exchange_rate,
             is_amount_discount: this.state.is_amount_discount,
             design_id: this.state.design_id,
+            account_id: this.state.account_id,
             number: this.state.number,
             assigned_to: this.state.assigned_to,
             tax_rate: this.state.tax,
@@ -459,9 +478,7 @@ class EditInvoice extends Component {
             shipping_cost_tax: this.state.shipping_cost_tax,
             invitations: this.state.invitations,
             gateway_fee: this.state.gateway_fee,
-            gateway_percentage: this.state.gateway_percentage,
-            grace_period: this.state.grace_period,
-            auto_billing_enabled: this.state.auto_billing_enabled
+            gateway_percentage: this.state.gateway_percentage
         }
     }
 
@@ -484,6 +501,7 @@ class EditInvoice extends Component {
                 allInvoices.push(firstInvoice)
                 this.props.action(allInvoices)
                 localStorage.removeItem('recurringQuoteForm')
+                localStorage.removeItem('recurringrecurringQuoteForm')
                 this.setState(this.initialState)
                 return
             }
@@ -496,7 +514,7 @@ class EditInvoice extends Component {
     }
 
     setRecurring (recurring) {
-        this.setState({ changesMade: true, recurring: recurring })
+        this.setState({ recurring: recurring, changesMade: true })
     }
 
     buildForm () {
@@ -566,12 +584,14 @@ class EditInvoice extends Component {
         </Nav>
 
         const details = this.state.is_mobile
-            ? <Detailsm hide_customer={this.state.id === null} address={this.state.address}
+            ? <Detailsm allQuotes={this.props.allQuotes} show_quote={this.quoteModel.isNew}
+                hide_customer={this.state.id === null} address={this.state.address}
                 customerName={this.state.customerName} handleInput={this.handleInput}
                 customers={this.props.customers}
                 errors={this.state.errors}
                 quote={this.state}
-            /> : <Details handleInput={this.handleInput}
+            />
+            : <Details allQuotes={this.props.allQuotes} show_quote={this.quoteModel.isNew} handleInput={this.handleInput}
                 customers={this.props.customers}
                 errors={this.state.errors}
                 quote={this.state}
@@ -608,14 +628,16 @@ class EditInvoice extends Component {
             design_id={this.state.design_id}/>
 
         const items = <Items line_type={this.state.line_type} model={this.quoteModel} customers={this.props.customers}
-            quote={this.state} errors={this.state.errors}
+            quote={this.state}
+            errors={this.state.errors}
             handleFieldChange={this.handleFieldChange}
             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
             handleDelete={this.handleDelete}
         />
 
         const notes = !this.state.is_mobile
-            ? <NoteTabs show_exchange={this.quoteModel.account_currency.exchange_rate !== this.state.exchange_rate}
+            ? <NoteTabs
+                show_exchange={this.quoteModel.account_currency.exchange_rate !== this.state.exchange_rate}
                 invoice={this.state} private_notes={this.state.private_notes}
                 public_notes={this.state.public_notes}
                 terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
@@ -644,7 +666,7 @@ class EditInvoice extends Component {
 
                 {tabs}
 
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                     <TabPane tabId="1">
                         {details}
                         {recurring}
@@ -707,7 +729,7 @@ class EditInvoice extends Component {
                     </NavItem>
                 </Nav>
 
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                     <TabPane tabId="1">
                         <Row form>
                             <Col md={4}>
@@ -772,7 +794,8 @@ class EditInvoice extends Component {
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
-                        <DefaultModalHeader toggle={this.toggle} title={translations.edit_recurring_quote}/>
+                        <DefaultModalHeader toggle={this.toggle}
+                            title={this.quoteModel.isNew ? translations.add_recurring_quote : translations.edit_recurring_quote}/>
 
                         <ModalBody className={theme}>
                             {form}
@@ -798,4 +821,4 @@ class EditInvoice extends Component {
     }
 }
 
-export default EditInvoice
+export default UpdateRecurringQuote

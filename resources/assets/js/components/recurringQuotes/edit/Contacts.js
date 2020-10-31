@@ -15,6 +15,8 @@ export default function Contacts (props) {
         </FormGroup>
     }) : null
 
+    console.log('send to', send_to)
+
     return (
         <Card>
             <CardHeader>{translations.customer}</CardHeader>

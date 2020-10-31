@@ -2,7 +2,7 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { recurringQuoteStatusColors, recurringQuoteStatuses } from '../utils/_consts'
+import { frequencyOptions, recurringQuoteStatusColors, recurringQuoteStatuses } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 
 export default function RecurringQuotePresenter (props) {
@@ -14,6 +14,8 @@ export default function RecurringQuotePresenter (props) {
         : <Badge color="warning">{translations.archived}</Badge>
 
     switch (field) {
+        case 'frequency':
+            return <td>{translations[frequencyOptions[entity.frequency]]}</td>
         case 'total':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Total">{

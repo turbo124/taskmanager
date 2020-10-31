@@ -2,7 +2,7 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { recurringInvoiceStatusColors, recurringInvoiceStatuses } from '../utils/_consts'
+import { frequencyOptions, recurringInvoiceStatusColors, recurringInvoiceStatuses } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 
 export default function RecurringInvoicePresenter (props) {
@@ -14,6 +14,8 @@ export default function RecurringInvoicePresenter (props) {
         : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
 
     switch (field) {
+        case 'frequency':
+            return <td>{translations[frequencyOptions[entity.frequency]]}</td>
         case 'total':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Total">{

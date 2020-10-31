@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import Datepicker from '../../common/Datepicker'
 import { translations } from '../../utils/_translations'
+import InvoiceDropdown from '../../common/dropdowns/InvoiceDropdown'
 
 export default class Details extends Component {
     constructor (props, context) {
@@ -37,6 +38,18 @@ export default class Details extends Component {
             <Card>
                 <CardHeader>{translations.details}</CardHeader>
                 <CardBody>
+                    {!!this.props.show_invoice &&
+                    <FormGroup>
+                        <Label>{translations.invoice}</Label>
+                        <InvoiceDropdown
+                            is_recurring={true}
+                            invoices={this.props.allInvoices}
+                            handleInputChanges={this.props.handleInput}
+                            name="invoice_id"
+                            errors={this.state.errors}
+                        />
+                    </FormGroup>
+                    }
                     <FormGroup>
                         <Label for="date">{translations.date}(*):</Label>
                         <Datepicker name="date" date={this.props.invoice.date} handleInput={this.props.handleInput}

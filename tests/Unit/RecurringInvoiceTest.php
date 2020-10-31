@@ -113,13 +113,15 @@ class RecurringInvoiceTest extends TestCase
             'account_id'  => $this->account->id,
             'user_id'     => $this->user->id,
             'customer_id' => $this->customer->id,
-            'total'       => 200
+            'total'       => 200,
+            'frequency' => 'MONTHLY'
         ];
 
         $recurringInvoiceRepo = new RecurringInvoiceRepository(new RecurringInvoice);
         $factory = (new RecurringInvoiceFactory)->create($this->customer, $this->account, $this->user, 200);
-        $recurring_invoice = $recurringInvoiceRepo->save($data, $factory);
+        $recurring_invoice = $recurringInvoiceRepo->createInvoice($data, $factory);
 
+        $this->assertEquals($recurring_invoice->date_to_send, Carbon::today()->addMonthNoOverflow());
         $this->assertInstanceOf(RecurringInvoice::class, $recurring_invoice);
         $this->assertEquals($data['total'], $recurring_invoice->total);
         $this->assertNotEmpty($recurring_invoice->invitations);
@@ -135,13 +137,13 @@ class RecurringInvoiceTest extends TestCase
         $recurring_invoice->start_date = Carbon::now()->subDays(1);
         $recurring_invoice->expiry_date = Carbon::now()->addYears(1);
         $recurring_invoice->auto_billing_enabled = 0;
-        $recurring_invoice->frequency = 30;
+        $recurring_invoice->frequency = 'MONTHLY';
         $recurring_invoice->grace_period = 10;
         $recurring_invoice->cycles_remaining = 2;
         $recurring_invoice->save();
 
         $date_ranges = $recurring_invoice->calculateDateRanges();
-        $this->assertEquals(13, count($date_ranges));
+        $this->assertEquals(12, count($date_ranges));
     }
 
     /** @test */
@@ -149,6 +151,7 @@ class RecurringInvoiceTest extends TestCase
     {
         $recurring_invoice = RecurringInvoice::factory()->create();
         $recurring_invoice->date_to_send = Carbon::now();
+        $recurring_invoice->frequency = 'MONTHLY';
         $recurring_invoice->customer_id = 5;
         $recurring_invoice->date = Carbon::now()->subDays(15);
         $recurring_invoice->start_date = Carbon::now()->subDays(1);
@@ -163,7 +166,7 @@ class RecurringInvoiceTest extends TestCase
         $updated_recurring_invoice = $recurring_invoice->fresh();
 
         $this->assertTrue(
-            $updated_recurring_invoice->date_to_send->eq(Carbon::today()->addDays($recurring_invoice->frequency))
+            $updated_recurring_invoice->date_to_send->eq(Carbon::today()->addMonthNoOverflow())
         );
         $this->assertTrue($updated_recurring_invoice->last_sent_date->eq(Carbon::today()));
         $this->assertEquals(1, $updated_recurring_invoice->cycles_remaining);
@@ -182,6 +185,7 @@ class RecurringInvoiceTest extends TestCase
         $recurring_invoice->start_date = Carbon::now()->subDays(1);
         $recurring_invoice->expiry_date = Carbon::now()->addDays(15);
         $recurring_invoice->auto_billing_enabled = 0;
+        $recurring_invoice->frequency = 'MONTHLY';
         $recurring_invoice->cycles_remaining = 1;
         $recurring_invoice->status_id = RecurringInvoice::STATUS_ACTIVE;
         $recurring_invoice->save();
@@ -209,7 +213,8 @@ class RecurringInvoiceTest extends TestCase
         $recurring_invoice->expiry_date = Carbon::now()->addDays(15);
         $recurring_invoice->auto_billing_enabled = 0;
         $recurring_invoice->cycles_remaining = 900;
-        $recurring_invoice->frequency = 9000;
+        $recurring_invoice->frequency = 'MONTHLY';
+        $recurring_invoice->is_endless = true;
         $recurring_invoice->status_id = RecurringInvoice::STATUS_ACTIVE;
         $recurring_invoice->save();
 
@@ -218,7 +223,7 @@ class RecurringInvoiceTest extends TestCase
         $updated_recurring_invoice = $recurring_invoice->fresh();
 
         $this->assertTrue(
-            $updated_recurring_invoice->date_to_send->eq(Carbon::today()->addDays($recurring_invoice->frequency))
+            $updated_recurring_invoice->date_to_send->eq(Carbon::today()->addMonthNoOverflow())
         );
         $this->assertTrue($updated_recurring_invoice->last_sent_date->eq(Carbon::today()));
         $this->assertEquals(900, $updated_recurring_invoice->cycles_remaining); // cycles remianing should remain unchanged
@@ -236,6 +241,7 @@ class RecurringInvoiceTest extends TestCase
         $recurring_invoice->last_sent_date = Carbon::now();
         $recurring_invoice->date = Carbon::now()->subDays(15);
         $recurring_invoice->start_date = Carbon::now()->addDays(1);
+        $recurring_invoice->frequency = 'MONTHLY';
         $recurring_invoice->save();
 
         SendRecurringInvoice::dispatchNow(new InvoiceRepository(new Invoice()));

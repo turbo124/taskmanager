@@ -9,16 +9,14 @@ use App\Models\User;
 
 class RecurringQuoteFactory
 {
-    public static function create(Customer $customer, Account $account, User $user, int $total): RecurringQuote
+    public static function create(Customer $customer, Account $account, User $user): RecurringQuote
     {
         $quote = new RecurringQuote();
         $quote->account_id = $account->id;
         $quote->status_id = RecurringQuote::STATUS_DRAFT;
-        $quote->total = $total;
-        $quote->balance = $total;
         $quote->user_id = $user->id;
         $quote->customer_id = $customer->id;
-        $quote->frequency = 30;
+        $quote->frequency = 'MONTHLY';
 
         return $quote;
     }

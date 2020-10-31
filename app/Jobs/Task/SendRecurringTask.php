@@ -10,10 +10,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\CalculateRecurring;
 
 class SendRecurringTask implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, CalculateRecurring;
 
     /**
      * @var Task
@@ -64,7 +65,7 @@ class SendRecurringTask implements ShouldQueue
             $task->service()->sendEmail(null, trans('texts.quote_subject'), trans('texts.quote_body'));
 
             $recurring_task->last_sent_date = Carbon::today();
-            $recurring_task->next_send_date = Carbon::today()->addDays($recurring_task->frequency);
+            $recurring_task->next_send_date = $this->calculateDate($recurring_task->frequency);
             $recurring_task->save();
         }
     }

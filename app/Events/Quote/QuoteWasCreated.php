@@ -2,6 +2,7 @@
 
 namespace App\Events\Quote;
 
+use App\Models\Quote;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
@@ -13,14 +14,13 @@ class QuoteWasCreated
     use SerializesModels;
     use SendSubscription;
 
-    public $quote;
+    public Quote $quote;
 
     /**
-     * Create a new event instance.
-     *
-     * @param $quote
+     * QuoteWasCreated constructor.
+     * @param Quote $quote
      */
-    public function __construct($quote)
+    public function __construct(Quote $quote)
     {
         $this->quote = $quote;
         $this->send($quote, get_class($this));

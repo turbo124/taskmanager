@@ -1,5 +1,6 @@
 const _localizedValues = []
 _localizedValues.en = {
+    select_frequency: 'Select Frequency',
     rate: 'Rate',
     resume: 'Resume',
     portal_settings: 'Customer Portal Settings',
@@ -279,7 +280,7 @@ _localizedValues.en = {
     payment_type: 'Payment Type',
     start_date: 'Start Date',
     end_date: 'End Date',
-    frequency: 'Frequency (in days)',
+    frequency: 'Frequency',
     date_to_send: 'Next Send Date',
     upload: 'Upload',
     browse: 'Browse',

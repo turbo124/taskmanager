@@ -76,32 +76,12 @@ class RecurringQuoteController extends BaseController
      */
     public function store(CreateRecurringQuoteRequest $request)
     {
-        $quote = (new QuoteRepository(new Quote()))->findQuoteById($request->quote_id);
-
-        $arrRecurring = array_merge(
-            array(
-                'sub_total'      => $quote->sub_total,
-                'tax_total'      => $quote->tax_total,
-                'discount_total' => $quote->discount_total,
-                'date'           => $quote->date,
-                'due_date'       => $quote->due_date,
-                'line_items'     => $quote->line_items,
-                'footer'         => $quote->footer,
-                'notes'          => $quote->notes,
-                'terms'          => $quote->terms,
-                'total'          => $quote->total,
-                'partial'        => $quote->partial
-            ),
-            $request->all()
-        );
-
-        $recurring_quote = (new RecurringQuoteRepository(new RecurringQuote))->save(
-            $arrRecurring,
+        $recurring_quote = (new RecurringQuoteRepository(new RecurringQuote))->createQuote(
+            $request->all(),
             RecurringQuoteFactory::create(
                 Customer::where('id', $request->customer_id)->first(),
                 auth()->user()->account_user()->account,
-                auth()->user(),
-                $quote->total
+                auth()->user()
             )
         );
         return response()->json($this->transformRecurringQuote($recurring_quote));

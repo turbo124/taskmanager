@@ -5,6 +5,7 @@ import Datepicker from '../../common/Datepicker'
 import { translations } from '../../utils/_translations'
 import UserDropdown from '../../common/dropdowns/UserDropdown'
 import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
+import InvoiceDropdown from "../../common/dropdowns/InvoiceDropdown";
 
 export default class Detailsm extends Component {
     constructor (props, context) {
@@ -39,6 +40,18 @@ export default class Detailsm extends Component {
         return (
             <Card>
                 <CardHeader>{translations.details}</CardHeader>
+                {!!this.props.show_invoice &&
+                <FormGroup>
+                    <Label>{translations.invoice}</Label>
+                    <InvoiceDropdown
+                        is_recurring={true}
+                        invoices={this.props.allInvoices}
+                        handleInputChanges={this.props.handleInput}
+                        name="invoice_id"
+                        errors={this.state.errors}
+                    />
+                </FormGroup>
+                }
                 <CardBody>
                     <FormGroup>
                         <Label for="date">{translations.date}(*):</Label>

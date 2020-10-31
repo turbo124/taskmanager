@@ -97,7 +97,7 @@ class EditInvoice extends Component {
 
         if (this.props.invoice && this.props.invoice.customer_id) {
             const contacts = this.quoteModel.contacts
-            this.setState({ contacts: contacts, changesMade: true })
+            this.setState({ contacts: contacts })
         }
 
         if (this.props.entity_id && this.props.entity_type) {
@@ -320,7 +320,7 @@ class EditInvoice extends Component {
             modalOpen: !this.state.modalOpen,
             errors: []
         }, () => {
-            if (!this.state.modalOpen) {
+            if (!this.state.modalOpen && !this.state.id) {
                 this.setState(this.initialState, () => localStorage.removeItem('quoteForm'))
             }
         })

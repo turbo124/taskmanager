@@ -10,6 +10,7 @@ import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
 import QuoteRepository from '../repositories/QuoteRepository'
 import queryString from 'query-string'
+import UpdateRecurringQuote from './edit/UpdateRecurringQuote'
 
 export default class RecurringQuotes extends Component {
     constructor (props) {
@@ -154,14 +155,14 @@ export default class RecurringQuotes extends Component {
         const { invoices, custom_fields, customers, allQuotes, view, filters, error, isOpen, error_message, success_message, show_success } = this.state
         const { status_id, customer_id, searchText, start_date, end_date, project_id, user_id } = this.state.filters
         const fetchUrl = `/api/recurring-quote?search_term=${searchText}&user_id=${user_id}&status=${status_id}&customer_id=${customer_id}&project_id=${project_id}&start_date=${start_date}&end_date=${end_date}`
-        const addButton = customers.length ? <AddRecurringQuote
+        const addButton = customers.length ? <UpdateRecurringQuote
             allQuotes={allQuotes}
             entity_id={this.state.entity_id}
             entity_type={this.state.entity_type}
             custom_fields={custom_fields}
             customers={customers}
             invoice={{}}
-            add={false}
+            add={true}
             action={this.updateInvoice}
             invoices={invoices}
             modal={true}
