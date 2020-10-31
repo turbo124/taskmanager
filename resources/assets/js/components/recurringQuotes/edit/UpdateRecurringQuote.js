@@ -26,27 +26,28 @@ import Notes from '../../common/Notes'
 import CustomFieldsForm from '../../common/CustomFieldsForm'
 import InvoiceSettings from '../../common/InvoiceSettings'
 import { CalculateLineTotals, CalculateSurcharges, CalculateTotal } from '../../common/InvoiceCalculations'
+import QuoteModel from '../../models/QuoteModel'
 import DropdownMenuBuilder from '../../common/DropdownMenuBuilder'
+import Emails from '../../emails/Emails'
 import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import { consts } from '../../utils/_consts'
 import NoteTabs from '../../common/NoteTabs'
 import Detailsm from './Detailsm'
 import Contactsm from './Contactsm'
+import Recurring from './Recurring'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
-import RecurringQuoteModel from '../../models/RecurringQuoteModel'
 import CustomerModel from '../../models/CustomerModel'
-import Emails from '../../emails/Emails'
-import Recurring from './Recurring'
 import TotalsBox from '../../invoice/edit/TotalsBox'
 import InvoiceReducer from '../../invoice/InvoiceReducer'
 import TaskRepository from '../../repositories/TaskRepository'
 import ExpenseRepository from '../../repositories/ExpenseRepository'
 import ProjectRepository from '../../repositories/ProjectRepository'
 import { getExchangeRateWithMap } from '../../utils/_money'
+import RecurringQuoteModel from "../../models/RecurringQuoteModel";
 
-class EditInvoice extends Component {
+class UpdateRecurringQuote extends Component {
     constructor (props, context) {
         super(props, context)
 
@@ -73,8 +74,6 @@ class EditInvoice extends Component {
         this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
         this.handleSurcharge = this.handleSurcharge.bind(this)
         this.calculateSurcharges = this.calculateSurcharges.bind(this)
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
         this.loadEntity = this.loadEntity.bind(this)
 
         this.total = 0
@@ -90,16 +89,16 @@ class EditInvoice extends Component {
     componentDidMount () {
         if (this.props.task_id) {
             this.loadInvoice()
-        } else if (!this.state.id) {
-            if (Object.prototype.hasOwnProperty.call(localStorage, 'recurringQuoteForm')) {
-                const storedValues = JSON.parse(localStorage.getItem('recurringQuoteForm'))
+        } else if (!this.props.invoice.id) {
+            if (Object.prototype.hasOwnProperty.call(localStorage, 'quoteForm')) {
+                const storedValues = JSON.parse(localStorage.getItem('quoteForm'))
                 this.setState({ ...storedValues }, () => console.log('new state', this.state))
             }
         }
 
         if (this.props.invoice && this.props.invoice.customer_id) {
             const contacts = this.quoteModel.contacts
-            this.setState({ changesMade: true, contacts: contacts })
+            this.setState({ contacts: contacts, changesMade: true })
         }
 
         if (this.props.entity_id && this.props.entity_type) {
@@ -122,8 +121,6 @@ class EditInvoice extends Component {
                 alert('error')
             }
 
-            console.log('task', response)
-
             const data = reducer.build(type, response)
 
             this.quoteModel.customer_id = data.customer_id
@@ -144,20 +141,6 @@ class EditInvoice extends Component {
         })
     }
 
-    hasErrorFor (field) {
-        return this.state.errors && !!this.state.errors[field]
-    }
-
-    renderErrorFor (field) {
-        if (this.hasErrorFor(field)) {
-            return (
-                <span className='invalid-feedback'>
-                    <strong>{this.state.errors[field][0]}</strong>
-                </span>
-            )
-        }
-    }
-
     toggleTab (tab) {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab })
@@ -172,8 +155,8 @@ class EditInvoice extends Component {
         const invitations = this.quoteModel.buildInvitations(e.target.value, e.target.checked)
         // update the state with the new array of options
         this.setState({
-            changesMade: true,
-            invitations: invitations
+            invitations: invitations,
+            changesMade: true
         }, () => console.log('invitations', invitations))
     }
 
@@ -189,7 +172,7 @@ class EditInvoice extends Component {
                 address: customer_data.address
             }, () => {
                 this.quoteModel.customer_id = e.target.value
-                localStorage.setItem('recurringQuoteForm', JSON.stringify(this.state))
+                localStorage.setItem('quoteForm', JSON.stringify(this.state))
             })
 
             if (this.settings.convert_product_currency === true) {
@@ -205,7 +188,7 @@ class EditInvoice extends Component {
             }
 
             if (this.state.project_id && original_customer_id !== parseInt(e.target.value)) {
-                this.setState({ changesMade: true, project_id: '' })
+                this.setState({ project_id: '', changesMade: true })
             }
         }
 
@@ -258,7 +241,7 @@ class EditInvoice extends Component {
         this.setState({
             changesMade: true,
             [e.target.name]: value
-        }, () => localStorage.setItem('recurringQuoteForm', JSON.stringify(this.state)))
+        }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
     }
 
     handleSurcharge (e) {
@@ -306,7 +289,7 @@ class EditInvoice extends Component {
                     changesMade: true,
                     line_items: arrLines,
                     total: total
-                }, () => localStorage.setItem('recurringQuoteForm', JSON.stringify(this.state)))
+                }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
             })
             .catch((e) => {
                 console.warn(e)
@@ -353,7 +336,7 @@ class EditInvoice extends Component {
             errors: []
         }, () => {
             if (!this.state.modalOpen) {
-                this.setState(this.initialState, () => localStorage.removeItem('recurringQuoteForm'))
+                this.setState(this.initialState, () => localStorage.removeItem('quoteForm'))
             }
         })
     }
@@ -373,7 +356,7 @@ class EditInvoice extends Component {
             discount_total: totals.discount_total,
             tax_total: totals.tax_total,
             sub_total: totals.sub_total
-        }, () => localStorage.setItem('recurringQuoteForm', JSON.stringify(this.state)))
+        }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
     }
 
     updatePriceData (index) {
@@ -387,7 +370,7 @@ class EditInvoice extends Component {
         this.setState({
             changesMade: true,
             line_items: line_items
-        }, () => localStorage.setItem('recurringQuoteForm', JSON.stringify(this.state)))
+        }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
     }
 
     handleFieldChange (line_items, row) {
@@ -429,13 +412,9 @@ class EditInvoice extends Component {
         return {
             currency_id: this.state.currency_id,
             exchange_rate: this.state.exchange_rate,
-            start_date: this.state.start_date,
-            date_to_send: this.state.date_to_send,
-            quote_id: this.state.quote_id,
-            expiry_date: this.state.expiry_date,
-            frequency: this.state.frequency,
             is_amount_discount: this.state.is_amount_discount,
             design_id: this.state.design_id,
+            account_id: this.state.account_id,
             number: this.state.number,
             assigned_to: this.state.assigned_to,
             tax_rate: this.state.tax,
@@ -475,9 +454,7 @@ class EditInvoice extends Component {
             shipping_cost_tax: this.state.shipping_cost_tax,
             invitations: this.state.invitations,
             gateway_fee: this.state.gateway_fee,
-            gateway_percentage: this.state.gateway_percentage,
-            grace_period: this.state.grace_period,
-            auto_billing_enabled: this.state.auto_billing_enabled
+            gateway_percentage: this.state.gateway_percentage
         }
     }
 
@@ -499,6 +476,7 @@ class EditInvoice extends Component {
                 const allInvoices = this.props.invoices
                 allInvoices.push(firstInvoice)
                 this.props.action(allInvoices)
+                localStorage.removeItem('quoteForm')
                 localStorage.removeItem('recurringQuoteForm')
                 this.setState(this.initialState)
                 return
@@ -512,7 +490,7 @@ class EditInvoice extends Component {
     }
 
     setRecurring (recurring) {
-        this.setState({ changesMade: true, recurring: recurring })
+        this.setState({ recurring: recurring, changesMade: true })
     }
 
     buildForm () {
@@ -582,87 +560,86 @@ class EditInvoice extends Component {
         </Nav>
 
         const details = this.state.is_mobile
-            ? <Detailsm allQuotes={this.props.allQuotes} show_quote={this.quoteModel.isNew}
-                hide_customer={this.state.id === null} address={this.state.address}
-                customerName={this.state.customerName} handleInput={this.handleInput}
-                customers={this.props.customers}
-                errors={this.state.errors}
-                quote={this.state}
-            /> : <Details allQuotes={this.props.allQuotes} show_quote={this.quoteModel.isNew}
-                handleInput={this.handleInput}
-                customers={this.props.customers}
-                errors={this.state.errors}
-                quote={this.state}
+            ? <Detailsm hide_customer={this.state.id === null} address={this.state.address}
+                        customerName={this.state.customerName} handleInput={this.handleInput}
+                        customers={this.props.customers}
+                        errors={this.state.errors}
+                        quote={this.state}
+            /> : <Details handleInput={this.handleInput}
+                          customers={this.props.customers}
+                          errors={this.state.errors}
+                          quote={this.state}
             />
 
         const custom = <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
-            custom_value2={this.state.custom_value2}
-            custom_value3={this.state.custom_value3}
-            custom_value4={this.state.custom_value4}
-            custom_fields={this.props.custom_fields}/>
+                                         custom_value2={this.state.custom_value2}
+                                         custom_value3={this.state.custom_value3}
+                                         custom_value4={this.state.custom_value4}
+                                         custom_fields={this.props.custom_fields}/>
 
         const contacts = this.state.is_mobile
             ? <Contactsm address={this.state.address} customerName={this.state.customerName}
-                handleInput={this.handleInput} invoice={this.state}
-                errors={this.state.errors}
-                contacts={this.state.contacts}
-                invitations={this.state.invitations}
-                handleContactChange={this.handleContactChange}/>
+                         handleInput={this.handleInput} invoice={this.state}
+                         errors={this.state.errors}
+                         contacts={this.state.contacts}
+                         invitations={this.state.invitations}
+                         handleContactChange={this.handleContactChange}/>
             : <Contacts hide_customer={this.state.id === null} address={this.state.address}
-                customerName={this.state.customerName}
-                handleInput={this.handleInput} invoice={this.state} errors={this.state.errors}
-                contacts={this.state.contacts}
-                invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>
+                        customerName={this.state.customerName}
+                        handleInput={this.handleInput} invoice={this.state} errors={this.state.errors}
+                        contacts={this.state.contacts}
+                        invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>
 
-        const recurring = <Recurring setRecurring={this.handleInput} handleInput={this.handleInput}
-            errors={this.state.errors} hasErrorFor={this.hasErrorFor}
-            renderErrorFor={this.renderErrorFor} recurring_quote={this.state}/>
+        const recurring = <Recurring setRecurring={this.setRecurring} handleInput={this.handleInput}
+                                     errors={this.state.errors} invoice={this.state}/>
 
         const settings = <InvoiceSettings is_mobile={this.state.is_mobile} handleSurcharge={this.handleSurcharge}
-            settings={this.state}
-            errors={this.state.errors} handleInput={this.handleInput}
-            discount={this.state.discount}
-            is_amount_discount={this.state.is_amount_discount}
-            design_id={this.state.design_id}/>
+                                          settings={this.state}
+                                          errors={this.state.errors} handleInput={this.handleInput}
+                                          discount={this.state.discount}
+                                          is_amount_discount={this.state.is_amount_discount}
+                                          design_id={this.state.design_id}/>
 
         const items = <Items line_type={this.state.line_type} model={this.quoteModel} customers={this.props.customers}
-            quote={this.state} errors={this.state.errors}
-            handleFieldChange={this.handleFieldChange}
-            handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
-            handleDelete={this.handleDelete}
+                             quote={this.state}
+                             errors={this.state.errors}
+                             handleFieldChange={this.handleFieldChange}
+                             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
+                             handleDelete={this.handleDelete}
         />
 
         const notes = !this.state.is_mobile
-            ? <NoteTabs show_exchange={this.quoteModel.account_currency.exchange_rate !== this.state.exchange_rate}
+            ? <NoteTabs
+                show_exchange={this.quoteModel.account_currency.exchange_rate !== this.state.exchange_rate}
                 invoice={this.state} private_notes={this.state.private_notes}
                 public_notes={this.state.public_notes}
                 terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
                 handleInput={this.handleInput}/>
             : <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
-                terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
-                handleInput={this.handleInput}/>
+                     terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
+                     handleInput={this.handleInput}/>
 
         const documents = this.state.id ? <Documents invoice={this.state}/> : null
 
         const email_editor = this.state.id
             ? <Emails model={this.quoteModel} emails={this.state.emails} template="email_template_quote"
-                show_editor={true}
-                customers={this.props.customers} entity_object={this.state} entity="recurringQuote"
-                entity_id={this.state.id}/> : null
+                      show_editor={true}
+                      customers={this.props.customers} entity_object={this.state} entity="quote"
+                      entity_id={this.state.id}/> : null
 
         const dropdownMenu = this.state.id
             ? <DropdownMenuBuilder invoices={this.props.invoices}
-                formData={this.getFormData()}
-                model={this.quoteModel}
-                handleTaskChange={this.handleTaskChange}
-                action={this.props.action}/> : null
+                                   formData={this.getFormData()}
+                                   model={this.quoteModel}
+                                   handleTaskChange={this.handleTaskChange}
+                                   action={this.props.action}/> : null
 
         const form = this.state.is_mobile
             ? <React.Fragment>
 
                 {tabs}
 
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                     <TabPane tabId="1">
                         {details}
                         {recurring}
@@ -725,7 +702,7 @@ class EditInvoice extends Component {
                     </NavItem>
                 </Nav>
 
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                     <TabPane tabId="1">
                         <Row form>
                             <Col md={4}>
@@ -780,7 +757,7 @@ class EditInvoice extends Component {
         const form = this.buildForm()
         const { success, loading } = this.state
         const button = this.props.add === true ? <AddButtons toggle={this.toggle}/>
-            : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_recurring_quote}
+            : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_quote}
             </DropdownItem>
         const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
@@ -789,15 +766,15 @@ class EditInvoice extends Component {
                 <React.Fragment>
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
-                        size="lg">
+                           size="lg">
                         <DefaultModalHeader toggle={this.toggle}
-                            title={this.quoteModel.isNew ? translations.add_recurring_quote : translations.edit_recurring_quote}/>
+                                            title={this.quoteModel.isNew ? translations.add_quote : translations.edit_quote}/>
 
                         <ModalBody className={theme}>
                             {form}
                         </ModalBody>
                         <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.saveData}
-                            loading={loading}/>
+                                            loading={loading}/>
                     </Modal>
                 </React.Fragment>
             )
