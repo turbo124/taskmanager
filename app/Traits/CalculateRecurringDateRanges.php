@@ -38,7 +38,7 @@ trait CalculateRecurringDateRanges
             $due_date = $this->calculateDueDate($date);
 
             $date_to_send = clone $date;
-            $date_to_send = $this->calculateDateToSend($date);
+            $date_to_send = $this->calculateDateToSend($date_to_send);
 
 
             $date_ranges[] = [
