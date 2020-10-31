@@ -9,7 +9,7 @@ use Carbon\Carbon;
 trait CalculateRecurring
 {
 
-    public function calculate($frequency) {
+    public function calculateDate($frequency) {
         switch($frequency) {
             case 'DAILY':
                 return Carbon::today()->addDay();
