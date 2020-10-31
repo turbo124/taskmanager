@@ -103,7 +103,7 @@ export default class RecurringQuote extends Component {
 
         let stats = null
 
-        if (this.state.invoices.length) {
+        if (this.state.quotes && this.state.quotes.length) {
             stats = this.quoteModel.recurringInvoiceStatsForInvoice(this.state.entity.id, this.state.quotes)
         }
 

@@ -153,17 +153,17 @@ export default class RecurringInvoices extends Component {
         const { status_id, customer_id, searchText, start_date, end_date, project_id, user_id } = this.state.filters
         const fetchUrl = `/api/recurring-invoice?search_term=${searchText}&user_id=${user_id}&status=${status_id}&customer_id=${customer_id}&project_id=${project_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = customers.length && allInvoices.length
-            ?  <UpdateRecurringInvoice
-                    allInvoices={allInvoices}
-                    custom_fields={custom_fields}
-                    customers={customers}
-                    modal={true}
-                    add={true}
-                    invoice={null}
-                    invoice_id={null}
-                    action={this.updateInvoice}
-                    invoices={invoices}
-                /> : null
+            ? <UpdateRecurringInvoice
+                allInvoices={allInvoices}
+                custom_fields={custom_fields}
+                customers={customers}
+                modal={true}
+                add={true}
+                invoice={{}}
+                invoice_id={null}
+                action={this.updateInvoice}
+                invoices={invoices}
+            /> : null
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable fixed-margin-datatable-mobile'

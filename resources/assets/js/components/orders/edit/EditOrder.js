@@ -97,7 +97,7 @@ export default class EditOrder extends Component {
 
         if (this.props.order && this.props.order.customer_id) {
             const contacts = this.orderModel.contacts
-            this.setState({ contacts: contacts, changesMade: true })
+            this.setState({ contacts: contacts })
         }
 
         if (this.props.entity_id && this.props.entity_type) {
@@ -679,7 +679,7 @@ export default class EditOrder extends Component {
             modalOpen: !this.state.modalOpen,
             errors: []
         }, () => {
-            if (!this.state.modalOpen) {
+            if (!this.state.modalOpen && !this.state.id) {
                 this.setState({
                     changesMade: false,
                     public_notes: '',

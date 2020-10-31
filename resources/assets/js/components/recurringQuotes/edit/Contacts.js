@@ -15,7 +15,7 @@ export default function Contacts (props) {
         </FormGroup>
     }) : null
 
-    alert(props.contacts.length)
+    console.log('send to', send_to)
 
     return (
         <Card>

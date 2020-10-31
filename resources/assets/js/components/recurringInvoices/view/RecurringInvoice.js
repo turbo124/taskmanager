@@ -102,7 +102,7 @@ export default class RecurringInvoice extends Component {
 
         let stats = null
 
-        if (this.state.invoices.length) {
+        if (this.state.invoices && this.state.invoices.length) {
             stats = this.invoiceModel.recurringInvoiceStatsForInvoice(this.state.entity.id, this.state.invoices)
         }
 

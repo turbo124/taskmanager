@@ -157,14 +157,15 @@ export default class RecurringQuotes extends Component {
         const fetchUrl = `/api/recurring-quote?search_term=${searchText}&user_id=${user_id}&status=${status_id}&customer_id=${customer_id}&project_id=${project_id}&start_date=${start_date}&end_date=${end_date}`
         const addButton = customers.length ? <UpdateRecurringQuote
             allQuotes={allQuotes}
+            entity_id={this.state.entity_id}
+            entity_type={this.state.entity_type}
             custom_fields={custom_fields}
             customers={customers}
-            modal={true}
+            invoice={{}}
             add={true}
-            invoice={null}
-            invoice_id={null}
             action={this.updateInvoice}
             invoices={invoices}
+            modal={true}
         /> : null
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'

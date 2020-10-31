@@ -26,7 +26,6 @@ import Notes from '../../common/Notes'
 import CustomFieldsForm from '../../common/CustomFieldsForm'
 import InvoiceSettings from '../../common/InvoiceSettings'
 import { CalculateLineTotals, CalculateSurcharges, CalculateTotal } from '../../common/InvoiceCalculations'
-import QuoteModel from '../../models/QuoteModel'
 import DropdownMenuBuilder from '../../common/DropdownMenuBuilder'
 import Emails from '../../emails/Emails'
 import { icons } from '../../utils/_icons'
@@ -45,7 +44,7 @@ import TaskRepository from '../../repositories/TaskRepository'
 import ExpenseRepository from '../../repositories/ExpenseRepository'
 import ProjectRepository from '../../repositories/ProjectRepository'
 import { getExchangeRateWithMap } from '../../utils/_money'
-import RecurringQuoteModel from "../../models/RecurringQuoteModel";
+import RecurringQuoteModel from '../../models/RecurringQuoteModel'
 
 class UpdateRecurringQuote extends Component {
     constructor (props, context) {
@@ -74,6 +73,8 @@ class UpdateRecurringQuote extends Component {
         this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
         this.handleSurcharge = this.handleSurcharge.bind(this)
         this.calculateSurcharges = this.calculateSurcharges.bind(this)
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
         this.loadEntity = this.loadEntity.bind(this)
 
         this.total = 0
@@ -89,16 +90,18 @@ class UpdateRecurringQuote extends Component {
     componentDidMount () {
         if (this.props.task_id) {
             this.loadInvoice()
-        } else if (!this.props.invoice.id) {
-            if (Object.prototype.hasOwnProperty.call(localStorage, 'quoteForm')) {
-                const storedValues = JSON.parse(localStorage.getItem('quoteForm'))
+        }
+
+        if (!this.props.invoice.id) {
+            if (Object.prototype.hasOwnProperty.call(localStorage, 'recurringQuoteForm')) {
+                const storedValues = JSON.parse(localStorage.getItem('recurringQuoteForm'))
                 this.setState({ ...storedValues }, () => console.log('new state', this.state))
             }
         }
 
         if (this.props.invoice && this.props.invoice.customer_id) {
             const contacts = this.quoteModel.contacts
-            this.setState({ contacts: contacts, changesMade: true })
+            this.setState({ contacts: contacts })
         }
 
         if (this.props.entity_id && this.props.entity_type) {
@@ -141,6 +144,20 @@ class UpdateRecurringQuote extends Component {
         })
     }
 
+    hasErrorFor (field) {
+        return this.state.errors && !!this.state.errors[field]
+    }
+
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
+            return (
+                <span className='invalid-feedback'>
+                    <strong>{this.state.errors[field][0]}</strong>
+                </span>
+            )
+        }
+    }
+
     toggleTab (tab) {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab })
@@ -172,7 +189,7 @@ class UpdateRecurringQuote extends Component {
                 address: customer_data.address
             }, () => {
                 this.quoteModel.customer_id = e.target.value
-                localStorage.setItem('quoteForm', JSON.stringify(this.state))
+                localStorage.setItem('recurringQuoteForm', JSON.stringify(this.state))
             })
 
             if (this.settings.convert_product_currency === true) {
@@ -241,7 +258,7 @@ class UpdateRecurringQuote extends Component {
         this.setState({
             changesMade: true,
             [e.target.name]: value
-        }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
+        }, () => localStorage.setItem('recurringQuoteForm', JSON.stringify(this.state)))
     }
 
     handleSurcharge (e) {
@@ -289,7 +306,7 @@ class UpdateRecurringQuote extends Component {
                     changesMade: true,
                     line_items: arrLines,
                     total: total
-                }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
+                }, () => localStorage.setItem('recurringQuoteForm', JSON.stringify(this.state)))
             })
             .catch((e) => {
                 console.warn(e)
@@ -335,8 +352,8 @@ class UpdateRecurringQuote extends Component {
             modalOpen: !this.state.modalOpen,
             errors: []
         }, () => {
-            if (!this.state.modalOpen) {
-                this.setState(this.initialState, () => localStorage.removeItem('quoteForm'))
+            if (!this.state.modalOpen && !this.state.id) {
+                this.setState(this.initialState, () => localStorage.removeItem('recurringQuoteForm'))
             }
         })
     }
@@ -356,7 +373,7 @@ class UpdateRecurringQuote extends Component {
             discount_total: totals.discount_total,
             tax_total: totals.tax_total,
             sub_total: totals.sub_total
-        }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
+        }, () => localStorage.setItem('recurringQuoteForm', JSON.stringify(this.state)))
     }
 
     updatePriceData (index) {
@@ -370,7 +387,7 @@ class UpdateRecurringQuote extends Component {
         this.setState({
             changesMade: true,
             line_items: line_items
-        }, () => localStorage.setItem('quoteForm', JSON.stringify(this.state)))
+        }, () => localStorage.setItem('recurringQuoteForm', JSON.stringify(this.state)))
     }
 
     handleFieldChange (line_items, row) {
@@ -410,6 +427,13 @@ class UpdateRecurringQuote extends Component {
 
     getFormData () {
         return {
+            start_date: this.state.start_date,
+            date_to_send: this.state.date_to_send,
+            quote_id: this.state.quote_id,
+            expiry_date: this.state.expiry_date,
+            frequency: this.state.frequency,
+            grace_period: this.state.grace_period,
+            auto_billing_enabled: this.state.auto_billing_enabled,
             currency_id: this.state.currency_id,
             exchange_rate: this.state.exchange_rate,
             is_amount_discount: this.state.is_amount_discount,
@@ -476,8 +500,8 @@ class UpdateRecurringQuote extends Component {
                 const allInvoices = this.props.invoices
                 allInvoices.push(firstInvoice)
                 this.props.action(allInvoices)
-                localStorage.removeItem('quoteForm')
                 localStorage.removeItem('recurringQuoteForm')
+                localStorage.removeItem('recurringrecurringQuoteForm')
                 this.setState(this.initialState)
                 return
             }
@@ -560,52 +584,55 @@ class UpdateRecurringQuote extends Component {
         </Nav>
 
         const details = this.state.is_mobile
-            ? <Detailsm hide_customer={this.state.id === null} address={this.state.address}
-                        customerName={this.state.customerName} handleInput={this.handleInput}
-                        customers={this.props.customers}
-                        errors={this.state.errors}
-                        quote={this.state}
-            /> : <Details handleInput={this.handleInput}
-                          customers={this.props.customers}
-                          errors={this.state.errors}
-                          quote={this.state}
+            ? <Detailsm allQuotes={this.props.allQuotes} show_quote={this.quoteModel.isNew}
+                hide_customer={this.state.id === null} address={this.state.address}
+                customerName={this.state.customerName} handleInput={this.handleInput}
+                customers={this.props.customers}
+                errors={this.state.errors}
+                quote={this.state}
+            />
+            : <Details allQuotes={this.props.allQuotes} show_quote={this.quoteModel.isNew} handleInput={this.handleInput}
+                customers={this.props.customers}
+                errors={this.state.errors}
+                quote={this.state}
             />
 
         const custom = <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
-                                         custom_value2={this.state.custom_value2}
-                                         custom_value3={this.state.custom_value3}
-                                         custom_value4={this.state.custom_value4}
-                                         custom_fields={this.props.custom_fields}/>
+            custom_value2={this.state.custom_value2}
+            custom_value3={this.state.custom_value3}
+            custom_value4={this.state.custom_value4}
+            custom_fields={this.props.custom_fields}/>
 
         const contacts = this.state.is_mobile
             ? <Contactsm address={this.state.address} customerName={this.state.customerName}
-                         handleInput={this.handleInput} invoice={this.state}
-                         errors={this.state.errors}
-                         contacts={this.state.contacts}
-                         invitations={this.state.invitations}
-                         handleContactChange={this.handleContactChange}/>
+                handleInput={this.handleInput} invoice={this.state}
+                errors={this.state.errors}
+                contacts={this.state.contacts}
+                invitations={this.state.invitations}
+                handleContactChange={this.handleContactChange}/>
             : <Contacts hide_customer={this.state.id === null} address={this.state.address}
-                        customerName={this.state.customerName}
-                        handleInput={this.handleInput} invoice={this.state} errors={this.state.errors}
-                        contacts={this.state.contacts}
-                        invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>
+                customerName={this.state.customerName}
+                handleInput={this.handleInput} invoice={this.state} errors={this.state.errors}
+                contacts={this.state.contacts}
+                invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>
 
-        const recurring = <Recurring setRecurring={this.setRecurring} handleInput={this.handleInput}
-                                     errors={this.state.errors} invoice={this.state}/>
+        const recurring = <Recurring setRecurring={this.handleInput} handleInput={this.handleInput}
+            errors={this.state.errors} hasErrorFor={this.hasErrorFor}
+            renderErrorFor={this.renderErrorFor} recurring_quote={this.state}/>
 
         const settings = <InvoiceSettings is_mobile={this.state.is_mobile} handleSurcharge={this.handleSurcharge}
-                                          settings={this.state}
-                                          errors={this.state.errors} handleInput={this.handleInput}
-                                          discount={this.state.discount}
-                                          is_amount_discount={this.state.is_amount_discount}
-                                          design_id={this.state.design_id}/>
+            settings={this.state}
+            errors={this.state.errors} handleInput={this.handleInput}
+            discount={this.state.discount}
+            is_amount_discount={this.state.is_amount_discount}
+            design_id={this.state.design_id}/>
 
         const items = <Items line_type={this.state.line_type} model={this.quoteModel} customers={this.props.customers}
-                             quote={this.state}
-                             errors={this.state.errors}
-                             handleFieldChange={this.handleFieldChange}
-                             handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
-                             handleDelete={this.handleDelete}
+            quote={this.state}
+            errors={this.state.errors}
+            handleFieldChange={this.handleFieldChange}
+            handleAddFiled={this.handleAddFiled} setTotal={this.setTotal}
+            handleDelete={this.handleDelete}
         />
 
         const notes = !this.state.is_mobile
@@ -616,23 +643,23 @@ class UpdateRecurringQuote extends Component {
                 terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
                 handleInput={this.handleInput}/>
             : <Notes private_notes={this.state.private_notes} public_notes={this.state.public_notes}
-                     terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
-                     handleInput={this.handleInput}/>
+                terms={this.state.terms} footer={this.state.footer} errors={this.state.errors}
+                handleInput={this.handleInput}/>
 
         const documents = this.state.id ? <Documents invoice={this.state}/> : null
 
         const email_editor = this.state.id
             ? <Emails model={this.quoteModel} emails={this.state.emails} template="email_template_quote"
-                      show_editor={true}
-                      customers={this.props.customers} entity_object={this.state} entity="quote"
-                      entity_id={this.state.id}/> : null
+                show_editor={true}
+                customers={this.props.customers} entity_object={this.state} entity="recurringQuote"
+                entity_id={this.state.id}/> : null
 
         const dropdownMenu = this.state.id
             ? <DropdownMenuBuilder invoices={this.props.invoices}
-                                   formData={this.getFormData()}
-                                   model={this.quoteModel}
-                                   handleTaskChange={this.handleTaskChange}
-                                   action={this.props.action}/> : null
+                formData={this.getFormData()}
+                model={this.quoteModel}
+                handleTaskChange={this.handleTaskChange}
+                action={this.props.action}/> : null
 
         const form = this.state.is_mobile
             ? <React.Fragment>
@@ -757,7 +784,7 @@ class UpdateRecurringQuote extends Component {
         const form = this.buildForm()
         const { success, loading } = this.state
         const button = this.props.add === true ? <AddButtons toggle={this.toggle}/>
-            : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_quote}
+            : <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_recurring_quote}
             </DropdownItem>
         const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
 
@@ -766,15 +793,15 @@ class UpdateRecurringQuote extends Component {
                 <React.Fragment>
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
-                           size="lg">
+                        size="lg">
                         <DefaultModalHeader toggle={this.toggle}
-                                            title={this.quoteModel.isNew ? translations.add_quote : translations.edit_quote}/>
+                            title={this.quoteModel.isNew ? translations.add_recurring_quote : translations.edit_recurring_quote}/>
 
                         <ModalBody className={theme}>
                             {form}
                         </ModalBody>
                         <DefaultModalFooter show_success={true} toggle={this.toggle} saveData={this.saveData}
-                                            loading={loading}/>
+                            loading={loading}/>
                     </Modal>
                 </React.Fragment>
             )
@@ -794,4 +821,4 @@ class UpdateRecurringQuote extends Component {
     }
 }
 
-export default EditInvoice
+export default UpdateRecurringQuote

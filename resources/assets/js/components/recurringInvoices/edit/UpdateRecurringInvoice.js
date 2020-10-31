@@ -46,7 +46,7 @@ import ExpenseRepository from '../../repositories/ExpenseRepository'
 import ProjectRepository from '../../repositories/ProjectRepository'
 import { getExchangeRateWithMap } from '../../utils/_money'
 
-class EditInvoice extends Component {
+class UpdateRecurringInvoice extends Component {
     constructor (props, context) {
         super(props, context)
 
@@ -99,7 +99,7 @@ class EditInvoice extends Component {
 
         if (this.props.invoice && this.props.invoice.customer_id) {
             const contacts = this.invoiceModel.contacts
-            this.setState({ changesMade: true, contacts: contacts })
+            this.setState({ contacts: contacts })
         }
 
         if (this.props.entity_id && this.props.entity_type) {
@@ -344,7 +344,7 @@ class EditInvoice extends Component {
             modalOpen: !this.state.modalOpen,
             errors: []
         }, () => {
-            if (!this.state.modalOpen) {
+            if (!this.state.modalOpen && !this.state.id) {
                 this.setState({
                     changesMade: false,
                     public_notes: '',
@@ -866,4 +866,4 @@ class EditInvoice extends Component {
     }
 }
 
-export default EditInvoice
+export default UpdateRecurringInvoice

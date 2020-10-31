@@ -114,6 +114,12 @@ export default class RecurringQuoteModel extends BaseModel {
             const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.customer.currency_id)
             this.exchange_rate = currency[0].exchange_rate
         }
+
+        this.exchange_rate = this.currency ? this.currency.exchange_rate : 1
+
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.account = user_account[0]
     }
 
     cloneQuote (quote) {

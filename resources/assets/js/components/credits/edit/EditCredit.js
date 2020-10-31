@@ -283,7 +283,7 @@ export default class EditCredit extends Component {
             modalOpen: !this.state.modalOpen,
             errors: []
         }, () => {
-            if (!this.state.modalOpen) {
+            if (!this.state.modalOpen && !this.state.id) {
                 this.setState({
                     changesMade: false,
                     public_notes: '',
