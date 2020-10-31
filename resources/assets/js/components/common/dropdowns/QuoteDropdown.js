@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { FormGroup, Input } from 'reactstrap'
 import { translations } from '../../utils/_translations'
 import QuoteRepository from '../../repositories/QuoteRepository'
+import RecurringQuotePresenter from '../../presenters/RecurringQuotePresenter'
 
 export default class QuoteDropdown extends Component {
     constructor (props) {
@@ -51,11 +52,15 @@ export default class QuoteDropdown extends Component {
     render () {
         let quoteList = null
 
-        const quotes = this.props.quotes ? this.props.quotes : this.state.quotes
+        let quotes = this.props.quotes ? this.props.quotes : this.state.quotes
 
         if (!quotes) {
             quoteList = <option value="">Loading...</option>
         } else {
+            if (this.props.is_recurring) {
+                quotes = quotes.filter(quote => !quote.recurring_quote_id)
+            }
+
             quoteList = quotes.map((quote, index) => (
                 <option key={index} value={quote.id}>{quote.number}</option>
             ))

@@ -32,6 +32,7 @@ class RecurringInvoice extends Model
     const STATUS_COMPLETED = 5;
     protected $presenter = 'App\Presenters\InvoicePresenter';
     protected $fillable = [
+        'is_endless',
         'status_id',
         'account_id',
         'customer_id',

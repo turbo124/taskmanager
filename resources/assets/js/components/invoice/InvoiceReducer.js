@@ -122,8 +122,6 @@ export default class InvoiceReducer {
         row.customer_id = task.customer_id
         row.line_items = line_items
 
-        console.log('row', row)
-
         return row
     }
 }

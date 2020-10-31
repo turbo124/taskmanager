@@ -2,12 +2,15 @@
 
 namespace App\Repositories;
 
+use App\Events\RecurringInvoice\RecurringInvoiceWasCreated;
 use App\Models\Account;
+use App\Models\Invoice;
 use App\Models\RecurringInvoice;
 use App\Repositories\Base\BaseRepository;
 use App\Requests\SearchRequest;
 use App\Search\RecurringInvoiceSearch;
 use App\Traits\BuildVariables;
+use App\Traits\CalculateRecurring;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
@@ -16,6 +19,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class RecurringInvoiceRepository extends BaseRepository
 {
     use BuildVariables;
+    use CalculateRecurring;
 
     /**
      * RecurringInvoiceRepository constructor.
@@ -25,6 +29,27 @@ class RecurringInvoiceRepository extends BaseRepository
     {
         parent::__construct($invoice);
         $this->model = $invoice;
+    }
+
+    /**
+     * @param array $data
+     * @param RecurringInvoice $invoice
+     * @return RecurringInvoice|null
+     */
+    public function createInvoice(array $data, RecurringInvoice $recurring_invoice): ?RecurringInvoice
+    {
+        $recurring_invoice->date_to_send = $this->calculateDate($data['frequency']);
+        $recurring_invoice = $this->save($data, $recurring_invoice);
+
+        if (!empty($data['invoice_id']) && !empty($recurring_invoice)) {
+            $invoice = Invoice::where('id', '=', $data['invoice_id'])->first();
+            $invoice->recurring_invoice_id = $recurring_invoice->id;
+            $invoice->save();
+        }
+
+        event(new RecurringInvoiceWasCreated($recurring_invoice));
+
+        return $recurring_invoice;
     }
 
     /**

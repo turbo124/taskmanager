@@ -122,8 +122,6 @@ class EditInvoice extends Component {
                 alert('error')
             }
 
-            console.log('task', response)
-
             const data = reducer.build(type, response)
 
             this.invoiceModel.customer_id = data.customer_id
@@ -216,6 +214,22 @@ class EditInvoice extends Component {
         if (e.target.name === 'is_amount_discount') {
             this.setState({ changesMade: true, is_amount_discount: e.target.value === 'true' })
             return
+        }
+
+        if (e.target.name === 'invoice_id') {
+            if (!e.target.value.length) {
+                this.setState(this.initialState)
+                return true
+            }
+
+            const invoice = this.props.allInvoices.filter(invoice => invoice.id === parseInt(e.target.value))
+
+            if (invoice.length) {
+                this.invoiceModel.cloneInvoice(invoice[0])
+                const initialState = this.invoiceModel.fields
+                initialState.contacts = this.invoiceModel.contacts
+                this.setState(initialState)
+            }
         }
 
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -614,12 +628,16 @@ class EditInvoice extends Component {
         </Nav>
 
         const details = this.state.is_mobile
-            ? <Detailsm address={this.state.address} customerName={this.state.customerName} handleInput={this.handleInput}
+            ? <Detailsm allInvoices={this.props.allInvoices} show_invoice={this.invoiceModel.isNew}
+                address={this.state.address} customerName={this.state.customerName}
+                handleInput={this.handleInput}
                 customers={this.props.customers}
                 hide_customer={this.state.id === null}
                 errors={this.state.errors} invoice={this.state}
             />
-            : <Details address={this.state.address} customerName={this.state.customerName} handleInput={this.handleInput}
+            : <Details allInvoices={this.props.allInvoices} show_invoice={this.invoiceModel.isNew}
+                address={this.state.address} customerName={this.state.customerName}
+                handleInput={this.handleInput}
                 customers={this.props.customers}
                 errors={this.state.errors} invoice={this.state}
             />
@@ -820,7 +838,8 @@ class EditInvoice extends Component {
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
-                        <DefaultModalHeader toggle={this.toggle} title={this.invoiceModel.isNew ? translations.add_recurring_invoice : translations.edit_recurring_invoice}/>
+                        <DefaultModalHeader toggle={this.toggle}
+                            title={this.invoiceModel.isNew ? translations.add_recurring_invoice : translations.edit_recurring_invoice}/>
 
                         <ModalBody className={theme}>
                             {form}

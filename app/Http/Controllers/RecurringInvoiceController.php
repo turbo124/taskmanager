@@ -75,34 +75,16 @@ class RecurringInvoiceController extends BaseController
      */
     public function store(CreateRecurringInvoiceRequest $request)
     {
-        $invoice = (new InvoiceRepository(new Invoice()))->findInvoiceById($request->invoice_id);
 
-        $arrRecurring = array_merge(
-            array(
-                'sub_total'      => $invoice->sub_total,
-                'tax_total'      => $invoice->tax_total,
-                'discount_total' => $invoice->discount_total,
-                'date'           => $invoice->date,
-                'due_date'       => $invoice->due_date,
-                'line_items'     => $invoice->line_items,
-                'footer'         => $invoice->footer,
-                'notes'          => $invoice->notes,
-                'terms'          => $invoice->terms,
-                'total'          => $invoice->total,
-                'partial'        => $invoice->partial
-            ),
-            $request->all()
-        );
-
-        $recurring_invoice = (new RecurringInvoiceRepository(new RecurringInvoice))->save(
-            $arrRecurring,
+        $recurring_invoice = (new RecurringInvoiceRepository(new RecurringInvoice))->createInvoice(
+            $request->all(),
             RecurringInvoiceFactory::create(
                 Customer::where('id', $request->customer_id)->first(),
                 auth()->user()->account_user()->account,
-                auth()->user(),
-                $invoice->total
+                auth()->user()
             )
         );
+
         return response()->json($this->transformRecurringInvoice($recurring_invoice));
     }
 

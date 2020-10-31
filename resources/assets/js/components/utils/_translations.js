@@ -1,5 +1,6 @@
 const _localizedValues = []
 _localizedValues.en = {
+    select_frequency: 'Select Frequency',
     rate: 'Rate',
     resume: 'Resume',
     portal_settings: 'Customer Portal Settings',

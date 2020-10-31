@@ -14,9 +14,7 @@ trait CalculateRecurringDateRanges
     {
         $begin = new DateTime($this->start_date);
 
-        $endless = false;
-
-        if (empty($this->expiry_date) || $endless === true) {
+        if (empty($this->expiry_date) || $this->is_endless === true) {
             $this->expiry_date = date('Y-m-d', strtotime('+1 years'));
         }
 
@@ -55,39 +53,39 @@ trait CalculateRecurringDateRanges
     {
         switch($this->frequency) {
             case 'DAILY':
-                return date->modify('+1 day');
+                return $date->modify('+1 day');
             break;
 
             case 'WEEKLY':
-                return date->modify('+1 week');
+                return $date->modify('+1 week');
             break;
 
             case 'FORTNIGHT':
-                return date->modify('+2 week');
+                return $date->modify('+2 week');
             break;
 
             case 'MONTHLY':
-                return date->modify('+1 month');
+                return $date->modify('+1 month');
             break;
 
             case 'TWO_MONTHS':
-                return date->modify('+2 month');
+                return $date->modify('+2 month');
             break;
 
             case 'THREE_MONTHS':
-               return date->modify('+3 month');
+               return $date->modify('+3 month');
             break;
 
             case 'FOUR_MONTHS':
-                return date->modify('+4 month');
+                return $date->modify('+4 month');
             break;
  
             case 'SIX_MONTHS':
-               return date->modify('+6 month');
+               return $date->modify('+6 month');
             break;
 
             case 'YEARLY':
-               return date->modify('+1 year');
+               return $date->modify('+1 year');
             break;
         }
     }

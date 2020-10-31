@@ -15,6 +15,8 @@ export default function Contacts (props) {
         </FormGroup>
     }) : null
 
+    alert(props.contacts.length)
+
     return (
         <Card>
             <CardHeader>{translations.customer}</CardHeader>

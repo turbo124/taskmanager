@@ -159,8 +159,8 @@ export default class RecurringInvoices extends Component {
                     customers={customers}
                     modal={true}
                     add={true}
-                    invoice={}
-                    invoice_id={}
+                    invoice={null}
+                    invoice_id={null}
                     action={this.updateInvoice}
                     invoices={invoices}
                 /> : null

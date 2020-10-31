@@ -90,7 +90,7 @@ class EditInvoice extends Component {
     componentDidMount () {
         if (this.props.task_id) {
             this.loadInvoice()
-        } else if (!this.props.invoice.id) {
+        } else if (!this.state.id) {
             if (Object.prototype.hasOwnProperty.call(localStorage, 'recurringQuoteForm')) {
                 const storedValues = JSON.parse(localStorage.getItem('recurringQuoteForm'))
                 this.setState({ ...storedValues }, () => console.log('new state', this.state))
@@ -235,6 +235,22 @@ class EditInvoice extends Component {
         if (e.target.name === 'is_amount_discount') {
             this.setState({ changesMade: true, is_amount_discount: e.target.value === 'true' })
             return
+        }
+
+        if (e.target.name === 'quote_id') {
+            if (!e.target.value.length) {
+                this.setState(this.initialState)
+                return true
+            }
+
+            const quote = this.props.allQuotes.filter(quote => quote.id === parseInt(e.target.value))
+
+            if (quote.length) {
+                this.quoteModel.cloneQuote(quote[0])
+                const initialState = this.quoteModel.fields
+                initialState.contacts = this.quoteModel.contacts
+                this.setState(initialState)
+            }
         }
 
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
@@ -566,12 +582,14 @@ class EditInvoice extends Component {
         </Nav>
 
         const details = this.state.is_mobile
-            ? <Detailsm hide_customer={this.state.id === null} address={this.state.address}
+            ? <Detailsm allQuotes={this.props.allQuotes} show_quote={this.quoteModel.isNew}
+                hide_customer={this.state.id === null} address={this.state.address}
                 customerName={this.state.customerName} handleInput={this.handleInput}
                 customers={this.props.customers}
                 errors={this.state.errors}
                 quote={this.state}
-            /> : <Details handleInput={this.handleInput}
+            /> : <Details allQuotes={this.props.allQuotes} show_quote={this.quoteModel.isNew}
+                handleInput={this.handleInput}
                 customers={this.props.customers}
                 errors={this.state.errors}
                 quote={this.state}
@@ -772,7 +790,8 @@ class EditInvoice extends Component {
                     {button}
                     <Modal isOpen={this.state.modalOpen} toggle={this.toggle} className={this.props.className}
                         size="lg">
-                        <DefaultModalHeader toggle={this.toggle} title={this.quoteModel.isNew ? translations.add_recurring_quote : translations.edit_recurring_quote}/>
+                        <DefaultModalHeader toggle={this.toggle}
+                            title={this.quoteModel.isNew ? translations.add_recurring_quote : translations.edit_recurring_quote}/>
 
                         <ModalBody className={theme}>
                             {form}

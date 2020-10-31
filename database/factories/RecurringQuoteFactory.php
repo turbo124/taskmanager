@@ -55,7 +55,7 @@ class RecurringQuoteFactory extends Factory
             'is_deleted'     => false,
             'po_number'      => $this->faker->text(10),
             'line_items'     => $line_items,
-            'frequency'      => 'MONTHLY';
+            'frequency'      => 'MONTHLY',
             'start_date'     => $this->faker->date(),
             'expiry_date'    => $this->faker->date()
         ];

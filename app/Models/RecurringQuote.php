@@ -32,6 +32,7 @@ class RecurringQuote extends Model
 
     protected $presenter = 'App\Presenters\QuotePresenter';
     protected $fillable = [
+        'is_endless',
         'account_id',
         'status_id',
         'customer_id',

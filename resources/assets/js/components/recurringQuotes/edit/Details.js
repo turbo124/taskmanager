@@ -3,6 +3,7 @@ import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import FormBuilder from '../../settings/FormBuilder'
 import Datepicker from '../../common/Datepicker'
 import { translations } from '../../utils/_translations'
+import QuoteDropdown from '../../common/dropdowns/QuoteDropdown'
 
 export default class Details extends Component {
     constructor (props, context) {
@@ -53,6 +54,19 @@ export default class Details extends Component {
             <Card>
                 <CardHeader>{translations.details}</CardHeader>
                 <CardBody>
+                    {!!this.props.show_quote &&
+                    <FormGroup>
+                        <Label>{translations.quote}</Label>
+                        <QuoteDropdown
+                            is_recurring={true}
+                            quotes={this.props.allQuotes}
+                            handleInputChanges={this.props.handleInput}
+                            name="quote_id"
+                            errors={this.state.errors}
+
+                        />
+                    </FormGroup>
+                    }
                     <FormGroup>
                         <Label for="date">{translations.date}(*):</Label>
                         <Datepicker name="date" date={this.props.quote.date} handleInput={this.props.handleInput}

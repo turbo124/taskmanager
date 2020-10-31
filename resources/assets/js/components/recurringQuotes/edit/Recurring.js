@@ -45,6 +45,7 @@ export default function Recurring (props) {
                 <FormGroup>
                     <Label>{translations.frequency}</Label>
                     <Input
+                        className={props.hasErrorFor('frequency') ? 'form-control is-invalid' : 'form-control'}
                         value={props.recurring_quote.frequency}
                         type='select'
                         name='frequency'
@@ -52,10 +53,12 @@ export default function Recurring (props) {
                         id='frequency'
                         onChange={props.handleInput}
                     >
+                        <option value="">{translations.select_frequency}</option>
                         {Object.keys(frequencyOptions).map((frequency) => (
                             <option value={frequency}>{translations[frequencyOptions[frequency]]}</option>
                         ))}
                     </Input>
+                    {props.renderErrorFor('frequency')}
                 </FormGroup>
 
                 <FormGroup>

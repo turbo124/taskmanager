@@ -113,13 +113,15 @@ class RecurringQuoteTest extends TestCase
             'account_id'  => $this->account->id,
             'user_id'     => $this->user->id,
             'customer_id' => $this->customer->id,
-            'total'       => 200
+            'total'       => 200,
+            'frequency' => 'MONTHLY'
         ];
 
         $recurringQuoteRepo = new RecurringQuoteRepository(new RecurringQuote());
         $factory = (new RecurringQuoteFactory())->create($this->customer, $this->account, $this->user, 200);
-        $recurring_quote = $recurringQuoteRepo->save($data, $factory);
+        $recurring_quote = $recurringQuoteRepo->createQuote($data, $factory);
 
+        $this->assertEquals($recurring_quote->date_to_send, Carbon::today()->addMonthNoOverflow());
         $this->assertInstanceOf(RecurringQuote::class, $recurring_quote);
         $this->assertEquals($data['total'], $recurring_quote->total);
         $this->assertNotEmpty($recurring_quote->invitations);
@@ -135,6 +137,7 @@ class RecurringQuoteTest extends TestCase
         $recurring_quote->expiry_date = Carbon::now()->addDays(15);
         $recurring_quote->auto_billing_enabled = 0;
         $recurring_quote->cycles_remaining = 2;
+        $recurring_quote->frequency = 'MONTHLY';
         $recurring_quote->status_id = RecurringQuote::STATUS_ACTIVE;
         $recurring_quote->save();
 
@@ -143,7 +146,7 @@ class RecurringQuoteTest extends TestCase
         $updated_recurring_quote = $recurring_quote->fresh();
 
         $this->assertTrue(
-            $updated_recurring_quote->date_to_send->eq(Carbon::today()->addDays($recurring_quote->frequency))
+            $updated_recurring_quote->date_to_send->eq(Carbon::today()->addMonthNoOverflow())
         );
         $this->assertTrue($updated_recurring_quote->last_sent_date->eq(Carbon::today()));
         $this->assertEquals(1, $updated_recurring_quote->cycles_remaining);
@@ -160,6 +163,7 @@ class RecurringQuoteTest extends TestCase
         $recurring_quote->date = Carbon::now()->subDays(15);
         $recurring_quote->start_date = Carbon::now()->subDays(1);
         $recurring_quote->expiry_date = Carbon::now()->addDays(15);
+        $recurring_quote->frequency = 'MONTHLY';
         $recurring_quote->auto_billing_enabled = 0;
         $recurring_quote->cycles_remaining = 1;
         $recurring_quote->status_id = RecurringQuote::STATUS_ACTIVE;

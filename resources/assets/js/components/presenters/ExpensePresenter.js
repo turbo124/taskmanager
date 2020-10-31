@@ -15,6 +15,8 @@ export default function ExpensePresenter (props) {
     const paymentInvoices = entity.invoices && Object.keys(entity.invoices).length > 0 ? Array.prototype.map.call(entity.invoices, s => s.number).toString() : null
 
     switch (field) {
+        case 'frequency':
+            return <td>{translations[frequencyOptions[entity.frequency]]}</td>
         case 'amount':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Total">{

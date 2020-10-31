@@ -6,6 +6,8 @@ export default function TaskPresenter (props) {
     const { field, entity } = props
 
     switch (field) {
+        case 'frequency':
+            return <td>{translations[frequencyOptions[entity.frequency]]}</td>
         case 'due_date':
         case 'start_date':
         case 'created_at':

@@ -25,7 +25,7 @@ export default class RecurringInvoiceModel extends BaseModel {
             start_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             expiry_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
-            frequency: 30,
+            frequency: '',
             grace_period: 0,
             date_to_send: '',
             last_sent_date: '',
@@ -118,6 +118,18 @@ export default class RecurringInvoiceModel extends BaseModel {
             const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.customer.currency_id)
             this.exchange_rate = currency[0].exchange_rate
         }
+    }
+
+    cloneInvoice (invoice) {
+        this._fields = { ...this.fields, ...invoice }
+        this.fields.id = null
+        this.fields.invoice_id = invoice.id
+        this.fields.gateway_fee_applied = 0
+        this.fields.gateway_fee = null
+        this.fields.gateway_percentage = null
+        this.fields.number = null
+        this.fields.status_id = consts.recurring_invoice_status_draft
+        this.fields.modalOpen = true
     }
 
     get exchange_rate () {
