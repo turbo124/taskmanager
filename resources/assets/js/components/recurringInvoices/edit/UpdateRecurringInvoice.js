@@ -644,7 +644,7 @@ class UpdateRecurringInvoice extends Component {
                 errors={this.state.errors} invoice={this.state}
             />
 
-        const recurring = <Recurring errors={this.state.errors} renderErrorFor={this.renderErrorFor}
+        const recurring = <Recurring show_invoice={this.invoiceModel.isNew} errors={this.state.errors} renderErrorFor={this.renderErrorFor}
             hasErrorFor={this.hasErrorFor} setRecurring={this.handleInput}
             handleInput={this.handleInput}
             recurring_invoice={this.state}/>
