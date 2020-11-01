@@ -98,7 +98,18 @@ export default class Order extends Component {
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/Order')
+        const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
+        const custom_fields = []
+        
+        if(custom_fields.Order) {
+            custom_fields[0] = custom_fields.Order
+        }
+        
+        this.setState({
+            custom_fields: custom_fields
+        })
+
+        /* axios.get('api/accounts/fields/Order')
             .then((r) => {
                 this.setState({
                     custom_fields: r.data.fields
@@ -109,7 +120,7 @@ export default class Order extends Component {
                     loading: false,
                     error: e
                 })
-            })
+            }) */
     }
 
     setFilterOpen (isOpen) {
