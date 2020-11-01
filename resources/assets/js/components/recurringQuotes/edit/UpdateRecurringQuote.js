@@ -427,6 +427,7 @@ class UpdateRecurringQuote extends Component {
 
     getFormData () {
         return {
+            number_of_occurrances: this.state.number_of_occurrances,
             start_date: this.state.start_date,
             date_to_send: this.state.date_to_send,
             quote_id: this.state.quote_id,

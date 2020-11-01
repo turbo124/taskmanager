@@ -101,7 +101,8 @@ class AddRecurringInvoice extends Component {
             public_notes: this.state.public_notes,
             private_notes: this.state.private_notes,
             grace_period: this.state.grace_period,
-            auto_billing_enabled: this.state.auto_billing_enabled
+            auto_billing_enabled: this.state.auto_billing_enabled,
+            number_of_occurrances: this.state.number_of_occurrances
         }
 
         this.recurringInvoiceModel.save(data).then(response => {

@@ -77,6 +77,18 @@ export default function Recurring (props) {
                     </h6>
                 </FormGroup>
 
+                <FormGroup>
+                    <Label>{translations.number_of_occurances}</Label>
+                    <Input
+                        value={props.recurring_quote.number_of_occurances}
+                        type='text'
+                        name='number_of_occurances'
+                        placeholder="Days"
+                        id='number_of_occurances'
+                        onChange={props.handleInput}
+                    />
+                </FormGroup>
+
                 <a href="#"
                     className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">

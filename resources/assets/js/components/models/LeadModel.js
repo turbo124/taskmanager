@@ -40,7 +40,11 @@ export default class LeadModel extends BaseModel {
             errors: [],
             users: [],
             selectedUsers: [],
-            sourceTypes: []
+            sourceTypes: [],
+            custom_value1: '',
+            custom_value2: '',
+            custom_value3: '',
+            custom_value4: '',
         }
 
         if (data !== null) {

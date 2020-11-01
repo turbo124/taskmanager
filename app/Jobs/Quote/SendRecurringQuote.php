@@ -53,7 +53,7 @@ class SendRecurringQuote implements ShouldQueue
                                           ->whereDate('date', '!=', Carbon::today())
                                           ->where('status_id', '=', RecurringQuote::STATUS_ACTIVE)
                                           ->whereDate('start_date', '<=', Carbon::today())
-                                          ->where('cycles_remaining', '>', 0)
+                                          ->where('number_of_occurrances', '>', 0)
                                           ->where(
                                               function ($query) {
                                                   $query->whereNull('expiry_date')
@@ -75,7 +75,7 @@ class SendRecurringQuote implements ShouldQueue
             $recurring_quote->last_sent_date = Carbon::today();
 
             if (!$recurring_quote->is_endless) {
-                $recurring_quote->cycles_remaining--;
+                $recurring_quote->number_of_occurrances--;
             }
 
             $recurring_quote->date_to_send = $recurring_quote->cycles_remaining === 0 ? null
