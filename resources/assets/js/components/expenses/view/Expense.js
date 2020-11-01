@@ -112,6 +112,9 @@ export default class Expense extends Component {
         const convertedAmount = this.expenseModel.convertedAmount
         const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
 
+        const button1_action = !this.state.entity.invoice_id ? (e) => location.href = '/#/invoice?entity_type=expense&entity_id=' + this.state.entity.id : (e) => location.href = '/#/invoice?id=' + this.state.entity.invoice_id
+        const button1_label = !this.state.entity.invoice_id ? translations.new_invoice : translations.view_invoice
+
         let user = null
 
         if (this.state.entity.assigned_to) {
@@ -263,10 +266,10 @@ export default class Expense extends Component {
                 </Alert>
                 }
 
-                <BottomNavigationButtons button1_click={(e) => this.toggleTab('3')}
-                    button1={{ label: translations.view_pdf }}
-                    button2_click={(e) => this.triggerAction('clone_to_invoice')}
-                    button2={{ label: translations.clone_to_invoice }}/>
+                <BottomNavigationButtons button1_click={button1_action}
+                    button1={{ label: button1_label }}
+                    button2_click={(e) => this.triggerAction('clone_to_expense', true)}
+                    button2={{ label: translations.clone_expense }}/>
 
             </React.Fragment>
 

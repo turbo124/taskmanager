@@ -21,7 +21,8 @@ export default class InvoiceFilters extends Component {
                 searchText: '',
                 start_date: '',
                 end_date: '',
-                user_id: ''
+                user_id: '',
+                id: ''
             }
 
         }

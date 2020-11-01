@@ -96,7 +96,7 @@ export default class InvoiceReducer {
                 }).map(time => {
                     const start = formatDate(`${time.date} ${time.start_time}`, true)
                     const end = formatDate(`${time.end_date} ${time.end_time}`, true)
-                    notes += `\n### ${start} - ${end}`
+                    notes += `\n ${start} - ${end}`
                 })
             }
         }

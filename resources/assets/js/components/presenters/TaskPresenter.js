@@ -5,7 +5,15 @@ import FormatDate from '../common/FormatDate'
 export default function TaskPresenter (props) {
     const { field, entity } = props
 
+     const status = (entity.deleted_at) 
+         ? (<Badge color="warning">{translations.archived}</Badge>) 
+         : ((entity.invoice_id) ? (<Badge color="success">{translations.invoiced}</Badge>) 
+         : (<Badge color="primary">{entity.status_name}</Badge>))
+
     switch (field) {
+        case 'status_name':
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label="Status">{status}</td>
         case 'frequency':
             return <td>{translations[frequencyOptions[entity.frequency]]}</td>
         case 'due_date':

@@ -54,6 +54,10 @@ class InvoiceSearch extends BaseSearch
             $this->query->whereProjectId($request->project_id);
         }
 
+        if ($request->filled('id')) {
+            $this->query->whereId($request->id);
+        }
+
         if ($request->filled('user_id')) {
             $this->query->where('assigned_to', '=', $request->user_id);
         }
