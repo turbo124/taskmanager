@@ -10,6 +10,19 @@ export default function Recurring (props) {
         <Card>
             <CardHeader>{translations.recurring}</CardHeader>
             <CardBody>
+                {!!this.props.show_invoice &&
+                    <FormGroup>
+                        <Label>{translations.invoice}</Label>
+                        <InvoiceDropdown
+                            is_recurring={true}
+                            invoices={this.props.allInvoices}
+                            handleInputChanges={this.props.handleInput}
+                            name="invoice_id"
+                            errors={this.state.errors}
+                        />
+                    </FormGroup>
+                    }
+                   
                 {props.recurring_invoice.last_sent_date.length
                     ? <FormGroup>
                         <Label for="date_to_send">{translations.next_send_date}(*):</Label>
@@ -41,6 +54,13 @@ export default function Recurring (props) {
                         className={props.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
                     {props.renderErrorFor('due_date')}
                 </FormGroup>
+
+                <FormGroup>
+                        <Label for="po_number">{translations.po_number}(*):</Label>
+                        <Input value={this.props.invoice.po_number} type="text" id="po_number" name="po_number"
+                            onChange={this.props.handleInput}/>
+                        {this.renderErrorFor('po_number')}
+                    </FormGroup>
 
                 <FormGroup>
                     <Label>{translations.frequency}</Label>
