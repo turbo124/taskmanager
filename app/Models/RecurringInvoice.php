@@ -64,6 +64,7 @@ class RecurringInvoice extends Model
         'due_date',
         'grace_period',
         'auto_billing_enabled',
+        'number_of_occurrances',
         'custom_value1',
         'custom_value2',
         'custom_value3',
