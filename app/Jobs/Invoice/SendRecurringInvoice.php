@@ -74,9 +74,9 @@ class SendRecurringInvoice implements ShouldQueue
                 $recurring_invoice->number_of_occurrances--;
             }
 
-            $recurring_invoice->date_to_send = $recurring_invoice->cycles_remaining === 0 ? null
+            $recurring_invoice->date_to_send = $recurring_invoice->number_of_occurrances === 0 ? null
                 : $this->calculateDate($recurring_invoice->frequency);
-            $recurring_invoice->status_id = $recurring_invoice->cycles_remaining === 0 ? RecurringInvoice::STATUS_COMPLETED : $recurring_invoice->status_id;
+            $recurring_invoice->status_id = $recurring_invoice->number_of_occurrances === 0 ? RecurringInvoice::STATUS_COMPLETED : $recurring_invoice->status_id;
             $recurring_invoice->save();
 
             if ($recurring_invoice->auto_billing_enabled) {
