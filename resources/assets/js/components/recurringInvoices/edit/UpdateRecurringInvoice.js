@@ -355,6 +355,7 @@ class UpdateRecurringInvoice extends Component {
                     tax_2: null,
                     tax_3: null,
                     private_notes: '',
+                    number_of_occurances: 1,
                     transaction_fee: null,
                     shipping_cost: null,
                     gateway_fee: null,
@@ -470,6 +471,7 @@ class UpdateRecurringInvoice extends Component {
 
     getFormData () {
         return {
+            number_of_occurrances: this.state.number_of_occurrances,
             currency_id: this.state.currency_id,
             exchange_rate: this.state.exchange_rate,
             start_date: this.state.start_date,
