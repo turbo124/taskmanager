@@ -4,12 +4,26 @@ import { translations } from '../../utils/_translations'
 import Datepicker from '../../common/Datepicker'
 import { icons } from '../../utils/_icons'
 import { frequencyOptions } from '../../utils/_consts'
+import QuoteDropdown from '../../common/dropdowns/QuoteDropdown'
 
 export default function Recurring (props) {
     return (
         <Card>
             <CardHeader>{translations.recurring}</CardHeader>
             <CardBody>
+                {!!this.props.show_invoice &&
+                    <FormGroup>
+                        <Label>{translations.quote}</Label>
+                        <QuoteDroodown
+                            is_recurring={true}
+                            quotes={props.allQuotes}
+                            handleInputChanges={props.handleInput}
+                            name="quote_id"
+                            errors={props.errors}
+                        />
+                    </FormGroup>
+                    }
+                   
                 {props.recurring_quote.last_sent_date.length
                     ? <FormGroup>
                         <Label for="date_to_send">{translations.next_send_date}(*):</Label>
@@ -41,6 +55,13 @@ export default function Recurring (props) {
                         className={props.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
                     {props.renderErrorFor('due_date')}
                 </FormGroup>
+
+                <FormGroup>
+                        <Label for="po_number">{translations.po_number}(*):</Label>
+                        <Input value={props.recurring_quote.po_number} type="text" id="po_number" name="po_number"
+                            onChange={props.handleInput}/>
+                        {props.renderErrorFor('po_number')}
+                    </FormGroup>
 
                 <FormGroup>
                     <Label>{translations.frequency}</Label>
@@ -111,5 +132,6 @@ export default function Recurring (props) {
                 </a>
             </CardBody>
         </Card>
+
     )
 }
