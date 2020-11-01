@@ -11,7 +11,7 @@ export default function Recurring (props) {
         <Card>
             <CardHeader>{translations.recurring}</CardHeader>
             <CardBody>
-                {!!this.props.show_invoice &&
+                {!!props.show_invoice &&
                     <FormGroup>
                         <Label>{translations.invoice}</Label>
                         <InvoiceDropdown
