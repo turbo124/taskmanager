@@ -650,9 +650,9 @@ class UpdateRecurringInvoice extends Component {
                 handleInput={this.handleInput}
                 customers={this.props.customers}
                 hide_customer={this.state.id === null}
-                errors={this.state.errors} invoice={this.state}
+                errors={this.state.errors} recurring_invoice={this.state}
             />
-            :  <Recurring show_invoice={this.invoiceModel.isNew} errors={this.state.errors} renderErrorFor={this.renderErrorFor}
+            : <Recurring show_invoice={this.invoiceModel.isNew} errors={this.state.errors} renderErrorFor={this.renderErrorFor}
             hasErrorFor={this.hasErrorFor} setRecurring={this.handleInput}
             handleInput={this.handleInput}
             recurring_invoice={this.state}/>
