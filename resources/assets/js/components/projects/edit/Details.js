@@ -22,6 +22,7 @@ export default function Details (props) {
             {props.renderErrorFor('description')}
         </FormGroup>
 
+        {!!props.is_new && 
         <FormGroup>
             <Label for="description">{translations.customer}(*):</Label>
             <CustomerDropdown
@@ -32,6 +33,7 @@ export default function Details (props) {
                 customers={props.customers}
             />
         </FormGroup>
+        }
 
         <FormGroup>
             <Label for="postcode">{translations.assigned_user}:</Label>
