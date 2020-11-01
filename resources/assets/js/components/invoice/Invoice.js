@@ -107,7 +107,18 @@ export default class Invoice extends Component {
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/Invoice')
+        const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
+        const custom_fields = []
+        
+        if(custom_fields.Invoice) {
+            custom_fields[0] = custom_fields.Invoice
+        }
+        
+        this.setState({
+            custom_fields: custom_fields
+        })
+
+        /* axios.get('api/accounts/fields/Invoice')
             .then((r) => {
                 this.setState({
                     custom_fields: r.data.fields
@@ -118,7 +129,7 @@ export default class Invoice extends Component {
                     loading: false,
                     error: e
                 })
-            })
+            }) */
     }
 
     toggleDrawer () {
