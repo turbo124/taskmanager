@@ -82,6 +82,7 @@ export default class RecurringQuoteModel extends BaseModel {
             currency_id: this.settings.currency_id.toString().length ? this.settings.currency_id : consts.default_currency,
             gateway_percentage: false,
             auto_billing_enabled: this.settings.autobilling_enabled,
+            number_of_occurrances: 1,
             tax: 0,
             tax_rate_name_2: '',
             tax_rate_name_3: '',
