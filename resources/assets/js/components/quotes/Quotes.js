@@ -100,7 +100,18 @@ export default class Quotes extends Component {
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/Quote')
+        const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
+        const custom_fields = []
+        
+        if(custom_fields.Quote) {
+            custom_fields[0] = custom_fields.Quote
+        }
+        
+        this.setState({
+            custom_fields: custom_fields
+        })
+
+        /* axios.get('api/accounts/fields/Quote')
             .then((r) => {
                 this.setState({
                     custom_fields: r.data.fields
@@ -111,7 +122,7 @@ export default class Quotes extends Component {
                     loading: false,
                     error: e
                 })
-            })
+            }) */
     }
 
     setFilterOpen (isOpen) {
