@@ -170,7 +170,7 @@ class EditProject extends React.Component {
                         {successMessage}
                         {errorMessage}
 
-                        <Details errors={this.state.errors} project={this.state}
+                        <Details is_new={false} errors={this.state.errors} project={this.state}
                             handleInput={this.handleInput.bind(this)} hasErrorFor={this.hasErrorFor}
                             renderErrorFor={this.renderErrorFor} customers={this.props.customers}/>
                     </ModalBody>
