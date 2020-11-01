@@ -519,6 +519,7 @@ class BaseController extends Controller
 
         return [
             'account_id' => $default_account->id,
+            'custom_fields' => $default_account->custom_fields,
             'id' => $user->id,
             'auth_token' => $user->auth_token,
             'name' => $user->name,
