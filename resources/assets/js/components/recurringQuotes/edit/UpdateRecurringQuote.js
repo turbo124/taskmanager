@@ -618,14 +618,14 @@ class UpdateRecurringQuote extends Component {
                 invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>
 
         const recurring = this.state.is_mobile
-            ? <Detailsm allQuotes={this.props.allQuotes} show_quote={this.quoteModel.isNew}
+            ? <Recurringm allQuotes={this.props.allQuotes} show_quote={this.quoteModel.isNew}
                 hide_customer={this.state.id === null} address={this.state.address}
                 customerName={this.state.customerName} handleInput={this.handleInput}
                 customers={this.props.customers}
                 errors={this.state.errors}
                 recurring_quote={this.state}
             />
-            :  <Recurring setRecurring={this.handleInput} handleInput={this.handleInput}
+            :  <Recurring show_quote={this.quoteModel.isNew} setRecurring={this.handleInput} handleInput={this.handleInput}
             errors={this.state.errors} hasErrorFor={this.hasErrorFor}
             renderErrorFor={this.renderErrorFor} recurring_quote={this.state}/>
 
