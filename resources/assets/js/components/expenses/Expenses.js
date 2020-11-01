@@ -164,7 +164,18 @@ export default class Expenses extends Component {
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/Expense')
+        const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
+        const custom_fields = []
+        
+        if(custom_fields.Expense) {
+            custom_fields[0] = custom_fields.Expense
+        }
+        
+        this.setState({
+            custom_fields: custom_fields
+        })
+
+        /* axios.get('api/accounts/fields/Expense')
             .then((r) => {
                 this.setState({
                     custom_fields: r.data.fields && Object.keys(r.data.fields).length ? r.data.fields : []
@@ -175,7 +186,7 @@ export default class Expenses extends Component {
                     loading: false,
                     error: e
                 })
-            })
+            }) */
     }
 
     setFilterOpen (isOpen) {
