@@ -136,7 +136,7 @@ class RecurringQuoteTest extends TestCase
         $recurring_quote->start_date = Carbon::now()->subDays(1);
         $recurring_quote->expiry_date = Carbon::now()->addDays(15);
         $recurring_quote->auto_billing_enabled = 0;
-        $recurring_quote->cycles_remaining = 2;
+        $recurring_quote->number_of_occurrances = 2;
         $recurring_quote->frequency = 'MONTHLY';
         $recurring_quote->status_id = RecurringQuote::STATUS_ACTIVE;
         $recurring_quote->save();
@@ -165,7 +165,7 @@ class RecurringQuoteTest extends TestCase
         $recurring_quote->expiry_date = Carbon::now()->addDays(15);
         $recurring_quote->frequency = 'MONTHLY';
         $recurring_quote->auto_billing_enabled = 0;
-        $recurring_quote->cycles_remaining = 1;
+        $recurring_quote->number_of_occurrances = 1;
         $recurring_quote->status_id = RecurringQuote::STATUS_ACTIVE;
         $recurring_quote->save();
 
