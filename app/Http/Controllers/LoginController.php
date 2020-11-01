@@ -70,6 +70,7 @@ class LoginController extends Controller
                     'payment_types' => PaymentMethod::all()->toArray(),
                     'gateways'      => PaymentGateway::all()->toArray(),
                     'tax_rates'     => TaxRate::all()->toArray(),
+                    'custom_fields' => auth()->user()->account_user()->account->custom_fields,
                     'users'         => User::where('is_active', '=', 1)->get(
                         ['first_name', 'last_name', 'phone_number', 'id']
                     )->toArray()
