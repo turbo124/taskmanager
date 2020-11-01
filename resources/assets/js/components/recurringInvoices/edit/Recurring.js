@@ -4,6 +4,7 @@ import { translations } from '../../utils/_translations'
 import Datepicker from '../../common/Datepicker'
 import { icons } from '../../utils/_icons'
 import { frequencyOptions } from '../../utils/_consts'
+import InvoiceDropdown from '../../common/dropdowns/InvoiceDropdown'
 
 export default function Recurring (props) {
     return (
