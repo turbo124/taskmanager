@@ -7,44 +7,20 @@ import UserDropdown from '../../common/dropdowns/UserDropdown'
 import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
 import InvoiceDropdown from "../../common/dropdowns/InvoiceDropdown";
 
-export default class Recurringm extends Component {
-    constructor (props, context) {
-        super(props, context)
-        this.state = {
-            is_recurring: false
-        }
-       
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
-    }
-
-    hasErrorFor (field) {
-        return this.props.errors && !!this.props.errors[field]
-    }
-
-    renderErrorFor (field) {
-        if (this.hasErrorFor(field)) {
-            return (
-                <span className='invalid-feedback'>
-                    <strong>{this.props.errors[field][0]}</strong>
-                </span>
-            )
-        }
-    }
-
+export default function Recurring (props) {
     render () {
         return (
             <Card>
                 <CardHeader>{translations.details}</CardHeader>
                
                 <CardBody>
-                    {!!this.props.show_invoice &&
+                    {!!props.show_invoice &&
                 <FormGroup>
                     <Label>{translations.invoice}</Label>
                     <InvoiceDropdown
                         is_recurring={true}
-                        invoices={this.props.allInvoices}
-                        handleInputChanges={this.props.handleInput}
+                        invoices={props.allInvoices}
+                        handleInputChanges={props.handleInput}
                         name="invoice_id"
                         errors={this.state.errors}
                     />
@@ -168,14 +144,14 @@ export default class Recurringm extends Component {
                         />
                     </FormGroup>
 
-                    {this.props.hide_customer === true &&
+                    {props.hide_customer === true &&
                     <FormGroup>
                         <Label>{translations.customer}</Label>
                         <CustomerDropdown
-                            handleInputChanges={this.props.handleInput}
-                            customer={this.props.recurring_invoice.customer_id}
-                            customers={this.props.customers}
-                            errors={this.props.errors}
+                            handleInputChanges={props.handleInput}
+                            customer={props.recurring_invoice.customer_id}
+                            customers={props.customers}
+                            errors={props.errors}
                         />
                     </FormGroup>
                     }
