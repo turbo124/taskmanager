@@ -268,7 +268,7 @@ export default class Expense extends Component {
 
                 <BottomNavigationButtons button1_click={button1_action}
                     button1={{ label: button1_label }}
-                    button2_click={(e) => this.triggerAction('clone_to_expense')}
+                    button2_click={(e) => this.triggerAction('clone_to_expense', true)}
                     button2={{ label: translations.clone_expense }}/>
 
             </React.Fragment>
