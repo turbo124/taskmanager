@@ -617,7 +617,15 @@ class UpdateRecurringQuote extends Component {
                 contacts={this.state.contacts}
                 invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>
 
-        const recurring = <Recurring setRecurring={this.handleInput} handleInput={this.handleInput}
+        const recurring = this.state.is_mobile
+            ? <Detailsm allQuotes={this.props.allQuotes} show_quote={this.quoteModel.isNew}
+                hide_customer={this.state.id === null} address={this.state.address}
+                customerName={this.state.customerName} handleInput={this.handleInput}
+                customers={this.props.customers}
+                errors={this.state.errors}
+                recurring_quote={this.state}
+            />
+            :  <Recurring setRecurring={this.handleInput} handleInput={this.handleInput}
             errors={this.state.errors} hasErrorFor={this.hasErrorFor}
             renderErrorFor={this.renderErrorFor} recurring_quote={this.state}/>
 
@@ -669,7 +677,6 @@ class UpdateRecurringQuote extends Component {
 
                 <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                     <TabPane tabId="1">
-                        {details}
                         {recurring}
                         {custom}
                     </TabPane>
@@ -734,13 +741,12 @@ class UpdateRecurringQuote extends Component {
                     <TabPane tabId="1">
                         <Row form>
                             <Col md={4}>
-                                {details}
+                                {recurring}
                                 {custom}
                             </Col>
 
                             <Col md={4}>
                                 {contacts}
-                                {recurring}
                             </Col>
 
                             <Col md={4}>
