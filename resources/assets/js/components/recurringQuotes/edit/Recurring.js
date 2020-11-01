@@ -11,7 +11,7 @@ export default function Recurring (props) {
         <Card>
             <CardHeader>{translations.recurring}</CardHeader>
             <CardBody>
-                {!!this.props.show_invoice &&
+                {!!props.show_invoice &&
                     <FormGroup>
                         <Label>{translations.quote}</Label>
                         <QuoteDroodown
@@ -47,13 +47,6 @@ export default function Recurring (props) {
                         handleInput={props.handleInput}
                         className={props.hasErrorFor('expiry_date') ? 'form-control is-invalid' : 'form-control'}/>
                     {props.renderErrorFor('expiry_date')}
-                </FormGroup>
-
-                <FormGroup>
-                    <Label for="due_date">{translations.due_date}(*):</Label>
-                    <Datepicker name="due_date" date={props.recurring_quote.due_date} handleInput={props.handleInput}
-                        className={props.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
-                    {props.renderErrorFor('due_date')}
                 </FormGroup>
 
                 <FormGroup>
