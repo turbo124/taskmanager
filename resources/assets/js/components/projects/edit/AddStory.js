@@ -7,6 +7,7 @@ import ProjectModel from '../../models/ProjectModel'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import Details from './Details'
+import CustomFieldsForm from '../../common/CustomFieldsForm'
 
 class AddStory extends React.Component {
     constructor (props) {
@@ -80,7 +81,11 @@ class AddStory extends React.Component {
             due_date: this.state.due_date,
             assigned_to: this.state.assigned_to,
             budgeted_hours: this.state.budgeted_hours,
-            task_rate: this.state.task_rate
+            task_rate: this.state.task_rate,
+            custom_value1: this.state.custom_value1,
+            custom_value2: this.state.custom_value2,
+            custom_value3: this.state.custom_value3,
+            custom_value4: this.state.custom_value4,
         }
 
         this.projectModel.save(data).then(response => {
@@ -120,6 +125,12 @@ class AddStory extends React.Component {
                         <Details is_new={true} errors={this.state.errors} project={this.state}
                             handleInput={this.handleInput.bind(this)} hasErrorFor={this.hasErrorFor}
                             renderErrorFor={this.renderErrorFor} customers={this.props.customers}/>
+
+                        <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
+                            custom_value2={this.state.custom_value2}
+                            custom_value3={this.state.custom_value3}
+                            custom_value4={this.state.custom_value4}
+                            custom_fields={this.props.custom_fields}/>
                     </ModalBody>
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
                         saveData={this.handleClick.bind(this)}
