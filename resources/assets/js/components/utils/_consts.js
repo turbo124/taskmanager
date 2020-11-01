@@ -107,6 +107,9 @@ export const consts = {
     payment_status_completed_text: 'Completed',
     payment_status_partial_refund_text: 'Partially Refunded',
     payment_status_refunded_text: 'Refunded',
+    task_status_logged: 1,
+    task_status_running: 3000,
+    task_status_invoiced: 2000,
     expense_status_logged: 1,
     expense_status_pending: 2,
     expense_status_invoiced: 3,
@@ -334,6 +337,18 @@ export const casePriorities = {
     [consts.low_priority]: translations.low,
     [consts.medium_priority]: translations.medium,
     [consts.high_priority]: translations.high
+}
+
+export const taskStatuses = {
+    [consts.task_status_logged]: translations.logged,
+    [consts.task_status_running]: translations.running,
+    [consts.task_status_invoiced]: translations.invoiced
+}
+
+export const taskStatusColors = {
+    [consts.task_status_logged]: 'secondary',
+    [consts.task_status_pending]: 'primary',
+    [consts.task_status_invoiced]: 'success'
 }
 
 export const frequencyOptions = {
