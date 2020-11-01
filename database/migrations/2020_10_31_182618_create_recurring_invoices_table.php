@@ -42,7 +42,7 @@ class CreateRecurringInvoicesTable extends Migration
             $table->dateTime('start_date')->nullable();
             $table->dateTime('last_sent_date')->nullable();
             $table->dateTime('date_to_send')->nullable();
-            $table->unsignedInteger('cycles_remaining')->nullable();
+            $table->unsignedInteger('number_of_occurrances')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->unsignedInteger('task_id')->nullable();

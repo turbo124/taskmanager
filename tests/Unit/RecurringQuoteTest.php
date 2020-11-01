@@ -175,7 +175,7 @@ class RecurringQuoteTest extends TestCase
 
         $this->assertNull($updated_recurring_quote->date_to_send);
         $this->assertTrue($updated_recurring_quote->last_sent_date->eq(Carbon::today()));
-        $this->assertEquals(0, $updated_recurring_quote->cycles_remaining);
+        $this->assertEquals(0, $updated_recurring_quote->number_of_occurrances);
         $invoice = Quote::where('recurring_quote_id', $recurring_quote->id)->first();
         $this->assertInstanceOf(Quote::class, $invoice);
         $this->assertEquals(Quote::STATUS_SENT, $invoice->status_id);
