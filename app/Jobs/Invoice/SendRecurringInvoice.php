@@ -49,7 +49,7 @@ class SendRecurringInvoice implements ShouldQueue
                                               ->whereDate('date', '!=', Carbon::today())
                                               ->where('status_id', '=', RecurringInvoice::STATUS_ACTIVE)
                                               ->whereDate('start_date', '<=', Carbon::today())
-                                              ->where('cycles_remaining', '>', 0)
+                                              ->where('number_of_occurrances', '>', 0)
                                               ->where(
                                                   function ($query) {
                                                       $query->whereNull('expiry_date')
@@ -71,7 +71,7 @@ class SendRecurringInvoice implements ShouldQueue
             $recurring_invoice->last_sent_date = Carbon::today();
 
             if (!$recurring_invoice->is_endless) {
-                $recurring_invoice->cycles_remaining--;
+                $recurring_invoice->number_of_occurrances--;
             }
 
             $recurring_invoice->date_to_send = $recurring_invoice->cycles_remaining === 0 ? null
