@@ -517,9 +517,11 @@ class BaseController extends Controller
 
         $accounts = AccountUser::whereUserId($user->id)->with('account')->get();
 
+        $custom_fields = !empty(auth()->user()->account_user()->account) ? auth()->user()->account_user()->account->custom_fields : []
+
         return [
             'account_id' => $default_account->id,
-            'custom_fields' => $default_account->custom_fields,
+            'custom_fields' => $custom_fields,
             'id' => $user->id,
             'auth_token' => $user->auth_token,
             'name' => $user->name,
