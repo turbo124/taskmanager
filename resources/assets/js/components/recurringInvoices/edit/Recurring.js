@@ -16,10 +16,10 @@ export default function Recurring (props) {
                         <Label>{translations.invoice}</Label>
                         <InvoiceDropdown
                             is_recurring={true}
-                            invoices={this.props.allInvoices}
-                            handleInputChanges={this.props.handleInput}
+                            invoices={props.allInvoices}
+                            handleInputChanges={props.handleInput}
                             name="invoice_id"
-                            errors={this.state.errors}
+                            errors={props.errors}
                         />
                     </FormGroup>
                     }
@@ -58,9 +58,9 @@ export default function Recurring (props) {
 
                 <FormGroup>
                         <Label for="po_number">{translations.po_number}(*):</Label>
-                        <Input value={this.props.invoice.po_number} type="text" id="po_number" name="po_number"
-                            onChange={this.props.handleInput}/>
-                        {this.renderErrorFor('po_number')}
+                        <Input value={props.recurring_invoice.po_number} type="text" id="po_number" name="po_number"
+                            onChange={props.handleInput}/>
+                        {props.renderErrorFor('po_number')}
                     </FormGroup>
 
                 <FormGroup>
