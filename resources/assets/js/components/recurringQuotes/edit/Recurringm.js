@@ -13,9 +13,9 @@ export default function Recurring (props) {
                 <CardHeader>{translations.details}</CardHeader>
                
                 <CardBody>
-                    {!!props.show_invoice &&
+                    {!!props.show_quote &&
                 <FormGroup>
-                    <Label>{translations.invoice}</Label>
+                    <Label>{translations.quote}</Label>
                     <QuoteDropdown
                         is_recurring={true}
                         quotes={props.allQuotes}
