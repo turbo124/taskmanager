@@ -8,7 +8,6 @@ import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
 import InvoiceDropdown from "../../common/dropdowns/InvoiceDropdown";
 
 export default function Recurring (props) {
-    render () {
         return (
             <Card>
                 <CardHeader>{translations.details}</CardHeader>
@@ -158,5 +157,4 @@ export default function Recurring (props) {
                 </CardBody>
             </Card>
         )
-    }
 }
