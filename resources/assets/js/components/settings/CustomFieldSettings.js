@@ -202,6 +202,7 @@ class CustomFieldSettings extends Component {
             fields: JSON.stringify(fields)
         }).then((response) => {
             this.setState({ success: true })
+            localStorage.setItem('custom_fields', JSON.stringify(fields))
         })
             .catch((error) => {
                 if (error.response.data.errors) {
