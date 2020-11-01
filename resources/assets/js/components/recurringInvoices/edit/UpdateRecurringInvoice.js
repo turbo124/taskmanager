@@ -644,7 +644,15 @@ class UpdateRecurringInvoice extends Component {
                 errors={this.state.errors} invoice={this.state}
             />
 
-        const recurring = <Recurring show_invoice={this.invoiceModel.isNew} errors={this.state.errors} renderErrorFor={this.renderErrorFor}
+        const recurring = this.state.is_mobile
+            ? <Recurringm allInvoices={this.props.allInvoices} show_invoice={this.invoiceModel.isNew}
+                address={this.state.address} customerName={this.state.customerName}
+                handleInput={this.handleInput}
+                customers={this.props.customers}
+                hide_customer={this.state.id === null}
+                errors={this.state.errors} invoice={this.state}
+            />
+            :  <Recurring show_invoice={this.invoiceModel.isNew} errors={this.state.errors} renderErrorFor={this.renderErrorFor}
             hasErrorFor={this.hasErrorFor} setRecurring={this.handleInput}
             handleInput={this.handleInput}
             recurring_invoice={this.state}/>
@@ -776,13 +784,12 @@ class UpdateRecurringInvoice extends Component {
                     <TabPane tabId="1">
                         <Row form>
                             <Col md={4}>
-                                {details}
+                                {recurring}
                                 {custom}
                             </Col>
 
                             <Col md={4}>
                                 {contacts}
-                                {recurring}
                             </Col>
 
                             <Col md={4}>
