@@ -1,0 +1,84 @@
+import React, { Component } from 'react'
+import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
+import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
+import Datepicker from '../../common/Datepicker'
+import { translations } from '../../utils/_translations'
+import UserDropdown from '../../common/dropdowns/UserDropdown'
+import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
+import InvoiceDropdown from "../../common/dropdowns/InvoiceDropdown";
+
+export default class Recurringm extends Component {
+    constructor (props, context) {
+        super(props, context)
+        this.state = {
+            is_recurring: false
+        }
+       
+        this.hasErrorFor = this.hasErrorFor.bind(this)
+        this.renderErrorFor = this.renderErrorFor.bind(this)
+    }
+
+    hasErrorFor (field) {
+        return this.props.errors && !!this.props.errors[field]
+    }
+
+    renderErrorFor (field) {
+        if (this.hasErrorFor(field)) {
+            return (
+                <span className='invalid-feedback'>
+                    <strong>{this.props.errors[field][0]}</strong>
+                </span>
+            )
+        }
+    }
+
+    render () {
+        return (
+            <Card>
+                <CardHeader>{translations.details}</CardHeader>
+                {!!this.props.show_invoice &&
+                <FormGroup>
+                    <Label>{translations.invoice}</Label>
+                    <InvoiceDropdown
+                        is_recurring={true}
+                        invoices={this.props.allInvoices}
+                        handleInputChanges={this.props.handleInput}
+                        name="invoice_id"
+                        errors={this.state.errors}
+                    />
+                </FormGroup>
+                }
+                <CardBody>
+                    <FormGroup>
+                        <Label for="po_number">{translations.po_number}(*):</Label>
+                        <Input value={this.props.invoice.po_number} type="text" id="po_number" name="po_number"
+                            onChange={this.props.handleInput}/>
+                        {this.renderErrorFor('po_number')}
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="postcode">{translations.assigned_user}:</Label>
+                        <UserDropdown
+                            user_id={this.props.invoice.assigned_to}
+                            name="assigned_to"
+                            errors={this.props.errors}
+                            handleInputChanges={this.props.handleInput}
+                        />
+                    </FormGroup>
+
+                    {this.props.hide_customer === true &&
+                    <FormGroup>
+                        <Label>{translations.customer}</Label>
+                        <CustomerDropdown
+                            handleInputChanges={this.props.handleInput}
+                            customer={this.props.invoice.customer_id}
+                            customers={this.props.customers}
+                            errors={this.props.errors}
+                        />
+                    </FormGroup>
+                    }
+                </CardBody>
+            </Card>
+        )
+    }
+}
