@@ -79,7 +79,18 @@ export default class Credits extends Component {
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/Credit')
+        const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
+        const custom_fields = []
+        
+        if(custom_fields.Credit) {
+            custom_fields[0] = custom_fields.Credit
+        }
+        
+        this.setState({
+            custom_fields: custom_fields
+        })
+
+        /* axios.get('api/accounts/fields/Credit')
             .then((r) => {
                 this.setState({
                     custom_fields: r.data.fields
@@ -90,7 +101,7 @@ export default class Credits extends Component {
                     loading: false,
                     error: e
                 })
-            })
+            }) */
     }
 
     updateCustomers (credits) {

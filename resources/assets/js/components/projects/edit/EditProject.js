@@ -10,6 +10,7 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import Details from './Details'
 import DropdownMenuBuilder from '../../common/DropdownMenuBuilder'
+import CustomFieldsForm from '../../common/CustomFieldsForm'
 
 class EditProject extends React.Component {
     constructor (props) {
@@ -74,7 +75,11 @@ class EditProject extends React.Component {
             due_date: this.state.due_date,
             assigned_to: this.state.assigned_to,
             budgeted_hours: this.state.budgeted_hours,
-            task_rate: this.state.task_rate
+            task_rate: this.state.task_rate,
+            custom_value1: this.state.custom_value1,
+            custom_value2: this.state.custom_value2,
+            custom_value3: this.state.custom_value3,
+            custom_value4: this.state.custom_value4,
         }
     }
 
@@ -170,9 +175,15 @@ class EditProject extends React.Component {
                         {successMessage}
                         {errorMessage}
 
-                        <Details errors={this.state.errors} project={this.state}
+                        <Details is_new={false} errors={this.state.errors} project={this.state}
                             handleInput={this.handleInput.bind(this)} hasErrorFor={this.hasErrorFor}
                             renderErrorFor={this.renderErrorFor} customers={this.props.customers}/>
+
+                        <CustomFieldsForm handleInput={this.handleInput.bind(this)} custom_value1={this.state.custom_value1}
+                                custom_value2={this.state.custom_value2}
+                                custom_value3={this.state.custom_value3}
+                                custom_value4={this.state.custom_value4}
+                                custom_fields={this.props.custom_fields}/>
                     </ModalBody>
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
                         saveData={this.handleClick.bind(this)}

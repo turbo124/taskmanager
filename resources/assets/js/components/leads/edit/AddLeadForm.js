@@ -10,6 +10,7 @@ import Notes from '../../common/Notes'
 import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
+import CustomFieldsForm from '../../common/CustomFieldsForm'
 
 class AddLeadForm extends React.Component {
     constructor (props) {
@@ -46,6 +47,10 @@ class AddLeadForm extends React.Component {
         const data = {
             public_notes: this.state.public_notes,
             private_notes: this.state.private_notes,
+            custom_value1: this.state.custom_value1,
+            custom_value2: this.state.custom_value2,
+            custom_value3: this.state.custom_value3,
+            custom_value4: this.state.custom_value4,
             website: this.state.website,
             industry_id: this.state.industry_id,
             first_name: this.state.first_name,
@@ -119,6 +124,11 @@ class AddLeadForm extends React.Component {
         const details = <Details users={this.props.users} sourceTypes={this.state.sourceTypes}
             handleInputChanges={this.handleInputChanges} errors={this.state.errors}
             lead={this.state}/>
+        const custom_fields = <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
+                    custom_value2={this.state.custom_value2}
+                    custom_value3={this.state.custom_value3}
+                    custom_value4={this.state.custom_value4}
+                    custom_fields={this.props.custom_fields}/>
 
         const notes = <Notes handleInput={this.handleInputChanges} private_notes={this.state.private_notes}
             public_notes={this.state.public_notes}/>
@@ -178,6 +188,7 @@ class AddLeadForm extends React.Component {
                             <TabContent activeTab={this.state.activeTab}>
                                 <TabPane tabId="1">
                                     {details}
+                                    {custom_fields}
                                 </TabPane>
 
                                 <TabPane tabId="2">

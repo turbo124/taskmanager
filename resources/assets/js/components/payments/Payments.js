@@ -67,7 +67,18 @@ export default class Payments extends Component {
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/Payment')
+        const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
+        const custom_fields = []
+        
+        if(custom_fields.Payment) {
+            custom_fields[0] = custom_fields.Payment
+        }
+        
+        this.setState({
+            custom_fields: custom_fields
+        })
+
+        /* axios.get('api/accounts/fields/Payment')
             .then((r) => {
                 this.setState({
                     custom_fields: r.data.fields
@@ -78,7 +89,7 @@ export default class Payments extends Component {
                     loading: false,
                     error: e
                 })
-            })
+            }) */
     }
 
     getInvoices () {

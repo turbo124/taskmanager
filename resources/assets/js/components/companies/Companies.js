@@ -98,7 +98,18 @@ export default class Companies extends Component {
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/Company')
+        const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
+        const custom_fields = []
+        
+        if(custom_fields.Company) {
+            custom_fields[0] = custom_fields.Company
+        }
+        
+        this.setState({
+            custom_fields: custom_fields
+        })
+
+        /* axios.get('api/accounts/fields/Company')
             .then((r) => {
                 this.setState({
                     custom_fields: r.data.fields
@@ -109,7 +120,7 @@ export default class Companies extends Component {
                     loading: false,
                     error: e
                 })
-            })
+            }) */
     }
 
     getUsers () {

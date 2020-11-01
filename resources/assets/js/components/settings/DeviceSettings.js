@@ -117,6 +117,7 @@ export default class DeviceSettings extends Component {
                     localStorage.setItem('account_id', response.data.data.account_id)
                     localStorage.setItem('currencies', JSON.stringify(response.data.data.currencies))
                     localStorage.setItem('languages', JSON.stringify(response.data.data.languages))
+                    localStorage.setItem('custom_fields', JSON.stringify(response.data.data.custom_fields))
                     localStorage.setItem('countries', JSON.stringify(response.data.data.countries))
                     localStorage.setItem('payment_types', JSON.stringify(response.data.data.payment_types))
                     localStorage.setItem('gateways', JSON.stringify(response.data.data.gateways))

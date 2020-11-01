@@ -122,7 +122,18 @@ export default class ProductList extends Component {
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/Product')
+        const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
+        const custom_fields = []
+        
+        if(custom_fields.Product) {
+            custom_fields[0] = custom_fields.Product
+        }
+        
+        this.setState({
+            custom_fields: custom_fields
+        })
+
+        /* axios.get('api/accounts/fields/Product')
             .then((r) => {
                 this.setState({
                     custom_fields: r.data.fields
@@ -133,7 +144,7 @@ export default class ProductList extends Component {
                     loading: false,
                     error: e
                 })
-            })
+            }) */
     }
 
     getCategories () {

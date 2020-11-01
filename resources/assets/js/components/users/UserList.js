@@ -83,7 +83,18 @@ export default class UserList extends Component {
     }
 
     getCustomFields () {
-        axios.get('api/accounts/fields/User')
+        const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
+        const custom_fields = []
+        
+        if(custom_fields.User) {
+            custom_fields[0] = custom_fields.User
+        }
+        
+        this.setState({
+            custom_fields: custom_fields
+        })
+
+        /* axios.get('api/accounts/fields/User')
             .then((r) => {
                 this.setState({
                     custom_fields: r.data.fields
@@ -94,7 +105,7 @@ export default class UserList extends Component {
                     loading: false,
                     error: e
                 })
-            })
+            }) */
     }
 
     getAccounts () {
