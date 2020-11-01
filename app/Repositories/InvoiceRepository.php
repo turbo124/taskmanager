@@ -143,7 +143,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
                     continue;
                 }
 
-                $task->setStatus(Task::STATUS_INVOICED);
+                //$task->setStatus(Task::STATUS_INVOICED);
                 $task->invoice_id = $invoice->id;
                 $task->save();
             }
