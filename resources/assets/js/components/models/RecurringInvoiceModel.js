@@ -68,6 +68,7 @@ export default class RecurringInvoiceModel extends BaseModel {
             partial_due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             has_partial: false,
             auto_billing_enabled: this.settings.autobilling_enabled,
+            number_of_occurrances: 1,
             public_notes: '',
             private_notes: '',
             terms: '',
