@@ -19,9 +19,10 @@ class UpdateTaskRequest extends BaseFormRequest
             'rating'      => 'nullable|numeric',
             'customer_id' => 'nullable|numeric',
             'name'        => 'required',
-            //'content'      => 'required',
+            //'content'   => 'required',
             //'contributors' => 'required|array',
             'due_date'    => 'required',
+            'number'         => 'nullable|unique:tasks,number,' . $this->task_id . ',id,account_id,' . $this->account_id,
         ];
     }
 

@@ -9,7 +9,12 @@ export default class TaskModel extends BaseModel {
         this.entity = 'Task'
         this._url = '/api/tasks'
 
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.account = user_account[0]
+
         this._fields = {
+            account_id: account_id,
             number: '',
             modal: false,
             task_rate: 0,
