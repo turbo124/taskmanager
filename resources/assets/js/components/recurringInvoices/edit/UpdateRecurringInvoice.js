@@ -713,7 +713,6 @@ class UpdateRecurringInvoice extends Component {
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        {details}
                         {recurring}
                         {custom}
                     </TabPane>
