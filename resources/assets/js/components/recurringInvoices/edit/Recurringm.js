@@ -137,10 +137,10 @@ export default function Recurring (props) {
                     <FormGroup>
                         <Label for="postcode">{translations.assigned_user}:</Label>
                         <UserDropdown
-                            user_id={this.props.recurring_invoice.assigned_to}
+                            user_id={props.recurring_invoice.assigned_to}
                             name="assigned_to"
-                            errors={this.props.errors}
-                            handleInputChanges={this.props.handleInput}
+                            errors={props.errors}
+                            handleInputChanges={props.handleInput}
                         />
                     </FormGroup>
 
