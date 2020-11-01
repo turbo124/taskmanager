@@ -7,46 +7,21 @@ import UserDropdown from '../../common/dropdowns/UserDropdown'
 import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
 import QuoteDropdown from "../../common/dropdowns/QuoteDropdown";
 
-export default class Recurringm extends Component {
-    constructor (props, context) {
-        super(props, context)
-        this.state = {
-            is_recurring: false
-        }
-       
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
-    }
-
-    hasErrorFor (field) {
-        return this.props.errors && !!this.props.errors[field]
-    }
-
-    renderErrorFor (field) {
-        if (this.hasErrorFor(field)) {
-            return (
-                <span className='invalid-feedback'>
-                    <strong>{this.props.errors[field][0]}</strong>
-                </span>
-            )
-        }
-    }
-
-    render () {
-        return (
+export default function Recurring (props) {
+    return (
             <Card>
                 <CardHeader>{translations.details}</CardHeader>
                
                 <CardBody>
-                    {!!this.props.show_invoice &&
+                    {!!props.show_invoice &&
                 <FormGroup>
                     <Label>{translations.invoice}</Label>
                     <QuoteDropdown
                         is_recurring={true}
-                        quotes={this.props.allQuotes}
-                        handleInputChanges={this.props.handleInput}
+                        quotes={props.allQuotes}
+                        handleInputChanges={props.handleInput}
                         name="quote_id"
-                        errors={this.state.errors}
+                        errors={props.errors}
                     />
                 </FormGroup>
                 }
@@ -77,17 +52,10 @@ export default class Recurringm extends Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label for="due_date">{translations.due_date}(*):</Label>
-                    <Datepicker name="due_date" date={props.recurring_quote.due_date} handleInput={props.handleInput}
-                        className={props.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
-                    {props.renderErrorFor('due_date')}
-                </FormGroup>
-
-                <FormGroup>
                         <Label for="po_number">{translations.po_number}(*):</Label>
-                        <Input value={this.props.recurring_quote.po_number} type="text" id="po_number" name="po_number"
-                            onChange={this.props.handleInput}/>
-                        {this.renderErrorFor('po_number')}
+                        <Input value={props.recurring_quote.po_number} type="text" id="po_number" name="po_number"
+                            onChange={props.handleInput}/>
+                        {props.renderErrorFor('po_number')}
                     </FormGroup>
 
                 <FormGroup>
@@ -161,21 +129,21 @@ export default class Recurringm extends Component {
                     <FormGroup>
                         <Label for="postcode">{translations.assigned_user}:</Label>
                         <UserDropdown
-                            user_id={this.props.recurring_quote.assigned_to}
+                            user_id={props.recurring_quote.assigned_to}
                             name="assigned_to"
-                            errors={this.props.errors}
-                            handleInputChanges={this.props.handleInput}
+                            errors={props.errors}
+                            handleInputChanges={props.handleInput}
                         />
                     </FormGroup>
 
-                    {this.props.hide_customer === true &&
+                    {props.hide_customer === true &&
                     <FormGroup>
                         <Label>{translations.customer}</Label>
                         <CustomerDropdown
-                            handleInputChanges={this.props.handleInput}
-                            customer={this.props.recurring_quote.customer_id}
-                            customers={this.props.customers}
-                            errors={this.props.errors}
+                            handleInputChanges={props.handleInput}
+                            customer={props.recurring_quote.customer_id}
+                            customers={props.customers}
+                            errors={props.errors}
                         />
                     </FormGroup>
                     }
