@@ -78,9 +78,9 @@ class SendRecurringQuote implements ShouldQueue
                 $recurring_quote->number_of_occurrances--;
             }
 
-            $recurring_quote->date_to_send = $recurring_quote->cycles_remaining === 0 ? null
+            $recurring_quote->date_to_send = $recurring_quote->number_of_occurrances === 0 ? null
                 : $this->calculateDate($recurring_quote->frequency);
-            $recurring_quote->status_id = $recurring_quote->cycles_remaining === 0 ? RecurringQuote::STATUS_COMPLETED : $recurring_quote->status_id;
+            $recurring_quote->status_id = $recurring_quote->number_of_occurrances === 0 ? RecurringQuote::STATUS_COMPLETED : $recurring_quote->status_id;
             $recurring_quote->save();
         }
     }
