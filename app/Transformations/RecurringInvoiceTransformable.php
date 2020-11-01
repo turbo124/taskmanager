@@ -32,6 +32,7 @@ trait RecurringInvoiceTransformable
             'frequency'            => (string)$invoice->frequency,
             'grace_period'         => (int)$invoice->grace_period,
             'auto_billing_enabled' => (bool)$invoice->auto_billing_enabled,
+            'number_of_occurrances' => (int)$invoice->number_of_occurrances,
             'total'                => $invoice->total,
             'sub_total'            => $invoice->sub_total,
             'tax_total'            => $invoice->tax_total,
