@@ -85,7 +85,7 @@ export default class Recurringm extends Component {
 
                 <FormGroup>
                         <Label for="po_number">{translations.po_number}(*):</Label>
-                        <Input value={this.props.invoice.po_number} type="text" id="po_number" name="po_number"
+                        <Input value={this.props.recurring_invoice.po_number} type="text" id="po_number" name="po_number"
                             onChange={this.props.handleInput}/>
                         {this.renderErrorFor('po_number')}
                     </FormGroup>
@@ -161,7 +161,7 @@ export default class Recurringm extends Component {
                     <FormGroup>
                         <Label for="postcode">{translations.assigned_user}:</Label>
                         <UserDropdown
-                            user_id={this.props.invoice.assigned_to}
+                            user_id={this.props.recurring_invoice.assigned_to}
                             name="assigned_to"
                             errors={this.props.errors}
                             handleInputChanges={this.props.handleInput}
@@ -173,7 +173,7 @@ export default class Recurringm extends Component {
                         <Label>{translations.customer}</Label>
                         <CustomerDropdown
                             handleInputChanges={this.props.handleInput}
-                            customer={this.props.invoice.customer_id}
+                            customer={this.props.recurring_invoice.customer_id}
                             customers={this.props.customers}
                             errors={this.props.errors}
                         />
