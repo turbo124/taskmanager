@@ -14,6 +14,8 @@ export default function RecurringInvoicePresenter (props) {
         : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
 
     switch (field) {
+        case 'number_of_occurrances':
+            return <td>{entity.is_never_ending ? translations.never_ending : entity.number_of_occurrances}</td>
         case 'frequency':
             return <td>{translations[frequencyOptions[entity.frequency]]}</td>
         case 'total':
