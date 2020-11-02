@@ -22,6 +22,7 @@ export default class RecurringInvoiceModel extends BaseModel {
         }
 
         this._fields = {
+            is_never_ending: false,
             start_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             expiry_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
