@@ -39,7 +39,11 @@ class ProjectFactory extends Factory
             'task_rate'      => null,
             'due_date'       => null,
             'deleted_at'     => null,
-            'is_deleted'     => 0
+            'is_deleted'     => 0,
+            'custom_value1'  => $this->faker->numberBetween(1, 4),
+            'custom_value2'  => $this->faker->numberBetween(1, 4),
+            'custom_value3'  => $this->faker->numberBetween(1, 4),
+            'custom_value4'  => $this->faker->numberBetween(1, 4),
         ];
     }
 }

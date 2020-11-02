@@ -38,7 +38,9 @@ class RecurringQuoteRepository extends BaseRepository
      */
     public function createQuote(array $data, RecurringQuote $recurring_quote): ?RecurringQuote
     {
-        $recurring_quote->date_to_send = $this->calculateDate(!empty($data['frequency']) ? $data['frequency'] : 'MONTHLY');
+        $recurring_quote->date_to_send = $this->calculateDate(
+            !empty($data['frequency']) ? $data['frequency'] : 'MONTHLY'
+        );
         $recurring_quote = $this->save($data, $recurring_quote);
 
         if (!empty($data['quote_id']) && !empty($recurring_quote)) {

@@ -4,7 +4,6 @@ namespace App\Rules\Order;
 
 use App\Models\Promocode;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Log;
 
 class OrderTotals implements Rule
 {
@@ -59,9 +58,8 @@ class OrderTotals implements Rule
         $this->sub_total = 0;
 
         foreach ($this->request['line_items'] as $product) {
-
-            if(is_array($product)) {
-                $product = (object) $product;
+            if (is_array($product)) {
+                $product = (object)$product;
             }
 
             $this->sub_total += ($product->unit_price * $product->quantity);

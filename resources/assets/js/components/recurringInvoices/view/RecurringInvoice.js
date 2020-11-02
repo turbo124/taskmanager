@@ -173,7 +173,11 @@ export default class RecurringInvoice extends Component {
         }
 
         if (this.state.entity.number_of_occurrances && this.state.entity.number_of_occurrances.length) {
-            fields.cycles_remaining = parseInt(this.state.entity.number_of_occurrances) === 9000 ? translations.frequency_endless : this.state.entity.cycles_remaining
+            fields.cycles_remaining = this.state.entity.cycles_remaining
+        }
+
+        if (this.state.entity.is_never_ending) {
+            fields.cycles_remaining = translations.never_ending
         }
 
         fields.grace_period = this.state.entity.grace_period > 0 ? this.state.entity.grace_period : translations.payment_term

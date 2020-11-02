@@ -22,17 +22,17 @@ export default function Details (props) {
             {props.renderErrorFor('description')}
         </FormGroup>
 
-        {!!props.is_new && 
-        <FormGroup>
-            <Label for="description">{translations.customer}(*):</Label>
-            <CustomerDropdown
-                customer={props.project.customer_id}
-                errors={props.errors}
-                renderErrorFor={props.renderErrorFor}
-                handleInputChanges={props.handleInput}
-                customers={props.customers}
-            />
-        </FormGroup>
+        {!!props.is_new &&
+            <FormGroup>
+                <Label for="description">{translations.customer}(*):</Label>
+                <CustomerDropdown
+                    customer={props.project.customer_id}
+                    errors={props.errors}
+                    renderErrorFor={props.renderErrorFor}
+                    handleInputChanges={props.handleInput}
+                    customers={props.customers}
+                />
+            </FormGroup>
         }
 
         <FormGroup>

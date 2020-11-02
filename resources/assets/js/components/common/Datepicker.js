@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap'
-import { icons } from '../utils/_icons'
-import MomentUtils from "@date-io/moment";
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import MomentUtils from '@date-io/moment'
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 
 export default class Datepicker extends Component {
     constructor (props) {

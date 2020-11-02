@@ -32,7 +32,7 @@ class RecurringQuote extends Model
 
     protected $presenter = 'App\Presenters\QuotePresenter';
     protected $fillable = [
-        'is_endless',
+        'is_never_ending',
         'account_id',
         'status_id',
         'customer_id',
@@ -156,9 +156,16 @@ class RecurringQuote extends Model
 
     public function setDueDate()
     {
+        if (!empty($this->grace_period)) {
+            $this->due_date = Carbon::now()->addDays($this->grace_period)->format('Y-m-d H:i:s');
+            return true;
+        }
+
         $this->due_date = !empty($this->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
             $this->customer->getSetting('payment_terms')
         )->format('Y-m-d H:i:s') : null;
+
+        return true;
     }
 
     public function getPdfFilename()

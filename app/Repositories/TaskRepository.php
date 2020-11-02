@@ -167,7 +167,6 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
     }
 
 
-
     /**
      * @param $data
      * @param Task $task

@@ -1,5 +1,7 @@
 const _localizedValues = []
 _localizedValues.en = {
+    never_ending: 'Never Ending',
+    number_of_occurances: 'Number of Occurances',
     select_frequency: 'Select Frequency',
     rate: 'Rate',
     resume: 'Resume',

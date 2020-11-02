@@ -7,12 +7,10 @@ use App\Factory\CloneRecurringInvoiceToQuoteFactory;
 use App\Factory\RecurringInvoiceFactory;
 use App\Models\Customer;
 use App\Models\CustomerContact;
-use App\Models\Invoice;
 use App\Models\RecurringInvoice;
 use App\Notifications\ClientContactRequestCancellation;
 use App\Repositories\CreditRepository;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
-use App\Repositories\InvoiceRepository;
 use App\Repositories\QuoteRepository;
 use App\Repositories\RecurringInvoiceRepository;
 use App\Requests\RecurringInvoice\CreateRecurringInvoiceRequest;
@@ -75,7 +73,6 @@ class RecurringInvoiceController extends BaseController
      */
     public function store(CreateRecurringInvoiceRequest $request)
     {
-
         $recurring_invoice = (new RecurringInvoiceRepository(new RecurringInvoice))->createInvoice(
             $request->all(),
             RecurringInvoiceFactory::create(

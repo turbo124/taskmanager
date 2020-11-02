@@ -7,12 +7,15 @@ import PlainEntityHeader from '../../common/entityContainers/PlanEntityHeader'
 import FormatMoney from '../../common/FormatMoney'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../utils/_icons'
+import TaskPresenter from '../../presenters/TaskPresenter'
 
 export default function Overview (props) {
     return <React.Fragment>
         <PlainEntityHeader heading_1={translations.duration} value_1={props.totalDuration}
             heading_2={translations.amount}
             value_2={<FormatMoney amount={props.calculatedAmount} customers={props.customers}/>}/>
+
+        <TaskPresenter entity={props.entity} field="status_field"/>
 
         {!!props.entity.name.length &&
         <Row>

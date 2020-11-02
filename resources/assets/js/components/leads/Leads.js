@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import AddLead from './edit/AddLeadForm'
 import DataTable from '../common/DataTable'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
@@ -115,11 +114,11 @@ export default class Leads extends Component {
     getCustomFields () {
         const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
         const custom_fields = []
-        
-        if(custom_fields.Lead) {
-            custom_fields[0] = custom_fields.Lead
+
+        if (all_custom_fields.Lead) {
+            custom_fields[0] = all_custom_fields.Lead
         }
-        
+
         this.setState({
             custom_fields: custom_fields
         })

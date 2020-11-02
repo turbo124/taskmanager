@@ -124,11 +124,11 @@ export default class ProductList extends Component {
     getCustomFields () {
         const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
         const custom_fields = []
-        
-        if(custom_fields.Product) {
-            custom_fields[0] = custom_fields.Product
+
+        if (all_custom_fields.Product) {
+            custom_fields[0] = all_custom_fields.Product
         }
-        
+
         this.setState({
             custom_fields: custom_fields
         })

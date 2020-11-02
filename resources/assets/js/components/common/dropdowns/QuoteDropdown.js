@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { FormGroup, Input } from 'reactstrap'
 import { translations } from '../../utils/_translations'
 import QuoteRepository from '../../repositories/QuoteRepository'
-import RecurringQuotePresenter from '../../presenters/RecurringQuotePresenter'
 
 export default class QuoteDropdown extends Component {
     constructor (props) {

@@ -8,7 +8,6 @@ use App\Factory\RecurringQuoteFactory;
 use App\Jobs\Invoice\CreateInvoicePdf;
 use App\Jobs\RecurringInvoice\SendRecurring;
 use App\Models\Customer;
-use App\Models\Quote;
 use App\Models\RecurringQuote;
 use App\Repositories\BaseRepository;
 use App\Repositories\CreditRepository;

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import DataTable from '../common/DataTable'
 import AddPayment from './edit/AddPayment'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
-import axios from 'axios'
 import PaymentItem from './PaymentItem'
 import PaymentFilters from './PaymentFilters'
 import queryString from 'query-string'
@@ -69,11 +68,11 @@ export default class Payments extends Component {
     getCustomFields () {
         const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
         const custom_fields = []
-        
-        if(custom_fields.Payment) {
-            custom_fields[0] = custom_fields.Payment
+
+        if (all_custom_fields.Payment) {
+            custom_fields[0] = all_custom_fields.Payment
         }
-        
+
         this.setState({
             custom_fields: custom_fields
         })

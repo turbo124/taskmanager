@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import DataTable from '../common/DataTable'
-import axios from 'axios'
 import AddExpense from './edit/AddExpense'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import ExpenseFilters from './ExpenseFilters'
@@ -44,6 +43,8 @@ export default class Expenses extends Component {
             },
             ignoredColumns:
                 [
+                    'transaction_reference',
+                    'transaction_id',
                     'tax_rate',
                     'tax_rate_name',
                     'tax_2', 'tax_3',
@@ -166,11 +167,11 @@ export default class Expenses extends Component {
     getCustomFields () {
         const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
         const custom_fields = []
-        
-        if(custom_fields.Expense) {
-            custom_fields[0] = custom_fields.Expense
+
+        if (all_custom_fields.Expense) {
+            custom_fields[0] = all_custom_fields.Expense
         }
-        
+
         this.setState({
             custom_fields: custom_fields
         })

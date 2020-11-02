@@ -79,7 +79,7 @@ class EditProject extends React.Component {
             custom_value1: this.state.custom_value1,
             custom_value2: this.state.custom_value2,
             custom_value3: this.state.custom_value3,
-            custom_value4: this.state.custom_value4,
+            custom_value4: this.state.custom_value4
         }
     }
 
@@ -179,11 +179,12 @@ class EditProject extends React.Component {
                             handleInput={this.handleInput.bind(this)} hasErrorFor={this.hasErrorFor}
                             renderErrorFor={this.renderErrorFor} customers={this.props.customers}/>
 
-                        <CustomFieldsForm handleInput={this.handleInput.bind(this)} custom_value1={this.state.custom_value1}
-                                custom_value2={this.state.custom_value2}
-                                custom_value3={this.state.custom_value3}
-                                custom_value4={this.state.custom_value4}
-                                custom_fields={this.props.custom_fields}/>
+                        <CustomFieldsForm handleInput={this.handleInput.bind(this)}
+                            custom_value1={this.state.custom_value1}
+                            custom_value2={this.state.custom_value2}
+                            custom_value3={this.state.custom_value3}
+                            custom_value4={this.state.custom_value4}
+                            custom_fields={this.props.custom_fields}/>
                     </ModalBody>
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
                         saveData={this.handleClick.bind(this)}

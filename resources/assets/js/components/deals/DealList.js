@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import DataTable from '../common/DataTable'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DealFilters from './DealFilters'
@@ -119,11 +118,11 @@ export default class DealList extends Component {
     getCustomFields () {
         const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
         const custom_fields = []
-        
-        if(custom_fields.User) {
-            custom_fields[0] = custom_fields.User
+
+        if (all_custom_fields.Deal) {
+            custom_fields[0] = all_custom_fields.Deal
         }
-        
+
         this.setState({
             custom_fields: custom_fields
         })

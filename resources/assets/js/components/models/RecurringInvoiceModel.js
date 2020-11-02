@@ -22,6 +22,7 @@ export default class RecurringInvoiceModel extends BaseModel {
         }
 
         this._fields = {
+            is_never_ending: false,
             start_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             expiry_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
@@ -127,18 +128,6 @@ export default class RecurringInvoiceModel extends BaseModel {
         this.account = user_account[0]
     }
 
-    cloneInvoice (invoice) {
-        this._fields = { ...this.fields, ...invoice }
-        this.fields.id = null
-        this.fields.invoice_id = invoice.id
-        this.fields.gateway_fee_applied = 0
-        this.fields.gateway_fee = null
-        this.fields.gateway_percentage = null
-        this.fields.number = null
-        this.fields.status_id = consts.recurring_invoice_status_draft
-        this.fields.modalOpen = true
-    }
-
     get exchange_rate () {
         return this.fields.exchange_rate
     }
@@ -232,6 +221,18 @@ export default class RecurringInvoiceModel extends BaseModel {
 
     get url () {
         return this._url
+    }
+
+    cloneInvoice (invoice) {
+        this._fields = { ...this.fields, ...invoice }
+        this.fields.id = null
+        this.fields.invoice_id = invoice.id
+        this.fields.gateway_fee_applied = 0
+        this.fields.gateway_fee = null
+        this.fields.gateway_percentage = null
+        this.fields.number = null
+        this.fields.status_id = consts.recurring_invoice_status_draft
+        this.fields.modalOpen = true
     }
 
     updateCustomer () {

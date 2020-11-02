@@ -9,7 +9,8 @@ use Carbon\Carbon;
 trait DateFormatter
 {
 
-    public function formatDate($entity, $value) {
+    public function formatDate($entity, $value)
+    {
         $date_format = (!empty($this->entity->customer)) ? $this->entity->customer->getSetting(
             'date_format'
         ) : ((!empty($this->entity->account)) ? $this->entity->account->settings->date_format : 'd-m-Y');

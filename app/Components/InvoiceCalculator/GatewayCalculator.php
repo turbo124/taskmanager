@@ -75,8 +75,8 @@ class GatewayCalculator extends BaseCalculator
 
         $this->fee_total += $this->fee_amount;
 
-        if($this->fee_percent > 0) {
-           $this->fee_total += $this->applyDiscount($this->sub_total, $this->fee_percent, false);
+        if ($this->fee_percent > 0) {
+            $this->fee_total += $this->applyDiscount($this->sub_total, $this->fee_percent, false);
         }
 
         if ($this->fee_cap > 0 && $this->fee_total > $this->fee_cap) {
@@ -91,7 +91,6 @@ class GatewayCalculator extends BaseCalculator
      */
     private function calculateTax(): self
     {
-
         $this->tax_total += $this->applyTax($this->fee_total, $this->tax_rate);
 
         if ($this->tax_2 && $this->tax_2 > 0) {
@@ -130,29 +129,6 @@ class GatewayCalculator extends BaseCalculator
     public function getTaxRate($name): float
     {
         return $this->{$name};
-    }
-
-    /**
-     * @param float $tax_rate
-     */
-    public function setTaxRate($name, $tax_rate): self
-    {
-        $this->{$name} = $tax_rate;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTaxRateName($name): string
-    {
-        return $this->{$name};
-    }
-
-    public function setTaxRateName($name, string $value): self
-    {
-        $this->{$name} = (string)$value;
-        return $this;
     }
 
     /**
@@ -209,6 +185,14 @@ class GatewayCalculator extends BaseCalculator
         return $this;
     }
 
+    /**
+     * @return float
+     */
+    public function getFeePercent(): float
+    {
+        return $this->fee_percent;
+    }
+
     public function setFeePercent(float $fee_percent): self
     {
         $this->fee_percent = (float)$fee_percent;
@@ -216,11 +200,26 @@ class GatewayCalculator extends BaseCalculator
     }
 
     /**
-     * @return float
+     * @return string
      */
-    public function getFeePercent(): float
+    public function getTaxRateName($name): string
     {
-        return $this->fee_percent;
+        return $this->{$name};
+    }
+
+    /**
+     * @param float $tax_rate
+     */
+    public function setTaxRate($name, $tax_rate): self
+    {
+        $this->{$name} = $tax_rate;
+        return $this;
+    }
+
+    public function setTaxRateName($name, string $value): self
+    {
+        $this->{$name} = (string)$value;
+        return $this;
     }
 
     /**

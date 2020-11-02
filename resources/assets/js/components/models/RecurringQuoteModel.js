@@ -26,6 +26,7 @@ export default class RecurringQuoteModel extends BaseModel {
         }
 
         this._fields = {
+            is_never_ending: false,
             start_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             expiry_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
             due_date: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
@@ -123,18 +124,6 @@ export default class RecurringQuoteModel extends BaseModel {
         this.account = user_account[0]
     }
 
-    cloneQuote (quote) {
-        this._fields = { ...this.fields, ...quote }
-        this.fields.id = null
-        this.fields.quote_id = quote.id
-        this.fields.gateway_fee_applied = 0
-        this.fields.gateway_fee = null
-        this.fields.gateway_percentage = null
-        this.fields.number = null
-        this.fields.status_id = consts.recurring_quote_status_draft
-        this.fields.modalOpen = true
-    }
-
     get exchange_rate () {
         return this.fields.exchange_rate
     }
@@ -228,6 +217,18 @@ export default class RecurringQuoteModel extends BaseModel {
         const index = this.customers.findIndex(customer => customer.id === this.fields.customer_id)
         const customer = this.customers[index]
         return customer.contacts ? customer.contacts : []
+    }
+
+    cloneQuote (quote) {
+        this._fields = { ...this.fields, ...quote }
+        this.fields.id = null
+        this.fields.quote_id = quote.id
+        this.fields.gateway_fee_applied = 0
+        this.fields.gateway_fee = null
+        this.fields.gateway_percentage = null
+        this.fields.number = null
+        this.fields.status_id = consts.recurring_quote_status_draft
+        this.fields.modalOpen = true
     }
 
     updateCustomer () {

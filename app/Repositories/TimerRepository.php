@@ -38,25 +38,6 @@ class TimerRepository extends BaseRepository
         return $this->findOneOrFail($id);
     }
 
-    /**
-     * @param array $data
-     * @param Timer $timer
-     * @return Timer|null
-     */
-    public function save(Task $task, Timer $timer, array $data): ?Timer
-    {
-        $start_time = date('H:i:s', strtotime($data['start_time']));
-        $end_time = date('H:i:s', strtotime($data['end_time']));
-
-        $timer->started_at = date('Y-m-d H:i:s', strtotime($data['date'] . ' ' . $start_time));
-        $timer->stopped_at = empty($data['end_time']) ? null : date('Y-m-d') . $end_time;
-        $timer->task_id = $task->id;
-
-        $timer->save();
-
-        return $timer;
-    }
-
     public function getTotalDuration(Task $task)
     {
         $timers = DB::table('timers')
@@ -81,7 +62,7 @@ class TimerRepository extends BaseRepository
     {
         $timer = Timer::where('task_id', '=', $task->id)->first();
 
-        if(empty($timer)) {
+        if (empty($timer)) {
             return null;
         }
 
@@ -92,7 +73,7 @@ class TimerRepository extends BaseRepository
     {
         $timer = Timer::where('task_id', '=', $task->id)->last();
 
-        if(empty($timer)) {
+        if (empty($timer)) {
             return null;
         }
 
@@ -123,6 +104,25 @@ class TimerRepository extends BaseRepository
                 'name'       => date('Y-m-d H:i:s')
             ]
         );
+
+        return $timer;
+    }
+
+    /**
+     * @param array $data
+     * @param Timer $timer
+     * @return Timer|null
+     */
+    public function save(Task $task, Timer $timer, array $data): ?Timer
+    {
+        $start_time = date('H:i:s', strtotime($data['start_time']));
+        $end_time = date('H:i:s', strtotime($data['end_time']));
+
+        $timer->started_at = date('Y-m-d H:i:s', strtotime($data['date'] . ' ' . $start_time));
+        $timer->stopped_at = empty($data['end_time']) ? null : date('Y-m-d') . $end_time;
+        $timer->task_id = $task->id;
+
+        $timer->save();
 
         return $timer;
     }

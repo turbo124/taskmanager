@@ -143,7 +143,7 @@ class RecurringInvoiceTest extends TestCase
         $recurring_invoice->save();
 
         $date_ranges = $recurring_invoice->calculateDateRanges();
-        $this->assertEquals(12, count($date_ranges));
+        $this->assertEquals(13, count($date_ranges));
     }
 
     /** @test */
@@ -169,7 +169,7 @@ class RecurringInvoiceTest extends TestCase
             $updated_recurring_invoice->date_to_send->eq(Carbon::today()->addMonthNoOverflow())
         );
         $this->assertTrue($updated_recurring_invoice->last_sent_date->eq(Carbon::today()));
-        $this->assertEquals(1, $updated_recurring_invoice->cycles_remaining);
+        $this->assertEquals(1, $updated_recurring_invoice->number_of_occurrances);
         $invoice = Invoice::where('recurring_invoice_id', $recurring_invoice->id)->first();
         $this->assertInstanceOf(Invoice::class, $invoice);
         $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
@@ -214,7 +214,7 @@ class RecurringInvoiceTest extends TestCase
         $recurring_invoice->auto_billing_enabled = 0;
         $recurring_invoice->number_of_occurrances = 900;
         $recurring_invoice->frequency = 'MONTHLY';
-        $recurring_invoice->is_endless = true;
+        $recurring_invoice->is_never_ending = true;
         $recurring_invoice->status_id = RecurringInvoice::STATUS_ACTIVE;
         $recurring_invoice->save();
 
@@ -226,7 +226,7 @@ class RecurringInvoiceTest extends TestCase
             $updated_recurring_invoice->date_to_send->eq(Carbon::today()->addMonthNoOverflow())
         );
         $this->assertTrue($updated_recurring_invoice->last_sent_date->eq(Carbon::today()));
-        $this->assertEquals(900, $updated_recurring_invoice->cycles_remaining); // cycles remianing should remain unchanged
+        $this->assertEquals(900, $updated_recurring_invoice->number_of_occurrances); // cycles remianing should remain unchanged
 
         $invoice = Invoice::where('recurring_invoice_id', $recurring_invoice->id)->first();
         $this->assertInstanceOf(Invoice::class, $invoice);

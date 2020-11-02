@@ -16,11 +16,13 @@ class CreateProjectRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:projects,name,null,null,account_id,' . auth()->user()->account_user()->account_id,
+            'name'        => 'required|unique:projects,name,null,null,account_id,' . auth()->user()->account_user(
+                )->account_id,
             'description' => 'string|required',
-            'customer_id'    => 'required|exists:customers,id,account_id,' . auth()->user()->account_user()->account_id,
-            'company_id' => 'bail|nullable|sometimes|exists:companies,id,account_id,'. auth()->user()->account_user()->account_id,
-            'number'                => [
+            'customer_id' => 'required|exists:customers,id,account_id,' . auth()->user()->account_user()->account_id,
+            'company_id'  => 'bail|nullable|sometimes|exists:companies,id,account_id,' . auth()->user()->account_user(
+                )->account_id,
+            'number'      => [
                 Rule::unique('projects', 'number')->where(
                     function ($query) {
                         return $query->where('customer_id', $this->customer_id)->where('account_id', $this->account_id);

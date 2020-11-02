@@ -9,43 +9,44 @@ use Carbon\Carbon;
 trait CalculateRecurring
 {
 
-    public function calculateDate($frequency) {
-        switch($frequency) {
+    public function calculateDate($frequency)
+    {
+        switch ($frequency) {
             case 'DAILY':
                 return Carbon::today()->addDay();
-            break;
+                break;
 
             case 'WEEKLY':
                 return Carbon::today()->addWeek();
-            break;
+                break;
 
             case 'FORTNIGHT':
                 return Carbon::today()->addWeeks(2);
-            break;
+                break;
 
             case 'MONTHLY':
                 return Carbon::today()->addMonthNoOverflow();
-            break;
+                break;
 
             case 'TWO_MONTHS':
                 return Carbon::today()->addMonthsNoOverflow(2);
-            break;
+                break;
 
             case 'THREE_MONTHS':
                 return Carbon::today()->addMonthsNoOverflow(3);
-            break;
+                break;
 
             case 'FOUR_MONTHS':
                 return Carbon::today()->addMonthsNoOverflow(4);
-            break;
- 
+                break;
+
             case 'SIX_MONTHS':
                 return Carbon::today()->addMonthsNoOverflow(6);
-            break;
+                break;
 
             case 'YEARLY':
                 return Carbon::today()->addYear();
-            break;
+                break;
         }
     }
 

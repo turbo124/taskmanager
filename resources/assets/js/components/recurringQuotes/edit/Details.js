@@ -1,125 +1,68 @@
-import React, { Component } from 'react'
-import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
-import FormBuilder from '../../settings/FormBuilder'
-import Datepicker from '../../common/Datepicker'
+import React from 'react'
+import { Card, CardBody, CardHeader, CustomInput, FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../../utils/_translations'
+import { icons } from '../../utils/_icons'
 import QuoteDropdown from '../../common/dropdowns/QuoteDropdown'
 
-export default class Details extends Component {
-    constructor (props, context) {
-        super(props, context)
-        this.state = {
-            is_recurring: false
-        }
-        this.handleSlideClick = this.handleSlideClick.bind(this)
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
-    }
-
-    handleSlideClick (e) {
-        this.setState({ is_recurring: e.target.checked })
-    }
-
-    hasErrorFor (field) {
-        return this.props.errors && !!this.props.errors[field]
-    }
-
-    renderErrorFor (field) {
-        if (this.hasErrorFor(field)) {
-            return (
-                <span className='invalid-feedback'>
-                    <strong>{this.props.errors[field][0]}</strong>
-                </span>
-            )
-        }
-    }
-
-    render () {
-        const customFields = this.props.custom_fields ? this.props.custom_fields : []
-
-        if (customFields[0] && Object.keys(customFields[0]).length) {
-            customFields[0].forEach((element, index, array) => {
-                if (this.props[element.name] && this.props[element.name].length) {
-                    customFields[0][index].value = this.props[element.name]
+export default function Details (props) {
+    return (
+        <Card>
+            <CardHeader>{translations.details}</CardHeader>
+            <CardBody>
+                {!!props.show_quote &&
+                <FormGroup>
+                    <Label>{translations.quote}</Label>
+                    <QuoteDropdown
+                        is_recurring={true}
+                        quotes={props.allQuotes}
+                        handleInputChanges={props.handleInput}
+                        name="quote_id"
+                        errors={props.errors}
+                    />
+                </FormGroup>
                 }
-            })
-        }
 
-        const customForm = customFields && customFields.length ? <FormBuilder
-            handleChange={this.props.handleInput.bind(this)}
-            formFieldsRows={customFields}
-        /> : null
+                <FormGroup>
+                    <Label>{translations.number}</Label>
+                    <Input className={props.hasErrorFor('number') ? 'form-control is-invalid' : 'form-control'}
+                        value={props.recurring_quote.number}
+                        type='text'
+                        name='number'
+                        id='number'
+                        onChange={props.handleInput}
+                    />
+                    {props.renderErrorFor('number')}
+                </FormGroup>
 
-        return (
-            <Card>
-                <CardHeader>{translations.details}</CardHeader>
-                <CardBody>
-                    {!!this.props.show_quote &&
-                    <FormGroup>
-                        <Label>{translations.quote}</Label>
-                        <QuoteDropdown
-                            is_recurring={true}
-                            quotes={this.props.allQuotes}
-                            handleInputChanges={this.props.handleInput}
-                            name="quote_id"
-                            errors={this.state.errors}
+                <FormGroup>
+                    <Label for="po_number">{translations.po_number}(*):</Label>
+                    <Input value={props.recurring_quote.po_number} type="text" id="po_number" name="po_number"
+                        onChange={props.handleInput}/>
+                    {props.renderErrorFor('po_number')}
+                </FormGroup>
 
-                        />
-                    </FormGroup>
-                    }
-                    <FormGroup>
-                        <Label for="date">{translations.date}(*):</Label>
-                        <Datepicker name="date" date={this.props.quote.date} handleInput={this.props.handleInput}
-                            className={this.hasErrorFor('date') ? 'form-control is-invalid' : 'form-control'}/>
-                        {this.renderErrorFor('due_date')}
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="due_date">{translations.expiry_date}(*):</Label>
-                        <Datepicker name="due_date" date={this.props.quote.due_date}
-                            handleInput={this.props.handleInput}
-                            className={this.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
-                        {this.renderErrorFor('due_date')}
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="po_number">{translations.po_number}(*):</Label>
-                        <Input value={this.props.quote.po_number} type="text" id="po_number" name="po_number"
-                            onChange={this.props.handleInput}/>
-                        {this.renderErrorFor('po_number')}
-                    </FormGroup>
-                    <FormGroup>
-                        <Label>{translations.partial}</Label>
-                        <Input
-                            value={this.props.quote.partial}
-                            type='text'
-                            name='partial'
-                            id='partial'
-                            onChange={this.props.handleInput}
-                        />
-                    </FormGroup>
+                <a href="#"
+                    className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">
+                            <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.credit_card}`}/>
+                            {translations.auto_billing_enabled}
+                        </h5>
+                        <CustomInput
+                            checked={props.recurring_quote.auto_billing_enabled}
+                            type="switch"
+                            id="auto_billing_enabled"
+                            name="auto_billing_enabled"
+                            label=""
+                            onChange={props.handleInput}/>
+                    </div>
 
-                    <FormGroup className={this.props.quote.has_partial === true ? '' : 'd-none'}>
-                        <Label>{translations.partial_due_date}</Label>
-                        <Datepicker name="partial_due_date" date={this.props.quote.partial_due_date}
-                            handleInput={this.props.handleInput}
-                            className={this.hasErrorFor('partial_due_date') ? 'form-control is-invalid' : 'form-control'}/>
-                    </FormGroup>
+                    <h6 id="passwordHelpBlock" className="form-text text-muted">
+                        {translations.auto_billing_enabled_help_text}
+                    </h6>
+                </a>
+            </CardBody>
+        </Card>
 
-                    <FormGroup>
-                        <Label>{translations.number}</Label>
-                        <Input className={this.hasErrorFor('number') ? 'form-control is-invalid' : 'form-control'}
-                            value={this.props.quote.number}
-                            type='text'
-                            name='number'
-                            id='number'
-                            onChange={this.props.handleInput}
-                        />
-                        {this.renderErrorFor('number')}
-                    </FormGroup>
-
-                    {customForm}
-                </CardBody>
-            </Card>
-
-        )
-    }
+    )
 }

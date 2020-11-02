@@ -114,34 +114,26 @@ export default class SettingsForm extends React.Component {
                     handleInput={(e) => this.togglePayment(e)}
                     help_text={translations.create_expense_payment_help}/>
 
-                <Collapse isOpen={this.state.paymentOpen}>
-                    <Row form>
-                        <Col md={4}>
-                            <FormGroup>
-                                <Label for="exampleEmail">{translations.payment_type}</Label>
-                                <PaymentTypeDropdown payment_type={this.props.expense.payment_type_id}
-                                    handleInputChanges={this.props.handleInput}
-                                    name="payment_type_id"/>
-                            </FormGroup>
-                        </Col>
-                        <Col md={4}>
-                            <FormGroup>
-                                <Label for="examplePassword">{translations.date}</Label>
-                                <Datepicker className="form-control" name="payment_date"
-                                    date={this.props.expense.payment_date}
-                                    handleInput={this.props.handleInput}/>
-                            </FormGroup>
-                        </Col>
-                        <Col md={4}>
-                            <FormGroup>
-                                <Label for="examplePassword">{translations.transaction_reference}</Label>
-                                <Input value={this.props.expense.transaction_reference} type="text"
-                                    name="transaction_reference"
-                                    onChange={this.props.handleInput} id="transaction_reference"
-                                    placeholder="password placeholder"/>
-                            </FormGroup>
-                        </Col>
-                    </Row>
+                <Collapse style={{ borderBottom: '2px dotted #CCC' }} isOpen={this.state.paymentOpen}>
+                    <FormGroup>
+                        <Label for="exampleEmail">{translations.payment_type}</Label>
+                        <PaymentTypeDropdown payment_type={this.props.expense.payment_type_id}
+                            handleInputChanges={this.props.handleInput}
+                            name="payment_type_id"/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="examplePassword">{translations.date}</Label>
+                        <Datepicker className="form-control" name="payment_date"
+                            date={this.props.expense.payment_date}
+                            handleInput={this.props.handleInput}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="examplePassword">{translations.transaction_reference}</Label>
+                        <Input value={this.props.expense.transaction_reference} type="text"
+                            name="transaction_reference"
+                            onChange={this.props.handleInput} id="transaction_reference"
+                            placeholder="password placeholder"/>
+                    </FormGroup>
                 </Collapse>
 
                 <SwitchWithIcon
@@ -152,7 +144,7 @@ export default class SettingsForm extends React.Component {
                     handleInput={(e) => this.toggleCurrency(e)}
                     help_text={translations.convert_expense_currency_help}/>
 
-                <Collapse isOpen={this.state.currencyOpen}>
+                <Collapse style={{ borderBottom: '2px dotted #CCC' }} isOpen={this.state.currencyOpen}>
                     <Row form>
                         <Col md={6}>
                             <FormGroup>

@@ -52,6 +52,7 @@ trait ExpenseTransformable
             'created_at'            => $expense->created_at,
             'files'                 => $this->transformExpenseFiles($expense->files),
             'is_recurring'          => (bool)$expense->is_recurring ?: false,
+            'status_id'             => (int)$expense->status_id,
             'recurring_start_date'  => $expense->recurring_start_date ?: '',
             'recurring_end_date'    => $expense->recurring_end_date ?: '',
             'recurring_due_date'    => $expense->recurring_due_date ?: '',

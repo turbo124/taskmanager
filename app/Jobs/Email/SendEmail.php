@@ -13,7 +13,6 @@ use App\Mail\SendMail;
 use App\Models\Email;
 use App\Models\ErrorLog;
 use App\Models\Invoice;
-use App\Models\User;
 use App\Repositories\EmailRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -133,18 +132,6 @@ class SendEmail implements ShouldQueue
         return $message;
     }
 
-    private function createLogEntry($errors)
-    {
-        $user = $this->entity->user;
-        $error_log = ErrorLogFactory::create($this->entity->account, $user, $this->entity->customer);
-        $error_log->data = $errors;
-        $error_log->error_type = ErrorLog::EMAIL;
-        $error_log->error_result = ErrorLog::FAILURE;
-        $error_log->entity = get_class($this->entity);
-
-        $error_log->save();
-    }
-
     private function buildMailMessageData($settings, $body, $design): array
     {
         $data = [
@@ -162,6 +149,18 @@ class SendEmail implements ShouldQueue
         ];
 
         return $data;
+    }
+
+    private function createLogEntry($errors)
+    {
+        $user = $this->entity->user;
+        $error_log = ErrorLogFactory::create($this->entity->account, $user, $this->entity->customer);
+        $error_log->data = $errors;
+        $error_log->error_type = ErrorLog::EMAIL;
+        $error_log->error_result = ErrorLog::FAILURE;
+        $error_log->entity = get_class($this->entity);
+
+        $error_log->save();
     }
 
     /**

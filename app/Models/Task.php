@@ -167,13 +167,14 @@ class Task extends Model
         return $this->number;
     }
 
-    public function getTaskRate() {
-        if(!empty($this->task_rate)) {
-            return (float) $this->task_rate;
+    public function getTaskRate()
+    {
+        if (!empty($this->task_rate)) {
+            return (float)$this->task_rate;
         }
 
-        if(!empty($this->project) && !empty($this->project->task_rate)) {
-            return (float) $this->project->task_rate;
+        if (!empty($this->project) && !empty($this->project->task_rate)) {
+            return (float)$this->project->task_rate;
         }
 
         return 0;

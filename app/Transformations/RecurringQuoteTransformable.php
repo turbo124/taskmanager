@@ -33,6 +33,7 @@ trait RecurringQuoteTransformable
             'grace_period'          => (int)$quote->grace_period,
             'auto_billing_enabled'  => (bool)$quote->auto_billing_enabled,
             'number_of_occurrances' => (int)$quote->number_of_occurrances,
+            'is_never_ending'       => (bool)$quote->is_never_ending,
             'total'                 => $quote->total,
             'sub_total'             => $quote->sub_total,
             'tax_total'             => $quote->tax_total,
@@ -102,19 +103,6 @@ trait RecurringQuoteTransformable
         )->all();
     }
 
-    private function transformQuotesCreated($quotes)
-    {
-        if ($quotes->count() === 0) {
-            return [];
-        }
-
-        return $quotes->map(
-            function (Quote $quote) {
-                return (new QuoteTransformable())->transformQuote($quote);
-            }
-        )->all();
-    }
-
     /**
      * @param $invitations
      * @return array
@@ -128,6 +116,19 @@ trait RecurringQuoteTransformable
         return $invitations->map(
             function (Invitation $invitation) {
                 return (new InvitationTransformable())->transformInvitation($invitation);
+            }
+        )->all();
+    }
+
+    private function transformQuotesCreated($quotes)
+    {
+        if ($quotes->count() === 0) {
+            return [];
+        }
+
+        return $quotes->map(
+            function (Quote $quote) {
+                return (new QuoteTransformable())->transformQuote($quote);
             }
         )->all();
     }

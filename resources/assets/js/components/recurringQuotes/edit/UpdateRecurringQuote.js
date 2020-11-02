@@ -18,7 +18,6 @@ import moment from 'moment'
 import SuccessMessage from '../../common/SucessMessage'
 import ErrorMessage from '../../common/ErrorMessage'
 import AddButtons from '../../common/AddButtons'
-import Details from './Details'
 import Contacts from './Contacts'
 import Items from './Items'
 import Documents from './Documents'
@@ -32,7 +31,6 @@ import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import { consts } from '../../utils/_consts'
 import NoteTabs from '../../common/NoteTabs'
-import Detailsm from './Detailsm'
 import Contactsm from './Contactsm'
 import Recurring from './Recurring'
 import DefaultModalHeader from '../../common/ModalHeader'
@@ -45,6 +43,8 @@ import ExpenseRepository from '../../repositories/ExpenseRepository'
 import ProjectRepository from '../../repositories/ProjectRepository'
 import { getExchangeRateWithMap } from '../../utils/_money'
 import RecurringQuoteModel from '../../models/RecurringQuoteModel'
+import Recurringm from './Recurringm'
+import Details from './Details'
 
 class UpdateRecurringQuote extends Component {
     constructor (props, context) {
@@ -427,6 +427,7 @@ class UpdateRecurringQuote extends Component {
 
     getFormData () {
         return {
+            is_never_ending: this.state.is_never_ending,
             number_of_occurrances: this.state.number_of_occurrances,
             start_date: this.state.start_date,
             date_to_send: this.state.date_to_send,
@@ -584,19 +585,10 @@ class UpdateRecurringQuote extends Component {
             </NavItem>
         </Nav>
 
-        const details = this.state.is_mobile
-            ? <Detailsm allQuotes={this.props.allQuotes} show_quote={this.quoteModel.isNew}
-                hide_customer={this.state.id === null} address={this.state.address}
-                customerName={this.state.customerName} handleInput={this.handleInput}
-                customers={this.props.customers}
-                errors={this.state.errors}
-                quote={this.state}
-            />
-            : <Details allQuotes={this.props.allQuotes} show_quote={this.quoteModel.isNew} handleInput={this.handleInput}
-                customers={this.props.customers}
-                errors={this.state.errors}
-                quote={this.state}
-            />
+        const details = <Details show_quote={this.quoteModel.isNew} setRecurring={this.handleInput}
+            handleInput={this.handleInput}
+            errors={this.state.errors} hasErrorFor={this.hasErrorFor}
+            renderErrorFor={this.renderErrorFor} recurring_quote={this.state}/>
 
         const custom = <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
             custom_value2={this.state.custom_value2}
@@ -617,9 +609,18 @@ class UpdateRecurringQuote extends Component {
                 contacts={this.state.contacts}
                 invitations={this.state.invitations} handleContactChange={this.handleContactChange}/>
 
-        const recurring = <Recurring setRecurring={this.handleInput} handleInput={this.handleInput}
-            errors={this.state.errors} hasErrorFor={this.hasErrorFor}
-            renderErrorFor={this.renderErrorFor} recurring_quote={this.state}/>
+        const recurring = this.state.is_mobile
+            ? <Recurringm renderErrorFor={this.renderErrorFor} hasErrorFor={this.hasErrorFor}
+                allQuotes={this.props.allQuotes} show_quote={this.quoteModel.isNew}
+                hide_customer={this.state.id === null} address={this.state.address}
+                customerName={this.state.customerName} handleInput={this.handleInput}
+                customers={this.props.customers}
+                errors={this.state.errors}
+                recurring_quote={this.state}
+            />
+            : <Recurring show_quote={this.quoteModel.isNew} setRecurring={this.handleInput} handleInput={this.handleInput}
+                errors={this.state.errors} hasErrorFor={this.hasErrorFor}
+                renderErrorFor={this.renderErrorFor} recurring_quote={this.state}/>
 
         const settings = <InvoiceSettings is_mobile={this.state.is_mobile} handleSurcharge={this.handleSurcharge}
             settings={this.state}
@@ -669,7 +670,6 @@ class UpdateRecurringQuote extends Component {
 
                 <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                     <TabPane tabId="1">
-                        {details}
                         {recurring}
                         {custom}
                     </TabPane>
@@ -734,13 +734,13 @@ class UpdateRecurringQuote extends Component {
                     <TabPane tabId="1">
                         <Row form>
                             <Col md={4}>
-                                {details}
+                                {recurring}
                                 {custom}
                             </Col>
 
                             <Col md={4}>
+                                {details}
                                 {contacts}
-                                {recurring}
                             </Col>
 
                             <Col md={4}>

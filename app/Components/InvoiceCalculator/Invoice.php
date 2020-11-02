@@ -161,7 +161,9 @@ class Invoice extends BaseCalculator
 
     private function applyGatewayFee(): ?bool
     {
-        if (\App\Models\Invoice::class !== get_class($this->entity) || empty($this->entity->gateway_fee) || $this->entity->gateway_fee_applied) {
+        if (\App\Models\Invoice::class !== get_class(
+                $this->entity
+            ) || empty($this->entity->gateway_fee) || $this->entity->gateway_fee_applied) {
             return true;
         }
 

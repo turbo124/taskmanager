@@ -51,7 +51,9 @@ class AutobillInvoice implements ShouldQueue
 
     private function build()
     {
-        if ($this->invoice->balance <= 0 && $this->invoice->partial <= 0 && $this->invoice->customer->getSetting('credit_payments_enabled') === true) {
+        if ($this->invoice->balance <= 0 && $this->invoice->partial <= 0 && $this->invoice->customer->getSetting(
+                'credit_payments_enabled'
+            ) === true) {
             return $this->completePaymentWithCredit();
         }
 
@@ -76,14 +78,14 @@ class AutobillInvoice implements ShouldQueue
     private function completePaymentWithCredit(): ?Payment
     {
         $data = [
-            'payment_method'     => null,
-            'payment_type'       => PaymentMethod::CREDIT,
-            'amount'             => $this->invoice->balance,
-            'customer_id'        => $this->invoice->customer->id,
+            'payment_method' => null,
+            'payment_type' => PaymentMethod::CREDIT,
+            'amount' => $this->invoice->balance,
+            'customer_id' => $this->invoice->customer->id,
             'company_gateway_id' => null,
-            'ids'                => $this->invoice->id,
-            'order_id'           => null,
-            'apply_credits'      => true
+            'ids' => $this->invoice->id,
+            'order_id' => null,
+            'apply_credits' => true
         ];
 
         $payment = CreatePayment::dispatchNow($data, (new PaymentRepository(new Payment())));

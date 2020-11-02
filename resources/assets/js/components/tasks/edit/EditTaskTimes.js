@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import axios from 'axios'
-import { Button, Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
+import { Button, Card, CardBody, CardHeader, FormGroup, Label } from 'reactstrap'
 import SuccessMessage from '../../common/SucessMessage'
 import ErrorMessage from '../../common/ErrorMessage'
 import ElapsedTime from './ElapsedTime'
@@ -147,7 +147,9 @@ class EditTaskTimes extends Component {
                         id="date-picker-dialog"
                         format="MMMM DD, YYYY"
                         value={moment(currentData.date).format('YYYY-MM-DD')}
-                        onChange={(e) => { this.handleDateChange(e, currentIndex) }}
+                        onChange={(e) => {
+                            this.handleDateChange(e, currentIndex)
+                        }}
                         KeyboardButtonProps={{
                             'aria-label': 'change date'
                         }}
@@ -169,7 +171,7 @@ class EditTaskTimes extends Component {
 
             <FormGroup>
                 <Label>{translations.duration} {model.calculateDuration(currentData.start_time, currentData.end_time)}</Label>
-                <Duration onChange={this.handleChange} />
+                <Duration onChange={this.handleChange}/>
             </FormGroup>
 
             <Button className="mr-2" color="primary" onClick={this.handleSave}>{translations.done}</Button>
