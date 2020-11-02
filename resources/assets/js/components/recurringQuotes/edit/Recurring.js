@@ -91,7 +91,8 @@ export default function Recurring (props) {
                     </h6>
                 </FormGroup>
 
-                <FormGroup>
+                 <FormGroup>
+                    {!props.recurring_quote.is_never_ending &&
                     <Label>{translations.number_of_occurances}</Label>
                     <Input
                         value={props.recurring_quote.number_of_occurances}
@@ -101,6 +102,9 @@ export default function Recurring (props) {
                         id='number_of_occurances'
                         onChange={props.handleInput}
                     />
+                    }
+                    <Input type="checkbox" name="is_never_ending" checked={props.recurring_invoice.is_never_ending} onChange={props.handleInput} />
+           
                 </FormGroup>
 
                 <a href="#"
