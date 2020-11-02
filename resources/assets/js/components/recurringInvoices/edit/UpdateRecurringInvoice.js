@@ -377,6 +377,7 @@ class UpdateRecurringInvoice extends Component {
                     line_items: [],
                     invitations: [],
                     grace_period: 0,
+                    is_never_ending: false
                     auto_billing_enabled: false
                 }, () => localStorage.removeItem('recurringInvoiceForm'))
             }
@@ -471,6 +472,7 @@ class UpdateRecurringInvoice extends Component {
 
     getFormData () {
         return {
+            is_never_ending: this.state.is_never_ending,
             number_of_occurrances: this.state.number_of_occurrances,
             currency_id: this.state.currency_id,
             exchange_rate: this.state.exchange_rate,
