@@ -2,7 +2,6 @@
 
 namespace App\Services\PurchaseOrder;
 
-use App\Components\Pdf\InvoicePdf;
 use App\Components\Pdf\PurchaseOrderPdf;
 use App\Events\PurchaseOrder\PurchaseOrderWasApproved;
 use App\Events\PurchaseOrder\PurchaseOrderWasEmailed;
@@ -25,7 +24,7 @@ class PurchaseOrderService extends ServiceBase
     public function __construct(PurchaseOrder $purchase_order)
     {
         $config = [
-            'email'   => $purchase_order->account->settings->should_email_purchase_order,
+            'email' => $purchase_order->account->settings->should_email_purchase_order,
             'archive' => $purchase_order->account->settings->should_archive_purchase_order
         ];
 
@@ -63,7 +62,13 @@ class PurchaseOrderService extends ServiceBase
             $contact = $this->purchase_order->company->primary_contact()->first();
         }
 
-        return CreatePdf::dispatchNow((new PurchaseOrderPdf($this->purchase_order)), $this->purchase_order, $contact, $update, 'purchase_order');
+        return CreatePdf::dispatchNow(
+            (new PurchaseOrderPdf($this->purchase_order)),
+            $this->purchase_order,
+            $contact,
+            $update,
+            'purchase_order'
+        );
     }
 
     /**

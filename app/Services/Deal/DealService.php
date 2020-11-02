@@ -2,7 +2,6 @@
 
 namespace App\Services\Deal;
 
-use App\Components\Pdf\InvoicePdf;
 use App\Components\Pdf\TaskPdf;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\Deal;

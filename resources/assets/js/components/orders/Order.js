@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import EditOrder from './edit/EditOrder'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import DataTable from '../common/DataTable'
@@ -100,11 +99,11 @@ export default class Order extends Component {
     getCustomFields () {
         const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
         const custom_fields = []
-        
-        if(custom_fields.Order) {
-            custom_fields[0] = custom_fields.Order
+
+        if (all_custom_fields.Order) {
+            custom_fields[0] = all_custom_fields.Order
         }
-        
+
         this.setState({
             custom_fields: custom_fields
         })

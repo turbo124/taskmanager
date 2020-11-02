@@ -3,13 +3,17 @@
 namespace Tests\Unit;
 
 use App\Factory\RecurringQuoteFactory;
+use App\Jobs\Invoice\SendRecurringInvoice;
 use App\Jobs\Quote\SendRecurringQuote;
 use App\Models\Account;
 use App\Models\Customer;
 use App\Models\CustomerContact;
+use App\Models\Invoice;
 use App\Models\Quote;
+use App\Models\RecurringInvoice;
 use App\Models\RecurringQuote;
 use App\Models\User;
+use App\Repositories\InvoiceRepository;
 use App\Repositories\QuoteRepository;
 use App\Repositories\RecurringQuoteRepository;
 use App\Requests\SearchRequest;
@@ -131,13 +135,13 @@ class RecurringQuoteTest extends TestCase
     {
         $recurring_quote = RecurringQuote::factory()->create();
         $recurring_quote->date_to_send = Carbon::now();
+        $recurring_quote->frequency = 'MONTHLY';
         $recurring_quote->customer_id = 5;
         $recurring_quote->date = Carbon::now()->subDays(15);
         $recurring_quote->start_date = Carbon::now()->subDays(1);
         $recurring_quote->expiry_date = Carbon::now()->addDays(15);
         $recurring_quote->auto_billing_enabled = 0;
         $recurring_quote->number_of_occurrances = 2;
-        $recurring_quote->frequency = 'MONTHLY';
         $recurring_quote->status_id = RecurringQuote::STATUS_ACTIVE;
         $recurring_quote->save();
 
@@ -149,10 +153,10 @@ class RecurringQuoteTest extends TestCase
             $updated_recurring_quote->date_to_send->eq(Carbon::today()->addMonthNoOverflow())
         );
         $this->assertTrue($updated_recurring_quote->last_sent_date->eq(Carbon::today()));
-        $this->assertEquals(1, $updated_recurring_quote->number_of_occurances);
-        $invoice = Quote::where('recurring_quote_id', $recurring_quote->id)->first();
-        $this->assertInstanceOf(Quote::class, $invoice);
-        $this->assertEquals(Quote::STATUS_SENT, $invoice->status_id);
+        $this->assertEquals(1, $updated_recurring_quote->number_of_occurrances);
+        $quote = Quote::where('recurring_quote_id', $recurring_quote->id)->first();
+        $this->assertInstanceOf(Quote::class, $quote);
+        $this->assertEquals(Invoice::STATUS_SENT, $quote->status_id);
     }
 
     public function test_send_recurring_quote_last_cycle()

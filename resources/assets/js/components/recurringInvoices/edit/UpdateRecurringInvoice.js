@@ -33,7 +33,6 @@ import { translations } from '../../utils/_translations'
 import { consts } from '../../utils/_consts'
 import NoteTabs from '../../common/NoteTabs'
 import Contactsm from './Contactsm'
-import Detailsm from './Detailsm'
 import Recurring from './Recurring'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
@@ -45,6 +44,7 @@ import TaskRepository from '../../repositories/TaskRepository'
 import ExpenseRepository from '../../repositories/ExpenseRepository'
 import ProjectRepository from '../../repositories/ProjectRepository'
 import { getExchangeRateWithMap } from '../../utils/_money'
+import Recurringm from './Recurringm'
 
 class UpdateRecurringInvoice extends Component {
     constructor (props, context) {
@@ -377,7 +377,7 @@ class UpdateRecurringInvoice extends Component {
                     line_items: [],
                     invitations: [],
                     grace_period: 0,
-                    is_never_ending: false
+                    is_never_ending: false,
                     auto_billing_enabled: false
                 }, () => localStorage.removeItem('recurringInvoiceForm'))
             }
@@ -631,33 +631,26 @@ class UpdateRecurringInvoice extends Component {
             </NavItem>
         </Nav>
 
-        const details = this.state.is_mobile
-            ? <Detailsm allInvoices={this.props.allInvoices} show_invoice={this.invoiceModel.isNew}
-                address={this.state.address} customerName={this.state.customerName}
-                handleInput={this.handleInput}
-                customers={this.props.customers}
-                hide_customer={this.state.id === null}
-                errors={this.state.errors} invoice={this.state}
-            />
-            : <Details allInvoices={this.props.allInvoices} show_invoice={this.invoiceModel.isNew}
-                address={this.state.address} customerName={this.state.customerName}
-                handleInput={this.handleInput}
-                customers={this.props.customers}
-                errors={this.state.errors} invoice={this.state}
-            />
+        const details = <Details show_invoice={this.invoiceModel.isNew} errors={this.state.errors}
+            renderErrorFor={this.renderErrorFor}
+            hasErrorFor={this.hasErrorFor} setRecurring={this.handleInput}
+            handleInput={this.handleInput}
+            recurring_invoice={this.state}/>
 
         const recurring = this.state.is_mobile
-            ? <Recurringm allInvoices={this.props.allInvoices} show_invoice={this.invoiceModel.isNew}
+            ? <Recurringm renderErrorFor={this.renderErrorFor} hasErrorFor={this.hasErrorFor}
+                allInvoices={this.props.allInvoices} show_invoice={this.invoiceModel.isNew}
                 address={this.state.address} customerName={this.state.customerName}
                 handleInput={this.handleInput}
                 customers={this.props.customers}
                 hide_customer={this.state.id === null}
                 errors={this.state.errors} recurring_invoice={this.state}
             />
-            : <Recurring show_invoice={this.invoiceModel.isNew} errors={this.state.errors} renderErrorFor={this.renderErrorFor}
-            hasErrorFor={this.hasErrorFor} setRecurring={this.handleInput}
-            handleInput={this.handleInput}
-            recurring_invoice={this.state}/>
+            : <Recurring show_invoice={this.invoiceModel.isNew} errors={this.state.errors}
+                renderErrorFor={this.renderErrorFor}
+                hasErrorFor={this.hasErrorFor} setRecurring={this.handleInput}
+                handleInput={this.handleInput}
+                recurring_invoice={this.state}/>
 
         const custom = <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
             custom_value2={this.state.custom_value2}
@@ -791,6 +784,7 @@ class UpdateRecurringInvoice extends Component {
                             </Col>
 
                             <Col md={4}>
+                                {details}
                                 {contacts}
                             </Col>
 

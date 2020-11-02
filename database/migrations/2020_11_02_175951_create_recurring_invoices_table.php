@@ -72,7 +72,7 @@ class CreateRecurringInvoicesTable extends Migration
             $table->string('tax_rate_name_2', 100)->nullable();
             $table->string('tax_rate_name_3', 100)->nullable();
             $table->dateTime('partial_due_date')->nullable();
-            $table->tinyInteger('is_endless')->default(0);
+            $table->tinyInteger('is_never_ending')->default(0);
         });
     }
 

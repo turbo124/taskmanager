@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import DataTable from '../common/DataTable'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import TaskFilters from './TaskFilters'
@@ -143,11 +142,11 @@ export default class TaskList extends Component {
     getCustomFields () {
         const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
         const custom_fields = []
-        
-        if(custom_fields.Task) {
-            custom_fields[0] = custom_fields.Task
+
+        if (all_custom_fields.Task) {
+            custom_fields[0] = all_custom_fields.Task
         }
-        
+
         this.setState({
             custom_fields: custom_fields
         })

@@ -6,13 +6,13 @@ use App\Factory\RecurringInvoiceToInvoiceFactory;
 use App\Models\Invoice;
 use App\Models\RecurringInvoice;
 use App\Repositories\InvoiceRepository;
+use App\Traits\CalculateRecurring;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Traits\CalculateRecurring;
 
 class SendRecurringInvoice implements ShouldQueue
 {
@@ -70,7 +70,7 @@ class SendRecurringInvoice implements ShouldQueue
 
             $recurring_invoice->last_sent_date = Carbon::today();
 
-            if (!$recurring_invoice->is_endless) {
+            if (!$recurring_invoice->is_never_ending) {
                 $recurring_invoice->number_of_occurrances--;
             }
 

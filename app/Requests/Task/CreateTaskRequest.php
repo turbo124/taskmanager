@@ -26,7 +26,7 @@ class CreateTaskRequest extends BaseFormRequest
             'start_date'   => 'nullable',
             //'task_status' => 'required',
             'project_id'   => 'nullable',
-            'number'         => [
+            'number'       => [
                 Rule::unique('tasks', 'number')->where(
                     function ($query) {
                         return $query->where('customer_id', $this->customer_id)->where('account_id', $this->account_id);

@@ -1,29 +1,14 @@
 import React from 'react'
-import { Card, CardBody, CardHeader, CustomInput, FormGroup, Input, Label } from 'reactstrap'
+import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../../utils/_translations'
 import Datepicker from '../../common/Datepicker'
-import { icons } from '../../utils/_icons'
 import { frequencyOptions } from '../../utils/_consts'
-import QuoteDropdown from '../../common/dropdowns/QuoteDropdown'
 
 export default function Recurring (props) {
     return (
         <Card>
             <CardHeader>{translations.recurring}</CardHeader>
             <CardBody>
-                {!!props.show_quote &&
-                    <FormGroup>
-                        <Label>{translations.quote}</Label>
-                        <QuoteDroodown
-                            is_recurring={true}
-                            quotes={props.allQuotes}
-                            handleInputChanges={props.handleInput}
-                            name="quote_id"
-                            errors={props.errors}
-                        />
-                    </FormGroup>
-                    }
-                   
                 {props.recurring_quote.last_sent_date.length
                     ? <FormGroup>
                         <Label for="date_to_send">{translations.next_send_date}(*):</Label>
@@ -48,13 +33,6 @@ export default function Recurring (props) {
                         className={props.hasErrorFor('expiry_date') ? 'form-control is-invalid' : 'form-control'}/>
                     {props.renderErrorFor('expiry_date')}
                 </FormGroup>
-
-                <FormGroup>
-                        <Label for="po_number">{translations.po_number}(*):</Label>
-                        <Input value={props.recurring_quote.po_number} type="text" id="po_number" name="po_number"
-                            onChange={props.handleInput}/>
-                        {props.renderErrorFor('po_number')}
-                    </FormGroup>
 
                 <FormGroup>
                     <Label>{translations.frequency}</Label>
@@ -91,42 +69,26 @@ export default function Recurring (props) {
                     </h6>
                 </FormGroup>
 
-                 <FormGroup>
+                <FormGroup>
                     {!props.recurring_quote.is_never_ending &&
-                    <Label>{translations.number_of_occurances}</Label>
-                    <Input
-                        value={props.recurring_quote.number_of_occurances}
-                        type='text'
-                        name='number_of_occurances'
-                        placeholder="Days"
-                        id='number_of_occurances'
-                        onChange={props.handleInput}
-                    />
+                    <React.Fragment>
+                        <Label>{translations.number_of_occurances}</Label>
+                        <Input
+                            value={props.recurring_quote.number_of_occurances}
+                            type='text'
+                            name='number_of_occurances'
+                            placeholder="Days"
+                            id='number_of_occurances'
+                            onChange={props.handleInput}
+                        />
+                    </React.Fragment>
+
                     }
-                    <Input type="checkbox" name="is_never_ending" checked={props.recurring_invoice.is_never_ending} onChange={props.handleInput} />
-           
+                    <Label>{translations.never_ending}</Label>
+                    <Input type="checkbox" name="is_never_ending" checked={props.recurring_quote.is_never_ending}
+                        onChange={props.handleInput}/>
+
                 </FormGroup>
-
-                <a href="#"
-                    className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">
-                            <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.credit_card}`}/>
-                            {translations.auto_billing_enabled}
-                        </h5>
-                        <CustomInput
-                            checked={props.recurring_quote.auto_billing_enabled}
-                            type="switch"
-                            id="auto_billing_enabled"
-                            name="auto_billing_enabled"
-                            label=""
-                            onChange={props.handleInput}/>
-                    </div>
-
-                    <h6 id="passwordHelpBlock" className="form-text text-muted">
-                        {translations.auto_billing_enabled_help_text}
-                    </h6>
-                </a>
             </CardBody>
         </Card>
 

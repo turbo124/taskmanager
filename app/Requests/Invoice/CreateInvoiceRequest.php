@@ -42,7 +42,7 @@ class CreateInvoiceRequest extends FormRequest
                     }
                 )
             ],
-           'project_id' =>  new ValidateProjectCustomer($this->customer_id)
+            'project_id'     => new ValidateProjectCustomer($this->customer_id)
         ];
     }
 

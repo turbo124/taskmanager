@@ -21,7 +21,7 @@ class CloneQuoteToOrderFactory
      */
     public static function create(Quote $quote, User $user, Account $account): ?Order
     {
-        $order = new Order; 
+        $order = new Order;
         $order->fill($quote->toArray());
         $order->setAccount($account);
         $order->setCustomer($quote->customer);
@@ -32,7 +32,7 @@ class CloneQuoteToOrderFactory
         $order->setDueDate();
         $order->setBalance($quote->total);
         $order->quote_id = $quote->id;
-       
+
         return $order;
     }
 }

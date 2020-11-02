@@ -35,14 +35,26 @@ class ValidAmount implements Rule
 
     private function validate()
     {
+        $invoice_total = 0;
+        $credit_total = 0;
         $total = 0;
 
         if (!empty($this->request['invoices'])) {
-            $total += array_sum(array_column($this->request['invoices'], 'amount'));
+            $invoice_total += array_sum(array_column($this->request['invoices'], 'amount'));
+            $total += $invoice_total;
         }
 
         if (!empty($this->request['credits'])) {
-            $total += array_sum(array_column($this->request['credits'], 'amount'));
+            $credit_total += array_sum(array_column($this->request['credits'], 'amount'));
+            $total += $credit_total;
+        }
+
+        if ($invoice_total <= 0) {
+            return false;
+        }
+
+        if ($credit_total > 0 && $credit_total > $invoice_total) {
+            return false;
         }
 
         return $this->request['amount'] <= $total;

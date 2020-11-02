@@ -77,45 +77,6 @@ class PdfBuilder
         return $this;
     }
 
-    protected function formatCustomField($entity, $field, $value)
-    {
-        if (empty($value)) {
-            return '';
-        }
-
-        $custom_fields = $this->entity->account->custom_fields;
-
-        if (!isset($custom_fields->{$entity})) {
-            return '';
-        }
-
-        $new_array = array_filter(
-            $custom_fields->{$entity},
-            function ($obj) use ($field) {
-                if ($field === $obj->name) {
-                    return $obj;
-                }
-            }
-        );
-
-        $new_array = array_values($new_array);
-
-        switch ($new_array[0]->type) {
-            case 'date';
-                return $this->formatDate($this->entity, $value);
-                break;
-            case 'select':
-            case 'text':
-            case 'textarea':
-                return (string)$value;
-            case 'switch':
-                return $value === true || $value === 1 || $value === '1' ? 'yes' : 'no';
-                break;
-        }
-
-        return $value;
-    }
-
     /**
      * @param $entity
      * @param $field
@@ -554,6 +515,45 @@ class PdfBuilder
         ];
 
         return $this;
+    }
+
+    protected function formatCustomField($entity, $field, $value)
+    {
+        if (empty($value)) {
+            return '';
+        }
+
+        $custom_fields = $this->entity->account->custom_fields;
+
+        if (!isset($custom_fields->{$entity})) {
+            return '';
+        }
+
+        $new_array = array_filter(
+            $custom_fields->{$entity},
+            function ($obj) use ($field) {
+                if ($field === $obj->name) {
+                    return $obj;
+                }
+            }
+        );
+
+        $new_array = array_values($new_array);
+
+        switch ($new_array[0]->type) {
+            case 'date';
+                return $this->formatDate($this->entity, $value);
+                break;
+            case 'select':
+            case 'text':
+            case 'textarea':
+                return (string)$value;
+            case 'switch':
+                return $value === true || $value === 1 || $value === '1' ? 'yes' : 'no';
+                break;
+        }
+
+        return $value;
     }
 
     public function setPoNumber($po_number): self

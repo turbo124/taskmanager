@@ -5,7 +5,7 @@ import Datepicker from '../../common/Datepicker'
 import { translations } from '../../utils/_translations'
 import UserDropdown from '../../common/dropdowns/UserDropdown'
 import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
-import InvoiceDropdown from "../../common/dropdowns/InvoiceDropdown";
+import InvoiceDropdown from '../../common/dropdowns/InvoiceDropdown'
 
 export default class Detailsm extends Component {
     constructor (props, context) {

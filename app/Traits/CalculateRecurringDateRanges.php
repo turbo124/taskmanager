@@ -5,7 +5,6 @@ namespace App\Traits;
 use DateInterval;
 use DatePeriod;
 use DateTime;
-use App\Traits\CalculateRecurring;
 
 trait CalculateRecurringDateRanges
 {
@@ -49,85 +48,44 @@ trait CalculateRecurringDateRanges
         return $date_ranges;
     }
 
-    private function calculateDateToSend($date) 
+    private function calculateInterval()
     {
-        switch($this->frequency) {
-            case 'DAILY':
-                return $date->modify('+1 day');
-            break;
-
-            case 'WEEKLY':
-                return $date->modify('+1 week');
-            break;
-
-            case 'FORTNIGHT':
-                return $date->modify('+2 week');
-            break;
-
-            case 'MONTHLY':
-                return $date->modify('+1 month');
-            break;
-
-            case 'TWO_MONTHS':
-                return $date->modify('+2 month');
-            break;
-
-            case 'THREE_MONTHS':
-               return $date->modify('+3 month');
-            break;
-
-            case 'FOUR_MONTHS':
-                return $date->modify('+4 month');
-            break;
- 
-            case 'SIX_MONTHS':
-               return $date->modify('+6 month');
-            break;
-
-            case 'YEARLY':
-               return $date->modify('+1 year');
-            break;
-        }
-    }
-
-    private function calculateInterval() 
-    {
-        switch($this->frequency) {
+        switch ($this->frequency) {
             case 'DAILY':
                 return new DateInterval('P1D');
-            break;
+                break;
 
             case 'WEEKLY':
                 return new DateInterval('P7D');
-            break;
+                break;
 
             case 'FORTNIGHT':
                 return new DateInterval('P14D');
-            break;
+                break;
 
             case 'MONTHLY':
                 return new DateInterval('P1M');
-            break;
+                break;
 
             case 'TWO_MONTHS':
                 return new DateInterval('P2M');
-            break;
+                break;
 
             case 'THREE_MONTHS':
-               return new DateInterval('P3M');
-            break;
+                return new DateInterval('P3M');
+                break;
 
             case 'FOUR_MONTHS':
                 return new DateInterval('P4M');
-            break;
- 
+                break;
+
             case 'SIX_MONTHS':
-               return new DateInterval('P6M');
-            break;
+                return new DateInterval('P6M');
+                break;
 
             case 'YEARLY':
-               return new DateInterval('P1Y');
-            break;
+                return new DateInterval('P1Y');
+                break;
         }
     }
 
@@ -146,5 +104,46 @@ trait CalculateRecurringDateRanges
         $due_date = $due_date->modify('+' . $days . ' day');
 
         return $due_date;
+    }
+
+    private function calculateDateToSend($date)
+    {
+        switch ($this->frequency) {
+            case 'DAILY':
+                return $date->modify('+1 day');
+                break;
+
+            case 'WEEKLY':
+                return $date->modify('+1 week');
+                break;
+
+            case 'FORTNIGHT':
+                return $date->modify('+2 week');
+                break;
+
+            case 'MONTHLY':
+                return $date->modify('+1 month');
+                break;
+
+            case 'TWO_MONTHS':
+                return $date->modify('+2 month');
+                break;
+
+            case 'THREE_MONTHS':
+                return $date->modify('+3 month');
+                break;
+
+            case 'FOUR_MONTHS':
+                return $date->modify('+4 month');
+                break;
+
+            case 'SIX_MONTHS':
+                return $date->modify('+6 month');
+                break;
+
+            case 'YEARLY':
+                return $date->modify('+1 year');
+                break;
+        }
     }
 }

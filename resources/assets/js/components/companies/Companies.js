@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import AddCompany from './edit/AddCompany'
 import DataTable from '../common/DataTable'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
@@ -100,11 +99,11 @@ export default class Companies extends Component {
     getCustomFields () {
         const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
         const custom_fields = []
-        
-        if(custom_fields.Company) {
+
+        if (custom_fields.Company) {
             custom_fields[0] = custom_fields.Company
         }
-        
+
         this.setState({
             custom_fields: custom_fields
         })

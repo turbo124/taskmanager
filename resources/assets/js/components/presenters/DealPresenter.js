@@ -1,7 +1,7 @@
 import React from 'react'
 import FormatDate from '../common/FormatDate'
 
-export default function TaskPresenter (props) {
+export default function DealPresenter (props) {
     const { field, entity } = props
 
     switch (field) {

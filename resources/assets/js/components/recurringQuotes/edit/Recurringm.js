@@ -1,19 +1,20 @@
-import React, { Component } from 'react'
-import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
+import React from 'react'
+import { Card, CardBody, CardHeader, CustomInput, FormGroup, Input, Label } from 'reactstrap'
 import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
 import Datepicker from '../../common/Datepicker'
 import { translations } from '../../utils/_translations'
 import UserDropdown from '../../common/dropdowns/UserDropdown'
-import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
-import QuoteDropdown from "../../common/dropdowns/QuoteDropdown";
+import QuoteDropdown from '../../common/dropdowns/QuoteDropdown'
+import { frequencyOptions } from '../../utils/_consts'
+import { icons } from '../../utils/_icons'
 
-export default function Recurring (props) {
+export default function Recurringm (props) {
     return (
-            <Card>
-                <CardHeader>{translations.details}</CardHeader>
-               
-                <CardBody>
-                    {!!props.show_quote &&
+        <Card>
+            <CardHeader>{translations.details}</CardHeader>
+
+            <CardBody>
+                {!!props.show_quote &&
                 <FormGroup>
                     <Label>{translations.quote}</Label>
                     <QuoteDropdown
@@ -26,7 +27,7 @@ export default function Recurring (props) {
                 </FormGroup>
                 }
 
-                    {props.recurring_quote.last_sent_date.length
+                {props.recurring_quote.last_sent_date.length
                     ? <FormGroup>
                         <Label for="date_to_send">{translations.next_send_date}(*):</Label>
                         <Datepicker name="date_to_send" date={props.recurring_quote.date_to_send}
@@ -52,11 +53,11 @@ export default function Recurring (props) {
                 </FormGroup>
 
                 <FormGroup>
-                        <Label for="po_number">{translations.po_number}(*):</Label>
-                        <Input value={props.recurring_quote.po_number} type="text" id="po_number" name="po_number"
-                            onChange={props.handleInput}/>
-                        {props.renderErrorFor('po_number')}
-                    </FormGroup>
+                    <Label for="po_number">{translations.po_number}(*):</Label>
+                    <Input value={props.recurring_quote.po_number} type="text" id="po_number" name="po_number"
+                        onChange={props.handleInput}/>
+                    {props.renderErrorFor('po_number')}
+                </FormGroup>
 
                 <FormGroup>
                     <Label>{translations.frequency}</Label>
@@ -126,29 +127,28 @@ export default function Recurring (props) {
                     </h6>
                 </a>
 
-                    <FormGroup>
-                        <Label for="postcode">{translations.assigned_user}:</Label>
-                        <UserDropdown
-                            user_id={props.recurring_quote.assigned_to}
-                            name="assigned_to"
-                            errors={props.errors}
-                            handleInputChanges={props.handleInput}
-                        />
-                    </FormGroup>
+                <FormGroup>
+                    <Label for="postcode">{translations.assigned_user}:</Label>
+                    <UserDropdown
+                        user_id={props.recurring_quote.assigned_to}
+                        name="assigned_to"
+                        errors={props.errors}
+                        handleInputChanges={props.handleInput}
+                    />
+                </FormGroup>
 
-                    {props.hide_customer === true &&
-                    <FormGroup>
-                        <Label>{translations.customer}</Label>
-                        <CustomerDropdown
-                            handleInputChanges={props.handleInput}
-                            customer={props.recurring_quote.customer_id}
-                            customers={props.customers}
-                            errors={props.errors}
-                        />
-                    </FormGroup>
-                    }
-                </CardBody>
-            </Card>
-        )
-    }
+                {props.hide_customer === true &&
+                <FormGroup>
+                    <Label>{translations.customer}</Label>
+                    <CustomerDropdown
+                        handleInputChanges={props.handleInput}
+                        customer={props.recurring_quote.customer_id}
+                        customers={props.customers}
+                        errors={props.errors}
+                    />
+                </FormGroup>
+                }
+            </CardBody>
+        </Card>
+    )
 }

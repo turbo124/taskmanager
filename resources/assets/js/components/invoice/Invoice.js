@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import queryString from 'query-string'
 import EditInvoice from './edit/EditInvoice'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
@@ -109,11 +108,11 @@ export default class Invoice extends Component {
     getCustomFields () {
         const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
         const custom_fields = []
-        
-        if(custom_fields.Invoice) {
-            custom_fields[0] = custom_fields.Invoice
+
+        if (all_custom_fields.Invoice) {
+            custom_fields[0] = all_custom_fields.Invoice
         }
-        
+
         this.setState({
             custom_fields: custom_fields
         })

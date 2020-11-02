@@ -517,23 +517,24 @@ class BaseController extends Controller
 
         $accounts = AccountUser::whereUserId($user->id)->with('account')->get();
 
-        $custom_fields = !empty(auth()->user()->account_user()->account) ? auth()->user()->account_user()->account->custom_fields : []
+        $custom_fields = !empty(auth()->user()->account_user()->account) ? auth()->user()->account_user(
+        )->account->custom_fields : [];
 
         return [
-            'account_id' => $default_account->id,
+            'account_id'    => $default_account->id,
             'custom_fields' => $custom_fields,
-            'id' => $user->id,
-            'auth_token' => $user->auth_token,
-            'name' => $user->name,
-            'email' => $user->email,
-            'accounts' => $accounts,
-            'currencies' => Currency::all(),
-            'languages' => Language::all(),
-            'countries' => Country::all(),
+            'id'            => $user->id,
+            'auth_token'    => $user->auth_token,
+            'name'          => $user->name,
+            'email'         => $user->email,
+            'accounts'      => $accounts,
+            'currencies'    => Currency::all(),
+            'languages'     => Language::all(),
+            'countries'     => Country::all(),
             'payment_types' => PaymentMethod::all(),
-            'gateways' => PaymentGateway::all(),
-            'tax_rates' => TaxRate::all(),
-            'users' => User::where('is_active', '=', 1)->get(
+            'gateways'      => PaymentGateway::all(),
+            'tax_rates'     => TaxRate::all(),
+            'users'         => User::where('is_active', '=', 1)->get(
                 ['first_name', 'last_name', 'phone_number', 'id']
             )
         ];

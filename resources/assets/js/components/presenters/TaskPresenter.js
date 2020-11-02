@@ -1,19 +1,24 @@
+import { Badge } from 'reactstrap'
 import React from 'react'
 import ViewTask from '../tasks/ViewTask'
 import FormatDate from '../common/FormatDate'
+import { translations } from '../utils/_translations'
+import { frequencyOptions } from '../utils/_consts'
 
 export default function TaskPresenter (props) {
     const { field, entity } = props
 
-     const status = (entity.deleted_at) 
-         ? (<Badge color="warning">{translations.archived}</Badge>) 
-         : ((entity.invoice_id) ? (<Badge color="success">{translations.invoiced}</Badge>) 
-         : (<Badge color="primary">{entity.status_name}</Badge>))
+    const status = (entity.deleted_at)
+        ? (<Badge color="warning">{tra.archived}</Badge>)
+        : ((entity.invoice_id) ? (<Badge color="success">{translations.invoiced}</Badge>)
+            : (<Badge color="primary">{entity.status_name}</Badge>))
 
     switch (field) {
         case 'status_name':
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Status">{status}</td>
+        case 'status_field':
+            return status
         case 'frequency':
             return <td>{translations[frequencyOptions[entity.frequency]]}</td>
         case 'due_date':

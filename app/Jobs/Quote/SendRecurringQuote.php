@@ -6,13 +6,13 @@ use App\Factory\RecurringQuoteToQuoteFactory;
 use App\Models\Quote;
 use App\Models\RecurringQuote;
 use App\Repositories\QuoteRepository;
+use App\Traits\CalculateRecurring;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Traits\CalculateRecurring;
 
 class SendRecurringQuote implements ShouldQueue
 {
@@ -74,7 +74,7 @@ class SendRecurringQuote implements ShouldQueue
 
             $recurring_quote->last_sent_date = Carbon::today();
 
-            if (!$recurring_quote->is_endless) {
+            if (!$recurring_quote->is_never_ending) {
                 $recurring_quote->number_of_occurrances--;
             }
 

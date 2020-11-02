@@ -116,12 +116,11 @@ class BasePaymentProcessor
             $this->amount += $this->gateway_fee;
         }
 
-        if($this->credited_amount > 0) {
+        if ($this->credited_amount > 0) {
             //$this->payment->amount += $this->credited_amount;
             $this->payment->applied += $this->credited_amount;
             //$this->amount += $this->gateway_fee;
         }
-
         //$this->payment->save();
     }
 

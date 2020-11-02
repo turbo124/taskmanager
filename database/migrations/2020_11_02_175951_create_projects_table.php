@@ -31,6 +31,10 @@ class CreateProjectsTable extends Migration
             $table->double('task_rate')->nullable();
             $table->string('number')->nullable();
             $table->text('public_notes')->nullable();
+            $table->text('custom_value1')->nullable();
+            $table->text('custom_value2')->nullable();
+            $table->text('custom_value3')->nullable();
+            $table->text('custom_value4')->nullable();
         });
     }
 

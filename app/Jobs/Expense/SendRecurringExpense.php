@@ -4,13 +4,13 @@ namespace App\Jobs\Expense;
 
 use App\Models\Expense;
 use App\Repositories\ExpenseRepository;
+use App\Traits\CalculateRecurring;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Traits\CalculateRecurring;
 
 class SendRecurringExpense implements ShouldQueue
 {

@@ -33,7 +33,6 @@ trait TaskTransformable
             'start_date'           => $task->start_date ?: '',
             'is_completed'         => $task->is_completed,
             'task_status_id'       => (int)$task->task_status_id,
-            'status_name'          => !empty($task->taskStatus) ? $task->taskStatus->name : '',
             'deleted_at'           => $task->deleted_at,
             'customer'             => $this->transformCustomer($task->customer),
             'customer_id'          => $task->customer_id,
@@ -67,6 +66,7 @@ trait TaskTransformable
             'invoice_id'           => $task->invoice_id,
             'invoice'              => $task->invoice,
             'include_documents'    => (bool)$task->include_documents,
+            'status_name'          => !empty($task->taskStatus) ? $task->taskStatus->name : '',
         ];
     }
 

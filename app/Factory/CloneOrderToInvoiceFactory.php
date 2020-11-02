@@ -6,7 +6,6 @@ use App\Models\Account;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class CloneOrderToInvoiceFactory
@@ -33,7 +32,7 @@ class CloneOrderToInvoiceFactory
         $invoice->setDueDate();
         $invoice->setBalance($order->total);
         $invoice->order_id = $order->id;
-       
+
         return $invoice;
     }
 }

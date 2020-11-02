@@ -29,7 +29,7 @@ class CloneCreditToQuoteFactory
         $quote->setStatus(Quote::STATUS_DRAFT);
         $quote->number = '';
         $quote->setDueDate();
-       
+
         return $quote;
     }
 }

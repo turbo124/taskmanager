@@ -2,7 +2,6 @@
 
 namespace App\Services\Cases;
 
-use App\Components\Pdf\InvoicePdf;
 use App\Components\Pdf\TaskPdf;
 use App\Factory\CommentFactory;
 use App\Jobs\Pdf\CreatePdf;

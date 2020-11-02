@@ -32,7 +32,7 @@ class RecurringInvoice extends Model
     const STATUS_COMPLETED = 5;
     protected $presenter = 'App\Presenters\InvoicePresenter';
     protected $fillable = [
-        'is_endless',
+        'is_never_ending',
         'status_id',
         'account_id',
         'customer_id',
@@ -154,7 +154,7 @@ class RecurringInvoice extends Model
 
     public function setDueDate()
     {
-        if(!empty($this->grace_period)) {
+        if (!empty($this->grace_period)) {
             $this->due_date = Carbon::now()->addDays($this->grace_period)->format('Y-m-d H:i:s');
             return true;
         }
@@ -162,7 +162,7 @@ class RecurringInvoice extends Model
         $this->due_date = !empty($this->customer->getSetting('payment_terms')) ? Carbon::now()->addDays(
             $this->customer->getSetting('payment_terms')
         )->format('Y-m-d H:i:s') : null;
-        
+
         return true;
     }
 

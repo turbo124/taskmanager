@@ -1,106 +1,68 @@
-import React, { Component } from 'react'
-import { Card, CardBody, CardHeader, FormGroup, Input, Label } from 'reactstrap'
-import Datepicker from '../../common/Datepicker'
+import React from 'react'
+import { Card, CardBody, CardHeader, CustomInput, FormGroup, Input, Label } from 'reactstrap'
 import { translations } from '../../utils/_translations'
+import { icons } from '../../utils/_icons'
 import InvoiceDropdown from '../../common/dropdowns/InvoiceDropdown'
 
-export default class Details extends Component {
-    constructor (props, context) {
-        super(props, context)
-        this.state = {
-            is_recurring: false
-        }
-        this.handleSlideClick = this.handleSlideClick.bind(this)
-        this.hasErrorFor = this.hasErrorFor.bind(this)
-        this.renderErrorFor = this.renderErrorFor.bind(this)
-    }
+export default function Details (props) {
+    return (
+        <Card>
+            <CardHeader>{translations.details}</CardHeader>
+            <CardBody>
+                {!!props.show_invoice &&
+                <FormGroup>
+                    <Label>{translations.invoice}</Label>
+                    <InvoiceDropdown
+                        is_recurring={true}
+                        invoices={props.allInvoices}
+                        handleInputChanges={props.handleInput}
+                        name="invoice_id"
+                        errors={props.errors}
+                    />
+                </FormGroup>
+                }
 
-    handleSlideClick (e) {
-        this.setState({ is_recurring: e.target.checked })
-    }
+                <FormGroup>
+                    <Label>{translations.number}</Label>
+                    <Input className={props.hasErrorFor('number') ? 'form-control is-invalid' : 'form-control'}
+                        value={props.recurring_invoice.number}
+                        type='text'
+                        name='number'
+                        id='number'
+                        onChange={props.handleInput}
+                    />
+                    {props.renderErrorFor('number')}
+                </FormGroup>
 
-    hasErrorFor (field) {
-        return this.props.errors && !!this.props.errors[field]
-    }
+                <FormGroup>
+                    <Label for="po_number">{translations.po_number}(*):</Label>
+                    <Input value={props.recurring_invoice.po_number} type="text" id="po_number" name="po_number"
+                        onChange={props.handleInput}/>
+                    {props.renderErrorFor('po_number')}
+                </FormGroup>
 
-    renderErrorFor (field) {
-        if (this.hasErrorFor(field)) {
-            return (
-                <span className='invalid-feedback'>
-                    <strong>{this.props.errors[field][0]}</strong>
-                </span>
-            )
-        }
-    }
+                <a href="#"
+                    className="list-group-item-dark list-group-item list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">
+                            <i style={{ fontSize: '24px', marginRight: '20px' }} className={`fa ${icons.credit_card}`}/>
+                            {translations.auto_billing_enabled}
+                        </h5>
+                        <CustomInput
+                            checked={props.recurring_invoice.auto_billing_enabled}
+                            type="switch"
+                            id="auto_billing_enabled"
+                            name="auto_billing_enabled"
+                            label=""
+                            onChange={props.handleInput}/>
+                    </div>
 
-    render () {
-        return (
-            <Card>
-                <CardHeader>{translations.details}</CardHeader>
-                <CardBody>
-                    {!!this.props.show_invoice &&
-                    <FormGroup>
-                        <Label>{translations.invoice}</Label>
-                        <InvoiceDropdown
-                            is_recurring={true}
-                            invoices={this.props.allInvoices}
-                            handleInputChanges={this.props.handleInput}
-                            name="invoice_id"
-                            errors={this.state.errors}
-                        />
-                    </FormGroup>
-                    }
-                    <FormGroup>
-                        <Label for="date">{translations.date}(*):</Label>
-                        <Datepicker name="date" date={this.props.invoice.date} handleInput={this.props.handleInput}
-                            className={this.hasErrorFor('date') ? 'form-control is-invalid' : 'form-control'}/>
-                        {this.renderErrorFor('date')}
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="due_date">{translations.due_date}(*):</Label>
-                        <Datepicker name="due_date" date={this.props.invoice.due_date}
-                            handleInput={this.props.handleInput}
-                            className={this.hasErrorFor('due_date') ? 'form-control is-invalid' : 'form-control'}/>
-                        {this.renderErrorFor('due_date')}
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="po_number">{translations.po_number}(*):</Label>
-                        <Input value={this.props.invoice.po_number} type="text" id="po_number" name="po_number"
-                            onChange={this.props.handleInput}/>
-                        {this.renderErrorFor('po_number')}
-                    </FormGroup>
-                    <FormGroup>
-                        <Label>{translations.partial}</Label>
-                        <Input
-                            value={this.props.invoice.partial}
-                            type='text'
-                            name='partial'
-                            id='partial'
-                            onChange={this.props.handleInput}
-                        />
-                    </FormGroup>
+                    <h6 id="passwordHelpBlock" className="form-text text-muted">
+                        {translations.auto_billing_enabled_help_text}
+                    </h6>
+                </a>
+            </CardBody>
+        </Card>
 
-                    <FormGroup className={this.props.invoice.has_partial === true ? '' : 'd-none'}>
-                        <Label>{translations.partial_due_date}</Label>
-                        <Datepicker name="partial_due_date" date={this.props.invoice.partial_due_date}
-                            handleInput={this.props.handleInput}
-                            className={this.hasErrorFor('partial_due_date') ? 'form-control is-invalid' : 'form-control'}/>
-                    </FormGroup>
-
-                    <FormGroup>
-                        <Label>{translations.number}</Label>
-                        <Input className={this.hasErrorFor('number') ? 'form-control is-invalid' : 'form-control'}
-                            value={this.props.invoice.number}
-                            type='text'
-                            name='number'
-                            id='number'
-                            onChange={this.props.handleInput}
-                        />
-                        {this.renderErrorFor('number')}
-                    </FormGroup>
-                </CardBody>
-            </Card>
-
-        )
-    }
+    )
 }

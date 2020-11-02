@@ -102,11 +102,11 @@ export default class Quotes extends Component {
     getCustomFields () {
         const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
         const custom_fields = []
-        
-        if(custom_fields.Quote) {
-            custom_fields[0] = custom_fields.Quote
+
+        if (all_custom_fields.Quote) {
+            custom_fields[0] = all_custom_fields.Quote
         }
-        
+
         this.setState({
             custom_fields: custom_fields
         })

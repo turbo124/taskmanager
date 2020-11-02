@@ -99,6 +99,22 @@ class TaskController extends Controller
         return response()->json($this->transformTask($task));
     }
 
+    private function timerAction($action, Task $task)
+    {
+        $timer_repo = new TimerRepository(new Timer());
+
+        if ($action === 'stop_timer') {
+            $timer_repo->stopTimer($task);
+        }
+
+        if ($action === 'resume_timer' || $action === 'start_timer') {
+            $timer = TimerFactory::create(auth()->user(), auth()->user()->account_user()->account, $task);
+            $timer_repo->startTimer($timer, $task);
+        }
+
+        return response()->json($this->transformTask($task->fresh()));
+    }
+
     /**
      *
      * @param int $task_id
@@ -284,7 +300,6 @@ class TaskController extends Controller
         return response()->json($this->transformTask($task));
     }
 
-
     /**
      * @param $id
      *
@@ -394,29 +409,13 @@ class TaskController extends Controller
         return response()->json($responses);
     }
 
-    private function timerAction($action, Task $task)
+    public function sortTasks(Request $request)
     {
-        $timer_repo = new TimerRepository(new Timer());
-
-        if ($action === 'stop_timer') {
-            $timer_repo->stopTimer($task);
-        }
-
-        if ($action === 'resume_timer' || $action === 'start_timer') {
-            $timer = TimerFactory::create(auth()->user(), auth()->user()->account_user()->account, $task);
-            $timer_repo->startTimer($timer, $task);
-        }
-
-        return response()->json($this->transformTask($task->fresh()));
-    }
-
-    public function sortTasks(Request $request) {
-        foreach($request->input('tasks') as $data) {
+        foreach ($request->input('tasks') as $data) {
             $task = $this->task_repo->findTaskById($data['id']);
 
             $task->task_sort_order = $data['task_sort_order'];
             $task->save();
         }
-
     }
 }

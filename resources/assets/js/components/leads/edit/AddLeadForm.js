@@ -125,10 +125,10 @@ class AddLeadForm extends React.Component {
             handleInputChanges={this.handleInputChanges} errors={this.state.errors}
             lead={this.state}/>
         const custom_fields = <CustomFieldsForm handleInput={this.handleInput} custom_value1={this.state.custom_value1}
-                    custom_value2={this.state.custom_value2}
-                    custom_value3={this.state.custom_value3}
-                    custom_value4={this.state.custom_value4}
-                    custom_fields={this.props.custom_fields}/>
+            custom_value2={this.state.custom_value2}
+            custom_value3={this.state.custom_value3}
+            custom_value4={this.state.custom_value4}
+            custom_fields={this.props.custom_fields}/>
 
         const notes = <Notes handleInput={this.handleInputChanges} private_notes={this.state.private_notes}
             public_notes={this.state.public_notes}/>

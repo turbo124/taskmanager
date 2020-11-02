@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, FormGroup } from 'reactstrap'
+import { FormGroup, Input } from 'reactstrap'
 import { translations } from '../utils/_translations'
 
 export default function Duration (props) {

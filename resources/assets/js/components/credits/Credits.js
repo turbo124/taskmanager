@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import DataTable from '../common/DataTable'
-import axios from 'axios'
 import { Alert, Card, CardBody, Row } from 'reactstrap'
 import CreditFilters from './CreditFilters'
 import CreditItem from './CreditItem'
@@ -81,11 +80,11 @@ export default class Credits extends Component {
     getCustomFields () {
         const all_custom_fields = JSON.parse(localStorage.getItem('custom_fields'))
         const custom_fields = []
-        
-        if(custom_fields.Credit) {
-            custom_fields[0] = custom_fields.Credit
+
+        if (all_custom_fields.Credit) {
+            custom_fields[0] = all_custom_fields.Credit
         }
-        
+
         this.setState({
             custom_fields: custom_fields
         })
