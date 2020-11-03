@@ -8,6 +8,18 @@ use App\Events\Cases\CaseWasDeleted;
 use App\Events\Cases\CaseWasEmailed;
 use App\Events\Cases\CaseWasRestored;
 use App\Events\Cases\CaseWasUpdated;
+use App\Events\Project\ProjectWasArchived;
+use App\Events\Project\ProjectWasDeleted;
+use App\Events\Project\ProjectWasRestored;
+use App\Events\Project\ProjectWasUpdated;
+use App\Events\Cases\RecurringInvoiceWasArchived;
+use App\Events\Cases\RecurringInvoiceWasDeleted;
+use App\Events\Cases\RecurringInvoiceWasRestored;
+use App\Events\Company\CompanyWasArchived;
+use App\Events\Company\CompanyWasCreated;
+use App\Events\Company\CompanyWasDeleted;
+use App\Events\Company\CompanyWasRestored;
+use App\Events\Company\CompanyWasUpdated;
 use App\Events\Credit\CreditWasArchived;
 use App\Events\Credit\CreditWasCreated;
 use App\Events\Credit\CreditWasDeleted;
@@ -27,6 +39,11 @@ use App\Events\Deal\DealWasEmailed;
 use App\Events\Deal\DealWasRestored;
 use App\Events\Deal\DealWasUpdated;
 use App\Events\EmailFailedToSend;
+use App\Events\Expense\ExpenseWasArchived;
+use App\Events\Expense\ExpenseWasCreated;
+use App\Events\Expense\ExpenseWasDeleted;
+use App\Events\Expense\ExpenseWasRestored;
+use App\Events\Expense\ExpenseWasUpdated;
 use App\Events\Invoice\InvoiceWasArchived;
 use App\Events\Invoice\InvoiceWasCancelled;
 use App\Events\Invoice\InvoiceWasCreated;
@@ -76,6 +93,14 @@ use App\Events\Quote\QuoteWasEmailed;
 use App\Events\Quote\QuoteWasMarkedSent;
 use App\Events\Quote\QuoteWasRestored;
 use App\Events\Quote\QuoteWasUpdated;
+use App\Events\Project\ProjectWasCreated;
+use App\Events\RecurringInvoice\RecurringInvoiceWasCreated;
+use App\Events\RecurringInvoice\RecurringInvoiceWasUpdated;
+use App\Events\RecurringQuote\RecurringQuoteWasArchived;
+use App\Events\RecurringQuote\RecurringQuoteWasCreated;
+use App\Events\RecurringQuote\RecurringQuoteWasDeleted;
+use App\Events\RecurringQuote\RecurringQuoteWasRestored;
+use App\Events\RecurringQuote\RecurringQuoteWasUpdated;
 use App\Events\Task\TaskWasArchived;
 use App\Events\Task\TaskWasCreated;
 use App\Events\Task\TaskWasDeleted;
@@ -87,98 +112,121 @@ use App\Events\Uploads\FileWasUploaded;
 use App\Events\User\UserEmailChanged;
 use App\Events\User\UserWasCreated;
 use App\Events\User\UserWasDeleted;
-use App\Listeners\Cases\CaseArchivedActivity;
-use App\Listeners\Cases\CaseCreatedActivity;
-use App\Listeners\Cases\CaseDeletedActivity;
-use App\Listeners\Cases\CaseEmailedActivity;
-use App\Listeners\Cases\CaseRestoredActivity;
-use App\Listeners\Cases\CaseUpdatedActivity;
-use App\Listeners\Credit\CreditArchivedActivity;
-use App\Listeners\Credit\CreditCreatedActivity;
-use App\Listeners\Credit\CreditDeletedActivity;
-use App\Listeners\Credit\CreditEmailActivity;
-use App\Listeners\Credit\CreditMarkedSentActivity;
-use App\Listeners\Credit\CreditRestoredActivity;
-use App\Listeners\Credit\CreditUpdatedActivity;
-use App\Listeners\Customer\CustomerArchivedActivity;
-use App\Listeners\Customer\CustomerCreatedActivity;
-use App\Listeners\Customer\CustomerDeletedActivity;
-use App\Listeners\Customer\CustomerRestoredActivity;
-use App\Listeners\Customer\CustomerUpdatedActivity;
-use App\Listeners\Deal\DealArchivedActivity;
-use App\Listeners\Deal\DealCreatedActivity;
-use App\Listeners\Deal\DealDeletedActivity;
-use App\Listeners\Deal\DealEmailedActivity;
+use App\Listeners\Cases\CaseArchived;
+use App\Listeners\Cases\CaseCreated;
+use App\Listeners\Cases\CaseDeleted;
+use App\Listeners\Cases\CaseEmailed;
+use App\Listeners\Cases\CaseRestored;
+use App\Listeners\Cases\CaseUpdated;
+use App\Listeners\Company\CompanyArchived;
+use App\Listeners\Company\CompanyCreated;
+use App\Listeners\Company\CompanyDeleted;
+use App\Listeners\Company\CompanyRestored;
+use App\Listeners\Company\CompanyUpdated;
+use App\Listeners\Credit\CreditArchived;
+use App\Listeners\Credit\CreditCreated;
+use App\Listeners\Credit\CreditDeleted;
+use App\Listeners\Credit\CreditEmail;
+use App\Listeners\Credit\CreditMarkedSent;
+use App\Listeners\Credit\CreditRestored;
+use App\Listeners\Credit\CreditUpdated;
+use App\Listeners\Customer\CustomerArchived;
+use App\Listeners\Customer\CustomerCreated;
+use App\Listeners\Customer\CustomerDeleted;
+use App\Listeners\Customer\CustomerRestored;
+use App\Listeners\Customer\CustomerUpdated;
+use App\Listeners\Deal\DealArchived;
+use App\Listeners\Deal\DealCreated;
+use App\Listeners\Deal\DealDeleted;
+use App\Listeners\Deal\DealEmailed;
 use App\Listeners\Deal\DealNotification;
-use App\Listeners\Deal\DealRestoredActivity;
-use App\Listeners\Deal\DealUpdatedActivity;
+use App\Listeners\Deal\DealRestored;
+use App\Listeners\Deal\DealUpdated;
 use App\Listeners\Entity\EntityEmailFailedToSend;
 use App\Listeners\Entity\EntityViewedListener;
-use App\Listeners\Invoice\InvoiceArchivedActivity;
-use App\Listeners\Invoice\InvoiceCancelledActivity;
-use App\Listeners\Invoice\InvoiceCreatedActivity;
-use App\Listeners\Invoice\InvoiceDeletedActivity;
-use App\Listeners\Invoice\InvoiceEmailActivity;
+use App\Listeners\Expense\ExpenseArchived;
+use App\Listeners\Expense\ExpenseCreated;
+use App\Listeners\Expense\ExpenseDeleted;
+use App\Listeners\Expense\ExpenseRestored;
+use App\Listeners\Expense\ExpenseUpdated;
+use App\Listeners\Invoice\InvoiceArchived;
+use App\Listeners\Invoice\InvoiceCancelled;
+use App\Listeners\Invoice\InvoiceCreated;
+use App\Listeners\Invoice\InvoiceDeleted;
+use App\Listeners\Invoice\InvoiceEmail;
 use App\Listeners\Invoice\InvoiceEmailedNotification;
-use App\Listeners\Invoice\InvoiceMarkedSentActivity;
-use App\Listeners\Invoice\InvoicePaidActivity;
-use App\Listeners\Invoice\InvoiceRestoredActivity;
-use App\Listeners\Invoice\InvoiceReversedActivity;
-use App\Listeners\Invoice\InvoiceUpdatedActivity;
-use App\Listeners\Lead\LeadArchivedActivity;
-use App\Listeners\Lead\LeadCreatedActivity;
-use App\Listeners\Lead\LeadDeletedActivity;
-use App\Listeners\Lead\LeadEmailedActivity;
+use App\Listeners\Invoice\InvoiceMarkedSent;
+use App\Listeners\Invoice\InvoicePaid;
+use App\Listeners\Invoice\InvoiceRestored;
+use App\Listeners\Invoice\InvoiceReversed;
+use App\Listeners\Invoice\InvoiceUpdated;
+use App\Listeners\Lead\LeadArchived;
+use App\Listeners\Lead\LeadCreated;
+use App\Listeners\Lead\LeadDeleted;
+use App\Listeners\Lead\LeadEmailed;
 use App\Listeners\Lead\LeadNotification;
-use App\Listeners\Lead\LeadRestoredActivity;
-use App\Listeners\Lead\LeadUpdatedActivity;
+use App\Listeners\Lead\LeadRestored;
+use App\Listeners\Lead\LeadUpdated;
 use App\Listeners\NewUserNotification;
-use App\Listeners\Order\OrderArchivedActivity;
-use App\Listeners\Order\OrderBackorderedActivity;
+use App\Listeners\Order\OrderArchived;
+use App\Listeners\Order\OrderBackordered;
 use App\Listeners\Order\OrderBackorderedNotification;
-use App\Listeners\Order\OrderCreatedActivity;
-use App\Listeners\Order\OrderDeletedActivity;
-use App\Listeners\Order\OrderDispatchedActivity;
-use App\Listeners\Order\OrderHeldActivity;
+use App\Listeners\Order\OrderCreated;
+use App\Listeners\Order\OrderDeleted;
+use App\Listeners\Order\OrderDispatched;
+use App\Listeners\Order\OrderHeld;
 use App\Listeners\Order\OrderHeldNotification;
-use App\Listeners\Order\OrderMarkedSentActivity;
+use App\Listeners\Order\OrderMarkedSent;
 use App\Listeners\Order\OrderNotification;
-use App\Listeners\Order\OrderRestoredActivity;
-use App\Listeners\Order\OrderUpdatedActivity;
-use App\Listeners\Payment\PaymentArchivedActivity;
-use App\Listeners\Payment\PaymentCreatedActivity;
-use App\Listeners\Payment\PaymentDeletedActivity;
-use App\Listeners\Payment\PaymentFailedActivity;
+use App\Listeners\Order\OrderRestored;
+use App\Listeners\Order\OrderUpdated;
+use App\Listeners\Payment\PaymentArchived;
+use App\Listeners\Payment\PaymentCreated;
+use App\Listeners\Payment\PaymentDeleted;
 use App\Listeners\Payment\PaymentFailedNotification;
 use App\Listeners\Payment\PaymentNotification;
-use App\Listeners\Payment\PaymentRefundedActivity;
+use App\Listeners\Payment\PaymentRefunded;
 use App\Listeners\Payment\PaymentRefundedNotification;
-use App\Listeners\Payment\PaymentRestoredActivity;
-use App\Listeners\Payment\PaymentUpdatedActivity;
-use App\Listeners\PurchaseOrder\PurchaseOrderApprovedActivity;
-use App\Listeners\PurchaseOrder\PurchaseOrderArchivedActivity;
-use App\Listeners\PurchaseOrder\PurchaseOrderCreatedActivity;
-use App\Listeners\PurchaseOrder\PurchaseOrderDeletedActivity;
-use App\Listeners\PurchaseOrder\PurchaseOrderEmailedActivity;
-use App\Listeners\PurchaseOrder\PurchaseOrderMarkedSentActivity;
-use App\Listeners\PurchaseOrder\PurchaseOrderRestoredActivity;
-use App\Listeners\PurchaseOrder\PurchaseOrderUpdatedActivity;
-use App\Listeners\Quote\QuoteApprovedActivity;
-use App\Listeners\Quote\QuoteArchivedActivity;
-use App\Listeners\Quote\QuoteCreatedActivity;
-use App\Listeners\Quote\QuoteDeletedActivity;
-use App\Listeners\quote\QuoteEmailedActivity;
-use App\Listeners\Quote\QuoteMarkedSentActivity;
-use App\Listeners\Quote\QuoteRestoredActivity;
-use App\Listeners\Quote\QuoteUpdatedActivity;
+use App\Listeners\Payment\PaymentRestored;
+use App\Listeners\Payment\PaymentUpdated;
+use App\Listeners\PurchaseOrder\PurchaseOrderApproved;
+use App\Listeners\PurchaseOrder\PurchaseOrderArchived;
+use App\Listeners\PurchaseOrder\PurchaseOrderCreated;
+use App\Listeners\PurchaseOrder\PurchaseOrderDeleted;
+use App\Listeners\PurchaseOrder\PurchaseOrderEmailed;
+use App\Listeners\PurchaseOrder\PurchaseOrderMarkedSent;
+use App\Listeners\PurchaseOrder\PurchaseOrderRestored;
+use App\Listeners\PurchaseOrder\PurchaseOrderUpdated;
+use App\Listeners\Quote\QuoteApproved;
+use App\Listeners\Quote\QuoteArchived;
+use App\Listeners\Quote\QuoteCreated;
+use App\Listeners\Quote\QuoteDeleted;
+use App\Listeners\quote\QuoteEmailed;
+use App\Listeners\Quote\QuoteMarkedSent;
+use App\Listeners\Quote\QuoteRestored;
+use App\Listeners\Quote\QuoteUpdated;
 use App\Listeners\Quote\SendQuoteApprovedNotification;
-use App\Listeners\Task\TaskArchivedActivity;
-use App\Listeners\Task\TaskCreatedActivity;
-use App\Listeners\Task\TaskDeletedActivity;
-use App\Listeners\Task\TaskEmailedActivity;
-use App\Listeners\Task\TaskRestoredActivity;
-use App\Listeners\Task\TaskUpdatedActivity;
-use App\Listeners\User\DeletedUserActivity;
+use App\Listeners\RecurringInvoice\RecurringInvoiceArchived;
+use App\Listeners\RecurringInvoice\RecurringInvoiceCreated;
+use App\Listeners\RecurringInvoice\RecurringInvoiceDeleted;
+use App\Listeners\RecurringInvoice\RecurringInvoiceRestored;
+use App\Listeners\RecurringInvoice\RecurringInvoiceUpdated;
+use App\Listeners\RecurringQuote\RecurringQuoteArchived;
+use App\Listeners\RecurringQuote\RecurringQuoteCreated;
+use App\Listeners\RecurringQuote\RecurringQuoteDeleted;
+use App\Listeners\RecurringQuote\RecurringQuoteRestored;
+use App\Listeners\RecurringQuote\RecurringQuoteUpdated;
+use App\Listeners\Project\ProjectArchived;
+use App\Listeners\Project\ProjectCreated;
+use App\Listeners\Project\ProjectDeleted;
+use App\Listeners\Project\ProjectRestored;
+use App\Listeners\Project\ProjectUpdated;
+use App\Listeners\Task\TaskArchived;
+use App\Listeners\Task\TaskCreated;
+use App\Listeners\Task\TaskDeleted;
+use App\Listeners\Task\TaskRestored;
+use App\Listeners\Task\TaskUpdated;
+use App\Listeners\User\DeletedUser;
 use App\Listeners\User\SendUserEmailChangedEmail;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -190,274 +238,352 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        UserWasCreated::class             => [
+        UserWasCreated::class              => [
             NewUserNotification::class,
         ],
-        UserWasDeleted::class             => [
-            DeletedUserActivity::class,
+        UserWasDeleted::class              => [
+            DeletedUser::class,
         ],
-        UserEmailChanged::class           => [
+        UserEmailChanged::class            => [
             SendUserEmailChangedEmail::class
         ],
         // Customers
-        CustomerWasCreated::class         => [
-            CustomerCreatedActivity::class
+        CustomerWasCreated::class          => [
+            CustomerCreated::class
         ],
-        CustomerWasArchived::class        => [
-            CustomerArchivedActivity::class
+        CustomerWasArchived::class         => [
+            CustomerArchived::class
         ],
-        CustomerWasRestored::class        => [
-            CustomerRestoredActivity::class
+        CustomerWasRestored::class         => [
+            CustomerRestored::class
         ],
-        CustomerWasDeleted::class         => [
-            CustomerDeletedActivity::class
+        CustomerWasDeleted::class          => [
+            CustomerDeleted::class
         ],
-        CustomerWasUpdated::class         => [
-            CustomerUpdatedActivity::class
+        CustomerWasUpdated::class          => [
+            CustomerUpdated::class
         ],
         //payments
-        PaymentWasCreated::class          => [
-            PaymentCreatedActivity::class,
+        PaymentWasCreated::class           => [
+            PaymentCreated::class,
             PaymentNotification::class,
         ],
-        PaymentWasUpdated::class          => [
-            PaymentUpdatedActivity::class
+        PaymentWasUpdated::class           => [
+            PaymentUpdated::class
         ],
-        PaymentWasArchived::class         => [
-            PaymentArchivedActivity::class,
+        PaymentWasArchived::class          => [
+            PaymentArchived::class,
         ],
-        PaymentWasRestored::class         => [
-            PaymentRestoredActivity::class,
+        PaymentWasRestored::class          => [
+            PaymentRestored::class,
         ],
-        PaymentWasDeleted::class          => [
-            PaymentDeletedActivity::class,
+        PaymentWasDeleted::class           => [
+            PaymentDeleted::class,
         ],
-        PaymentWasRefunded::class         => [
-            PaymentRefundedActivity::class,
+        PaymentWasRefunded::class          => [
+            PaymentRefunded::class,
             PaymentRefundedNotification::class
         ],
-        PaymentFailed::class              => [
-            PaymentFailedActivity::class,
+        PaymentFailed::class               => [
+            \App\Listeners\Payment\PaymentFailed::class,
             PaymentFailedNotification::class
         ],
         //Invoices
-        InvoiceWasMarkedSent::class       => [
-            InvoiceMarkedSentActivity::class,
+        InvoiceWasMarkedSent::class        => [
+            InvoiceMarkedSent::class,
         ],
-        InvoiceWasArchived::class         => [
-            InvoiceArchivedActivity::class
+        InvoiceWasArchived::class          => [
+            InvoiceArchived::class
         ],
-        InvoiceWasRestored::class         => [
-            InvoiceRestoredActivity::class
+        InvoiceWasRestored::class          => [
+            InvoiceRestored::class
         ],
-        InvoiceWasUpdated::class          => [
-            InvoiceUpdatedActivity::class
+        InvoiceWasUpdated::class           => [
+            InvoiceUpdated::class
         ],
-        InvoiceWasCreated::class          => [
-            InvoiceCreatedActivity::class
+        InvoiceWasCreated::class           => [
+            InvoiceCreated::class
         ],
-        InvoiceWasPaid::class             => [
-            InvoicePaidActivity::class,
+        InvoiceWasPaid::class              => [
+            InvoicePaid::class,
         ],
-        InvoiceWasEmailed::class          => [
-            InvoiceEmailActivity::class,
+        InvoiceWasEmailed::class           => [
+            InvoiceEmail::class,
             InvoiceEmailedNotification::class,
         ],
-        InvoiceWasDeleted::class          => [
-            InvoiceDeletedActivity::class,
+        InvoiceWasDeleted::class           => [
+            InvoiceDeleted::class,
         ],
-        InvoiceWasReversed::class         => [
-            InvoiceReversedActivity::class
+        InvoiceWasReversed::class          => [
+            InvoiceReversed::class
         ],
-        InvoiceWasCancelled::class        => [
-            InvoiceCancelledActivity::class
+        InvoiceWasCancelled::class         => [
+            InvoiceCancelled::class
         ],
-        InvitationWasViewed::class        => [
+        InvitationWasViewed::class         => [
             EntityViewedListener::class
         ],
         // quotes
-        QuoteWasApproved::class           => [
-            QuoteApprovedActivity::class,
+        QuoteWasApproved::class            => [
+            QuoteApproved::class,
             SendQuoteApprovedNotification::class
         ],
-        QuoteWasCreated::class            => [
-            QuoteCreatedActivity::class
+        QuoteWasCreated::class             => [
+            QuoteCreated::class
         ],
-        QuoteWasEmailed::class            => [
-            QuoteEmailedActivity::class
+        QuoteWasEmailed::class             => [
+            QuoteEmailed::class
         ],
-        QuoteWasUpdated::class            => [
-            QuoteUpdatedActivity::class
+        QuoteWasUpdated::class             => [
+            QuoteUpdated::class
         ],
-        QuoteWasDeleted::class            => [
-            QuoteDeletedActivity::class
+        QuoteWasDeleted::class             => [
+            QuoteDeleted::class
         ],
-        QuoteWasArchived::class           => [
-            QuoteArchivedActivity::class
+        QuoteWasArchived::class            => [
+            QuoteArchived::class
         ],
-        QuoteWasRestored::class           => [
-            QuoteRestoredActivity::class
+        QuoteWasRestored::class            => [
+            QuoteRestored::class
         ],
-        QuoteWasMarkedSent::class         => [
-            QuoteMarkedSentActivity::class
+        QuoteWasMarkedSent::class          => [
+            QuoteMarkedSent::class
+        ],
+        //companies
+        CompanyWasCreated::class           => [
+            CompanyCreated::class
+        ],
+        CompanyWasUpdated::class           => [
+            CompanyUpdated::class
+        ],
+        CompanyWasDeleted::class           => [
+            CompanyDeleted::class
+        ],
+        CompanyWasArchived::class          => [
+            CompanyArchived::class
+        ],
+        CompanyWasRestored::class          => [
+            CompanyRestored::class
+        ],
+        //expenses
+        ExpenseWasCreated::class           => [
+            ExpenseCreated::class
+        ],
+        ExpenseWasUpdated::class           => [
+            ExpenseUpdated::class
+        ],
+        ExpenseWasDeleted::class           => [
+            ExpenseDeleted::class
+        ],
+        ExpenseWasArchived::class          => [
+            ExpenseArchived::class
+        ],
+        ExpenseWasRestored::class          => [
+            ExpenseRestored::class
+        ],
+        //recurring invoice
+        RecurringInvoiceWasCreated::class  => [
+            RecurringInvoiceCreated::class
+        ],
+        RecurringInvoiceWasUpdated::class  => [
+            RecurringInvoiceUpdated::class
+        ],
+        RecurringInvoiceWasDeleted::class  => [
+            RecurringInvoiceDeleted::class
+        ],
+        RecurringInvoiceWasArchived::class => [
+            RecurringInvoiceArchived::class
+        ],
+        RecurringInvoiceWasRestored::class => [
+            RecurringInvoiceRestored::class
+        ],
+        //recurring quote
+        RecurringQuoteWasCreated::class  => [
+            RecurringQuoteCreated::class
+        ],
+        RecurringQuoteWasUpdated::class  => [
+            RecurringQuoteUpdated::class
+        ],
+        RecurringQuoteWasDeleted::class  => [
+            RecurringQuoteDeleted::class
+        ],
+        RecurringQuoteWasArchived::class => [
+            RecurringQuoteArchived::class
+        ],
+        RecurringQuoteWasRestored::class => [
+            RecurringQuoteRestored::class
+        ],
+        //cases
+        CaseWasCreated::class  => [
+            CaseCreated::class
+        ],
+        CaseWasUpdated::class  => [
+            CaseUpdated::class
+        ],
+        CaseWasDeleted::class  => [
+            CaseDeleted::class
+        ],
+        CaseWasArchived::class => [
+            CaseArchived::class
+        ],
+        CaseWasRestored::class => [
+            CaseRestored::class
+        ],
+        //projects
+        ProjectWasCreated::class  => [
+            ProjectCreated::class
+        ],
+        ProjectWasUpdated::class  => [
+            ProjectUpdated::class
+        ],
+        ProjectWasDeleted::class  => [
+            ProjectDeleted::class
+        ],
+        ProjectWasArchived::class => [
+            ProjectArchived::class
+        ],
+        ProjectWasRestored::class => [
+            ProjectRestored::class
         ],
         //orders
-        OrderWasDispatched::class         => [
-            OrderDispatchedActivity::class
+        OrderWasDispatched::class          => [
+            OrderDispatched::class
         ],
-        OrderWasDeleted::class            => [
-            OrderDeletedActivity::class
+        OrderWasDeleted::class             => [
+            OrderDeleted::class
         ],
-        OrderWasBackordered::class        => [
-            OrderBackorderedActivity::class,
+        OrderWasBackordered::class         => [
+            OrderBackordered::class,
             OrderBackorderedNotification::class
         ],
-        OrderWasHeld::class               => [
-            OrderHeldActivity::class,
+        OrderWasHeld::class                => [
+            OrderHeld::class,
             OrderHeldNotification::class
         ],
-        OrderWasArchived::class           => [
-            OrderArchivedActivity::class
+        OrderWasArchived::class            => [
+            OrderArchived::class
         ],
-        OrderWasRestored::class           => [
-            OrderRestoredActivity::class
+        OrderWasRestored::class            => [
+            OrderRestored::class
         ],
-        OrderWasUpdated::class            => [
-            OrderUpdatedActivity::class
+        OrderWasUpdated::class             => [
+            OrderUpdated::class
         ],
-        OrderWasMarkedSent::class         => [
-            OrderMarkedSentActivity::class
+        OrderWasMarkedSent::class          => [
+            OrderMarkedSent::class
         ],
         // credits
-        CreditWasCreated::class           => [
-            CreditCreatedActivity::class
+        CreditWasCreated::class            => [
+            CreditCreated::class
         ],
-        CreditWasDeleted::class           => [
-            CreditDeletedActivity::class
+        CreditWasDeleted::class            => [
+            CreditDeleted::class
         ],
-        CreditWasArchived::class          => [
-            CreditArchivedActivity::class
+        CreditWasArchived::class           => [
+            CreditArchived::class
         ],
-        CreditWasRestored::class          => [
-            CreditRestoredActivity::class
+        CreditWasRestored::class           => [
+            CreditRestored::class
         ],
-        CreditWasUpdated::class           => [
-            CreditUpdatedActivity::class
+        CreditWasUpdated::class            => [
+            CreditUpdated::class
         ],
-        CreditWasMarkedSent::class        => [
-            CreditMarkedSentActivity::class
+        CreditWasMarkedSent::class         => [
+            CreditMarkedSent::class
         ],
-        CreditWasEmailed::class           => [
-            CreditEmailActivity::class
+        CreditWasEmailed::class            => [
+            CreditEmail::class
         ],
-        LeadWasCreated::class             => [
-            LeadCreatedActivity::class,
+        LeadWasCreated::class              => [
+            LeadCreated::class,
             LeadNotification::class
         ],
-        LeadWasArchived::class            => [
-            LeadArchivedActivity::class
+        LeadWasArchived::class             => [
+            LeadArchived::class
         ],
-        LeadWasDeleted::class             => [
-            LeadDeletedActivity::class
+        LeadWasDeleted::class              => [
+            LeadDeleted::class
         ],
-        LeadWasEmailed::class             => [
-            LeadEmailedActivity::class
+        LeadWasEmailed::class              => [
+            LeadEmailed::class
         ],
-        LeadWasRestored::class            => [
-            LeadRestoredActivity::class
+        LeadWasRestored::class             => [
+            LeadRestored::class
         ],
-        LeadWasUpdated::class             => [
-            LeadUpdatedActivity::class
+        LeadWasUpdated::class              => [
+            LeadUpdated::class
         ],
-        OrderWasCreated::class            => [
-            OrderCreatedActivity::class,
+        OrderWasCreated::class             => [
+            OrderCreated::class,
             OrderNotification::class
         ],
-        FileWasUploaded::class            => [
+        FileWasUploaded::class             => [
         ],
-        FileWasDeleted::class             => [
+        FileWasDeleted::class              => [
         ],
-        EmailFailedToSend::class          => [
+        EmailFailedToSend::class           => [
             EntityEmailFailedToSend::class
         ],
-        PurchaseOrderWasCreated::class    => [
-            PurchaseOrderCreatedActivity::class
+        PurchaseOrderWasCreated::class     => [
+            PurchaseOrderCreated::class
         ],
-        PurchaseOrderWasApproved::class   => [
-            PurchaseOrderApprovedActivity::class
+        PurchaseOrderWasApproved::class    => [
+            PurchaseOrderApproved::class
         ],
-        PurchaseOrderWasArchived::class   => [
-            PurchaseOrderArchivedActivity::class
+        PurchaseOrderWasArchived::class    => [
+            PurchaseOrderArchived::class
         ],
-        PurchaseOrderWasDeleted::class    => [
-            PurchaseOrderDeletedActivity::class
+        PurchaseOrderWasDeleted::class     => [
+            PurchaseOrderDeleted::class
         ],
-        PurchaseOrderWasEmailed::class    => [
-            PurchaseOrderEmailedActivity::class
+        PurchaseOrderWasEmailed::class     => [
+            PurchaseOrderEmailed::class
         ],
-        PurchaseOrderWasMarkedSent::class => [
-            PurchaseOrderMarkedSentActivity::class
+        PurchaseOrderWasMarkedSent::class  => [
+            PurchaseOrderMarkedSent::class
         ],
-        PurchaseOrderWasRestored::class   => [
-            PurchaseOrderRestoredActivity::class
+        PurchaseOrderWasRestored::class    => [
+            PurchaseOrderRestored::class
         ],
-        PurchaseOrderWasUpdated::class    => [
-            PurchaseOrderUpdatedActivity::class
+        PurchaseOrderWasUpdated::class     => [
+            PurchaseOrderUpdated::class
         ],
-        DealWasCreated::class             => [
-            DealCreatedActivity::class,
+        DealWasCreated::class              => [
+            DealCreated::class,
             DealNotification::class
         ],
-        DealWasArchived::class            => [
-            DealArchivedActivity::class
+        DealWasArchived::class             => [
+            DealArchived::class
         ],
-        DealWasDeleted::class             => [
-            DealDeletedActivity::class
+        DealWasDeleted::class              => [
+            DealDeleted::class
         ],
-        DealWasEmailed::class             => [
-            DealEmailedActivity::class
+        DealWasEmailed::class              => [
+            DealEmailed::class
         ],
-        DealWasRestored::class            => [
-            DealRestoredActivity::class
+        DealWasRestored::class             => [
+            DealRestored::class
         ],
-        DealWasUpdated::class             => [
-            DealUpdatedActivity::class
+        DealWasUpdated::class              => [
+            DealUpdated::class
         ],
-        CaseWasArchived::class            => [
-            CaseArchivedActivity::class
+        TaskWasArchived::class             => [
+            TaskArchived::class
         ],
-        CaseWasCreated::class             => [
-            CaseCreatedActivity::class
+        TaskWasCreated::class              => [
+            TaskCreated::class
         ],
-        CaseWasDeleted::class             => [
-            CaseDeletedActivity::class
+        TaskWasDeleted::class              => [
+            TaskDeleted::class
         ],
-        CaseWasEmailed::class             => [
-            CaseEmailedActivity::class
+//        TaskWasEmailed::class              => [
+//            RecurringInvoiceEmailed::class
+//        ],
+        TaskWasRestored::class             => [
+            TaskRestored::class
         ],
-        CaseWasRestored::class            => [
-            CaseRestoredActivity::class
-        ],
-        CaseWasUpdated::class             => [
-            CaseUpdatedActivity::class
-        ],
-        TaskWasArchived::class            => [
-            TaskArchivedActivity::class
-        ],
-        TaskWasCreated::class             => [
-            TaskCreatedActivity::class
-        ],
-        TaskWasDeleted::class             => [
-            TaskDeletedActivity::class
-        ],
-        TaskWasEmailed::class             => [
-            TaskEmailedActivity::class
-        ],
-        TaskWasRestored::class            => [
-            TaskRestoredActivity::class
-        ],
-        TaskWasUpdated::class             => [
-            TaskUpdatedActivity::class
+        TaskWasUpdated::class              => [
+            TaskUpdated::class
         ]
     ];
 

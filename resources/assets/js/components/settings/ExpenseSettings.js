@@ -7,6 +7,7 @@ import { translations } from '../utils/_translations'
 import SnackbarMessage from '../common/SnackbarMessage'
 import Header from './Header'
 import AccountRepository from '../repositories/AccountRepository'
+import BlockButton from "../common/BlockButton";
 
 export default class ExpenseSettings extends Component {
     constructor (props) {
@@ -184,6 +185,9 @@ export default class ExpenseSettings extends Component {
                         </CardBody>
                     </Card>
                 </div>
+
+                <BlockButton icon={icons.percent} button_text={translations.configure_categories}
+                    button_link="/#/expense_categories"/>
             </React.Fragment>
         ) : null
     }

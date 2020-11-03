@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Events\RecurringInvoice\RecurringInvoiceWasCreated;
+use App\Events\RecurringInvoice\RecurringInvoiceWasUpdated;
 use App\Models\Account;
 use App\Models\Invoice;
 use App\Models\RecurringInvoice;
@@ -59,6 +60,8 @@ class RecurringInvoiceRepository extends BaseRepository
      */
     public function save($data, RecurringInvoice $invoice): ?RecurringInvoice
     {
+        $is_add = !empty($invoice->id);
+
         $invoice->fill($data);
         $invoice = $this->populateDefaults($invoice);
         $invoice = $this->formatNotes($invoice);
@@ -68,6 +71,10 @@ class RecurringInvoiceRepository extends BaseRepository
         $invoice->save();
 
         $this->saveInvitations($invoice, $data);
+
+        if (!$is_add) {
+            event(new RecurringInvoiceWasUpdated($invoice));
+        }
 
         return $invoice->fresh();
     }

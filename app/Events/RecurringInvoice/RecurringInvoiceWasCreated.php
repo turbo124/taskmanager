@@ -14,6 +14,9 @@ class RecurringInvoiceWasCreated
     use SerializesModels;
     use SendSubscription;
 
+    /**
+     * @var RecurringInvoice
+     */
     public RecurringInvoice $recurring_invoice;
 
     /**

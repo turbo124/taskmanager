@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Company\CompanyWasCreated;
 use App\Factory\CompanyFactory;
 use App\Models\Company;
 use App\Models\Industry;
@@ -73,6 +74,8 @@ class CompanyController extends Controller
         if (!empty($request->contacts)) {
             $this->company_contact_repo->save($request->contacts, $company);
         }
+
+        event(new CompanyWasCreated($company));
 
         return response()->json($this->transformCompany($company));
     }
