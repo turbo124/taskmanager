@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Events\Expense\ExpenseWasCreated;
+use App\Events\Expense\ExpenseWasUpdated;
 use App\Jobs\Expense\GenerateInvoice;
 use App\Models\Expense;
 use App\Models\Invoice;
@@ -47,14 +49,27 @@ class ExpenseRepository extends BaseRepository
             GenerateInvoice::dispatchNow(new InvoiceRepository(new Invoice), collect([$expense]), $data);
         }
 
+        event(new ExpenseWasCreated($expense));
+
         return $expense;
     }
 
+    /**
+     * @param array $data
+     * @param Expense $expense
+     * @return Expense|null
+     */
     public function save(array $data, Expense $expense): ?Expense
     {
+        $is_add = !empty($expense->id);
+
         $expense->fill($data);
         $expense->setNumber();
         $expense->save();
+
+        if(!$is_add) {
+            event(new ExpenseWasUpdated($expense));
+        }
 
         return $expense;
     }

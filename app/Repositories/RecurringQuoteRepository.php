@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Events\RecurringQuote\RecurringQuoteWasCreated;
+use App\Events\RecurringQuote\RecurringQuoteWasUpdated;
 use App\Models\Account;
 use App\Models\Quote;
 use App\Models\RecurringQuote;
@@ -61,6 +62,7 @@ class RecurringQuoteRepository extends BaseRepository
      */
     public function save(array $data, RecurringQuote $quote): ?RecurringQuote
     {
+        $is_add = empty($quote->id);
         $quote->fill($data);
         $quote = $this->populateDefaults($quote);
         $quote = $this->formatNotes($quote);
@@ -70,6 +72,10 @@ class RecurringQuoteRepository extends BaseRepository
         $quote->save();
 
         $this->saveInvitations($quote, $data);
+
+        if(!$is_add) {
+            event(new RecurringQuoteWasUpdated($quote));
+        }
 
         return $quote->fresh();
     }

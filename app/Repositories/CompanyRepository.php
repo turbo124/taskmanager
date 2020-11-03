@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Events\Company\CompanyWasCreated;
+use App\Events\Company\CompanyWasUpdated;
 use App\Models\Company;
 use App\Models\Product;
 use App\Repositories\Base\BaseRepository;
@@ -28,8 +30,7 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
 
     /**
      * @param int $id
-     *
-     * @return Brand
+     * @return Company
      */
     public function findCompanyById(int $id): Company
     {
@@ -58,32 +59,11 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
     }
 
     /**
-     * @return Collection
-     */
-    public function listProducts(): Collection
-    {
-        return $this->model->products()->get();
-    }
-
-    /**
      * @param Product $product
      */
     public function saveProduct(Product $product)
     {
         $this->model->products()->save($product);
-    }
-
-    /**
-     * Dissociate the products
-     */
-    public function dissociateProducts()
-    {
-        $this->model->products()->each(
-            function (Product $product) {
-                $product->company_id = null;
-                $product->save();
-            }
-        );
     }
 
     public function getModel()
@@ -92,39 +72,23 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
     }
 
     /**
-     * Sync the users
-     *
-     * @param array $params
-     */
-    public function syncUsers($user_id, array $params)
-    {
-        $this->model->users()->attach($user_id, $params);
-    }
-
-    /**
-     * Store vendors in bulk.
-     *
-     * @param array $vendor
-     * @return vendor|null
-     */
-    public function create($company): ?Company
-    {
-        return $this->save($company, CompanyFactory::create(auth()->user()->company()->id, auth()->user()->id));
-    }
-
-    /**
-     * Saves the client and its contacts
-     *
-     * @param array $data The data
-     * @param Company $client The Company
-     *
-     * @return     Client|Company|null  Company Object
+     * @param array $data
+     * @param Company $company
+     * @return Company|null
      */
     public function save(array $data, Company $company): ?Company
     {
+        $is_add = empty($company->id);
+
         $company->fill($data);
         $company->setNumber();
         $company->save();
+
+        if($is_add) {
+            event(new CompanyWasCreated($company));
+        } else {
+            event(new CompanyWasUpdated($company));
+        }
 
         return $company;
     }

@@ -24,6 +24,7 @@ import Group from '../groups/view/Group'
 import Gateway from '../gateways/view/Gateway'
 import Deal from '../deals/view/Deal'
 import PurchaseOrder from '../purchase_orders/view/PurchaseOrder'
+import ViewExpenseCategory from '../expense_categories/view/ViewExpenseCategory'
 
 export default class ViewEntity extends Component {
     constructor (props) {
@@ -111,7 +112,14 @@ export default class ViewEntity extends Component {
                         {this.props.entity && this.props.entity_type && ['Expense'].includes(this.props.entity_type) &&
                         <Expense entities={this.props.entities} customers={this.props.customers}
                             entity={this.props.entity}
-                            updateState={this.updateState}/>}
+                            updateState={this.updateState}/>
+                        }
+
+                        {this.props.entity && this.props.entity_type && ['ExpenseCategory'].includes(this.props.entity_type) &&
+                        <ViewExpenseCategory entities={this.props.entities} customers={this.props.customers}
+                            entity={this.props.entity}
+                            updateState={this.updateState}/>
+                        }
 
                         {this.props.entity && this.props.entity_type && ['Quote'].includes(this.props.entity_type) &&
                         <Quote entities={this.props.entities} customers={this.props.customers}

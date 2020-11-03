@@ -176,7 +176,7 @@ export default class Categories extends Component {
                                     setError={this.setError.bind(this)}
                                     columnMapping={{ customer_id: 'CUSTOMER' }}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
-                                    entity_type="Category"
+                                    entity_type="ExpenseCategory"
                                     bulk_save_url="/api/expense-categories/bulk"
                                     view={view}
                                     ignore={this.state.ignoredColumns}

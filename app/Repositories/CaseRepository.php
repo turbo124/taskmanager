@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Events\Cases\CaseWasCreated;
 use App\Events\Cases\CaseWasUpdated;
+use App\Events\Cases\RecurringQuoteWasUpdated;
 use App\Factory\CommentFactory;
 use App\Models\Cases;
 use App\Models\CaseTemplate;
