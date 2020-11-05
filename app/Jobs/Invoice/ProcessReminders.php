@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class SendReminders implements ShouldQueue
+class ProcessReminders implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -38,11 +38,11 @@ class SendReminders implements ShouldQueue
     {
         $invoices = Invoice::whereDate('date_to_send', '=', Carbon::today()->toDateString())->get();
 
-        $invoices->each(
-            function ($invoice) {
-                $this->execute($invoice);
-            }
-        );
+        foreach ($invoices as $invoice) {
+            $this->execute($invoice);
+        }
+
+        return true;
     }
 
     private function execute(Invoice $invoice)
@@ -73,9 +73,9 @@ class SendReminders implements ShouldQueue
             $reminder_date = $this->invoice->date_to_send;
 
             if ($this->invoice->customer->getSetting(
-                    "enable_reminder{$counter}"
+                    "reminder{$counter}_enabled"
                 ) === false || $this->invoice->customer->getSetting(
-                    "num_days_reminder{$counter}"
+                    "number_of_days_after_{$counter}"
                 ) == 0 || !$reminder_date->isToday()) {
                 continue;
             }
@@ -86,8 +86,8 @@ class SendReminders implements ShouldQueue
                 $this->sendEmail("reminder{$counter}");
 
                 $this->updateNextReminderDate(
-                    $this->invoice->customer->getSetting("schedule_reminder{$counter}"),
-                    $this->invoice->customer->getSetting("num_days_reminder{$counter}")
+                    $this->invoice->customer->getSetting("scheduled_to_send_{$counter}"),
+                    $this->invoice->customer->getSetting("number_of_days_after_{$counter}")
                 );
                 $message_sent = true;
             }
@@ -102,21 +102,26 @@ class SendReminders implements ShouldQueue
             return true;
         }
 
-        $this->invoice->late_fee_charge = $amount;
+        $this->invoice->late_fee_charge += $amount;
         $this->invoice_repo->save(['late_fee_charge' => $amount], $this->invoice);
 
         return true;
     }
 
+    /**
+     * @param $counter
+     * @return false|float|null
+     */
     private function calculateAmount($counter)
     {
-        $percentage = $this->invoice->customer->getSetting("late_fee_percent{$counter}");
+        $percentage = $this->invoice->customer->getSetting("percent_to_charge_{$counter}");
+        $current_total = $this->invoice->partial > 0 ? $this->invoice->partial : $this->invoice->balance;
 
         if (!empty($percentage)) {
-            return round($percentage / ($this->invoice->total / 100), 2);
+            return round(($percentage / 100) * $current_total, 2);
         }
 
-        $amount = $this->invoice->customer->getSetting("late_fee_amount{$counter}");
+        $amount = $this->invoice->customer->getSetting("amount_to_charge_{$counter}");
 
         if (empty($amount)) {
             return null;
@@ -127,8 +132,8 @@ class SendReminders implements ShouldQueue
 
     private function sendEmail($template)
     {
-        $subject = $this->invoice->customer->getSetting('email_subject_' . $template);
-        $body = $this->invoice->customer->getSetting('email_template_' . $template);
+        $subject = $this->invoice->customer->getSetting($template . '_subject');
+        $body = $this->invoice->customer->getSetting($template . '_message');
         $this->invoice->service()->sendEmail(null, $subject, $body, $template);
     }
 

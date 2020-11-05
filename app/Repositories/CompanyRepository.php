@@ -90,6 +90,6 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
             event(new CompanyWasUpdated($company));
         }
 
-        return $company;
+        return $company->fresh();
     }
 }

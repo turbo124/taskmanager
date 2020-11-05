@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardBody, CardHeader, CustomInput, FormGroup, Input, Label } from 'reactstrap'
+import { Card, CardBody, CardHeader, CustomInput, FormGroup, Input, Label, Button } from 'reactstrap'
 import FormBuilder from '../../settings/FormBuilder'
 import { translations } from '../../utils/_translations'
 
@@ -95,6 +95,14 @@ export default class DetailsForm extends React.Component {
                         id="company_logo" name="company_logo"
                         label="Logo"/>
                 </FormGroup>
+
+                {!!this.props.company.logo && !!this.props.company.logo.length &&
+                    <React.Fragment>
+                        <img src={`${this.props.company.logo}`} />
+                        <Button color="danger" onClick={this.props.removeLogo}>{translations.remove}</Button>
+                    </React.Fragment>
+
+                }
 
                 {customForm}
             </CardBody>

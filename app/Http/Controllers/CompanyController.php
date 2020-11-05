@@ -18,6 +18,7 @@ use App\Transformations\CompanyTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
 {
@@ -98,12 +99,18 @@ class CompanyController extends Controller
     public function update(UpdateCompanyRequest $request, $id)
     {
         $company = $this->company_repo->findCompanyById($id);
+        $logo = $company->logo;
 
         if ($request->company_logo !== null && $request->company_logo !== 'null') {
             $company->logo = $this->uploadLogo($request->file('company_logo'));
+        } else {
+            if (empty($request->logo) && !empty($logo)) {
+                Storage::disk('public')->delete($logo);
+                $company->logo = null;
+            }
         }
 
-        $this->company_repo->save($request->all(), $company);
+        $this->company_repo->save($request->except('logo'), $company);
 
         if (!empty($request->contacts)) {
             $this->company_contact_repo->save($request->contacts, $company);

@@ -12,7 +12,7 @@ use App\Components\InvoiceCalculator\LineItem;
 use App\Factory\CreditFactory;
 use App\Factory\InvoiceFactory;
 use App\Jobs\Invoice\AutobillInvoice;
-use App\Jobs\Invoice\SendReminders;
+use App\Jobs\Invoice\ProcessReminders;
 use App\Models\Account;
 use App\Models\Credit;
 use App\Models\Customer;
@@ -550,6 +550,7 @@ class InvoiceTest extends TestCase
         $this->assertEquals(0, $invoice->balance);
     }
 
+    /** @test */
     public function test_reminders()
     {
         // create invoice
@@ -560,27 +561,28 @@ class InvoiceTest extends TestCase
         $invoice->save();
 
         $settings = $this->account->settings;
-        $settings->late_fee_amount1 = 10;
-        $settings->enable_reminder1 = true;
-        $settings->num_days_reminder1 = 1;
-        $settings->schedule_reminder1 = 'after_invoice_date';
+        $settings->amount_to_charge_1 = 10;
+        $settings->reminder1_enabled = true;
+        $settings->number_of_days_after_1 = 1;
+        $settings->scheduled_to_send_1 = 'after_invoice_date';
         $settings->inclusive_taxes = false;
         $this->account->settings = $settings;
         $this->account->save();
 
         $invoiceRepo = new InvoiceRepository(new Invoice);
 
-        SendReminders::dispatchNow($invoiceRepo);
+        ProcessReminders::dispatchNow($invoiceRepo);
 
         $updated_invoice = $invoice->fresh();
 
-        $date_to_send = Carbon::parse($invoice->date)->addDays($settings->num_days_reminder1)->format('Y-m-d');
+        $date_to_send = Carbon::parse($invoice->date)->addDays($settings->number_of_days_after_1)->format('Y-m-d');
 
         $this->assertEquals(count($invoice->line_items) + 1, count($updated_invoice->line_items));
-        $this->assertEquals($this->main_account->settings->late_fee_amount1, $updated_invoice->late_fee_charge);
+        $this->assertEquals(10, $updated_invoice->late_fee_charge);
         $this->assertEquals($updated_invoice->date_to_send->format('Y-m-d'), $date_to_send);
     }
 
+    /** @test */
     public function test_reminders_percentage()
     {
         // create invoice
@@ -591,25 +593,25 @@ class InvoiceTest extends TestCase
         $invoice->save();
 
         $settings = $invoice->customer->account->settings;
-        $settings->late_fee_amount1 = 0;
-        $settings->late_fee_percent1 = 5;
-        $settings->enable_reminder1 = true;
-        $settings->num_days_reminder1 = 1;
-        $settings->schedule_reminder1 = 'after_invoice_date';
+        $settings->amount_to_charge_1 = 0;
+        $settings->percent_to_charge_1 = 5;
+        $settings->reminder1_enabled = true;
+        $settings->number_of_days_after_1 = 1;
+        $settings->scheduled_to_send_1 = 'after_invoice_date';
         $settings->inclusive_taxes = false;
-        $this->account->settings = $settings;
-        $this->account->save();
+        $invoice->customer->account->settings = $settings;
+        $invoice->customer->account->save();
 
         $invoiceRepo = new InvoiceRepository(new Invoice);
 
-        SendReminders::dispatchNow($invoiceRepo);
+        ProcessReminders::dispatchNow($invoiceRepo);
 
         $updated_invoice = $invoice->fresh();
 
-        $date_to_send = Carbon::parse($invoice->date)->addDays($settings->num_days_reminder1)->format('Y-m-d');
+        $date_to_send = Carbon::parse($invoice->date)->addDays($settings->number_of_days_after_1)->format('Y-m-d');
 
         $this->assertEquals(count($invoice->line_items) + 1, count($updated_invoice->line_items));
-        $this->assertEquals($this->main_account->settings->late_fee_amount1, $updated_invoice->late_fee_charge);
+        $this->assertEquals(40, $updated_invoice->late_fee_charge);
         $this->assertEquals($updated_invoice->date_to_send->format('Y-m-d'), $date_to_send);
     }
 }
