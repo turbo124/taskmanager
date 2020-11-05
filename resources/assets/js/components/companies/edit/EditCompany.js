@@ -40,6 +40,7 @@ class EditCompany extends React.Component {
         this.handleMultiSelect = this.handleMultiSelect.bind(this)
         this.handleInput = this.handleInput.bind(this)
         this.handleFileChange = this.handleFileChange.bind(this)
+        this.removeLogo = this.removeLogo.bind(this)
     }
 
     handleInput (e) {
@@ -54,6 +55,10 @@ class EditCompany extends React.Component {
         this.setState({
             [e.target.name]: e.target.files[0]
         })
+    }
+
+    removeLogo () {
+        this.setState({ logo: '' })
     }
 
     updateContacts (contacts) {
@@ -73,6 +78,7 @@ class EditCompany extends React.Component {
     getFormData () {
         const formData = new FormData()
         formData.append('company_logo', this.state.company_logo)
+        formData.append('logo', this.state.logo)
         formData.append('name', this.state.name)
         formData.append('website', this.state.website)
         formData.append('phone_number', this.state.phone_number)
@@ -204,7 +210,7 @@ class EditCompany extends React.Component {
                         </Nav>
                         <TabContent activeTab={this.state.activeTab} className="bg-transparent">
                             <TabPane tabId="1">
-                                <DetailsForm errors={this.state.errors}
+                                <DetailsForm removeLogo={this.removeLogo} errors={this.state.errors}
                                     handleInput={this.handleInput}
                                     company={this.state}
                                     handleFileChange={this.handleFileChange}/>

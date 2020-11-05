@@ -13,6 +13,7 @@ export default class CompanyModel extends BaseModel {
             modal: false,
             number: '',
             name: '',
+            logo: '',
             website: '',
             phone_number: '',
             email: '',

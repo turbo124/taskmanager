@@ -197,7 +197,7 @@ class BaseSettings
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'late_fee_endless_percent'             => [
+        'percent_to_charge_endless'             => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,
@@ -227,7 +227,7 @@ class BaseSettings
             'default_value'    => false,
             'type'             => 'bool'
         ],
-        'late_fee_endless_amount'              => [
+        'amount_to_charge_endless'              => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,
@@ -305,91 +305,91 @@ class BaseSettings
             'default_value'    => 'when_saved',
             'type'             => 'string'
         ],
-        'enable_reminder1'                     => [
+        'reminder1_enabled'                    => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => false,
             'type'             => 'bool'
         ],
-        'enable_reminder2'                     => [
+        'reminder2_enabled'                    => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => false,
             'type'             => 'bool'
         ],
-        'enable_reminder3'                     => [
+        'reminder3_enabled'                    => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => false,
             'type'             => 'bool'
         ],
-        'num_days_reminder1'                   => [
+        'number_of_days_after_1'               => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,
             'type'             => 'int'
         ],
-        'num_days_reminder2'                   => [
+        'number_of_days_after_2'               => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,
             'type'             => 'int'
         ],
-        'num_days_reminder3'                   => [
+        'number_of_days_after_3'               => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,
             'type'             => 'int'
         ],
-        'schedule_reminder1'                   => [
+        'scheduled_to_send_1'                  => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
-        ], // (enum: after_invoice_date, before_due_date, after_due_date)
-        'schedule_reminder2'                   => [
+        ],
+        'scheduled_to_send_2'                  => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
-        ], // (enum: after_invoice_date, before_due_date, after_due_date)
-        'schedule_reminder3'                   => [
+        ],
+        'scheduled_to_send_3'                  => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
-        ], // (enum: after_invoice_date, before_due_date, after_due_date)
-        'late_fee_amount1'                     => [
+        ],
+        'amount_to_charge_1'                   => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,
             'type'             => 'float'
         ],
-        'late_fee_amount2'                     => [
+        'amount_to_charge_2'                   => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,
             'type'             => 'float'
         ],
-        'late_fee_amount3'                     => [
+        'amount_to_charge_3'                   => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,
             'type'             => 'float'
         ],
-        'late_fee_percent1'                    => [
+        'percent_to_charge_1'                  => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,
             'type'             => 'float'
         ],
-        'late_fee_percent2'                    => [
+        'percent_to_charge_2'                  => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,
             'type'             => 'float'
         ],
-        'late_fee_percent3'                    => [
+        'percent_to_charge_3'                  => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,
@@ -1259,43 +1259,43 @@ class BaseSettings
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'email_subject_reminder1'              => [
+        'reminder1_subject'                    => [
             'required'         => false,
             'translated_value' => 'texts.reminder1_subject',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'email_subject_reminder2'              => [
+        'reminder2_subject'                    => [
             'required'         => false,
             'translated_value' => 'texts.reminder2_subject',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'email_subject_reminder3'              => [
+        'reminder3_subject'                    => [
             'required'         => false,
             'translated_value' => 'texts.reminder3_subject',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'email_subject_reminder_endless'       => [
+        'endless_reminder_subject'             => [
             'required'         => false,
             'translated_value' => 'texts.endless_subject',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'email_template_reminder1'             => [
+        'reminder1_message'                    => [
             'required'         => false,
             'translated_value' => 'texts.reminder1_body',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'email_template_reminder2'             => [
+        'reminder2_message'                    => [
             'required'         => false,
             'translated_value' => 'texts.reminder2_body',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'email_template_reminder3'             => [
+        'reminder3_message'                    => [
             'required'         => false,
             'translated_value' => 'texts.reminder3_body',
             'default_value'    => '',
