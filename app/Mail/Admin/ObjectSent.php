@@ -16,17 +16,20 @@ class ObjectSent extends AdminMailer
     private $contact;
 
     /**
-     * Create a new message instance.
-     *
-     * @return void
+     * ObjectSent constructor.
+     * @param Invitation $invitation
+     * @param User $user
+     * @throws \ReflectionException
      */
     public function __construct(Invitation $invitation, User $user)
     {
+        $this->entity_name = strtolower((new \ReflectionClass($invitation->inviteable))->getShortName());
         $this->invitation = $invitation;
         $this->contact = $invitation->contact;
-        $this->entity_name = strtolower((new \ReflectionClass($invitation->inviteable))->getShortName());
         $this->entity = $invitation->inviteable;
         $this->user = $user;
+
+        parent::__construct("{$this->entity_name}_sent", $invitation->inviteable);
     }
 
     /**
@@ -36,18 +39,16 @@ class ObjectSent extends AdminMailer
      */
     public function build()
     {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-        $this->execute();
+        $data = $this->getData();
+        $this->setSubject($data);
+        $this->setMessage($data);
+        $this->execute($this->buildMessage());
     }
 
-    private function setSubject()
-    {
-        $this->subject = trans("texts.notification_{$this->entity_name}_sent_subject", $this->getDataArray());
-    }
-
-    private function getDataArray()
+    /**
+     * @return array
+     */
+    private function getData(): array
     {
         return [
             'total'    => $this->invitation->inviteable->getFormattedTotal(),
@@ -56,14 +57,12 @@ class ObjectSent extends AdminMailer
         ];
     }
 
-    private function setMessage()
+    /**
+     * @return array
+     */
+    private function buildMessage(): array
     {
-        $this->message = trans("texts.notification_{$this->entity_name}_sent", $this->getDataArray());
-    }
-
-    private function buildMessage()
-    {
-        $this->message_array = [
+        return [
             'title'       => $this->subject,
             'body'        => $this->message,
             'url'         => config(

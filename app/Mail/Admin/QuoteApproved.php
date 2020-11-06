@@ -23,6 +23,8 @@ class QuoteApproved extends AdminMailer
      */
     public function __construct(Quote $quote, User $user)
     {
+        parent::__construct('quote_approved', $quote);
+
         $this->quote = $quote;
         $this->entity = $quote;
         $this->user = $user;
@@ -35,21 +37,17 @@ class QuoteApproved extends AdminMailer
      */
     public function build()
     {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-        $this->execute();
+        $data = $this->getData();
+
+        $this->setSubject($data);
+        $this->setMessage($data);
+        $this->execute($this->buildMessage());
     }
 
-    private function setSubject()
-    {
-        $this->subject = trans(
-            'texts.notification_quote_approved_subject',
-            $this->buildDataArray()
-        );
-    }
-
-    private function buildDataArray()
+    /**
+     * @return array
+     */
+    private function getData(): array
     {
         return [
             'total' => $this->quote->getFormattedTotal(),
@@ -57,18 +55,12 @@ class QuoteApproved extends AdminMailer
         ];
     }
 
-    private function setMessage()
+    /**
+     * @return array
+     */
+    private function buildMessage(): array
     {
-        $this->message = trans(
-            'texts.notification_quote_approved',
-            $this->buildDataArray()
-
-        );
-    }
-
-    private function buildMessage()
-    {
-        $this->message_array = [
+        return [
             'title'       => $this->subject,
             'body'        => $this->message,
             'url'         => $this->getUrl() . 'quotes/' . $this->quote->id,

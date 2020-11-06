@@ -18,12 +18,14 @@ class LeadCreated extends AdminMailer
 
 
     /**
-     * Create a new message instance.
-     *
-     * @return void
+     * LeadCreated constructor.
+     * @param Lead $lead
+     * @param User $user
      */
     public function __construct(Lead $lead, User $user)
     {
+        parent::__construct('lead_created', $lead);
+
         $this->lead = $lead;
         $this->entity = $lead;
         $this->user = $user;
@@ -36,42 +38,32 @@ class LeadCreated extends AdminMailer
      */
     public function build()
     {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-        $this->execute();
+        $data = $this->getData();
+        $this->setSubject($data);
+        $this->setMessage($data);
+        $this->execute($this->buildMessage());
     }
 
-    private function setSubject()
-    {
-        $this->subject = trans(
-            'texts.notification_lead_subject',
-            $this->buildDataArray()
-        );
-    }
-
-    private function buildDataArray()
+    /**
+     * @return array
+     * @throws \Laracasts\Presenter\Exceptions\PresenterException
+     */
+    private function getData(): array
     {
         return [
             'customer' => $this->lead->present()->name()
         ];
     }
 
-    private function setMessage()
+    /**
+     * @return array
+     */
+    private function buildMessage(): array
     {
-        $this->message = trans(
-            'texts.notification_lead',
-            $this->buildDataArray()
-
-        );
-    }
-
-    private function buildMessage()
-    {
-        $this->message_array = [
+       return [
             'title'       => $this->subject,
             'body'        => $this->message,
-            'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->lead->id,
+            'url'         => config('taskmanager.site_url') . '/portal/leads/' . $this->lead->id,
             'button_text' => trans('texts.view_deal'),
             'signature'   => isset($this->lead->account->settings->email_signature) ? $this->lead->account->settings->email_signature : '',
             'logo'        => $this->lead->account->present()->logo(),

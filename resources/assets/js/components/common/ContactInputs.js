@@ -122,7 +122,7 @@ export default class ContactInputs extends Component {
                                         </Col>
                                     </Row>
 
-                                    <Button color="danger" size="lg" block onClick={() => props.removeContact(idx)}>
+                                    <Button color="danger" size="lg" block onClick={() => this.props.removeContact(idx)}>
                                         {translations.remove}
                                     </Button>
                                 </CardBody>

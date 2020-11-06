@@ -23,6 +23,8 @@ class OrderBackorderedMailer extends AdminMailer
      */
     public function __construct(Order $order, User $user)
     {
+        parent::__construct('order_backordered', $order);
+
         $this->order = $order;
         $this->entity = $order;
         $this->user = $user;
@@ -35,18 +37,14 @@ class OrderBackorderedMailer extends AdminMailer
      */
     public function build()
     {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-        $this->execute();
+        $data = $this->getData();
+
+        $this->setSubject($data);
+        $this->setMessage($data);
+        $this->execute($this->buildMessage());
     }
 
-    private function setSubject()
-    {
-        $this->subject = trans('texts.notification_order_backordered_subject', $this->getDataArray());
-    }
-
-    private function getDataArray()
+    private function getData(): array
     {
         return [
             'total'    => $this->order->getFormattedTotal(),
@@ -55,14 +53,9 @@ class OrderBackorderedMailer extends AdminMailer
         ];
     }
 
-    private function setMessage()
+    private function buildMessage(): array
     {
-        $this->message = trans('texts.notification_order_backordered', $this->getDataArray());
-    }
-
-    private function buildMessage()
-    {
-        $this->message_array = [
+        return [
             'title'       => $this->subject,
             'body'        => $this->message,
             'url'         => $this->getUrl() . 'orders/' . $this->order->id,

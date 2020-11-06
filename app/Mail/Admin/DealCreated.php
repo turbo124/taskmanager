@@ -15,12 +15,14 @@ class DealCreated extends AdminMailer
     private Deal $deal;
 
     /**
-     * TaskCreated constructor.
+     * DealCreated constructor.
      * @param Deal $deal
      * @param User $user
      */
     public function __construct(Deal $deal, User $user)
     {
+        parent::__construct('deal_created', $deal);
+
         $this->deal = $deal;
         $this->entity = $deal;
         $this->user = $user;
@@ -33,21 +35,16 @@ class DealCreated extends AdminMailer
      */
     public function build()
     {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-        $this->execute();
+        $data = $this->getData();
+        $this->setSubject($data);
+        $this->setMessage($data);
+        $this->execute($this->buildMessage());
     }
 
-    private function setSubject()
-    {
-        $this->subject = trans(
-            'texts.notification_deal_subject',
-            $this->buildDataArray()
-        );
-    }
-
-    private function buildDataArray()
+    /**
+     * @return array
+     */
+    private function getData(): array
     {
         return [
             'total'    => $this->formatCurrency($this->deal->valued_at, $this->deal->customer),
@@ -55,21 +52,15 @@ class DealCreated extends AdminMailer
         ];
     }
 
-    private function setMessage()
+    /**
+     * @return array
+     */
+    private function buildMessage(): array
     {
-        $this->message = trans(
-            'texts.notification_deal',
-            $this->buildDataArray()
-
-        );
-    }
-
-    private function buildMessage()
-    {
-        $this->message_array = [
+        return [
             'title'       => $this->subject,
             'body'        => $this->message,
-            'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->deal->id,
+            'url'         => config('taskmanager.site_url') . 'portal/deals/' . $this->deal->id,
             'button_text' => trans('texts.view_deal'),
             'signature'   => !empty($this->settings) ? $this->settings->email_signature : '',
             'logo'        => $this->deal->account->present()->logo(),

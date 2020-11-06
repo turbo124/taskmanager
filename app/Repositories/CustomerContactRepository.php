@@ -30,73 +30,48 @@ class CustomerContactRepository extends BaseRepository
      */
     public function save(array $contacts, Customer $customer): bool
     {
-        $old_ids = CustomerContact::whereCustomerId($customer->id)->pluck('id')->toArray();
-
-        $updates = collect(
-            array_filter(
-                $contacts,
-                function ($item) {
-                    if (isset($item['id'])) {
-                        return true;
-                    }
-                    return false;
-                }
-            )
-        )->keyBy('id')->toArray();
-
-        $insert = array_filter(
-            $contacts,
-            function ($item) {
-                if (!isset($item['id'])) {
-                    return true;
-                }
-                return false;
-            }
-        );
-
-
-        $new_ids = array_keys($updates);
-
-        $update = array_intersect_key($new_ids, $old_ids);
-        //^^^Returns all records of $new_ids that were present in $old_ids
-        $delete = array_diff_key($old_ids, $new_ids);
-        //^^^Returns all records of $old_ids that aren't present in $new_ids
-
-
-        /******************************* Delete *********************************/
-        if (!empty($delete)) {
-            CustomerContact::destroy($delete);
-        }
-
-        /********************************Update ************************************/
-        if (!empty($update)) {
-            $contacts = CustomerContact::whereIn('id', $update)->get()->keyBy('id');
-
-            foreach ($updates as $key => $update) {
-                if (!isset($contacts[$key])) {
-                    continue;
-                }
-
-                $contact = $contacts[$key];
-                $contact->fill($update);
-                $contact->password = isset($update['password']) && strlen($update['password']) > 0 ? Hash::make(
-                    $update['password']
-                ) : $contact->password;
-                $contact->save();
+        // assign temporary ids if missing
+        foreach ($contacts as $key => $contact) {
+            if (empty($contact['id'])) {
+                $contacts[$key]['id'] = uniqid();
             }
         }
 
-        /*******************************Create****************************************/
-        if (!empty($insert)) {
-            foreach ($insert as $item) {
-                $create_contact = CustomerContactFactory::create($customer->account, $customer->user);
-                $create_contact->customer_id = $customer->id;
-                $create_contact->fill($item);
-                $create_contact->password = isset($item['password']) && strlen($item['password']) > 0 ? Hash::make(
-                    $item['password']
-                ) : '';
-                $create_contact->save();
-            }
+        $contacts_obs = CustomerContact::whereCustomerId($customer->id)->get()->keyBy('id');
+
+        $array_database = $contacts_obs->toArray();
+        $array_client = collect($contacts)->keyBy('id')->toArray();
+
+        //update
+        foreach (array_intersect_key($array_database, $array_client) as $id => $data) {
+            $data = $array_client[$id];
+            $contact = $contacts_obs[$id];
+            $contact->fill($data);
+            $contact->password = isset($update['password']) && strlen($update['password']) > 0 ? Hash::make(
+                $update['password']
+            ) : $contact->password;
+
+            $contact->save();
+        }
+
+        // insert
+        foreach (array_diff_key($array_client, $array_database) as $id => $data) {
+            $data = $array_client[$id];
+            unset($data['id']);
+            $create_contact = CustomerContactFactory::create($customer->account, $customer->user);
+            $create_contact->customer_id = $customer->id;
+            $create_contact->fill($data);
+            $create_contact->password = isset($item['password']) && strlen($item['password']) > 0 ? Hash::make(
+                $item['password']
+            ) : '';
+
+            $create_contact->save();
+        }
+
+        // delete
+        foreach (array_diff_key($array_database, $array_client) as $id => $data) {
+            $contact = $contacts_obs[$id];
+            $contact->delete();
         }
 
         return true;

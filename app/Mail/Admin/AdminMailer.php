@@ -16,15 +16,60 @@ class AdminMailer extends Mailable
      * @var User
      */
     protected User $user;
-    protected $message;
+
     /**
-     * @var array
+     * @var string
      */
-    protected array $message_array;
+    protected string $message;
 
     protected $entity;
 
-    protected function execute()
+    /**
+     * @var string
+     */
+    protected string $template;
+
+    /**
+     * AdminMailer constructor.
+     * @param string $template
+     * @param $entity
+     */
+    public function __construct(string $template, $entity)
+    {
+        $this->template = $template;
+        $this->entity = $entity;
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     */
+    protected function setSubject(array $data): bool
+    {
+        $this->subject = trans(
+            'texts.notification_' . $this->template . '_subject',
+            $data
+        );
+
+        return true;
+    }
+
+    protected function setMessage(array $data)
+    {
+        $this->message = trans(
+            'texts.notification_' . $this->template,
+            $data
+
+        );
+
+        return true;
+    }
+
+    /**
+     * @param array $message_array
+     * @return AdminMailer|bool
+     */
+    protected function execute(array $message_array)
     {
         $template = get_class($this->entity) !== 'App\Models\Lead' ? $this->entity->customer->getSetting(
             'email_style'
@@ -37,12 +82,15 @@ class AdminMailer extends Mailable
                         ->markdown(
                             empty($template) ? 'email.admin.new' : 'email.template.' . $template,
                             [
-                                'data' => $this->message_array,
+                                'data' => $message_array,
                             ]
                         );
         } catch (Exception $exception) {
             event(new EmailFailedToSend($this->entity, $exception->getMessage()));
+            return false;
         }
+
+        return true;
     }
 
     protected function getUrl()
