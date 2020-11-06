@@ -21,6 +21,8 @@ class TaskCreated extends AdminMailer
      */
     public function __construct(Task $task, User $user)
     {
+        parent::__construct('task_created', $task);
+
         $this->task = $task;
         $this->entity = $task;
         $this->user = $user;
@@ -33,21 +35,17 @@ class TaskCreated extends AdminMailer
      */
     public function build()
     {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-        $this->execute();
+        $data = $this->getData();
+
+        $this->setSubject($data);
+        $this->setMessage($data);
+        $this->execute($this->buildMessage());
     }
 
-    private function setSubject()
-    {
-        $this->subject = trans(
-            'texts.notification_deal_subject',
-            $this->buildDataArray()
-        );
-    }
-
-    private function buildDataArray()
+    /**
+     * @return array
+     */
+    private function getData(): array
     {
         return [
             'total'    => $this->formatCurrency($this->task->valued_at, $this->task->customer),
@@ -55,18 +53,12 @@ class TaskCreated extends AdminMailer
         ];
     }
 
-    private function setMessage()
+    /**
+     * @return array
+     */
+    private function buildMessage(): array
     {
-        $this->message = trans(
-            'texts.notification_deal',
-            $this->buildDataArray()
-
-        );
-    }
-
-    private function buildMessage()
-    {
-        $this->message_array = [
+        return [
             'title'       => $this->subject,
             'body'        => $this->message,
             'url'         => config('taskmanager.site_url') . 'portal/payments/' . $this->task->id,

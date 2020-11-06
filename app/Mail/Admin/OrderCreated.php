@@ -23,6 +23,8 @@ class OrderCreated extends AdminMailer
      */
     public function __construct(Order $order, User $user)
     {
+       parent::__construct('order_created', $order);
+
         $this->order = $order;
         $this->entity = $order;
         $this->user = $user;
@@ -35,18 +37,17 @@ class OrderCreated extends AdminMailer
      */
     public function build()
     {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-        $this->execute();
+        $data = $this->getData();
+
+        $this->setSubject($data);
+        $this->setMessage($data);
+        $this->execute($this->buildMessage());
     }
 
-    private function setSubject()
-    {
-        $this->subject = trans('texts.notification_order_subject', $this->getDataArray());
-    }
-
-    private function getDataArray()
+    /**
+     * @return array
+     */
+    private function getData(): array
     {
         return [
             'total'    => $this->order->getFormattedTotal(),
@@ -55,14 +56,12 @@ class OrderCreated extends AdminMailer
         ];
     }
 
-    private function setMessage()
+    /**
+     * @return array
+     */
+    private function buildMessage(): array
     {
-        $this->message = trans('texts.notification_order', $this->getDataArray());
-    }
-
-    private function buildMessage()
-    {
-        $this->message_array = [
+        return [
             'title'       => $this->subject,
             'body'        => $this->message,
             'url'         => $this->getUrl() . 'orders/' . $this->order->id,

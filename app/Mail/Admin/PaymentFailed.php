@@ -23,6 +23,8 @@ class PaymentFailed extends AdminMailer
      */
     public function __construct(Payment $payment, User $user)
     {
+        parent::__construct('payment_failed', $payment);
+
         $this->payment = $payment;
         $this->entity = $payment;
         $this->user = $user;
@@ -35,26 +37,17 @@ class PaymentFailed extends AdminMailer
      */
     public function build()
     {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-        $this->execute();
+        $data = $this->getData();
+
+        $this->setSubject($data);
+        $this->setMessage($data);
+        $this->execute($this->buildMessage());
     }
 
-    private function setSubject()
-    {
-        $this->subject = trans(
-            'texts.notification_payment_failed_subject',
-            ['customer' => $this->payment->customer->present()->name()]
-        );
-    }
-
-    private function setMessage()
-    {
-        $this->message = trans('texts.notification_payment_failed', $this->getDataArray());
-    }
-
-    private function getDataArray()
+    /**
+     * @return array
+     */
+    private function getData(): array
     {
         return [
             'total'    => $this->payment->getFormattedTotal(),
@@ -63,9 +56,12 @@ class PaymentFailed extends AdminMailer
         ];
     }
 
-    private function buildMessage()
+    /**
+     * @return array
+     */
+    private function buildMessage(): array
     {
-        $this->message_array = [
+        return [
             'title'       => $this->subject,
             'body'        => $this->message,
             'signature'   => isset($this->payment->account->settings->email_signature) ? $this->payment->account->settings->email_signature : '',

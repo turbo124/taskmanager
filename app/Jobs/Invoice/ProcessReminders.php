@@ -137,21 +137,15 @@ class ProcessReminders implements ShouldQueue
         $this->invoice->service()->sendEmail(null, $subject, $body, $template);
     }
 
+    /**
+     * @param $reminder_type
+     * @param $number_of_days
+     * @return bool
+     */
     private function updateNextReminderDate($reminder_type, $number_of_days)
     {
-        switch ($reminder_type) {
-            case 'after_invoice_date':
-                $next_send_date = Carbon::parse($this->invoice->date)->addDays($number_of_days)->format('Y-m-d');
-                break;
-
-            case 'before_due_date':
-                $next_send_date = Carbon::parse($this->invoice->due_date)->subDays($number_of_days)->format('Y-m-d');
-                break;
-
-            case 'after_due_date':
-                $next_send_date = Carbon::parse($this->invoice->due_date)->addDays($number_of_days)->format('Y-m-d');
-                break;
-        }
+        $date = $reminder_type === 'after_invoice_date' ? $this->invoice->date : $this->invoice->due_date;
+        $next_send_date = Carbon::parse($date)->addDays($number_of_days)->format('Y-m-d');
 
         $this->invoice->date_to_send = $next_send_date;
         $this->invoice->date_reminder_last_sent = Carbon::now();

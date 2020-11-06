@@ -2,6 +2,7 @@
 
 namespace App\Mail\Admin;
 
+use App\Models\Invitation;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -15,17 +16,20 @@ class ObjectViewed extends AdminMailer
     private $contact;
 
     /**
-     * Create a new message instance.
-     *
-     * @return void
+     * ObjectViewed constructor.
+     * @param Invitation $invitation
+     * @param $entity_name
+     * @param User $user
      */
-    public function __construct($invitation, $entity_name, User $user)
+    public function __construct(Invitation $invitation, $entity_name, User $user)
     {
         $this->entity_name = $entity_name;
         $this->entity = $invitation->inviteable;
         $this->contact = $invitation->contact;
         $this->invitation = $invitation;
         $this->user = $user;
+
+        parent::__construct("{$this->entity_name}_viewed", $this->entity);
     }
 
     /**
@@ -35,29 +39,17 @@ class ObjectViewed extends AdminMailer
      */
     public function build()
     {
-        $this->setSubject();
-        $this->setMessage();
-        $this->buildMessage();
-        $this->execute();
+        $data = $this->getData();
+
+        $this->setSubject($data);
+        $this->setMessage($data);
+        $this->execute($this->buildMessage());
     }
 
-    private function setSubject()
-    {
-        $this->subject = trans(
-            "texts.notification_{$this->entity_name}_viewed_subject",
-            [
-                'customer'         => $this->contact->present()->name(),
-                $this->entity_name => $this->entity->number,
-            ]
-        );
-    }
-
-    private function setMessage()
-    {
-        $this->message = trans("texts.notification_{$this->entity_name}_viewed", $this->getDataArray());
-    }
-
-    private function getDataArray()
+    /**
+     * @return array
+     */
+    private function getData(): array
     {
         return [
             'total'            => $this->entity->getFormattedTotal(),
@@ -66,9 +58,12 @@ class ObjectViewed extends AdminMailer
         ];
     }
 
-    public function buildMessage()
+    /**
+     * @return array
+     */
+    public function buildMessage(): array
     {
-        $this->message_array = [
+        return [
             'title'       => $this->subject,
             'body'        => $this->message,
             'url'         => config(
