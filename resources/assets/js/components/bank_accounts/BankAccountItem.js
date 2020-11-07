@@ -4,8 +4,8 @@ import { Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
-import EditProject from './edit/EditProject'
-import ProjectPresenter from '../presenters/ProjectPresenter'
+import EditBankAccount from './edit/EditBankAccount'
+import BankAccountPresenter from '../presenters/BankAccountPresenter'
 
 export default class BankAccountItem extends Component {
     constructor (props) {
