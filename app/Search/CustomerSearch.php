@@ -18,7 +18,7 @@ class CustomerSearch extends BaseSearch
      */
     private CustomerRepository $customerRepository;
 
-    private $model;
+    private Customer $model;
 
     /**
      * CustomerFilter constructor.
@@ -56,7 +56,7 @@ class CustomerSearch extends BaseSearch
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
@@ -77,12 +77,13 @@ class CustomerSearch extends BaseSearch
         return $customers;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('name', 'like', '%' . $filter . '%')
                       ->orWhere('number', 'like', '%' . $filter . '%')
@@ -100,6 +101,8 @@ class CustomerSearch extends BaseSearch
                       ->orWhere('custom_value4', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
 

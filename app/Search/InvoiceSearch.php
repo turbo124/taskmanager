@@ -11,9 +11,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class InvoiceSearch extends BaseSearch
 {
-    private $invoiceRepository;
+    private InvoiceRepository $invoiceRepository;
 
-    private $model;
+    private Invoice $model;
 
     /**
      * InvoiceSearch constructor.
@@ -39,7 +39,7 @@ class InvoiceSearch extends BaseSearch
         $this->query = $this->model->select('*');
 
         if ($request->filled('search_term')) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->filled('status')) {
@@ -89,24 +89,25 @@ class InvoiceSearch extends BaseSearch
      * @deprecated
      *
      */
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('invoices.number', 'like', '%' . $filter . '%')
                       ->orWhere('invoices.po_number', 'like', '%' . $filter . '%')
                       ->orWhere('invoices.date', 'like', '%' . $filter . '%')
-                      ->orWhere('invoices.total', 'like', '%' . $filter . '%')
-                      ->orWhere('invoices.balance', 'like', '%' . $filter . '%')
                       ->orWhere('invoices.custom_value1', 'like', '%' . $filter . '%')
                       ->orWhere('invoices.custom_value2', 'like', '%' . $filter . '%')
                       ->orWhere('invoices.custom_value3', 'like', '%' . $filter . '%')
                       ->orWhere('invoices.custom_value4', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

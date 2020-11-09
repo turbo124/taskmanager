@@ -15,7 +15,7 @@ class DealSearch extends BaseSearch
 
     private $dealRepository;
 
-    private $model;
+    private Deal $model;
 
     /**
      * DealSearch constructor.
@@ -42,7 +42,7 @@ class DealSearch extends BaseSearch
             $this->model->select('*');
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->filled('customer_id')) {
@@ -83,12 +83,13 @@ class DealSearch extends BaseSearch
         return $deals;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('name', 'like', '%' . $filter . '%')->orWhere('description', 'like', '%' . $filter . '%')
                       ->orWhere('rating', 'like', '%' . $filter . '%')
@@ -98,6 +99,8 @@ class DealSearch extends BaseSearch
                       ->orWhere('custom_value4', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

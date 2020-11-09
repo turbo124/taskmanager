@@ -13,8 +13,8 @@ class ProjectSearch extends BaseSearch
 {
     use ProjectTransformable;
 
-    private $projectRepository;
-    private $model;
+    private ProjectRepository $projectRepository;
+    private Project $model;
 
     /**
      * ProjectSearch constructor.
@@ -48,7 +48,7 @@ class ProjectSearch extends BaseSearch
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->filled('user_id')) {
@@ -73,15 +73,16 @@ class ProjectSearch extends BaseSearch
         return $projects;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
 
-        return $this->query->where(
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('projects.name', 'like', '%' . $filter . '%')
+                      ->orWhere('projects.number', 'like', '%' . $filter . '%')
                       ->orWhere('projects.custom_value1', 'like', '%' . $filter . '%')
                       ->orWhere('projects.custom_value2', 'like', '%' . $filter . '%')
                       ->orWhere('projects.custom_value3', 'like', '%' . $filter . '%')
@@ -89,6 +90,8 @@ class ProjectSearch extends BaseSearch
                       ->orWhere('projects.private_notes', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

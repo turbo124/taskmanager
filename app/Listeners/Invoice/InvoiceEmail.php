@@ -31,6 +31,7 @@ class InvoiceEmail implements ShouldQueue
         $fields = [];
         $fields['data']['id'] = $event->invitation->inviteable->id;
         $fields['data']['customer_id'] = $event->invitation->inviteable->customer_id;
+        $fields['data']['template'] = $event->template ?: '';
         $fields['data']['message'] = 'An invoice was emailed';
         $fields['data']['contact_id'] = $event->invitation->inviteable->contact_id;
         $fields['notifiable_id'] = $event->invitation->inviteable->user_id;

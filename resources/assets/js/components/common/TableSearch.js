@@ -27,6 +27,7 @@ export default class TableSearch extends Component {
         const e = {
             target: {
                 name: 'searchText',
+                id: 'searchText',
                 value: ''
             }
         }

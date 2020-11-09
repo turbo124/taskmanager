@@ -15,9 +15,9 @@ class OrderSearch extends BaseSearch
 {
     use OrderTransformable;
 
-    private $orderRepository;
+    private OrderRepository $orderRepository;
 
-    private $model;
+    private Order $model;
 
     /**
      * OrderSearch constructor.
@@ -43,7 +43,7 @@ class OrderSearch extends BaseSearch
         $this->query = $this->model->select('*');
 
         if ($request->filled('search_term')) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->has('status')) {
@@ -88,24 +88,25 @@ class OrderSearch extends BaseSearch
      * @deprecated
      *
      */
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+
+        $this->query->where(
             function ($query) use ($filter) {
-                $query->where('invoices.number', 'like', '%' . $filter . '%')
+                $query->where('number', 'like', '%' . $filter . '%')
                       ->orWhere('product_task.po_number', 'like', '%' . $filter . '%')
                       ->orWhere('product_task.date', 'like', '%' . $filter . '%')
-                      ->orWhere('product_task.total', 'like', '%' . $filter . '%')
-                      ->orWhere('product_task.balance', 'like', '%' . $filter . '%')
                       ->orWhere('product_task.custom_value1', 'like', '%' . $filter . '%')
                       ->orWhere('product_task.custom_value2', 'like', '%' . $filter . '%')
                       ->orWhere('product_task.custom_value3', 'like', '%' . $filter . '%')
                       ->orWhere('product_task.custom_value4', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     private function transformList()

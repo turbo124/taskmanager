@@ -17,7 +17,9 @@ class ExpenseSearch extends BaseSearch
 {
     use ExpenseTransformable;
 
-    private $expense_repo;
+    private ExpenseRepository $expense_repo;
+
+    private Expense $model;
 
     /**
      * CompanySearch constructor.
@@ -47,7 +49,7 @@ class ExpenseSearch extends BaseSearch
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->filled('customer_id')) {
@@ -92,15 +94,15 @@ class ExpenseSearch extends BaseSearch
      * @deprecated
      *
      */
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
             return false;
         }
 
-        return $this->query->where(
+        $this->query->where(
             function ($query) use ($filter) {
-                $query->where('expenses.name', 'like', '%' . $filter . '%')
+                $query->where('expenses.private_notes', 'like', '%' . $filter . '%')
                       ->orWhere('expenses.number', 'like', '%' . $filter . '%')
                       ->orWhere('expenses.custom_value1', 'like', '%' . $filter . '%')
                       ->orWhere('expenses.custom_value2', 'like', '%' . $filter . '%')
@@ -108,6 +110,8 @@ class ExpenseSearch extends BaseSearch
                       ->orWhere('expenses.custom_value4', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

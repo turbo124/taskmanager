@@ -3,6 +3,7 @@
 namespace App\Events\Invoice;
 
 use App\Models\Invoice;
+use App\Models\Payment;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -15,15 +16,21 @@ class InvoiceWasPaid
     /**
      * @var Invoice
      */
-    public $invoice;
+    public Invoice $invoice;
 
     /**
-     * Create a new event instance.
-     *
-     * @param Invoice $invoice
+     * @var Payment
      */
-    public function __construct(Invoice $invoice)
+    public Payment $payment;
+
+    /**
+     * InvoiceWasPaid constructor.
+     * @param Invoice $invoice
+     * @param Payment $payment
+     */
+    public function __construct(Invoice $invoice, Payment $payment)
     {
         $this->invoice = $invoice;
+        $this->payment = $payment;
     }
 }

@@ -18,6 +18,7 @@ trait PurchaseOrderTransformable
     protected function transformPurchaseOrder(PurchaseOrder $po)
     {
         return [
+            'number'              => $po->number ?: '',
             'id'                  => (int)$po->id,
             'created_at'          => $po->created_at,
             'user_id'             => (int)$po->user_id,
@@ -29,7 +30,6 @@ trait PurchaseOrderTransformable
             'exchange_rate'       => (float)$po->exchange_rate,
             'public_notes'        => $po->public_notes ?: '',
             'private_notes'       => $po->private_notes ?: '',
-            'number'              => $po->number ?: '',
             'invoice_id'          => (int)$po->invoice_id,
             'date'                => $po->date ?: '',
             'due_date'            => $po->due_date ?: '',

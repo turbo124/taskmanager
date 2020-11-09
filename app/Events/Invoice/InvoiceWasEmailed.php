@@ -17,12 +17,15 @@ class InvoiceWasEmailed
      */
     public Invitation $invitation;
 
+    public string $template;
+
     /**
      * InvoiceWasEmailed constructor.
      * @param Invitation $invitation
      */
-    public function __construct(Invitation $invitation)
+    public function __construct(Invitation $invitation, string $template = '')
     {
         $this->invitation = $invitation;
+        $this->template = $template;
     }
 }

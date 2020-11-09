@@ -16,9 +16,9 @@ class TokenSearch extends BaseSearch
 {
     use TokenTransformable;
 
-    private $token_repo;
+    private TokenRepository $token_repo;
 
-    private $model;
+    private Token $model;
 
     /**
      * TokenSearch constructor.
@@ -69,13 +69,15 @@ class TokenSearch extends BaseSearch
         return $tokens;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
 
-        return $this->query->where('company_tokens.name', 'like', '%' . $filter . '%');
+        $this->query->where('company_tokens.name', 'like', '%' . $filter . '%');
+
+        return true;
     }
 
     /**

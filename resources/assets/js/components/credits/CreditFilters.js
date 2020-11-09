@@ -21,7 +21,8 @@ export default class CreditFilters extends Component {
                 searchText: '',
                 start_date: '',
                 end_date: '',
-                user_id: ''
+                user_id: '',
+                project_id: ''
             }
         }
 

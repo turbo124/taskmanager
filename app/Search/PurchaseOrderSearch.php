@@ -13,9 +13,9 @@ class PurchaseOrderSearch extends BaseSearch
 {
     use PurchaseOrderTransformable;
 
-    private $poRepository;
+    private PurchaseOrderRepository $poRepository;
 
-    private $model;
+    private PurchaseOrder $model;
 
     /**
      * QuoteSearch constructor.
@@ -57,7 +57,7 @@ class PurchaseOrderSearch extends BaseSearch
         }
 
         if ($request->filled('search_term')) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
@@ -78,12 +78,13 @@ class PurchaseOrderSearch extends BaseSearch
         return $pos;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('purchase_orders.number', 'like', '%' . $filter . '%')
                       ->orWhere('purchase_orders.custom_value1', 'like', '%' . $filter . '%')
@@ -92,6 +93,8 @@ class PurchaseOrderSearch extends BaseSearch
                       ->orWhere('purchase_orders.custom_value4', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

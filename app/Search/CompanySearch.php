@@ -15,7 +15,7 @@ class CompanySearch extends BaseSearch
 
     private $companyRepository;
 
-    private $model;
+    private Company $model;
 
     /**
      * CompanySearch constructor.
@@ -46,7 +46,7 @@ class CompanySearch extends BaseSearch
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
@@ -69,13 +69,13 @@ class CompanySearch extends BaseSearch
         return $companies;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
 
-        return $this->query->where(
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('companies.name', 'like', '%' . $filter . '%')
                     //->orWhere('companies.number', 'like', '%'.$filter.'%')
@@ -88,6 +88,8 @@ class CompanySearch extends BaseSearch
                       ->orWhere('companies.custom_value4', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

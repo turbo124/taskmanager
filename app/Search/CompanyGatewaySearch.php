@@ -16,7 +16,7 @@ class CompanyGatewaySearch extends BaseSearch
 
     private CompanyGatewayRepository $company_gateway_repo;
 
-    private $model;
+    private CompanyGateway $model;
 
     /**
      * InvoiceSearch constructor.
@@ -42,7 +42,7 @@ class CompanyGatewaySearch extends BaseSearch
         $this->query = $this->model->select('*');
 
         if ($request->filled('search_term')) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->filled('status')) {
@@ -80,12 +80,13 @@ class CompanyGatewaySearch extends BaseSearch
      * @deprecated
      *
      */
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('invoices.number', 'like', '%' . $filter . '%')
                       ->orWhere('invoices.po_number', 'like', '%' . $filter . '%')
@@ -98,6 +99,8 @@ class CompanyGatewaySearch extends BaseSearch
                       ->orWhere('invoices.custom_value4', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

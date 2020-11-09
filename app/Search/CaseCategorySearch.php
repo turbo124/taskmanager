@@ -21,7 +21,7 @@ class CaseCategorySearch extends BaseSearch
      */
     private CaseCategoryRepository $case_category_repo;
 
-    private $model;
+    private CaseCategory $model;
 
     /**
      * CaseCategorySearch constructor.
@@ -51,7 +51,7 @@ class CaseCategorySearch extends BaseSearch
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
@@ -72,13 +72,15 @@ class CaseCategorySearch extends BaseSearch
         return $categories;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
 
-        return $this->query->where('case_categories.name', 'like', '%' . $filter . '%');
+        $this->query->where('case_categories.name', 'like', '%' . $filter . '%');
+
+        return true;
     }
 
     /**

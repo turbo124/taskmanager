@@ -13,9 +13,9 @@ class UserSearch extends BaseSearch
 {
     use UserTransformable;
 
-    private $userRepository;
+    private UserRepository $userRepository;
 
-    private $model;
+    private User $model;
 
     /**
      * UserSearch constructor.
@@ -68,7 +68,7 @@ class UserSearch extends BaseSearch
         );
 
         if ($request->filled('search_term')) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         $this->query->groupBy('users.id');
@@ -83,18 +83,21 @@ class UserSearch extends BaseSearch
         return $users;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('users.first_name', 'like', '%' . $filter . '%')
                       ->orWhere('users.last_name', 'like', '%' . $filter . '%')
                       ->orWhere('users.email', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

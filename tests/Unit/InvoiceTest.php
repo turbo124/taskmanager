@@ -143,10 +143,8 @@ class InvoiceTest extends TestCase
         $this->assertEquals(0, $invoice->balance);
 
         $this->assertEquals(1, count($invoice->payments));
-
-        foreach ($invoice->payments as $payment) {
-            $this->assertEquals(round($invoice->total, 2), $payment->amount);
-        }
+        $payment = $invoice->payments->first();
+        $this->assertEquals(round($invoice->total, 2), $payment->amount);
     }
 
     /** @test */
