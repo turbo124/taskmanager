@@ -133,6 +133,20 @@ class ServiceBase
         return true;
     }
 
+      /**
+     * @param null $contact
+     * @param bool $update
+     * @return mixed|string
+     */
+    public function generateDispatchNote($contact = null, $update = false)
+    {
+        if (!$contact) {
+            $contact = $this->invoice->customer->primary_contact()->first();
+        }
+
+        return CreatePdf::dispatchNow((new InvoicePdf($this->invoice)), $this->invoice, $contact, $update, 'dispatch_note');
+    }
+
     protected function calculateTotals($entity)
     {
         if (empty($entity->line_items)) {
