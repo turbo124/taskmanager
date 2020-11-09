@@ -190,10 +190,21 @@ class BaseController extends Controller
                 }
 
                 break;
-            case 'fulfill':
-                $order = $entity->service()->fulfillOrder((new OrderRepository(new Order)));
-                $order->save();
-                $response = $this->transformOrder($order);
+            case 'hold_order':
+                $order = $entity->service()->holdOrder();
+
+                if (!$order) {
+                    $response = false;
+                    $message = 'Order is already hold';
+                } else {
+                    $response = $this->transformOrder($order);
+                }
+
+                break;
+            case 'dispatch_note':
+                $disk = config('filesystems.default');
+                $content = Storage::disk($disk)->get($entity->service()->generateDispatchNote(null));
+                $response = ['data' => base64_encode($content)];
                 break;
             case 'reverse_status':
                 $order = $entity->service()->reverseStatus();
