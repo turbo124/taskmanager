@@ -136,6 +136,11 @@ class AccountSettings extends BaseSettings
                 '$task.tax',
                 '$task.line_total',
             ],
+            'dispatch_note_columns'    => [
+                '$product.product_key',
+                '$product.notes',
+                '$product.quantity'
+            ],
         ];
 
         return json_decode(json_encode($variables));
