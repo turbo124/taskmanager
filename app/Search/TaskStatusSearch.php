@@ -22,7 +22,7 @@ class TaskStatusSearch extends BaseSearch
      */
     private TaskStatusRepository $task_status_repo;
 
-    private $model;
+    private TaskStatus $model;
 
     /**
      * CaseCategorySearch constructor.
@@ -52,7 +52,7 @@ class TaskStatusSearch extends BaseSearch
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->has('task_type') && !empty($request->task_type)) {
@@ -77,13 +77,15 @@ class TaskStatusSearch extends BaseSearch
         return $statuses;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
 
-        return $this->query->where('task_statuses.name', 'like', '%' . $filter . '%');
+        $this->query->where('task_statuses.name', 'like', '%' . $filter . '%');
+
+        return true;
     }
 
     /**

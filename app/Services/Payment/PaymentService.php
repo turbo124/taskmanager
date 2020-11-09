@@ -7,8 +7,15 @@ use App\Services\ServiceBase;
 
 class PaymentService extends ServiceBase
 {
-    private $payment;
+    /**
+     * @var Payment
+     */
+    private Payment $payment;
 
+    /**
+     * PaymentService constructor.
+     * @param Payment $payment
+     */
     public function __construct(Payment $payment)
     {
         parent::__construct($payment);
@@ -20,19 +27,7 @@ class PaymentService extends ServiceBase
         return (new PaymentEmail($this->payment))->execute();
     }
 
-    /**
-     * @return Payment
-     */
-    public function reverseInvoicePayment(): Payment
-    {
-        return (new ReverseInvoicePayment($this->payment))->execute();
-    }
-
-    /**
-     * @return Payment
-     */
-    public function deletePayment(): Payment
-    {
-        return (new DeletePayment($this->payment))->execute();
+    public function generatePdf() {
+        //TODO
     }
 }

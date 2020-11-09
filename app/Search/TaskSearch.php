@@ -13,9 +13,9 @@ class TaskSearch extends BaseSearch
 {
     use TaskTransformable;
 
-    private $taskRepository;
+    private TaskRepository $taskRepository;
 
-    private $model;
+    private Task $model;
 
     /**
      * TaskSearch constructor.
@@ -42,7 +42,7 @@ class TaskSearch extends BaseSearch
             $this->model->select('*', 'tasks.id as id')->leftJoin('task_user', 'tasks.id', '=', 'task_user.task_id');
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->filled('customer_id')) {
@@ -89,12 +89,13 @@ class TaskSearch extends BaseSearch
         return $tasks;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('name', 'like', '%' . $filter . '%')
                       ->orWhere('description', 'like', '%' . $filter . '%')
@@ -104,6 +105,8 @@ class TaskSearch extends BaseSearch
                       ->orWhere('custom_value4', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

@@ -16,9 +16,9 @@ class SubscriptionSearch extends BaseSearch
 {
     use SubscriptionTransformable;
 
-    private $subscription_repo;
+    private SubscriptionRepository $subscription_repo;
 
-    private $model;
+    private Subscription $model;
 
     /**
      * SubscriptionSearch constructor.
@@ -48,7 +48,7 @@ class SubscriptionSearch extends BaseSearch
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
@@ -69,13 +69,15 @@ class SubscriptionSearch extends BaseSearch
         return $subscriptions;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
 
-        return $this->query->where('subscriptions.target_url', 'like', '%' . $filter . '%');
+        $this->query->where('subscriptions.target_url', 'like', '%' . $filter . '%');
+
+        return true;
     }
 
     /**

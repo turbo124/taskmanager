@@ -13,9 +13,9 @@ class PaymentTermsSearch extends BaseSearch
 {
     use PaymentTermsTransformable;
 
-    private $payment_terms_repo;
+    private PaymentTermsRepository $payment_terms_repo;
 
-    private $model;
+    private PaymentTerms $model;
 
     /**
      * GroupSearch constructor.
@@ -66,13 +66,15 @@ class PaymentTermsSearch extends BaseSearch
         return $payment_terms;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
 
         $this->query->where('name', 'like', '%' . $filter . '%');
+
+        return true;
     }
 
     /**

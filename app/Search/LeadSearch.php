@@ -13,8 +13,8 @@ class LeadSearch extends BaseSearch
 {
     use LeadTransformable;
 
-    private $lead_repo;
-    private $model;
+    private LeadRepository $lead_repo;
+    private Lead $model;
 
     /**
      * LeadSearch constructor.
@@ -44,7 +44,7 @@ class LeadSearch extends BaseSearch
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->filled('user_id')) {
@@ -69,19 +69,21 @@ class LeadSearch extends BaseSearch
         return $leads;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
 
-        return $this->query->where(
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('leads.name', 'like', '%' . $filter . '%')
                       ->orWhere('leads.first_name', 'like', '%' . $filter . '%')
                       ->orWhere('leads.last_name', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

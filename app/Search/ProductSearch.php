@@ -13,9 +13,9 @@ class ProductSearch extends BaseSearch
 {
     use ProductTransformable;
 
-    private $productRepository;
+    private ProductRepository $productRepository;
 
-    private $model;
+    private Product $model;
 
     /**
      * ProductSearch constructor.
@@ -54,7 +54,7 @@ class ProductSearch extends BaseSearch
         }
 
         if ($request->filled('search_term')) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
@@ -85,12 +85,13 @@ class ProductSearch extends BaseSearch
      * @deprecated
      *
      */
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('products.sku', 'like', '%' . $filter . '%')
                       ->orWhere('products.name', 'like', '%' . $filter . '%')
@@ -101,6 +102,8 @@ class ProductSearch extends BaseSearch
                       ->orWhere('products.custom_value4', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

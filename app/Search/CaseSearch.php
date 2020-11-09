@@ -21,7 +21,7 @@ class CaseSearch extends BaseSearch
      */
     private CaseRepository $case_repo;
 
-    private $model;
+    private Cases $model;
 
     /**
      * CaseSearch constructor.
@@ -51,7 +51,7 @@ class CaseSearch extends BaseSearch
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->filled('customer_id')) {
@@ -84,13 +84,15 @@ class CaseSearch extends BaseSearch
         return $subscriptions;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
 
-        return $this->query->where('cases.message', 'like', '%' . $filter . '%');
+        $this->query->where('cases.message', 'like', '%' . $filter . '%');
+
+        return true;
     }
 
     /**

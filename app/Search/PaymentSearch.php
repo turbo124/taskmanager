@@ -13,9 +13,9 @@ class PaymentSearch extends BaseSearch
 {
     use PaymentTransformable;
 
-    private $paymentRepository;
+    private PaymentRepository $paymentRepository;
 
-    private $model;
+    private Payment $model;
 
     /**
      * PaymentSearch constructor.
@@ -52,7 +52,7 @@ class PaymentSearch extends BaseSearch
         }
 
         if ($request->filled('search_term')) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
@@ -81,12 +81,13 @@ class PaymentSearch extends BaseSearch
      * @deprecated
      *
      */
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('payments.amount', 'like', '%' . $filter . '%')
                       ->orWhere('payments.number', 'like', '%' . $filter . '%')
@@ -97,6 +98,8 @@ class PaymentSearch extends BaseSearch
                       ->orWhere('payments.custom_value4', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     private function transformList()

@@ -15,7 +15,7 @@ class EventSearch extends BaseSearch
 
     private $eventRepository;
 
-    private $model;
+    private Event $model;
 
     /**
      * CompanySearch constructor.
@@ -41,7 +41,7 @@ class EventSearch extends BaseSearch
         $this->query = $this->model->select('*');
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->has('status_id')) {
@@ -62,17 +62,20 @@ class EventSearch extends BaseSearch
         return $events;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('location', 'like', '%' . $filter . '%')->orWhere('title', 'like', '%' . $filter . '%')
                       ->orWhere('description', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

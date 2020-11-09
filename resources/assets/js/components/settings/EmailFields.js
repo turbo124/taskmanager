@@ -544,10 +544,10 @@ class EmailFields extends Component {
                                 value: consts.reminder_schedule_after_invoice_date,
                                 text: translations.after_invoice_date
                             },
-                            // {
-                            //     value: consts.reminder_schedule_before_due_date,
-                            //     text: translations.before_due_date
-                            // },
+                            {
+                                value: consts.reminder_schedule_before_due_date,
+                                text: translations.before_due_date
+                            },
                             {
                                 value: consts.reminder_schedule_after_due_date,
                                 text: translations.after_due_date
@@ -627,10 +627,10 @@ class EmailFields extends Component {
                                 value: consts.reminder_schedule_after_invoice_date,
                                 text: translations.after_invoice_date
                             },
-                            // {
-                            //     value: consts.reminder_schedule_before_due_date,
-                            //     text: translations.before_due_date
-                            // },
+                            {
+                                value: consts.reminder_schedule_before_due_date,
+                                text: translations.before_due_date
+                            },
                             {
                                 value: consts.reminder_schedule_after_due_date,
                                 text: translations.after_due_date
@@ -710,10 +710,10 @@ class EmailFields extends Component {
                                 value: consts.reminder_schedule_after_invoice_date,
                                 text: translations.after_invoice_date
                             },
-                            // {
-                            //     value: consts.reminder_schedule_before_due_date,
-                            //     text: translations.before_due_date
-                            // },
+                            {
+                                value: consts.reminder_schedule_before_due_date,
+                                text: translations.before_due_date
+                            },
                             {
                                 value: consts.reminder_schedule_after_due_date,
                                 text: translations.after_due_date

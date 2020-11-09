@@ -16,7 +16,7 @@ class CreditSearch extends BaseSearch
 
     private $credit_repo;
 
-    private $model;
+    private Credit $model;
 
     /**
      * CompanySearch constructor.
@@ -42,7 +42,7 @@ class CreditSearch extends BaseSearch
         $this->query = $this->model->select('*');
 
         if ($request->filled('search_term')) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->has('status')) {
@@ -79,12 +79,13 @@ class CreditSearch extends BaseSearch
         return $companies;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+        
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('credits.number', 'like', '%' . $filter . '%')
                       ->orWhere('credits.number', 'like', '%' . $filter . '%')
@@ -97,6 +98,8 @@ class CreditSearch extends BaseSearch
                       ->orWhere('credits.custom_value4', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

@@ -13,9 +13,9 @@ class GroupSearch extends BaseSearch
 {
     use GroupTransformable;
 
-    private $group_setting_repo;
+    private GroupRepository $group_setting_repo;
 
-    private $model;
+    private Group $model;
 
     /**
      * GroupSearch constructor.
@@ -70,13 +70,15 @@ class GroupSearch extends BaseSearch
         return $groups;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
 
         $this->query->where('name', 'like', '%' . $filter . '%');
+
+        return true;
     }
 
     /**

@@ -93,7 +93,9 @@ class InvoiceService extends ServiceBase
             return null;
         }
 
-        event(new InvoiceWasPaid($invoice));
+        $payment = $invoice->payments->first();
+
+        event(new InvoiceWasPaid($invoice, $payment));
 
         $this->sendPaymentEmail($invoice_repo);
 

@@ -14,9 +14,9 @@ class TaxRateSearch extends BaseSearch
 {
     use TaxRateTransformable;
 
-    private $tax_rate_repo;
+    private TaxRateRepository $tax_rate_repo;
 
-    private $model;
+    private TaxRate $model;
 
     /**
      * CompanySearch constructor.
@@ -42,7 +42,7 @@ class TaxRateSearch extends BaseSearch
         $this->query = $this->model->select('*');
 
         if ($request->filled('search_term')) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->has('status')) {
@@ -67,16 +67,19 @@ class TaxRateSearch extends BaseSearch
         return $tax_rates;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('name', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

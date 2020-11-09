@@ -13,9 +13,9 @@ class PromocodeSearch extends BaseSearch
 {
     use PromocodeTransformable;
 
-    private $promocode_repo;
+    private PromocodeRepository $promocode_repo;
 
-    private $model;
+    private Promocode $model;
 
     public function __construct(PromocodeRepository $promocode_repo)
     {
@@ -37,7 +37,7 @@ class PromocodeSearch extends BaseSearch
         $this->query = $this->model->select('*');
 
         if ($request->filled('search_term')) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->has('status')) {
@@ -66,13 +66,15 @@ class PromocodeSearch extends BaseSearch
         return $companies;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
 
-        return $this->query->where('code', 'like', '%' . $filter . '%');
+        $this->query->where('code', 'like', '%' . $filter . '%');
+
+        return true;
     }
 
     /**

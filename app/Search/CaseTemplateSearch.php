@@ -22,7 +22,7 @@ class CaseTemplateSearch extends BaseSearch
      */
     private CaseTemplateRepository $brand_repo;
 
-    private $model;
+    private CaseTemplate $model;
 
     /**
      * BrandSearch constructor.
@@ -52,7 +52,7 @@ class CaseTemplateSearch extends BaseSearch
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
@@ -73,13 +73,15 @@ class CaseTemplateSearch extends BaseSearch
         return $templates;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
 
-        return $this->query->where('case_templates.name', 'like', '%' . $filter . '%');
+        $this->query->where('case_templates.name', 'like', '%' . $filter . '%');
+
+        return true;
     }
 
     /**

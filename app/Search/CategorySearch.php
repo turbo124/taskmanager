@@ -22,7 +22,7 @@ class CategorySearch extends BaseSearch
      */
     private CategoryRepository $category_repo;
 
-    private $model;
+    private Category $model;
 
     /**
      * CategorySearch constructor.
@@ -52,7 +52,7 @@ class CategorySearch extends BaseSearch
         }
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
@@ -73,13 +73,15 @@ class CategorySearch extends BaseSearch
         return $categories;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
 
-        return $this->query->where('categories.name', 'like', '%' . $filter . '%');
+        $this->query->where('categories.name', 'like', '%' . $filter . '%');
+
+        return true;
     }
 
     /**

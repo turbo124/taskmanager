@@ -13,9 +13,9 @@ class RecurringQuoteSearch extends BaseSearch
 {
     use RecurringQuoteTransformable;
 
-    private $recurringQuoteRepository;
+    private RecurringQuoteRepository $recurringQuoteRepository;
 
-    private $model;
+    private RecurringQuote $model;
 
     /**
      * RecurringQuoteSearch constructor.
@@ -41,7 +41,7 @@ class RecurringQuoteSearch extends BaseSearch
         $this->query = $this->model->select('*');
 
         if ($request->filled('search_term')) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->has('status')) {
@@ -78,12 +78,13 @@ class RecurringQuoteSearch extends BaseSearch
         return $quotes;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('recurring_quotes.custom_value1', 'like', '%' . $filter . '%')
                       ->orWhere('recurring_quotes.custom_value2', 'like', '%' . $filter . '%')
@@ -91,6 +92,8 @@ class RecurringQuoteSearch extends BaseSearch
                       ->orWhere('recurring_quotes.custom_value4', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     private function transformList()

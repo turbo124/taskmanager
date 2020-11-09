@@ -11,9 +11,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class QuoteSearch extends BaseSearch
 {
-    private $quoteRepository;
+    private QuoteRepository $quoteRepository;
 
-    private $model;
+    private Quote $model;
 
     /**
      * QuoteSearch constructor.
@@ -47,11 +47,15 @@ class QuoteSearch extends BaseSearch
         }
 
         if ($request->filled('search_term')) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->filled('user_id')) {
             $this->query->where('assigned_to', '=', $request->user_id);
+        }
+
+        if ($request->filled('project_id')) {
+            $this->query->where('project_id', '=', $request->project_id);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
@@ -72,12 +76,13 @@ class QuoteSearch extends BaseSearch
         return $quotes;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
-        return $this->query->where(
+
+        $this->query->where(
             function ($query) use ($filter) {
                 $query->where('quotes.number', 'like', '%' . $filter . '%')
                       ->orWhere('quotes.custom_value1', 'like', '%' . $filter . '%')
@@ -86,6 +91,8 @@ class QuoteSearch extends BaseSearch
                       ->orWhere('quotes.custom_value4', 'like', '%' . $filter . '%');
             }
         );
+
+        return true;
     }
 
     /**

@@ -183,4 +183,19 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
                       ->get();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getInvoiceReminders()
+    {
+        return Invoice::whereDate('date_to_send', '=', Carbon::today()->toDateString())
+                      ->where('is_deleted', '=', false)
+                      ->where('balance', '>', 0)
+                      ->whereIn(
+                          'status_id',
+                          [Invoice::STATUS_SENT, Invoice::STATUS_PARTIAL, Invoice::STATUS_DRAFT]
+                      )->get();
+    }
+
+
 }

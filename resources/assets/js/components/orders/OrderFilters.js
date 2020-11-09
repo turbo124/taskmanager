@@ -19,6 +19,7 @@ export default class OrderFilters extends Component {
                 status_id: 'active',
                 customer_id: '',
                 user_id: '',
+                project_id: '',
                 searchText: '',
                 start_date: '',
                 end_date: ''

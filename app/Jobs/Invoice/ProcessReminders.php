@@ -15,10 +15,20 @@ class ProcessReminders implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * @var Invoice
+     */
     private Invoice $invoice;
 
+    /**
+     * @var InvoiceRepository
+     */
     private InvoiceRepository $invoice_repo;
 
+    /**
+     * ProcessReminders constructor.
+     * @param InvoiceRepository $invoice_repo
+     */
     public function __construct(InvoiceRepository $invoice_repo)
     {
         $this->invoice_repo = $invoice_repo;
@@ -36,92 +46,82 @@ class ProcessReminders implements ShouldQueue
 
     private function processReminders()
     {
-        $invoices = Invoice::whereDate('date_to_send', '=', Carbon::today()->toDateString())->get();
+        $invoices = $this->invoice_repo->getInvoiceReminders();
 
         foreach ($invoices as $invoice) {
-            $this->execute($invoice);
+            $this->build($invoice);
         }
 
         return true;
     }
 
-    private function execute(Invoice $invoice)
-    {
-        $this->invoice = $invoice;
-
-        if ($this->invoice->is_deleted || !in_array(
-                $this->invoice->status_id,
-                [
-                    Invoice::STATUS_SENT,
-                    Invoice::STATUS_PARTIAL,
-                    Invoice::STATUS_DRAFT
-                ]
-            )) {
-            $this->invoice->date_to_send = null;
-            $this->invoice->save();
-            return; //exit early
-        }
-
-        $this->build();
-    }
-
-    private function build()
+    /**
+     * @param Invoice $invoice
+     */
+    private function build(Invoice $invoice)
     {
         $message_sent = false;
 
         for ($counter = 1; $counter <= 3; $counter++) {
-            $reminder_date = $this->invoice->date_to_send;
+            $reminder_date = $invoice->date_to_send;
 
-            if ($this->invoice->customer->getSetting(
+            if ($invoice->customer->getSetting(
                     "reminder{$counter}_enabled"
-                ) === false || $this->invoice->customer->getSetting(
+                ) === false || $invoice->customer->getSetting(
                     "number_of_days_after_{$counter}"
                 ) == 0 || !$reminder_date->isToday()) {
                 continue;
             }
 
             if (!$message_sent) {
-                $this->addCharge($counter);
+                $this->addCharge($invoice, $counter);
 
-                $this->sendEmail("reminder{$counter}");
+                $this->sendEmail($invoice, "reminder{$counter}");
 
                 $this->updateNextReminderDate(
-                    $this->invoice->customer->getSetting("scheduled_to_send_{$counter}"),
-                    $this->invoice->customer->getSetting("number_of_days_after_{$counter}")
+                    $invoice,
+                    $invoice->customer->getSetting("scheduled_to_send_{$counter}"),
+                    $invoice->customer->getSetting("number_of_days_after_{$counter}")
                 );
                 $message_sent = true;
             }
         }
     }
 
-    private function addCharge($counter): bool
+    /**
+     * @param Invoice $invoice
+     * @param $counter
+     * @return bool
+     */
+    private function addCharge(Invoice $invoice, $counter): bool
     {
-        $amount = $this->calculateAmount($counter);
+        $amount = $this->calculateAmount($invoice, $counter);
 
         if (empty($amount)) {
             return true;
         }
 
-        $this->invoice->late_fee_charge += $amount;
-        $this->invoice_repo->save(['late_fee_charge' => $amount], $this->invoice);
+        $invoice->late_fee_charge += $amount;
+        $this->invoice_repo->save(['late_fee_charge' => $amount], $invoice);
 
         return true;
     }
 
     /**
+     * @param Invoice $invoice
      * @param $counter
      * @return false|float|null
      */
-    private function calculateAmount($counter)
+    private function calculateAmount(Invoice $invoice, $counter)
     {
-        $percentage = $this->invoice->customer->getSetting("percent_to_charge_{$counter}");
-        $current_total = $this->invoice->partial > 0 ? $this->invoice->partial : $this->invoice->balance;
+        $percentage = $invoice->customer->getSetting("percent_to_charge_{$counter}");
+        $current_total = $invoice->partial > 0 ? $invoice->partial : $invoice->balance;
 
         if (!empty($percentage)) {
             return round(($percentage / 100) * $current_total, 2);
         }
 
-        $amount = $this->invoice->customer->getSetting("amount_to_charge_{$counter}");
+        $amount = $invoice->customer->getSetting("amount_to_charge_{$counter}");
 
         if (empty($amount)) {
             return null;
@@ -130,26 +130,33 @@ class ProcessReminders implements ShouldQueue
         return $amount;
     }
 
-    private function sendEmail($template)
+    /**
+     * @param Invoice $invoice
+     * @param $template
+     */
+    private function sendEmail(Invoice $invoice, $template)
     {
-        $subject = $this->invoice->customer->getSetting($template . '_subject');
-        $body = $this->invoice->customer->getSetting($template . '_message');
-        $this->invoice->service()->sendEmail(null, $subject, $body, $template);
+        $subject = $invoice->customer->getSetting($template . '_subject');
+        $body = $invoice->customer->getSetting($template . '_message');
+        $invoice->service()->sendEmail(null, $subject, $body, $template);
     }
 
     /**
+     * @param Invoice $invoice
      * @param $reminder_type
      * @param $number_of_days
      * @return bool
      */
-    private function updateNextReminderDate($reminder_type, $number_of_days)
+    private function updateNextReminderDate(Invoice $invoice, $reminder_type, $number_of_days)
     {
-        $date = $reminder_type === 'after_invoice_date' ? $this->invoice->date : $this->invoice->due_date;
-        $next_send_date = Carbon::parse($date)->addDays($number_of_days)->format('Y-m-d');
+        $date = $reminder_type === 'after_invoice_date' ? $invoice->date : $invoice->due_date;
+        $next_send_date = $reminder_type === 'before_due_date' ? Carbon::parse($date)->subDays($number_of_days)->format(
+            'Y-m-d'
+        ) : Carbon::parse($date)->addDays($number_of_days)->format('Y-m-d');
 
-        $this->invoice->date_to_send = $next_send_date;
-        $this->invoice->date_reminder_last_sent = Carbon::now();
-        $this->invoice->save();
+        $invoice->date_to_send = $next_send_date;
+        $invoice->date_reminder_last_sent = Carbon::now();
+        $invoice->save();
         return true;
     }
 }

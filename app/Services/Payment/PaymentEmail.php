@@ -8,17 +8,22 @@ use App\Models\Payment;
 class PaymentEmail
 {
 
-    private $payment;
+    /**
+     * @var Payment
+     */
+    private Payment $payment;
 
+    /**
+     * PaymentEmail constructor.
+     * @param Payment $payment
+     */
     public function __construct(Payment $payment)
     {
         $this->payment = $payment;
     }
 
     /**
-     * Builds the correct template to send
-     * @param string $reminder_template The template name ie reminder1
-     * @return array
+     * @return bool
      */
     public function execute()
     {
@@ -32,5 +37,7 @@ class PaymentEmail
                 }
             }
         );
+
+        return true;
     }
 }

@@ -30,6 +30,7 @@ class InvoicePaid implements ShouldQueue
     {
         $fields = [];
         $fields['data']['id'] = $event->invoice->id;
+        $fields['data']['payment_id'] = $event->payment->id;
         $fields['data']['customer_id'] = $event->invoice->customer_id;
         $fields['data']['message'] = 'An invoice has been paid';
         $fields['notifiable_id'] = $event->invoice->user_id;
@@ -41,5 +42,7 @@ class InvoicePaid implements ShouldQueue
         $notification = NotificationFactory::create($event->invoice->account_id, $event->invoice->user_id);
         $notification->entity_id = $event->invoice->id;
         $this->notification_repo->save($notification, $fields);
+
+        $event->payment->service()->sendEmail();
     }
 }
