@@ -19,10 +19,10 @@ export default class DropdownMenuBuilder extends Component {
         this.changeStatus = this.changeStatus.bind(this)
     }
 
-    downloadPdf (response, id) {
+    downloadPdf (response, id, dispatch_note = false) {
         const linkSource = `data:application/pdf;base64,${response.data}`
         const downloadLink = document.createElement('a')
-        const fileName = `${this.props.model.entity}_${id}.pdf`
+        const fileName = `${dispatch_note === true ? 'dispatch_note' : this.props.model.entity}_${id}.pdf`
 
         downloadLink.href = linkSource
         downloadLink.download = fileName
@@ -104,8 +104,8 @@ export default class DropdownMenuBuilder extends Component {
                 message = translations.token_copied
             }
 
-            if (action === 'download') {
-                this.downloadPdf(response, this.props.model.fields.id)
+            if (action === 'download' || action === 'dispatch_note') {
+                this.downloadPdf(response, this.props.model.fields.id, action === 'dispatch_note')
                 message = translations.downloaded
             }
 
@@ -287,6 +287,11 @@ export default class DropdownMenuBuilder extends Component {
                 return <DropdownItem key={1} className="primary"
                     onClick={() => this.changeStatus('download')}><i
                         className={`fa ${icons.download} mr-2`}/>{translations.download}</DropdownItem>
+
+            case 'dispatch_note':
+                return <DropdownItem key={99} className="primary"
+                    onClick={() => this.changeStatus('dispatch_note')}><i
+                        className={`fa ${icons.download} mr-2`}/>{translations.dispatch_note}</DropdownItem>
 
             case 'email':
                 return <DropdownItem key={2} className="primary" onClick={() => this.changeStatus('email')}>
