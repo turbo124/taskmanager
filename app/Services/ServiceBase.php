@@ -144,7 +144,7 @@ class ServiceBase
             $contact = $this->invoice->customer->primary_contact()->first();
         }
 
-        return CreatePdf::dispatchNow((new InvoicePdf($this->invoice)), $this->invoice, $contact, $update, 'dispatch_note');
+        return CreatePdf::dispatchNow((new InvoicePdf($this->entity)), $this->entity, $contact, $update, 'dispatch_note');
     }
 
     protected function calculateTotals($entity)
