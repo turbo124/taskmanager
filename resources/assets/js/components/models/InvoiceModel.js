@@ -259,6 +259,10 @@ export default class InvoiceModel extends BaseModel {
             actions.push('pdf')
         }
 
+        if (this.fields.invitations.length) {
+            actions.push('dispatch_note')
+        }
+
         if (this.fields.customer_id !== '') {
             actions.push('email')
         }

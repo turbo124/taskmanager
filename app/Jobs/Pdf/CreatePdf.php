@@ -62,6 +62,10 @@ class CreatePdf implements ShouldQueue
 
         $this->file_path = $this->entity->getPdfFilename();
 
+        if ($this->entity_string === 'dispatch_note') {
+            $this->file_path = str_replace(['invoices', 'orders'], 'dispatch_note', $this->file_path);
+        }
+
         if ($this->checkIfExists()) {
             return $this->file_path;
         }
@@ -97,7 +101,13 @@ class CreatePdf implements ShouldQueue
     private function build()
     {
         //get invoice design
-        $html = $this->generateEntityHtml($this->objPdf, $this->designer, $this->entity, $this->contact);
+        $html = $this->generateEntityHtml(
+            $this->objPdf,
+            $this->designer,
+            $this->entity,
+            $this->contact,
+            $this->entity_string
+        );
 
         //todo - move this to the client creation stage so we don't keep hitting this unnecessarily
         Storage::makeDirectory(dirname($this->file_path), 0755);

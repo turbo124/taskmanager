@@ -110,7 +110,12 @@ class PdfColumns
             '$surcharge3'            => '<span>$surcharge3_label: $surcharge3</span>',
             '$surcharge4'            => '<span>$surcharge4_label: $surcharge4</span>',
         ],
-
+        'dispatch_note' => [
+            '$invoice.number'        => '<span>$invoice.number_label: $invoice.number</span>',
+            '$invoice.po_number'     => '<span>$invoice.po_number_label: $invoice.po_number</span>',
+            '$invoice.invoice_date'  => '<span>$invoice.date_label: $invoice.date</span>',
+            '$invoice.invoice_total' => '<span>$invoice.total_label: $invoice.total</span>'
+        ],
         'quote' => [
             '$quote.number'      => '<span>$invoice.number_label: $invoice.number</span>',
             '$quote.po_number'   => '<span>$quote.po_number_label: $quote.po_number</span>',
@@ -264,6 +269,8 @@ class PdfColumns
     private function getTableColumns()
     {
         switch ($this->entity_string) {
+            case 'dispatch_note':
+                return $this->input_variables['dispatch_note_columns'];
             case 'case':
                 return $this->input_variables['case_columns'];
             case 'task':

@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Components\InvoiceCalculator\Invoice;
 use App\Components\InvoiceCalculator\LineItem;
+use App\Components\Pdf\InvoicePdf;
 use App\Jobs\Email\SendEmail;
+use App\Jobs\Pdf\CreatePdf;
 use App\Models\ContactInterface;
 use App\Models\CustomerContact;
 use ReflectionClass;
@@ -131,6 +133,20 @@ class ServiceBase
         }
 
         return true;
+    }
+
+      /**
+     * @param null $contact
+     * @param bool $update
+     * @return mixed|string
+     */
+    public function generateDispatchNote($contact = null, $update = false)
+    {
+        if (!$contact) {
+            $contact = $this->entity->customer->primary_contact()->first();
+        }
+
+        return CreatePdf::dispatchNow((new InvoicePdf($this->entity)), $this->entity, $contact, $update, 'dispatch_note');
     }
 
     protected function calculateTotals($entity)
