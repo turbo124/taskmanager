@@ -725,7 +725,8 @@ _localizedValues.en = {
     include_times_on_invoice: 'Include times on invoice',
     include_times_on_invoice_help: 'Add time details to the invoice line items',
     default_task_rate: 'Default Task Rate',
-    configure_categories: 'Configure Categories'
+    configure_categories: 'Configure Categories',
+    dispatch_note: 'Dispatch Note',
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id

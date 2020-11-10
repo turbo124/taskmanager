@@ -141,6 +141,12 @@ class AccountSettings extends BaseSettings
                 '$product.notes',
                 '$product.quantity'
             ],
+            'dispatch_note'    => [
+                '$invoice.number',
+                '$invoice.po_number',
+                '$invoice.invoice_date',
+                '$invoice.invoice_total'
+            ],
         ];
 
         return json_decode(json_encode($variables));

@@ -18,8 +18,13 @@ trait MakesInvoiceHtml
      * @param null $contact
      * @return string
      */
-    public function generateEntityHtml($objPdf, PdfColumns $designer, $entity, $contact = null): string
-    {
+    public function generateEntityHtml(
+        $objPdf,
+        PdfColumns $designer,
+        $entity,
+        $contact = null,
+        string $entity_string = ''
+    ): string {
         switch (get_class($entity)) {
             case 'App\Models\Lead':
                 $lang = $entity->preferredLocale();
@@ -64,6 +69,11 @@ trait MakesInvoiceHtml
             ) === true ? '<span style="margin-bottom: 20px">Client Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $client_signature . '"/>' : '';
         }
 
+        if($entity_string === 'dispatch_note') {
+            $signature = '';
+            $client_signature = '';
+        }
+
         $footer = $designer->getSection('footer');
         $footer = str_replace('$signature_here', $signature, $footer);
         $footer = str_replace('$client_signature_here', $client_signature, $footer);
@@ -81,12 +91,16 @@ trait MakesInvoiceHtml
         $html = $this->generateCustomCSS($settings, $html);
 
         if (in_array(
-            get_class($entity),
-            ['App\Models\Task', 'App\Models\Cases', 'App\Models\Deal', 'App\Models\Lead']
-        )) {
+                get_class($entity),
+                ['App\Models\Task', 'App\Models\Cases', 'App\Models\Deal', 'App\Models\Lead']
+            ) || $entity_string === 'dispatch_note') {
             $html = str_replace('$costs', '', $html);
         } else {
             $html = str_replace('$costs', $designer->getSection('totals'), $html);
+        }
+
+        if ($entity_string === 'dispatch_note') {
+            $html = str_replace(['$entity.public_notes', '$terms_label', '$terms', '$footer'], '', $html);
         }
 
         $entity_class = (new ReflectionClass($entity))->getShortName();
@@ -105,9 +119,13 @@ trait MakesInvoiceHtml
 
         $html = str_replace(['<span> </span>', '&nbsp;<br>'], '', $html);
 
-        $html = str_replace('$pdf_type', ucfirst($entity_class), $html);
-        $html = str_replace('$entity_number', $entity->number, $html);
+        $html = str_replace(
+            '$pdf_type',
+            $entity_string === 'dispatch_note' ? 'Dispatch Note' : ucfirst($entity_class),
+            $html
+        );
 
+        $html = str_replace('$entity_number', $entity->number, $html);
 
         if (empty($entity->voucher_code)) {
             $html = str_replace(['$voucher_label', '$voucher'], '', $html);
