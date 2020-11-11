@@ -193,7 +193,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
                       ->where('balance', '>', 0)
                       ->whereIn(
                           'status_id',
-                          [Invoice::STATUS_SENT, Invoice::STATUS_PARTIAL]
+                          [Invoice::STATUS_DRAFT, Invoice::STATUS_SENT, Invoice::STATUS_PARTIAL]
                       )->get();
     }
 

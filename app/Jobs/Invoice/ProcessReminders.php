@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Invoice;
 
+use App\Components\InvoiceCalculator\InvoiceCalculator;
 use App\Models\Invoice;
 use App\Repositories\InvoiceRepository;
 use Carbon\Carbon;
@@ -10,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use phpDocumentor\Reflection\Types\Integer;
 
 class ProcessReminders implements ShouldQueue
 {
@@ -114,12 +116,17 @@ class ProcessReminders implements ShouldQueue
         }
 
         $invoice->late_fee_charge += $amount;
-        $invoice->increaseBalance($amount);
+
+        $objInvoice = (new InvoiceCalculator($invoice))->build();
+        $invoice = $objInvoice->addLateFeeToInvoice($amount);
+
+        if (empty($invoice)) {
+            return false;
+        }
+
         $invoice->save();
 
         $invoice->updateCustomerBalance($amount);
-
-        (new \App\Components\InvoiceCalculator\Invoice($invoice))->addLateFeeToInvoice($amount);
 
         return true;
     }

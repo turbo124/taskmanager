@@ -259,6 +259,7 @@ class CreatePayment implements ShouldQueue
     {
         $this->ids = $this->data['ids'];
         $this->customer = Customer::find($this->data['customer_id']);
+
         $payment = $this->createPayment();
         $this->attachInvoices($payment);
 

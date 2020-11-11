@@ -161,32 +161,32 @@ class Invoice extends BaseCalculator
 
         $is_percentage = !empty($this->entity->gateway_percentage) && ($this->entity->gateway_percentage === 'true' || $this->entity->gateway_percentage === true);
         $gateway_fee = $this->calculateGatewayFee($this->total, $this->entity->gateway_fee, $is_percentage);
-        $this->addChargeToLineItems($gateway_fee, trans('texts.gateway_fee'), \App\Models\Invoice::GATEWAY_FEE_TYPE);
         $this->entity->gateway_fee = $gateway_fee;
         $this->entity->gateway_fee_applied = true;
 
         if (get_class(
                 $this->entity
             ) === 'App\Models\Invoice' && !empty($this->entity->account->settings->charge_gateway_to_customer) && $this->entity->account->settings->charge_gateway_to_customer === true) {
-            $this->entity->updateInvoiceBalance($gateway_fee);
-            $this->total += $gateway_fee;
-            $this->balance += $gateway_fee;
+            $this->addChargeToLineItems(
+                $gateway_fee,
+                trans('texts.gateway_fee'),
+                \App\Models\Invoice::GATEWAY_FEE_TYPE
+            );
+
+            $this->entity->updateCustomerBalance($gateway_fee);
         }
 
         return true;
     }
 
     /**
-     * @param $late_fee_charge
-     * @return bool
+     * @param float $late_fee_charge
+     * @return \App\Models\Invoice|null
      */
-    public function addLateFeeToInvoice($late_fee_charge): bool
+    public function addLateFeeToInvoice(float $late_fee_charge): ?\App\Models\Invoice
     {
-        echo $late_fee_charge;
-        die('mike');
-
         if (empty($late_fee_charge) || $late_fee_charge <= 0 || get_class($this->entity) !== 'App\Models\Invoice') {
-            return false;
+            return null;
         }
 
         $this->addChargeToLineItems(
@@ -195,10 +195,16 @@ class Invoice extends BaseCalculator
             $this->entity::LATE_FEE_TYPE
         );
 
-        return true;
+        return $this->rebuildEntity();
     }
 
-    private function addChargeToLineItems($charge, $description, $type_id)
+    /**
+     * @param $charge
+     * @param $description
+     * @param $type_id
+     * @return LineItem
+     */
+    private function addChargeToLineItems($charge, $description, $type_id): LineItem
     {
         $line_item = (new LineItem);
 
@@ -207,22 +213,29 @@ class Invoice extends BaseCalculator
                   ->setUnitPrice($charge)
                   ->setTypeId($type_id)
 //                ->setProductId($description)
-                  ->setNotes($description);
+                  ->setNotes($description)
+                  ->setSubTotal($charge);
 
-        $this->addItem($line_item->toObject());
-        return true;
+        $this->addItem($line_item->toObject(), true);
+
+        return $line_item;
     }
 
     /**
      * @param $item
      * @return $this
      */
-    public function addItem($item)
+    public function addItem($item, bool $is_charge = false)
     {
         $this->setTaxTotal($item->tax_total);
         $this->setDiscountTotal($item->discount_total);
         $this->setSubTotal($item->line_total);
         $this->line_items[] = $item;
+
+        if ($is_charge) {
+            $this->increaseBalance($item->line_total);
+            $this->increaseTotal($item->line_total);
+        }
 
         return $this;
     }
@@ -374,6 +387,26 @@ class Invoice extends BaseCalculator
     public function setTotal(float $total): self
     {
         $this->total = $total;
+        return $this;
+    }
+
+    /**
+     * @param float $total
+     * @return $this
+     */
+    private function increaseTotal(float $total): self
+    {
+        $this->total += $total;
+        return $this;
+    }
+
+    /**
+     * @param float $balance
+     * @return $this
+     */
+    private function increaseBalance(float $balance): self
+    {
+        $this->balance += $balance;
         return $this;
     }
 
