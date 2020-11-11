@@ -12,7 +12,8 @@ trait Balancer
      */
     public function reduceBalance($amount)
     {
-        $this->balance -= floatval($amount);
+        $amount = $this->balance < 0 ? $amount * -1 : $amount;
+        $this->balance -= $amount;
 
         if ($this->balance === 0.0 && get_class($this) === 'App\Models\Invoice') {
             $this->setStatus(self::STATUS_PAID);
@@ -37,7 +38,10 @@ trait Balancer
      */
     public function increaseBalance(float $amount): float
     {
-        $balance = $this->balance += $amount;
+        $amount = $this->balance < 0 ? $amount * -1 : $amount;
+
+        $balance = $this->balance + $amount;
+
         return $this->setBalance($balance);
     }
 
@@ -47,6 +51,7 @@ trait Balancer
     public function setBalance(float $balance)
     {
         $this->balance = (float)$balance;
+
         return $this->balance;
     }
 

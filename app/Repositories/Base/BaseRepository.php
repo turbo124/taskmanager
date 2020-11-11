@@ -175,6 +175,10 @@ class BaseRepository implements BaseRepositoryInterface
             $service->send();
         }
 
+        if (get_class($entity) === 'App\Models\Invoice') {
+            $entity->updateCustomerBalance($entity->fresh()->balance);
+        }
+
         $class = (new ReflectionClass($entity))->getShortName();
         $event_class = "App\Events\\" . $class . "\\" . $class . "WasMarkedSent";
 

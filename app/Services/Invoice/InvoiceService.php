@@ -51,11 +51,6 @@ class InvoiceService extends ServiceBase
         return $this->invoice;
     }
 
-    public function send()
-    {
-        $this->invoice->updateInvoiceBalance($this->invoice->balance);
-    }
-
     /**
      * @param CreditRepository $credit_repo
      * @param PaymentRepository $payment_repo

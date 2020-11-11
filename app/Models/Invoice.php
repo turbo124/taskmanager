@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\Invoice\InvoiceWasDeleted;
+use App\Search\CustomerSearch;
 use App\Services\Invoice\InvoiceService;
 use App\Services\Transaction\TransactionService;
 use App\Traits\Balancer;
@@ -337,7 +338,11 @@ class Invoice extends Model
         return $this->status_id === self::STATUS_DRAFT;
     }
 
-    public function updateInvoiceBalance($amount)
+    /**
+     * @param $amount
+     * @return Customer
+     */
+    public function updateCustomerBalance($amount): Customer
     {
         $customer = $this->customer;
         $customer->increaseBalance($amount);
@@ -346,6 +351,8 @@ class Invoice extends Model
         if ($this->id) {
             $this->transaction_service()->createTransaction($amount, $customer->balance);
         }
+
+        return $customer;
     }
 
     public function transaction_service()

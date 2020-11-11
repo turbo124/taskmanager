@@ -8,6 +8,7 @@ import FormatMoney from './FormatMoney'
 import { translations } from '../utils/_translations'
 import { consts } from '../utils/_consts'
 import ProjectDropdown from './dropdowns/ProjectDropdown'
+import DeleteModal from './DeleteModal'
 
 class LineItem extends Component {
     constructor (props) {
@@ -204,19 +205,8 @@ class LineItem extends Component {
                     }
 
                     <Col className="pt-4" md={2} data-id={index}>
-                        <a href="#" style={{ fontSize: '18px' }} className={`mr-1 ${color}`} color="danger"
-                            id={'Tooltip-' + index} onClick={(event) => {
-                                this.props.onDelete(index)
-                                event.preventDefault()
-                            }}>
-                            X
-                        </a>
-                        <UncontrolledTooltip
-                            placement="top"
-                            target={'Tooltip-' + index}
-                        >
-                            {translations.delete}
-                        </UncontrolledTooltip>
+                        <DeleteModal is_button={true} deleteFunction={this.props.onDelete} archive={false}
+                            id={index}/>
                     </Col>
                 </Row>
             </React.Fragment> : null

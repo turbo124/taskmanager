@@ -193,7 +193,18 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
                       ->where('balance', '>', 0)
                       ->whereIn(
                           'status_id',
-                          [Invoice::STATUS_SENT, Invoice::STATUS_PARTIAL, Invoice::STATUS_DRAFT]
+                          [Invoice::STATUS_DRAFT, Invoice::STATUS_SENT, Invoice::STATUS_PARTIAL]
+                      )->get();
+    }
+
+    public function getExpiredInvoices()
+    {
+        return Invoice::whereDate('due_date', '<', Carbon::today()->subDay()->toDateString())
+                      ->where('is_deleted', '=', false)
+                      ->where('balance', '>', 0)
+                      ->whereIn(
+                          'status_id',
+                          [Invoice::STATUS_SENT, Invoice::STATUS_PARTIAL]
                       )->get();
     }
 

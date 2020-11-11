@@ -39,7 +39,7 @@ use Tests\TestCase;
  *
  * @author michael.hampton
  */
-class InvoiceTest extends TestCase
+class InvoiceUnitTest extends TestCase
 {
 
     use DatabaseTransactions, WithFaker;
@@ -532,10 +532,19 @@ class InvoiceTest extends TestCase
         $this->assertEquals($total, $original_invoice->total);
         $this->assertEquals($line_item_count, count($original_invoice->line_items));
 
+        $original_customer_balance = $invoice->customer->balance;
+
         // auto bill
         AutobillInvoice::dispatchNow($original_invoice, $invoiceRepo);
         $invoice = $original_invoice->fresh();
 
+        $customer = $invoice->customer->fresh();
+
+        // invoice total + gateway fee
+        $original_customer_balance = $original_customer_balance + (1.50 * -1);
+        $expected_balance = $original_customer_balance - ($invoice->total * -1);
+
+        $this->assertEquals($customer->balance, $expected_balance);
         $this->assertEquals($line_item_count + 1, count($invoice->line_items));
         $this->assertEquals($total + $invoice->gateway_fee, $invoice->total);
 
@@ -554,6 +563,7 @@ class InvoiceTest extends TestCase
         // create invoice
         $invoice = Invoice::factory()->create();
         $invoice->customer_id = 5;
+        $invoice->status_id = Invoice::STATUS_SENT;
         $invoice->account_id = $this->account->id;
         $invoice->date_to_send = Carbon::now();
         $invoice->save();
@@ -569,9 +579,15 @@ class InvoiceTest extends TestCase
 
         $invoiceRepo = new InvoiceRepository(new Invoice);
 
+        $original_customer_balance = $invoice->customer->balance;
+
         ProcessReminders::dispatchNow($invoiceRepo);
 
         $updated_invoice = $invoice->fresh();
+
+        $this->assertEquals(($invoice->total + 10), $updated_invoice->total);
+        $this->assertEquals(($invoice->balance + 10), $updated_invoice->balance);
+        $this->assertEquals(($original_customer_balance += 10 * -1), $updated_invoice->customer->balance);
 
         $date_to_send = Carbon::parse($invoice->date)->addDays($settings->number_of_days_after_1)->format('Y-m-d');
 
@@ -600,11 +616,17 @@ class InvoiceTest extends TestCase
         $invoice->customer->account->settings = $settings;
         $invoice->customer->account->save();
 
+        $original_customer_balance = $invoice->customer->balance;
+
         $invoiceRepo = new InvoiceRepository(new Invoice);
 
         ProcessReminders::dispatchNow($invoiceRepo);
 
         $updated_invoice = $invoice->fresh();
+
+        $this->assertEquals(($invoice->total + 40), $updated_invoice->total);
+        $this->assertEquals(($invoice->balance + 40), $updated_invoice->balance);
+        $this->assertEquals(($original_customer_balance += 40 * -1), $updated_invoice->customer->balance);
 
         $date_to_send = Carbon::parse($invoice->date)->addDays($settings->number_of_days_after_1)->format('Y-m-d');
 
