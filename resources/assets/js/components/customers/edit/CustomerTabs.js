@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Card, CardBody, CardHeader, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
 import AddressForm from './AddressForm'
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import CustomerForm from './CustomerForm'
 import SettingsForm from './SettingsForm'
 import Contact from '../../common/Contact'
@@ -143,7 +143,20 @@ export default function CustomerTabs (props) {
         addresses.push(innerObj)
 
         const cleanedContacts = contacts.contacts && contacts.contacts.length ? cleanContacts(contacts.contacts) : []
-        console.log('contacts 2', cleanedContacts)
+
+        if (cleanedContacts.length !== contacts.contacts.length) {
+            toast.error(translations.invalid_contacts_error, {
+                position: 'top-center',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+            })
+
+            return false
+        }
 
         const formdata = {
             name: customer.name,
@@ -170,7 +183,16 @@ export default function CustomerTabs (props) {
         }
 
         if (contacts.contacts.length === 0) {
-            alert('You must create at least one contact')
+            toast.error(translations.empty_contacts_error, {
+                position: 'top-center',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+            })
+
             return false
         }
 
@@ -227,7 +249,16 @@ export default function CustomerTabs (props) {
         }
 
         if (contacts.contacts.length === 0) {
-            alert('You must create at least one contact')
+            toast.error(translations.empty_contacts_error, {
+                position: 'top-center',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+            })
+
             return false
         }
 
@@ -251,6 +282,18 @@ export default function CustomerTabs (props) {
 
     return (
         <React.Fragment>
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+
             <Nav tabs>
                 <NavItem>
                     <NavLink className={activeTab === '1' ? 'active' : ''} onClick={() => setActiveTab('1')}>

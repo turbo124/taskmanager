@@ -40,6 +40,9 @@ export default class Contact extends Component {
     }
 
     removeContact (idx) {
+
+        alert(idx)
+
         this.setState({
             contacts: this.state.contacts.filter(function (contact, sidx) {
                 return sidx !== idx

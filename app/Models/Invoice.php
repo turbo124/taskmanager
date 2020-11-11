@@ -337,7 +337,11 @@ class Invoice extends Model
         return $this->status_id === self::STATUS_DRAFT;
     }
 
-    public function updateInvoiceBalance($amount)
+    /**
+     * @param $amount
+     * @return bool
+     */
+    public function updateCustomerBalance($amount): bool
     {
         $customer = $this->customer;
         $customer->increaseBalance($amount);
@@ -346,6 +350,8 @@ class Invoice extends Model
         if ($this->id) {
             $this->transaction_service()->createTransaction($amount, $customer->balance);
         }
+
+        return true;
     }
 
     public function transaction_service()

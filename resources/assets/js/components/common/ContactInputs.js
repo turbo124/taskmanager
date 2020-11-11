@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Button, Card, CardBody, CardHeader, Col, Collapse, FormGroup, Input, Label, Row } from 'reactstrap'
+import { Card, CardBody, CardHeader, Col, Collapse, FormGroup, Input, Label, Row } from 'reactstrap'
 import { translations } from '../utils/_translations'
 import { icons } from '../utils/_icons'
+import DeleteModal from './DeleteModal'
 
 export default class ContactInputs extends Component {
     constructor (props) {
@@ -121,12 +122,11 @@ export default class ContactInputs extends Component {
                                             </FormGroup>
                                         </Col>
                                     </Row>
-
-                                    <Button color="danger" size="lg" block onClick={() => this.props.removeContact(idx)}>
-                                        {translations.remove}
-                                    </Button>
                                 </CardBody>
                             </Collapse>
+
+                            <DeleteModal is_button={true} deleteFunction={this.props.removeContact} archive={false}
+                                id={idx}/>
                         </Card>
                     )
                 })}

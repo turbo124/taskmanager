@@ -14,6 +14,7 @@ use App\Repositories\Interfaces\QuoteRepositoryInterface;
 use App\Requests\SearchRequest;
 use App\Search\QuoteSearch;
 use App\Traits\BuildVariables;
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
@@ -124,6 +125,16 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
     public function getQuoteForTask(Task $objTask): Quote
     {
         return $this->model->where('task_id', $objTask->id)->first();
+    }
+
+    public function getExpiredQuotes()
+    {
+        return Quote::whereDate('due_date', '<', Carbon::today()->subDay()->toDateString())
+                      ->where('is_deleted', '=', false)
+                      ->whereIn(
+                          'status_id',
+                          [Quote::STATUS_SENT]
+                      )->get();
     }
 
 }

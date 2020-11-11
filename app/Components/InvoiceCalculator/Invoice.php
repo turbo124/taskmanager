@@ -139,14 +139,6 @@ class Invoice extends BaseCalculator
             $this->applyGatewayFee();
         }
 
-        if (!empty($this->entity->late_fee_charge) && $this->entity->late_fee_charge > 0) {
-            $this->addChargeToLineItems(
-                $this->entity->late_fee_charge,
-                'Late Fee Charge applied',
-                $this->entity::LATE_FEE_TYPE
-            );
-        }
-
         return $this;
     }
 
@@ -180,6 +172,28 @@ class Invoice extends BaseCalculator
             $this->total += $gateway_fee;
             $this->balance += $gateway_fee;
         }
+
+        return true;
+    }
+
+    /**
+     * @param $late_fee_charge
+     * @return bool
+     */
+    public function addLateFeeToInvoice($late_fee_charge): bool
+    {
+        echo $late_fee_charge;
+        die('mike');
+
+        if (empty($late_fee_charge) || $late_fee_charge <= 0 || get_class($this->entity) !== 'App\Models\Invoice') {
+            return false;
+        }
+
+        $this->addChargeToLineItems(
+            $late_fee_charge,
+            'Late Fee Charge applied',
+            $this->entity::LATE_FEE_TYPE
+        );
 
         return true;
     }

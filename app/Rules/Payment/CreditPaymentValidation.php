@@ -79,7 +79,7 @@ class CreditPaymentValidation implements Rule
             return false;
         }
 
-        if ($credit->balance <= 0) {
+        if ($credit->balance <= 0 || $this->request['amount'] > $credit->balance) {
             $this->validationFailures[] = 'The credit has already been paid';
             return false;
         }

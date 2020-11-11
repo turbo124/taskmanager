@@ -42,6 +42,18 @@ class ProcessReminders implements ShouldQueue
     public function handle()
     {
         $this->processReminders();
+        $this->processLateInvoices();
+    }
+
+    private function processLateInvoices()
+    {
+        $invoices = $this->invoice_repo->getExpiredInvoices();
+
+        foreach ($invoices as $invoice) {
+            $this->handleLateInvoices($invoice);
+        }
+
+        return true;
     }
 
     private function processReminders()
@@ -102,7 +114,12 @@ class ProcessReminders implements ShouldQueue
         }
 
         $invoice->late_fee_charge += $amount;
-        $this->invoice_repo->save(['late_fee_charge' => $amount], $invoice);
+        $invoice->increaseBalance($amount);
+        $invoice->save();
+
+        $invoice->updateCustomerBalance($amount);
+
+        (new \App\Components\InvoiceCalculator\Invoice($invoice))->addLateFeeToInvoice($amount);
 
         return true;
     }
@@ -158,5 +175,10 @@ class ProcessReminders implements ShouldQueue
         $invoice->date_reminder_last_sent = Carbon::now();
         $invoice->save();
         return true;
+    }
+
+    private function handleLateInvoices(Invoice $invoice)
+    {
+        //TODO
     }
 }
