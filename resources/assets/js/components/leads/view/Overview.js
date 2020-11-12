@@ -5,8 +5,25 @@ import { translations } from '../../utils/_translations'
 import { icons } from '../../utils/_icons'
 import FormatMoney from '../../common/FormatMoney'
 import InfoItem from '../../common/entityContainers/InfoItem'
+import EntityListTile from '../../common/entityContainers/EntityListTile'
 
 export default function Overview (props) {
+    let user
+    let project
+
+    if (props.entity.assigned_to) {
+        const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.assigned_to))
+        user = <EntityListTile entity={translations.user}
+            title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
+            icon={icons.user}/>
+    }
+
+    if (props.entity.project_id && props.entity.project) {
+        project = <EntityListTile entity={translations.project}
+            title={`${props.entity.project.number} ${props.entity.project.name}`}
+            icon={icons.user}/>
+    }
+
     return <React.Fragment>
         <ViewEntityHeader heading_1={translations.valued_at}
             value_1={<FormatMoney amount={props.entity.valued_at}/>}/>
@@ -29,15 +46,15 @@ export default function Overview (props) {
         </Alert>
         }
 
-        {!!props.user &&
+        {!!user &&
         <Row>
-            {props.user}
+            {user}
         </Row>
         }
 
-        {!!props.project &&
+        {!!project &&
         <Row>
-            {props.project}
+            {project}
         </Row>
         }
 

@@ -3,15 +3,10 @@ import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, Tab
 import { translations } from '../../utils/_translations'
 import FileUploads from '../../documents/FileUploads'
 import TaskModel from '../../models/TaskModel'
-import TaskTimeItem from '../../common/entityContainers/TaskTimeItem'
 import axios from 'axios'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import Overview from './Overview'
 import formatDuration from '../../utils/_formatting'
-import EntityListTile from '../../common/entityContainers/EntityListTile'
-import { icons } from '../../utils/_icons'
-import FormatDate from '../../common/FormatDate'
-import { frequencyOptions } from '../../utils/_consts'
 
 export default class Task extends Component {
     constructor (props) {
@@ -99,108 +94,6 @@ export default class Task extends Component {
     }
 
     render () {
-        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
-        let user
-        let project
-        let invoice = null
-
-        if (this.state.entity.assigned_to) {
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
-            user = <EntityListTile entity={translations.user}
-                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
-                icon={icons.user}/>
-        }
-
-        if (this.state.entity.project_id && this.state.entity.project) {
-            project = <EntityListTile entity={translations.project}
-                title={`${this.state.entity.project.number} ${this.state.entity.project.name}`}
-                icon={icons.user}/>
-        }
-
-        if (this.state.entity.invoice_id && this.state.entity.invoice) {
-            invoice = <EntityListTile entity={translations.invoice}
-                title={`${this.state.entity.invoice.number} ${this.state.entity.invoice.total}`}
-                icon={icons.user}/>
-        }
-
-        const fields = []
-
-        if (this.state.entity.status_name.length) {
-            fields.status = this.state.entity.status_name
-        }
-
-        if (this.state.entity.description.length) {
-            fields.description = this.state.entity.description
-        }
-
-        if (this.state.entity.start_date.length) {
-            fields.start_date = this.state.entity.start_date
-        }
-
-        if (this.state.entity.due_date.length) {
-            fields.due_date = this.state.entity.due_date
-        }
-
-        if (this.state.entity.custom_value1.length) {
-            const label1 = this.taskModel.getCustomFieldLabel('Task', 'custom_value1')
-            fields[label1] = this.taskModel.formatCustomValue(
-                'Task',
-                'custom_value1',
-                this.state.entity.custom_value1
-            )
-        }
-
-        if (this.state.entity.custom_value2.length) {
-            const label2 = this.taskModel.getCustomFieldLabel('Task', 'custom_value2')
-            fields[label2] = this.taskModel.formatCustomValue(
-                'Task',
-                'custom_value2',
-                this.state.entity.custom_value2
-            )
-        }
-
-        if (this.state.entity.custom_value3.length) {
-            const label3 = this.taskModel.getCustomFieldLabel('Task', 'custom_value3')
-            fields[label3] = this.taskModel.formatCustomValue(
-                'Task',
-                'custom_value3',
-                this.state.entity.custom_value3
-            )
-        }
-
-        if (this.state.entity.custom_value4.length) {
-            const label4 = this.taskModel.getCustomFieldLabel('Task', 'custom_value4')
-            fields[label4] = this.taskModel.formatCustomValue(
-                'Task',
-                'custom_value4',
-                this.state.entity.custom_value4
-            )
-        }
-
-        const recurring = []
-
-        if (this.state.entity.is_recurring === true) {
-            if (this.state.entity.recurring_start_date.length) {
-                recurring.start_date = <FormatDate date={this.state.entity.recurring_start_date}/>
-            }
-
-            if (this.state.entity.recurring_end_date.length) {
-                recurring.end_date = <FormatDate date={this.state.entity.recurring_end_date}/>
-            }
-
-            if (this.state.entity.recurring_due_date.length) {
-                recurring.due_date = <FormatDate date={this.state.entity.recurring_due_date}/>
-            }
-
-            if (this.state.entity.recurring_frequency.toString().length) {
-                fields.frequency = translations[frequencyOptions[this.state.entity.frequency]]
-            }
-        }
-
-        const task_times = this.state.entity.timers && this.state.entity.timers.length ? this.state.entity.timers.map((timer, index) => {
-            return <TaskTimeItem key={index} taskTime={timer}/>
-        }) : null
-
         const task_rate = this.state.entity.calculated_task_rate && this.state.entity.calculated_task_rate > 0 ? this.state.entity.calculated_task_rate : this.settings.task_rate
         const button1_action = !this.state.entity.invoice_id ? (e) => location.href = '/#/invoice?entity_type=task&entity_id=' + this.state.entity.id : (e) => this.toggleTab('6')
         const button1_label = !this.state.entity.invoice_id ? translations.new_invoice : translations.view_pdf
@@ -231,11 +124,10 @@ export default class Task extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview invoice={invoice} project={project} user={user} customer={customer}
-                            recurring={recurring}
+                        <Overview customers={this.props.customers} model={this.taskModel}
                             totalDuration={formatDuration(this.taskModel.duration)}
                             calculatedAmount={this.taskModel.calculateAmount(task_rate)}
-                            entity={this.state.entity} fields={fields} task_times={task_times}/>
+                            entity={this.state.entity}/>
                     </TabPane>
 
                     <TabPane tabId="2">

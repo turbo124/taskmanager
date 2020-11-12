@@ -72,12 +72,12 @@ class OrderService extends ServiceBase
      * @param OrderRepository $order_repo
      * @return OrderService
      */
-    public function dispatch(InvoiceRepository $invoice_repo, OrderRepository $order_repo): Order
+    public function dispatch(InvoiceRepository $invoice_repo, OrderRepository $order_repo, $force_invoice = false): Order
     {
         $this->order->setStatus(Order::STATUS_COMPLETE);
         $this->order->save();
 
-        if ($this->order->customer->getSetting('should_convert_order')) {
+        if ($this->order->customer->getSetting('should_convert_order') || $force_invoice === true) {
             $invoice = (new ConvertOrder($invoice_repo, $this->order))->execute();
             $this->order->setInvoiceId($invoice->id);
             $this->order->save();

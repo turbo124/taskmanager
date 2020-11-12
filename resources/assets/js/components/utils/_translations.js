@@ -1,5 +1,8 @@
 const _localizedValues = []
 _localizedValues.en = {
+    balance_remaining: 'Balance Remaining',
+    balance_due: 'Balance Due',
+    partial_due: 'Partial Due',
     never_ending: 'Never Ending',
     number_of_occurances: 'Number of Occurances',
     select_frequency: 'Select Frequency',
@@ -728,7 +731,7 @@ _localizedValues.en = {
     include_times_on_invoice_help: 'Add time details to the invoice line items',
     default_task_rate: 'Default Task Rate',
     configure_categories: 'Configure Categories',
-    dispatch_note: 'Dispatch Note',
+    dispatch_note: 'Dispatch Note'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id

@@ -172,8 +172,6 @@ class Invoice extends BaseCalculator
                 trans('texts.gateway_fee'),
                 \App\Models\Invoice::GATEWAY_FEE_TYPE
             );
-
-            $this->entity->updateCustomerBalance($gateway_fee);
         }
 
         return true;
@@ -217,6 +215,8 @@ class Invoice extends BaseCalculator
                   ->setSubTotal($charge);
 
         $this->addItem($line_item->toObject(), true);
+
+        $this->entity->updateCustomerBalance($charge);
 
         return $line_item;
     }

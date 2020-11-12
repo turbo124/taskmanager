@@ -5,8 +5,6 @@ import DealModel from '../../models/DealModel'
 import FileUploads from '../../documents/FileUploads'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import Overview from './Overview'
-import EntityListTile from '../../common/entityContainers/EntityListTile'
-import { icons } from '../../utils/_icons'
 
 export default class Deal extends Component {
     constructor (props) {
@@ -64,70 +62,7 @@ export default class Deal extends Component {
     }
 
     render () {
-        const fields = []
-
-        if (this.state.entity.status_name && this.state.entity.status_name.length) {
-            fields.status = this.state.entity.status_name
-        }
-
-        if (this.state.entity.due_date.length) {
-            fields.due_date = this.state.entity.due_date
-        }
-
-        if (this.state.entity.custom_value1.length) {
-            const label1 = this.taskModel.getCustomFieldLabel('Task', 'custom_value1')
-            fields[label1] = this.taskModel.formatCustomValue(
-                'Task',
-                'custom_value1',
-                this.state.entity.custom_value1
-            )
-        }
-
-        if (this.state.entity.custom_value2.length) {
-            const label2 = this.taskModel.getCustomFieldLabel('Task', 'custom_value2')
-            fields[label2] = this.taskModel.formatCustomValue(
-                'Task',
-                'custom_value2',
-                this.state.entity.custom_value2
-            )
-        }
-
-        if (this.state.entity.custom_value3.length) {
-            const label3 = this.taskModel.getCustomFieldLabel('Task', 'custom_value3')
-            fields[label3] = this.taskModel.formatCustomValue(
-                'Task',
-                'custom_value3',
-                this.state.entity.custom_value3
-            )
-        }
-
-        if (this.state.entity.custom_value4.length) {
-            const label4 = this.taskModel.getCustomFieldLabel('Task', 'custom_value4')
-            fields[label4] = this.taskModel.formatCustomValue(
-                'Task',
-                'custom_value4',
-                this.state.entity.custom_value4
-            )
-        }
-
-        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
         const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
-
-        let user = null
-        let project = null
-
-        if (this.state.entity.assigned_to) {
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
-            user = <EntityListTile entity={translations.user}
-                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
-                icon={icons.user}/>
-        }
-
-        if (this.state.entity.project_id && this.state.entity.project) {
-            project = <EntityListTile entity={translations.project}
-                title={`${this.state.entity.project.number} ${this.state.entity.project.name}`}
-                icon={icons.user}/>
-        }
 
         return (
             <React.Fragment>
@@ -155,8 +90,7 @@ export default class Deal extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview project={project} entity={this.state.entity} customer={customer} fields={fields}
-                            user={user}
+                        <Overview model={this.taskModel} entity={this.state.entity}
                             customers={this.props.customers}/>
 
                     </TabPane>

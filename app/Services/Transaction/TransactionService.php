@@ -23,6 +23,7 @@ class TransactionService extends ServiceBase
         $transaction->setUser($this->entity->user);
         $transaction->setCustomer($this->entity->customer);
         $transaction->setUpdatedBalance($new_balance);
+        $transaction->setOriginalBalance();
         $transaction->setAmount($amount);
         $transaction->setNotes($notes);
 

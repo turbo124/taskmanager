@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
 import FileUploads from '../../documents/FileUploads'
 import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
-import FormatMoney from '../../common/FormatMoney'
-import FormatDate from '../../common/FormatDate'
-import { getEntityIcon, icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import InvoiceModel from '../../models/InvoiceModel'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import Audit from '../../common/Audit'
-import EntityListTile from '../../common/entityContainers/EntityListTile'
 import ViewContacts from '../../common/entityContainers/ViewContacts'
 import AddPayment from '../../payments/edit/AddPayment'
 import Overview from './Overview'
@@ -69,77 +65,6 @@ export default class Invoice extends Component {
     }
 
     render () {
-        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
-
-        let user = null
-
-        if (this.state.entity.assigned_to) {
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
-            user = <EntityListTile entity={translations.user}
-                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
-                icon={icons.user}/>
-        }
-
-        let recurring = null
-
-        if (this.state.entity.recurring) {
-            recurring = <EntityListTile entity={translations.recurring_invoice}
-                title={`${this.state.entity.recurring.number}`}
-                icon={getEntityIcon('RecurringInvoice')}/>
-        }
-
-        const fields = []
-
-        if (this.state.entity.custom_value1.length) {
-            const label1 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value1')
-            fields[label1] = this.invoiceModel.formatCustomValue(
-                'Invoice',
-                'custom_value1',
-                this.state.entity.custom_value1
-            )
-        }
-
-        if (this.state.entity.custom_value2.length) {
-            const label2 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value2')
-            fields[label2] = this.invoiceModel.formatCustomValue(
-                'Invoice',
-                'custom_value2',
-                this.state.entity.custom_value2
-            )
-        }
-
-        if (this.state.entity.custom_value3.length) {
-            const label3 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value3')
-            fields[label3] = this.invoiceModel.formatCustomValue(
-                'Invoice',
-                'custom_value3',
-                this.state.entity.custom_value3
-            )
-        }
-
-        if (this.state.entity.custom_value4.length) {
-            const label4 = this.invoiceModel.getCustomFieldLabel('Invoice', 'custom_value4')
-            fields[label4] = this.invoiceModel.formatCustomValue(
-                'Invoice',
-                'custom_value4',
-                this.state.entity.custom_value4
-            )
-        }
-
-        fields.date = <FormatDate date={this.state.entity.date}/>
-        fields.due_date = <FormatDate date={this.state.entity.due_date}/>
-
-        if (this.state.entity.po_number && this.state.entity.po_number.length) {
-            fields.po_number = this.state.entity.po_number
-        }
-
-        if (this.state.entity.discount_total && this.state.entity.discount_total.toString().length) {
-            fields.discount = <FormatMoney customers={this.props.customers}
-                amount={this.state.entity.discount_total}/>
-        }
-
-        const tax_total = this.invoiceModel.calculateTaxes(false)
-
         const button_2_action = this.invoiceModel.isPaid ? (e) => this.triggerAction('clone_to_invoice', true) : (e) => this.toggleTab('6')
         const button_2_text = this.invoiceModel.isPaid ? translations.clone_invoice : translations.add_payment
 
@@ -194,9 +119,8 @@ export default class Invoice extends Component {
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview entity={this.state.entity} customers={this.props.customers} recurring={recurring}
-                            user={user}
-                            customer={customer} fields={fields}/>
+                        <Overview model={this.invoiceModel} entity={this.state.entity} customers={this.props.customers}
+                        />
                     </TabPane>
 
                     <TabPane tabId="2">

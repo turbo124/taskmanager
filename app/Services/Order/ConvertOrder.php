@@ -41,6 +41,9 @@ class ConvertOrder
         $this->invoice_repo->save([], $invoice);
         $this->invoice_repo->markSent($invoice);
 
+        $this->order->balance = 0;
+        $this->order->save();
+
         return $invoice;
     }
 }

@@ -40,7 +40,6 @@ export default class Contact extends Component {
     }
 
     removeContact (idx) {
-
         alert(idx)
 
         this.setState({
