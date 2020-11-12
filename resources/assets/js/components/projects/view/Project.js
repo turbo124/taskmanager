@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
-import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import ProjectModel from '../../models/ProjectModel'
-import FormatMoney from '../../common/FormatMoney'
-import EntityListTile from '../../common/entityContainers/EntityListTile'
-import FormatDate from '../../common/FormatDate'
 import Overview from './Overview'
 import FileUploads from '../../documents/FileUploads'
 import AddModal from '../../tasks/edit/AddTask'
@@ -70,58 +66,6 @@ export default class Project extends Component {
 
     render () {
         const modules = JSON.parse(localStorage.getItem('modules'))
-        const projectModel = new ProjectModel(this.props.entity)
-        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.props.entity.customer_id))
-        let user = null
-
-        if (this.props.entity.assigned_to) {
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
-            user = <EntityListTile entity={translations.user}
-                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
-                icon={icons.user}/>
-        }
-
-        const fields = []
-        fields.due_date = <FormatDate date={this.props.entity.due_date}/>
-        fields.task_rate = <FormatMoney amount={this.props.entity.task_rate} customers={this.props.customers}/>
-
-        const total = projectModel.taskDurationForProject()
-
-        if (this.props.entity.custom_value1.length) {
-            const label1 = this.invoiceModel.getCustomFieldLabel('Project', 'custom_value1')
-            fields[label1] = this.invoiceModel.formatCustomValue(
-                'Project',
-                'custom_value1',
-                this.props.entity.custom_value1
-            )
-        }
-
-        if (this.props.entity.custom_value2.length) {
-            const label2 = this.invoiceModel.getCustomFieldLabel('Project', 'custom_value2')
-            fields[label2] = this.invoiceModel.formatCustomValue(
-                'Project',
-                'custom_value2',
-                this.props.entity.custom_value2
-            )
-        }
-
-        if (this.props.entity.custom_value3.length) {
-            const label3 = this.paymentModel.getCustomFieldLabel('Project', 'custom_value3')
-            fields[label3] = this.paymentModel.formatCustomValue(
-                'Project',
-                'custom_value3',
-                this.props.entity.custom_value3
-            )
-        }
-
-        if (this.props.entity.custom_value4.length) {
-            const label4 = this.paymentModel.getCustomFieldLabel('Project', 'custom_value4')
-            fields[label4] = this.paymentModel.formatCustomValue(
-                'Project',
-                'custom_value4',
-                this.props.entity.custom_value4
-            )
-        }
 
         return (
             <React.Fragment>
@@ -149,8 +93,8 @@ export default class Project extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview user={user} customer={customer}
-                            entity={this.state.entity} fields={fields} total={total}/>
+                        <Overview customers={this.props.customers} model={this.projectModel}
+                            entity={this.state.entity}/>
                     </TabPane>
 
                     <TabPane tabId="2">

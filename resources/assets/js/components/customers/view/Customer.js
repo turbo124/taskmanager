@@ -11,7 +11,6 @@ import GatewayModel from '../../models/GatewayModel'
 import FileUploads from '../../documents/FileUploads'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import MetaItem from '../../common/entityContainers/MetaItem'
-import EntityListTile from '../../common/entityContainers/EntityListTile'
 import Overview from './Overview'
 import Details from './Details'
 import ErrorLog from './ErrorLog'
@@ -67,15 +66,6 @@ export default class Customer extends Component {
     }
 
     render () {
-        let user = null
-
-        if (this.props.entity.assigned_to) {
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.props.entity.assigned_to))
-            user = <EntityListTile entity={translations.user}
-                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
-                icon={icons.user}/>
-        }
-
         const gateway_tokens = this.state.gateways.length ? this.customerModel.gateway_tokens.map((gatewayToken) => {
             const companyGateway = this.state.gateways.filter(gateway => gateway.id === parseInt(gatewayToken.company_gateway_id))
 
@@ -91,70 +81,6 @@ export default class Customer extends Component {
                 title={`${translations.token} > ${companyGateway[0].gateway.name}`}
                 subtitle={<MetaItem meta={gatewayToken.meta}/>}/>
         }) : null
-
-        const fields = []
-
-        if (this.customerModel.hasLanguage && this.customerModel.languageId !== parseInt(this.settings.language_id)) {
-            fields.language =
-                JSON.parse(localStorage.getItem('languages')).filter(language => language.id === this.customerModel.languageId)[0].name
-        }
-
-        if (this.customerModel.hasCurrency && this.customerModel.currencyId !== parseInt(this.settings.currency_id)) {
-            fields.currency =
-                JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.customerModel.currencyId)[0].name
-        }
-
-        if (this.props.entity.custom_value1.length) {
-            const label1 = this.customerModel.getCustomFieldLabel('Customer', 'custom_value1')
-            fields[label1] = this.customerModel.formatCustomValue(
-                'Customer',
-                'custom_value1',
-                this.props.entity.custom_value1
-            )
-        }
-
-        if (this.props.entity.custom_value2.length) {
-            const label2 = this.customerModel.getCustomFieldLabel('Customer', 'custom_value2')
-            fields[label2] = this.customerModel.formatCustomValue(
-                'Customer',
-                'custom_value2',
-                this.props.entity.custom_value2
-            )
-        }
-
-        if (this.props.entity.custom_value3.length) {
-            const label3 = this.customerModel.getCustomFieldLabel('Customer', 'custom_value3')
-            fields[label3] = this.customerModel.formatCustomValue(
-                'Customer',
-                'custom_value3',
-                this.props.entity.custom_value3
-            )
-        }
-
-        if (this.props.entity.custom_value4.length) {
-            const label4 = this.customerModel.getCustomFieldLabel('Customer', 'custom_value4')
-            fields[label4] = this.customerModel.formatCustomValue(
-                'Customer',
-                'custom_value4',
-                this.props.entity.custom_value4
-            )
-        }
-
-        const billing = this.props.entity.billing && Object.keys(this.props.entity.billing).length
-            ? <React.Fragment>
-                {this.props.entity.billing.address_1} <br/>
-                {this.props.entity.billing.address_2} <br/>
-                {this.props.entity.billing.city} {this.props.entity.billing.zip}
-
-            </React.Fragment> : null
-
-        const shipping = this.props.entity.shipping && Object.keys(this.props.entity.shipping).length
-            ? <React.Fragment>
-                {this.props.entity.shipping.address_1} <br/>
-                {this.props.entity.shipping.address_2} <br/>
-                {this.props.entity.shipping.city} {this.props.entity.shipping.zip}
-
-            </React.Fragment> : null
 
         return (
             <React.Fragment>
@@ -215,12 +141,12 @@ export default class Customer extends Component {
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview gateway_tokens={gateway_tokens} fields={fields} user={user}
+                        <Overview settings={this.settings} model={this.customerModel} gateway_tokens={gateway_tokens}
                             entity={this.props.entity}/>
                     </TabPane>
 
                     <TabPane tabId="2">
-                        <Details billing={billing} shipping={shipping} entity={this.props.entity}/>
+                        <Details entity={this.props.entity}/>
                     </TabPane>
 
                     <TabPane tabId="3">

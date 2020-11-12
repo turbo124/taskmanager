@@ -1,14 +1,9 @@
 import React, { Component } from 'react'
 import FileUploads from '../../documents/FileUploads'
 import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
-import FormatDate from '../../common/FormatDate'
 import { translations } from '../../utils/_translations'
-import FormatMoney from '../../common/FormatMoney'
 import RecurringQuoteModel from '../../models/RecurringQuoteModel'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
-import EntityListTile from '../../common/entityContainers/EntityListTile'
-import { icons } from '../../utils/_icons'
-import { frequencyOptions } from '../../utils/_consts'
 import Audit from '../../common/Audit'
 import ViewContacts from '../../common/entityContainers/ViewContacts'
 import ViewSchedule from '../../common/entityContainers/ViewSchedule'
@@ -89,104 +84,6 @@ export default class RecurringQuote extends Component {
     }
 
     render () {
-        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
-        const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
-
-        let user = null
-
-        if (this.state.entity.assigned_to) {
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
-            user = <EntityListTile entity={translations.user}
-                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
-                icon={icons.user}/>
-        }
-
-        let stats = null
-
-        if (this.state.quotes && this.state.quotes.length) {
-            stats = this.quoteModel.recurringInvoiceStatsForInvoice(this.state.entity.id, this.state.quotes)
-        }
-
-        const fields = []
-
-        if (this.state.entity.custom_value1.length) {
-            const label1 = this.quoteModel.getCustomFieldLabel('RecurringQuote', 'custom_value1')
-            fields[label1] = this.quoteModel.formatCustomValue(
-                'RecurringQuote',
-                'custom_value1',
-                this.state.entity.custom_value1
-            )
-        }
-
-        if (this.state.entity.custom_value2.length) {
-            const label2 = this.quoteModel.getCustomFieldLabel('RecurringQuote', 'custom_value2')
-            fields[label2] = this.quoteModel.formatCustomValue(
-                'RecurringQuote',
-                'custom_value2',
-                this.state.entity.custom_value2
-            )
-        }
-
-        if (this.state.entity.custom_value3.length) {
-            const label3 = this.quoteModel.getCustomFieldLabel('RecurringQuote', 'custom_value3')
-            fields[label3] = this.quoteModel.formatCustomValue(
-                'RecurringQuote',
-                'custom_value3',
-                this.state.entity.custom_value3
-            )
-        }
-
-        if (this.state.entity.custom_value4.length) {
-            const label4 = this.quoteModel.getCustomFieldLabel('RecurringQuote', 'custom_value4')
-            fields[label4] = this.quoteModel.formatCustomValue(
-                'RecurringQuote',
-                'custom_value4',
-                this.state.entity.custom_value4
-            )
-        }
-
-        fields.date = <FormatDate date={this.state.entity.date}/>
-
-        if (this.state.entity.po_number && this.state.entity.po_number.length) {
-            fields.po_number = this.state.entity.po_number
-        }
-
-        if (this.state.entity.due_date && this.state.entity.due_date.length) {
-            fields.due_date = <FormatDate date={this.state.entity.due_date}/>
-        }
-
-        if (this.state.entity.discount_total && this.state.entity.discount_total.toString().length) {
-            fields.discount = <FormatMoney customers={this.props.customers}
-                amount={this.state.entity.discount_total}/>
-        }
-
-        if (this.state.entity.frequency && this.state.entity.frequency.toString().length) {
-            fields.frequency = translations[frequencyOptions[this.state.entity.frequency]]
-        }
-
-        if (this.state.entity.start_date && this.state.entity.start_date.length) {
-            fields.start_date = <FormatDate date={this.state.entity.start_date}/>
-        }
-
-        if (this.state.entity.expiry_date && this.state.entity.expiry_date.length) {
-            fields.expiry_date = <FormatDate date={this.state.entity.expiry_date}/>
-        }
-
-        if (this.state.entity.date_to_send && this.state.entity.date_to_send.length) {
-            fields.date_to_send = <FormatDate date={this.state.entity.date_to_send}/>
-        }
-
-        if (this.state.entity.number_of_occurrances && this.state.entity.number_of_occurrances.length) {
-            fields.cycles_remaining = this.state.entity.number_of_occurrances
-        }
-
-        if (this.state.entity.is_never_ending) {
-            fields.cycles_remaining = translations.never_ending
-        }
-
-        fields.grace_period = this.state.entity.grace_period > 0 ? this.state.entity.grace_period : translations.payment_term
-        fields.auto_billing_enabled = this.state.entity.auto_billing_enabled === true ? translations.yes : translations.no
-
         return (
             <React.Fragment>
 
@@ -245,10 +142,8 @@ export default class RecurringQuote extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview stats={stats} quotes={this.quoteModel.quotes} entity={this.state.entity}
-                            fields={fields}
-                            customers={this.props.customers}
-                            user={user} customer={customer}/>
+                        <Overview model={this.quoteModel} quotes={this.quoteModel.quotes} entity={this.state.entity}
+                            customers={this.props.customers}/>
                     </TabPane>
                     <TabPane tabId="2">
                         <Row>

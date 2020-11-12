@@ -6,8 +6,6 @@ import axios from 'axios'
 import FileUploads from '../../documents/FileUploads'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import Overview from './Overview'
-import EntityListTile from '../../common/entityContainers/EntityListTile'
-import { icons } from '../../utils/_icons'
 
 export default class Lead extends Component {
     constructor (props) {
@@ -92,22 +90,6 @@ export default class Lead extends Component {
     }
 
     render () {
-        let user
-        let project
-
-        if (this.state.entity.assigned_to) {
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
-            user = <EntityListTile entity={translations.user}
-                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
-                icon={icons.user}/>
-        }
-
-        if (this.state.entity.project_id && this.state.entity.project) {
-            project = <EntityListTile entity={translations.project}
-                title={`${this.state.entity.project.number} ${this.state.entity.project.name}`}
-                icon={icons.user}/>
-        }
-
         const address = <React.Fragment>
             {this.state.entity.address_1} <br/>
             {this.state.entity.address_2} <br/>
@@ -140,7 +122,7 @@ export default class Lead extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview user={user} project={project} entity={this.state.entity} address={address}/>
+                        <Overview entity={this.state.entity} address={address}/>
                     </TabPane>
                     <TabPane tabId="2">
                         <Row>

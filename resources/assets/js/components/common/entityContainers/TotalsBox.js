@@ -9,11 +9,18 @@ export default function TotalsBox (props) {
     const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
     const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
     const settings = user_account[0].account.settings
+    const paid_to_date = props.entity.total !== props.entity.balance ? props.entity.total - props.entity.balance : props.entity.total
 
     const invoiceModel = new InvoiceModel(props.entity)
     const tax_total = invoiceModel.calculateTaxes(false)
 
     return <ListGroup className="col-6 mt-4">
+        <ListGroupItem
+            className={`${listClass} d-flex justify-content-between align-items-center`}>
+            {translations.paid_to_date}
+            <span><FormatMoney amount={paid_to_date} customers={props.customers}/></span>
+        </ListGroupItem>
+
         <ListGroupItem
             className={`${listClass} d-flex justify-content-between align-items-center`}>
             {translations.tax}
@@ -60,6 +67,11 @@ export default function TotalsBox (props) {
             {translations.total}
             <span><FormatMoney amount={props.entity.partial > 0 ? props.entity.partial : props.entity.total}
                 customers={props.customers}/></span>
+        </ListGroupItem>
+        <ListGroupItem
+            className={`${listClass} d-flex justify-content-between align-items-center`}>
+            {translations.balance_due}
+            <span><FormatMoney amount={props.entity.balance} customers={props.customers}/></span>
         </ListGroupItem>
     </ListGroup>
 }

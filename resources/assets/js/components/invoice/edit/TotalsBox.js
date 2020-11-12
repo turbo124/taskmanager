@@ -28,26 +28,38 @@ export default function TotalsBox (props) {
         tax_total += props.invoice.total_custom_tax
     }
 
+    const paid_to_date = props.invoice.total !== props.invoice.balance ? props.invoice.total - props.invoice.balance : props.invoice.total
+
     return (
         <div>
-            <dl className="row d-flex">
+            <dl className="row d-flex mb-1">
                 <dt className="flex-fill">{translations.tax}:</dt>
                 <dd className="flex-fill text-right">{<FormatMoney amount={tax_total}/>}</dd>
             </dl>
 
-            <dl className="row d-flex">
+            <dl className="row d-flex mb-1">
                 <dt className="flex-fill">{translations.discount}:</dt>
                 <dd className="flex-fill text-right">{<FormatMoney amount={props.invoice.discount_total}/>}</dd>
             </dl>
 
-            <dl className="row d-flex">
+            <dl className="row d-flex mb-1">
                 <dt className="flex-fill">{translations.subtotal}:</dt>
                 <dd className="flex-fill text-right">{<FormatMoney amount={props.invoice.sub_total}/>}</dd>
             </dl>
 
-            <dl className="row d-flex">
+            <dl className="row d-flex mb-1">
                 <dt className="flex-fill">{translations.total}:</dt>
                 <dd className="flex-fill text-right">{<FormatMoney amount={total}/>}</dd>
+            </dl>
+
+            <dl className="row d-flex mb-1">
+                <dt className="flex-fill">{translations.balance_due}:</dt>
+                <dd className="flex-fill text-right">{<FormatMoney amount={props.invoice.balance}/>}</dd>
+            </dl>
+
+            <dl className="row d-flex mb-1">
+                <dt className="flex-fill">{translations.paid_to_date}:</dt>
+                <dd className="flex-fill text-right">{<FormatMoney amount={paid_to_date}/>}</dd>
             </dl>
         </div>
     )

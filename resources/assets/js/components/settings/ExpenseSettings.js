@@ -7,7 +7,7 @@ import { translations } from '../utils/_translations'
 import SnackbarMessage from '../common/SnackbarMessage'
 import Header from './Header'
 import AccountRepository from '../repositories/AccountRepository'
-import BlockButton from "../common/BlockButton";
+import BlockButton from '../common/BlockButton'
 
 export default class ExpenseSettings extends Component {
     constructor (props) {

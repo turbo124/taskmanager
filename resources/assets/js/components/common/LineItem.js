@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Col, FormGroup, Input, Label, Row, UncontrolledTooltip } from 'reactstrap'
+import { Col, FormGroup, Input, Label, Row } from 'reactstrap'
 import ProductAttributeDropdown from './dropdowns/ProductAttributeDropdown'
 import ProductDropdown from './dropdowns/ProductDropdown'
 import TaskDropdown from './dropdowns/TaskDropdown'

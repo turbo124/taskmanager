@@ -7,6 +7,13 @@ import InfoItem from '../../common/entityContainers/InfoItem'
 export default function Details (props) {
     const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
+    const address = <React.Fragment>
+        {props.entity.address_1} <br/>
+        {props.entity.address_2} <br/>
+        {props.entity.town} <br/>
+        {props.entity.city} {props.entity.postcode}
+    </React.Fragment>
+
     return <Row>
         <ListGroup className="col-12">
             {props.entity.contacts.map((contact, index) => (
@@ -27,7 +34,7 @@ export default function Details (props) {
                 title={translations.vat_number}/>
             <InfoItem icon={icons.list} value={props.entity.number}
                 title={translations.number}/>
-            <InfoItem icon={icons.map_marker} value={props.address} title={translations.billing_address}/>
+            <InfoItem icon={icons.map_marker} value={address} title={translations.billing_address}/>
         </ListGroup>
     </Row>
 }

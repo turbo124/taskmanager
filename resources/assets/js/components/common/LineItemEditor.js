@@ -13,7 +13,7 @@ import ExpenseRepository from '../repositories/ExpenseRepository'
 import TaskRepository from '../repositories/TaskRepository'
 import ProjectRepository from '../repositories/ProjectRepository'
 import InvoiceReducer from '../invoice/InvoiceReducer'
-import { getEntityIcon } from "../utils/_icons";
+import { getEntityIcon } from '../utils/_icons'
 
 class LineItemEditor extends Component {
     constructor (props) {
@@ -358,7 +358,7 @@ class LineItemEditor extends Component {
                             onClick={() => {
                                 this.handleLineTypeChange(consts.line_item_product)
                             }}>
-                            <i className={`fa ${getEntityIcon('Product')} mr-2`} /> {translations.products} {products.length > 0 ? products.length : null}
+                            <i className={`fa ${getEntityIcon('Product')} mr-2`}/> {translations.products} {products.length > 0 ? products.length : null}
                         </NavLink>
                     </NavItem>
 
@@ -369,7 +369,7 @@ class LineItemEditor extends Component {
                             onClick={() => {
                                 this.handleLineTypeChange(consts.line_item_task)
                             }}>
-                            <i className={`fa ${getEntityIcon('Task')} mr-2`} /> {translations.tasks} {tasks.length > 0 ? tasks.length : null}
+                            <i className={`fa ${getEntityIcon('Task')} mr-2`}/> {translations.tasks} {tasks.length > 0 ? tasks.length : null}
                         </NavLink>
                     </NavItem>
                     }
@@ -381,7 +381,7 @@ class LineItemEditor extends Component {
                             onClick={() => {
                                 this.handleLineTypeChange(consts.line_item_expense)
                             }}>
-                            <i className={`fa ${getEntityIcon('Expense')} mr-2`} /> {translations.expenses} {expenses.length > 0 ? expenses.length : null}
+                            <i className={`fa ${getEntityIcon('Expense')} mr-2`}/> {translations.expenses} {expenses.length > 0 ? expenses.length : null}
                         </NavLink>
                     </NavItem>
                     }

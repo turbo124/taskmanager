@@ -8,12 +8,66 @@ import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../utils/_icons'
 import formatDuration from '../../utils/_formatting'
 import SectionItem from '../../common/entityContainers/SectionItem'
+import FormatDate from '../../common/FormatDate'
+import FormatMoney from '../../common/FormatMoney'
 
 export default function Overview (props) {
     const modules = JSON.parse(localStorage.getItem('modules'))
 
+    const customer = props.customers.filter(customer => customer.id === parseInt(props.entity.customer_id))
+    let user = null
+
+    if (props.entity.assigned_to) {
+        const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.assigned_to))
+        user = <EntityListTile entity={translations.user}
+            title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
+            icon={icons.user}/>
+    }
+
+    const fields = []
+    fields.due_date = <FormatDate date={props.entity.due_date}/>
+    fields.task_rate = <FormatMoney amount={props.entity.task_rate} customers={props.customers}/>
+
+    const total = props.model.taskDurationForProject()
+
+    if (props.entity.custom_value1.length) {
+        const label1 = props.model.getCustomFieldLabel('Project', 'custom_value1')
+        fields[label1] = props.model.formatCustomValue(
+            'Project',
+            'custom_value1',
+            props.entity.custom_value1
+        )
+    }
+
+    if (props.entity.custom_value2.length) {
+        const label2 = props.model.getCustomFieldLabel('Project', 'custom_value2')
+        fields[label2] = props.model.formatCustomValue(
+            'Project',
+            'custom_value2',
+            props.entity.custom_value2
+        )
+    }
+
+    if (props.entity.custom_value3.length) {
+        const label3 = props.model.getCustomFieldLabel('Project', 'custom_value3')
+        fields[label3] = props.model.formatCustomValue(
+            'Project',
+            'custom_value3',
+            props.entity.custom_value3
+        )
+    }
+
+    if (props.entity.custom_value4.length) {
+        const label4 = props.model.getCustomFieldLabel('Project', 'custom_value4')
+        fields[label4] = props.model.formatCustomValue(
+            'Project',
+            'custom_value4',
+            props.entity.custom_value4
+        )
+    }
+
     return <React.Fragment>
-        <PlainEntityHeader heading_1={translations.total} value_1={formatDuration(props.total)}
+        <PlainEntityHeader heading_1={translations.total} value_1={formatDuration(total)}
             heading_2={translations.budgeted} value_2={props.entity.budgeted_hours}/>
 
         {!!props.entity.name.length &&
@@ -35,13 +89,13 @@ export default function Overview (props) {
         }
 
         <Row>
-            <EntityListTile entity={translations.customer} title={props.customer[0].name}
+            <EntityListTile entity={translations.customer} title={customer[0].name}
                 icon={icons.customer}/>
         </Row>
 
-        {!!props.user &&
+        {!!user &&
         <Row>
-            {props.user}
+            {user}
         </Row>
         }
 
@@ -90,7 +144,7 @@ export default function Overview (props) {
             icon={icons.document} title={translations.recurring_quotes}/>
         }
 
-        <FieldGrid fields={props.fields}/>
+        <FieldGrid fields={fields}/>
 
     </React.Fragment>
 }

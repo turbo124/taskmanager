@@ -126,8 +126,6 @@ class ProcessReminders implements ShouldQueue
 
         $invoice->save();
 
-        $invoice->updateCustomerBalance($amount);
-
         return true;
     }
 

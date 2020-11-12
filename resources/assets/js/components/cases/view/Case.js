@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
-import FormatDate from '../../common/FormatDate'
 import { translations } from '../../utils/_translations'
 import FileUploads from '../../documents/FileUploads'
 import CaseModel from '../../models/CaseModel'
-import EntityListTile from '../../common/entityContainers/EntityListTile'
-import { icons } from '../../utils/_icons'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import Overview from './Overview'
 
@@ -65,68 +62,8 @@ export default class Case extends Component {
     }
 
     render () {
-        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
         const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
         const buttonClass = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'btn-dark' : ''
-
-        let user = null
-
-        if (this.state.entity.assigned_to) {
-            console.log('users', JSON.parse(localStorage.getItem('users')))
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
-            user = <EntityListTile entity={translations.user}
-                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
-                icon={icons.user}/>
-        }
-
-        const fields = []
-
-        if (this.state.entity.custom_value1.length) {
-            const label1 = this.caseModel.getCustomFieldLabel('Case', 'custom_value1')
-            fields[label1] = this.caseModel.formatCustomValue(
-                'Case',
-                'custom_value1',
-                this.state.entity.custom_value1
-            )
-        }
-
-        if (this.state.entity.custom_value2.length) {
-            const label2 = this.caseModel.getCustomFieldLabel('Case', 'custom_value2')
-            fields[label2] = this.caseModel.formatCustomValue(
-                'Case',
-                'custom_value2',
-                this.state.entity.custom_value2
-            )
-        }
-
-        if (this.state.entity.custom_value3.length) {
-            const label3 = this.caseModel.getCustomFieldLabel('Case', 'custom_value3')
-            fields[label3] = this.caseModel.formatCustomValue(
-                'Case',
-                'custom_value3',
-                this.state.entity.custom_value3
-            )
-        }
-
-        if (this.state.entity.custom_value4.length) {
-            const label4 = this.caseModel.getCustomFieldLabel('Case', 'custom_value4')
-            fields[label4] = this.caseModel.formatCustomValue(
-                'Case',
-                'custom_value4',
-                this.state.entity.custom_value4
-            )
-        }
-
-        fields.date = <FormatDate date={this.state.entity.created_at}/>
-        fields.due_date = <FormatDate date={this.state.entity.due_date}/>
-
-        if (this.state.entity.subject && this.state.entity.subject.length) {
-            fields.subject = this.state.entity.subject
-        }
-
-        if (this.state.entity.priority && this.state.entity.priority.toString().length) {
-            fields.priority = this.props.priority
-        }
 
         return (
             <React.Fragment>
@@ -154,7 +91,7 @@ export default class Case extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview entity={this.state.entity} user={user} customer={customer} fields={fields}/>
+                        <Overview model={this.caseModel} entity={this.state.entity} customers={this.props.customers}/>
 
                     </TabPane>
 

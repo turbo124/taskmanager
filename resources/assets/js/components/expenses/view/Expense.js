@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Alert, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
 import ExpenseModel from '../../models/ExpenseModel'
-import FormatDate from '../../common/FormatDate'
 import { translations } from '../../utils/_translations'
 import FileUploads from '../../documents/FileUploads'
 import BottomNavigationButtons from '../../common/BottomNavigationButtons'
@@ -9,11 +8,9 @@ import CompanyModel from '../../models/CompanyModel'
 import InvoiceModel from '../../models/InvoiceModel'
 import EntityListTile from '../../common/entityContainers/EntityListTile'
 import { icons } from '../../utils/_icons'
-import { frequencyOptions } from '../../utils/_consts'
 import Overview from './Overview'
 import InvoiceRepository from '../../repositories/InvoiceRepository'
 import ExpenseRepository from '../../repositories/ExpenseRepository'
-import FormatMoney from '../../common/FormatMoney'
 
 export default class Expense extends Component {
     constructor (props) {
@@ -108,10 +105,6 @@ export default class Expense extends Component {
     }
 
     render () {
-        const category = this.state.categories.length ? this.state.categories.filter(category => category.id === parseInt(this.state.entity.expense_category_id)) : []
-        const convertedAmount = this.expenseModel.convertedAmount
-        const customer = this.props.customers.filter(customer => customer.id === parseInt(this.state.entity.customer_id))
-
         const button1_action = !this.state.entity.invoice_id ? (e) => location.href = '/#/invoice?entity_type=expense&entity_id=' + this.state.entity.id : (e) => location.href = '/#/invoice?id=' + this.state.entity.invoice_id
         const button1_label = !this.state.entity.invoice_id ? translations.new_invoice : translations.view_invoice
 
@@ -122,95 +115,6 @@ export default class Expense extends Component {
             user = <EntityListTile entity={translations.user}
                 title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
                 icon={icons.user}/>
-        }
-
-        const fields = []
-
-        if (this.state.entity.date.length) {
-            fields.date = <FormatDate date={this.state.entity.date}/>
-        }
-
-        if (this.state.entity.transaction_reference.length) {
-            fields.transaction_reference = this.state.entity.transaction_reference
-        }
-
-        if (this.expenseModel.isConverted) {
-            fields.currency =
-                JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.expenseModel.invoice_currency_id)[0].name
-        }
-
-        if (this.state.entity.exchange_rate.length && this.expenseModel.isConverted) {
-            fields.exchange_rate = this.state.entity.exchange_rate
-        }
-
-        if (this.state.entity.payment_date.length) {
-            fields.payment_date = <FormatDate date={this.state.entity.payment_date}/>
-        }
-
-        if (category.length) {
-            fields.category = category[0].name
-        }
-
-        const tax_total = this.expenseModel.calculateTaxes(false)
-
-        if (tax_total > 0) {
-            fields.tax = <FormatMoney amount={tax_total} customers={this.props.customers}/>
-        }
-
-        if (this.state.entity.custom_value1.length) {
-            const label1 = this.expenseModel.getCustomFieldLabel('Expense', 'custom_value1')
-            fields[label1] = this.expenseModel.formatCustomValue(
-                'Expense',
-                'custom_value1',
-                this.state.entity.custom_value1
-            )
-        }
-
-        if (this.state.entity.custom_value2.length) {
-            const label2 = this.expenseModel.getCustomFieldLabel('Expense', 'custom_value2')
-            fields[label2] = this.expenseModel.formatCustomValue(
-                'Expense',
-                'custom_value2',
-                this.state.entity.custom_value2
-            )
-        }
-
-        if (this.state.entity.custom_value3.length) {
-            const label3 = this.expenseModel.getCustomFieldLabel('Expense', 'custom_value3')
-            fields[label3] = this.expenseModel.formatCustomValue(
-                'Expense',
-                'custom_value3',
-                this.state.entity.custom_value3
-            )
-        }
-
-        if (this.state.entity.custom_value4.length) {
-            const label4 = this.expenseModel.getCustomFieldLabel('Expense', 'custom_value4')
-            fields[label4] = this.expenseModel.formatCustomValue(
-                'Expense',
-                'custom_value4',
-                this.state.entity.custom_value4
-            )
-        }
-
-        const recurring = []
-
-        if (this.state.entity.is_recurring === true) {
-            if (this.state.entity.recurring_start_date.length) {
-                recurring.start_date = <FormatDate date={this.state.entity.recurring_start_date}/>
-            }
-
-            if (this.state.entity.recurring_end_date.length) {
-                recurring.end_date = <FormatDate date={this.state.entity.recurring_end_date}/>
-            }
-
-            if (this.state.entity.recurring_due_date.length) {
-                recurring.due_date = <FormatDate date={this.state.entity.recurring_due_date}/>
-            }
-
-            if (this.state.entity.recurring_frequency.length) {
-                fields.frequency = translations[frequencyOptions[this.state.entity.frequency]]
-            }
         }
 
         return (
@@ -239,10 +143,10 @@ export default class Expense extends Component {
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview model={this.expenseModel} recurring={recurring} customer={customer} fields={fields}
+                        <Overview categories={this.state.categories} model={this.expenseModel}
                             user={user}
                             entity={this.state.entity}
-                            customers={this.props.customers} convertedAmount={convertedAmount}/>
+                            customers={this.props.customers}/>
                     </TabPane>
 
                     <TabPane tabId="2">

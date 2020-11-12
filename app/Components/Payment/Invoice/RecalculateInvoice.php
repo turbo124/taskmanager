@@ -108,7 +108,7 @@ class RecalculateInvoice
     {
         $this->invoice->save();
 
-        event(new InvoiceWasPaid($this->invoice));
+        event(new InvoiceWasPaid($this->invoice, $this->payment));
 
         $this->invoice->service()->sendPaymentEmail(new InvoiceRepository($this->invoice));
     }

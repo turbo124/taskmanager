@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import { Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row, TabContent, TabPane } from 'reactstrap'
-import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import PaymentModel from '../../models/PaymentModel'
 import CompanyModel from '../../models/CompanyModel'
-import EntityListTile from '../../common/entityContainers/EntityListTile'
 import Overview from './Overview'
 import Details from './Details'
 import FileUploads from '../../documents/FileUploads'
@@ -41,65 +39,6 @@ export default class Company extends Component {
     }
 
     render () {
-        let user = null
-
-        if (this.state.entity.assigned_to) {
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(this.state.entity.assigned_to))
-            user = <EntityListTile entity={translations.user}
-                title={`${assigned_user[0].first_name} ${assigned_user[0].last_name}`}
-                icon={icons.user}/>
-        }
-
-        const fields = []
-
-        if (this.companyModel.hasCurrency) {
-            fields.currency =
-                JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === this.companyModel.currencyId)[0].name
-        }
-
-        if (this.state.entity.custom_value1.length) {
-            const label1 = this.companyModel.getCustomFieldLabel('Company', 'custom_value1')
-            fields[label1] = this.companyModel.formatCustomValue(
-                'Company',
-                'custom_value1',
-                this.state.entity.custom_value1
-            )
-        }
-
-        if (this.state.entity.custom_value2.length) {
-            const label2 = this.companyModel.getCustomFieldLabel('Company', 'custom_value2')
-            fields[label2] = this.companyModel.formatCustomValue(
-                'Company',
-                'custom_value2',
-                this.state.entity.custom_value2
-            )
-        }
-
-        if (this.state.entity.custom_value3.length) {
-            const label3 = this.companyModel.getCustomFieldLabel('Company', 'custom_value3')
-            fields[label3] = this.companyModel.formatCustomValue(
-                'Company',
-                'custom_value3',
-                this.state.entity.custom_value3
-            )
-        }
-
-        if (this.state.entity.custom_value4.length) {
-            const label4 = this.companyModel.getCustomFieldLabel('Company', 'custom_value4')
-            fields[label4] = this.companyModel.formatCustomValue(
-                'Company',
-                'custom_value4',
-                this.state.entity.custom_value4
-            )
-        }
-
-        const address = <React.Fragment>
-            {this.state.entity.address_1} <br/>
-            {this.state.entity.address_2} <br/>
-            {this.state.entity.town} <br/>
-            {this.state.entity.city} {this.state.entity.postcode}
-        </React.Fragment>
-
         return (
             <React.Fragment>
                 <Nav tabs className="nav-justified disable-scrollbars">
@@ -138,11 +77,11 @@ export default class Company extends Component {
 
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
-                        <Overview entity={this.state.entity} user={user} fields={fields}/>
+                        <Overview model={this.companyModel} entity={this.state.entity}/>
                     </TabPane>
 
                     <TabPane tabId="2">
-                        <Details entity={this.state.entity} address={address}/>
+                        <Details entity={this.state.entity}/>
                     </TabPane>
 
                     <TabPane tabId="3">
