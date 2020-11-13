@@ -36,12 +36,23 @@ class Stripe extends BasePaymentGateway
     /**
      * @param $amount
      * @param Invoice|null $invoice
+     * @param bool $confirm_payment
      * @return Payment|bool|null
      */
-    public function build($amount, Invoice $invoice = null)
+    public function build($amount, Invoice $invoice = null, $confirm_payment = true)
     {
         $this->setupConfig();
-        return $this->createCharge($amount, $invoice);
+        return $this->createCharge($amount, $invoice, $confirm_payment);
+    }
+
+    /**
+     * @param Payment $payment
+     * @return bool
+     */
+    public function buildPaymentCapture(Payment $payment)
+    {
+        $this->setupConfig();
+        return $this->capturePayment($payment);
     }
 
     private function setupConfig()
@@ -55,12 +66,59 @@ class Stripe extends BasePaymentGateway
         return true;
     }
 
+    private function capturePayment(Payment $payment, $payment_intent = true)
+    {
+        $currency = $this->customer->currency;
+        $credit_card = $this->findCreditCard();
+
+        if (empty($credit_card)) {
+            return false;
+        }
+
+        //https://stripe.com/docs/api/errors/handling
+        $errors = [];
+
+        try {
+            if ($payment_intent) {
+                $response = $this->stripe->paymentIntents->capture(
+                    $payment->transaction_reference,
+                    []
+                );
+
+                $ref = $response->charges->data[0]->id;
+                $payment->transaction_reference = $ref;
+                $payment->save();
+
+                return $response;
+            }
+
+            return $this->stripe->charges->capture(
+                $payment->transaction_reference,
+                []
+            );
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die('here');
+            $user = $payment->user;
+            $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
+            $error_log->data = $errors;
+            $error_log->error_type = ErrorLog::PAYMENT;
+            $error_log->error_result = ErrorLog::FAILURE;
+            $error_log->entity = 'stripe';
+
+            $error_log->save();
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * @param float $amount
      * @param Invoice|null $invoice
      * @return Payment|bool|null
      */
-    private function createCharge(float $amount, Invoice $invoice = null)
+    private function createCharge(float $amount, Invoice $invoice = null, $confirm_payment = true)
     {
         $currency = $this->customer->currency;
         $credit_card = $this->findCreditCard();
@@ -80,6 +138,7 @@ class Stripe extends BasePaymentGateway
                     'payment_method' => $this->customer_gateway->token,
                     'customer'       => $this->customer_gateway->gateway_customer_reference,
                     'confirm'        => true,
+                    'capture_method' => !$confirm_payment ? 'manual' : 'automatic',
                     'amount'         => $this->convertToStripeAmount(round($amount, 2), $currency->precision),
                     'currency'       => $currency->iso_code,
                     'description'    => "{$invoice_label} Amount: {$amount} Customer: {$this->customer->name}",
@@ -159,11 +218,17 @@ class Stripe extends BasePaymentGateway
             return false;
         }
 
+        $transaction_reference = !$confirm_payment ? $response->id : $response->charges->data[0]->id;
+
+        if (!$confirm_payment) {
+            return $transaction_reference;
+        }
+
         $brand = $response->charges->data[0]->payment_method_details->card->brand;
         $payment_method = !empty($this->card_types[$brand]) ? $this->card_types[$brand] : 12;
 
         if ($invoice !== null) {
-            return $this->completePayment($amount, $invoice, $response->charges->data[0]->id, $payment_method);
+            return $this->completePayment($amount, $invoice, $transaction_reference, $payment_method);
         }
 
         return true;

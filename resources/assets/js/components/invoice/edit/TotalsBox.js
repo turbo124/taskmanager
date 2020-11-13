@@ -28,7 +28,7 @@ export default function TotalsBox (props) {
         tax_total += props.invoice.total_custom_tax
     }
 
-    const paid_to_date = props.invoice.total !== props.invoice.balance ? props.invoice.total - props.invoice.balance : props.invoice.total
+    const paid_to_date = props.invoice.total - props.invoice.balance
 
     return (
         <div>
@@ -52,15 +52,20 @@ export default function TotalsBox (props) {
                 <dd className="flex-fill text-right">{<FormatMoney amount={total}/>}</dd>
             </dl>
 
+            {props.invoice.balance > 0 &&
             <dl className="row d-flex mb-1">
                 <dt className="flex-fill">{translations.balance_due}:</dt>
                 <dd className="flex-fill text-right">{<FormatMoney amount={props.invoice.balance}/>}</dd>
             </dl>
+            }
 
+            {props.invoice.total !== props.invoice.balance &&
             <dl className="row d-flex mb-1">
                 <dt className="flex-fill">{translations.paid_to_date}:</dt>
                 <dd className="flex-fill text-right">{<FormatMoney amount={paid_to_date}/>}</dd>
             </dl>
+            }
+
         </div>
     )
 }

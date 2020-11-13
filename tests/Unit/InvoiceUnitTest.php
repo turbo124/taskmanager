@@ -9,14 +9,17 @@
 namespace Tests\Unit;
 
 use App\Components\InvoiceCalculator\LineItem;
+use App\Components\Payment\Gateways\Stripe;
 use App\Factory\CreditFactory;
 use App\Factory\InvoiceFactory;
 use App\Jobs\Invoice\AutobillInvoice;
 use App\Jobs\Invoice\ProcessReminders;
 use App\Models\Account;
+use App\Models\CompanyGateway;
 use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\CustomerContact;
+use App\Models\CustomerGateway;
 use App\Models\Invoice;
 use App\Models\NumberGenerator;
 use App\Models\Payment;

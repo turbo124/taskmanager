@@ -12,7 +12,9 @@ use App\Events\Order\OrderWasBackordered;
 use App\Events\Order\OrderWasCreated;
 use App\Events\Order\OrderWasUpdated;
 use App\Models\Account;
+use App\Models\Invoice;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Task;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
@@ -68,16 +70,49 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         return (new OrderSearch($this))->filter($search_request, $account);
     }
 
+    private function updateInventory($line_items, $data)
+    {
+        $new_lines = collect($data['line_items'])->keyBy('product_id')->toArray();
+
+        foreach ($line_items as $line_item) {
+            if($line_item->type_id !== Invoice::PRODUCT_TYPE) {
+                continue;
+            }
+
+            $new_line = $new_lines[$line_item->product_id];
+
+            $product = Product::where('id', '=', $line_item->product_id)->first();
+            
+            if($new_line['quantity'] > $line_item->quantity) {
+                $difference = $new_line['quantity'] - $line_item->quantity;
+                $product->increment('quantity', $difference);
+                $product->save();
+            }
+
+            if($new_line['quantity'] < $line_item->quantity) {
+                $difference = $line_item->quantity - $new_line['quantity'];
+                $product->decrement('quantity', $difference);
+                $product->save();
+            }
+        }
+
+        return true;
+    }
+
     /**
      * @param array $data
      * @param Order $order
      */
     public function updateOrder(array $data, Order $order): ?Order
     {
+        $original_order = $order->line_items;
+
         $order->fill($data);
         $order = $this->save($data, $order);
 
         event(new OrderWasUpdated($order));
+
+        $this->updateInventory($original_order, $data);
 
         return $order;
     }
