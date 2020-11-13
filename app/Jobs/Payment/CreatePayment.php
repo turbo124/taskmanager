@@ -73,6 +73,8 @@ class CreatePayment implements ShouldQueue
         $payment = $this->createPayment();
         $this->attachInvoices($payment);
 
+        $order->reduceBalance($this->data['amount']);
+
         return $payment;
     }
 

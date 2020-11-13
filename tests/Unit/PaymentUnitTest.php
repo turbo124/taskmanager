@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Components\Currency\CurrencyConverter;
 use App\Components\InvoiceCalculator\LineItem;
 use App\Components\Payment\DeletePayment;
+use App\Components\Payment\Gateways\Stripe;
 use App\Components\Payment\Invoice\ReverseInvoicePayment;
 use App\Components\Payment\ProcessPayment;
 use App\Components\Refund\RefundFactory;
@@ -13,8 +14,10 @@ use App\Factory\CustomerFactory;
 use App\Factory\InvoiceFactory;
 use App\Factory\PaymentFactory;
 use App\Models\Account;
+use App\Models\CompanyGateway;
 use App\Models\Credit;
 use App\Models\Customer;
+use App\Models\CustomerGateway;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\User;
@@ -24,6 +27,7 @@ use App\Repositories\PaymentRepository;
 use App\Requests\SearchRequest;
 use App\Search\PaymentSearch;
 use App\Transformations\EventTransformable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -631,6 +635,30 @@ class PaymentUnitTest extends TestCase
 
         $this->assertEquals(Payment::STATUS_REFUNDED, $payment->status_id);
     }
+
+    /** @test */
+    /*public function test_capture()
+    {
+        // create invoice
+        $payment = Payment::factory()->create();
+        $payment->customer_id = 5;
+        $payment->account_id = $this->account->id;
+        $payment->save();
+
+        $customer_gateway = CustomerGateway::where('is_default', 1)->first();
+        $company_gateway = CompanyGateway::where('id', 5)->first();
+
+        $objStripe = new Stripe($payment->customer, $customer_gateway, $company_gateway);
+
+        $transaction_reference = $objStripe->build($payment->amount, null, false);
+
+        $payment->transaction_reference = $transaction_reference;
+        $payment->save();
+
+        $objStripe->buildPaymentCapture($payment);
+
+
+    } */
 
 //    public function testAuthorizeRefund()
 //    {

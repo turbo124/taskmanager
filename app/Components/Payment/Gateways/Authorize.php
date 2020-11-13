@@ -29,12 +29,61 @@ class Authorize extends BasePaymentGateway
     public function __construct(Customer $customer, $customer_gateway, $company_gateway)
     {
         parent::__construct($customer, $customer_gateway, $company_gateway);
+        error_reporting(E_ALL & ~E_DEPRECATED);
     }
 
     public function build($amount, Invoice $invoice)
     {
-        error_reporting(E_ALL & ~E_DEPRECATED);
         return $this->chargeCustomerProfile($amount, $invoice);
+    }
+
+    public function capturePreviouslyAuthorizedAmount(Payment $payment)
+    {
+        $config = $this->setupConfig();
+
+        // Set the transaction's refId
+        $refId = 'ref' . time();
+
+        $transactionRequestType = new TransactionRequestType();
+        $transactionRequestType->setTransactionType("priorAuthCaptureTransaction");
+        $transactionRequestType->setRefTransId($payment->transaction_reference);
+
+        $request = new CreateTransactionRequest();
+        $request->setMerchantAuthentication($config);
+        $request->setTransactionRequest($transactionRequestType);
+
+        $controller = new CreateTransactionController($request);
+        $response = $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
+
+        if ($response != null) {
+            if ($response->getMessages()->getResultCode() == "Ok") {
+                $tresponse = $response->getTransactionResponse();
+
+                if ($tresponse != null && $tresponse->getMessages() != null) {
+                    return true;
+                }
+            }
+
+            if ($tresponse->getErrors() != null) {
+                $errors['data']['error_code'] = $tresponse->getErrors()[0]->getErrorCode();
+                $errors['data']['message'] = $tresponse->getErrors()[0]->getErrorText();
+            }
+        }
+
+        if (!empty($errors)) {
+            $user = $payment->user;
+            $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
+            $error_log->data = $errors['data'];
+            $error_log->error_type = ErrorLog::PAYMENT;
+            $error_log->error_result = ErrorLog::FAILURE;
+            $error_log->entity = 'authorize';
+
+            $error_log->save();
+
+            return null;
+        }
+
+        return null;
     }
 
     private function chargeCustomerProfile($amount, Invoice $invoice = null): ?Payment
