@@ -79,6 +79,8 @@ class CreatePayment implements ShouldQueue
            $order->payment_taken = true;
         }
 
+        $this->order->setStatus($charge_point === 'on_creation' ? Order::STATUS_PAID : Order::STATUS_DRAFT);
+
         $order->payment_id = $payment->id;
         $order->save();
 
