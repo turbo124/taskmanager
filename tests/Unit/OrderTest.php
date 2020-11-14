@@ -237,7 +237,10 @@ class OrderTest extends TestCase
 
         $order = $order->service()->dispatch(new InvoiceRepository(new Invoice), new OrderRepository(new Order));
         $this->assertInstanceOf(Order::class, $order);
-        $this->assertEquals($order->status_id, Order::STATUS_COMPLETE);
+        //$this->assertEquals($order->status_id, Order::STATUS_COMPLETE);
+
+        // TODO Need to check invoice and invoice totals here
+        $this->assertNotNull($order->invoice_id);
     }
 
     /** @test */
@@ -299,6 +302,8 @@ class OrderTest extends TestCase
 
         $order->customer_id = 5;
         $order->save();
+        $original_customer_balance = $order->customer->balance;
+        $original_paid_to_date = $order->customer->paid_to_date;
 
         $data = [
             'ids'                => $order->id,
@@ -312,16 +317,44 @@ class OrderTest extends TestCase
         $payment = (new CreatePayment($data, (new PaymentRepository(new Payment))))->handle();
         $invoice = $payment->invoices->first();
         $order = $order->fresh();
+        $customer = $order->customer->fresh();
 
         $this->assertNotNull($order->invoice_id);
         $this->assertInstanceOf(Payment::class, $payment);
         $this->assertEquals((float)$payment->amount, $order->total);
         $this->assertEquals(0, $invoice->balance);
+        $this->assertEquals($order->status_id Order::STATUS_PAID);
         $this->assertEquals($invoice->total, $order->total);
+        $this->assertTrue($customer->payment_taken);
+        $this->assertEquals($customer->balance, ($original_customer_balance - $order->total));
+        $this->assertEquals($customer->paid_to_date, ($original_paid_to_date + $order->total));
+        $this->assertEquals($payment->status_id, Payment::STATUS_COMPLETED);
+        $this->assertEquals($invoice->status_id, Invoice::STATUS_PAID);
     }
 
     public function test_order_payment_on_send()
     {
+        $order = Order::factory()->create();
+
+        $order->customer_id = 5;
+        $order->save();
+        $original_customer_balance = $order->customer->balance;
+        $original_paid_to_date = $order->customer->paid_to_date;
+
+        $data = [
+            'ids'                => $order->id,
+            'order_id'           => $order->id,
+            'company_gateway_id' => 4,
+            'amount'             => $order->total,
+            'payment_type'       => 14,
+            'payment_method'     => 'abcd'
+        ];
+
+        $payment = (new CreatePayment($data, (new PaymentRepository(new Payment))))->handle();
+        $invoice = $payment->invoices->first();
+        $order = $order->fresh();
+        $customer = $order->customer->fresh();
+
         // step 1
         // create payment
         // check payment status pending
@@ -330,14 +363,37 @@ class OrderTest extends TestCase
         // check order payment id and payment taken is false
         // invoice balance untouched
         // order status draft
+        $this->assertNotNull($order->invoice_id);
+        $this->assertNotNull($order->payment_id);
+        $this->assertFalse($order->payment_taken);
+        $this->assertInstanceOf(Payment::class, $payment);
+        $this->assertEquals($payment->status_id, Payment::STATUS_PENDING);
+        $this->assertEquals((float)$payment->amount, $order->total);
+        $this->assertEquals($order->total, $invoice->balance);
+        $this->assertEquals($invoice->total, $order->total);
+        $this->assertEquals($original_customer_balance, $customer->balance);
+        $this->assertEquals($original_paid_to_date, $customer->paid_to_date);
+        $this->assertEquals($order->status_id, Order::STATUS_DRAFT);
+        $this->assertEquals($invoice->status_id, Invoice::STATUS_DRAFT);
 
-       // step 2
+        $order->service()->send();
+        $order = $order->fresh();
+        $invoice = $invoice->fresh();
+
+        // step 2
        // check payment status updated to complete  
        // payment transaction ref updated 
        // invoice balance reduced
        // invoice status updated
        // order status updated to sent
        // customer balances updated
+        $this->assertEquals($customer->balance, ($original_customer_balance - $order->total));
+        $this->assertEquals($customer->paid_to_date, ($original_paid_to_date + $order->total));
+        $this->assertEquals($payment->status_id, Payment::STATUS_COMPLETED);
+        $this->assertEquals($invoice->balance, 0);
+        $this->assertEquals($invoice->status_id, Invoice::STATUS_PAID);
+        $this->assertEquals($order->status_id, Order::STATUS_SENT);
+        $this->assertNotNull($payment->transaction_reference);
        
     }
 
