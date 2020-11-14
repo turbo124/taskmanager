@@ -17,6 +17,12 @@ class BaseSettings
             'default_value'    => false,
             'type'             => 'bool'
         ],
+        'order_charge_point'                 => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 'on_creation',
+            'type'             => 'string'
+        ],
         'show_shipping_cost'                   => [
             'required'         => false,
             'translated_value' => '',
