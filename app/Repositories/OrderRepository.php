@@ -78,6 +78,13 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             if($line_item->type_id !== Invoice::PRODUCT_TYPE) {
                 continue;
             }
+   
+            if(empty($new_lines[$line_item->product_id])) {
+                $difference = $line_item->quantity;
+                $product->increment('quantity', $difference);
+                $product->save();
+                continue;
+            }
 
             $new_line = $new_lines[$line_item->product_id];
 
