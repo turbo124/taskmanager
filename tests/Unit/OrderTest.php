@@ -320,6 +320,27 @@ class OrderTest extends TestCase
         $this->assertEquals($invoice->total, $order->total);
     }
 
+    public function test_order_payment_on_send()
+    {
+        // step 1
+        // create payment
+        // check payment status pending
+        // check customer balances untouched
+        // check invoice status pending
+        // check order payment id and payment taken is false
+        // invoice balance untouched
+        // order status draft
+
+       // step 2
+       // check payment status updated to complete  
+       // payment transaction ref updated 
+       // invoice balance reduced
+       // invoice status updated
+       // order status updated to sent
+       // customer balances updated
+       
+    }
+
 
     public function tearDown(): void
     {
