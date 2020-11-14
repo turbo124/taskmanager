@@ -65,8 +65,8 @@ class CompleteOrderPayment
          // update invoice
         $invoice = Invoice::where('id', $this->order->invoice_id)->first();
         $invoice->reduceBalance($amount);
-
-        // TODO update status
+        $invoice->setStatus(Invoice::STATUS_PAID);
+        $invoice->save();
 
         return $invoice;
     }
