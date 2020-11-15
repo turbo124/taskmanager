@@ -13,8 +13,10 @@ use App\Models\CaseTemplate;
 use App\Models\User;
 use App\Repositories\Base\BaseRepository;
 use Carbon\Carbon;
+use App\Requests\SearchRequest;
+use App\Repositories\Interfaces\CaseRepositoryInterface;
 
-class CaseRepository extends BaseRepository
+class CaseRepository extends BaseRepository implements CaseRepositoryInterface
 {
     /**
      * CaseRepository constructor.
@@ -38,6 +40,16 @@ class CaseRepository extends BaseRepository
     public function findCaseById(int $id): Cases
     {
         return $this->findOneOrFail($id);
+    }
+
+    /**
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return InvoiceSearch|LengthAwarePaginator
+     */
+    public function getAll(SearchRequest $search_request, Account $account)
+    {
+        return (new CaseSearch($this))->filter($search_request, $account);
     }
 
     public function createCase(array $data, Cases $case): ?Cases
