@@ -68,13 +68,13 @@ class BasePaymentGateway
         return $payment;
     }
 
-    protected function addErrorToLog(User $user, array $errors, $provider)
+    protected function addErrorToLog(User $user, array $errors)
     {
         $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
         $error_log->data = $errors['data'];
         $error_log->error_type = ErrorLog::PAYMENT;
         $error_log->error_result = ErrorLog::FAILURE;
-        $error_log->entity = $provider;
+        $error_log->entity = $this->company_gateway->id;
 
         $error_log->save();
 
