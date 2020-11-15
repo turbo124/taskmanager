@@ -74,17 +74,4 @@ class PaypalExpress extends BasePaymentGateway
             $this->addErrorToLog($invoice->user, $errors);
         }
     }
-
-    private function addErrorToLog(User $user, array $errors)
-    {
-        $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
-        $error_log->data = $errors['data'];
-        $error_log->error_type = ErrorLog::PAYMENT;
-        $error_log->error_result = ErrorLog::FAILURE;
-        $error_log->entity = 'authorize';
-
-        $error_log->save();
-
-        return true;
-    }
 }
