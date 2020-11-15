@@ -54,6 +54,15 @@ class ExpenseRepository extends BaseRepository
         return $expense;
     }
 
+    public function updateExpense(array $data, Expense $expense): ?Expense
+    {
+        $expense = $this->save($data, $expense);
+
+        event(new ExpenseWasUpdated($expense));
+
+        return $expense;
+    }
+
     /**
      * @param array $data
      * @param Expense $expense
@@ -61,15 +70,9 @@ class ExpenseRepository extends BaseRepository
      */
     public function save(array $data, Expense $expense): ?Expense
     {
-        $is_add = !empty($expense->id);
-
         $expense->fill($data);
         $expense->setNumber();
         $expense->save();
-
-        if(!$is_add) {
-            event(new ExpenseWasUpdated($expense));
-        }
 
         return $expense;
     }
