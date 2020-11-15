@@ -22,7 +22,7 @@ class BankAccountSearch extends BaseSearch
      */
     private BankRepository $bank_repo;
 
-    private $model;
+    private Bank $model;
 
     /**
      * BankSearch constructor.
