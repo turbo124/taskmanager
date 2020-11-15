@@ -70,7 +70,7 @@ class ExpenseController extends Controller
     {
         $expense = $this->expense_repo->findExpenseById($id);
 
-        $expense = $this->expense_repo->save($request->all(), $expense);
+        $expense = $this->expense_repo->updateExpense($request->all(), $expense);
 
         return response()->json($this->transformExpense($expense->fresh()));
     }
