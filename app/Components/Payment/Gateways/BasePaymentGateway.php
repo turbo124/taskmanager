@@ -3,7 +3,8 @@
 
 namespace App\Components\Payment\Gateways;
 
-
+use App\Factory\ErrorLogFactory;
+use App\Models\ErrorLog;
 use App\Jobs\Payment\CreatePayment;
 use App\Models\Customer;
 use App\Models\Invoice;
@@ -13,9 +14,9 @@ use App\Repositories\PaymentRepository;
 class BasePaymentGateway
 {
 
-    protected $customer_gateway;
+    protected CustomerGateway $customer_gateway;
 
-    protected $company_gateway;
+    protected CompanyGateway $company_gateway;
 
     protected $card_types = [
         'visa'        => 5,
@@ -65,5 +66,18 @@ class BasePaymentGateway
         $payment = CreatePayment::dispatchNow($data, (new PaymentRepository(new Payment())));
 
         return $payment;
+    }
+
+    protected function addErrorToLog(User $user, array $errors, $provider)
+    {
+        $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
+        $error_log->data = $errors['data'];
+        $error_log->error_type = ErrorLog::PAYMENT;
+        $error_log->error_result = ErrorLog::FAILURE;
+        $error_log->entity = $provider;
+
+        $error_log->save();
+
+        return true;
     }
 }
