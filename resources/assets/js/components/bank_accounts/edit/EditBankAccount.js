@@ -5,7 +5,7 @@ import SuccessMessage from '../../common/SucessMessage'
 import ErrorMessage from '../../common/ErrorMessage'
 import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
-import ProjectModel from '../../models/ProjectModel'
+import BankAccountModel from '../../models/BankAccountModel'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import Details from './Details'
@@ -25,7 +25,6 @@ class EditBankAccount extends React.Component {
         this.handleClick = this.handleClick.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
-        this.getProject = this.getProject.bind(this)
         this.toggleMenu = this.toggleMenu.bind(this)
        
     }
@@ -69,6 +68,7 @@ class EditBankAccount extends React.Component {
         return {
             name: this.state.name,
             description: this.state.description,
+            bank_id: this.state.bank_id,
             private_notes: this.state.private_notes,
             public_notes: this.state.public_notes,
             assigned_to: this.state.assigned_to,
@@ -141,7 +141,7 @@ class EditBankAccount extends React.Component {
                         {successMessage}
                         {errorMessage}
 
-                        <Details is_new={false} errors={this.state.errors} project={this.state}
+                        <Details banks={this.props.banks} is_new={false} errors={this.state.errors} project={this.state}
                             handleInput={this.handleInput.bind(this)} hasErrorFor={this.hasErrorFor}
                             renderErrorFor={this.renderErrorFor} customers={this.props.customers}/>
 
