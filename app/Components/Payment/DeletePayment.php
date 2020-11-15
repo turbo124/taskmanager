@@ -54,6 +54,7 @@ class DeletePayment
                 continue;
             }
 
+            // TODO - should be paymentable amount
             $credit->increaseBalance($credit->total);
             $credit->setStatus($delete_status);
             $credit->save();
