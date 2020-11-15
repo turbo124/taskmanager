@@ -7,8 +7,8 @@ use App\Repositories\BankAccountRepository;
 use App\Requests\Brand\CreateBankAccountRequest;
 use App\Requests\Brand\UpdateBankAccountRequest;
 use App\Requests\SearchRequest;
-use App\Search\BankAccountSearch;
-use App\Transformations\BankAccountTransformable;
+use App\Search\BankSearch;
+use App\Transformations\BankTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
@@ -18,7 +18,7 @@ use Illuminate\Http\JsonResponse;
  */
 class BankController extends Controller
 {
-    use BankAccountTransformable;
+    use BankTransformable;
 
     /**
      * @var BankRepository
