@@ -12,6 +12,7 @@ export default class BankAccountModel extends BaseModel {
             number: '',
             id: null,
             modal: false,
+            bank_id: '',
             name: '',
             description: '',
             private_notes: '',
