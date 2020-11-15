@@ -45,11 +45,11 @@ class CompleteOrderPayment
     private function capturePayment(Payment $payment)
     {
         //TODO
-        $customer_gateway = CustomerGateway::where('is_default', 1)->first();
-        $company_gateway = CompanyGateway::where('id', 5)->first();
-        $objStripe = new Stripe($payment->customer, $customer_gateway, $company_gateway);
+        $customer_gateway = CustomerGateway::where('company_gateway_id', $payment->company_gateway_id)->first();
+        $company_gateway = $customer_gateway->company_gateway;
+        $objGateway = (new GatewayFactory($customer_gateway, $company_gateway))->create($payment->customer);
        
-        $objStripe->buildPaymentCapture($payment);
+        $objGateway->capturePayment($payment);
     }
 
     private function updateOrder (): bool
