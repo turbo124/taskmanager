@@ -18,20 +18,20 @@ class BankAccountSearch extends BaseSearch
     use BankAccountTransformable;
 
     /**
-     * @var BrandRepository
+     * @var BankAccountRepository
      */
     private BankAccountRepository $bank_account_repo;
 
-    private $model;
+    private BankAccount $model;
 
     /**
-     * BrandSearch constructor.
+     * BankAccountSearch constructor.
      * @param BankAccountRepository $bank_account_repo
      */
     public function __construct(BankAccountRepository $bank_account_repo)
     {
         $this->bank_account_repo = $bank_account_repo;
-        $this->model = $brand_repo->getModel();
+        $this->model = $bank_account_repo->getModel();
     }
 
     /**
