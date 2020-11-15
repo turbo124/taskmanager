@@ -37,7 +37,7 @@ class Authorize extends BasePaymentGateway
         return $this->chargeCustomerProfile($amount, $invoice);
     }
 
-    public function capturePreviouslyAuthorizedAmount(Payment $payment)
+    public function capturePayment(Payment $payment)
     {
         $config = $this->setupConfig();
 
@@ -71,14 +71,7 @@ class Authorize extends BasePaymentGateway
         }
 
         if (!empty($errors)) {
-            $user = $payment->user;
-            $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
-            $error_log->data = $errors['data'];
-            $error_log->error_type = ErrorLog::PAYMENT;
-            $error_log->error_result = ErrorLog::FAILURE;
-            $error_log->entity = 'authorize';
-
-            $error_log->save();
+            $this->addErrorToLog($payment->user, $errors);
 
             return null;
         }
@@ -140,18 +133,25 @@ class Authorize extends BasePaymentGateway
 
         if (!empty($errors)) {
             $user = !empty($invoice) ? $invoice->user : $this->customer->user;
-            $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
-            $error_log->data = $errors['data'];
-            $error_log->error_type = ErrorLog::PAYMENT;
-            $error_log->error_result = ErrorLog::FAILURE;
-            $error_log->entity = 'authorize';
-
-            $error_log->save();
+            $this->addErrorToLog($user, $errors);
 
             return null;
         }
 
         return null;
+    }
+
+    private function addErrorToLog(User $user, array $errors)
+    {
+        $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
+        $error_log->data = $errors['data'];
+        $error_log->error_type = ErrorLog::PAYMENT;
+        $error_log->error_result = ErrorLog::FAILURE;
+        $error_log->entity = 'authorize';
+
+        $error_log->save();
+
+        return true;
     }
 
     private function setupConfig()
