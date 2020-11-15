@@ -49,7 +49,8 @@ class PaypalExpress extends BasePaymentGateway
             // success
         } else {
             // error, maybe you took too long to capture the transaction
-            $errors[] = $response->getMessage();
+            $errors['data']['message'] = $response->getMessage();
+            $this->addErrorToLog($payment->user, $errors);
         }
     }
 
@@ -64,5 +65,26 @@ class PaypalExpress extends BasePaymentGateway
         );
 
         $response = $this->gateway->authorize($data)->send();
+  
+        if ($response->isSuccessful()) {
+            // success
+        } else {
+            // error, maybe you took too long to capture the transaction
+            $errors['data']['message'] = $response->getMessage();
+            $this->addErrorToLog($invoice->user, $errors);
+        }
+    }
+
+    private function addErrorToLog(User $user, array $errors)
+    {
+        $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
+        $error_log->data = $errors['data'];
+        $error_log->error_type = ErrorLog::PAYMENT;
+        $error_log->error_result = ErrorLog::FAILURE;
+        $error_log->entity = 'authorize';
+
+        $error_log->save();
+
+        return true;
     }
 }
