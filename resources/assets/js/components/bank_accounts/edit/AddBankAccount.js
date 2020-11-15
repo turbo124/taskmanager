@@ -57,6 +57,7 @@ class AddBankAccount extends React.Component {
         const data = {
             name: this.state.name,
             description: this.state.description,
+            bank_id: this.state.bank_id,
             public_notes: this.state.public_notes,
             private_notes: this.state.private_notes,
             assigned_to: this.state.assigned_to,
