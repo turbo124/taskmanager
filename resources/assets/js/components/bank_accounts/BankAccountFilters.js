@@ -76,24 +76,24 @@ export default class BankAccountFilters extends Component {
                 <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <CustomerDropdown
                         customer={this.props.filters.customer_id}
-                        handleInputChanges={this.filterProjects}
+                        handleInputChanges={this.filterBankAccounts}
                     />
                 </Col>
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <StatusDropdown filterStatus={this.filterProjects}/>
+                        <StatusDropdown filterStatus={this.filterBankAccounts}/>
                     </FormGroup>
                 </Col>
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
-                    <CsvImporter filename="project.csv"
+                    <CsvImporter filename="bank_account.csv"
                         url={`/api/bank_accounts?search_term=${searchText}&status=${status_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
                 <Col sm={12} md={3} className="mt-3 mt-md-0">
                     <FormGroup>
-                        <DateFilter onChange={this.filterProjects}/>
+                        <DateFilter onChange={this.filterBankAccounts}/>
                     </FormGroup>
                 </Col>
             </Row>
