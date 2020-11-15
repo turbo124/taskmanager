@@ -8,11 +8,13 @@ use App\Jobs\Expense\GenerateInvoice;
 use App\Models\Expense;
 use App\Models\Invoice;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\ExpenseRepositoryInterface;
+use App\Requests\SearchRequest;
 
 /**
  * ExpenseRepository
  */
-class ExpenseRepository extends BaseRepository
+class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInterface
 {
 
     /**
@@ -37,6 +39,16 @@ class ExpenseRepository extends BaseRepository
     public function findExpenseById(int $id): Expense
     {
         return $this->findOneOrFail($id);
+    }
+
+    /**
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return InvoiceSearch|LengthAwarePaginator
+     */
+    public function getAll(SearchRequest $search_request, Account $account)
+    {
+        return (new InvoiceSearch($this))->filter($search_request, $account);
     }
 
     public function createExpense(array $data, Expense $expense): ?Expense
