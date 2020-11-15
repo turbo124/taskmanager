@@ -26,38 +26,46 @@ class CompleteOrderPayment
 
     private function execute(): bool
     {
-       if(!$this->capturePayment()) {
+       $payment = Payment::where('id', $this->order->payment_id)->first();
+       $transaction_ref = $this->capturePayment();
+       
+       if(!$transaction_ref) {
            return false;
        }
 
+       $this->updatePayment($payment, $transaction_ref);
+
        $this->updateInvoice();
-       $this->updatePayment();
        $this->updateCustomer();
        $this->updateOrder();
 
        return true;
     }
    
-    private function capturePayment()
+    private function capturePayment(Payment $payment)
     {
         //TODO
+        $customer_gateway = CustomerGateway::where('is_default', 1)->first();
+        $company_gateway = CompanyGateway::where('id', 5)->first();
+        $objStripe = new Stripe($payment->customer, $customer_gateway, $company_gateway);
+       
+        $objStripe->buildPaymentCapture($payment);
     }
 
     private function updateOrder (): bool
     {
-         $this->order->reduceBalance($this->data['amount']);
+        $this->order->reduceBalance($this->data['amount']);
         $this->order->payment_taken = true;
         $this->order->save()
         return true;
     }
 
-    private function updatePayment(): Payment
+    private function updatePayment(Payment $payment, $transaction_ref): bool
     {
         // update payment
-        $payment = Payment::where('id', $this->order->payment_id)->first();
         $payment->setStatus(Payment::STATUS_COMPLETED);
         $payment->save();
-        return $payment;
+        return true;
     }
 
     private function updateInvoice(): Invoice
