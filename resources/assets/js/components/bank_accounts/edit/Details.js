@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormGroup, Input, Label } from 'reactstrap'
-import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
+import BankDropdown from '../../common/dropdowns/BankDropdown'
 import { translations } from '../../utils/_translations'
 import UserDropdown from '../../common/dropdowns/UserDropdown'
 import Datepicker from '../../common/Datepicker'
@@ -20,6 +20,17 @@ export default function Details (props) {
                 value={props.project.description} name="description"
                 onChange={props.handleInput}/>
             {props.renderErrorFor('description')}
+        </FormGroup>
+
+        <FormGroup>
+            <Label for="postcode">{translations.bank}:</Label>
+            <BankDropdown
+                bank_id={props.project.bank_id}
+                banks={this.props.banks}
+                name="bank_id"
+                errors={props.errors}
+                handleInputChanges={props.handleInput}
+            />
         </FormGroup>
 
         <FormGroup>
