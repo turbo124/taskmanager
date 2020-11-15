@@ -3,10 +3,7 @@
 
 namespace App\Components\Payment\Gateways;
 
-
-use App\Factory\ErrorLogFactory;
 use App\Models\Customer;
-use App\Models\ErrorLog;
 use App\Models\Invoice;
 use App\Models\Payment;
 use net\authorize\api\constants\ANetEnvironment;
