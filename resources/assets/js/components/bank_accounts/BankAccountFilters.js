@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Col, FormGroup, Row } from 'reactstrap'
-import CustomerDropdown from '../common/dropdowns/CustomerDropdown'
+import BankDropdown from '../common/dropdowns/BankDropdown'
 import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
@@ -16,7 +16,7 @@ export default class BankAccountFilters extends Component {
             dropdownButtonActions: ['download'],
             filters: {
                 status_id: 'active',
-                //customer_id: '',
+                bank_id: '',
                 user_id: '',
                 searchText: '',
                 start_date: '',
@@ -74,8 +74,9 @@ export default class BankAccountFilters extends Component {
                 </Col>
 
                 <Col sm={12} md={3} className="mt-3 mt-md-0">
-                    <CustomerDropdown
-                        customer={this.props.filters.customer_id}
+                    <BankDropdown
+                        banks={this.props.banks}
+                        bank_id={this.props.filters.bank_id}
                         handleInputChanges={this.filterBankAccounts}
                     />
                 </Col>
