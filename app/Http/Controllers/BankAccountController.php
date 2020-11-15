@@ -14,7 +14,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class BrandController
+ * Class BankAccountController
  * @package App\Http\Controllers
  */
 class BankAccountController extends Controller
@@ -40,11 +40,11 @@ class BankAccountController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $brands = (new BankAccountSearch($this->bank_account_repo))->filter(
+        $bank_accounts = (new BankAccountSearch($this->bank_account_repo))->filter(
             $request,
             auth()->user()->account_user()->account
         );
-        return response()->json($brands);
+        return response()->json($bank_accounts);
     }
 
     /**
