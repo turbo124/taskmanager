@@ -35,7 +35,7 @@ export default class BankAccountDropdown extends Component {
         return this.props.errors && !!this.props.errors[field]
     }
 
-    getBrands () {
+    getBankAccounts () {
         axios.get('/api/bank_accounts')
             .then((r) => {
                 this.setState({
