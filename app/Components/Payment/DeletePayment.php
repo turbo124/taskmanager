@@ -123,7 +123,7 @@ class DeletePayment
 
         $this->payment->delete();
 
-        // event here
+        // Todo event here
 
         return true;
     }
