@@ -141,19 +141,6 @@ class Authorize extends BasePaymentGateway
         return null;
     }
 
-    private function addErrorToLog(User $user, array $errors)
-    {
-        $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
-        $error_log->data = $errors['data'];
-        $error_log->error_type = ErrorLog::PAYMENT;
-        $error_log->error_result = ErrorLog::FAILURE;
-        $error_log->entity = 'authorize';
-
-        $error_log->save();
-
-        return true;
-    }
-
     private function setupConfig()
     {
         $gateway_config = $this->company_gateway->config;
