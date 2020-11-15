@@ -17,6 +17,7 @@ class CreateBankAccountRequest extends BaseFormRequest
     {
         return [
             'name' => ['required', 'unique:bank_accounts'],
+            'bank_id' => 'required',
             'username' => 'required',
             'password' => 'required'
         ];
