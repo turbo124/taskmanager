@@ -90,19 +90,6 @@ class Stripe extends BasePaymentGateway
         return true;
     }
 
-    private function addErrorLog(User $user, array $errors)
-    {
-        $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
-        $error_log->data = $errors;
-        $error_log->error_type = ErrorLog::PAYMENT;
-        $error_log->error_result = ErrorLog::FAILURE;
-        $error_log->entity = 'stripe';
-
-        $error_log->save();
-
-        return true;
-    }
-
     /**
      * @param float $amount
      * @param Invoice|null $invoice
