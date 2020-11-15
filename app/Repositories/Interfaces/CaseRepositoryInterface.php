@@ -26,21 +26,21 @@ interface CaseRepositoryInterface
 
     /**
      * @param array $data
-     * @param Cases $invoice
+     * @param Cases $case
      * @return Cases|null
      */
-    public function save(array $data, Cases $cases): ?Cases;
+    public function save(array $data, Cases $case): ?Cases;
 
     /**
      * @param array $data
-     * @param Cases $invoice
+     * @param Cases $case
      * @return Cases|null
      */
     public function createCase(array $data, Cases $case): ?Cases;
 
     /**
      * @param array $data
-     * @param Cases $invoice
+     * @param Cases $case
      * @return Cases|null
      */
     public function updateCase(array $data, Cases $case): ?Cases;
