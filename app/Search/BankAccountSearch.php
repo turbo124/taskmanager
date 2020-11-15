@@ -48,7 +48,7 @@ class BankAccountSearch extends BaseSearch
         $this->query = $this->model->select('bank_accounts.*');
 
         if ($request->has('search_term') && !empty($request->search_term)) {
-            $this->query = $this->searchFilter($request->search_term);
+            $this->searchFilter($request->search_term);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
@@ -69,13 +69,15 @@ class BankAccountSearch extends BaseSearch
         return $bank_accounts;
     }
 
-    public function searchFilter(string $filter = '')
+    public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {
-            return $this->query;
+            return false;
         }
 
-        return $this->query->where('bank_accounts.name', 'like', '%' . $filter . '%');
+        $this->query->where('bank_accounts.name', 'like', '%' . $filter . '%');
+
+        return true;
     }
 
     /**
