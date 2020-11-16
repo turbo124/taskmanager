@@ -5,6 +5,7 @@ namespace App\Repositories\Interfaces;
 use App\Models\Account;
 use App\Models\Cases;
 use App\Models\Task;
+use App\Models\User;
 use App\Requests\SearchRequest;
 use Illuminate\Support\Collection;
 
@@ -41,8 +42,9 @@ interface CaseRepositoryInterface
     /**
      * @param array $data
      * @param Cases $case
+     * @param User $user
      * @return Cases|null
      */
-    public function updateCase(array $data, Cases $case): ?Cases;
+    public function updateCase(array $data, Cases $case, User $user): ?Cases;
 
 }

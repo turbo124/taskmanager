@@ -4,18 +4,27 @@
 namespace App\Components\Payment\Gateways;
 
 use App\Factory\ErrorLogFactory;
+use App\Models\CompanyGateway;
+use App\Models\CustomerGateway;
 use App\Models\ErrorLog;
 use App\Jobs\Payment\CreatePayment;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Models\User;
 use App\Repositories\PaymentRepository;
 
 class BasePaymentGateway
 {
 
+    /**
+     * @var CustomerGateway
+     */
     protected CustomerGateway $customer_gateway;
 
+    /**
+     * @var CompanyGateway
+     */
     protected CompanyGateway $company_gateway;
 
     protected $card_types = [
@@ -68,7 +77,12 @@ class BasePaymentGateway
         return $payment;
     }
 
-    protected function addErrorToLog(User $user, array $errors)
+    /**
+     * @param User $user
+     * @param array $errors
+     * @return bool
+     */
+    protected function addErrorToLog(User $user, array $errors): bool
     {
         $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
         $error_log->data = $errors['data'];

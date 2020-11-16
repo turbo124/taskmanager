@@ -34,7 +34,11 @@ class Authorize extends BasePaymentGateway
         return $this->chargeCustomerProfile($amount, $invoice);
     }
 
-    public function capturePayment(Payment $payment)
+    /**
+     * @param Payment $payment
+     * @return Payment|null
+     */
+    public function capturePayment(Payment $payment): ?Payment
     {
         $config = $this->setupConfig();
 
@@ -57,7 +61,7 @@ class Authorize extends BasePaymentGateway
                 $tresponse = $response->getTransactionResponse();
 
                 if ($tresponse != null && $tresponse->getMessages() != null) {
-                    return true;
+                    return $payment->fresh();
                 }
             }
 

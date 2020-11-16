@@ -67,6 +67,7 @@ class CreatePayment implements ShouldQueue
     {
         // order to invoice
         $order = Order::where('id', '=', $this->data['order_id'])->first();
+        $this->customer = $order->customer;
         $charge_point = $this->customer->getSetting('order_charge_point');
         $order = $order->service()->dispatch(new InvoiceRepository(new Invoice), new OrderRepository(new Order), true);
         $this->ids = $order->invoice_id;
@@ -79,7 +80,7 @@ class CreatePayment implements ShouldQueue
            $order->payment_taken = true;
         }
 
-        $this->order->setStatus($charge_point === 'on_creation' ? Order::STATUS_PAID : Order::STATUS_DRAFT);
+        $order->setStatus($charge_point === 'on_creation' ? Order::STATUS_PAID : Order::STATUS_DRAFT);
 
         $order->payment_id = $payment->id;
         $order->save();

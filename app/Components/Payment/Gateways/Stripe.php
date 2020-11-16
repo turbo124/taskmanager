@@ -56,7 +56,12 @@ class Stripe extends BasePaymentGateway
         return true;
     }
 
-    public function capturePayment(Payment $payment, $payment_intent = true)
+    /**
+     * @param Payment $payment
+     * @param bool $payment_intent
+     * @return Payment|null
+     */
+    public function capturePayment(Payment $payment, $payment_intent = true): ?Payment
     {
         $this->setupConfig();
 
@@ -74,7 +79,7 @@ class Stripe extends BasePaymentGateway
                 $payment->transaction_reference = $ref;
                 $payment->save();
 
-                return $response;
+                return $payment->fresh();
             }
 
             return $this->stripe->charges->capture(
@@ -82,12 +87,14 @@ class Stripe extends BasePaymentGateway
                 []
             );
         } catch (Exception $e) {
-            $errors['error_message'] = $e->getMessage();
-            $this->addErrorLog($payment->user, $errors);
-            return false;
+            echo $e->getMessage();
+            die;
+            $errors['data']['error_message'] = $e->getMessage();
+            $this->addErrorToLog($payment->user, $errors);
+
         }
 
-        return true;
+        return null;
     }
 
     /**

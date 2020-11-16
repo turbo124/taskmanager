@@ -8,10 +8,12 @@ use App\Events\Cases\CaseWasCreated;
 use App\Events\Cases\CaseWasUpdated;
 use App\Events\Cases\RecurringQuoteWasUpdated;
 use App\Factory\CommentFactory;
+use App\Models\Account;
 use App\Models\Cases;
 use App\Models\CaseTemplate;
 use App\Models\User;
 use App\Repositories\Base\BaseRepository;
+use App\Search\CaseSearch;
 use Carbon\Carbon;
 use App\Requests\SearchRequest;
 use App\Repositories\Interfaces\CaseRepositoryInterface;
@@ -45,7 +47,7 @@ class CaseRepository extends BaseRepository implements CaseRepositoryInterface
     /**
      * @param SearchRequest $search_request
      * @param Account $account
-     * @return InvoiceSearch|LengthAwarePaginator
+     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {

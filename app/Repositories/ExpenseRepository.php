@@ -5,11 +5,13 @@ namespace App\Repositories;
 use App\Events\Expense\ExpenseWasCreated;
 use App\Events\Expense\ExpenseWasUpdated;
 use App\Jobs\Expense\GenerateInvoice;
+use App\Models\Account;
 use App\Models\Expense;
 use App\Models\Invoice;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\ExpenseRepositoryInterface;
 use App\Requests\SearchRequest;
+use App\Search\ExpenseSearch;
 
 /**
  * ExpenseRepository
@@ -44,11 +46,11 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
     /**
      * @param SearchRequest $search_request
      * @param Account $account
-     * @return InvoiceSearch|LengthAwarePaginator
+     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
-        return (new InvoiceSearch($this))->filter($search_request, $account);
+        return (new ExpenseSearch($this))->filter($search_request, $account);
     }
 
     public function createExpense(array $data, Expense $expense): ?Expense
