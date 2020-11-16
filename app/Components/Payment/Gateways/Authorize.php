@@ -3,10 +3,7 @@
 
 namespace App\Components\Payment\Gateways;
 
-
-use App\Factory\ErrorLogFactory;
 use App\Models\Customer;
-use App\Models\ErrorLog;
 use App\Models\Invoice;
 use App\Models\Payment;
 use net\authorize\api\constants\ANetEnvironment;
@@ -37,7 +34,11 @@ class Authorize extends BasePaymentGateway
         return $this->chargeCustomerProfile($amount, $invoice);
     }
 
-    public function capturePreviouslyAuthorizedAmount(Payment $payment)
+    /**
+     * @param Payment $payment
+     * @return Payment|null
+     */
+    public function capturePayment(Payment $payment): ?Payment
     {
         $config = $this->setupConfig();
 
@@ -60,7 +61,7 @@ class Authorize extends BasePaymentGateway
                 $tresponse = $response->getTransactionResponse();
 
                 if ($tresponse != null && $tresponse->getMessages() != null) {
-                    return true;
+                    return $payment->fresh();
                 }
             }
 
@@ -71,14 +72,7 @@ class Authorize extends BasePaymentGateway
         }
 
         if (!empty($errors)) {
-            $user = $payment->user;
-            $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
-            $error_log->data = $errors['data'];
-            $error_log->error_type = ErrorLog::PAYMENT;
-            $error_log->error_result = ErrorLog::FAILURE;
-            $error_log->entity = 'authorize';
-
-            $error_log->save();
+            $this->addErrorToLog($payment->user, $errors);
 
             return null;
         }
@@ -140,13 +134,7 @@ class Authorize extends BasePaymentGateway
 
         if (!empty($errors)) {
             $user = !empty($invoice) ? $invoice->user : $this->customer->user;
-            $error_log = ErrorLogFactory::create($this->customer->account, $user, $this->customer);
-            $error_log->data = $errors['data'];
-            $error_log->error_type = ErrorLog::PAYMENT;
-            $error_log->error_result = ErrorLog::FAILURE;
-            $error_log->entity = 'authorize';
-
-            $error_log->save();
+            $this->addErrorToLog($user, $errors);
 
             return null;
         }

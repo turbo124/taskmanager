@@ -37,18 +37,20 @@ class Order extends Model
     const STATUS_CANCELLED = 8;
     const STATUS_SENT = 2;
     const STATUS_APPROVED = 4;
+    const STATUS_PAID = 10;
     const STATUS_COMPLETE = 3;
     const STATUS_BACKORDERED = 6;
     const STATUS_EXPIRED = -1;
     protected $presenter = 'App\Presenters\OrderPresenter';
     protected $casts = [
-        'account_id'  => 'integer',
-        'user_id'     => 'integer',
-        'customer_id' => 'integer',
-        'line_items'  => 'object',
-        'updated_at'  => 'timestamp',
-        'deleted_at'  => 'timestamp',
-        'is_deleted'  => 'boolean',
+        'account_id'    => 'integer',
+        'user_id'       => 'integer',
+        'customer_id'   => 'integer',
+        'line_items'    => 'object',
+        'updated_at'    => 'timestamp',
+        'deleted_at'    => 'timestamp',
+        'is_deleted'    => 'boolean',
+        'payment_taken' => 'boolean',
     ];
 
     protected $fillable = [
@@ -123,6 +125,11 @@ class Order extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
     }
 
     public function files()

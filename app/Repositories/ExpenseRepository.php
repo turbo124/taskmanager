@@ -5,14 +5,18 @@ namespace App\Repositories;
 use App\Events\Expense\ExpenseWasCreated;
 use App\Events\Expense\ExpenseWasUpdated;
 use App\Jobs\Expense\GenerateInvoice;
+use App\Models\Account;
 use App\Models\Expense;
 use App\Models\Invoice;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\ExpenseRepositoryInterface;
+use App\Requests\SearchRequest;
+use App\Search\ExpenseSearch;
 
 /**
  * ExpenseRepository
  */
-class ExpenseRepository extends BaseRepository
+class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInterface
 {
 
     /**
@@ -39,6 +43,16 @@ class ExpenseRepository extends BaseRepository
         return $this->findOneOrFail($id);
     }
 
+    /**
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     */
+    public function getAll(SearchRequest $search_request, Account $account)
+    {
+        return (new ExpenseSearch($this))->filter($search_request, $account);
+    }
+
     public function createExpense(array $data, Expense $expense): ?Expense
     {
         $expense = $this->save($data, $expense);
@@ -54,6 +68,15 @@ class ExpenseRepository extends BaseRepository
         return $expense;
     }
 
+    public function updateExpense(array $data, Expense $expense): ?Expense
+    {
+        $expense = $this->save($data, $expense);
+
+        event(new ExpenseWasUpdated($expense));
+
+        return $expense;
+    }
+
     /**
      * @param array $data
      * @param Expense $expense
@@ -61,15 +84,9 @@ class ExpenseRepository extends BaseRepository
      */
     public function save(array $data, Expense $expense): ?Expense
     {
-        $is_add = !empty($expense->id);
-
         $expense->fill($data);
         $expense->setNumber();
         $expense->save();
-
-        if(!$is_add) {
-            event(new ExpenseWasUpdated($expense));
-        }
 
         return $expense;
     }

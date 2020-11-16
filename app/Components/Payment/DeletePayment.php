@@ -14,6 +14,8 @@ class DeletePayment
      */
     private Payment $payment;
 
+    private $paymentables;
+
     /**
      * DeletePayment constructor.
      * @param Payment $payment
@@ -21,6 +23,7 @@ class DeletePayment
     public function __construct(Payment $payment)
     {
         $this->payment = $payment;
+        $this->paymentables = $payment->paymentables;
     }
 
     public function execute()
@@ -38,7 +41,11 @@ class DeletePayment
      */
     private function updateCredit(): bool
     {
-        if ($this->payment->credits()->count() === 0) {
+        $paymentable_credits = $this->paymentables->where('paymentable_type', Credit::class)->keyBy('paymentable_id');
+
+        $credits = Credit::whereIn('id', $paymentable_credits->pluck('paymentable_id'))->get()->keyBy('id');
+
+        if ($paymentable_credits->count() === 0 || $credits->count() === 0) {
             return true;
         }
 
@@ -48,13 +55,18 @@ class DeletePayment
         )
         ) ? (int)$this->payment->customer->getSetting('credit_payment_deleted_status') : Credit::STATUS_SENT;
 
-        foreach ($this->payment->credits as $credit) {
+        foreach ($paymentable_credits as $id => $paymentable_credit) {
+
+            $credit = $credits[$id];
+
+            $paymentable_credit->delete();
+
             if ($delete_status === 100) {
                 $credit->delete();
                 continue;
             }
 
-            $credit->increaseBalance($credit->total);
+            $credit->increaseBalance($paymentable_credit->amount);
             $credit->setStatus($delete_status);
             $credit->save();
         }
@@ -64,7 +76,11 @@ class DeletePayment
 
     private function updateInvoice(): bool
     {
-        if ($this->payment->invoices()->count() === 0) {
+        $paymentable_invoices = $this->paymentables->where('paymentable_type', Invoice::class)->keyBy('paymentable_id');
+
+        $invoices = Invoice::whereIn('id', $paymentable_invoices->pluck('paymentable_id'))->get()->keyBy('id');
+
+        if ($paymentable_invoices->count() === 0 || $invoices->count() === 0) {
             return true;
         }
 
@@ -74,14 +90,18 @@ class DeletePayment
         )
         ) ? (int)$this->payment->customer->getSetting('invoice_payment_deleted_status') : Invoice::STATUS_SENT;
 
-        foreach ($this->payment->invoices as $invoice) {
+        foreach ($paymentable_invoices as $id => $paymentable_invoice) {
+            $invoice = $invoices[$id];
+
+            $paymentable_invoice->delete();
+
             if ($delete_status === 100) {
                 $invoice->delete();
                 continue;
             }
 
-            $invoice->resetBalance($invoice->pivot->amount);
-            $invoice->customer->increaseBalance($invoice->pivot->amount);
+            $invoice->resetBalance($paymentable_invoice->amount);
+            $invoice->customer->increaseBalance($paymentable_invoice->amount);
             $invoice->setStatus($delete_status);
 
             // create transaction
@@ -120,9 +140,9 @@ class DeletePayment
         $this->payment->save();
         event(new PaymentWasDeleted($this->payment));
 
-        $this->payment->delete();
+        event(new PaymentWasDeleted($this->payment));
 
-        // event here
+        $this->payment->delete();
 
         return true;
     }

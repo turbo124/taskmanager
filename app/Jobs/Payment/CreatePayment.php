@@ -67,23 +67,33 @@ class CreatePayment implements ShouldQueue
     {
         // order to invoice
         $order = Order::where('id', '=', $this->data['order_id'])->first();
+        $this->customer = $order->customer;
+        $charge_point = $this->customer->getSetting('order_charge_point');
         $order = $order->service()->dispatch(new InvoiceRepository(new Invoice), new OrderRepository(new Order), true);
         $this->ids = $order->invoice_id;
         $this->customer = $order->customer;
-        $payment = $this->createPayment();
-        $this->attachInvoices($payment);
+        $payment = $this->createPayment($charge_point === 'on_creation');
+        $this->attachInvoices($payment, $charge_point === 'on_creation');
 
-        $order->reduceBalance($this->data['amount']);
+        if($charge_point === 'on_creation') {
+           $order->reduceBalance($this->data['amount']);
+           $order->payment_taken = true;
+        }
+
+        $order->setStatus($charge_point === 'on_creation' ? Order::STATUS_PAID : Order::STATUS_DRAFT);
+
+        $order->payment_id = $payment->id;
+        $order->save();
 
         return $payment;
     }
 
-    private function createPayment()
+    private function createPayment(bool $complete_payment = true)
     {
         $payment = PaymentFactory::create($this->customer, $this->customer->user, $this->customer->account);
         $data = [
             'company_gateway_id'    => !empty($this->data['company_gateway_id']) ? $this->data['company_gateway_id'] : null,
-            'status_id'             => Payment::STATUS_COMPLETED,
+            'status_id'             => $complete_payment === true ? Payment::STATUS_COMPLETED : Payment::STATUS_PENDING,
             'date'                  => Carbon::now(),
             'amount'                => $this->data['amount'],
             'type_id'               => $this->data['payment_type'],
@@ -103,7 +113,7 @@ class CreatePayment implements ShouldQueue
      * @param Payment $payment
      * @return Payment
      */
-    private function attachInvoices(Payment $payment): Payment
+    private function attachInvoices(Payment $payment, bool $complete_payment = true): Payment
     {
         $invoices = Invoice::whereIn('id', explode(",", $this->ids))
                            ->whereCustomerId($this->customer->id)
@@ -125,9 +135,11 @@ class CreatePayment implements ShouldQueue
                 return $this->createCreditsFromInvoice($invoice, $payment);
             }
 
-            $this->updateCustomer($payment, $amount);
+            if($complete_payment === true) {
+                $this->updateCustomer($payment, $amount);
 
-            $invoice->reduceBalance($amount);
+                $invoice->reduceBalance($amount);
+            }
 
             $payment->attachInvoice($invoice, $amount, true);
             $payment->amount = $amount;

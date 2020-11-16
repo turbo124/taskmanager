@@ -11,6 +11,8 @@ use App\Jobs\Inventory\ReverseInventory;
 use App\Jobs\Inventory\UpdateInventory;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\Order;
+use App\Models\Payment;
+use App\Models\Invoice;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
 use App\Services\ServiceBase;
@@ -74,9 +76,6 @@ class OrderService extends ServiceBase
      */
     public function dispatch(InvoiceRepository $invoice_repo, OrderRepository $order_repo, $force_invoice = false): Order
     {
-        $this->order->setStatus(Order::STATUS_COMPLETE);
-        $this->order->save();
-
         if ($this->order->customer->getSetting('should_convert_order') || $force_invoice === true) {
             $invoice = (new ConvertOrder($invoice_repo, $this->order))->execute();
             $this->order->setInvoiceId($invoice->id);
@@ -103,9 +102,18 @@ class OrderService extends ServiceBase
             UpdateInventory::dispatch($this->order);
         }
 
+        if($this->order->customer->getSetting('order_charge_point') === 'on_send' && $this->order->payment_taken === false) {
+            $this->completeOrderPayment();
+        }
+
         event(new OrderWasDispatched($this->order));
 
         return true;
+    }
+
+    private function completeOrderPayment()
+    {
+        return (new CompleteOrderPayment($this->order))->execute();
     }
 
     public function calculateInvoiceTotals(): Order

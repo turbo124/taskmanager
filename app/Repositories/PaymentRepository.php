@@ -79,7 +79,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         }
 
         $payment->setNumber();
-        $payment->setStatus(payment::STATUS_COMPLETED);
+        $payment->setStatus(empty($data['status_id']) ? Payment::STATUS_COMPLETED : $data['status_id']);
         $payment->save();
 
         $payment->transaction_service()->createTransaction($payment->amount * -1, $payment->customer->balance);

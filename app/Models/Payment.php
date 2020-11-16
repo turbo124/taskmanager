@@ -93,6 +93,11 @@ class Payment extends Model
         return $this->belongsTo(Account::class);
     }
 
+    public function gateway()
+    {
+        return $this->belongsTo(CompanyGateway::class, 'company_gateway_id');
+    }
+
     public function service(): PaymentService
     {
         return new PaymentService($this);

@@ -72,24 +72,35 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
     private function updateInventory($line_items, $data)
     {
+        if (empty($data['line_items'])) {
+            return true;
+        }
+
         $new_lines = collect($data['line_items'])->keyBy('product_id')->toArray();
 
         foreach ($line_items as $line_item) {
-            if($line_item->type_id !== Invoice::PRODUCT_TYPE) {
+            if ($line_item->type_id !== Invoice::PRODUCT_TYPE) {
+                continue;
+            }
+
+            if (empty($new_lines[$line_item->product_id])) {
+                $difference = $line_item->quantity;
+                $product->increment('quantity', $difference);
+                $product->save();
                 continue;
             }
 
             $new_line = $new_lines[$line_item->product_id];
 
             $product = Product::where('id', '=', $line_item->product_id)->first();
-            
-            if($new_line['quantity'] > $line_item->quantity) {
+
+            if ($new_line['quantity'] > $line_item->quantity) {
                 $difference = $new_line['quantity'] - $line_item->quantity;
                 $product->increment('quantity', $difference);
                 $product->save();
             }
 
-            if($new_line['quantity'] < $line_item->quantity) {
+            if ($new_line['quantity'] < $line_item->quantity) {
                 $difference = $line_item->quantity - $new_line['quantity'];
                 $product->decrement('quantity', $difference);
                 $product->save();
