@@ -49,6 +49,12 @@ Route::group(
                 // brands
                 Route::resource('brands', 'BrandController');
 
+                // bank accounts
+                Route::resource('bank_accounts', 'BankAccountController');
+
+                // banks
+                Route::resource('banks', 'BankController');
+
                 //design
                 Route::resource(
                     'designs',
