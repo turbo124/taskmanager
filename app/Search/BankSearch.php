@@ -3,25 +3,31 @@
 namespace App\Search;
 
 use App\Models\Account;
+use App\Models\Bank;
 use App\Models\BankAccount;
 use App\Repositories\BankAccountRepository;
+use App\Repositories\BankRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\BankAccountTransformable;
+use App\Transformations\BankTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class BankAccountSearch
  * @package App\Search
  */
-class BankAccountSearch extends BaseSearch
+class BankSearch extends BaseSearch
 {
-    use BankAccountTransformable;
+    use BankTransformable;
 
     /**
      * @var BankRepository
      */
     private BankRepository $bank_repo;
 
+    /**
+     * @var Bank
+     */
     private Bank $model;
 
     /**
@@ -55,7 +61,7 @@ class BankAccountSearch extends BaseSearch
             $this->filterDates($request);
         }
 
-        $this->addAccount($account);
+        //$this->addAccount($account);
 
         $this->orderBy($orderBy, $orderDir);
 
@@ -88,8 +94,8 @@ class BankAccountSearch extends BaseSearch
     {
         $list = $this->query->get();
         $bank_accounts = $list->map(
-            function (BankAccount $bank_account) {
-                return $this->transformBankAccount($bank_account);
+            function (Bank $bank) {
+                return $this->transformBank($bank);
             }
         )->all();
 

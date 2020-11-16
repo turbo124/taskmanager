@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Transformations;
@@ -15,11 +14,15 @@ trait BankAccountTransformable
     protected function transformBankAccount(BankAccount $bank_account)
     {
         return [
-            'id'          => (int)$bank_account->id,
-            'bank_id'          => (int)$bank_account->bank_id,
-            'name'        => $bank_account->name,
-            'username'    => $bank_account->username,
-            'password'    => $bank_account->password
+            'id'            => (int)$bank_account->id,
+            'bank_id'       => (int)$bank_account->bank_id,
+            'name'          => $bank_account->name,
+            'username'      => $bank_account->username,
+            'private_notes' => $bank_account->private_notes,
+            'public_notes'  => $bank_account->public_notes,
+            'user_id'       => (int)$bank_account->user_id,
+            'assigned_to'   => (int)$bank_account->assigned_to
+
         ];
     }
 

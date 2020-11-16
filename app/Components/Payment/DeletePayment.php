@@ -59,6 +59,8 @@ class DeletePayment
 
             $credit = $credits[$id];
 
+            $paymentable_credit->delete();
+
             if ($delete_status === 100) {
                 $credit->delete();
                 continue;
@@ -90,6 +92,8 @@ class DeletePayment
 
         foreach ($paymentable_invoices as $id => $paymentable_invoice) {
             $invoice = $invoices[$id];
+
+            $paymentable_invoice->delete();
 
             if ($delete_status === 100) {
                 $invoice->delete();

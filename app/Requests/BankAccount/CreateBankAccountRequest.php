@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Requests\BankAccount;
@@ -16,8 +15,8 @@ class CreateBankAccountRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'unique:bank_accounts'],
-            'bank_id' => 'required',
+            'name'     => ['required', 'unique:bank_accounts'],
+            'bank_id'  => 'required',
             'username' => 'required',
             'password' => 'required'
         ];

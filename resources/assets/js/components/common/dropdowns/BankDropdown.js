@@ -35,7 +35,7 @@ export default class BankDropdown extends Component {
         return this.props.errors && !!this.props.errors[field]
     }
 
-    getBankAccounts () {
+    getBanks () {
         axios.get('/api/banks')
             .then((r) => {
                 this.setState({
@@ -49,7 +49,7 @@ export default class BankDropdown extends Component {
 
     buuildMultiple (name, bankList) {
         return (
-            <Input value={this.props.bank} onChange={this.props.handleInputChanges} type="select" multiple
+            <Input value={this.props.bank_id} onChange={this.props.handleInputChanges} type="select" multiple
                 name={name} id={name}>
                 {bankList}
             </Input>
@@ -58,7 +58,7 @@ export default class BankDropdown extends Component {
 
     buildSingle (name, bankList) {
         return (
-            <Input value={this.props.bank} onChange={this.props.handleInputChanges} type="select"
+            <Input value={this.props.bank_id} onChange={this.props.handleInputChanges} type="select"
                 name={name} id={name}>
                 <option value="">{translations.select_option}</option>
                 {bankList}

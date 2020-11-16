@@ -15,6 +15,19 @@ class BankAccount extends Model
 {
     use SoftDeletes;
 
+    protected $fillable = [
+        'name',
+        'assigned_to',
+        'public_notes',
+        'private_notes',
+        'account_id',
+        'username',
+        'password',
+        'parent_id',
+        'user_id',
+        'bank_id'
+    ];
+
     public function children()
     {
         return $this->hasMany('App\Models\BankAccount', 'parent_id', 'id');

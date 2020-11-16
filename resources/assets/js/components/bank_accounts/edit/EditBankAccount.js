@@ -26,11 +26,6 @@ class EditBankAccount extends React.Component {
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.toggleMenu = this.toggleMenu.bind(this)
-       
-    }
-
-    componentDidMount () {
-        this.getProject()
     }
 
     toggleMenu (event) {
@@ -141,7 +136,7 @@ class EditBankAccount extends React.Component {
                         {successMessage}
                         {errorMessage}
 
-                        <Details banks={this.props.banks} is_new={false} errors={this.state.errors} project={this.state}
+                        <Details banks={this.props.banks} is_new={false} errors={this.state.errors} bank_account={this.state}
                             handleInput={this.handleInput.bind(this)} hasErrorFor={this.hasErrorFor}
                             renderErrorFor={this.renderErrorFor} customers={this.props.customers}/>
 

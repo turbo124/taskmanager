@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Factory\BankAccountFactory;
 use App\Repositories\BankAccountRepository;
+use App\Repositories\BankRepository;
 use App\Requests\Brand\CreateBankAccountRequest;
 use App\Requests\Brand\UpdateBankAccountRequest;
 use App\Requests\SearchRequest;
@@ -31,7 +32,7 @@ class BankController extends Controller
      */
     public function __construct(BankRepository $bank_repository)
     {
-        $this->bank_account_repo = $bank_repository;
+        $this->bank_repo = $bank_repository;
     }
 
     /**

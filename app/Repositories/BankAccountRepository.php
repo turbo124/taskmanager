@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Repositories;
@@ -6,8 +5,6 @@ namespace App\Repositories;
 use App\Models\BankAccount;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\BankAccountRepositoryInterface;
-use Exception;
-use Illuminate\Support\Collection;
 
 class BankAccountRepository extends BaseRepository implements BankAccountRepositoryInterface
 {

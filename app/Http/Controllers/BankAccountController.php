@@ -1,12 +1,11 @@
-
 <?php
 
 namespace App\Http\Controllers;
 
 use App\Factory\BankAccountFactory;
 use App\Repositories\BankAccountRepository;
-use App\Requests\Brand\CreateBankAccountRequest;
-use App\Requests\Brand\UpdateBankAccountRequest;
+use App\Requests\BankAccount\CreateBankAccountRequest;
+use App\Requests\BankAccount\UpdateBankAccountRequest;
 use App\Requests\SearchRequest;
 use App\Search\BankAccountSearch;
 use App\Transformations\BankAccountTransformable;
@@ -22,7 +21,7 @@ class BankAccountController extends Controller
     use BankAccountTransformable;
 
     /**
-     * @var BrandRepository
+     * @var BankAccountRepository
      */
     private BankAccountRepository $bank_account_repo;
 
@@ -48,7 +47,7 @@ class BankAccountController extends Controller
     }
 
     /**
-     * @param CreateBrandRequest $request
+     * @param CreateBankAccountRequest $request
      * @return JsonResponse
      */
     public function store(CreateBankAccountRequest $request)
@@ -61,7 +60,7 @@ class BankAccountController extends Controller
     }
 
     /**
-     * @param UpdateBrandRequest $request
+     * @param UpdateBankAccountRequest $request
      * @param $id
      * @return JsonResponse
      */

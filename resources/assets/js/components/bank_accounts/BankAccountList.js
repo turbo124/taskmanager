@@ -8,6 +8,7 @@ import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
+import BankRepository from "../repositories/BankRepository";
 
 export default class BankAccountList extends Component {
     constructor (props) {
@@ -76,7 +77,7 @@ export default class BankAccountList extends Component {
     }
 
     addUserToState (bank_accounts) {
-        const cachedData = !this.state.cachedData.length ? projects : this.state.cachedData
+        const cachedData = !this.state.cachedData.length ? bank_accounts : this.state.cachedData
         this.setState({
             bank_accounts: bank_accounts,
             cachedData: cachedData

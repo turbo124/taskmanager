@@ -1,12 +1,9 @@
-
 <?php
 
 namespace App\Repositories\Interfaces;
 
 use App\Models\BankAccount;
-use App\Models\Product;
 use App\Repositories\Base\BaseRepositoryInterface;
-use Illuminate\Support\Collection;
 
 interface BankAccountRepositoryInterface extends BaseRepositoryInterface
 {

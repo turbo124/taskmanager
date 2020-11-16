@@ -1,5 +1,8 @@
 const _localizedValues = []
 _localizedValues.en = {
+    edit_bank_account: 'Edit Bank Account',
+    add_bank_account: 'Add Bank Account',
+    bank: 'Bank',
     balance_remaining: 'Balance Remaining',
     balance_due: 'Balance Due',
     partial_due: 'Partial Due',

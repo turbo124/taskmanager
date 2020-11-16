@@ -10,14 +10,14 @@ export default function Details (props) {
         <FormGroup>
             <Label for="name">{translations.name}(*):</Label>
             <Input className={props.hasErrorFor('description') ? 'is-invalid' : ''} type="text"
-                name="name" onChange={props.handleInput} value={props.project.name}/>
+                name="name" onChange={props.handleInput} value={props.bank_account.name}/>
             {props.renderErrorFor('name')}
         </FormGroup>
 
         <FormGroup>
             <Label for="description">{translations.description}(*):</Label>
             <Input className={props.hasErrorFor('description') ? 'is-invalid' : ''} type="textarea"
-                value={props.project.description} name="description"
+                value={props.bank_account.description} name="description"
                 onChange={props.handleInput}/>
             {props.renderErrorFor('description')}
         </FormGroup>
@@ -25,8 +25,8 @@ export default function Details (props) {
         <FormGroup>
             <Label for="postcode">{translations.bank}:</Label>
             <BankDropdown
-                bank_id={props.project.bank_id}
-                banks={this.props.banks}
+                bank_id={props.bank_account.bank_id}
+                banks={props.banks}
                 name="bank_id"
                 errors={props.errors}
                 handleInputChanges={props.handleInput}
@@ -36,7 +36,7 @@ export default function Details (props) {
         <FormGroup>
             <Label for="postcode">{translations.assigned_user}:</Label>
             <UserDropdown
-                user_id={props.project.assigned_to}
+                user_id={props.bank_account.assigned_to}
                 name="assigned_to"
                 errors={props.errors}
                 handleInputChanges={props.handleInput}
@@ -57,7 +57,7 @@ export default function Details (props) {
         <FormGroup>
             <Label for="postcode">{translations.password}:</Label>
             <Input
-                type='text'
+                type='password'
                 name="password"
                 value={props.bank_account.password}
                 errors={props.errors}
@@ -68,7 +68,7 @@ export default function Details (props) {
         <FormGroup>
             <Label for="public_notes">{translations.public_notes}:</Label>
             <Input
-                value={props.project.public_notes}
+                value={props.bank_account.public_notes}
                 type='textarea'
                 name="public_notes"
                 errors={props.errors}
@@ -79,7 +79,7 @@ export default function Details (props) {
         <FormGroup>
             <Label for="private_notes">{translations.private_notes}:</Label>
             <Input
-                value={props.project.private_notes}
+                value={props.bank_account.private_notes}
                 type='textarea'
                 name="private_notes"
                 errors={props.errors}

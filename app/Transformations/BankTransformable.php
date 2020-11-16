@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Transformations;
@@ -15,8 +14,8 @@ trait BankTransformable
     protected function transformBank(Bank $bank)
     {
         return [
-            'id'          => (int)$bank->id,
-            'name'        => $bank->name
+            'id'   => (int)$bank->id,
+            'name' => $bank->name
         ];
     }
 

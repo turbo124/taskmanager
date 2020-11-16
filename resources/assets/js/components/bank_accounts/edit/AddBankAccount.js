@@ -1,13 +1,12 @@
 import React from 'react'
 import { Modal, ModalBody } from 'reactstrap'
-import axios from 'axios'
 import AddButtons from '../../common/AddButtons'
 import { translations } from '../../utils/_translations'
-import ProjectModel from '../../models/ProjectModel'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import Details from './Details'
 import CustomFieldsForm from '../../common/CustomFieldsForm'
+import BankAccountModel from '../../models/BankAccountModel'
 
 class AddBankAccount extends React.Component {
     constructor (props) {
@@ -103,7 +102,7 @@ class AddBankAccount extends React.Component {
                     <DefaultModalHeader toggle={this.toggle} title={translations.add_bank_account}/>
 
                     <ModalBody className={theme}>
-                        <Details is_new={true} errors={this.state.errors} bank_account={this.state}
+                        <Details banks={this.props.banks} is_new={true} errors={this.state.errors} bank_account={this.state}
                             handleInput={this.handleInput.bind(this)} hasErrorFor={this.hasErrorFor}
                             renderErrorFor={this.renderErrorFor} />
 
