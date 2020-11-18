@@ -55,6 +55,11 @@ trait Money
 
     public function getFormattedBalance()
     {
-        return $this->formatCurrency($this->balance, $this->customer);
+        return $this->partial > 0
+            ? $this->formatCurrency($this->partial, $this->customer)
+            : $this->formatCurrency(
+                $this->balance,
+                $this->customer
+            );
     }
 }

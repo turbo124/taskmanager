@@ -41,6 +41,7 @@ class Order extends Model
     const STATUS_COMPLETE = 3;
     const STATUS_BACKORDERED = 6;
     const STATUS_EXPIRED = -1;
+
     protected $presenter = 'App\Presenters\OrderPresenter';
     protected $casts = [
         'account_id'    => 'integer',

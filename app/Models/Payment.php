@@ -25,7 +25,7 @@ class Payment extends Model
     const STATUS_COMPLETED = 4;
     const STATUS_PARTIALLY_REFUNDED = 5;
     const STATUS_REFUNDED = 6;
-    const TYPE_CUSTOMER_CREDIT = 2;
+
     protected $presenter = 'App\Presenters\OrderPresenter';
     /**
      * The attributes that are mass assignable.

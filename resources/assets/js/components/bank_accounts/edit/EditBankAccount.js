@@ -127,7 +127,7 @@ class EditBankAccount extends React.Component {
             <div>
                 {button}
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_project}/>
+                    <DefaultModalHeader toggle={this.toggle} title={translations.edit_bank_account}/>
 
                     <ModalBody className={theme}>
                         <DropdownMenuBuilder invoices={this.state} formData={this.getFormData()}

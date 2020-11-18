@@ -69,8 +69,6 @@ export default class Gateway extends Component {
             }
         })
 
-        console.log('entity', this.props.entity)
-
         return (
             <React.Fragment>
                 <ViewEntityHeader heading_1={translations.processed} value_1={sumValues}/>

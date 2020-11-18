@@ -40,6 +40,6 @@ class BankAccount extends Model
 
     public function bank()
     {
-        return $this->belongsTo('App\Models\Bank');
+        return $this->belongsTo(Bank::class);
     }
 }

@@ -25,6 +25,7 @@ import Gateway from '../gateways/view/Gateway'
 import Deal from '../deals/view/Deal'
 import PurchaseOrder from '../purchase_orders/view/PurchaseOrder'
 import ViewExpenseCategory from '../expense_categories/view/ViewExpenseCategory'
+import BankAccount from '../bank_accounts/view/BankAccount'
 
 export default class ViewEntity extends Component {
     constructor (props) {
@@ -183,6 +184,10 @@ export default class ViewEntity extends Component {
                         {this.props.entity && this.props.entity_type && ['PurchaseOrder'].includes(this.props.entity_type) &&
                         <PurchaseOrder entities={this.props.entities} entity={this.props.entity}
                             companies={this.props.companies}
+                            updateState={this.updateState}/>}
+
+                        {this.props.entity && this.props.entity_type && ['BankAccount'].includes(this.props.entity_type) &&
+                        <BankAccount entities={this.props.entities} entity={this.props.entity}
                             updateState={this.updateState}/>}
 
                     </ModalBody>

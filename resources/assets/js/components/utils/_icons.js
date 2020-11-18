@@ -1,6 +1,7 @@
 import React from 'react'
 
 export const icons = {
+    bank: 'fa-coins',
     lock: 'fa-lock',
     visibility: 'fa-eye',
     visibility_off: 'fa-eye-slash',
