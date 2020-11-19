@@ -168,7 +168,7 @@ class Customer extends Model implements HasLocalePreference
      */
     public function getSetting($setting)
     {
-        /*Client Settings*/
+        /*Customer Settings*/
         if (!empty($this->settings->{$setting}) && !$this->checkObjectEmpty($this->settings->{$setting})) {
             return $this->settings->{$setting};
         }
@@ -180,7 +180,7 @@ class Customer extends Model implements HasLocalePreference
             return $this->group_settings->settings->{$setting};
         }
 
-        /*Company Settings*/
+        /*Account Settings*/
         if (isset($this->account->settings->{$setting}) && !$this->checkObjectEmpty(
                 $this->account->settings->{$setting}
             )) {

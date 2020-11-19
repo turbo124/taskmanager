@@ -61,9 +61,15 @@ import Cases from './cases/Cases'
 import CaseTemplates from './case_templates/CaseTemplates'
 import PurchaseOrders from './purchase_orders/PurchaseOrders'
 import BankAccounts from './bank_accounts/BankAccountList'
+import BankAccountImport from './bank_accounts/Import'
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
+    {
+        path: '/bank_accounts/import',
+        name: 'Import',
+        component: BankAccountImport
+    },
     {
         path: '/bank_accounts',
         name: 'Bank Accounts',

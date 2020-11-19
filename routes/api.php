@@ -50,6 +50,8 @@ Route::group(
                 Route::resource('brands', 'BrandController');
 
                 // bank accounts
+                Route::post('bank_accounts/ofx/preview', 'BankAccountController@preview');
+                Route::post('bank_accounts/ofx/import', 'BankAccountController@import');
                 Route::resource('bank_accounts', 'BankAccountController');
 
                 // banks

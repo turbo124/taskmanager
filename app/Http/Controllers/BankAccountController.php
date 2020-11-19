@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\OFX\OFXImport;
 use App\Factory\BankAccountFactory;
 use App\Repositories\BankAccountRepository;
 use App\Requests\BankAccount\CreateBankAccountRequest;
@@ -11,6 +12,7 @@ use App\Search\BankAccountSearch;
 use App\Transformations\BankAccountTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class BankAccountController
@@ -87,5 +89,23 @@ class BankAccountController extends Controller
         $bank_account_repo->delete();
 
         return response()->json('deleted');
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function preview(Request $request)
+    {
+        $file = $request->file('file');
+
+        $transactions = (new OFXImport())->preview($file);
+
+        return response()->json($transactions);
+    }
+
+    public function import(Request $request)
+    {
+        (new OFXImport())->import($request->input('data'), $request->input('checked'));
     }
 }
