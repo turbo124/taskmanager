@@ -84,53 +84,51 @@ class Login
         $this->pass = $pass;
     }
 
-    function setup()
-    {
+    function setup() {
         $ofxRequest =
-            "OFXHEADER:100\n" .
-            "DATA:OFXSGML\n" .
-            "VERSION:102\n" .
-            "SECURITY:NONE\n" .
-            "ENCODING:USASCII\n" .
-            "CHARSET:1252\n" .
-            "COMPRESSION:NONE\n" .
-            "OLDFILEUID:NONE\n" .
-            "NEWFILEUID:NONE\n" .
-            "\n" .
-            "<OFX>\n" .
-            "<SIGNONMSGSRQV1>\n" .
-            "<SONRQ>\n" .
-            "<DTCLIENT>20110412162900.000[-7:MST]\n" .
-            "<USERID>" . $this->id . "\n" .
-            "<USERPASS>" . $this->pass . "\n" .
-            "<GENUSERKEY>N\n" .
-            "<LANGUAGE>ENG\n" .
-            "<FI>\n" .
-            "<ORG>" . $this->bank->org . "\n" .
-            "<FID>" . $this->bank->fid . "\n" .
-            "</FI>\n" .
-            "<APPID>QMOFX\n" .
-            "<APPVER>1900\n" .
-            "</SONRQ>\n" .
-            "</SIGNONMSGSRQV1>\n" .
-            "<SIGNUPMSGSRQV1>\n" .
-            "<ACCTINFOTRNRQ>\n" .
-            "<TRNUID>" . md5(time() . $this->bank->url . $this->id) . "\n" .
-            "<ACCTINFORQ>\n" .
-            "<DTACCTUP>19900101\n" .
-            "</ACCTINFORQ>\n" .
-            "</ACCTINFOTRNRQ> \n" .
-            "</SIGNUPMSGSRQV1>\n" .
+            "OFXHEADER:100\n".
+            "DATA:OFXSGML\n".
+            "VERSION:102\n".
+            "SECURITY:NONE\n".
+            "ENCODING:USASCII\n".
+            "CHARSET:1252\n".
+            "COMPRESSION:NONE\n".
+            "OLDFILEUID:NONE\n".
+            "NEWFILEUID:NONE\n".
+            "\n".
+            "<OFX>\n".
+            "<SIGNONMSGSRQV1>\n".
+            "<SONRQ>\n".
+            "<DTCLIENT>20110412162900.000[-7:MST]\n".
+            "<USERID>".$this->id."\n".
+            "<USERPASS>".$this->pass."\n".
+            "<GENUSERKEY>N\n".
+            "<LANGUAGE>ENG\n".
+            "<FI>\n".
+            "<ORG>".$this->bank->org."\n".
+            "<FID>".$this->bank->fid."\n".
+            "</FI>\n".
+            "<APPID>QMOFX\n".
+            "<APPVER>1900\n".
+            "</SONRQ>\n".
+            "</SIGNONMSGSRQV1>\n".
+            "<SIGNUPMSGSRQV1>\n".
+            "<ACCTINFOTRNRQ>\n".
+            "<TRNUID>".md5(time().$this->bank->url.$this->id)."\n".
+            "<ACCTINFORQ>\n".
+            "<DTACCTUP>19900101\n".
+            "</ACCTINFORQ>\n".
+            "</ACCTINFOTRNRQ> \n".
+            "</SIGNUPMSGSRQV1>\n".
             "</OFX>\n";
         $o = new OFX($this->bank, $ofxRequest);
         $o->go();
         $x = $o->xml();
-        foreach ($x->xpath('/OFX/SIGNUPMSGSRSV1/ACCTINFOTRNRS/ACCTINFORS/ACCTINFO/BANKACCTINFO/BANKACCTFROM') as $a) {
-            $this->accounts[] = new Account(
-                $this, (string)$a->ACCTID, 'BANK', (string)$a->ACCTTYPE, (string)$a->BANKID
-            );
+
+        foreach($x->xpath('/OFX/SIGNUPMSGSRSV1/ACCTINFOTRNRS/ACCTINFORS/ACCTINFO/BANKACCTINFO/BANKACCTFROM') as $a) {
+            $this->accounts[] = new Account($this, (string)$a->ACCTID, 'BANK', (string)$a->ACCTTYPE, (string)$a->BANKID);
         }
-        foreach ($x->xpath('/OFX/SIGNUPMSGSRSV1/ACCTINFOTRNRS/ACCTINFORS/ACCTINFO/CCACCTINFO/CCACCTFROM') as $a) {
+        foreach($x->xpath('/OFX/SIGNUPMSGSRSV1/ACCTINFOTRNRS/ACCTINFORS/ACCTINFO/CCACCTINFO/CCACCTFROM') as $a) {
             $this->accounts[] = new Account($this, (string)$a->ACCTID, 'CC');
         }
     }

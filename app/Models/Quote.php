@@ -25,6 +25,7 @@ class Quote extends Model
     const STATUS_ON_ORDER = 6;
     const STATUS_APPROVED = 4;
     const STATUS_EXPIRED = -1;
+
     const PRODUCT_TYPE = 1;
     const COMMISSION_TYPE = 2;
     const TASK_TYPE = 3;

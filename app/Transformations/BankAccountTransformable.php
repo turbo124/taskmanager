@@ -21,8 +21,8 @@ trait BankAccountTransformable
             'private_notes' => $bank_account->private_notes,
             'public_notes'  => $bank_account->public_notes,
             'user_id'       => (int)$bank_account->user_id,
-            'assigned_to'   => (int)$bank_account->assigned_to
-
+            'assigned_to'   => (int)$bank_account->assigned_to,
+            'bank'          => $bank_account->bank
         ];
     }
 
