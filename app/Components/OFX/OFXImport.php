@@ -4,7 +4,13 @@
 namespace App\Components\OFX;
 
 
+use App\Factory\CompanyFactory;
+use App\Factory\ExpenseFactory;
 use App\Models\Company;
+use App\Models\Expense;
+use App\Models\User;
+use App\Repositories\CompanyRepository;
+use App\Repositories\ExpenseRepository;
 use App\Transformations\OfxImportTransformable;
 use OfxParser\Entities\Transaction;
 
@@ -12,25 +18,81 @@ class OFXImport
 {
     use OfxImportTransformable;
 
-    private array $companies;
-    
+    private array $companies = [];
+
+    private array $expenses = [];
+
     public function __construct()
     {
         $this->companies = array_change_key_case(Company::get()->keyBy('name')->toArray(), CASE_LOWER);
+        $this->expenses = Expense::whereNotNull('transaction_id')->get()->keyBy('transaction_id')->toArray();
     }
 
-    public function import(array $transactions, array $selected_transactions)
-    {
+    /**
+     * @param User $user
+     * @param \App\Models\Account $account
+     * @param ExpenseRepository $expense_repo
+     * @param CompanyRepository $company_repo
+     * @param array $transactions
+     * @param array $selected_transactions
+     * @return array
+     */
+    public function import(
+        User $user,
+        \App\Models\Account $account,
+        ExpenseRepository $expense_repo,
+        CompanyRepository $company_repo,
+        array $transactions,
+        array $selected_transactions
+    ) {
+        $expenses_created = [];
+
         foreach ($transactions as $transaction) {
             if (!in_array($transaction['uniqueId'], $selected_transactions)) {
                 continue;
             }
+
+            if (array_key_exists($transaction['uniqueId'], $this->expenses)) {
+                continue;
+            }
+
+            if (array_key_exists($transaction['name'], $this->companies)) {
+                $company = $this->companies[$transaction['name']]['id'];
+            } else {
+                $company = (new CompanyFactory())->create($user, $account);
+                $company = $company_repo->save(['name' => $transaction['name']], $company);
+            }
+
+            $expense = ExpenseFactory::create($account, $user);
+            $data = [
+                'create_invoice' => true,
+                'exchange_rate'  => 1,
+                'amount'         => $transaction['amount'],
+                'transaction_id' => $transaction['uniqueId'],
+                'company_id'     => $company->id,
+                'public_notes'   => $transaction['memo'],
+                'date'           => $transaction['date'],
+                'bank_id'        => null //TODO
+            ];
+
+            $expense = $expense_repo->save($data, $expense);
+            $expenses_created[] = $expense;
         }
+
+        return $expenses_created;
     }
 
     public function preview($file)
     {
         $transactions = collect($this->buildImport($file, true))->where('amount', '<', 0);
+
+        $transactions = $transactions->filter(function ($transaction, $key) {
+            return !array_key_exists($transaction->uniqueId, $this->expenses);
+        });
+
+        if(empty($transactions)) {
+            return [];
+        }
 
         $transactions = $transactions->map(
             function (Transaction $transaction) {

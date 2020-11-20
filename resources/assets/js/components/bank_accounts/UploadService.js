@@ -19,6 +19,16 @@ class UploadService {
         }
     }
 
+    handleError (error) {
+        if (error.response && error.response.data.message) {
+            this.error_message = error.response.data.message
+        }
+
+        if (error.response.data.errors) {
+            this.errors = error.response.data.errors
+        }
+    }
+
     upload (file, onUploadProgress) {
         const formData = new FormData()
 

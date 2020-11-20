@@ -39,7 +39,6 @@ class Company extends Model
         'assigned_to',
         'user_id',
         'account_id',
-        'transaction_name',
         'custom_value1',
         'custom_value2',
         'custom_value3',

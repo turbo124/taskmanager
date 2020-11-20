@@ -7,8 +7,7 @@ import BankAccountItem from './BankAccountItem'
 import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
-import CustomerRepository from '../repositories/CustomerRepository'
-import BankRepository from "../repositories/BankRepository";
+import BankRepository from '../repositories/BankRepository'
 
 export default class BankAccountList extends Component {
     constructor (props) {
@@ -70,7 +69,7 @@ export default class BankAccountList extends Component {
 
     componentDidMount () {
         this.getBanks()
-        //this.getCustomFields()
+        // this.getCustomFields()
     }
 
     addUserToState (bank_accounts) {
@@ -157,7 +156,7 @@ export default class BankAccountList extends Component {
 
     render () {
         const { bank_accounts, custom_fields, ignoredColumns, view, error, isOpen, error_message, success_message, show_success, banks } = this.state
-        const { status_id, searchText, start_date, end_date, user_id, bank_id} = this.state.filters
+        const { status_id, searchText, start_date, end_date, user_id, bank_id } = this.state.filters
         const fetchUrl = `/api/bank_accounts?search_term=${searchText}&user_id=${user_id}&status=${status_id}&start_date=${start_date}&end_date=${end_date}&bank_id=${bank_id}`
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
             ? 'fixed-margin-datatable-collapsed'
