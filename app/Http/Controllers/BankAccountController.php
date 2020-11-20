@@ -4,7 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Components\OFX\OFXImport;
 use App\Factory\BankAccountFactory;
+use App\Models\Company;
+use App\Models\CompanyContact;
+use App\Models\Expense;
 use App\Repositories\BankAccountRepository;
+use App\Repositories\CompanyContactRepository;
+use App\Repositories\CompanyRepository;
+use App\Repositories\ExpenseRepository;
 use App\Requests\BankAccount\CreateBankAccountRequest;
 use App\Requests\BankAccount\UpdateBankAccountRequest;
 use App\Requests\SearchRequest;
@@ -104,8 +110,27 @@ class BankAccountController extends Controller
         return response()->json($transactions);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function import(Request $request)
     {
-        (new OFXImport())->import($request->input('data'), $request->input('checked'));
+        $result = (new OFXImport())->import(
+            auth()->user(),
+            auth()->user()->account_user()->account,
+            new ExpenseRepository(new Expense),
+            new CompanyRepository(
+                new Company, new CompanyContactRepository(new CompanyContact())
+            ),
+            $request->input('data'),
+            $request->input('checked')
+        );
+
+        if(empty($result)) {
+            return response()->json([], 422);
+        }
+
+        return response()->json($result);
     }
 }

@@ -9,7 +9,7 @@ export default function TotalsBox (props) {
     const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
     const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
     const settings = user_account[0].account.settings
-    const paid_to_date = props.entity.total !== props.entity.balance ? props.entity.total - props.entity.balance : props.entity.total
+    const paid_to_date = props.entity.total - props.entity.balance
 
     const invoiceModel = new InvoiceModel(props.entity)
     const tax_total = invoiceModel.calculateTaxes(false)

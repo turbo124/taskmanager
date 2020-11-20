@@ -50,7 +50,6 @@ class CompanyFactory extends Factory
             'postcode'         => $this->faker->postcode,
             'deleted_at'       => null,
             'vat_number'       => null,
-            'transaction_name' => null,
             'balance'          => null,
             'paid_to_date'     => null,
             'number'           => null
