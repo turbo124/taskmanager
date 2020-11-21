@@ -124,10 +124,11 @@ class BankAccountController extends Controller
                 new Company, new CompanyContactRepository(new CompanyContact())
             ),
             $request->input('data'),
-            $request->input('checked')
+            $request->input('checked'),
+            $request->input('bank_id') ?? null
         );
 
-        if(empty($result)) {
+        if (empty($result)) {
             return response()->json([], 422);
         }
 

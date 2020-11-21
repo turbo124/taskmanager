@@ -2,7 +2,7 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { expenseStatusColors, expenseStatuses } from '../utils/_consts'
+import { expenseStatusColors, expenseStatuses, frequencyOptions } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 
 export default function ExpensePresenter (props) {
@@ -15,6 +15,16 @@ export default function ExpensePresenter (props) {
     const paymentInvoices = entity.invoices && Object.keys(entity.invoices).length > 0 ? Array.prototype.map.call(entity.invoices, s => s.number).toString() : null
 
     switch (field) {
+        case 'assigned_to': {
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.assigned_to))
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label={field}>{assigned_user.length ? `${assigned_user[0].first_name} ${assigned_user[0].last_name}` : ''}</td>
+        }
+        case 'user_id': {
+            const user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.user_id))
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label={field}>{`${user[0].first_name} ${user[0].last_name}`}</td>
+        }
         case 'frequency':
             return <td>{translations[frequencyOptions[entity.frequency]]}</td>
         case 'amount':

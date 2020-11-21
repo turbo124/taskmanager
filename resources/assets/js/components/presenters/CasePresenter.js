@@ -34,6 +34,16 @@ export default function CasePresenter (props) {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Customer">{customer.name}</td>
         }
+        case 'assigned_to': {
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.assigned_to))
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label={field}>{assigned_user.length ? `${assigned_user[0].first_name} ${assigned_user[0].last_name}` : ''}</td>
+        }
+        case 'user_id': {
+            const user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.user_id))
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label={field}>{`${user[0].first_name} ${user[0].last_name}`}</td>
+        }
         case 'date':
         case 'due_date':
         case 'created_at':

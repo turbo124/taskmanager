@@ -9,8 +9,15 @@ use App\Services\ServiceBase;
 
 class CreditService extends ServiceBase
 {
-    protected $credit;
+    /**
+     * @var Credit
+     */
+    protected Credit $credit;
 
+    /**
+     * CreditService constructor.
+     * @param Credit $credit
+     */
     public function __construct(Credit $credit)
     {
         parent::__construct($credit);

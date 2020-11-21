@@ -21,6 +21,7 @@ class Quote extends Model
 
     const STATUS_DRAFT = 1;
     const STATUS_SENT = 2;
+    const STATUS_VIEWED = 3;
     const STATUS_INVOICED = 5;
     const STATUS_ON_ORDER = 6;
     const STATUS_APPROVED = 4;

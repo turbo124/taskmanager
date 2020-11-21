@@ -19,6 +19,7 @@ class QuoteTransformable
     {
         return [
             'id'                  => (int)$quote->id,
+            'number'              => $quote->number ?: '',
             'created_at'          => $quote->created_at,
             'user_id'             => (int)$quote->user_id,
             'account_id'          => (int)$quote->account_id,
@@ -29,7 +30,6 @@ class QuoteTransformable
             'exchange_rate'       => (float)$quote->exchange_rate,
             'public_notes'        => $quote->public_notes ?: '',
             'private_notes'       => $quote->private_notes ?: '',
-            'number'              => $quote->number ?: '',
             'customer_id'         => (int)$quote->customer_id,
             'invoice_id'          => (int)$quote->invoice_id,
             'date'                => $quote->date ?: '',

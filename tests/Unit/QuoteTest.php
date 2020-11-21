@@ -23,6 +23,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\QuoteRepository;
 use App\Requests\SearchRequest;
 use App\Search\QuoteSearch;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -192,7 +193,10 @@ class QuoteTest extends TestCase
         $account->save();
 
         $quote = $quote->service()->approve(new InvoiceRepository(new Invoice), new QuoteRepository(new Quote));
+
+        $this->assertNotNull($quote->deleted_at);
         $this->assertNotNull($quote->invoice_id);
+        $this->assertEquals($quote->date_approved->toDateString(), Carbon::now()->toDateString());
         $this->assertInstanceOf(Quote::class, $quote);
     }
 

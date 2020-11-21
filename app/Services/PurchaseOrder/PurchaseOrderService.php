@@ -16,11 +16,19 @@ use App\Repositories\OrderRepository;
 use App\Repositories\PurchaseOrderRepository;
 use App\Services\PurchaseOrder\MarkSent;
 use App\Services\ServiceBase;
+use Carbon\Carbon;
 
 class PurchaseOrderService extends ServiceBase
 {
+    /**
+     * @var PurchaseOrder
+     */
     protected PurchaseOrder $purchase_order;
 
+    /**
+     * PurchaseOrderService constructor.
+     * @param PurchaseOrder $purchase_order
+     */
     public function __construct(PurchaseOrder $purchase_order)
     {
         $config = [
@@ -39,6 +47,7 @@ class PurchaseOrderService extends ServiceBase
         }
 
         $this->purchase_order->setStatus(PurchaseOrder::STATUS_APPROVED);
+        $this->purchase_order->date_approved = Carbon::now();
         $this->purchase_order->save();
 
         event(new PurchaseOrderWasApproved($this->purchase_order));

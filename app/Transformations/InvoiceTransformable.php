@@ -22,6 +22,7 @@ class InvoiceTransformable
     {
         return [
             'id'                   => (int)$invoice->id,
+            'number'               => $invoice->number ?: '',
             'created_at'           => $invoice->created_at,
             'user_id'              => (int)$invoice->user_id,
             'account_id'           => (int)$invoice->account_id,
@@ -31,7 +32,6 @@ class InvoiceTransformable
             'exchange_rate'        => (float)$invoice->exchange_rate,
             'public_notes'         => $invoice->public_notes ?: '',
             'private_notes'        => $invoice->private_notes ?: '',
-            'number'               => $invoice->number ?: '',
             'customer_id'          => (int)$invoice->customer_id,
             'date'                 => $invoice->date ?: '',
             'due_date'             => $invoice->due_date ?: '',

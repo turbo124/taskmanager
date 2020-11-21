@@ -19,6 +19,7 @@ trait OrderTransformable
     {
         return [
             'id'                  => (int)$order->id,
+            'number'              => $order->number ?: '',
             'created_at'          => $order->created_at,
             'user_id'             => (int)$order->user_id,
             'account_id'          => (int)$order->account_id,
@@ -29,7 +30,6 @@ trait OrderTransformable
             'exchange_rate'       => (float)$order->exchange_rate,
             'public_notes'        => $order->public_notes ?: '',
             'private_notes'       => $order->private_notes ?: '',
-            'number'              => $order->number ?: '',
             'customer_id'         => (int)$order->customer_id,
             'date'                => $order->date ?: '',
             'due_date'            => $order->due_date ?: '',

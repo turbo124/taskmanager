@@ -17,11 +17,14 @@ use App\Services\ServiceBase;
 
 class RecurringQuoteService extends ServiceBase
 {
-    protected $quote;
+    /**
+     * @var RecurringQuote
+     */
+    protected RecurringQuote $quote;
 
     /**
      * RecurringQuoteService constructor.
-     * @param RecurringQuote $invoice
+     * @param RecurringQuote $quote
      */
     public function __construct(RecurringQuote $quote)
     {
