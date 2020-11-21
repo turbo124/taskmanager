@@ -17,11 +17,19 @@ use App\Repositories\QuoteRepository;
 use App\Repositories\RecurringQuoteRepository;
 use App\Services\Quote\MarkSent;
 use App\Services\ServiceBase;
+use Carbon\Carbon;
 
 class QuoteService extends ServiceBase
 {
-    protected $quote;
+    /**
+     * @var Quote
+     */
+    protected Quote $quote;
 
+    /**
+     * QuoteService constructor.
+     * @param Quote $quote
+     */
     public function __construct(Quote $quote)
     {
         $config = [
@@ -40,6 +48,7 @@ class QuoteService extends ServiceBase
         }
 
         $this->quote->setStatus(Quote::STATUS_APPROVED);
+        $this->quote->date_approved = Carbon::now();
         $this->quote->save();
 
         if ($this->quote->customer->getSetting('should_convert_quote')) {

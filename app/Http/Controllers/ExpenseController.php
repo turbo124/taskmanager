@@ -124,6 +124,21 @@ class ExpenseController extends Controller
         $expenseRepo->archive($expense);
     }
 
+    /**
+     * @param Request $request
+     * @param Expense $expense
+     * @param $action
+     * @return JsonResponse
+     */
+    public function action(Request $request, Expense $expense, $action)
+    {
+        if ($action === 'approve') {
+            $expense->service()->approve(new ExpenseRepository(new Expense()));
+
+            return response()->json(['message' => 'The expenses have been approved successfully!'], 200);
+        }
+    }
+
     public function bulk(Request $request)
     {
         $action = $request->action;
@@ -134,6 +149,14 @@ class ExpenseController extends Controller
 
         if (!$expenses) {
             return response()->json(['message' => "No expense Found"]);
+        }
+
+        if ($action === 'approve') {
+            foreach ($expenses as $expense) {
+                $expense->service()->approve(new ExpenseRepository(new Expense()));
+            }
+
+            return response()->json(['message' => 'The expenses have been approved successfully!'], 200);
         }
 
         if ($action === 'generate_invoice') {

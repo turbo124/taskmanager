@@ -31,15 +31,17 @@ class Order extends Model
     use HasFactory;
 
     const STATUS_DRAFT = 1;
-    const STATUS_PARTIAL = 7;
-    const STATUS_ORDER_FAILED = 9;
-    const STATUS_HELD = 5;
-    const STATUS_CANCELLED = 8;
     const STATUS_SENT = 2;
-    const STATUS_APPROVED = 4;
-    const STATUS_PAID = 10;
     const STATUS_COMPLETE = 3;
+    const STATUS_APPROVED = 4;
+    const STATUS_HELD = 5;
     const STATUS_BACKORDERED = 6;
+    const STATUS_PARTIAL = 7;
+    const STATUS_CANCELLED = 8;
+    const STATUS_ORDER_FAILED = 9;
+    const STATUS_PAID = 10;
+    const STATUS_VIEWED = 11;
+
     const STATUS_EXPIRED = -1;
 
     protected $presenter = 'App\Presenters\OrderPresenter';

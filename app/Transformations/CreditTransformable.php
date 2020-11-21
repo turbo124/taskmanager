@@ -26,6 +26,7 @@ trait CreditTransformable
     {
         return [
             'id'                  => (int)$credit->id,
+            'number'              => $credit->number ?: '',
             'created_at'          => $credit->created_at,
             'user_id'             => (int)$credit->user_id,
             'account_id'          => (int)$credit->account_id,
@@ -36,7 +37,6 @@ trait CreditTransformable
             'exchange_rate'       => (float)$credit->exchange_rate,
             'public_notes'        => $credit->public_notes ?: '',
             'private_notes'       => $credit->private_notes ?: '',
-            'number'              => $credit->number ?: '',
             'customer_id'         => (int)$credit->customer_id,
             'date'                => $credit->date ?: '',
             'due_date'            => $credit->due_date ?: '',

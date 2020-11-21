@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models;
+use App\Services\Expense\ExpenseService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +15,8 @@ class Expense extends Model
     const STATUS_LOGGED = 1;
     const STATUS_PENDING = 2;
     const STATUS_INVOICED = 3;
+    const STATUS_APPROVED = 4;
+
     protected $fillable = [
         'assigned_to',
         'number',
@@ -61,6 +64,11 @@ class Expense extends Model
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
     ];
+
+    public function service(): ExpenseService
+    {
+        return new ExpenseService($this);
+    }
 
 
     public function files()

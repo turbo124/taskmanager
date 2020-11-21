@@ -4,10 +4,12 @@ import ImportPreview from './ImportPreview'
 import { translations } from '../utils/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
 import { Alert } from 'reactstrap'
+import queryString from 'query-string'
+import FormatMoney from "../common/FormatMoney";
 
 export default class Import extends React.Component {
-    constructor () {
-        super()
+    constructor (props) {
+        super(props)
         this.state = {
             selectedFiles: null,
             currentFile: null,
@@ -19,7 +21,8 @@ export default class Import extends React.Component {
             success_message: translations.expenses_imported_successfully,
             fileInfos: [],
             loading: false,
-            checked: new Set()
+            checked: new Set(),
+            bank_id: queryString.parse(this.props.location.search).bank_id || 0
         }
 
         this.selectFile = this.selectFile.bind(this)
@@ -93,7 +96,11 @@ export default class Import extends React.Component {
     }
 
     save () {
-        const data = { checked: Array.from(this.state.checked), data: this.state.fileInfos }
+        const data = {
+            bank_id: this.state.bank_id,
+            checked: Array.from(this.state.checked),
+            data: this.state.fileInfos
+        }
 
         UploadService.save(data).then(response => {
             if (!response) {
@@ -119,6 +126,7 @@ export default class Import extends React.Component {
 
     render () {
         const {
+            checked,
             selectedFiles,
             currentFile,
             progress,
@@ -130,6 +138,8 @@ export default class Import extends React.Component {
             error_message,
             success_message
         } = this.state
+
+        const total = checked.size > 0 && fileInfos.length ? fileInfos.filter(row => checked.has(row.uniqueId)).reduce((result, { amount }) => result += amount, 0) : 0
 
         return (
             <React.Fragment>
@@ -154,14 +164,14 @@ export default class Import extends React.Component {
                                 )}
 
                                 <label className="btn btn-default">
-                                    <input type="file" onChange={this.selectFile} />
+                                    <input type="file" onChange={this.selectFile}/>
                                 </label>
 
                                 <button className="btn btn-success"
                                     disabled={!selectedFiles}
                                     onClick={this.upload}
                                 >
-                                    Upload
+                                    {translations.upload}
                                 </button>
 
                                 {!!message &&
@@ -174,7 +184,11 @@ export default class Import extends React.Component {
 
                         {fileInfos.length &&
                         <div className="card mt-2">
-                            <div className="card-header">{translations.expenses}</div>
+                            <div className="card-header">{translations.expenses} {this.state.checked.size > 0 ? ` - ${this.state.checked.size} selected ` : '' }
+                                {!!total > 0 &&
+                                <FormatMoney amount={total} />
+                                }
+                            </div>
                             <div className="card-body">
                                 <ImportPreview
                                     isCheckboxChecked={({ id }) => this.state.checked.has(id)}
@@ -253,7 +267,8 @@ export default class Import extends React.Component {
                                     // {...props}
                                 />
 
-                                <button className="btn btn-primary" onClick={this.save.bind(this)}>{translations.save}</button>
+                                <button className="btn btn-primary"
+                                    onClick={this.save.bind(this)}>{translations.save}</button>
                             </div>
 
                         </div>

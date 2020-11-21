@@ -14,6 +14,9 @@ use App\Services\ServiceBase;
  */
 class LeadService extends ServiceBase
 {
+    /**
+     * @var Lead
+     */
     protected Lead $lead;
 
     /**

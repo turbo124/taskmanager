@@ -13,6 +13,9 @@ use App\Services\ServiceBase;
  */
 class DealService extends ServiceBase
 {
+    /**
+     * @var Deal
+     */
     protected Deal $deal;
 
     /**

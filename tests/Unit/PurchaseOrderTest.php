@@ -18,6 +18,7 @@ use App\Models\User;
 use App\Repositories\PurchaseOrderRepository;
 use App\Requests\SearchRequest;
 use App\Search\PurchaseOrderSearch;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -140,5 +141,25 @@ class PurchaseOrderTest extends TestCase
         $taskRepo = new PurchaseOrderRepository($purchase_order);
         $deleted = $taskRepo->archive($purchase_order);
         $this->assertTrue($deleted);
+    }
+
+    public function testPurchaseOrderApproval()
+    {
+        $purchase_order = PurchaseOrder::factory()->create();
+        $purchase_order->setStatus(PurchaseOrder::STATUS_SENT);
+        $purchase_order->save();
+
+        $account = $purchase_order->account;
+        $settings = $account->settings;
+        $settings->should_email_purchase_order = true;
+        $settings->should_archive_purchase_order = true;
+        $account->settings = $settings;
+        $account->save();
+
+        $purchase_order = $purchase_order->service()->approve(new PurchaseOrderRepository(new PurchaseOrder()));
+
+        $this->assertNotNull($purchase_order->deleted_at);
+        $this->assertEquals($purchase_order->date_approved->toDateString(), Carbon::now()->toDateString());
+        $this->assertInstanceOf(PurchaseOrder::class, $purchase_order);
     }
 }

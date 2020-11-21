@@ -25,6 +25,7 @@ class Credit extends Model
     const STATUS_SENT = 2;
     const STATUS_PARTIAL = 3;
     const STATUS_APPLIED = 4;
+    const STATUS_VIEWED = 5;
 
     const PRODUCT_TYPE = 1;
     const COMMISSION_TYPE = 2;

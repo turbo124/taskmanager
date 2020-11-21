@@ -21,8 +21,10 @@ class PurchaseOrder extends Model
 
     const STATUS_DRAFT = 1;
     const STATUS_SENT = 2;
+    const STATUS_VIEWED = 3;
     const STATUS_APPROVED = 4;
     const STATUS_EXPIRED = -1;
+
     protected $presenter = 'App\Presenters\QuotePresenter';
     protected $casts = [
         'company_id' => 'integer',

@@ -38,6 +38,7 @@ export const consts = {
     invoice_status_partial: 4,
     invoice_status_cancelled: 5,
     invoice_status_reversed: 6,
+    invoice_status_viewed: 7,
     invoice_status_past_due_text: 'Overdue',
     invoice_status_draft_text: 'Draft',
     invoice_status_sent_text: 'Sent',
@@ -48,12 +49,14 @@ export const consts = {
     quote_status_expired: '-1',
     quote_status_draft: 1,
     quote_status_sent: 2,
+    quote_status_viewed: 3,
     quote_status_invoiced: 5,
     quote_status_on_order: 6,
     quote_status_approved: 4,
     purchase_order_status_expired: '-1',
     purchase_order_status_draft: 1,
     purchase_order_status_sent: 2,
+    purchase_order_status_viewed: 3,
     purchase_order_status_approved: 4,
     quote_status_expired_text: 'Expired',
     recurring_invoice_status_draft: 1,
@@ -61,8 +64,10 @@ export const consts = {
     recurring_invoice_status_active: 3,
     recurring_invoice_status_stopped: 4,
     recurring_invoice_status_completed: 5,
+    recurring_invoice_status_viewed: 6,
     recurring_quote_status_draft: 1,
     recurring_quote_status_pending: 2,
+    recurring_quote_status_viewed: 6,
     recurring_quote_status_active: 3,
     recurring_quote_status_stopped: 4,
     recurring_quote_status_completed: 5,
@@ -70,14 +75,16 @@ export const consts = {
     quote_status_sent_text: 'Sent',
     quote_status_approved_text: 'Approved',
     order_status_draft: 1,
-    order_status_cancelled: 8,
     order_status_sent: 2,
+    order_status_complete: 3,
+    order_status_approved: 4,
     order_status_held: 5,
     order_status_backorder: 6,
     order_status_partial: 7,
+    order_status_cancelled: 8,
+    order_status_failed: 9,
     order_status_paid: 10,
-    order_status_complete: 3,
-    order_status_approved: 4,
+    order_status_viewed: 11,
     order_status_draft_text: 'Draft',
     order_status_sent_text: 'Sent',
     order_status_approved_text: 'Approved',
@@ -86,6 +93,7 @@ export const consts = {
     credit_status_sent: 2,
     credit_status_partial: 3,
     credit_status_applied: 4,
+    credit_status_viewed: 5,
     case_status_draft: 1,
     case_status_open: 2,
     case_status_closed: 3,
@@ -167,7 +175,8 @@ export const invoiceStatuses = {
     [consts.invoice_status_partial]: translations.partial,
     [consts.invoice_status_cancelled]: translations.cancelled,
     100: translations.overdue,
-    [consts.invoice_status_reversed]: translations.reversed
+    [consts.invoice_status_reversed]: translations.reversed,
+    [consts.invoice_status_viewed]: translations.viewed
 }
 
 export const invoiceStatusColors = {
@@ -178,6 +187,7 @@ export const invoiceStatusColors = {
     [consts.invoice_status_draft_text]: 'danger',
     [consts.invoice_status_reversed]: 'danger',
     [consts.invoice_status_cancelled]: 'danger',
+    [consts.invoice_status_viewed]: 'info',
     100: 'danger'
 }
 
@@ -187,6 +197,7 @@ export const quoteStatuses = {
     [consts.quote_status_approved]: translations.status_approved,
     [consts.quote_status_invoiced]: translations.invoiced,
     [consts.quote_status_on_order]: translations.on_order,
+    [consts.quote_status_viewed]: translations.viewed,
     100: translations.expired
 }
 
@@ -196,6 +207,7 @@ export const quoteStatusColors = {
     [consts.quote_status_approved]: 'success',
     [consts.quote_status_on_order]: 'success',
     [consts.quote_status_invoiced]: 'success',
+    [consts.quote_status_viewed]: 'info',
     100: 'danger'
 }
 
@@ -205,6 +217,7 @@ export const purchaseOrderStatuses = {
     [consts.quote_status_approved]: translations.status_approved,
     [consts.quote_status_invoiced]: translations.invoiced,
     [consts.quote_status_on_order]: translations.on_order,
+    [consts.quote_status_viewed]: translations.viewed,
     100: translations.expired
 }
 
@@ -212,6 +225,7 @@ export const purchaseOrderStatusColors = {
     [consts.purchase_order_status_draft]: 'secondary',
     [consts.purchase_order_status_sent]: 'primary',
     [consts.purchase_order_status_approved]: 'success',
+    [consts.purchase_order_status_viewed]: 'info',
     100: 'danger'
 }
 
@@ -219,14 +233,16 @@ export const creditStatuses = {
     [consts.credit_status_draft]: translations.draft,
     [consts.credit_status_sent]: translations.sent,
     [consts.credit_status_partial]: translations.partial,
-    [consts.credit_status_applied]: translations.applied
+    [consts.credit_status_applied]: translations.applied,
+    [consts.credit_status_viewed]: translations.viewed
 }
 
 export const creditStatusColors = {
     [consts.credit_status_draft]: 'secondary',
     [consts.credit_status_sent]: 'primary',
     [consts.credit_status_partial]: 'warning',
-    [consts.credit_status_applied]: 'success'
+    [consts.credit_status_applied]: 'success',
+    [consts.credit_status_viewed]: 'info'
 }
 
 export const paymentStatuses = {
@@ -256,6 +272,7 @@ export const orderStatuses = {
     [consts.order_status_backorder]: translations.backordered,
     [consts.order_status_held]: translations.held,
     [consts.order_status_cancelled]: translations.cancelled,
+    [consts.order_status_viewed]: translations.viewed,
     '-1': 'Expired'
 }
 
@@ -268,6 +285,7 @@ export const orderStatusColors = {
     [consts.order_status_backorder]: 'warning',
     [consts.order_status_held]: 'warning',
     [consts.order_status_cancelled]: 'danger',
+    [consts.order_status_viewed]: 'info',
     '-1': 'danger'
 }
 
@@ -288,7 +306,8 @@ export const recurringInvoiceStatuses = {
     [consts.recurring_invoice_status_pending]: translations.pending,
     [consts.recurring_invoice_status_active]: translations.active,
     [consts.recurring_invoice_status_stopped]: translations.stopped,
-    [consts.recurring_invoice_status_completed]: translations.complete
+    [consts.recurring_invoice_status_completed]: translations.complete,
+    [consts.recurring_invoice_status_viewed]: translations.viewed
 }
 
 export const recurringInvoiceStatusColors = {
@@ -296,7 +315,8 @@ export const recurringInvoiceStatusColors = {
     [consts.recurring_invoice_status_pending]: 'secondary',
     [consts.recurring_invoice_status_active]: 'primary',
     [consts.recurring_invoice_status_stopped]: 'warning',
-    [consts.recurring_invoice_status_completed]: 'success'
+    [consts.recurring_invoice_status_completed]: 'success',
+    [consts.recurring_invoice_status_viewed]: 'info'
 }
 
 export const recurringQuoteStatuses = {
@@ -304,7 +324,8 @@ export const recurringQuoteStatuses = {
     [consts.recurring_invoice_status_pending]: translations.pending,
     [consts.recurring_invoice_status_active]: translations.active,
     [consts.recurring_invoice_status_stopped]: translations.stopped,
-    [consts.recurring_invoice_status_completed]: translations.complete
+    [consts.recurring_invoice_status_completed]: translations.complete,
+    [consts.recurring_quote_status_completed]: translations.viewed
 }
 
 export const recurringQuoteStatusColors = {
@@ -312,7 +333,8 @@ export const recurringQuoteStatusColors = {
     [consts.recurring_quote_status_pending]: 'secondary',
     [consts.recurring_quote_status_active]: 'primary',
     [consts.recurring_quote_status_stopped]: 'warning',
-    [consts.recurring_quote_status_completed]: 'success'
+    [consts.recurring_quote_status_completed]: 'success',
+    [consts.recurring_quote_status_viewed]: 'info'
 }
 
 export const caseStatuses = {

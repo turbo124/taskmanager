@@ -29,6 +29,7 @@ class RecurringQuote extends Model
     const STATUS_ACTIVE = 3;
     const STATUS_STOPPED = 4;
     const STATUS_COMPLETED = 5;
+    const STATUS_VIEWED = 6;
 
     protected $presenter = 'App\Presenters\QuotePresenter';
     protected $fillable = [

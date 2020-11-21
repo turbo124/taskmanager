@@ -35,6 +35,7 @@ class OFXImport
      * @param CompanyRepository $company_repo
      * @param array $transactions
      * @param array $selected_transactions
+     * @param null $bank_id
      * @return array
      */
     public function import(
@@ -43,7 +44,8 @@ class OFXImport
         ExpenseRepository $expense_repo,
         CompanyRepository $company_repo,
         array $transactions,
-        array $selected_transactions
+        array $selected_transactions,
+        $bank_id = null
     ) {
         $expenses_created = [];
 
@@ -72,7 +74,7 @@ class OFXImport
                 'company_id'     => $company->id,
                 'public_notes'   => $transaction['memo'],
                 'date'           => $transaction['date'],
-                'bank_id'        => null //TODO
+                'bank_id'        => $bank_id
             ];
 
             $expense = $expense_repo->save($data, $expense);
@@ -86,11 +88,13 @@ class OFXImport
     {
         $transactions = collect($this->buildImport($file, true))->where('amount', '<', 0);
 
-        $transactions = $transactions->filter(function ($transaction, $key) {
-            return !array_key_exists($transaction->uniqueId, $this->expenses);
-        });
+        $transactions = $transactions->filter(
+            function ($transaction, $key) {
+                return !array_key_exists($transaction->uniqueId, $this->expenses);
+            }
+        );
 
-        if(empty($transactions)) {
+        if (empty($transactions)) {
             return [];
         }
 
