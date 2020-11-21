@@ -105,7 +105,7 @@ class Invitation extends Model
         $this->viewed_date = Carbon::now();
         $this->save();
 
-        if (strtolower($this->getSection()) === 'order') {
+        /* if (strtolower($this->getSection()) === 'order') {
             return true;
         }
 
@@ -113,7 +113,7 @@ class Invitation extends Model
         if ($this->inviteable->status_id === $this->inviteable::STATUS_SENT) {
             $this->inviteable->setStatus($this->inviteable::STATUS_VIEWED);
             $this->inviteable->save();
-        }
+        } */
 
         return true;
     }
