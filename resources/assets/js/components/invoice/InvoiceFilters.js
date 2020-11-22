@@ -128,7 +128,7 @@ export default class InvoiceFilters extends Component {
                 </Col>
 
                 <Col md={1}>
-                    <CsvImporter filename="invoices.csv"
+                    <CsvImporter customers={this.props.customers} filename="invoices.csv"
                         url={`/api/invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&project_id=${project_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
             </Row>
