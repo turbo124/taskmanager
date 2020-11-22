@@ -183,7 +183,7 @@ export default class RecurringInvoices extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <RecurringInvoiceFilters setFilterOpen={this.setFilterOpen.bind(this)}
+                                <RecurringInvoiceFilters customers={customers} setFilterOpen={this.setFilterOpen.bind(this)}
                                     invoices={invoices}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterInvoices}
