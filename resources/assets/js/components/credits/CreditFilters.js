@@ -108,7 +108,7 @@ export default class CreditFilters extends Component {
 
                 <Col md={1}>
                     <CsvImporter filename="credits.csv"
-                        url={`/api/credits?status=${this.state.filters.status_id}&customer_id=${this.state.filters.customer_id} &start_date=${this.state.filters.start_date}&end_date=${this.state.filters.end_date}&page=1&per_page=5000`}/>
+                        url={`/api/credits?status=${this.state.filters.status_id}&customer_id=${this.state.filters.customer_id}&project_id=${this.state.filters.project_id}&user_id=${this.state.filters.user_id}&start_date=${this.state.filters.start_date}&end_date=${this.state.filters.end_date}&page=1&per_page=5000`}/>
                 </Col>
 
                 <Col md={2}>
