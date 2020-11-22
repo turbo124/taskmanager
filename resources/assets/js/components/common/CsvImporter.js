@@ -30,7 +30,7 @@ export default class CsvImporter extends Component {
                 dataObject[o] = dataObject[o] === true ? 'Yes' : 'No'
             }
 
-            const innerObject = dataObject[o] === null ? '' : this.convertField(o, dataObject[o], dataObject)
+            const innerValue = dataObject[o] === null ? '' : this.convertField(o, dataObject[o], dataObject)
 
             let result = innerValue.replace(/"/g, '""')
             result = '"' + result + '"'
