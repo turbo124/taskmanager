@@ -61,20 +61,20 @@ export default class CsvImporter extends Component {
         case 'amount'
             return formatMoney(value, entity.customer_id || null, props.customers || [])
         case 'status_id':
-            return !entity.deleted_at && this.props.statuses
-        ? this.props.statuses[object.status_id]
+            return !data.deleted_at && this.props.statuses
+        ? this.props.statuses[value]
         : translations.archived
         case 'priority_id':
             return this.props.priorities
-        ? this.props.priorities[object.priority_id]
+        ? this.props.priorities[value]
         : ''
         case 'frequency':
-            return translations[frequencyOptions[entity.frequency]]</td>
+            return translations[frequencyOptions[value]]</td>
         case 'date':
         case 'due_date':
         case 'date_to_send':
         case 'created_at':
-            return formatDate(entity)
+            return formatDate(value)
 
         case 'customer_id': {
             const index = this.props.customers && data.customer_id ? this.props.customers.findIndex(customer => customer.id === data.customer_id) : null
@@ -88,7 +88,7 @@ export default class CsvImporter extends Component {
         }
 
         case 'company_id': {
-            const companyIndex = this.props.companies && data.company_id ? this.props.companies.findIndex(company => company.id === value) : null
+            const companyIndex = this.props.companies && data.company_id ? this.props.companies.findIndex(company => company.id === parseInt(value)) : null
             const company = companyIndex !== null ? this.props.companies[companyIndex] : null
             return company !== null ? company.name : ''
         }
