@@ -90,7 +90,7 @@ FormatMoney.defaultProps = {
 export function formatMoney (total, customer_id = null, customers = []) {
     const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
     const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
-    settings = user_account[0].account.settings
+    const settings = user_account[0].account.settings
 
     if (customers.length && customer_id !== null) {
         const customer = customers.filter(customer => customer.id === parseInt(customer_id))
