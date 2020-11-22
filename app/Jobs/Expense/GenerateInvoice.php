@@ -41,7 +41,7 @@ class GenerateInvoice implements ShouldQueue
         $created_expenses = [];
 
         foreach ($this->expenses as $expense) {
-            if ($expense === Expense::STATUS_INVOICED || ($expense->customer->getSetting('expense_approval_required') && $expense->status_id !== Expense::STATUS_APPROVED)) {
+            if ($expense === Expense::STATUS_INVOICED || ($expense->customer->getSetting('expense_approval_required') === true && $expense->status_id !== Expense::STATUS_APPROVED)) {
                 continue;
             }
 
