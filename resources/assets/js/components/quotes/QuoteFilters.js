@@ -118,7 +118,7 @@ export default class QuoteFilters extends Component {
                 </Col>
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
-                    <CsvImporter filename="quotes.csv"
+                    <CsvImporter customers={this.props.customers} filename="quotes.csv"
                         url={`/api/quote?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&user_id=${user_id}&project_id=${project_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
