@@ -67,7 +67,7 @@ export default class ExpenseFilters extends Component {
     }
 
     getFilters () {
-        const { searchText, status_id, customer_id, company_id, start_date, end_date } = this.state.filters
+        const { searchText, status_id, customer_id, company_id, start_date, end_date, expense_category_id, user_id } = this.state.filters
         return (
             <Row form>
                 <Col md={2}>
@@ -100,7 +100,7 @@ export default class ExpenseFilters extends Component {
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter filename="expenses.csv"
-                        url={`/api/expenses?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
+                        url={`/api/expenses?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&company_id=${company_id}&expense_category_id=${expense_category_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">
