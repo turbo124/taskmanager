@@ -64,7 +64,7 @@ export default class RecurringQuoteFilters extends Component {
     }
 
     getFilters () {
-        const { status_id, customer_id, searchText, start_date, expiry_date } = this.state.filters
+        const { status_id, customer_id, searchText, start_date, expiry_date, user_id, project_id } = this.state.filters
 
         return (
             <Row form>
@@ -89,7 +89,7 @@ export default class RecurringQuoteFilters extends Component {
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter filename="recurringQuotes.csv"
-                        url={`/api/recurring-quote?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&expiry_date=${expiry_date}&page=1&per_page=5000`}/>
+                        url={`/api/recurring-quote?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&user_id=${user_id}&project_id=${project_id}&start_date=${start_date}&expiry_date=${expiry_date}&page=1&per_page=5000`}/>
                 </Col>
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">
