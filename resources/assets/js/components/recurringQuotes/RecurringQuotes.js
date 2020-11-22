@@ -186,7 +186,7 @@ export default class RecurringQuotes extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <RecurringQuoteFilters setFilterOpen={this.setFilterOpen.bind(this)}
+                                <RecurringQuoteFilters customers={customers} setFilterOpen={this.setFilterOpen.bind(this)}
                                     invoices={invoices}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterInvoices}
