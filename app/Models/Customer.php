@@ -168,26 +168,14 @@ class Customer extends Model implements HasLocalePreference
      */
     public function getSetting($setting)
     {
-        /*Customer Settings*/
-        if (!empty($this->settings->{$setting}) && !$this->checkObjectEmpty($this->settings->{$setting})) {
-            return $this->settings->{$setting};
-        }
+        
+        $merged = (object) array_merge(
+            array_filter((array)$this->settings, 'strval'), 
+            array_filter((array)$this->group_settings, 'strval'),
+            array_filter((array)$this->account->settings, 'strval')
+        );
 
-        /*Group Settings*/
-        if (!empty($this->group_settings) && !empty($this->group_settings->settings->{$setting}) && !$this->checkObjectEmpty(
-                $this->group_settings->settings->{$setting}
-            )) {
-            return $this->group_settings->settings->{$setting};
-        }
-
-        /*Account Settings*/
-        if (isset($this->account->settings->{$setting}) && !$this->checkObjectEmpty(
-                $this->account->settings->{$setting}
-            )) {
-            return $this->account->settings->{$setting};
-        }
-
-        return false;
+        return !empty($merged->{$setting}) ? $merged->{$setting} : false;
     }
 
     private function checkObjectEmpty($var)
