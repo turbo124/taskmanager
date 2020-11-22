@@ -6,6 +6,7 @@ import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import StatusDropdown from '../common/StatusDropdown'
+import { recurringInvoiceStatuses } from '../utils/_consts'
 
 export default class RecurringInvoiceFilters extends Component {
     constructor (props) {
@@ -90,7 +91,7 @@ export default class RecurringInvoiceFilters extends Component {
                 </Col>
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
-                    <CsvImporter customers={this.props.customers} filename="recurringInvoices.csv"
+                    <CsvImporter statuses={recurringInvoiceStatuses} customers={this.props.customers} filename="recurringInvoices.csv"
                         url={`/api/recurring-invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&project_id=${project_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
