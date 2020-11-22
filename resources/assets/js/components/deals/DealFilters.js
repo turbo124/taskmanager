@@ -69,7 +69,7 @@ export default class DealFilters extends Component {
     }
 
     getFilters () {
-        const { searchText, start_date, end_date, customer_id, project_id, task_status, task_type, user_id } = this.state.filters
+        const { searchText, start_date, end_date, customer_id, project_id, task_status_id, task_type, user_id } = this.state.filters
 
         return (
 
@@ -110,7 +110,7 @@ export default class DealFilters extends Component {
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter filename="tasks.csv"
-                        url={`/api/tasks?search_term=${searchText}&project_id=${project_id}&task_status=${task_status}&task_type=${task_type}&customer_id=${customer_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
+                        url={`/api/tasks?search_term=${searchText}&project_id=${project_id}&task_status=${task_status_id}&task_type=${task_type}&customer_id=${customer_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">
