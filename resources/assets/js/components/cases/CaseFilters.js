@@ -131,7 +131,7 @@ export default class CaseFilters extends Component {
                 </Col>
 
                 <Col md={1}>
-                    <CsvImporter filename="cases.csv"
+                    <CsvImporter customers={this.props.customers} filename="cases.csv"
                         url={`/api/cases?status=${this.state.filters.status_id}&customer_id=${this.state.filters.customer_id}&category_id=${this.state.filters.category_id}&priority_id=${this.state.filters.priority_id}&start_date=${this.state.filters.start_date}&end_date=${this.state.filters.end_date}&page=1&per_page=5000`}/>
                 </Col>
             </Row>
