@@ -169,7 +169,7 @@ export default class ProjectList extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <ProjectFilters setFilterOpen={this.setFilterOpen.bind(this)} projects={projects}
+                                <ProjectFilters customers={customers} setFilterOpen={this.setFilterOpen.bind(this)} projects={projects}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterProjects}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
