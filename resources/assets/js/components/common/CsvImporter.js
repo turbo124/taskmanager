@@ -64,6 +64,10 @@ export default class CsvImporter extends Component {
             return !entity.deleted_at && this.props.statuses
         ? this.props.statuses[object.status_id]
         : translations.archived
+        case 'priority_id':
+            return this.props.priorities
+        ? this.props.priorities[object.priority_id]
+        : ''
         case 'frequency':
             return translations[frequencyOptions[entity.frequency]]</td>
         case 'date':
