@@ -112,6 +112,15 @@ export default class ExpenseSettings extends Component {
         return [
             [
                 {
+                    name: 'expense_approval_required',
+                    label: translations.expense_approval_required,
+                    icon: `fa ${icons.envelope}`,
+                    type: 'switch',
+                    value: settings.expense_approval_required,
+                    help_text: translations.expense_approval_required_help,
+                    group: 1
+                },
+                {
                     name: 'expense_auto_create_invoice',
                     label: translations.expense_auto_create_invoice,
                     icon: `fa ${icons.envelope}`,
