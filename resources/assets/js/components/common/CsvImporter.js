@@ -6,6 +6,7 @@ import { icons } from '../utils/_icons'
 import { translations } from '../utils/_translations'
 import { formatDate } from './FormatDate'
 import { formatMoney } from './FormatMoney'
+import { frequencyOptions } from '../utils/_consts'
 
 export default class CsvImporter extends Component {
     constructor (props) {
