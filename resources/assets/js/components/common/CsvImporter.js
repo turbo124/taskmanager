@@ -29,7 +29,7 @@ export default class CsvImporter extends Component {
                 dataObject[o] = dataObject[o] === true ? 'Yes' : 'No'
             }
 
-            const innerValue = dataObject[o] === null ? '' : dataObject[o].toString()
+            const innerObject = dataObject[o] === null ? '' : this.convertField(o, dataObject[o], dataObject)
 
             let result = innerValue.replace(/"/g, '""')
             result = '"' + result + '"'
@@ -38,18 +38,15 @@ export default class CsvImporter extends Component {
         return dataArray.join(',') + '\r\n'
     }
 
-    convertField (entity) {
-        /* const status = !entity.deleted_at
-        ? <Badge color={invoiceStatusColors[entity_status]}></Badge>
-        : <Badge className="mr-2" color="warning">{translations.archived}</Badge> */
+    convertField (field, value, data) {
 
     switch (field) {
         case 'assigned_to': {
-            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.assigned_to))
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(value))
             return assigned_user && assigned_user.length ? `${assigned_user[0].first_name} ${assigned_user[0].last_name}` : ''
         }
         case 'user_id': {
-            const user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.user_id))
+            const user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(value))
             return `${user[0].first_name} ${user[0].last_name}`
         }
         case 'exchange_rate':
@@ -61,9 +58,11 @@ export default class CsvImporter extends Component {
         case 'paid_to_date':
         case 'payment_date':
         case 'amount'
-            return formatMoney(entity, entity.customer_id || null, props.customers || [])
+            return formatMoney(value, entity.customer_id || null, props.customers || [])
         case 'status_id':
-            return status
+            return !entity.deleted_at && this.props.statuses
+        ? this.props.statuses[object.status_id]
+        : translations.archived
         case 'frequency':
             return translations[frequencyOptions[entity.frequency]]</td>
         case 'date':
@@ -73,18 +72,18 @@ export default class CsvImporter extends Component {
             return formatDate(entity)
 
         case 'customer_id': {
-            const index = this.props.customers ? this.props.customers.findIndex(customer => customer.id === entity[field]) : null
+            const index = this.props.customers && data.customer_id ? this.props.customers.findIndex(customer => customer.id === data.customer_id) : null
             const customer = index !== null ? this.props.customers[index] : null
             return customer !== null ? customer.name : ''
         }
 
         case 'currency_id': {
-            const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(props.entity.currency_id))
+            const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(value))
             return currency.length ? currency[0].iso_code : ''
         }
 
         case 'company_id': {
-            const companyIndex = this.props.companies ? this.props.companies.findIndex(company => company.id === entity) : null
+            const companyIndex = this.props.companies && data.company_id ? this.props.companies.findIndex(company => company.id === value) : null
             const company = companyIndex !== null ? this.props.companies[companyIndex] : null
             return company !== null ? company.name : ''
         }
@@ -102,7 +101,7 @@ export default class CsvImporter extends Component {
                     let csvContent = 'data:text/csv;charset=utf-8,'
                     csvContent += this.objectToCSVRow(colNames, colNames, true)
 
-                    response.data.data.forEach((item) => {
+                    response.data.data.forEach((item, index) => {
                         csvContent += this.objectToCSVRow(item, colNames)
                     })
 
@@ -115,7 +114,7 @@ export default class CsvImporter extends Component {
                     document.body.removeChild(link)
                 }
             })
-    }
+    
 
     render () {
         return <React.Fragment>
