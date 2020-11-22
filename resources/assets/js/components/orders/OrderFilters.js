@@ -126,7 +126,7 @@ export default class OrderFilters extends Component {
                 </Col>
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
-                    <CsvImporter filename="orders.csv"
+                    <CsvImporter customers={this.props.customers} filename="orders.csv"
                         url={`/api/order?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&project_id=${project_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
             </Row>
