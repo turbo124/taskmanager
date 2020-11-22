@@ -8,6 +8,7 @@ import CsvImporter from '../common/CsvImporter'
 import { translations } from '../utils/_translations'
 import { consts } from '../utils/_consts'
 import StatusDropdown from '../common/StatusDropdown'
+import { creditStatuses } from '../utils/_consts'
 
 export default class CreditFilters extends Component {
     constructor (props) {
@@ -107,7 +108,7 @@ export default class CreditFilters extends Component {
                 </Col>
 
                 <Col md={1}>
-                    <CsvImporter customers={this.props.customers} filename="credits.csv"
+                    <CsvImporter statuses={creditStatuses} customers={this.props.customers} filename="credits.csv"
                         url={`/api/credits?status=${this.state.filters.status_id}&customer_id=${this.state.filters.customer_id}&project_id=${this.state.filters.project_id}&user_id=${this.state.filters.user_id}&start_date=${this.state.filters.start_date}&end_date=${this.state.filters.end_date}&page=1&per_page=5000`}/>
                 </Col>
 
