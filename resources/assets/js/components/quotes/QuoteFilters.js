@@ -8,6 +8,7 @@ import CsvImporter from '../common/CsvImporter'
 import { translations } from '../utils/_translations'
 import { consts } from '../utils/_consts'
 import StatusDropdown from '../common/StatusDropdown'
+import { quoteStatuses } from '../utils/_consts'
 
 export default class QuoteFilters extends Component {
     constructor (props) {
@@ -118,7 +119,7 @@ export default class QuoteFilters extends Component {
                 </Col>
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
-                    <CsvImporter customers={this.props.customers} filename="quotes.csv"
+                    <CsvImporter statuses={quoteStatuses} customers={this.props.customers} filename="quotes.csv"
                         url={`/api/quote?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&user_id=${user_id}&project_id=${project_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
