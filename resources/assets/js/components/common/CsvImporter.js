@@ -3,6 +3,7 @@ import axios from 'axios'
 import { UncontrolledTooltip } from 'reactstrap'
 import { translations } from '../utils/_translations'
 import { icons } from '../utils/_icons'
+import { translations } from '../utils/_translations'
 import { formatDate } from './FormatDate'
 import { formatMoney } from './FormatMoney'
 
@@ -57,9 +58,14 @@ export default class CsvImporter extends Component {
         case 'discount_total':
         case 'tax_total':
         case 'sub_total':
+        case 'paid_to_date':
+        case 'payment_date':
+        case 'amount'
             return formatMoney(entity, entity.customer_id || null, props.customers || [])
         case 'status_id':
             return status
+        case 'frequency':
+            return translations[frequencyOptions[entity.frequency]]</td>
         case 'date':
         case 'due_date':
         case 'date_to_send':
@@ -77,6 +83,11 @@ export default class CsvImporter extends Component {
             return currency.length ? currency[0].iso_code : ''
         }
 
+        case 'company_id': {
+            const companyIndex = this.props.companies ? this.props.companies.findIndex(company => company.id === entity) : null
+            const company = companyIndex !== null ? this.props.companies[companyIndex] : null
+            return company !== null ? company.name : ''
+        }
         default:
             return entity 
     }
