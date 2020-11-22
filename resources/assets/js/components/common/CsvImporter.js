@@ -3,6 +3,8 @@ import axios from 'axios'
 import { UncontrolledTooltip } from 'reactstrap'
 import { translations } from '../utils/_translations'
 import { icons } from '../utils/_icons'
+import { formatDate } from './FormatDate'
+import { formatMoney } from './FormatMoney'
 
 export default class CsvImporter extends Component {
     constructor (props) {
@@ -33,6 +35,51 @@ export default class CsvImporter extends Component {
             dataArray.push(result)
         }
         return dataArray.join(',') + '\r\n'
+    }
+
+    convertField (entity) {
+        /* const status = !entity.deleted_at
+        ? <Badge color={invoiceStatusColors[entity_status]}></Badge>
+        : <Badge className="mr-2" color="warning">{translations.archived}</Badge> */
+
+    switch (field) {
+        case 'assigned_to': {
+            const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.assigned_to))
+            return assigned_user && assigned_user.length ? `${assigned_user[0].first_name} ${assigned_user[0].last_name}` : ''
+        }
+        case 'user_id': {
+            const user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.user_id))
+            return `${user[0].first_name} ${user[0].last_name}`
+        }
+        case 'exchange_rate':
+        case 'balance':
+        case 'total':
+        case 'discount_total':
+        case 'tax_total':
+        case 'sub_total':
+            return formatMoney(entity, entity.customer_id || null, props.customers || [])
+        case 'status_id':
+            return status
+        case 'date':
+        case 'due_date':
+        case 'date_to_send':
+        case 'created_at':
+            return formatDate(entity)
+
+        case 'customer_id': {
+            const index = this.props.customers ? this.props.customers.findIndex(customer => customer.id === entity[field]) : null
+            const customer = index !== null ? this.props.customers[index] : null
+            return customer !== null ? customer.name : ''
+        }
+
+        case 'currency_id': {
+            const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(props.entity.currency_id))
+            return currency.length ? currency[0].iso_code : ''
+        }
+
+        default:
+            return entity 
+    }
     }
 
     export () {
