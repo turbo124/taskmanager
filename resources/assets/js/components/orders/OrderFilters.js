@@ -8,6 +8,7 @@ import FilterTile from '../common/FilterTile'
 import { translations } from '../utils/_translations'
 import { consts } from '../utils/_consts'
 import StatusDropdown from '../common/StatusDropdown'
+import { orderStatuses } from '../utils/_consts'
 
 export default class OrderFilters extends Component {
     constructor (props) {
@@ -126,7 +127,7 @@ export default class OrderFilters extends Component {
                 </Col>
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
-                    <CsvImporter customers={this.props.customers} filename="orders.csv"
+                    <CsvImporter statuses={orderStatuses} customers={this.props.customers} filename="orders.csv"
                         url={`/api/order?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&project_id=${project_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
             </Row>
