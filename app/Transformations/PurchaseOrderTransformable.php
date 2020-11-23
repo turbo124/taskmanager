@@ -64,6 +64,7 @@ trait PurchaseOrderTransformable
             'tax_rate_name'       => $po->tax_rate_name,
             'tax_rate_name_2'     => $po->tax_rate_name_2,
             'tax_rate_name_3'     => $po->tax_rate_name_3,
+            'viewed'              => (bool)$po->viewed
         ];
     }
 

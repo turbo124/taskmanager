@@ -3,9 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Bank;
-use App\Models\Product;
 use App\Repositories\Base\BaseRepositoryInterface;
-use Illuminate\Support\Collection;
 
 interface BankRepositoryInterface extends BaseRepositoryInterface
 {

@@ -72,6 +72,7 @@ class CreateProductTaskTable extends Migration
             $table->string('tax_rate_name_3', 100)->nullable();
             $table->unsignedInteger('payment_id')->nullable();
             $table->tinyInteger('payment_taken')->default(0);
+            $table->tinyInteger('viewed')->default(0);
         });
     }
 

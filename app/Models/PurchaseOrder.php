@@ -34,7 +34,9 @@ class PurchaseOrder extends Model
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
         'is_deleted' => 'boolean',
+        'viewed'     => 'boolean'
     ];
+
     /**
      * The attributes that are mass assignable.
      *

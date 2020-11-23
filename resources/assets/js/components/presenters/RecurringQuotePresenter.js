@@ -63,6 +63,12 @@ export default function RecurringQuotePresenter (props) {
                 data-label="Customer">{customer.name}</td>
         }
 
+        case 'currency_id': {
+            const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(props.entity.currency_id))
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label={field}>{currency.length ? currency[0].iso_code : ''}</td>
+        }
+
         default:
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} key={field}
                 data-label={field}>{entity[field]}</td>

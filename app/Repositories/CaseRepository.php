@@ -13,10 +13,10 @@ use App\Models\Cases;
 use App\Models\CaseTemplate;
 use App\Models\User;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\CaseRepositoryInterface;
+use App\Requests\SearchRequest;
 use App\Search\CaseSearch;
 use Carbon\Carbon;
-use App\Requests\SearchRequest;
-use App\Repositories\Interfaces\CaseRepositoryInterface;
 
 class CaseRepository extends BaseRepository implements CaseRepositoryInterface
 {

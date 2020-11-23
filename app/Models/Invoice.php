@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Events\Invoice\InvoiceWasDeleted;
-use App\Search\CustomerSearch;
 use App\Services\Invoice\InvoiceService;
 use App\Services\Transaction\TransactionService;
 use App\Traits\Balancer;
@@ -46,6 +45,7 @@ class Invoice extends Model
         'updated_at'  => 'timestamp',
         'deleted_at'  => 'timestamp',
         'is_deleted'  => 'boolean',
+        'viewed'      => 'boolean'
     ];
     /**
      * The attributes that are mass assignable.

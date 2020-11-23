@@ -34,52 +34,6 @@ class Authorize extends BasePaymentGateway
         return $this->chargeCustomerProfile($amount, $invoice);
     }
 
-    /**
-     * @param Payment $payment
-     * @return Payment|null
-     */
-    public function capturePayment(Payment $payment): ?Payment
-    {
-        $config = $this->setupConfig();
-
-        // Set the transaction's refId
-        $refId = 'ref' . time();
-
-        $transactionRequestType = new TransactionRequestType();
-        $transactionRequestType->setTransactionType("priorAuthCaptureTransaction");
-        $transactionRequestType->setRefTransId($payment->transaction_reference);
-
-        $request = new CreateTransactionRequest();
-        $request->setMerchantAuthentication($config);
-        $request->setTransactionRequest($transactionRequestType);
-
-        $controller = new CreateTransactionController($request);
-        $response = $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
-
-        if ($response != null) {
-            if ($response->getMessages()->getResultCode() == "Ok") {
-                $tresponse = $response->getTransactionResponse();
-
-                if ($tresponse != null && $tresponse->getMessages() != null) {
-                    return $payment->fresh();
-                }
-            }
-
-            if ($tresponse->getErrors() != null) {
-                $errors['data']['error_code'] = $tresponse->getErrors()[0]->getErrorCode();
-                $errors['data']['message'] = $tresponse->getErrors()[0]->getErrorText();
-            }
-        }
-
-        if (!empty($errors)) {
-            $this->addErrorToLog($payment->user, $errors);
-
-            return null;
-        }
-
-        return null;
-    }
-
     private function chargeCustomerProfile($amount, Invoice $invoice = null): ?Payment
     {
         $config = $this->setupConfig();
@@ -153,5 +107,51 @@ class Authorize extends BasePaymentGateway
         $config->setTransactionKey($gateway_config->transactionKey);
 
         return $config;
+    }
+
+    /**
+     * @param Payment $payment
+     * @return Payment|null
+     */
+    public function capturePayment(Payment $payment): ?Payment
+    {
+        $config = $this->setupConfig();
+
+        // Set the transaction's refId
+        $refId = 'ref' . time();
+
+        $transactionRequestType = new TransactionRequestType();
+        $transactionRequestType->setTransactionType("priorAuthCaptureTransaction");
+        $transactionRequestType->setRefTransId($payment->transaction_reference);
+
+        $request = new CreateTransactionRequest();
+        $request->setMerchantAuthentication($config);
+        $request->setTransactionRequest($transactionRequestType);
+
+        $controller = new CreateTransactionController($request);
+        $response = $controller->executeWithApiResponse(ANetEnvironment::SANDBOX);
+
+        if ($response != null) {
+            if ($response->getMessages()->getResultCode() == "Ok") {
+                $tresponse = $response->getTransactionResponse();
+
+                if ($tresponse != null && $tresponse->getMessages() != null) {
+                    return $payment->fresh();
+                }
+            }
+
+            if ($tresponse->getErrors() != null) {
+                $errors['data']['error_code'] = $tresponse->getErrors()[0]->getErrorCode();
+                $errors['data']['message'] = $tresponse->getErrors()[0]->getErrorText();
+            }
+        }
+
+        if (!empty($errors)) {
+            $this->addErrorToLog($payment->user, $errors);
+
+            return null;
+        }
+
+        return null;
     }
 }

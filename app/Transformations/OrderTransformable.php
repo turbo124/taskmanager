@@ -65,6 +65,7 @@ trait OrderTransformable
             'tax_rate_name'       => $order->tax_rate_name,
             'tax_rate_name_2'     => $order->tax_rate_name_2,
             'tax_rate_name_3'     => $order->tax_rate_name_3,
+            'viewed'              => (bool)$order->viewed
         ];
     }
 

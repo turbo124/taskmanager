@@ -27,7 +27,7 @@ class QuoteToRecurringQuoteFactory
         $recurring_invoice->user_id = $quote->user_id;
         $recurring_invoice->account_id = $quote->account_id;
         $recurring_invoice->frequency = 'MONTHLY';
-        
+
         return $recurring_invoice;
     }
 }

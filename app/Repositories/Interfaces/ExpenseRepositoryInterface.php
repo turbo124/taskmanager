@@ -4,9 +4,7 @@ namespace App\Repositories\Interfaces;
 
 use App\Models\Account;
 use App\Models\Expense;
-use App\Models\Task;
 use App\Requests\SearchRequest;
-use Illuminate\Support\Collection;
 
 interface ExpenseRepositoryInterface
 {

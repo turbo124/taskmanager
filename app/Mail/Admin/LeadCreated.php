@@ -60,7 +60,7 @@ class LeadCreated extends AdminMailer
      */
     private function buildMessage(): array
     {
-       return [
+        return [
             'title'       => $this->subject,
             'body'        => $this->message,
             'url'         => config('taskmanager.site_url') . '/portal/leads/' . $this->lead->id,

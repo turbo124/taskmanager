@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button, DropdownItem, Modal, ModalBody } from 'reactstrap'
-import axios from 'axios'
 import SuccessMessage from '../../common/SucessMessage'
 import ErrorMessage from '../../common/ErrorMessage'
 import { icons } from '../../utils/_icons'
@@ -115,7 +114,8 @@ class EditBankAccount extends React.Component {
         const button = this.props.listView && this.props.listView === true
             ? <DropdownItem onClick={this.toggle}><i className={`fa ${icons.edit}`}/>{translations.edit_bank_account}
             </DropdownItem>
-            : <Button className="mr-2 ml-2" color="primary" onClick={this.toggle}> {translations.edit_bank_account}</Button>
+            : <Button className="mr-2 ml-2" color="primary"
+                onClick={this.toggle}> {translations.edit_bank_account}</Button>
 
         const successMessage = this.state.showSuccessMessage === true
             ? <SuccessMessage message="Invoice was updated successfully"/> : null
@@ -136,7 +136,8 @@ class EditBankAccount extends React.Component {
                         {successMessage}
                         {errorMessage}
 
-                        <Details banks={this.props.banks} is_new={false} errors={this.state.errors} bank_account={this.state}
+                        <Details banks={this.props.banks} is_new={false} errors={this.state.errors}
+                            bank_account={this.state}
                             handleInput={this.handleInput.bind(this)} hasErrorFor={this.hasErrorFor}
                             renderErrorFor={this.renderErrorFor} customers={this.props.customers}/>
 

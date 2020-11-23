@@ -2,8 +2,6 @@
 
 namespace App\Events\Project;
 
-use App\Models\Cases;
-use App\Models\Company;
 use App\Models\Project;
 use Illuminate\Queue\SerializesModels;
 
@@ -15,7 +13,7 @@ class ProjectWasUpdated
     use SerializesModels;
 
     /**
-     * @var Project 
+     * @var Project
      */
     public Project $project;
 

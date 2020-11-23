@@ -2,7 +2,6 @@
 
 namespace App\Events\Company;
 
-use App\Models\Cases;
 use App\Models\Company;
 use Illuminate\Queue\SerializesModels;
 

@@ -2,8 +2,6 @@
 
 namespace App\Events\Cases;
 
-use App\Models\Cases;
-use App\Models\Company;
 use App\Models\RecurringInvoice;
 use Illuminate\Queue\SerializesModels;
 

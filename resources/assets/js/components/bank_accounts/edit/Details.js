@@ -3,7 +3,6 @@ import { FormGroup, Input, Label } from 'reactstrap'
 import BankDropdown from '../../common/dropdowns/BankDropdown'
 import { translations } from '../../utils/_translations'
 import UserDropdown from '../../common/dropdowns/UserDropdown'
-import Datepicker from '../../common/Datepicker'
 
 export default function Details (props) {
     return (<React.Fragment>

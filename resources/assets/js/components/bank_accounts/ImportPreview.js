@@ -1,8 +1,16 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
-import DataRow from "./DataRow";
+import DataRow from './DataRow'
 
 export default class ImportPreview extends Component {
+    constructor (props) {
+        super(props)
+
+        this.state = {
+            checkedRows: []
+        }
+    }
+
     static noop () {
         return null
     }
@@ -28,14 +36,6 @@ export default class ImportPreview extends Component {
                 index={index}
             />
         )
-    }
-
-    constructor (props) {
-        super(props)
-
-        this.state = {
-            checkedRows: []
-        }
     }
 
     renderLoadingTable () {
@@ -375,7 +375,7 @@ export default class ImportPreview extends Component {
                 style={{ cursor }}
             >
                 {canOrderBy && prependOrderByIcon ? orderByIcon : ''}
-                { field.label }
+                {field.label}
                 &nbsp;
                 {canOrderBy && !prependOrderByIcon ? orderByIcon : ''}
             </th>
@@ -389,7 +389,7 @@ export default class ImportPreview extends Component {
         if (!buttons.length && !actions.length) {
             return null
         } else if (!actions.length) {
-            return <th />
+            return <th/>
         }
 
         return (
@@ -421,7 +421,7 @@ export default class ImportPreview extends Component {
         if (!buttons.length && !actions.length) {
             return null
         } else if (!actions.length) {
-            return <th />
+            return <th/>
         }
 
         return (

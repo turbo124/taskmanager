@@ -5,11 +5,9 @@ namespace App\Services\Order;
 use App\Components\Payment\Gateways\GatewayFactory;
 use App\Models\Customer;
 use App\Models\CustomerGateway;
-use App\Models\Order;
 use App\Models\Invoice;
+use App\Models\Order;
 use App\Models\Payment;
-use App\Models\Product;
-use App\Models\ProductAttribute;
 
 class CompleteOrderPayment
 {
@@ -29,42 +27,33 @@ class CompleteOrderPayment
 
     public function execute(): bool
     {
-       $payment = Payment::where('id', $this->order->payment_id)->first();
+        $payment = Payment::where('id', $this->order->payment_id)->first();
 
-       $payment = $this->capturePayment($payment);
+        $payment = $this->capturePayment($payment);
 
-       if(!$payment) {
-           return false;
-       }
+        if (!$payment) {
+            return false;
+        }
 
-       $this->updatePayment($payment);
+        $this->updatePayment($payment);
 
-       $this->updateInvoice();
-       $this->updateCustomer();
-       $this->updateOrder();
+        $this->updateInvoice();
+        $this->updateCustomer();
+        $this->updateOrder();
 
-       return true;
+        return true;
     }
-   
+
     private function capturePayment(Payment $payment): ?Payment
     {
         $customer_gateway = CustomerGateway::where('company_gateway_id', $payment->company_gateway_id)->first();
 
         $company_gateway = $customer_gateway->company_gateway;
         $objGateway = (new GatewayFactory($customer_gateway, $company_gateway))->create($payment->customer);
-       
+
         $payment = $objGateway->capturePayment($payment);
 
         return $payment;
-    }
-
-    private function updateOrder (): bool
-    {
-        $this->order->reduceBalance($this->order->total);
-        $this->order->setStatus(Order::STATUS_PAID);
-        $this->order->payment_taken = true;
-        $this->order->save();
-        return true;
     }
 
     private function updatePayment(Payment $payment): bool
@@ -77,7 +66,7 @@ class CompleteOrderPayment
 
     private function updateInvoice(): Invoice
     {
-         // update invoice
+        // update invoice
         $invoice = Invoice::where('id', $this->order->invoice_id)->first();
         $invoice->reduceBalance($this->order->total);
         $invoice->setStatus(Invoice::STATUS_PAID);
@@ -93,5 +82,14 @@ class CompleteOrderPayment
         $this->order->customer->save();
 
         return $this->order->customer;
+    }
+
+    private function updateOrder(): bool
+    {
+        $this->order->reduceBalance($this->order->total);
+        $this->order->setStatus(Order::STATUS_PAID);
+        $this->order->payment_taken = true;
+        $this->order->save();
+        return true;
     }
 }

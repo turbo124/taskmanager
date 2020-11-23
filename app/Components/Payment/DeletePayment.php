@@ -56,7 +56,6 @@ class DeletePayment
         ) ? (int)$this->payment->customer->getSetting('credit_payment_deleted_status') : Credit::STATUS_SENT;
 
         foreach ($paymentable_credits as $id => $paymentable_credit) {
-
             $credit = $credits[$id];
 
             $paymentable_credit->delete();

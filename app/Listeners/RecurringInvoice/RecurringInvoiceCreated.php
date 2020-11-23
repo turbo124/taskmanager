@@ -41,7 +41,10 @@ class RecurringInvoiceCreated implements ShouldQueue
         $fields['type'] = get_class($this);
         $fields['data'] = json_encode($fields['data']);
 
-        $notification = NotificationFactory::create($event->recurring_invoice->account_id, $event->recurring_invoice->user_id);
+        $notification = NotificationFactory::create(
+            $event->recurring_invoice->account_id,
+            $event->recurring_invoice->user_id
+        );
         $notification->entity_id = $event->recurring_invoice->id;
         $this->notification_repo->save($notification, $fields);
     }

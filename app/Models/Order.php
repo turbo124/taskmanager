@@ -54,6 +54,7 @@ class Order extends Model
         'deleted_at'    => 'timestamp',
         'is_deleted'    => 'boolean',
         'payment_taken' => 'boolean',
+        'viewed'        => 'boolean'
     ];
 
     protected $fillable = [

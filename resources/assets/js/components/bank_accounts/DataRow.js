@@ -22,9 +22,9 @@ class DataRow extends Component {
                 onMouseDown={e => onMouseDown(e, row)}
                 onContextMenu={e => onContextMenu(e, row)}
             >
-                { this.renderCheckboxCell() }
-                { fields.map(field => this.renderCell(field, row)) }
-                { this.renderButtons(row) }
+                {this.renderCheckboxCell()}
+                {fields.map(field => this.renderCell(field, row))}
+                {this.renderButtons(row)}
             </tr>
         )
     }
@@ -50,7 +50,7 @@ class DataRow extends Component {
         )
 
         return (
-            <td>{ checkbox }</td>
+            <td>{checkbox}</td>
         )
     }
 
@@ -89,10 +89,11 @@ class DataRow extends Component {
 
             return (
                 <td key={key}>
-                    <input className="form-control" type={column.type} defaultValue={value} value={column.controlled ? value : undefined} onChange={event => {
-                        event.stopPropagation()
-                        column.onChange(event, field.name, row, index)
-                    }} />
+                    <input className="form-control" type={column.type} defaultValue={value}
+                        value={column.controlled ? value : undefined} onChange={event => {
+                            event.stopPropagation()
+                            column.onChange(event, field.name, row, index)
+                        }}/>
                 </td>
             )
         }
@@ -114,7 +115,7 @@ class DataRow extends Component {
         }
 
         return (
-            <td key={key}>{ value }</td>
+            <td key={key}>{value}</td>
         )
     }
 
@@ -128,7 +129,7 @@ class DataRow extends Component {
         if (!buttons.length && !actions.length) {
             return null
         } else if (!buttons.length) {
-            return <td />
+            return <td/>
         }
 
         const button = buttons[0]
@@ -153,7 +154,7 @@ class DataRow extends Component {
                         <span className="sr-only">Toggle Dropdown</span>
                     </button>
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        { buttons.map((button, index) => this.renderButton(button, index, row))}
+                        {buttons.map((button, index) => this.renderButton(button, index, row))}
                     </div>
                 </div>
             </td>

@@ -23,6 +23,7 @@ class AccountFactory extends Factory
     {
         $domain = \App\Models\Domain::first();
         $settings = (new \App\Settings\AccountSettings)->getAccountDefaults();
+
         $settings->phone = $this->faker->phoneNumber;
         $settings->website = $this->faker->url;
         $settings->address1 = $this->faker->address;

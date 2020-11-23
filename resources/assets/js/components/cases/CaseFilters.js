@@ -7,8 +7,9 @@ import CustomerDropdown from '../common/dropdowns/CustomerDropdown'
 import CaseCategoryDropdown from '../common/dropdowns/CaseCategoryDropdown'
 import CasePriorityDropdown from '../common/dropdowns/CasePriorityDropdown'
 import StatusDropdown from '../common/StatusDropdown'
-import { consts } from '../utils/_consts'
+import { caseLinkTypes, casePriorities, caseStatuses, consts } from '../utils/_consts'
 import { translations } from '../utils/_translations'
+import CsvImporter from '../common/CsvImporter'
 
 export default class CaseFilters extends Component {
     constructor (props) {
@@ -127,6 +128,12 @@ export default class CaseFilters extends Component {
                     <FormGroup>
                         <DateFilter onChange={this.filterCases}/>
                     </FormGroup>
+                </Col>
+
+                <Col md={1}>
+                    <CsvImporter links={caseLinkTypes} priorities={casePriorities} statuses={caseStatuses}
+                        customers={this.props.customers} filename="cases.csv"
+                        url={`/api/cases?status=${this.state.filters.status_id}&customer_id=${this.state.filters.customer_id}&category_id=${this.state.filters.category_id}&priority_id=${this.state.filters.priority_id}&start_date=${this.state.filters.start_date}&end_date=${this.state.filters.end_date}&page=1&per_page=5000`}/>
                 </Col>
             </Row>
         )

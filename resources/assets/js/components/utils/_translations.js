@@ -729,6 +729,8 @@ _localizedValues.en = {
     include_expense_documents: 'Add documents to invoice',
     create_expense_payment: 'Create Payment',
     convert_expense_currency: 'Convert currency',
+    expense_approval_required: 'Requires approval',
+    expense_approval_required_help: 'Approval is required before generating invoices',
     task_automation_enabled: 'Start tasks automatically',
     task_automation_enabled_help: 'Task should start automatically',
     show_tasks_onload: 'Show tasks on load',

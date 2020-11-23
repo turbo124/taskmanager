@@ -84,7 +84,7 @@ class CreditSearch extends BaseSearch
         if (strlen($filter) == 0) {
             return false;
         }
-        
+
         $this->query->where(
             function ($query) use ($filter) {
                 $query->where('credits.number', 'like', '%' . $filter . '%')

@@ -17,7 +17,7 @@ class BaseSettings
             'default_value'    => false,
             'type'             => 'bool'
         ],
-        'order_charge_point'                 => [
+        'order_charge_point'                   => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 'on_creation',
@@ -84,6 +84,12 @@ class BaseSettings
             'type'             => 'string'
         ],
         'should_send_email_for_manual_payment' => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'expense_approval_required'            => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => true,
@@ -203,7 +209,7 @@ class BaseSettings
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'percent_to_charge_endless'             => [
+        'percent_to_charge_endless'            => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,
@@ -233,7 +239,7 @@ class BaseSettings
             'default_value'    => false,
             'type'             => 'bool'
         ],
-        'amount_to_charge_endless'              => [
+        'amount_to_charge_endless'             => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 0,

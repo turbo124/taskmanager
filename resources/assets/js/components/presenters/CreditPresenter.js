@@ -50,6 +50,12 @@ export default function CreditPresenter (props) {
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label={field}>{`${user[0].first_name} ${user[0].last_name}`}</td>
         }
+
+        case 'currency_id': {
+            const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(props.entity.currency_id))
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label={field}>{currency.length ? currency[0].iso_code : ''}</td>
+        }
         default:
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} key={field}
                 data-label={field}>{entity[field]}</td>

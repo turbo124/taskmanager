@@ -2,7 +2,7 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { invoiceStatusColors, invoiceStatuses } from '../utils/_consts'
+import { consts, invoiceStatusColors, invoiceStatuses } from '../utils/_consts'
 import InvoiceModel from '../models/InvoiceModel'
 import { translations } from '../utils/_translations'
 
@@ -11,8 +11,9 @@ export default function InvoicePresenter (props) {
 
     const objInvoiceModel = new InvoiceModel(entity, props.customers)
     const is_late = objInvoiceModel.isLate()
+    const is_viewed = objInvoiceModel.isViewed
 
-    const entity_status = is_late === true ? 100 : entity.status_id
+    const entity_status = (is_viewed === true) ? (consts.invoice_status_viewed) : ((is_late === true) ? (100) : (entity.status_id))
 
     const status = !entity.deleted_at
         ? <Badge color={invoiceStatusColors[entity_status]}>{invoiceStatuses[entity_status]}</Badge>
@@ -58,6 +59,12 @@ export default function InvoicePresenter (props) {
             const customer = props.customers[index]
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
                 data-label="Customer">{customer.name}</td>
+        }
+
+        case 'currency_id': {
+            const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(props.entity.currency_id))
+            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
+                data-label={field}>{currency.length ? currency[0].iso_code : ''}</td>
         }
 
         default:

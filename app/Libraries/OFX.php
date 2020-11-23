@@ -20,7 +20,6 @@ class OFX
 
     public function go()
     {
-
         $c = curl_init();
         curl_setopt($c, CURLOPT_URL, $this->bank->url);
         curl_setopt($c, CURLOPT_POST, 1);
@@ -92,7 +91,6 @@ class Login
 
     function setup()
     {
-
         $ofxRequest =
             "OFXHEADER:100\n" .
             "DATA:OFXSGML\n" .

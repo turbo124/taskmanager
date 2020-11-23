@@ -32,7 +32,7 @@ class PurchaseOrderService extends ServiceBase
     public function __construct(PurchaseOrder $purchase_order)
     {
         $config = [
-            'email' => $purchase_order->account->settings->should_email_purchase_order,
+            'email'   => $purchase_order->account->settings->should_email_purchase_order,
             'archive' => $purchase_order->account->settings->should_archive_purchase_order
         ];
 

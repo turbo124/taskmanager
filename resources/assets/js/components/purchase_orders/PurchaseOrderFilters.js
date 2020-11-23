@@ -6,7 +6,7 @@ import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import { translations } from '../utils/_translations'
-import { consts } from '../utils/_consts'
+import { consts, purchaseOrderStatuses } from '../utils/_consts'
 import StatusDropdown from '../common/StatusDropdown'
 
 export default class PurchaseOrderFilters extends Component {
@@ -85,7 +85,7 @@ export default class PurchaseOrderFilters extends Component {
     }
 
     getFilters () {
-        const { status_id, company_id, searchText, start_date, end_date } = this.state.filters
+        const { status_id, company_id, searchText, start_date, end_date, project_id, user_id } = this.state.filters
 
         return (
             <Row form>
@@ -110,8 +110,9 @@ export default class PurchaseOrderFilters extends Component {
                 </Col>
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
-                    <CsvImporter filename="purchase_orders.csv"
-                        url={`/api/purchase_order?search_term=${searchText}&status=${status_id}&company_id=${company_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
+                    <CsvImporter statuses={purchaseOrderStatuses} companies={this.props.companies}
+                        filename="purchase_orders.csv"
+                        url={`/api/purchase_order?search_term=${searchText}&status=${status_id}&company_id=${company_id}&project_id=${project_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">

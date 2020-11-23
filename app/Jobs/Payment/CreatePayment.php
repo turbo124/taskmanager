@@ -75,9 +75,9 @@ class CreatePayment implements ShouldQueue
         $payment = $this->createPayment($charge_point === 'on_creation');
         $this->attachInvoices($payment, $charge_point === 'on_creation');
 
-        if($charge_point === 'on_creation') {
-           $order->reduceBalance($this->data['amount']);
-           $order->payment_taken = true;
+        if ($charge_point === 'on_creation') {
+            $order->reduceBalance($this->data['amount']);
+            $order->payment_taken = true;
         }
 
         $order->setStatus($charge_point === 'on_creation' ? Order::STATUS_PAID : Order::STATUS_DRAFT);
@@ -135,7 +135,7 @@ class CreatePayment implements ShouldQueue
                 return $this->createCreditsFromInvoice($invoice, $payment);
             }
 
-            if($complete_payment === true) {
+            if ($complete_payment === true) {
                 $this->updateCustomer($payment, $amount);
 
                 $invoice->reduceBalance($amount);

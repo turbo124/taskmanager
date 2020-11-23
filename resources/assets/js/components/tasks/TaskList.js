@@ -232,7 +232,8 @@ export default class TaskList extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <TaskFilters setFilterOpen={this.setFilterOpen.bind(this)} users={users}
+                                <TaskFilters customers={customers} setFilterOpen={this.setFilterOpen.bind(this)}
+                                    users={users}
                                     tasks={tasks} updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterTasks}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>

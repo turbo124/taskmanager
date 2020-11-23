@@ -73,6 +73,7 @@ class CreateRecurringQuotesTable extends Migration
             $table->string('tax_rate_name_3', 100)->nullable();
             $table->dateTime('partial_due_date')->nullable();
             $table->tinyInteger('is_never_ending')->default(0);
+            $table->tinyInteger('viewed')->default(0);
         });
     }
 

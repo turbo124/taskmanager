@@ -62,6 +62,7 @@ import CaseTemplates from './case_templates/CaseTemplates'
 import PurchaseOrders from './purchase_orders/PurchaseOrders'
 import BankAccounts from './bank_accounts/BankAccountList'
 import BankAccountImport from './bank_accounts/Import'
+import DesignEditor from './designs/DesignEditor'
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -312,6 +313,11 @@ const routes = [
         path: '/designs',
         name: 'Designs',
         component: Designs_backup
+    },
+    {
+        path: '/design-editor',
+        name: 'Design Editor',
+        component: DesignEditor
     },
     {
         path: '/integration-settings',

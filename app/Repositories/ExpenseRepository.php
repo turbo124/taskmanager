@@ -68,15 +68,6 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
         return $expense;
     }
 
-    public function updateExpense(array $data, Expense $expense): ?Expense
-    {
-        $expense = $this->save($data, $expense);
-
-        event(new ExpenseWasUpdated($expense));
-
-        return $expense;
-    }
-
     /**
      * @param array $data
      * @param Expense $expense
@@ -87,6 +78,15 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
         $expense->fill($data);
         $expense->setNumber();
         $expense->save();
+
+        return $expense;
+    }
+
+    public function updateExpense(array $data, Expense $expense): ?Expense
+    {
+        $expense = $this->save($data, $expense);
+
+        event(new ExpenseWasUpdated($expense));
 
         return $expense;
     }

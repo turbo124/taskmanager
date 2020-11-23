@@ -69,7 +69,7 @@ trait MakesInvoiceHtml
             ) === true ? '<span style="margin-bottom: 20px">Client Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $client_signature . '"/>' : '';
         }
 
-        if($entity_string === 'dispatch_note') {
+        if ($entity_string === 'dispatch_note') {
             $signature = '';
             $client_signature = '';
         }

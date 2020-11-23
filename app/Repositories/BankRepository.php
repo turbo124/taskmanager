@@ -5,8 +5,6 @@ namespace App\Repositories;
 use App\Models\Bank;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\BankRepositoryInterface;
-use Exception;
-use Illuminate\Support\Collection;
 
 class BankRepository extends BaseRepository implements BankRepositoryInterface
 {

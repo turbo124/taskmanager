@@ -6,7 +6,7 @@ import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import { translations } from '../utils/_translations'
-import { consts } from '../utils/_consts'
+import { consts, creditStatuses } from '../utils/_consts'
 import StatusDropdown from '../common/StatusDropdown'
 
 export default class CreditFilters extends Component {
@@ -107,8 +107,8 @@ export default class CreditFilters extends Component {
                 </Col>
 
                 <Col md={1}>
-                    <CsvImporter filename="credits.csv"
-                        url={`/api/credits?status=${this.state.filters.status_id}&customer_id=${this.state.filters.customer_id} &start_date=${this.state.filters.start_date}&end_date=${this.state.filters.end_date}&page=1&per_page=5000`}/>
+                    <CsvImporter statuses={creditStatuses} customers={this.props.customers} filename="credits.csv"
+                        url={`/api/credits?status=${this.state.filters.status_id}&customer_id=${this.state.filters.customer_id}&project_id=${this.state.filters.project_id}&user_id=${this.state.filters.user_id}&start_date=${this.state.filters.start_date}&end_date=${this.state.filters.end_date}&page=1&per_page=5000`}/>
                 </Col>
 
                 <Col md={2}>

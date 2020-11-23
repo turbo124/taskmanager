@@ -168,10 +168,12 @@ export default class BankAccountList extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <BankAccountFilters setFilterOpen={this.setFilterOpen.bind(this)} bank_accounts={bank_accounts}
+                                <BankAccountFilters setFilterOpen={this.setFilterOpen.bind(this)}
+                                    bank_accounts={bank_accounts}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterBankAccounts}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}
+                                    ignoredColumns={this.state.ignoredColumns}/>
                                 <AddBankAccount banks={banks} bank_accounts={bank_accounts} action={this.addUserToState}
                                     custom_fields={custom_fields}/>
                             </CardBody>

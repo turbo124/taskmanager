@@ -64,7 +64,7 @@ class PdfColumns
     ];
 
     private $entity_columns = [
-        'order'   => [
+        'order'         => [
             '$order.number'      => '<span>$order.number_label: $order.number</span>',
             '$order.po_number'   => '<span>$order.po_number_label: $order.po_number</span>',
             '$order.order_date'  => '<span>$order.date_label: $order.date</span>',
@@ -81,19 +81,19 @@ class PdfColumns
             '$surcharge3'        => '<span>$surcharge3_label: $surcharge3</span>',
             '$surcharge4'        => '<span>$surcharge4_label: $surcharge4</span>',
         ],
-        'case'    => [
+        'case'          => [
 
         ],
-        'task'    => [
+        'task'          => [
 
         ],
-        'deal'    => [
+        'deal'          => [
 
         ],
-        'lead'    => [
+        'lead'          => [
 
         ],
-        'invoice' => [
+        'invoice'       => [
             '$invoice.number'        => '<span>$invoice.number_label: $invoice.number</span>',
             '$invoice.po_number'     => '<span>$invoice.po_number_label: $invoice.po_number</span>',
             '$invoice.invoice_date'  => '<span>$invoice.date_label: $invoice.date</span>',
@@ -116,7 +116,7 @@ class PdfColumns
             '$invoice.invoice_date'  => '<span>$invoice.date_label: $invoice.date</span>',
             '$invoice.invoice_total' => '<span>$invoice.total_label: $invoice.total</span>'
         ],
-        'quote' => [
+        'quote'         => [
             '$quote.number'      => '<span>$invoice.number_label: $invoice.number</span>',
             '$quote.po_number'   => '<span>$quote.po_number_label: $quote.po_number</span>',
             '$quote.quote_date'  => '<span>$quote.date_label: $quote.date</span>',

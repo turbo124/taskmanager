@@ -59,7 +59,7 @@ class ConvertQuoteToInvoice
         $this->invoice_repo->markSent($invoice);
 
         $this->quote->setInvoiceId($invoice->id);
-        $this->quote->setStatus(Quote::STATUS_INVOICED);
+        $this->quote->setStatus(Quote::STATUS_CONVERTED);
         $this->quote->save();
 
         return $invoice;

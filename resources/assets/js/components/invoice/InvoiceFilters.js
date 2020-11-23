@@ -5,7 +5,7 @@ import TableSearch from '../common/TableSearch'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
-import { consts } from '../utils/_consts'
+import { consts, invoiceStatuses } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 import StatusDropdown from '../common/StatusDropdown'
 
@@ -99,7 +99,7 @@ export default class InvoiceFilters extends Component {
     }
 
     getFilters () {
-        const { status_id, customer_id, searchText, start_date, end_date } = this.state.filters
+        const { status_id, customer_id, searchText, start_date, end_date, project_id, user_id } = this.state.filters
         return (
             <Row form>
                 <Col md={3}>
@@ -128,8 +128,8 @@ export default class InvoiceFilters extends Component {
                 </Col>
 
                 <Col md={1}>
-                    <CsvImporter filename="invoices.csv"
-                        url={`/api/invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
+                    <CsvImporter statuses={invoiceStatuses} customers={this.props.customers} filename="invoices.csv"
+                        url={`/api/invoice?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&project_id=${project_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
             </Row>
         )
