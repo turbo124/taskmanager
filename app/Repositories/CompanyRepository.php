@@ -84,7 +84,7 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
         $company->setNumber();
         $company->save();
 
-        if($is_add) {
+        if ($is_add) {
             event(new CompanyWasCreated($company));
         } else {
             event(new CompanyWasUpdated($company));

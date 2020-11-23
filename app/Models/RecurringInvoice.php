@@ -77,10 +77,11 @@ class RecurringInvoice extends Model
     ];
 
     protected $casts = [
-        'settings'   => 'object',
         'line_items' => 'object',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
+        'viewed'     => 'boolean',
+        'is_deleted' => 'boolean',
     ];
 
     protected $dates = [

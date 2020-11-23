@@ -102,9 +102,10 @@ class AddBankAccount extends React.Component {
                     <DefaultModalHeader toggle={this.toggle} title={translations.add_bank_account}/>
 
                     <ModalBody className={theme}>
-                        <Details banks={this.props.banks} is_new={true} errors={this.state.errors} bank_account={this.state}
+                        <Details banks={this.props.banks} is_new={true} errors={this.state.errors}
+                            bank_account={this.state}
                             handleInput={this.handleInput.bind(this)} hasErrorFor={this.hasErrorFor}
-                            renderErrorFor={this.renderErrorFor} />
+                            renderErrorFor={this.renderErrorFor}/>
 
                         <CustomFieldsForm handleInput={this.handleInput.bind(this)}
                             custom_value1={this.state.custom_value1}

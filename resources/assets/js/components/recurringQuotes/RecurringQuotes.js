@@ -45,7 +45,7 @@ export default class RecurringQuotes extends Component {
             showRestoreButton: false,
             entity_id: queryString.parse(this.props.location.search).entity_id || false,
             entity_type: queryString.parse(this.props.location.search).entity_type || false,
-            ignoredColumns: ['due_date', 'is_never_ending', 'auto_billing_enabled', 'project_id', 'tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'schedule', 'grace_period', 'last_sent_date', 'quotes', 'currency_id', 'exchange_rate', 'gateway_fee', 'transaction_fee', 'shipping_cost', 'gateway_percentage', 'transaction_fee_tax', 'shipping_cost_tax', 'audits', 'invitations', 'files', 'id', 'custom_value1', 'invoice_id', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'use_inclusive_taxes', 'terms', 'footer', 'last_send_date', 'line_items', 'date_to_send', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total']
+            ignoredColumns: ['viewed', 'due_date', 'is_never_ending', 'auto_billing_enabled', 'project_id', 'tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'schedule', 'grace_period', 'last_sent_date', 'quotes', 'currency_id', 'exchange_rate', 'gateway_fee', 'transaction_fee', 'shipping_cost', 'gateway_percentage', 'transaction_fee_tax', 'shipping_cost_tax', 'audits', 'invitations', 'files', 'id', 'custom_value1', 'invoice_id', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'use_inclusive_taxes', 'terms', 'footer', 'last_send_date', 'line_items', 'date_to_send', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total']
 
         }
 
@@ -186,7 +186,8 @@ export default class RecurringQuotes extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <RecurringQuoteFilters customers={customers} setFilterOpen={this.setFilterOpen.bind(this)}
+                                <RecurringQuoteFilters customers={customers}
+                                    setFilterOpen={this.setFilterOpen.bind(this)}
                                     invoices={invoices}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterInvoices}

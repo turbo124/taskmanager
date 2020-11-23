@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Events\Project\ProjectWasUpdated;
 use App\Events\Project\ProjectWasCreated;
+use App\Events\Project\ProjectWasUpdated;
 use App\Models\Project;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
@@ -86,7 +86,7 @@ class ProjectRepository extends BaseRepository implements ProjectRepositoryInter
         $project->setNumber();
         $project->save();
 
-        if(!$is_add) {
+        if (!$is_add) {
             event(new ProjectWasUpdated($project));
         } else {
             event(new ProjectWasCreated($project));

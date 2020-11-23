@@ -2,22 +2,10 @@
 
 namespace App\Services\Expense;
 
-use App\Components\Pdf\InvoicePdf;
 use App\Events\Expense\ExpenseWasApproved;
 use App\Events\Quote\PurchaseOrderWasApproved;
-use App\Events\Quote\QuoteWasApproved;
-use App\Factory\QuoteToRecurringQuoteFactory;
-use App\Jobs\Pdf\CreatePdf;
 use App\Models\Expense;
-use App\Models\Invoice;
-use App\Models\Order;
-use App\Models\Quote;
-use App\Models\RecurringQuote;
 use App\Repositories\ExpenseRepository;
-use App\Repositories\InvoiceRepository;
-use App\Repositories\OrderRepository;
-use App\Repositories\QuoteRepository;
-use App\Repositories\RecurringQuoteRepository;
 use App\Services\Quote\MarkSent;
 use App\Services\ServiceBase;
 use Carbon\Carbon;

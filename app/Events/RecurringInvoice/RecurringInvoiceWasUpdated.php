@@ -2,8 +2,6 @@
 
 namespace App\Events\RecurringInvoice;
 
-use App\Models\Cases;
-use App\Models\Company;
 use App\Models\RecurringInvoice;
 use Illuminate\Queue\SerializesModels;
 
@@ -15,7 +13,7 @@ class RecurringInvoiceWasUpdated
     use SerializesModels;
 
     /**
-     * @var RecurringInvoice 
+     * @var RecurringInvoice
      */
     public RecurringInvoice $recurringInvoice;
 

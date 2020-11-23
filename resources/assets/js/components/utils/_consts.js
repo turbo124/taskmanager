@@ -50,8 +50,7 @@ export const consts = {
     quote_status_draft: 1,
     quote_status_sent: 2,
     quote_status_viewed: 3,
-    quote_status_invoiced: 5,
-    quote_status_on_order: 6,
+    quote_status_converted: 5,
     quote_status_approved: 4,
     purchase_order_status_expired: '-1',
     purchase_order_status_draft: 1,
@@ -195,8 +194,7 @@ export const quoteStatuses = {
     [consts.quote_status_draft]: translations.draft,
     [consts.quote_status_sent]: translations.sent,
     [consts.quote_status_approved]: translations.status_approved,
-    [consts.quote_status_invoiced]: translations.invoiced,
-    [consts.quote_status_on_order]: translations.on_order,
+    [consts.quote_status_converted]: translations.converted,
     [consts.quote_status_viewed]: translations.viewed,
     100: translations.expired
 }
@@ -205,8 +203,7 @@ export const quoteStatusColors = {
     [consts.quote_status_draft]: 'secondary',
     [consts.quote_status_sent]: 'primary',
     [consts.quote_status_approved]: 'success',
-    [consts.quote_status_on_order]: 'success',
-    [consts.quote_status_invoiced]: 'success',
+    [consts.quote_status_converted]: 'success',
     [consts.quote_status_viewed]: 'info',
     100: 'danger'
 }

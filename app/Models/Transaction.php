@@ -50,10 +50,11 @@ class Transaction extends Model
         $this->updated_balance = $updated_balance;
     }
 
-    public function setOriginalBalance() {
+    public function setOriginalBalance()
+    {
         $last = Transaction::where('customer_id', $this->customer_id)->orderBy('created_at', 'desc')->first();
 
-        if(!empty($last)) {
+        if (!empty($last)) {
             $this->original_customer_balance = $last->updated_balance;
         }
     }

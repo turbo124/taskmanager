@@ -22,8 +22,7 @@ class Quote extends Model
     const STATUS_DRAFT = 1;
     const STATUS_SENT = 2;
     const STATUS_VIEWED = 3;
-    const STATUS_INVOICED = 5;
-    const STATUS_ON_ORDER = 6;
+    const STATUS_CONVERTED = 5;
     const STATUS_APPROVED = 4;
     const STATUS_EXPIRED = -1;
 
@@ -43,6 +42,7 @@ class Quote extends Model
         'updated_at'  => 'timestamp',
         'deleted_at'  => 'timestamp',
         'is_deleted'  => 'boolean',
+        'viewed'      => 'boolean'
     ];
     /**
      * The attributes that are mass assignable.

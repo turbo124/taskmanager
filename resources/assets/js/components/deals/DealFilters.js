@@ -8,6 +8,7 @@ import UserDropdown from '../common/dropdowns/UserDropdown'
 import CustomerDropdown from '../common/dropdowns/CustomerDropdown'
 import TaskStatusDropdown from '../common/dropdowns/TaskStatusDropdown'
 import StatusDropdown from '../common/StatusDropdown'
+import ProjectDropdown from '../common/dropdowns/ProjectDropdown'
 
 export default class DealFilters extends Component {
     constructor (props) {
@@ -111,6 +112,13 @@ export default class DealFilters extends Component {
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
                     <CsvImporter customers={this.props.customers} filename="tasks.csv"
                         url={`/api/tasks?search_term=${searchText}&project_id=${project_id}&task_status=${task_status_id}&task_type=${task_type}&customer_id=${customer_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
+                </Col>
+
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
+                    <ProjectDropdown
+                        handleInputChanges={this.filterTasks}
+                        name="project_id"
+                    />
                 </Col>
 
                 <Col sm={12} md={2} className="mt-3 mt-md-0">

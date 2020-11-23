@@ -11,7 +11,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use phpDocumentor\Reflection\Types\Integer;
 
 class ProcessReminders implements ShouldQueue
 {
@@ -45,17 +44,6 @@ class ProcessReminders implements ShouldQueue
     {
         $this->processReminders();
         $this->processLateInvoices();
-    }
-
-    private function processLateInvoices()
-    {
-        $invoices = $this->invoice_repo->getExpiredInvoices();
-
-        foreach ($invoices as $invoice) {
-            $this->handleLateInvoices($invoice);
-        }
-
-        return true;
     }
 
     private function processReminders()
@@ -179,6 +167,17 @@ class ProcessReminders implements ShouldQueue
         $invoice->date_to_send = $next_send_date;
         $invoice->date_reminder_last_sent = Carbon::now();
         $invoice->save();
+        return true;
+    }
+
+    private function processLateInvoices()
+    {
+        $invoices = $this->invoice_repo->getExpiredInvoices();
+
+        foreach ($invoices as $invoice) {
+            $this->handleLateInvoices($invoice);
+        }
+
         return true;
     }
 

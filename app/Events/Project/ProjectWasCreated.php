@@ -2,9 +2,7 @@
 
 namespace App\Events\Project;
 
-use App\Models\Expense;
 use App\Models\Project;
-use App\Models\RecurringInvoice;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 

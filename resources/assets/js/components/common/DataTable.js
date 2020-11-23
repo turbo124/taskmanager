@@ -241,11 +241,11 @@ export default class DataTable extends Component {
     }
 
     groupBy (data, key) {
-        return data.reduce(function(acc, item) {
-            (acc[item[key]] = acc[item[key]] || []).push(item);
-            return acc;
-        }, {});
-    };
+        return data.reduce(function (acc, item) {
+            (acc[item[key]] = acc[item[key]] || []).push(item)
+            return acc
+        }, {})
+    }
 
     fetchEntities (pageNumber = false, order = false, sorted_column = false) {
         if (this.cancel) {

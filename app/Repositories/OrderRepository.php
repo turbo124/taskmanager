@@ -70,6 +70,45 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         return (new OrderSearch($this))->filter($search_request, $account);
     }
 
+    /**
+     * @param array $data
+     * @param Order $order
+     */
+    public function updateOrder(array $data, Order $order): ?Order
+    {
+        $original_order = $order->line_items;
+
+        $order->fill($data);
+        $order = $this->save($data, $order);
+
+        event(new OrderWasUpdated($order));
+
+        $this->updateInventory($original_order, $data);
+
+        return $order;
+    }
+
+    /**
+     * @param array $data
+     * @param Order $order
+     * @return Order
+     */
+    public function save(array $data, Order $order): Order
+    {
+        $order->fill($data);
+        $order = $this->populateDefaults($order);
+        $order = $this->formatNotes($order);
+
+        $order = $order->service()->calculateInvoiceTotals();
+        $order->setNumber();
+
+        $order->save();
+
+        $this->saveInvitations($order, $data);
+
+        return $order->fresh();
+    }
+
     private function updateInventory($line_items, $data)
     {
         if (empty($data['line_items'])) {
@@ -108,45 +147,6 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         }
 
         return true;
-    }
-
-    /**
-     * @param array $data
-     * @param Order $order
-     */
-    public function updateOrder(array $data, Order $order): ?Order
-    {
-        $original_order = $order->line_items;
-
-        $order->fill($data);
-        $order = $this->save($data, $order);
-
-        event(new OrderWasUpdated($order));
-
-        $this->updateInventory($original_order, $data);
-
-        return $order;
-    }
-
-    /**
-     * @param array $data
-     * @param Order $order
-     * @return Order
-     */
-    public function save(array $data, Order $order): Order
-    {
-        $order->fill($data);
-        $order = $this->populateDefaults($order);
-        $order = $this->formatNotes($order);
-
-        $order = $order->service()->calculateInvoiceTotals();
-        $order->setNumber();
-
-        $order->save();
-
-        $this->saveInvitations($order, $data);
-
-        return $order->fresh();
     }
 
     /**

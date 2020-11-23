@@ -6,9 +6,8 @@ import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import { translations } from '../utils/_translations'
-import { consts } from '../utils/_consts'
+import { consts, purchaseOrderStatuses } from '../utils/_consts'
 import StatusDropdown from '../common/StatusDropdown'
-import { purchaseOrderStatuses } from '../utils/_consts'
 
 export default class PurchaseOrderFilters extends Component {
     constructor (props) {
@@ -111,7 +110,8 @@ export default class PurchaseOrderFilters extends Component {
                 </Col>
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
-                    <CsvImporter statuses={purchaseOrderStatuses} companies={this.props.companies} filename="purchase_orders.csv"
+                    <CsvImporter statuses={purchaseOrderStatuses} companies={this.props.companies}
+                        filename="purchase_orders.csv"
                         url={`/api/purchase_order?search_term=${searchText}&status=${status_id}&company_id=${company_id}&project_id=${project_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 

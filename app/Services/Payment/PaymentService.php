@@ -27,7 +27,8 @@ class PaymentService extends ServiceBase
         return (new PaymentEmail($this->payment))->execute();
     }
 
-    public function generatePdf() {
+    public function generatePdf()
+    {
         //TODO
     }
 }

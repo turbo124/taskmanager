@@ -68,7 +68,9 @@ class AutobillInvoice implements ShouldQueue
 
         $amount = $this->calculateFee($company_gateway, $amount);
 
-        $gateway_obj = (new GatewayFactory($customer_gateway, $company_gateway))->create($this->invoice->customer->fresh());
+        $gateway_obj = (new GatewayFactory($customer_gateway, $company_gateway))->create(
+            $this->invoice->customer->fresh()
+        );
         return $gateway_obj->build($amount, $this->invoice);
     }
 

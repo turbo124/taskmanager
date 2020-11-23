@@ -2,8 +2,6 @@
 
 namespace App\Events\Expense;
 
-use App\Models\Cases;
-use App\Models\Company;
 use App\Models\Expense;
 use Illuminate\Queue\SerializesModels;
 

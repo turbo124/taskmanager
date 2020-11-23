@@ -100,7 +100,8 @@ export default class ExpenseFilters extends Component {
                 </Col>
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">
-                    <CsvImporter statuses={expenseStatuses} companies={this.props.companies} customers={this.props.customers} filename="expenses.csv"
+                    <CsvImporter statuses={expenseStatuses} companies={this.props.companies}
+                        customers={this.props.customers} filename="expenses.csv"
                         url={`/api/expenses?search_term=${searchText}&status=${status_id}&customer_id=${customer_id}&company_id=${company_id}&expense_category_id=${expense_category_id}&user_id=${user_id}&start_date=${start_date}&end_date=${end_date}&page=1&per_page=5000`}/>
                 </Col>
 

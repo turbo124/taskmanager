@@ -92,14 +92,14 @@ export function formatMoney (total, customer_id = null, customers = []) {
     const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
     const settings = user_account[0].account.settings
 
+    let currency_id = settings.currency_id
+
     if (customers.length && customer_id !== null) {
         const customer = customers.filter(customer => customer.id === parseInt(customer_id))
-        const currency_id = customer[0].currency_id
-    } else {
-        const currency_id = settings.currency_id
+        currency_id = customer[0].currency_id
     }
 
-    const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(currency_id)) : []
+    const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(currency_id)) || []
     let decimalCount = currency.length ? currency[0].precision : 2
     const symbol = currency.length ? currency[0].symbol : ''
     const code = currency.length ? currency[0].iso_code : ''
@@ -118,7 +118,7 @@ export function formatMoney (total, customer_id = null, customers = []) {
         const formattedTotal = negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousands) + (decimalCount ? decimal + Math.abs(total - i).toFixed(decimalCount).slice(2) : '')
 
         if (settings.show_currency_code === true) {
-            return `${formattedTotal} ${code}`}
+            return `${formattedTotal} ${code}`
         }
 
         return `${symbol}${formattedTotal}`

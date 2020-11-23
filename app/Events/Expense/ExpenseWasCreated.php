@@ -3,7 +3,6 @@
 namespace App\Events\Expense;
 
 use App\Models\Expense;
-use App\Models\RecurringInvoice;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 

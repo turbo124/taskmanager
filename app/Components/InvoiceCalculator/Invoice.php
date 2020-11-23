@@ -178,25 +178,6 @@ class Invoice extends BaseCalculator
     }
 
     /**
-     * @param float $late_fee_charge
-     * @return \App\Models\Invoice|null
-     */
-    public function addLateFeeToInvoice(float $late_fee_charge): ?\App\Models\Invoice
-    {
-        if (empty($late_fee_charge) || $late_fee_charge <= 0 || get_class($this->entity) !== 'App\Models\Invoice') {
-            return null;
-        }
-
-        $this->addChargeToLineItems(
-            $late_fee_charge,
-            'Late Fee Charge applied',
-            $this->entity::LATE_FEE_TYPE
-        );
-
-        return $this->rebuildEntity();
-    }
-
-    /**
      * @param $charge
      * @param $description
      * @param $type_id
@@ -237,6 +218,26 @@ class Invoice extends BaseCalculator
             $this->increaseTotal($item->line_total);
         }
 
+        return $this;
+    }
+
+    /**
+     * @param float $balance
+     * @return $this
+     */
+    private function increaseBalance(float $balance): self
+    {
+        $this->balance += $balance;
+        return $this;
+    }
+
+    /**
+     * @param float $total
+     * @return $this
+     */
+    private function increaseTotal(float $total): self
+    {
+        $this->total += $total;
         return $this;
     }
 
@@ -307,37 +308,22 @@ class Invoice extends BaseCalculator
     }
 
     /**
-     * @return float
+     * @param float $late_fee_charge
+     * @return \App\Models\Invoice|null
      */
-    public function getTaxRate(): float
+    public function addLateFeeToInvoice(float $late_fee_charge): ?\App\Models\Invoice
     {
-        return $this->tax_rate;
-    }
+        if (empty($late_fee_charge) || $late_fee_charge <= 0 || get_class($this->entity) !== 'App\Models\Invoice') {
+            return null;
+        }
 
-    /**
-     * @param float $tax_rate
-     */
-    public function setTaxRate($name, $tax_rate): self
-    {
-        $this->{$name} = $tax_rate;
-        return $this;
-    }
+        $this->addChargeToLineItems(
+            $late_fee_charge,
+            'Late Fee Charge applied',
+            $this->entity::LATE_FEE_TYPE
+        );
 
-    /**
-     * @return bool
-     */
-    public function isInclusiveTaxes(): bool
-    {
-        return $this->inclusive_taxes;
-    }
-
-    /**
-     * @param bool $inclusive_taxes
-     */
-    public function setInclusiveTaxes(bool $inclusive_taxes): self
-    {
-        $this->inclusive_taxes = $inclusive_taxes;
-        return $this;
+        return $this->rebuildEntity();
     }
 
     public function rebuildEntity()
@@ -387,26 +373,6 @@ class Invoice extends BaseCalculator
     public function setTotal(float $total): self
     {
         $this->total = $total;
-        return $this;
-    }
-
-    /**
-     * @param float $total
-     * @return $this
-     */
-    private function increaseTotal(float $total): self
-    {
-        $this->total += $total;
-        return $this;
-    }
-
-    /**
-     * @param float $balance
-     * @return $this
-     */
-    private function increaseBalance(float $balance): self
-    {
-        $this->balance += $balance;
         return $this;
     }
 
@@ -473,5 +439,39 @@ class Invoice extends BaseCalculator
     public function getLineItems()
     {
         return $this->line_items;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTaxRate(): float
+    {
+        return $this->tax_rate;
+    }
+
+    /**
+     * @param float $tax_rate
+     */
+    public function setTaxRate($name, $tax_rate): self
+    {
+        $this->{$name} = $tax_rate;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInclusiveTaxes(): bool
+    {
+        return $this->inclusive_taxes;
+    }
+
+    /**
+     * @param bool $inclusive_taxes
+     */
+    public function setInclusiveTaxes(bool $inclusive_taxes): self
+    {
+        $this->inclusive_taxes = $inclusive_taxes;
+        return $this;
     }
 }

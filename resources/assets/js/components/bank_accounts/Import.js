@@ -5,7 +5,7 @@ import { translations } from '../utils/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
 import { Alert } from 'reactstrap'
 import queryString from 'query-string'
-import FormatMoney from "../common/FormatMoney";
+import FormatMoney from '../common/FormatMoney'
 
 export default class Import extends React.Component {
     constructor (props) {
@@ -184,9 +184,10 @@ export default class Import extends React.Component {
 
                         {fileInfos.length &&
                         <div className="card mt-2">
-                            <div className="card-header">{translations.expenses} {this.state.checked.size > 0 ? ` - ${this.state.checked.size} selected ` : '' }
+                            <div
+                                className="card-header">{translations.expenses} {this.state.checked.size > 0 ? ` - ${this.state.checked.size} selected ` : ''}
                                 {!!total > 0 &&
-                                <FormatMoney amount={total} />
+                                <FormatMoney amount={total}/>
                                 }
                             </div>
                             <div className="card-body">

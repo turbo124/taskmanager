@@ -168,19 +168,17 @@ class Customer extends Model implements HasLocalePreference
      */
     public function getSetting($setting)
     {
-        
-        $merged = (object) array_merge(
-            array_filter((array)$this->settings, 'strval'), 
+        $account_settings = $this->account->settings;
+        $customer_settings = $this->settings;
+        unset($account_settings->pdf_variables, $customer_settings->pdf_variables);
+
+        $merged = (object)array_merge(
+            array_filter((array)$account_settings, 'strval'),
             array_filter((array)$this->group_settings, 'strval'),
-            array_filter((array)$this->account->settings, 'strval')
+            array_filter((array)$customer_settings, 'strval')
         );
 
         return !empty($merged->{$setting}) ? $merged->{$setting} : false;
-    }
-
-    private function checkObjectEmpty($var)
-    {
-        return is_object($var) && empty((array)$var);
     }
 
     public function gateways()
@@ -223,5 +221,10 @@ class Customer extends Model implements HasLocalePreference
     public function getFormattedPaidToDate()
     {
         return $this->formatCurrency($this->paid_to_date, $this);
+    }
+
+    private function checkObjectEmpty($var)
+    {
+        return is_object($var) && empty((array)$var);
     }
 }

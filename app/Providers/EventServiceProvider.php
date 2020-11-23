@@ -5,13 +5,8 @@ namespace App\Providers;
 use App\Events\Cases\CaseWasArchived;
 use App\Events\Cases\CaseWasCreated;
 use App\Events\Cases\CaseWasDeleted;
-use App\Events\Cases\CaseWasEmailed;
 use App\Events\Cases\CaseWasRestored;
 use App\Events\Cases\CaseWasUpdated;
-use App\Events\Project\ProjectWasArchived;
-use App\Events\Project\ProjectWasDeleted;
-use App\Events\Project\ProjectWasRestored;
-use App\Events\Project\ProjectWasUpdated;
 use App\Events\Cases\RecurringInvoiceWasArchived;
 use App\Events\Cases\RecurringInvoiceWasDeleted;
 use App\Events\Cases\RecurringInvoiceWasRestored;
@@ -77,6 +72,11 @@ use App\Events\Payment\PaymentWasDeleted;
 use App\Events\Payment\PaymentWasRefunded;
 use App\Events\Payment\PaymentWasRestored;
 use App\Events\Payment\PaymentWasUpdated;
+use App\Events\Project\ProjectWasArchived;
+use App\Events\Project\ProjectWasCreated;
+use App\Events\Project\ProjectWasDeleted;
+use App\Events\Project\ProjectWasRestored;
+use App\Events\Project\ProjectWasUpdated;
 use App\Events\PurchaseOrder\PurchaseOrderWasApproved;
 use App\Events\PurchaseOrder\PurchaseOrderWasArchived;
 use App\Events\PurchaseOrder\PurchaseOrderWasCreated;
@@ -93,7 +93,6 @@ use App\Events\Quote\QuoteWasEmailed;
 use App\Events\Quote\QuoteWasMarkedSent;
 use App\Events\Quote\QuoteWasRestored;
 use App\Events\Quote\QuoteWasUpdated;
-use App\Events\Project\ProjectWasCreated;
 use App\Events\RecurringInvoice\RecurringInvoiceWasCreated;
 use App\Events\RecurringInvoice\RecurringInvoiceWasUpdated;
 use App\Events\RecurringQuote\RecurringQuoteWasArchived;
@@ -104,7 +103,6 @@ use App\Events\RecurringQuote\RecurringQuoteWasUpdated;
 use App\Events\Task\TaskWasArchived;
 use App\Events\Task\TaskWasCreated;
 use App\Events\Task\TaskWasDeleted;
-use App\Events\Task\TaskWasEmailed;
 use App\Events\Task\TaskWasRestored;
 use App\Events\Task\TaskWasUpdated;
 use App\Events\Uploads\FileWasDeleted;
@@ -115,7 +113,6 @@ use App\Events\User\UserWasDeleted;
 use App\Listeners\Cases\CaseArchived;
 use App\Listeners\Cases\CaseCreated;
 use App\Listeners\Cases\CaseDeleted;
-use App\Listeners\Cases\CaseEmailed;
 use App\Listeners\Cases\CaseRestored;
 use App\Listeners\Cases\CaseUpdated;
 use App\Listeners\Company\CompanyArchived;
@@ -189,6 +186,11 @@ use App\Listeners\Payment\PaymentRefunded;
 use App\Listeners\Payment\PaymentRefundedNotification;
 use App\Listeners\Payment\PaymentRestored;
 use App\Listeners\Payment\PaymentUpdated;
+use App\Listeners\Project\ProjectArchived;
+use App\Listeners\Project\ProjectCreated;
+use App\Listeners\Project\ProjectDeleted;
+use App\Listeners\Project\ProjectRestored;
+use App\Listeners\Project\ProjectUpdated;
 use App\Listeners\PurchaseOrder\PurchaseOrderApproved;
 use App\Listeners\PurchaseOrder\PurchaseOrderArchived;
 use App\Listeners\PurchaseOrder\PurchaseOrderCreated;
@@ -216,11 +218,6 @@ use App\Listeners\RecurringQuote\RecurringQuoteCreated;
 use App\Listeners\RecurringQuote\RecurringQuoteDeleted;
 use App\Listeners\RecurringQuote\RecurringQuoteRestored;
 use App\Listeners\RecurringQuote\RecurringQuoteUpdated;
-use App\Listeners\Project\ProjectArchived;
-use App\Listeners\Project\ProjectCreated;
-use App\Listeners\Project\ProjectDeleted;
-use App\Listeners\Project\ProjectRestored;
-use App\Listeners\Project\ProjectUpdated;
 use App\Listeners\Task\TaskArchived;
 use App\Listeners\Task\TaskCreated;
 use App\Listeners\Task\TaskDeleted;
@@ -398,51 +395,51 @@ class EventServiceProvider extends ServiceProvider
             RecurringInvoiceRestored::class
         ],
         //recurring quote
-        RecurringQuoteWasCreated::class  => [
+        RecurringQuoteWasCreated::class    => [
             RecurringQuoteCreated::class
         ],
-        RecurringQuoteWasUpdated::class  => [
+        RecurringQuoteWasUpdated::class    => [
             RecurringQuoteUpdated::class
         ],
-        RecurringQuoteWasDeleted::class  => [
+        RecurringQuoteWasDeleted::class    => [
             RecurringQuoteDeleted::class
         ],
-        RecurringQuoteWasArchived::class => [
+        RecurringQuoteWasArchived::class   => [
             RecurringQuoteArchived::class
         ],
-        RecurringQuoteWasRestored::class => [
+        RecurringQuoteWasRestored::class   => [
             RecurringQuoteRestored::class
         ],
         //cases
-        CaseWasCreated::class  => [
+        CaseWasCreated::class              => [
             CaseCreated::class
         ],
-        CaseWasUpdated::class  => [
+        CaseWasUpdated::class              => [
             CaseUpdated::class
         ],
-        CaseWasDeleted::class  => [
+        CaseWasDeleted::class              => [
             CaseDeleted::class
         ],
-        CaseWasArchived::class => [
+        CaseWasArchived::class             => [
             CaseArchived::class
         ],
-        CaseWasRestored::class => [
+        CaseWasRestored::class             => [
             CaseRestored::class
         ],
         //projects
-        ProjectWasCreated::class  => [
+        ProjectWasCreated::class           => [
             ProjectCreated::class
         ],
-        ProjectWasUpdated::class  => [
+        ProjectWasUpdated::class           => [
             ProjectUpdated::class
         ],
-        ProjectWasDeleted::class  => [
+        ProjectWasDeleted::class           => [
             ProjectDeleted::class
         ],
-        ProjectWasArchived::class => [
+        ProjectWasArchived::class          => [
             ProjectArchived::class
         ],
-        ProjectWasRestored::class => [
+        ProjectWasRestored::class          => [
             ProjectRestored::class
         ],
         //orders
@@ -576,9 +573,9 @@ class EventServiceProvider extends ServiceProvider
         TaskWasDeleted::class              => [
             TaskDeleted::class
         ],
-//        TaskWasEmailed::class              => [
-//            RecurringInvoiceEmailed::class
-//        ],
+        //        TaskWasEmailed::class              => [
+        //            RecurringInvoiceEmailed::class
+        //        ],
         TaskWasRestored::class             => [
             TaskRestored::class
         ],

@@ -91,7 +91,8 @@ export default class InvoiceModel extends BaseModel {
             showSuccessMessage: false,
             showErrorMessage: false,
             loading: false,
-            changesMade: false
+            changesMade: false,
+            viewed: false
         }
 
         this.approved = 4
@@ -148,6 +149,10 @@ export default class InvoiceModel extends BaseModel {
 
     set customer (customer) {
         this._customer = customer
+    }
+
+    get isViewed () {
+        return parseInt(this.fields.status_id) === this.sent && this.fields.viewed === true
     }
 
     get isApproved () {
@@ -259,9 +264,7 @@ export default class InvoiceModel extends BaseModel {
             actions.push('pdf')
         }
 
-        if (this.fields.invitations.length) {
-            actions.push('dispatch_note')
-        }
+        actions.push('dispatch_note')
 
         if (this.fields.customer_id !== '') {
             actions.push('email')

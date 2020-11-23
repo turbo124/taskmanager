@@ -111,14 +111,14 @@ class AccountSettings extends BaseSettings
                 '$purchaseorder.quote_total',
             ],
 
-            'credit'          => [
+            'credit'                => [
                 '$credit.credit_number',
                 '$credit.po_number',
                 '$credit.credit_date',
                 '$credit.credit_balance',
                 '$credit.credit_amount',
             ],
-            'product_columns' => [
+            'product_columns'       => [
                 '$product.product_key',
                 '$product.notes',
                 '$product.cost',
@@ -127,7 +127,7 @@ class AccountSettings extends BaseSettings
                 '$product.tax',
                 '$product.line_total',
             ],
-            'task_columns'    => [
+            'task_columns'          => [
                 '$task.product_key',
                 '$task.notes',
                 '$task.cost',
@@ -136,12 +136,12 @@ class AccountSettings extends BaseSettings
                 '$task.tax',
                 '$task.line_total',
             ],
-            'dispatch_note_columns'    => [
+            'dispatch_note_columns' => [
                 '$product.product_key',
                 '$product.notes',
                 '$product.quantity'
             ],
-            'dispatch_note'    => [
+            'dispatch_note'         => [
                 '$invoice.number',
                 '$invoice.po_number',
                 '$invoice.invoice_date',

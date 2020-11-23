@@ -89,6 +89,7 @@ class Credit extends Model
         'line_items'  => 'object',
         'updated_at'  => 'timestamp',
         'deleted_at'  => 'timestamp',
+        'viewed'      => 'boolean'
     ];
 
     /**

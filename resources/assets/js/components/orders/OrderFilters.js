@@ -6,9 +6,8 @@ import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
 import { translations } from '../utils/_translations'
-import { consts } from '../utils/_consts'
+import { consts, orderStatuses } from '../utils/_consts'
 import StatusDropdown from '../common/StatusDropdown'
-import { orderStatuses } from '../utils/_consts'
 
 export default class OrderFilters extends Component {
     constructor (props) {

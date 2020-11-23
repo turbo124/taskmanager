@@ -4,11 +4,11 @@
 namespace App\Components\Payment\Gateways;
 
 use App\Factory\ErrorLogFactory;
+use App\Jobs\Payment\CreatePayment;
 use App\Models\CompanyGateway;
+use App\Models\Customer;
 use App\Models\CustomerGateway;
 use App\Models\ErrorLog;
-use App\Jobs\Payment\CreatePayment;
-use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\User;

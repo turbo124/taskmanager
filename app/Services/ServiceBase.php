@@ -21,6 +21,26 @@ class ServiceBase
         $this->config = $config;
     }
 
+    /**
+     * @param null $contact
+     * @param bool $update
+     * @return mixed|string
+     */
+    public function generateDispatchNote($contact = null, $update = false)
+    {
+        if (!$contact) {
+            $contact = $this->entity->customer->primary_contact()->first();
+        }
+
+        return CreatePdf::dispatchNow(
+            (new InvoicePdf($this->entity)),
+            $this->entity,
+            $contact,
+            $update,
+            'dispatch_note'
+        );
+    }
+
     protected function trigger(string $subject, string $body, $repo)
     {
         if (empty($this->config)) {
@@ -132,26 +152,6 @@ class ServiceBase
         }
 
         return true;
-    }
-
-    /**
-     * @param null $contact
-     * @param bool $update
-     * @return mixed|string
-     */
-    public function generateDispatchNote($contact = null, $update = false)
-    {
-        if (!$contact) {
-            $contact = $this->entity->customer->primary_contact()->first();
-        }
-
-        return CreatePdf::dispatchNow(
-            (new InvoicePdf($this->entity)),
-            $this->entity,
-            $contact,
-            $update,
-            'dispatch_note'
-        );
     }
 
     protected function calculateTotals($entity)

@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Factory\BankAccountFactory;
-use App\Repositories\BankAccountRepository;
 use App\Repositories\BankRepository;
 use App\Requests\Brand\CreateBankAccountRequest;
 use App\Requests\Brand\UpdateBankAccountRequest;
 use App\Requests\SearchRequest;
 use App\Search\BankSearch;
 use App\Transformations\BankTransformable;
-use Exception;
 use Illuminate\Http\JsonResponse;
 
 /**

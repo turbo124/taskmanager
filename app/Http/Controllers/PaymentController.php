@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Components\Payment\DeletePayment;
-use App\Components\Payment\Invoice\ReverseInvoicePayment;
 use App\Components\Payment\ProcessPayment;
 use App\Components\Refund\RefundFactory;
 use App\Events\Payment\PaymentWasCreated;

@@ -64,6 +64,7 @@ class CreateCreditsTable extends Migration
             $table->decimal('tax_3', 13, 3)->nullable()->default(0.000);
             $table->string('tax_rate_name_2', 100)->nullable();
             $table->string('tax_rate_name_3', 100)->nullable();
+            $table->tinyInteger('viewed')->default(0);
             $table->unique(['account_id', 'number']);
         });
     }

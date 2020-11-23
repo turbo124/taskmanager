@@ -105,15 +105,9 @@ class Invitation extends Model
         $this->viewed_date = Carbon::now();
         $this->save();
 
-        /* if (strtolower($this->getSection()) === 'order') {
-            return true;
-        }
-
-        // update status of entity to viewed only if status is sent (keep status paid)
-        if ($this->inviteable->status_id === $this->inviteable::STATUS_SENT) {
-            $this->inviteable->setStatus($this->inviteable::STATUS_VIEWED);
-            $this->inviteable->save();
-        } */
+        //update viewed flag
+        $this->inviteable->viewed = true;
+        $this->inviteable->save();
 
         return true;
     }

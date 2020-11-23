@@ -5,6 +5,7 @@ import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import FilterTile from '../common/FilterTile'
 import StatusDropdown from '../common/StatusDropdown'
+import UserDropdown from '../common/dropdowns/UserDropdown'
 
 export default class LeadFilters extends Component {
     constructor (props) {
@@ -75,6 +76,14 @@ export default class LeadFilters extends Component {
                     <FormGroup>
                         <StatusDropdown filterStatus={this.filterLeads}/>
                     </FormGroup>
+                </Col>
+
+                <Col sm={12} md={3} className="mt-3 mt-md-0">
+                    <UserDropdown
+                        handleInputChanges={this.filterLeads}
+                        users={this.props.users}
+                        name="user_id"
+                    />
                 </Col>
 
                 <Col sm={12} md={1} className="mt-3 mt-md-0">

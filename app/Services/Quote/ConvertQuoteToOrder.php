@@ -57,7 +57,6 @@ class ConvertQuoteToOrder
         );
 
         $this->quote->setOrderId($order->id);
-        $this->quote->setStatus(Quote::STATUS_ON_ORDER);
         $this->quote->save();
 
         return $order;

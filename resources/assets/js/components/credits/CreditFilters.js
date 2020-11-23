@@ -6,9 +6,8 @@ import FilterTile from '../common/FilterTile'
 import DateFilter from '../common/DateFilter'
 import CsvImporter from '../common/CsvImporter'
 import { translations } from '../utils/_translations'
-import { consts } from '../utils/_consts'
+import { consts, creditStatuses } from '../utils/_consts'
 import StatusDropdown from '../common/StatusDropdown'
-import { creditStatuses } from '../utils/_consts'
 
 export default class CreditFilters extends Component {
     constructor (props) {

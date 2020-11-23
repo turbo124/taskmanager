@@ -24,22 +24,24 @@ class CustomerFactory extends Factory
     {
         $user = User::factory()->create();
 
+        $settings = (new \App\Settings\CustomerSettings())->getCustomerDefaults();
+
         return [
-            'name' => $this->faker->name(),
-            'website' => $this->faker->url,
-            'currency_id' => 2,
+            'name'          => $this->faker->name(),
+            'website'       => $this->faker->url,
+            'currency_id'   => 2,
             'private_notes' => $this->faker->text(200),
-            'balance' => 2020.22,
-            'paid_to_date' => 0,
+            'balance'       => 2020.22,
+            'paid_to_date'  => 0,
             'custom_value1' => $this->faker->text(20),
             'custom_value2' => $this->faker->text(20),
             'custom_value3' => $this->faker->text(20),
             'custom_value4' => $this->faker->text(20),
-            'settings' => (new \App\Settings\CustomerSettings())->getCustomerDefaults(),
-            'account_id' => 1,
-            'user_id' => $user->id,
-            'phone' => $this->faker->phoneNumber,
-            'status' => 1
+            'settings'      => $settings,
+            'account_id'    => 1,
+            'user_id'       => $user->id,
+            'phone'         => $this->faker->phoneNumber,
+            'status'        => 1
 
         ];
     }

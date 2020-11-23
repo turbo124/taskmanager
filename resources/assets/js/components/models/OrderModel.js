@@ -263,6 +263,7 @@ export default class OrderModel extends BaseModel {
 
         if (!this.isSent && this.isEditable) {
             actions.push('markSent')
+            actions.push('dispatch_note')
         }
 
         if (!this.isCancelled) {

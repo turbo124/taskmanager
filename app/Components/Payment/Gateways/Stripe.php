@@ -4,8 +4,6 @@
 namespace App\Components\Payment\Gateways;
 
 
-use App\Factory\ErrorLogFactory;
-use App\Models\ErrorLog;
 use App\Models\Invoice;
 use App\Models\Payment;
 use Exception;
@@ -54,47 +52,6 @@ class Stripe extends BasePaymentGateway
         );
 
         return true;
-    }
-
-    /**
-     * @param Payment $payment
-     * @param bool $payment_intent
-     * @return Payment|null
-     */
-    public function capturePayment(Payment $payment, $payment_intent = true): ?Payment
-    {
-        $this->setupConfig();
-
-        //https://stripe.com/docs/api/errors/handling
-        $errors = [];
-
-        try {
-            if ($payment_intent) {
-                $response = $this->stripe->paymentIntents->capture(
-                    $payment->transaction_reference,
-                    []
-                );
-
-                $ref = $response->charges->data[0]->id;
-                $payment->transaction_reference = $ref;
-                $payment->save();
-
-                return $payment->fresh();
-            }
-
-            return $this->stripe->charges->capture(
-                $payment->transaction_reference,
-                []
-            );
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            die;
-            $errors['data']['error_message'] = $e->getMessage();
-            $this->addErrorToLog($payment->user, $errors);
-
-        }
-
-        return null;
     }
 
     /**
@@ -240,5 +197,45 @@ class Stripe extends BasePaymentGateway
     private function convertToStripeAmount($amount, $precision)
     {
         return $amount * pow(10, $precision);
+    }
+
+    /**
+     * @param Payment $payment
+     * @param bool $payment_intent
+     * @return Payment|null
+     */
+    public function capturePayment(Payment $payment, $payment_intent = true): ?Payment
+    {
+        $this->setupConfig();
+
+        //https://stripe.com/docs/api/errors/handling
+        $errors = [];
+
+        try {
+            if ($payment_intent) {
+                $response = $this->stripe->paymentIntents->capture(
+                    $payment->transaction_reference,
+                    []
+                );
+
+                $ref = $response->charges->data[0]->id;
+                $payment->transaction_reference = $ref;
+                $payment->save();
+
+                return $payment->fresh();
+            }
+
+            return $this->stripe->charges->capture(
+                $payment->transaction_reference,
+                []
+            );
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die;
+            $errors['data']['error_message'] = $e->getMessage();
+            $this->addErrorToLog($payment->user, $errors);
+        }
+
+        return null;
     }
 }

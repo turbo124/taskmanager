@@ -2,8 +2,6 @@
 
 namespace App\Events\RecurringQuote;
 
-use App\Models\Cases;
-use App\Models\Company;
 use App\Models\RecurringQuote;
 use Illuminate\Queue\SerializesModels;
 
@@ -15,7 +13,7 @@ class RecurringQuoteWasUpdated
     use SerializesModels;
 
     /**
-     * @var RecurringQuote 
+     * @var RecurringQuote
      */
     public RecurringQuote $recurringQuote;
 

@@ -73,7 +73,7 @@ class RecurringQuoteRepository extends BaseRepository
 
         $this->saveInvitations($quote, $data);
 
-        if(!$is_add) {
+        if (!$is_add) {
             event(new RecurringQuoteWasUpdated($quote));
         }
 

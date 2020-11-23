@@ -208,7 +208,8 @@ export default class DealList extends Component {
                     <div className="topbar">
                         <Card>
                             <CardBody>
-                                <DealFilters setFilterOpen={this.setFilterOpen.bind(this)} customers={customers} users={users}
+                                <DealFilters setFilterOpen={this.setFilterOpen.bind(this)} customers={customers}
+                                    users={users}
                                     deals={deals} updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterDeals}
                                     saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>

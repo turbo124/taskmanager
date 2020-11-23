@@ -23,7 +23,7 @@ class OrderCreated extends AdminMailer
      */
     public function __construct(Order $order, User $user)
     {
-       parent::__construct('order_created', $order);
+        parent::__construct('order_created', $order);
 
         $this->order = $order;
         $this->entity = $order;

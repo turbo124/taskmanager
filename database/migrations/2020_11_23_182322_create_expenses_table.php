@@ -61,6 +61,7 @@ class CreateExpensesTable extends Migration
             $table->string('tax_rate_name_2', 100)->nullable();
             $table->string('tax_rate_name_3', 100)->nullable();
             $table->integer('project_id')->nullable()->default(0);
+            $table->dateTime('date_approved')->nullable();
         });
     }
 

@@ -4,11 +4,8 @@ namespace App\Search;
 
 use App\Models\Account;
 use App\Models\Bank;
-use App\Models\BankAccount;
-use App\Repositories\BankAccountRepository;
 use App\Repositories\BankRepository;
 use App\Requests\SearchRequest;
-use App\Transformations\BankAccountTransformable;
 use App\Transformations\BankTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;
 

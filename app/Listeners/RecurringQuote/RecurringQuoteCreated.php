@@ -41,7 +41,10 @@ class RecurringQuoteCreated implements ShouldQueue
         $fields['type'] = get_class($this);
         $fields['data'] = json_encode($fields['data']);
 
-        $notification = NotificationFactory::create($event->recurring_quote->account_id, $event->recurring_quote->user_id);
+        $notification = NotificationFactory::create(
+            $event->recurring_quote->account_id,
+            $event->recurring_quote->user_id
+        );
         $notification->entity_id = $event->recurring_quote->id;
         $this->notification_repo->save($notification, $fields);
     }

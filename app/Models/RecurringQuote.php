@@ -82,6 +82,8 @@ class RecurringQuote extends Model
         'line_items'   => 'object',
         'updated_at'   => 'timestamp',
         'deleted_at'   => 'timestamp',
+        'viewed'       => 'boolean',
+        'is_deleted'   => 'boolean',
     ];
 
     protected $dates = [

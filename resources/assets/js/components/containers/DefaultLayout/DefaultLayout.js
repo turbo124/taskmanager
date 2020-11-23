@@ -3,6 +3,7 @@ import * as router from 'react-router-dom'
 import { Redirect, Switch } from 'react-router-dom'
 import { Container } from 'reactstrap'
 import PrivateRoute from '../../PrivateRoute'
+import moment from 'moment'
 
 import {
     AppAside,
@@ -21,11 +22,16 @@ import routes from '../../routes'
 import DefaultAside from './DefaultAside'
 import DefaultHeader from './DefaultHeader'
 import AccountList from '../../common/AccountList'
+import { toast, ToastContainer } from 'react-toastify'
+import axios from 'axios'
+import { formatDate } from '../../common/FormatDate'
 
 class DefaultLayout extends Component {
     constructor (props) {
         super(props)
         this.loading = <div className="animated fadeIn pt-1 text-center">Loading...</div>
+
+        this.shown_notifications = []
     }
 
     signOut (e) {
@@ -33,10 +39,72 @@ class DefaultLayout extends Component {
         this.props.history.push('/login')
     }
 
+    componentDidMount () {
+        this.getNotifications()
+
+        setInterval(() => {
+            this.getNotifications()
+        }, 60000)
+    }
+
+    getNotifications () {
+        axios.get('/api/activity')
+            .then((r) => {
+                if (r.data.notifications && r.data.notifications.length) {
+                    const yesterday = moment().subtract(3, 'day')
+
+                    const notifications = r.data.notifications.filter(notification => moment(notification.created_at) >= yesterday)
+
+                    if (notifications.length) {
+                        let message = ''
+
+                        notifications.map((notification, index) => {
+                            if (!this.shown_notifications.includes(notification.id)) {
+                                const user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === notification.user_id)
+                                const username = user && user.length ? `${user[0].first_name} ${user[0].last_name}` : ''
+                                message += `${username} - ${notification.data.message}`
+                                message += ` - ${formatDate(notification.created_at, true)} . `
+                            }
+
+                            this.shown_notifications.push(notification.id)
+                        })
+
+                        if (message.length) {
+                            toast.info(message, {
+                                position: 'top-right',
+                                autoClose: 5000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined
+                            })
+                        }
+                    }
+                }
+            })
+            .catch((e) => {
+                alert(e)
+            })
+    }
+
     render () {
         const theme = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'dark-theme' : 'light-theme'
         return (
             <div className={`app ${theme}`}>
+                <ToastContainer
+                    limit={1}
+                    position="top-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
+
                 <AppHeader fixed>
                     <Suspense fallback={this.loading}>
                         <DefaultHeader onLogout={e => this.signOut(e)}/>
