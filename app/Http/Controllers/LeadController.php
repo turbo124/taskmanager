@@ -25,6 +25,7 @@ use App\Transformations\TaskTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class LeadController extends Controller
 {
@@ -159,6 +160,8 @@ class LeadController extends Controller
                 $disk = config('filesystems.default');
                 $content = Storage::disk($disk)->get($lead->service()->generatePdf(null));
                 $response = ['data' => base64_encode($content)];
+
+                return response()->json($response);
                 break;
         }
     }

@@ -65,7 +65,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
      * @param Payment $payment
      * @return Payment|null
      */
-    public function save(array $data, Payment $payment): ?Payment
+    public function save(array $data, Payment $payment, $create_transaction = false): ?Payment
     {
         $send_event = false;
 
@@ -82,7 +82,9 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         $payment->setStatus(empty($data['status_id']) ? Payment::STATUS_COMPLETED : $data['status_id']);
         $payment->save();
 
-        $payment->transaction_service()->createTransaction($payment->amount * -1, $payment->customer->balance);
+        if ($create_transaction) {
+            $payment->transaction_service()->createTransaction($payment->amount * -1, $payment->customer->balance);
+        }
 
         if ($send_event) {
             event(new PaymentWasCreated($payment));

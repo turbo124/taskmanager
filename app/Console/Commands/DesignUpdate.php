@@ -49,8 +49,7 @@ class DesignUpdate extends Command
             $design_object->totals = $invoice_design->totals() ?: '';
             $design_object->table = $invoice_design->table() ?: '';
             $design_object->task_table = $invoice_design->task_table() ?: '';
-            $design_object->product = $invoice_design->product() ?: '';
-            $design_object->task = $invoice_design->task() ?: '';
+            $design_object->statement_table = $invoice_design->statement_table() ?: '';
             $design_object->footer = $invoice_design->footer() ?: '';
 
             $design->design = $design_object;

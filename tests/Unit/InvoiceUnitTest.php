@@ -544,8 +544,8 @@ class InvoiceUnitTest extends TestCase
         $customer = $invoice->customer->fresh();
 
         // invoice total + gateway fee
-        $original_customer_balance = $original_customer_balance + (1.50 * -1);
-        $expected_balance = $original_customer_balance - ($invoice->total * -1);
+        $original_customer_balance = $original_customer_balance < 0 ? $original_customer_balance + (1.50 * -1) : $original_customer_balance + 1.50;
+        $expected_balance = $original_customer_balance < 0 ? ($original_customer_balance - ($invoice->total * -1)) : ($original_customer_balance - $invoice->total);
 
         $this->assertEquals($customer->balance, $expected_balance);
         $this->assertEquals($line_item_count + 1, count($invoice->line_items));
@@ -584,13 +584,15 @@ class InvoiceUnitTest extends TestCase
 
         $original_customer_balance = $invoice->customer->balance;
 
+        $new_balance = $original_customer_balance < 0 ? $original_customer_balance + 10 * -1 : $original_customer_balance + 10;
+
         ProcessReminders::dispatchNow($invoiceRepo);
 
         $updated_invoice = $invoice->fresh();
 
         $this->assertEquals(($invoice->total + 10), $updated_invoice->total);
         $this->assertEquals(($invoice->balance + 10), $updated_invoice->balance);
-        $this->assertEquals(($original_customer_balance += 10 * -1), $updated_invoice->customer->balance);
+        $this->assertEquals($new_balance, $updated_invoice->customer->balance);
 
         $date_to_send = Carbon::parse($invoice->date)->addDays($settings->number_of_days_after_1)->format('Y-m-d');
 
@@ -627,9 +629,12 @@ class InvoiceUnitTest extends TestCase
 
         $updated_invoice = $invoice->fresh();
 
+        $new_balance = $original_customer_balance < 0 ? $original_customer_balance + 40 * -1 : $original_customer_balance + 40;
+
+
         $this->assertEquals(($invoice->total + 40), $updated_invoice->total);
         $this->assertEquals(($invoice->balance + 40), $updated_invoice->balance);
-        $this->assertEquals(($original_customer_balance += 40 * -1), $updated_invoice->customer->balance);
+        $this->assertEquals($new_balance, $updated_invoice->customer->balance);
 
         $date_to_send = Carbon::parse($invoice->date)->addDays($settings->number_of_days_after_1)->format('Y-m-d');
 

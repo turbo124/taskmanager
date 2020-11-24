@@ -48,10 +48,10 @@ class DefaultLayout extends Component {
     }
 
     getNotifications () {
-        axios.get('/api/activity')
+        axios.get('/api/activity?read_only=1')
             .then((r) => {
                 if (r.data.notifications && r.data.notifications.length) {
-                    const yesterday = moment().subtract(3, 'day')
+                    const yesterday = moment().subtract(2, 'hours')
 
                     const notifications = r.data.notifications.filter(notification => moment(notification.created_at) >= yesterday)
 

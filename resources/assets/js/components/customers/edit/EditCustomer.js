@@ -41,16 +41,28 @@ class EditCustomer extends React.Component {
         })
     }
 
+    downloadPdf (response, id) {
+        console.log('response', response)
+        const linkSource = `data:application/pdf;base64,${response.data}`
+        const downloadLink = document.createElement('a')
+        const fileName = `${'statement'}_${id}.pdf`
+
+        downloadLink.href = linkSource
+        downloadLink.download = fileName
+        downloadLink.click()
+    }
+
     changeStatus (action) {
         if (!this.state.id) {
             return false
         }
 
-        const data = this.getFormData()
-        axios.post(`/api/customer/${this.state.id}/${action}`, data)
+        const url = action === 'download_statement' ? '/api/statement' : 'api/customer'
+
+        axios.post(`${url}/${this.state.id}/${action}`)
             .then((response) => {
-                if (action === 'download') {
-                    this.downloadPdf(response)
+                if (action === 'download_statement') {
+                    this.downloadPdf(response.data, this.props.customer.id)
                 }
 
                 this.setState({ showSuccessMessage: true })
@@ -69,15 +81,19 @@ class EditCustomer extends React.Component {
 
         const deleteButton = this.state.status_id === 1
             ? <DropdownItem className="primary"
-                onClick={() => this.changeStatus('delete')}>Delete</DropdownItem> : null
+                onClick={() => this.changeStatus('delete')}>{translations.delete}</DropdownItem> : null
 
         const archiveButton = this.state.status_id === 1
             ? <DropdownItem className="primary"
-                onClick={() => this.changeStatus('archive')}>Archive</DropdownItem> : null
+                onClick={() => this.changeStatus('archive')}>{translations.archive}</DropdownItem> : null
 
         const cloneButton =
             <DropdownItem className="primary"
                 onClick={() => this.changeStatus('clone_to_customer')}>Clone</DropdownItem>
+
+        const statementButton =
+            <DropdownItem className="primary"
+                onClick={() => this.changeStatus('download_statement')}>{translations.download_statement}</DropdownItem>
 
         const dropdownMenu = <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleMenu}>
             <DropdownToggle caret>
@@ -89,6 +105,7 @@ class EditCustomer extends React.Component {
                 {deleteButton}
                 {archiveButton}
                 {cloneButton}
+                {statementButton}
             </DropdownMenu>
         </Dropdown>
 

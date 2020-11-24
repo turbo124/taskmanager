@@ -16,6 +16,8 @@ use App\Search\CustomerSearch;
 use App\Search\UserSearch;
 use App\Transformations\EventTransformable;
 use App\Transformations\NotificationTransformable;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
@@ -53,12 +55,21 @@ class ActivityController extends Controller
         $this->event_repo = $event_repo;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $currentUser = auth()->user();
         $comments = auth()->user()->account_user()->account->comments()->with('user')->get();
         $list = $this->notification_repo->listNotifications('*', 'created_at', 'DESC');
+
+        if(!empty($request->input('read_only'))) {
+            $list = $list->filter(function ($value, $key) {
+                return empty($value->read_at);
+            });
+        }
+
         $userEvents = $this->event_repo->getEventsForUser($currentUser, auth()->user()->account_user()->account_id);
+
+        Notification::whereIn('id', $list->pluck('id'))->update(['read_at' => Carbon::now()]);
 
         $events = $userEvents->map(
             function (Event $event) {

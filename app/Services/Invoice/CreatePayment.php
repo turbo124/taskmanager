@@ -50,7 +50,7 @@ class CreatePayment
         );
 
         // attach invoices to payment
-        $payment = $payment->attachInvoice($this->invoice);
+        $payment = $payment->attachInvoice($this->invoice, $payment->amount, true);
 
         return $payment;
     }
@@ -77,6 +77,9 @@ class CreatePayment
         $customer->reduceBalance($payment->amount);
         $customer->increasePaidToDateAmount($payment->amount);
         $customer->save();
+
+        $payment->transaction_service()->createTransaction($payment->amount * -1, $customer->balance);
+
         return $customer;
     }
 

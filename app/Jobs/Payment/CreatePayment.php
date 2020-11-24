@@ -103,7 +103,7 @@ class CreatePayment implements ShouldQueue
 
         $payment->fill($data);
 
-        $payment = $this->payment_repo->save($data, $payment);
+        $payment = $this->payment_repo->save($data, $payment, true);
 
         return $payment;
     }
@@ -222,6 +222,9 @@ class CreatePayment implements ShouldQueue
                 'PAYMENT FOR ' . $invoice->number
             );
 
+            die('here');
+
+            // need to check this
             $credit->transaction_service()->createTransaction(
                 $credit->balance * -1,
                 $credit->customer->balance,

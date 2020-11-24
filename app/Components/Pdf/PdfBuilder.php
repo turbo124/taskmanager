@@ -14,6 +14,7 @@ use App\Models\ProductAttribute;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\Timer;
+use App\Models\Transaction;
 use App\Repositories\TimerRepository;
 use App\Traits\DateFormatter;
 use App\Traits\Money;
@@ -132,6 +133,7 @@ class PdfBuilder
             ) ? $customer->primary_contact()->first()->email : '',
             'label' => trans('texts.email_address')
         ];
+
         $this->data['$customer.name'] = [
             'value' => $this->entity->present()->clientName() ?: '&nbsp;',
             'label' => trans('texts.customer_name')
@@ -215,6 +217,11 @@ class PdfBuilder
             'label' => $this->makeCustomField('Company', 'custom_value4')
         ];
 
+        return $this;
+    }
+
+    public function buildStatement(): self
+    {
         return $this;
     }
 
@@ -717,25 +724,93 @@ class PdfBuilder
         return $this;
     }
 
-    /**
-     * @param $columns
-     * @param null $user_columns
-     * @param string|null $table_prefix
-     * @return array
-     */
-    public function buildTable($columns, $user_columns = null, string $table_prefix = null): array
+    public function buildStatementTable(Customer $customer, $columns)
     {
         $labels = $this->getLabels();
         $values = $this->getValues();
 
-        $table[$table_prefix] = new stdClass();
+        $table = new stdClass();
 
-        $table[$table_prefix]->header = '<tr>';
-        $table[$table_prefix]->body = '';
+        $table->header = '<tr>';
+        $table->body = '';
+        $table_row = '<tr>';
+
+        $translations = [
+            '$amount'           => trans('texts.amount'),
+            '$original_balance' => trans('texts.original_balance'),
+            '$new_balance'      => trans('texts.new_balance'),
+            '$date'             => trans('texts.date'),
+            '$type'             => trans('texts.type')
+        ];
+
+        foreach ($columns as $key => $column) {
+            $table->header .= '<td class="table_header_td_class">' . $translations[$column] . '</td>';
+            $table_row .= '<td class="table_header_td_class">' . $column . '</td>';
+        }
+
+        $table_row .= '</tr>';
+
+        $transactions = Transaction::where('customer_id', $customer->id)->orderBy('created_at', 'desc')->get();
+
+        foreach ($transactions as $key => $transaction) {
+            $item = [
+                '$amount'           => $transaction->amount,
+                '$original_balance' => $transaction->original_customer_balance,
+                '$new_balance'      => $transaction->updated_balance,
+                '$date'             => $this->formatDate($this->entity, $transaction->created_at),
+                '$type'             => $transaction->transactionable_type
+            ];
+
+            $tmp = strtr($table_row, $item);
+            $tmp = strtr($tmp, $values);
+
+            $table->body .= $tmp;
+        }
+
+        $table->header .= '</tr>';
+
+        $table->header = strtr($table->header, $labels);
+
+        return $table;
+    }
+
+    private function calculateBudgetedHours()
+    {
+        $budgeted_hours = 1;
+
+        $project = !empty($this->entity->project_id) ? Project::where(
+            'id',
+            '=',
+            $this->entity->project_id
+        )->first() : false;
+
+        $duration = (new TimerRepository(new Timer()))->getTotalDuration($this->entity);
+        $budgeted_hours = 0;
+
+        if (!empty($duration) && $duration > 0) {
+            $budgeted_hours = $duration;
+        }
+
+        if (!empty($project)) {
+            $budgeted_hours = $budgeted_hours === 0 ? $project->budgeted_hours : $budgeted_hours;
+        }
+
+        return $budgeted_hours;
+    }
+
+    public function buildTaskTable($columns)
+    {
+        $labels = $this->getLabels();
+        $values = $this->getValues();
+
+        $table = new stdClass();
+
+        $table->header = '<tr>';
+        $table->body = '';
         $table_row = '<tr>';
 
         foreach ($columns as $key => $column) {
-            $table[$table_prefix]->header .= '<td class="table_header_td_class">' . $column . '_label</td>';
+            $table->header .= '<td class="table_header_td_class">' . $column . '_label</td>';
             $table_row .= '<td class="table_header_td_class">' . $column . '</td>';
         }
 
@@ -749,21 +824,7 @@ class PdfBuilder
 
         switch ($this->class) {
             case 'task':
-                $project = !empty($this->entity->project_id) ? Project::where(
-                    'id',
-                    '=',
-                    $this->entity->project_id
-                )->first() : false;
-                $duration = (new TimerRepository(new Timer()))->getTotalDuration($this->entity);
-                $budgeted_hours = 0;
-
-                if (!empty($duration)) {
-                    $budgeted_hours = $duration;
-                }
-
-                if (!empty($project)) {
-                    $budgeted_hours = $budgeted_hours === 0 ? $project->budgeted_hours : $budgeted_hours;
-                }
+                $budgeted_hours = $this->calculateBudgetedHours();
 
                 $task_rate = $this->entity->getTaskRate();
 
@@ -785,25 +846,53 @@ class PdfBuilder
                 break;
         }
 
-        if (in_array($this->class, ['task', 'deal', 'cases'])) {
-            $tmp = strtr($table_row, $item);
-            $tmp = strtr($tmp, $values);
-            $table[$table_prefix]->body .= $tmp;
-        } else {
-            if (empty($this->line_items)) {
-                return [];
-            }
+        $tmp = strtr($table_row, $item);
+        $tmp = strtr($tmp, $values);
+        $table->body .= $tmp;
 
-            foreach ($this->line_items as $key => $item) {
-                $tmp = strtr($table_row, $item);
-                $tmp = strtr($tmp, $values);
-                $table[$table_prefix]->body .= $tmp;
-            }
+        $table->header .= '</tr>';
+
+        $table->header = strtr($table->header, $labels);
+
+        return $table;
+    }
+
+    /**
+     * @param $columns
+     * @return array
+     */
+    public function buildTable($columns)
+    {
+        $labels = $this->getLabels();
+        $values = $this->getValues();
+
+        $table = new stdClass();
+
+        $table->header = '<tr>';
+        $table->body = '';
+        $table_row = '<tr>';
+
+        foreach ($columns as $key => $column) {
+            $table->header .= '<td class="table_header_td_class">' . $column . '_label</td>';
+            $table_row .= '<td class="table_header_td_class">' . $column . '</td>';
         }
 
-        $table[$table_prefix]->header .= '</tr>';
+        $table_row .= '</tr>';
 
-        $table[$table_prefix]->header = strtr($table[$table_prefix]->header, $labels);
+
+        if (empty($this->line_items)) {
+            return [];
+        }
+
+        foreach ($this->line_items as $key => $item) {
+            $tmp = strtr($table_row, $item);
+            $tmp = strtr($tmp, $values);
+            $table->body .= $tmp;
+        }
+
+        $table->header .= '</tr>';
+
+        $table->header = strtr($table->header, $labels);
 
         return $table;
     }

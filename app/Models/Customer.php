@@ -17,6 +17,8 @@ class Customer extends Model implements HasLocalePreference
 
     use SoftDeletes, PresentableTrait, Balancer, Money, HasFactory;
 
+    private $merged_settings;
+
     const CUSTOMER_TYPE_WON = 1;
     protected $presenter = 'App\Presenters\CustomerPresenter';
     /**
@@ -168,17 +170,19 @@ class Customer extends Model implements HasLocalePreference
      */
     public function getSetting($setting)
     {
-        $account_settings = $this->account->settings;
-        $customer_settings = $this->settings;
-        unset($account_settings->pdf_variables, $customer_settings->pdf_variables);
+        if(empty($this->merged_settings)) {
+            $account_settings = $this->account->settings;
+            $customer_settings = $this->settings;
+            unset($account_settings->pdf_variables, $customer_settings->pdf_variables);
 
-        $merged = (object)array_merge(
-            array_filter((array)$account_settings, 'strval'),
-            array_filter((array)$this->group_settings, 'strval'),
-            array_filter((array)$customer_settings, 'strval')
-        );
+            $this->merged_settings = (object)array_merge(
+                array_filter((array)$account_settings, 'strval'),
+                array_filter((array)$this->group_settings, 'strval'),
+                array_filter((array)$customer_settings, 'strval')
+            );
+        }
 
-        return !empty($merged->{$setting}) ? $merged->{$setting} : false;
+        return !empty($this->merged_settings->{$setting}) ? $this->merged_settings->{$setting} : false;
     }
 
     public function gateways()
@@ -186,15 +190,14 @@ class Customer extends Model implements HasLocalePreference
         return $this->hasMany(CustomerGateway::class);
     }
 
-    public function getCountryId(): ?Country
+    public function getPdfFilename()
     {
-        $address = Address::where('address_type', '=', 1)->where('customer_id', '=', $this->id)->first();
+        return 'storage/' . $this->account->id . '/' . $this->id . '/statements/' . $this->number . '.pdf';
+    }
 
-        if (!empty($address) && $address->count() > 0) {
-            return $address->country;
-        }
-
-        return null;
+    public function getDesignId()
+    {
+        return !empty($this->design_id) ? $this->design_id : $this->getSetting('invoice_design_id');
     }
 
     /**
