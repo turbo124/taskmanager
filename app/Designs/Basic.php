@@ -89,14 +89,17 @@ $table_here
 </table>';
     }
 
-    public function task()
+    public function statement_table()
     {
-        return '';
-    }
-
-    public function product()
-    {
-        return '';
+        return '
+<table class="w-100 table-auto mt-4">
+    <thead class="text-left">
+        $statement_table_header
+    </thead>
+    <tbody>
+        $statement_table_body
+    </tbody>
+</table>';
     }
 
     public function footer()

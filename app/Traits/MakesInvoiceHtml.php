@@ -34,6 +34,10 @@ trait MakesInvoiceHtml
                 $lang = $entity->company->preferredLocale();
                 App::setLocale($lang);
                 break;
+            case 'App\Models\Customer':
+                $lang = $entity->preferredLocale();
+                App::setLocale($lang);
+                break;
             default:
                 $lang = $entity->customer->preferredLocale();
                 App::setLocale($lang);
@@ -46,16 +50,18 @@ trait MakesInvoiceHtml
 
         $designer->buildDesign();
 
-        $table = in_array(
-            get_class($entity),
-            ['App\Models\Task', 'App\Models\Cases', 'App\Models\Deal']
-        ) ? $designer->getSection('task_table') : $designer->getSection('table');
+        $table = (get_class($entity) === 'App\Models\Customer')
+            ? $designer->getSection('statement_table')
+            : ((in_array(
+                get_class($entity),
+                ['App\Models\Task', 'App\Models\Cases', 'App\Models\Deal']
+            )) ? $designer->getSection('task_table') : $designer->getSection('table'));
 
         $settings = $entity->account->settings;
 
         $client_signature = $this->getClientSignature($entity, $contact);
 
-        if (in_array(get_class($entity), ['App\Models\Lead', 'App\Models\PurchaseOrder'])) {
+        if (in_array(get_class($entity), ['App\Models\Lead', 'App\Models\PurchaseOrder', 'App\Models\Customer'])) {
             $signature = !empty($settings->email_signature) && $entity->account->settings->show_signature_on_pdf === true ? '<span style="margin-bottom: 20px; margin-top:20px">Your Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $settings->email_signature . '"/>' : '';
 
             $client_signature = !empty($client_signature) && $entity->account->settings->show_signature_on_pdf === true ? '<span style="margin-bottom: 20px">Client Signature</span> <br><br><br><img style="display:block; width:100px;height:100px;" id="base64image" src="' . $client_signature . '"/>' : '';

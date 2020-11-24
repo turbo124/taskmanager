@@ -93,6 +93,9 @@ class PdfColumns
         'lead'          => [
 
         ],
+        'customer'      => [
+
+        ],
         'invoice'       => [
             '$invoice.number'        => '<span>$invoice.number_label: $invoice.number</span>',
             '$invoice.po_number'     => '<span>$invoice.po_number_label: $invoice.po_number</span>',
@@ -239,28 +242,41 @@ class PdfColumns
 
         $task_columns = $this->getTableColumns();
 
-        $product_table = $this->objPdf->buildTable(
-            $task_columns,
-            $this->design->product,
-            'product'
-        );
+        if ($this->entity_string === 'customer') {
+            $product_table = $this->objPdf->buildStatementTable(
+                $this->entity,
+                $task_columns
+            );
 
-        $task_table = $this->objPdf->buildTable($task_columns, $this->design->task, 'task');
+            $this->exported_variables['$statement_table_header'] = $product_table->header;
+            $this->exported_variables['$statement_table_body'] = $product_table->body;
 
-        $this->exported_variables['$task_table_header'] = '';
-        $this->exported_variables['$product_table_header'] = '';
-        $this->exported_variables['$product_table_body'] = '';
-        $this->exported_variables['$task_table_body'] = '';
-
-
-        if (!empty($product_table['product'])) {
-            $this->exported_variables['$product_table_header'] = $product_table['product']->header;
-            $this->exported_variables['$product_table_body'] = $product_table['product']->body;
+            return true;
         }
 
-        if (!empty($task_table['task'])) {
-            $this->exported_variables['$task_table_header'] = $task_table['task']->header;
-            $this->exported_variables['$task_table_body'] = $task_table['task']->body;
+        if (in_array($this->entity_string, ['lead', 'case', 'deal', 'task'])) {
+            $task_table = $this->objPdf->buildTaskTable($task_columns);
+
+            $this->exported_variables['$task_table_header'] = '';
+            $this->exported_variables['$product_table_header'] = '';
+            $this->exported_variables['$product_table_body'] = '';
+            $this->exported_variables['$task_table_body'] = '';
+
+            if (!empty($task_table)) {
+                $this->exported_variables['$task_table_header'] = $task_table->header;
+                $this->exported_variables['$task_table_body'] = $task_table->body;
+            }
+
+            return true;
+        }
+
+        $product_table = $this->objPdf->buildTable(
+            $task_columns
+        );
+
+        if (!empty($product_table)) {
+            $this->exported_variables['$product_table_header'] = $product_table->header;
+            $this->exported_variables['$product_table_body'] = $product_table->body;
         }
 
         return true;
@@ -269,6 +285,9 @@ class PdfColumns
     private function getTableColumns()
     {
         switch ($this->entity_string) {
+            case 'customer':
+                return $this->input_variables['statement_columns'];
+                break;
             case 'dispatch_note':
                 return $this->input_variables['dispatch_note_columns'];
             case 'case':

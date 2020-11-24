@@ -3,12 +3,13 @@
 namespace App\Presenters;
 
 use App\Models\Country;
+use Laracasts\Presenter\Presenter;
 
 /**
  * Class CustomerPresenter
  * @package App\Presenters
  */
-class CustomerPresenter extends EntityPresenter
+class CustomerPresenter extends Presenter
 {
     /**
      * @return string
@@ -77,5 +78,28 @@ class CustomerPresenter extends EntityPresenter
     public function website()
     {
         return $this->entity->website ?: '';
+    }
+
+    public function clientName()
+    {
+        return $this->name();
+    }
+
+    public function cityStateZip($city, $state, $postalCode, $swap)
+    {
+        $str = $city;
+
+        if ($state) {
+            if ($str) {
+                $str .= ', ';
+            }
+            $str .= $state;
+        }
+
+        if ($swap) {
+            return $postalCode . ' ' . $str;
+        } else {
+            return $str . ' ' . $postalCode;
+        }
     }
 }

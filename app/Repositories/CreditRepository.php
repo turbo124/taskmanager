@@ -71,7 +71,10 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
         $this->saveInvitations($credit, $data);
 
         $updated_amount = $credit->total - $original_amount;
-        $credit->transaction_service()->createTransaction($updated_amount, $credit->customer->balance);
+
+        if ($credit->status_id !== Credit::STATUS_DRAFT && $original_amount !== $credit->total) {
+            $credit->transaction_service()->createTransaction($updated_amount, $credit->customer->balance);
+        }
 
         return $credit->fresh();
     }

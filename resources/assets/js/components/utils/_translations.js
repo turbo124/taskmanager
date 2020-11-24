@@ -222,6 +222,7 @@ _localizedValues.en = {
     complete: 'Complete',
     unapplied: 'Unapplied',
     dispatch: 'Dispatch',
+    download_statement: 'Download Statement',
     clone_order: 'Clone Order',
     clone_quote: 'Clone Quote',
     clone_credit: 'Clone Credit',

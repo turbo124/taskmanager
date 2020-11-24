@@ -12,7 +12,7 @@ class TaskPdf extends PdfBuilder
     protected $entity;
 
     /**
-     * InvoicePdf constructor.
+     * TaskPdf constructor.
      * @param $entity
      * @throws ReflectionException
      */
