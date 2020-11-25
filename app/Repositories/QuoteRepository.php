@@ -71,11 +71,11 @@ class QuoteRepository extends BaseRepository implements QuoteRepositoryInterface
     }
 
     /**
-     * @param $data
+     * @param array $data
      * @param Quote $quote
      * @return Quote|null
      */
-    public function save($data, Quote $quote): ?Quote
+    public function save(array $data, Quote $quote): ?Quote
     {
         $quote->fill($data);
         $quote = $this->populateDefaults($quote);

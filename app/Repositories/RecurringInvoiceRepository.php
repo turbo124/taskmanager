@@ -54,11 +54,11 @@ class RecurringInvoiceRepository extends BaseRepository
     }
 
     /**
-     * @param $data
+     * @param array $data
      * @param RecurringInvoice $invoice
      * @return RecurringInvoice|null
      */
-    public function save($data, RecurringInvoice $invoice): ?RecurringInvoice
+    public function save(array $data, RecurringInvoice $invoice): ?RecurringInvoice
     {
         $is_add = !empty($invoice->id);
 

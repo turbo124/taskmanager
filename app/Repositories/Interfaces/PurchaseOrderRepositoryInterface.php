@@ -38,9 +38,9 @@ interface PurchaseOrderRepositoryInterface extends BaseRepositoryInterface
     public function updatePurchaseOrder(array $data, PurchaseOrder $po): ?PurchaseOrder;
 
     /**
-     * @param $data
+     * @param array $data
      * @param PurchaseOrder $po
      * @return PurchaseOrder|null
      */
-    public function save($data, PurchaseOrder $po): ?PurchaseOrder;
+    public function save(array $data, PurchaseOrder $po): ?PurchaseOrder;
 }

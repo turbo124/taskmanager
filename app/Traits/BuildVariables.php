@@ -45,7 +45,6 @@ trait BuildVariables
         }
 
         $objPdf->build();
-
         $labels = $objPdf->getLabels();
         $values = $objPdf->getValues();
 

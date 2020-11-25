@@ -4,6 +4,8 @@
 namespace App\Components\Pdf;
 
 
+use App\Models\Customer;
+use App\Models\Transaction;
 use ReflectionClass;
 use ReflectionException;
 
@@ -49,5 +51,55 @@ class StatementPdf extends PdfBuilder
         }
 
         return $this;
+    }
+
+    public function buildTable($columns)
+    {
+        $labels = $this->getLabels();
+        $values = $this->getValues();
+
+        $table = new \stdClass();
+
+        $table->header = '<tr>';
+        $table->body = '';
+        $table_row = '<tr>';
+
+        $translations = [
+            '$amount'           => trans('texts.amount'),
+            '$original_balance' => trans('texts.original_balance'),
+            '$new_balance'      => trans('texts.new_balance'),
+            '$date'             => trans('texts.date'),
+            '$type'             => trans('texts.type')
+        ];
+
+        foreach ($columns as $key => $column) {
+            $table->header .= '<td class="table_header_td_class">' . $translations[$column] . '</td>';
+            $table_row .= '<td class="table_header_td_class">' . $column . '</td>';
+        }
+
+        $table_row .= '</tr>';
+
+        $transactions = Transaction::where('customer_id', $this->entity->id)->orderBy('created_at', 'desc')->get();
+
+        foreach ($transactions as $key => $transaction) {
+            $item = [
+                '$amount'           => $transaction->amount,
+                '$original_balance' => $transaction->original_customer_balance,
+                '$new_balance'      => $transaction->updated_balance,
+                '$date'             => $this->formatDate($this->entity, $transaction->created_at),
+                '$type'             => $transaction->transactionable_type
+            ];
+
+            $tmp = strtr($table_row, $item);
+            $tmp = strtr($tmp, $values);
+
+            $table->body .= $tmp;
+        }
+
+        $table->header .= '</tr>';
+
+        $table->header = strtr($table->header, $labels);
+
+        return $table;
     }
 }

@@ -16,6 +16,8 @@ class PdfColumns
 
     private $objPdf;
 
+    private $table;
+
     private $default_columns = [
         'customer_details' => [
             '$customer.paid_to_date'      => '<span>$customer.paid_to_date_label: $customer.paid_to_date</span><br>',
@@ -242,42 +244,32 @@ class PdfColumns
 
         $task_columns = $this->getTableColumns();
 
-        if ($this->entity_string === 'customer') {
-            $product_table = $this->objPdf->buildStatementTable(
-                $this->entity,
-                $task_columns
-            );
-
-            $this->exported_variables['$statement_table_header'] = $product_table->header;
-            $this->exported_variables['$statement_table_body'] = $product_table->body;
-
-            return true;
-        }
-
-        if (in_array($this->entity_string, ['lead', 'case', 'deal', 'task'])) {
-            $task_table = $this->objPdf->buildTaskTable($task_columns);
-
-            $this->exported_variables['$task_table_header'] = '';
-            $this->exported_variables['$product_table_header'] = '';
-            $this->exported_variables['$product_table_body'] = '';
-            $this->exported_variables['$task_table_body'] = '';
-
-            if (!empty($task_table)) {
-                $this->exported_variables['$task_table_header'] = $task_table->header;
-                $this->exported_variables['$task_table_body'] = $task_table->body;
-            }
-
-            return true;
-        }
-
-        $product_table = $this->objPdf->buildTable(
+        $table = $this->objPdf->buildTable(
             $task_columns
         );
 
-        if (!empty($product_table)) {
-            $this->exported_variables['$product_table_header'] = $product_table->header;
-            $this->exported_variables['$product_table_body'] = $product_table->body;
-        }
+        $header_key = ($this->entity_string === 'customer')
+            ? '$statement_table_header'
+            : ((in_array(
+                $this->entity_string,
+                ['lead', 'case', 'deal', 'task']
+            )) ? '$task_table_header' : '$product_table_header');
+
+        $body_key = ($this->entity_string === 'customer')
+            ? '$statement_table_body'
+            : ((in_array(
+                $this->entity_string,
+                [
+                    'lead',
+                    'case',
+                    'deal',
+                    'task'
+                ]
+            )) ? '$task_table_body' : '$product_table_body');
+
+
+        $this->exported_variables[$header_key] = $table->header;
+        $this->exported_variables[$body_key] = $table->body;
 
         return true;
     }

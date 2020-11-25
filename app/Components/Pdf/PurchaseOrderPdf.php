@@ -63,4 +63,40 @@ class PurchaseOrderPdf extends PdfBuilder
 
         return $this;
     }
+
+    public function buildTable($columns)
+    {
+        $labels = $this->getLabels();
+        $values = $this->getValues();
+
+        $table = new \stdClass();
+
+        $table->header = '<tr>';
+        $table->body = '';
+        $table_row = '<tr>';
+
+        foreach ($columns as $key => $column) {
+            $table->header .= '<td class="table_header_td_class">' . $column . '_label</td>';
+            $table_row .= '<td class="table_header_td_class">' . $column . '</td>';
+        }
+
+        $table_row .= '</tr>';
+
+
+        if (empty($this->line_items)) {
+            return [];
+        }
+
+        foreach ($this->line_items as $key => $item) {
+            $tmp = strtr($table_row, $item);
+            $tmp = strtr($tmp, $values);
+            $table->body .= $tmp;
+        }
+
+        $table->header .= '</tr>';
+
+        $table->header = strtr($table->header, $labels);
+
+        return $table;
+    }
 }
