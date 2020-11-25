@@ -120,6 +120,11 @@ class InvoiceImporter extends BaseCsvImporter
         return new InvoiceRepository(new Invoice());
     }
 
+    public function transformObject($object)
+    {
+        return $this->transform();
+    }
+
     public function customHandler()
     {
     }
