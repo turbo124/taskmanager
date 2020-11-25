@@ -222,8 +222,6 @@ class CreatePayment implements ShouldQueue
                 'PAYMENT FOR ' . $invoice->number
             );
 
-            die('here');
-
             // need to check this
             $credit->transaction_service()->createTransaction(
                 $credit->balance * -1,

@@ -300,7 +300,23 @@ export default class WorkflowSettings extends Component {
                     type: 'switch',
                     value: settings.should_convert_order,
                     group: 1
-                }
+                },
+                {
+                    name: 'order_charge_point',
+                    label: translations.order_charge_point,
+                    type: 'select',
+                    value: settings.order_charge_point,
+                    options: [
+                        {
+                            value: consts.order_charge_point_create,
+                            text: translations.when_created
+                        },
+                        {
+                            value: consts.order_charge_point_sent,
+                            text: translations.when_sent
+                        }
+                    ]
+                },
             ]
         ]
 

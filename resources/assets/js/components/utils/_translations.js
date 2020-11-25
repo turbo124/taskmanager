@@ -123,6 +123,7 @@ _localizedValues.en = {
     recent_orders: 'Recent Orders',
     recent_payments: 'Recent Payments',
     off: 'Off',
+    when_created: 'When Created',
     when_sent: 'When Sent',
     when_paid: 'When Paid',
     lock_invoice: 'Lock Invoice',
