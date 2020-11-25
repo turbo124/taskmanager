@@ -19,11 +19,11 @@ class InvoiceImporter extends BaseCsvImporter
      * @var array|string[]
      */
     private array $mappings = [
-        'number'        => 'number',
-        'customer_name' => 'customer_id',
-        'date'          => 'date',
-        'po number'     => 'po_number',
-        'due date'      => 'due_date',
+        'first_name'        => 'first_name',
+        'last_name' => 'last_name',
+        'email'          => 'email',
+        'phone'     => 'phone',
+        'website'      => 'website',
         'terms'         => 'terms',
         'public notes'  => 'public_notes',
         'private notes' => 'private_notes',
