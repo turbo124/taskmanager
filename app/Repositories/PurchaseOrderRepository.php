@@ -66,11 +66,11 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
     }
 
     /**
-     * @param $data
-     * @param Quote $quote
-     * @return Quote|null
+     * @param array $data
+     * @param PurchaseOrder $purchase_order
+     * @return PurchaseOrder|null
      */
-    public function save($data, PurchaseOrder $purchase_order): ?PurchaseOrder
+    public function save(array $data, PurchaseOrder $purchase_order): ?PurchaseOrder
     {
         $purchase_order->fill($data);
 

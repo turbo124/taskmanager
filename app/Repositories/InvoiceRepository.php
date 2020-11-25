@@ -99,7 +99,6 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
         $invoice->fill($data);
         $invoice = $this->populateDefaults($invoice);
         $invoice = $this->formatNotes($invoice);
-
         $invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice->setNumber();
         $invoice->save();

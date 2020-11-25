@@ -168,12 +168,11 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 
 
     /**
-     * @param $data
+     * @param array $data
      * @param Task $task
      * @return Task|null
-     * @throws Exception
      */
-    public function save($data, Task $task): ?Task
+    public function save(array $data, Task $task): ?Task
     {
         $task->setNumber();
 

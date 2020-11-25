@@ -83,4 +83,9 @@ class LeadPdf extends PdfBuilder
 
         return $this;
     }
+
+    public function buildTable()
+    {
+        return '';
+    }
 }

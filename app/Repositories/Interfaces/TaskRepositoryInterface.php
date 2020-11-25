@@ -33,11 +33,11 @@ interface TaskRepositoryInterface extends BaseRepositoryInterface
     public function updateTask($data, Task $task): ?Task;
 
     /**
-     * @param $data
+     * @param array $data
      * @param Task $task
      * @return Task|null
      */
-    public function save($data, Task $task): ?Task;
+    public function save(array $data, Task $task): ?Task;
 
     /**
      *

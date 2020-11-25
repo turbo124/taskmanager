@@ -38,9 +38,9 @@ interface QuoteRepositoryInterface extends BaseRepositoryInterface
     public function updateQuote(array $data, Quote $quote): ?Quote;
 
     /**
-     * @param $data
+     * @param array $data
      * @param Quote $quote
      * @return Quote|null
      */
-    public function save($data, Quote $quote): ?Quote;
+    public function save(array $data, Quote $quote): ?Quote;
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Import\InvoiceImporter;
 use App\Components\OFX\OFXImport;
 use App\Factory\BankAccountFactory;
 use App\Models\Company;
@@ -19,6 +20,7 @@ use App\Transformations\BankAccountTransformable;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class BankAccountController
@@ -47,6 +49,19 @@ class BankAccountController extends Controller
      */
     public function index(SearchRequest $request)
     {
+
+        try {
+            $importer = (new InvoiceImporter(auth()->user()->account_user()->account, auth()->user()))->setCsvFile(public_path('storage/testimport.csv'));
+            $importer->run();
+        } catch (Exception $e) {
+            $errors = $e->getMessage();
+
+            echo $e->getMessage();
+            die('test');
+        }
+
+        die('here 1');
+
         $bank_accounts = (new BankAccountSearch($this->bank_account_repo))->filter(
             $request,
             auth()->user()->account_user()->account
