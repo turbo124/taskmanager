@@ -788,7 +788,7 @@ abstract class BaseCsvImporter
     private function tryStart()
     {
 
-        if (!$this->isLocked()) {
+        if (!$this->isLocked() && !$this->isFinished()) {
 
             if (!$this->exists()) {
                 return false;
