@@ -29,12 +29,15 @@ class UploadService {
         }
     }
 
-    upload (file, onUploadProgress) {
+    upload (file, url, import_type, onUploadProgress) {
         const formData = new FormData()
 
-        formData.append('file', file)
+        alert('here')
 
-        return axios.post('api/bank_accounts/ofx/preview', formData, {
+        formData.append('file', file)
+        formData.append('import_type', import_type)
+
+        return axios.post(url, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             },

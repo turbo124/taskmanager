@@ -6,24 +6,24 @@ namespace App\Components\Import;
 
 use App\Factory\DealFactory;
 use App\Models\Account;
-use App\Models\Customer;
 use App\Models\Deal;
 use App\Models\User;
 use App\Repositories\DealRepository;
+use App\Transformations\DealTransformable;
 
 class DealImporter extends BaseCsvImporter
 {
     use ImportMapper;
+    use DealTransformable;
 
     /**
      * @var array|string[]
      */
     private array $mappings = [
-        'name'        => 'name',
-        'description' => 'description'
-        'valued_at'          => 'valued_at',
-        'po number'     => 'po_number',
-        'due date'      => 'due_date',
+        'name'          => 'name',
+        'description'   => 'description',
+        'valued_at'     => 'valued_at',
+        'due_date'      => 'due_date',
         'terms'         => 'terms',
         'public notes'  => 'public_notes',
         'private notes' => 'private_notes'
@@ -65,13 +65,10 @@ class DealImporter extends BaseCsvImporter
     {
         return [
             'mappings'  => [
-                'name' => ['required', 'cast' => 'string'],
-                'description'         => ['cast' => 'string'],
-                'valued_at' => ['cast' => 'string'],
-                'phone'  => ['cast' => 'string'],
-                'website'     => ['cast' => 'string'],
-                'date'          => ['required', 'cast' => 'date'],
-                'due date'      => ['cast' => 'date'],
+                'name'        => ['required', 'cast' => 'string'],
+                'description' => ['cast' => 'string'],
+                'valued_at'   => ['cast' => 'string'],
+                'due_date'    => ['cast' => 'date'],
                 //'customer_id' => ['required', 'cast' => 'int'],
             ],
             'csv_files' => [
@@ -90,7 +87,7 @@ class DealImporter extends BaseCsvImporter
      */
     public function factory(array $params): ?Deal
     {
-       return DealFactory::create($this->account, $this->user);
+        return DealFactory::create($this->user, $this->account);
     }
 
     /**
@@ -103,7 +100,7 @@ class DealImporter extends BaseCsvImporter
 
     public function transformObject($object)
     {
-        return $this->transform();
+        return $this->transformDeal($object);
     }
 
     public function customHandler()

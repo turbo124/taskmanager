@@ -4,6 +4,8 @@ import { translations } from '../../utils/_translations'
 import FormBuilder from '../../settings/FormBuilder'
 import Checkbox from '../../common/Checkbox'
 import { consts } from '../../utils/_consts'
+import { icons } from '../../utils/_icons'
+import SwitchWithIcon from '../../common/SwitchWithIcon'
 
 export default class Settings extends React.Component {
     constructor (props) {
@@ -31,13 +33,47 @@ export default class Settings extends React.Component {
                 label: 'Discover Card'
             }
         ]
+
+        this.fields = [
+            {
+                name: 'email_required',
+                label: 'Email Required'
+            },
+            {
+                name: 'phone_required',
+                label: 'Phone Required'
+            },
+            {
+                name: 'shipping_required',
+                label: 'Shipping Required',
+                help_text: translations.show_shipping_address_help_text
+            },
+            {
+                name: 'billing_required',
+                label: 'Billing Required',
+                help_text: translations.show_billing_address_help_text
+            },
+            {
+                name: 'display_email',
+                label: 'Display Email'
+            },
+            {
+                name: 'display_phone',
+                label: 'Display Phone'
+            },
+            {
+                name: 'display_billing',
+                label: 'Display Billing'
+            },
+            {
+                name: 'display_shipping',
+                label: 'Display Shipping'
+            }
+        ]
     }
 
     getSettingFields () {
         const settings = this.props.gateway
-
-        const gateway = this.props.gateway.gateway_key.length ? JSON.parse(localStorage.getItem('gateways')).filter(gateway => gateway.key === this.props.gateway.gateway_key) : []
-        const is_offsite = gateway.length && parseInt(gateway[0].offsite_only) === 1
         const supports_token_billing = [consts.stripe_gateway, consts.authorize_gateway].includes(this.props.gateway.gateway_key) || false
         const fields = [
             {
@@ -48,46 +84,18 @@ export default class Settings extends React.Component {
                 value: settings.require_cvv ? settings.require_cvv : '',
                 group: 1,
                 class_name: 'col-12'
-            },
-            {
-                name: 'update_details',
-                label: translations.update_details,
-                help_text: translations.update_details_help_text,
-                type: 'switch',
-                placeholder: translations.update_details,
-                value: settings.update_details ? settings.update_details : '',
-                group: 1,
-                class_name: 'col-12'
             }
+            // {
+            //     name: 'update_details',
+            //     label: translations.update_details,
+            //     help_text: translations.update_details_help_text,
+            //     type: 'switch',
+            //     placeholder: translations.update_details,
+            //     value: settings.update_details ? settings.update_details : '',
+            //     group: 1,
+            //     class_name: 'col-12'
+            // }
         ]
-
-        if (is_offsite === false) {
-            fields.push(
-                {
-                    name: 'show_billing_address',
-                    label: translations.show_billing_address,
-                    help_text: translations.show_billing_address_help_text,
-                    type: 'switch',
-                    placeholder: translations.show_billing_address,
-                    value: settings.show_billing_address ? settings.show_billing_address : '',
-                    group: 1,
-                    class_name: 'col-12'
-                }
-            )
-
-            fields.push(
-                {
-                    name: 'show_shipping_address',
-                    label: translations.show_shipping_address,
-                    help_text: translations.show_shipping_address_help_text,
-                    type: 'switch',
-                    placeholder: translations.show_shipping_address,
-                    value: settings.show_shipping_address ? settings.show_shipping_address : '',
-                    group: 1,
-                    class_name: 'col-12'
-                }
-            )
-        }
 
         if (supports_token_billing) {
             fields.push(
@@ -109,6 +117,8 @@ export default class Settings extends React.Component {
         const gateway = this.props.gateway.gateway_key.length ? JSON.parse(localStorage.getItem('gateways')).filter(gateway => gateway.key === this.props.gateway.gateway_key) : []
         const is_offsite = gateway.length && parseInt(gateway[0].offsite_only) === 1
 
+        console.log('gateway', this.props.gateway)
+
         return <React.Fragment>
             <Card>
                 <CardHeader>{translations.settings}</CardHeader>
@@ -120,6 +130,32 @@ export default class Settings extends React.Component {
                     />
                 </CardBody>
             </Card>
+
+            {!is_offsite &&
+            <Card>
+                <CardHeader>{translations.fields}</CardHeader>
+                <CardBody>
+                    <FormGroup>
+                        <Row>
+                            <Col sm={10}>
+                                {
+                                    this.fields.map((item, index) => (
+                                        <SwitchWithIcon
+                                            icon={icons.customer}
+                                            label={item.label}
+                                            checked={this.props.gateway.required_fields.get(item.name)}
+                                            name={item.name}
+                                            handleInput={this.props.updateFields}
+                                            help_text={item.help_text}/>
+                                    ))
+                                }
+                            </Col>
+                        </Row>
+                    </FormGroup>
+
+                </CardBody>
+            </Card>
+            }
 
             {!is_offsite &&
             <Card>

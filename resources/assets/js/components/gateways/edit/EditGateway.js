@@ -49,8 +49,9 @@ class EditGateway extends React.Component {
     updateFields (e) {
         const item = e.target.name
         const isChecked = e.target.checked
-        this.setState(prevState => ({ fields: prevState.fields.set(item, isChecked) }), () => {
-            console.log('cards', this.state.fields)
+
+        this.setState(prevState => ({ required_fields: prevState.required_fields.set(item, isChecked) }), () => {
+            console.log('cards', this.state.required_fields)
         })
     }
 
@@ -104,6 +105,16 @@ class EditGateway extends React.Component {
     }
 
     handleClick () {
+        const required_fields = {}
+
+        if (this.state.required_fields.size) {
+            const test = Array.from(this.state.required_fields.keys())
+
+            test.map((item) => {
+                required_fields[item] = true
+            })
+        }
+
         const formData = new FormData()
         formData.append('accepted_credit_cards', Array.from(this.state.accepted_cards.keys()).join(','))
         formData.append('fees_and_limits', JSON.stringify(this.state.fees_and_limits))
@@ -112,7 +123,7 @@ class EditGateway extends React.Component {
         formData.append('customer_id', this.props.customer_id)
         formData.append('name', this.state.name)
         formData.append('group_id', this.props.group_id)
-        formData.append('fields', Array.from(this.state.fields.keys()).join(','))
+        formData.append('fields', JSON.stringify(required_fields))
         formData.append('require_cvv', this.state.require_cvv === true ? 1 : 0)
         formData.append('_method', 'PUT')
 
@@ -195,6 +206,7 @@ class EditGateway extends React.Component {
                                 <Settings renderErrorFor={this.renderErrorFor} errors={this.state.errors}
                                     handleInput={this.handleInput}
                                     gateway={this.state}
+                                    updateFields={this.updateFields}
                                     updateCards={this.updateCards}/>
                             </TabPane>
 

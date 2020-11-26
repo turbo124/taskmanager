@@ -622,6 +622,7 @@ _localizedValues.en = {
     ubl_email_attachment: 'Attach UBL',
     require_cvv: 'Require CVV',
     update_details: 'Update Address',
+    fields: 'Fields',
     update_details_help_text: 'Update customers address with provided details',
     show_billing_address: 'Billing Address',
     show_billing_address_help_text: 'Require customer to provide their billing address',

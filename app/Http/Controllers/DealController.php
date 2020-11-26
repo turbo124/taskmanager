@@ -153,8 +153,8 @@ class DealController extends Controller
 
             case 'clone_to_lead':
                 $lead = (new LeadRepository(new Lead))->save(
-                    CloneDealToLeadFactory::create($deal, auth()->user()),
-                    []
+                    [],
+                    CloneDealToLeadFactory::create($deal, auth()->user())
                 );
                 return response()->json($this->transformLead($lead));
                 break;

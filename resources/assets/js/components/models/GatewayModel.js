@@ -20,7 +20,7 @@ export default class GatewayModel extends BaseModel {
             accepted_credit_cards: 0,
             accepted_cards: new Map(),
             require_cvv: false,
-            fields: new Map(),
+            required_fields: new Map(),
             update_details: true,
             config: '',
             fees_and_limits: [],

@@ -54,6 +54,8 @@ Route::group(
                 Route::post('bank_accounts/ofx/import', 'BankAccountController@import');
                 Route::resource('bank_accounts', 'BankAccountController');
 
+                Route::post('import', 'ImportController@import');
+
                 // banks
                 Route::resource('banks', 'BankController');
 
@@ -287,7 +289,7 @@ Route::group(
         Route::delete('purchase_order/{quote_id}', 'PurchaseOrderController@destroy');
         Route::post('purchase_order', 'PurchaseOrderController@store')->middleware('role:null,invoicecontroller.store');
 
-        Route::put('purchase_order/{quote_id}', 'PurchaseOrderController@update')->middleware('role:null,invoicecontroller.update');
+        Route::put('purchase_order/{purchase_order_id}', 'PurchaseOrderController@update')->middleware('role:null,invoicecontroller.update');
         Route::get('purchase_order', 'PurchaseOrderController@index')->middleware('role:null,invoicecontroller.index');
         Route::get('purchase_order/{quote_id}', 'PurchaseOrderController@show')->middleware('role:null,invoicecontroller.show');
         Route::post('purchase_order/{purchase_order}/{action}', 'PurchaseOrderController@action')->name('quotes.action');

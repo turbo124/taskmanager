@@ -9,30 +9,29 @@ use App\Models\Account;
 use App\Models\Customer;
 use App\Models\CustomerContact;
 use App\Models\User;
-use App\Repositories\CustomerRepository;
 use App\Repositories\CustomerContactRepository;
+use App\Repositories\CustomerRepository;
+use App\Transformations\CustomerTransformable;
 
 class CustomerImporter extends BaseCsvImporter
 {
     use ImportMapper;
+    use CustomerTransformable;
 
     /**
      * @var array|string[]
      */
     private array $mappings = [
-        'name'        => 'name',
-        'vat_number' => 'vat_number',
-        'date'          => 'date',
-        'po number'     => 'po_number',
-        'due date'      => 'due_date',
+        'name'          => 'name',
+        'vat_number'    => 'vat_number',
         'terms'         => 'terms',
         'public notes'  => 'public_notes',
         'private notes' => 'private_notes',
-        'contacts'    => [
-            'first_name'   => 'first_name',
-            'last_name'       => 'last_name',
-            'email'    => 'email',
-            'phone' => 'phone'
+        'contacts'      => [
+            'first_name' => 'first_name',
+            'last_name'  => 'last_name',
+            'email'      => 'email',
+            'phone'      => 'phone'
         ]
     ];
 
@@ -73,17 +72,13 @@ class CustomerImporter extends BaseCsvImporter
         return [
             'mappings'  => [
                 'first_name' => ['required', 'cast' => 'string'],
-                'last_name'         => ['cast' => 'string'],
-                'email' => ['cast' => 'string'],
-                'phone'  => ['cast' => 'string'],
-                'name'     => ['cast' => 'string'],
-                'vat_number'          => ['required', 'cast' => 'date'],
+                'last_name'  => ['cast' => 'string'],
+                'email'      => ['cast' => 'string'],
+                'phone'      => ['cast' => 'string'],
+                'name'       => ['cast' => 'string'],
+                'vat_number' => ['required', 'cast' => 'date'],
                 //'due date'      => ['cast' => 'date'],
                 //'customer_id' => ['required', 'cast' => 'int'],
-            ],
-            'csv_files' => [
-                'valid_entities'   => '/valid_entities.csv',
-                'invalid_entities' => '/invalid_entities.csv',
             ],
             'config'    => [
                 'csv_date_format' => 'Y-m-d'
@@ -95,9 +90,9 @@ class CustomerImporter extends BaseCsvImporter
      * @param array $params
      * @return Customer
      */
-    public function factory(array $params): ? Customer
+    public function factory(array $params): ?Customer
     {
-       return CustomerFactory::create($this->account, $this->user);
+        return CustomerFactory::create($this->account, $this->user);
     }
 
     /**
@@ -110,12 +105,20 @@ class CustomerImporter extends BaseCsvImporter
 
     public function transformObject($object)
     {
-        return $this->transform();
+        return $this->transformCustomer($object);
     }
 
-    public function saveCallback(Customer $customer)
+    /**
+     * @param Customer $customer
+     * @param array $data
+     */
+    public function saveCallback(Customer $customer, array $data)
     {
+        if (!empty($data['contacts'])) {
+            (new CustomerContactRepository(new CustomerContact()))->save($data['contacts'], $customer);
+        }
 
+        return $customer->fresh();
     }
 
     public function customHandler()

@@ -14,6 +14,8 @@ trait ImportMapper
         'customer_name' => 'getCustomer'
     ];
 
+    private array $success = [];
+
     public function after()
     {
         //TODO
@@ -38,11 +40,11 @@ trait ImportMapper
 
         $result = $repo->save($object, $factory);
 
-        if(method_exists($this, 'saveCallback')) {
-            return $this->saveCallback($result);
+        if (method_exists($this, 'saveCallback')) {
+            $result = $this->saveCallback($result, $object);
         }
 
-        return $this->result;
+        $this->success[] = $this->transformObject($result);
     }
 
     private function buildObject($items)
@@ -105,6 +107,14 @@ trait ImportMapper
         die('mike');
 
         $this->insertTo('invalid_entities', $item);
+    }
+
+    /**
+     * @return array
+     */
+    public function getSuccess(): array
+    {
+        return $this->success;
     }
 
     /**

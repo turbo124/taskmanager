@@ -63,6 +63,7 @@ import PurchaseOrders from './purchase_orders/PurchaseOrders'
 import BankAccounts from './bank_accounts/BankAccountList'
 import BankAccountImport from './bank_accounts/Import'
 import DesignEditor from './designs/DesignEditor'
+import Importer from './import/Importer'
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -70,6 +71,11 @@ const routes = [
         path: '/bank_accounts/import',
         name: 'Import',
         component: BankAccountImport
+    },
+    {
+        path: '/import',
+        name: 'Import',
+        component: Importer
     },
     {
         path: '/bank_accounts',

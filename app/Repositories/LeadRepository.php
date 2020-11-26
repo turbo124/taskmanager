@@ -39,7 +39,7 @@ class LeadRepository extends BaseRepository
      */
     public function createLead(Lead $lead, array $data): ?Lead
     {
-        $lead = $this->save($lead, $data);
+        $lead = $this->save($data, $lead);
 
         event(new LeadWasCreated($lead));
 
@@ -53,7 +53,7 @@ class LeadRepository extends BaseRepository
      *
      * @return Message
      */
-    public function save(Lead $lead, array $data): Lead
+    public function save(array $data, Lead $lead): Lead
     {
         $lead = $lead->fill($data);
         $lead->setNumber();
@@ -68,7 +68,7 @@ class LeadRepository extends BaseRepository
      */
     public function updateLead(Lead $lead, array $data): ?Lead
     {
-        $lead = $this->save($lead, $data);
+        $lead = $this->save($data, $lead);
 
         event(new LeadWasUpdated($lead));
 

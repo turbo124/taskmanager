@@ -6,37 +6,35 @@ namespace App\Components\Import;
 
 use App\Factory\LeadFactory;
 use App\Models\Account;
-use App\Models\Customer;
 use App\Models\Lead;
 use App\Models\User;
 use App\Repositories\LeadRepository;
+use App\Transformations\LeadTransformable;
 
-class InvoiceImporter extends BaseCsvImporter
+class LeadImporter extends BaseCsvImporter
 {
     use ImportMapper;
+    use LeadTransformable;
 
     /**
      * @var array|string[]
      */
     private array $mappings = [
-        'first_name'        => 'first_name',
-        'last_name' => 'last_name',
-        'email'          => 'email',
-        'phone'     => 'phone',
-        'website'      => 'website',
+        'first_name'    => 'first_name',
+        'last_name'     => 'last_name',
+        'email'         => 'email',
+        'phone'         => 'phone',
+        'website'       => 'website',
         'terms'         => 'terms',
         'public notes'  => 'public_notes',
         'private notes' => 'private_notes',
-        'line_items'    => [
-            'description'   => 'description',
-            'product'       => 'product_id',
-            'unit_price'    => 'unit_price',
-            'unit_discount' => 'unit_discount',
-            'unit_tax'      => 'unit_tax',
-            'quantity'      => 'quantity',
-        ],
-        'shipping_cost' => 'shipping_cost',
-        'tax_rate'      => 'tax_rate'
+        'job_title'     => 'job_title',
+        'address_1'     => 'address_1',
+        'address_2'     => 'address_2',
+        'zip'           => 'zip',
+        'city'          => 'city',
+        'name'          => 'name',
+        'description'   => 'description',
     ];
 
     private $repository = InvoiceRepository::class;
@@ -75,13 +73,18 @@ class InvoiceImporter extends BaseCsvImporter
     {
         return [
             'mappings'  => [
-                'first_name' => ['required', 'cast' => 'string'],
-                'last_name'         => ['cast' => 'string'],
-                'email' => ['cast' => 'string'],
-                'phone'  => ['cast' => 'string'],
+                'first_name'  => ['required', 'cast' => 'string'],
+                'last_name'   => ['cast' => 'string'],
+                'email'       => ['cast' => 'string'],
+                'phone'       => ['cast' => 'string'],
                 'website'     => ['cast' => 'string'],
-                'date'          => ['required', 'cast' => 'date'],
-                'due date'      => ['cast' => 'date'],
+                'address_1'   => ['required', 'cast' => 'string'],
+                'address_2'   => ['required', 'cast' => 'string'],
+                'zip'         => ['required', 'cast' => 'string'],
+                'city'        => ['required', 'cast' => 'string'],
+                'name'        => ['required', 'cast' => 'string'],
+                'description' => ['required', 'cast' => 'string'],
+                'job_title'   => ['cast' => 'string'],
                 //'customer_id' => ['required', 'cast' => 'int'],
             ],
             'csv_files' => [
@@ -100,7 +103,7 @@ class InvoiceImporter extends BaseCsvImporter
      */
     public function factory(array $params): ?Lead
     {
-       return LeadFactory::create($this->account, $this->user);
+        return LeadFactory::create($this->account, $this->user);
     }
 
     /**
@@ -113,7 +116,7 @@ class InvoiceImporter extends BaseCsvImporter
 
     public function transformObject($object)
     {
-        return $this->transform();
+        return $this->transformLead($object);
     }
 
     public function customHandler()

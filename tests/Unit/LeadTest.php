@@ -64,7 +64,7 @@ class LeadTest extends TestCase
         $lead = Lead::factory()->create();
         $data = ['first_name' => $this->faker->firstName];
         $leadRepo = new LeadRepository($lead);
-        $lead = $leadRepo->save($lead, $data);
+        $lead = $leadRepo->save($data, $lead);
         $lead = $leadRepo->findLeadById($lead->id);
         $this->assertInstanceOf(Lead::class, $lead);
 

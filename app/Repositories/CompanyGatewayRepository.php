@@ -74,14 +74,14 @@ class CompanyGatewayRepository extends BaseRepository
             $gateways[] = (new GatewayCalculator($company_gateway))
                 ->setFeeAmount($fee->fee_amount)
                 ->setFeePercent($fee->fee_percent)
-                ->setTaxRate('tax_rate', $fee->tax)
-                ->setTaxRate('tax_2', $fee->tax_2)
-                ->setTaxRate('tax_3', $fee->tax_3)
-                ->setTaxRateName('tax_rate_name', $fee->tax_rate_name)
-                ->setTaxRateName('tax_rate_name_2', $fee->tax_rate_name_2)
-                ->setTaxRateName('tax_rate_name_3', $fee->tax_rate_name_3)
-                ->setMinLimit($fee->min_limit)
-                ->setMaxLimit($fee->max_limit)
+                ->setTaxRate('tax_rate', isset($fee->tax) ? $fee->tax : 0)
+                ->setTaxRate('tax_2', isset($fee->tax_2) ? $fee->tax_2 : 0)
+                ->setTaxRate('tax_3', isset($fee->tax_3) ? $fee->tax_3 : 0)
+                ->setTaxRateName('tax_rate_name', isset($fee->tax_rate_name) ? $fee->tax_rate_name : '')
+                ->setTaxRateName('tax_rate_name_2', isset($fee->tax_rate_name_2) ? $fee->tax_rate_name_2 : '')
+                ->setTaxRateName('tax_rate_name_3', isset($fee->tax_rate_name_3) ? $fee->tax_rate_name_3 : '')
+                ->setMinLimit(isset($fee->min_limit) ? $fee->min_limit : 0)
+                ->setMaxLimit(isset($fee->max_limit) ? $fee->max_limit : 0)
                 ->toObject();
         }
 

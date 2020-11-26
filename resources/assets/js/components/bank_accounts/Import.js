@@ -51,7 +51,7 @@ export default class Import extends React.Component {
             currentFile: currentFile
         })
 
-        UploadService.upload(currentFile, (event) => {
+        UploadService.upload(currentFile, 'api/bank_accounts/ofx/preview', 'bank_account', (event) => {
             this.setState({
                 progress: Math.round((100 * event.loaded) / event.total)
             })

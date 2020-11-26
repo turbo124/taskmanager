@@ -6,12 +6,14 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { Alert } from 'reactstrap'
 import queryString from 'query-string'
 import FormatMoney from '../common/FormatMoney'
+import { Button, Card, CardBody, CardHeader, CustomInput, FormGroup, Input, Label } from 'reactstrap'
 
 export default class Importer extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
-            selectedFiles: null,
+            import_type: '',
+            selectedFile: null,
             currentFile: null,
             progress: 0,
             message: '',
@@ -37,21 +39,29 @@ export default class Importer extends React.Component {
         })
     }
 
-    selectFile (event) {
+    selectFile (e) {
+        console.log('file', e.target.files)
         this.setState({
-            selectedFiles: event.target.files
+            selectedFile:e.target.files[0]
         })
     }
 
     upload () {
-        const currentFile = this.state.selectedFiles[0]
+        if (!this.state.import_type.length) {
+            alert('Please select an import type')
+            return false
+        }
+
+        const currentFile = this.state.selectedFile
 
         this.setState({
             progress: 0,
             currentFile: currentFile
         })
 
-        UploadService.upload(currentFile, (event) => {
+        alert('mike')
+
+        UploadService.upload(currentFile, '/api/import', this.state.import_type, (event) => {
             this.setState({
                 progress: Math.round((100 * event.loaded) / event.total)
             })
@@ -124,10 +134,14 @@ export default class Importer extends React.Component {
         this.setState({ error: '', show_success: false })
     }
 
+    changeImportType (e) {
+        this.setState({ import_type: e.target.value })
+    }
+
     render () {
         const {
             checked,
-            selectedFiles,
+            selectedFile,
             currentFile,
             progress,
             message,
@@ -163,16 +177,34 @@ export default class Importer extends React.Component {
                                     </div>
                                 )}
 
-                                <label className="btn btn-default">
-                                    <input type="file" onChange={this.selectFile}/>
-                                </label>
+                                <div>
+                                    <div className="row">
+                                        <div className="col">
+                                            <CustomInput
+                                                onChange={this.selectFile} type="file"
+                                                id="file" name="file"
+                                                label="File"/>
+                                        </div>
+                                        <div className="col">
+                                            <select name="import_type" id="import_type" className="form-control" value={this.state.import_type} onChange={this.changeImportType.bind(this)}>
+                                                <option value="">{translations.select_option}</option>
+                                                <option value="invoice">{translations.invoice}</option>
+                                                <option value="customer">{translations.customer}</option>
+                                                <option value="lead">{translations.lead}</option>
+                                                <option value="deal">{translations.deal}</option>
+                                            </select>
+                                        </div>
 
-                                <button className="btn btn-success"
-                                    disabled={!selectedFiles}
-                                    onClick={this.upload}
-                                >
-                                    {translations.upload}
-                                </button>
+                                        <div className="col">
+                                            <button className="btn btn-success"
+                                                disabled={!selectedFile}
+                                                onClick={this.upload}
+                                            >
+                                                {translations.upload}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 {!!message &&
                                 <div className="alert alert-danger" role="alert">
@@ -192,6 +224,10 @@ export default class Importer extends React.Component {
                             </div>
                             <div className="card-body">
                                 <ImportPreview
+                                    fieldsToExclude={['invitations', 'uniqueId', 'type']}
+                                    dataItemManipulator={(field, value) => {
+                                        return value
+                                    }}
                                     disabledCheckboxes={[]}
                                     renderMasterCheckbox={false}
                                     rows={fileInfos}
@@ -243,3 +279,4 @@ export default class Importer extends React.Component {
 
         )
     }
+}

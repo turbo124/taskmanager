@@ -10,6 +10,7 @@ class CompanyGateway extends Model
     use HasFactory;
 
     protected $casts = [
+        //'fields'          => 'object',
         'fees_and_limits' => 'object',
         'config'          => 'object',
         'updated_at'      => 'timestamp',
