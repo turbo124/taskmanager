@@ -113,6 +113,11 @@ class CustomerImporter extends BaseCsvImporter
         return $this->transform();
     }
 
+    public function saveCallback(Customer $customer)
+    {
+
+    }
+
     public function customHandler()
     {
     }
