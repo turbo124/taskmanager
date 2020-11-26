@@ -39,7 +39,7 @@ trait ImportMapper
         $result = $repo->save($object, $factory);
 
         if(method_exists($this, 'saveCallback')) {
-            return $this->saveCallback($result, $object);
+            return $this->saveCallback($result);
         }
 
         return $this->result;
