@@ -10,6 +10,7 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\User;
 use App\Repositories\InvoiceRepository;
+use App\Transformations\InvoiceTransformable;
 
 class InvoiceImporter extends BaseCsvImporter
 {
@@ -118,6 +119,11 @@ class InvoiceImporter extends BaseCsvImporter
     public function repository(): InvoiceRepository
     {
         return new InvoiceRepository(new Invoice());
+    }
+
+    public function transformObject($object)
+    {
+        return (new InvoiceTransformable())->transformInvoice($object);
     }
 
     public function customHandler()

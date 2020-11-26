@@ -1,36 +1,39 @@
-?php
+<?php
 
 
 namespace App\Components\Import;
 
 
-use App\Factory\InvoiceFactory;
 use App\Models\Account;
-use App\Models\Customer;
-use App\Models\Invoice;
 use App\Models\User;
-use App\Repositories\InvoiceRepository;
 
 class ImportFactory
 {
-    public function loadImporter($type)
+    /**
+     * @param $type
+     * @param Account $account
+     * @param User $user
+     * @return CustomerImporter|DealImporter|InvoiceImporter|LeadImporter
+     * @throws CsvImporterException
+     */
+    public function loadImporter($type, Account $account, User $user)
     {
-        switch($type) {
-            case 'customer'
+        switch ($type) {
+            case 'customer':
+                return new CustomerImporter($account, $user);
+                break;
 
-            break;
+            case 'deal':
+                return new DealImporter($account, $user);
+                break;
 
-           case 'deal'
+            case 'lead':
+                return new LeadImporter($account, $user);
+                break;
 
-            break;
-
-           case 'lead'
-
-            break;
-
-            case 'invoice'
-
-            break;
+            case 'invoice':
+                return new InvoiceImporter($account, $user);
+                break;
         }
     }
 }

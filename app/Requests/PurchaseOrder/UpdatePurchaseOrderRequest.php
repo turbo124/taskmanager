@@ -32,7 +32,7 @@ class UpdatePurchaseOrderRequest extends FormRequest
             'total'          => 'required',
             'tax_total'      => 'required',
             'line_items'     => 'required|array',
-            'number'         => 'nullable|unique:purchase_orders,number,' . $this->company_id . ',id,account_id,' . $this->account_id,
+            'number'         => 'nullable|unique:purchase_orders,number,' . $this->purchase_order_id . ',id,account_id,' . $this->account_id,
         ];
     }
 

@@ -10,6 +10,7 @@ class CompanyGateway extends Model
     use HasFactory;
 
     protected $casts = [
+        //'fields'          => 'object',
         'fees_and_limits' => 'object',
         'config'          => 'object',
         'updated_at'      => 'timestamp',
@@ -21,9 +22,7 @@ class CompanyGateway extends Model
         'gateway_key',
         'accepted_credit_cards',
         'require_cvv',
-        'show_billing_address',
-        'show_shipping_address',
-        'update_details',
+        'fields',
         'config',
         'fees_and_limits',
         'custom_value1',
