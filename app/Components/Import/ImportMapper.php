@@ -36,7 +36,13 @@ trait ImportMapper
 
         $repo = $this->repository();
 
-        return $repo->save($object, $factory);
+        $result = $repo->save($object, $factory);
+
+        if(method_exists($this, 'saveCallback')) {
+            return $this->saveCallback($result, $object);
+        }
+
+        return $this->result;
     }
 
     private function buildObject($items)
