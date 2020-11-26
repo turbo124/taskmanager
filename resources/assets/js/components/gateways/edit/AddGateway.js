@@ -23,6 +23,7 @@ class AddGateway extends React.Component {
         this.handleInput = this.handleInput.bind(this)
         this.handleConfig = this.handleConfig.bind(this)
         this.updateCards = this.updateCards.bind(this)
+        this.updateFields = this.updateFields.bind(this)
         this.handleInput = this.handleInput.bind(this)
         this.updateFeesAndLimits = this.updateFeesAndLimits.bind(this)
     }
@@ -42,6 +43,12 @@ class AddGateway extends React.Component {
         const item = e.target.name
         const isChecked = e.target.checked
         this.setState(prevState => ({ accepted_cards: prevState.accepted_cards.set(item, isChecked) }))
+    }
+
+    updateFields (e) {
+        const item = e.target.name
+        const isChecked = e.target.checked
+        this.setState(prevState => ({ fields: prevState.fields.set(item, isChecked) }))
     }
 
     updateFeesAndLimits (e) {
@@ -103,8 +110,7 @@ class AddGateway extends React.Component {
         formData.append('customer_id', this.props.customer_id)
         formData.append('name', this.state.name)
         formData.append('group_id', this.props.group_id)
-        formData.append('show_billing_address', this.state.show_billing_address === true ? 1 : 0)
-        formData.append('show_shipping_address', this.state.show_shipping_address === true ? 1 : 0)
+        formData.append('fields', Array.from(this.state.fields.keys()).join(','))
         formData.append('require_cvv', this.state.require_cvv === true ? 1 : 0)
 
         this.gatewayModel.save(formData).then(response => {
