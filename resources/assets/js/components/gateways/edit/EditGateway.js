@@ -22,6 +22,7 @@ class EditGateway extends React.Component {
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.handleConfig = this.handleConfig.bind(this)
         this.updateCards = this.updateCards.bind(this)
+        this.updateFields = this.updateFields.bind(this)
         this.handleInput = this.handleInput.bind(this)
         this.updateFeesAndLimits = this.updateFeesAndLimits.bind(this)
     }
@@ -42,6 +43,14 @@ class EditGateway extends React.Component {
         const isChecked = e.target.checked
         this.setState(prevState => ({ accepted_cards: prevState.accepted_cards.set(item, isChecked) }), () => {
             console.log('cards', this.state.accepted_cards)
+        })
+    }
+
+    updateFields (e) {
+        const item = e.target.name
+        const isChecked = e.target.checked
+        this.setState(prevState => ({ fields: prevState.fields.set(item, isChecked) }), () => {
+            console.log('cards', this.state.fields)
         })
     }
 
@@ -99,13 +108,11 @@ class EditGateway extends React.Component {
         formData.append('accepted_credit_cards', Array.from(this.state.accepted_cards.keys()).join(','))
         formData.append('fees_and_limits', JSON.stringify(this.state.fees_and_limits))
         formData.append('config', JSON.stringify(this.state.config))
-        formData.append('update_details', this.state.update_details === true ? 1 : 0)
         formData.append('gateway_key', this.state.gateway_key)
         formData.append('customer_id', this.props.customer_id)
         formData.append('name', this.state.name)
         formData.append('group_id', this.props.group_id)
-        formData.append('show_billing_address', this.state.show_billing_address === true ? 1 : 0)
-        formData.append('show_shipping_address', this.state.show_shipping_address === true ? 1 : 0)
+        formData.append('fields', Array.from(this.state.fields.keys()).join(','))
         formData.append('require_cvv', this.state.require_cvv === true ? 1 : 0)
         formData.append('_method', 'PUT')
 
