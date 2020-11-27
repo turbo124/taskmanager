@@ -187,7 +187,7 @@ class InvoiceUnitTest extends TestCase
         $this->assertEquals($invoice->total, $invoice->balance);
     }
 
-    public function test_it_can_create_a_recurring_invoice()
+    public function test_it_can_generate_recurring()
     {
         $user = User::factory()->create();
         $factory = (new InvoiceFactory())->create($this->main_account, $user, $this->customer);

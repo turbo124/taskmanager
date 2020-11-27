@@ -69,6 +69,7 @@ class Product extends Model
         'custom_value2',
         'custom_value3',
         'custom_value4',
+        'brand_id'
     ];
 
     /**

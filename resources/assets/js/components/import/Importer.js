@@ -13,6 +13,7 @@ export default class Importer extends React.Component {
         super(props)
         this.state = {
             import_type: '',
+            file_type: '',
             selectedFile: null,
             currentFile: null,
             progress: 0,
@@ -59,9 +60,7 @@ export default class Importer extends React.Component {
             currentFile: currentFile
         })
 
-        alert('mike')
-
-        UploadService.upload(currentFile, '/api/import', this.state.import_type, (event) => {
+        UploadService.upload(currentFile, `/api/import?file_type=${this.state.file_type}`, this.state.import_type, (event) => {
             this.setState({
                 progress: Math.round((100 * event.loaded) / event.total)
             })
@@ -135,7 +134,8 @@ export default class Importer extends React.Component {
     }
 
     changeImportType (e) {
-        this.setState({ import_type: e.target.value })
+        alert(e.target.name + ' ' + e.target.value)
+        this.setState({ [e.target.name]: e.target.value })
     }
 
     render () {
@@ -192,6 +192,15 @@ export default class Importer extends React.Component {
                                                 <option value="customer">{translations.customer}</option>
                                                 <option value="lead">{translations.lead}</option>
                                                 <option value="deal">{translations.deal}</option>
+                                                <option value="product">{translations.product}</option>
+                                                <option value="expense">{translations.expense}</option>
+                                            </select>
+                                        </div>
+
+                                        <div className="col">
+                                            <select name="file_type" id="file_type" className="form-control" value={this.state.file_type} onChange={this.changeImportType.bind(this)}>
+                                                <option value="csv">CSV</option>
+                                                <option value="json">JSON</option>
                                             </select>
                                         </div>
 

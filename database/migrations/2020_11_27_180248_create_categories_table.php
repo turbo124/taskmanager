@@ -27,6 +27,7 @@ class CreateCategoriesTable extends Migration
             $table->unsignedInteger('account_id')->index('account_id');
             $table->unsignedInteger('user_id')->index('user_id');
             $table->softDeletes();
+            $table->tinyInteger('is_deleted')->default(0);
             $table->index(['_lft', '_rgt', 'parent_id']);
         });
     }

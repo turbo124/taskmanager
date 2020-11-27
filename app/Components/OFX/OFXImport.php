@@ -65,7 +65,7 @@ class OFXImport
                 $company = $company_repo->save(['name' => $transaction['name']], $company);
             }
 
-            $expense = ExpenseFactory::create($account, $user);
+            $expense = ExpenseFactory::create($user, $account);
             $data = [
                 'create_invoice' => true,
                 'exchange_rate'  => 1,

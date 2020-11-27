@@ -89,7 +89,6 @@ class InvoicePdf extends PdfBuilder
 
         $table_row .= '</tr>';
 
-
         if (empty($this->line_items)) {
             return [];
         }

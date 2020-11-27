@@ -83,7 +83,7 @@ class ExpenseController extends Controller
     {
         $expense = $this->expense_repo->createExpense(
             $request->all(),
-            ExpenseFactory::create(auth()->user()->account_user()->account, auth()->user())
+            ExpenseFactory::create(auth()->user(), auth()->user()->account_user()->account)
         );
 
         return response()->json($this->transformExpense($expense));

@@ -4,14 +4,17 @@
 namespace App\Components\Import;
 
 
+use App\Factory\ExpenseCategoryFactory;
 use App\Factory\ExpenseFactory;
 use App\Models\Account;
 use App\Models\Expense;
+use App\Models\ExpenseCategory;
 use App\Models\User;
+use App\Repositories\ExpenseCategoryRepository;
 use App\Repositories\ExpenseRepository;
 use App\Transformations\ExpenseTransformable;
 
-class DealImporter extends BaseCsvImporter
+class ExpenseImporter extends BaseCsvImporter
 {
     use ImportMapper;
     use ExpenseTransformable;
@@ -20,16 +23,19 @@ class DealImporter extends BaseCsvImporter
      * @var array|string[]
      */
     private array $mappings = [
-        'category name' => 'expense_category',
-        'description'   => 'description',
-        'amount'        => 'amount',
-        'currency code' => 'currency_id',
-        'terms'         => 'terms',
-        'public notes'  => 'public_notes',
-        'private notes' => 'private_notes'
+        'expense category name' => 'expense_category_id',
+        'company name'          => 'company_id',
+        'customer name'         => 'customer_id',
+        'payment type'          => 'payment_type_id',
+        'transaction reference' => 'transaction_reference',
+        'project name'          => 'project_id',
+        'date'                  => 'date',
+        'amount'                => 'amount',
+        'currency code'         => 'currency_id',
+        'terms'                 => 'terms',
+        'public notes'          => 'public_notes',
+        'private notes'         => 'private_notes'
     ];
-
-    private $repository = InvoiceRepository::class;
 
     /**
      * @var Account
@@ -65,11 +71,15 @@ class DealImporter extends BaseCsvImporter
     {
         return [
             'mappings'  => [
-                'category_name'        => ['required', 'cast' => 'string'],
-                'description' => ['cast' => 'string'],
-                'amount'      => ['cast' => 'float'],
-                'due_date'    => ['cast' => 'date'],
-                'currency_id' => ['required', 'cast' => 'int'],
+                'expense category name' => ['required', 'cast' => 'string'],
+                'company name'          => ['cast' => 'string'],
+                'customer name'         => ['cast' => 'string'],
+                'payment type'          => ['cast' => 'string'],
+                'transaction_reference' => ['cast' => 'string'],
+                'project name'          => ['cast' => 'string'],
+                'amount'                => ['cast' => 'float'],
+                'date'                  => ['cast' => 'date'],
+                'currency code'         => ['required', 'cast' => 'string'],
             ],
             'csv_files' => [
                 'valid_entities'   => '/valid_entities.csv',
@@ -103,7 +113,32 @@ class DealImporter extends BaseCsvImporter
         return $this->transformExpense($object);
     }
 
-    public function customHandler()
+    public function getExpenseCategory(string $value)
     {
+        if (empty($this->expense_categories)) {
+            $this->expense_categories = ExpenseCategory::where('account_id', $this->account->id)->where(
+                'is_deleted',
+                false
+            )->get()->keyBy('name')->toArray();
+
+            $this->expense_categories = array_change_key_case($this->expense_categories, CASE_LOWER);
+        }
+
+        if (empty($this->expense_categories)) {
+            return null;
+        }
+
+        if (empty($this->expense_categories[strtolower($value)])) {
+            $expense_category = (new ExpenseCategoryFactory())->create($this->account, $this->user);
+            $expense_category = (new ExpenseCategoryRepository(new ExpenseCategory()))->save(
+                ['name' => $value],
+                $expense_category
+            );
+            return $expense_category->id;
+        }
+
+        $expense_category = $this->expense_categories[strtolower($value)];
+
+        return $expense_category['id'];
     }
 }

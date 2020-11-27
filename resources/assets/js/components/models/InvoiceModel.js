@@ -504,13 +504,17 @@ export default class InvoiceModel extends BaseModel {
             }
         })
 
-        return Math.round(tax_total, 2)
+        const precision = this.currency.precision || 2
+
+        return Math.round(tax_total, precision)
     }
 
     calculateTax (tax_amount) {
         const a_total = parseFloat(this.fields.total)
         const tax_percentage = parseFloat(a_total) * parseFloat(tax_amount) / 100
 
-        return Math.round(tax_percentage, 2)
+        const precision = this.currency.precision || 2
+
+        return Math.round(tax_percentage, precision)
     }
 }
