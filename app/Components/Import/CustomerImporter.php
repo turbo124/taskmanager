@@ -35,8 +35,6 @@ class CustomerImporter extends BaseCsvImporter
         ]
     ];
 
-    private $repository = InvoiceRepository::class;
-
     /**
      * @var Account
      */
@@ -76,7 +74,7 @@ class CustomerImporter extends BaseCsvImporter
                 'email'      => ['cast' => 'string'],
                 'phone'      => ['cast' => 'string'],
                 'name'       => ['cast' => 'string'],
-                'vat_number' => ['required', 'cast' => 'date'],
+                'vat_number' => ['required', 'cast' => 'string'],
                 //'due date'      => ['cast' => 'date'],
                 //'customer_id' => ['required', 'cast' => 'int'],
             ],

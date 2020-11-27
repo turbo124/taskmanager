@@ -21,7 +21,7 @@ class InvoiceImporter extends BaseCsvImporter
      */
     private array $mappings = [
         'number'        => 'number',
-        'customer_name' => 'customer_id',
+        'customer name' => 'customer_id',
         'date'          => 'date',
         'po number'     => 'po_number',
         'due date'      => 'due_date',
@@ -39,8 +39,6 @@ class InvoiceImporter extends BaseCsvImporter
         'shipping_cost' => 'shipping_cost',
         'tax_rate'      => 'tax_rate'
     ];
-
-    private $repository = InvoiceRepository::class;
 
     /**
      * @var Account
@@ -81,7 +79,7 @@ class InvoiceImporter extends BaseCsvImporter
     {
         return [
             'mappings'  => [
-                'customer_name' => ['required', 'cast' => 'string'],
+                'customer name' => ['required', 'cast' => 'string'],
                 'terms'         => ['cast' => 'string'],
                 'private notes' => ['cast' => 'string'],
                 'public notes'  => ['cast' => 'string'],
@@ -89,10 +87,6 @@ class InvoiceImporter extends BaseCsvImporter
                 'date'          => ['required', 'cast' => 'date'],
                 'due date'      => ['cast' => 'date'],
                 //'customer_id' => ['required', 'cast' => 'int'],
-            ],
-            'csv_files' => [
-                'valid_entities'   => '/valid_entities.csv',
-                'invalid_entities' => '/invalid_entities.csv',
             ],
             'config'    => [
                 'csv_date_format' => 'Y-m-d'
@@ -124,9 +118,5 @@ class InvoiceImporter extends BaseCsvImporter
     public function transformObject($object)
     {
         return (new InvoiceTransformable())->transformInvoice($object);
-    }
-
-    public function customHandler()
-    {
     }
 }

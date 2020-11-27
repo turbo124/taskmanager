@@ -9,11 +9,11 @@ use App\Models\User;
 class ExpenseFactory
 {
     /**
-     * @param int $account_id
-     * @param int $user_id
+     * @param User $user
+     * @param Account $account
      * @return Expense
      */
-    public static function create(Account $account, User $user): Expense
+    public static function create(User $user, Account $account): Expense
     {
         $expense = new Expense();
         $expense->user_id = $user->id;

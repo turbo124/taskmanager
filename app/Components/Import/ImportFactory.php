@@ -13,7 +13,7 @@ class ImportFactory
      * @param $type
      * @param Account $account
      * @param User $user
-     * @return CustomerImporter|DealImporter|InvoiceImporter|LeadImporter
+     * @return CustomerImporter|DealImporter|ExpenseImporter|InvoiceImporter|LeadImporter|ProductImporter
      * @throws CsvImporterException
      */
     public function loadImporter($type, Account $account, User $user)
@@ -33,6 +33,14 @@ class ImportFactory
 
             case 'invoice':
                 return new InvoiceImporter($account, $user);
+                break;
+
+            case 'product':
+                return new ProductImporter($account, $user);
+                break;
+
+            case 'expense':
+                return new ExpenseImporter($account, $user);
                 break;
         }
     }

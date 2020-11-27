@@ -267,6 +267,9 @@ class PdfColumns
                 ]
             )) ? '$task_table_body' : '$product_table_body');
 
+        if (empty($table)) {
+            return true;
+        }
 
         $this->exported_variables[$header_key] = $table->header;
         $this->exported_variables[$body_key] = $table->body;

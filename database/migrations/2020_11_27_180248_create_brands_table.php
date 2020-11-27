@@ -23,6 +23,7 @@ class CreateBrandsTable extends Migration
             $table->string('cover')->nullable();
             $table->string('description');
             $table->softDeletes();
+            $table->tinyInteger('is_deleted')->default(0);
         });
     }
 

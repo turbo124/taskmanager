@@ -75,7 +75,7 @@ class ExpenseTest extends TestCase
     /** @test */
     public function it_can_create_a_expense()
     {
-        $factory = (new ExpenseFactory)->create($this->account, $this->user);
+        $factory = (new ExpenseFactory)->create($this->user, $this->account);
 
         $data = [
             'account_id'  => $this->account->id,
@@ -99,7 +99,7 @@ class ExpenseTest extends TestCase
         $this->account->settings = $settings;
         $this->account->save();
 
-        $factory = (new ExpenseFactory)->create($this->account, $this->user);
+        $factory = (new ExpenseFactory)->create($this->user, $this->account);
 
         $data = [
             'account_id'            => $this->account->id,

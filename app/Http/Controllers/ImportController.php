@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Components\Import\ImportFactory;
+use App\Components\Import\JsonConverter;
 use App\Repositories\BankAccountRepository;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -14,6 +15,8 @@ use Illuminate\Http\Request;
  */
 class ImportController extends Controller
 {
+    use JsonConverter;
+
     /**
      * ImportController constructor.
      */
@@ -33,7 +36,16 @@ class ImportController extends Controller
                 auth()->user()
             );
 
-            $importer->setCsvFile($request->file('file')->getPathname());
+            $file_path = $request->file('file')->getPathname();
+
+            $is_json = !empty($request->input('file_type')) && $request->input('file_type') === 'json';
+
+            if ($is_json) {
+                $jsonString = file_get_contents($file_path);
+                $file_path = $this->convert($jsonString);
+            }
+
+            $importer->setCsvFile($file_path);
 
             $importer->run();
         } catch (Exception $e) {

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Components\InvoiceCalculator\LineItem;
 use App\Factory\RecurringInvoiceFactory;
 use App\Jobs\Invoice\SendRecurringInvoice;
 use App\Models\Account;
@@ -107,23 +108,25 @@ class RecurringInvoiceTest extends TestCase
 
 
     /** @test */
-    public function it_can_create_a_invoice()
+    public function it_can_create_a_recurring_invoice()
     {
+        $recurringInvoiceRepo = new RecurringInvoiceRepository(new RecurringInvoice);
+        $recurring_invoice = RecurringInvoice::factory()->create(['total' => 800]);
+
         $data = [
             'account_id'  => $this->account->id,
             'user_id'     => $this->user->id,
             'customer_id' => $this->customer->id,
-            'total'       => 200,
-            'frequency' => 'MONTHLY'
+            'total'       => 800,
+            'frequency' => 'WEEKLY'
         ];
 
-        $recurringInvoiceRepo = new RecurringInvoiceRepository(new RecurringInvoice);
-        $factory = (new RecurringInvoiceFactory)->create($this->customer, $this->account, $this->user, 200);
-        $recurring_invoice = $recurringInvoiceRepo->createInvoice($data, $factory);
+        $recurring_invoice = $recurringInvoiceRepo->createInvoice($data, $recurring_invoice);
 
-        $this->assertEquals($recurring_invoice->date_to_send, Carbon::today()->addMonthNoOverflow());
+        $this->assertEquals($recurring_invoice->date_to_send, Carbon::today()->addWeek());
         $this->assertInstanceOf(RecurringInvoice::class, $recurring_invoice);
-        $this->assertEquals($data['total'], $recurring_invoice->total);
+        $this->assertEquals($data['customer_id'], $recurring_invoice->customer_id);
+        $this->assertEquals($data['frequency'], $recurring_invoice->frequency);
         $this->assertNotEmpty($recurring_invoice->invitations);
     }
 
