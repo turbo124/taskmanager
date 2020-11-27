@@ -37,8 +37,6 @@ class LeadImporter extends BaseCsvImporter
         'description'   => 'description',
     ];
 
-    private $repository = InvoiceRepository::class;
-
     /**
      * @var Account
      */
@@ -86,10 +84,6 @@ class LeadImporter extends BaseCsvImporter
                 'description' => ['required', 'cast' => 'string'],
                 'job_title'   => ['cast' => 'string'],
                 //'customer_id' => ['required', 'cast' => 'int'],
-            ],
-            'csv_files' => [
-                'valid_entities'   => '/valid_entities.csv',
-                'invalid_entities' => '/invalid_entities.csv',
             ],
             'config'    => [
                 'csv_date_format' => 'Y-m-d'

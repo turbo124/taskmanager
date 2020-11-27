@@ -35,8 +35,6 @@ class CustomerImporter extends BaseCsvImporter
         ]
     ];
 
-    private $repository = InvoiceRepository::class;
-
     /**
      * @var Account
      */

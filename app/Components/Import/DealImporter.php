@@ -29,8 +29,6 @@ class DealImporter extends BaseCsvImporter
         'private notes' => 'private_notes'
     ];
 
-    private $repository = InvoiceRepository::class;
-
     /**
      * @var Account
      */
@@ -70,10 +68,6 @@ class DealImporter extends BaseCsvImporter
                 'valued_at'   => ['cast' => 'string'],
                 'due_date'    => ['cast' => 'date'],
                 //'customer_id' => ['required', 'cast' => 'int'],
-            ],
-            'csv_files' => [
-                'valid_entities'   => '/valid_entities.csv',
-                'invalid_entities' => '/invalid_entities.csv',
             ],
             'config'    => [
                 'csv_date_format' => 'Y-m-d'

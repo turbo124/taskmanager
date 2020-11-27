@@ -40,8 +40,6 @@ class InvoiceImporter extends BaseCsvImporter
         'tax_rate'      => 'tax_rate'
     ];
 
-    private $repository = InvoiceRepository::class;
-
     /**
      * @var Account
      */

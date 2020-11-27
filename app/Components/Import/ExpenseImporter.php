@@ -81,10 +81,6 @@ class ExpenseImporter extends BaseCsvImporter
                 'date'                  => ['cast' => 'date'],
                 'currency code'         => ['required', 'cast' => 'string'],
             ],
-            'csv_files' => [
-                'valid_entities'   => '/valid_entities.csv',
-                'invalid_entities' => '/invalid_entities.csv',
-            ],
             'config'    => [
                 'csv_date_format' => 'Y-m-d'
             ]
