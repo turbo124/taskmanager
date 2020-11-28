@@ -88,8 +88,7 @@ class SubscriptionController extends Controller
     public function destroy(int $id)
     {
         $subscription = $this->subscription_repo->findSubscriptionById($id);
-        //may not need these destroy routes as we are using actions to 'archive/delete'
-        $subscription->delete();
+        $subscription->deleteEntity();
 
         return response()->json($subscription);
     }
