@@ -52,18 +52,16 @@ class CompanyUnitTest extends TestCase
     /** @test */
     public function it_can_delete_the_company()
     {
-        $brand = Company::factory()->create();
-        $brandRepo = new CompanyRepository($brand, new CompanyContactRepository(new CompanyContact));
-        $deleted = $brandRepo->newDelete($brand);
+        $company = Company::factory()->create();
+        $deleted = $company->deleteEntity();
         $this->assertTrue($deleted);
     }
 
     /** @test */
     public function it_can_archive_the_company()
     {
-        $brand = Company::factory()->create();
-        $brandRepo = new CompanyRepository($brand, new CompanyContactRepository(new CompanyContact));
-        $deleted = $brandRepo->archive($brand);
+        $company = Company::factory()->create();
+        $deleted = $company->archive();
         $this->assertTrue($deleted);
     }
 
