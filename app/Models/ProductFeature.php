@@ -4,6 +4,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Archiveable;
 
 /**
  * Class ProductFeature
@@ -11,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ProductFeature extends Model
 {
+    use Archiveable;
+
     protected $fillable = [
         'description',
         'product_id'
