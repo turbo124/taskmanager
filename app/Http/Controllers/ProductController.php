@@ -117,8 +117,7 @@ class ProductController extends Controller
     public function archive($id)
     {
         $product = $this->product_repo->findProductById($id);
-        $productRepo = new ProductRepository($product);
-        $productRepo->deleteProduct();
+        $product->archive();
     }
 
     /**
@@ -127,8 +126,8 @@ class ProductController extends Controller
      */
     public function destroy(int $id)
     {
-        $company = Product::withTrashed()->where('id', '=', $id)->first();
-        $this->product_repo->newDelete($company);
+        $product = Product::withTrashed()->where('id', '=', $id)->first();
+        $product->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -225,8 +224,8 @@ class ProductController extends Controller
      */
     public function restore(int $id)
     {
-        $group = Product::withTrashed()->where('id', '=', $id)->first();
-        $this->product_repo->restore($group);
+        $product = Product::withTrashed()->where('id', '=', $id)->first();
+        $product->restore();
         return response()->json([], 200);
     }
 }
