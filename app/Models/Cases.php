@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
+use App\Traits\Archiveable;
 
 class Cases extends Model
 {
     use SoftDeletes;
     use PresentableTrait;
     use HasFactory;
+    use Archiveable;
 
     const STATUS_DRAFT = 1;
     const STATUS_OPEN = 2;
