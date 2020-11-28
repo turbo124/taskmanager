@@ -1,5 +1,11 @@
 <?php
-trait Archiveable {
+
+
+namespace App\Traits;
+
+
+trait Archiveable
+{
     public function archive()
     {
         $this->delete();
