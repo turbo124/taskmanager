@@ -80,7 +80,7 @@ class EventController extends Controller
     public function archive(int $id)
     {
         $objEvent = $this->event_repo->findEventById($id);
-        $response = $objEvent->delete();
+        $response = $event->archive();
 
         if ($response) {
             return response()->json('Event deleted!');
@@ -94,8 +94,8 @@ class EventController extends Controller
      */
     public function destroy(int $id)
     {
-        $tax_rate = Event::withTrashed()->where('id', '=', $id)->first();
-        $this->event_repo->newDelete($tax_rate);
+        $event = Event::withTrashed()->where('id', '=', $id)->first();
+        $event->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -173,8 +173,8 @@ class EventController extends Controller
      */
     public function restore(int $id)
     {
-        $invoice = Event::withTrashed()->where('id', '=', $id)->first();
-        $this->event_repo->restore($invoice);
+        $event = Event::withTrashed()->where('id', '=', $id)->first();
+        $event->restore();
         return response()->json([], 200);
     }
 
