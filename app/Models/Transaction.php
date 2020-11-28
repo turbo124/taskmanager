@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Archiveable;
 
 class Transaction extends Model
 {
+    use Archiveable;
+
     protected $fillable = [
         'customer_id',
         'updated_balance',
