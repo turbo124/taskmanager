@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Archiveable;
 
 class Project extends Model
 {
@@ -15,6 +16,7 @@ class Project extends Model
     use SearchableTrait;
     use SoftDeletes;
     use HasFactory;
+    use Archiveable;
 
     protected $fillable = [
         'name',
