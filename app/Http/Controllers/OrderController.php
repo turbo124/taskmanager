@@ -89,6 +89,12 @@ class OrderController extends BaseController
         return response()->json($this->transformOrder($order));
     }
 
+    public function show(int $id)
+    {
+        $order = $this->order_repo->findOrderById($invoice_id);
+        return response()->json($this->transformOrder($order));
+    }
+
     public function getOrderForTask(int $task_id)
     {
         $order = Order::whereTaskId($task_id)->first();
