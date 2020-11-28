@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
+use App\Traits\Archiveable;
 
 class Task extends Model
 {
@@ -16,6 +17,7 @@ class Task extends Model
     use SoftDeletes;
     use PresentableTrait;
     use HasFactory;
+    use Archiveable;
 
     const TASK_TYPE_DEAL = 3;
     const STATUS_IN_PROGRESS = 7;
