@@ -37,6 +37,22 @@ class NumberGenerator
         return $number;
     }
 
+    private function getReplacement($matches) {
+        $value = $matches[1]; // Index 1 is the first capture group, which contains our item number.
+    
+        switch($value) {
+            case 'YEAR':
+                return date('Y');
+            case 'DATE':
+                return date('d-m-Y');
+            case 'MONTH':
+                return date('M');
+            case 'CUSTOMER':
+                return 0001;
+      
+        }
+    }
+
     /**
      * @param $pattern_entity
      * @param $counter_var
@@ -46,7 +62,7 @@ class NumberGenerator
      */
     private function setType($pattern_entity, $counter_var, $resource, Customer $customer = null)
     {
-        $pattern = $customer !== null
+        $this->pattern = $customer !== null
             ? trim($customer->getSetting($pattern_entity))
             : trim(
                 $this->entity_obj->account->settings->{$pattern_entity}
@@ -62,10 +78,12 @@ class NumberGenerator
             return true;
         }
 
-        if ($resource === Customer::class || strpos($pattern, 'clientCounter')) {
+        $counter_type = 'customer'; //TODO
+
+        if ($resource === Customer::class || $counter_type === 'customer') {
             $this->counter = $customer->getSetting($counter_var);
             $this->counter_entity = $customer;
-        } elseif (strpos($pattern, 'groupCounter')) {
+        } elseif ($counter_type === 'group') {
             $this->counter = $customer->group_settings->{$counter_var};
             $this->counter_entity = $customer->group_settings;
         }
@@ -85,6 +103,7 @@ class NumberGenerator
         $check = false;
         do {
             $number = str_pad($counter, $padding, '0', STR_PAD_LEFT);
+            $number = preg_replace_callback('/{(.*?)}/', array($this, 'getReplacement'), $content);
 
             if ($this->isRecurring($class)) {
                 $number = $this->addPrefixToCounter($number, $class, $customer);
