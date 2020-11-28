@@ -132,8 +132,8 @@ class CompanyController extends Controller
      */
     public function restore(int $id)
     {
-        $group = Company::withTrashed()->where('id', '=', $id)->first();
-        $this->company_repo->restore($group);
+        $company = Company::withTrashed()->where('id', '=', $id)->first();
+        $company->restore();
         return response()->json([], 200);
     }
 
@@ -145,16 +145,14 @@ class CompanyController extends Controller
      */
     public function archive(int $id)
     {
-        $brand = $this->company_repo->findCompanyById($id);
-        $brandRepo = new CompanyRepository($brand);
-        //$brandRepo->dissociateProducts();
-        $brandRepo->deleteCompany();
+        $company = $this->company_repo->findCompanyById($id);
+        $company->archive();
     }
 
     public function destroy(int $id)
     {
         $company = Company::withTrashed()->where('id', '=', $id)->first();
-        $this->company_repo->newDelete($company);
+        $company->deleteEntity();
         return response()->json([], 200);
     }
 

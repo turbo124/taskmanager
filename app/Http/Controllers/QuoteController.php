@@ -142,8 +142,8 @@ class QuoteController extends BaseController
      */
     public function archive(int $id)
     {
-        $invoice = $this->quote_repo->findQuoteById($id);
-        $this->quote_repo->archive($invoice);
+        $quote = $this->quote_repo->findQuoteById($id);
+        $quote->archive();
         return response()->json([], 200);
     }
 
@@ -154,7 +154,7 @@ class QuoteController extends BaseController
     public function destroy(int $id)
     {
         $quote = Quote::withTrashed()->where('id', '=', $id)->first();
-        $this->quote_repo->newDelete($quote);
+        $quote->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -164,8 +164,8 @@ class QuoteController extends BaseController
      */
     public function restore(int $id)
     {
-        $invoice = Quote::withTrashed()->where('id', '=', $id)->first();
-        $this->quote_repo->restore($invoice);
+        $quote = Quote::withTrashed()->where('id', '=', $id)->first();
+        $quote->restore();
         return response()->json([], 200);
     }
 }

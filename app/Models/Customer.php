@@ -11,11 +11,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
+use App\Traits\Archiveable;
 
 class Customer extends Model implements HasLocalePreference
 {
 
-    use SoftDeletes, PresentableTrait, Balancer, Money, HasFactory;
+    use SoftDeletes, PresentableTrait, Balancer, Money, HasFactory, Archiveable;
 
     private $merged_settings;
 

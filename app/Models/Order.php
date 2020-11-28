@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
+use App\Traits\Archiveable;
 
 /**
  * Class Order
@@ -29,6 +30,7 @@ class Order extends Model
     use Money;
     use Balancer;
     use HasFactory;
+    use Archiveable;
 
     const STATUS_DRAFT = 1;
     const STATUS_SENT = 2;

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
+use App\Traits\Archiveable;
 
 class Deal extends Model
 {
@@ -14,6 +15,7 @@ class Deal extends Model
     use SoftDeletes;
     use PresentableTrait;
     use HasFactory;
+    use Archiveable;
 
     protected $fillable = [
         'task_sort_order',

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Archiveable;
 
 /**
  * @method static byCode(string $code)
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Promocode extends Model
 {
     use SoftDeletes;
+    use Archiveable;
 
     /**
      * Indicates if the model should be timestamped.

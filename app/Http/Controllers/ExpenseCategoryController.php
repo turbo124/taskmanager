@@ -80,7 +80,7 @@ class ExpenseCategoryController extends Controller
     public function destroy(int $id)
     {
         $category = $this->category_repo->findCategoryById($id);
-        $category->delete();
+        $category->deleteEntity();
     }
 
     public function getRootCategories()

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laracasts\Presenter\PresentableTrait;
+use App\Traits\Archiveable;
 
 class Lead extends Model
 {
@@ -22,6 +23,7 @@ class Lead extends Model
     use PresentableTrait;
     use Notifiable;
     use HasFactory;
+    use Archiveable;
 
     const NEW_LEAD = 98;
     const IN_PROGRESS = 99;

@@ -87,7 +87,7 @@ class CategoryController extends Controller
     {
         $category = $this->category_repo->findCategoryById($id);
         $category->products()->sync([]);
-        $category->delete();
+        $category->deleteEntity();
     }
 
     /**

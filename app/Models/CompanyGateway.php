@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Archiveable;
 
 class CompanyGateway extends Model
 {
     use HasFactory;
+    use Archiveable;
 
     protected $casts = [
         //'fields'          => 'object',

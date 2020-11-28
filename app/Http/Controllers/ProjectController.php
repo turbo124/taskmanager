@@ -96,7 +96,7 @@ class ProjectController extends Controller
     public function restore(int $id)
     {
         $project = Project::withTrashed()->where('id', '=', $id)->first();
-        $this->project_repo->restore($project);
+        $project->restore();
         return response()->json([], 200);
     }
 
@@ -109,15 +109,13 @@ class ProjectController extends Controller
     public function archive(int $id)
     {
         $project = $this->project_repo->findProjectById($id);
-        $project_repo = new ProjectRepository($project);
-        //$brandRepo->dissociateProducts();
-        $project->delete();
+        $project->archive();
     }
 
     public function destroy(int $id)
     {
         $project = Project::withTrashed()->where('id', '=', $id)->first();
-        $this->project_repo->newDelete($project);
+        $project->deleteEntity();
         return response()->json([], 200);
     }
 }

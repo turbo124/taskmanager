@@ -7,10 +7,11 @@ use App\Services\Expense\ExpenseService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Archiveable;
 
 class Expense extends Model
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes, HasFactory, Archiveable;
 
     const STATUS_LOGGED = 1;
     const STATUS_PENDING = 2;

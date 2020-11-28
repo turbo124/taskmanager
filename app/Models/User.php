@@ -15,12 +15,14 @@ use Laracasts\Presenter\PresentableTrait;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use stdClass;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Traits\Archiveable;
 
 class User extends Authenticatable implements JWTSubject
 {
 
     use Notifiable, SoftDeletes, HasPermissionsTrait, PresentableTrait, HasFactory;
     use HasRelationships;
+    use Archiveable;
 
     public $account;
     protected $presenter = 'App\Presenters\UserPresenter';

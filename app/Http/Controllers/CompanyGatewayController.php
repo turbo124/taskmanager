@@ -81,4 +81,34 @@ class CompanyGatewayController extends Controller
 
         return response()->json($this->transformCompanyGateway($company_gateway));
     }
+
+     /**
+     * @param int $id
+     * @return mixed
+     */
+    public function restore(int $id)
+    {
+        $company_gateway = CompanyGateway:: withTrashed()->where('id', '=', $id)->first();
+        $company_gateway->restore();
+        return response()->json([], 200);
+    }
+
+    /**
+     * @param $id
+     *
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function archive(int $id)
+    {
+        $company_gateway = $this->company_gateway_repo->findCompanyGatewayById($id);
+        $company_gateway->archive();
+    }
+
+    public function destroy(int $id)
+    {
+        $company = CompanyGateway::withTrashed()->where('id', '=', $id)->first();
+        $company->deleteEntity();
+        return response()->json([], 200);
+    }
 }

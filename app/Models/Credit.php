@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
+use App\Traits\Archiveable;
 
 class Credit extends Model
 {
@@ -20,6 +21,7 @@ class Credit extends Model
     use Money;
     use Balancer;
     use HasFactory;
+    use Archiveable;
 
     const STATUS_DRAFT = 1;
     const STATUS_SENT = 2;

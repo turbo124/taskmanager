@@ -91,9 +91,7 @@ class BankAccountController extends Controller
     public function destroy($id)
     {
         $bank_account = $this->bank_account_repo->findBankAccountById($id);
-
-        $bank_account_repo = new BankAccountRepository($bank_account);
-        $bank_account_repo->delete();
+        $bank_account->deleteEntity();
 
         return response()->json('deleted');
     }

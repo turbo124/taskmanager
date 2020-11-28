@@ -106,8 +106,8 @@ class GroupController extends Controller
      */
     public function archive(int $id)
     {
-        $group_setting = $this->group_setting_repo->findGroupById($id);
-        $group_setting->delete();
+        $group = $this->group_setting_repo->findGroupById($id);
+        $group->archive();
         return response()->json([], 200);
     }
 
@@ -117,8 +117,8 @@ class GroupController extends Controller
      */
     public function destroy(int $id)
     {
-        $tax_rate = Group::withTrashed()->where('id', '=', $id)->first();
-        $this->group_setting_repo->newDelete($tax_rate);
+        $group = Group::withTrashed()->where('id', '=', $id)->first();
+        $group->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -142,7 +142,7 @@ class GroupController extends Controller
     public function restore(int $id)
     {
         $group = Group::withTrashed()->where('id', '=', $id)->first();
-        $this->group_setting_repo->restore($group);
+        $group->restore();
         return response()->json([], 200);
     }
 }

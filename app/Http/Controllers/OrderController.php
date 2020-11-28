@@ -89,6 +89,12 @@ class OrderController extends BaseController
         return response()->json($this->transformOrder($order));
     }
 
+    public function show(int $id)
+    {
+        $order = $this->order_repo->findOrderById($invoice_id);
+        return response()->json($this->transformOrder($order));
+    }
+
     public function getOrderForTask(int $task_id)
     {
         $order = Order::whereTaskId($task_id)->first();
@@ -107,7 +113,7 @@ class OrderController extends BaseController
     public function archive(int $id)
     {
         $order = $this->order_repo->findOrderById($id);
-        $this->order_repo->archive($order);
+        $order->archive();
         return response()->json([], 200);
     }
 
@@ -118,7 +124,7 @@ class OrderController extends BaseController
     public function destroy(int $id)
     {
         $order = $this->order_repo->findOrderById($id);
-        $this->order_repo->newDelete($order);
+        $order->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -129,7 +135,7 @@ class OrderController extends BaseController
     public function restore(int $id)
     {
         $order = $this->order_repo->findOrderById($id);
-        $this->order_repo->restore($order);
+        $order->restore();
         return response()->json([], 200);
     }
 }

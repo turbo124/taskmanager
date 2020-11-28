@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laracasts\Presenter\PresentableTrait;
+use App\Traits\Archiveable;
 
 class CustomerContact extends Model implements ContactInterface
 {
@@ -15,6 +16,7 @@ class CustomerContact extends Model implements ContactInterface
     use SoftDeletes;
     use Notifiable;
     use HasFactory;
+    use Archiveable;
 
     protected $presenter = 'App\Presenters\ClientContactPresenter';
 

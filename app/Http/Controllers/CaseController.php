@@ -112,18 +112,33 @@ class CaseController extends Controller
         return response()->json($this->transform($case));
     }
 
+    public function archive(int $id)
+    {
+        $case = $this->case_repo->findCaseById($id);
+        $case->archive();
+        return response()->json([], 200);
+    }
+
     /**
      * @param int $id
-     * @return JsonResponse
-     * @throws Exception
+     * @return mixed
      */
     public function destroy(int $id)
     {
-        $case = $this->case_repo->findCaseById($id);
-        //may not need these destroy routes as we are using actions to 'archive/delete'
-        $case->delete();
+        $case = Cases::withTrashed()->where('id', '=', $id)->first();
+        $case->deleteEntity();
+        return response()->json([], 200);
+    }
 
-        return response()->json($case);
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function restore(int $id)
+    {
+        $case = Cases::withTrashed()->where('id', '=', $id)->first();
+        $case->restore();
+        return response()->json([], 200);
     }
 
     /**

@@ -96,7 +96,7 @@ class ExpenseController extends Controller
     public function destroy(int $id)
     {
         $expense = Expense::withTrashed()->where('id', '=', $id)->first();
-        $this->expense_repo->newDelete($expense);
+        $expense->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -106,8 +106,8 @@ class ExpenseController extends Controller
      */
     public function restore(int $id)
     {
-        $group = Expense::withTrashed()->where('id', '=', $id)->first();
-        $this->expense_repo->restore($group);
+        $expense = Expense::withTrashed()->where('id', '=', $id)->first();
+        $expense->restore();
         return response()->json([], 200);
     }
 
@@ -120,8 +120,8 @@ class ExpenseController extends Controller
     public function archive(int $id)
     {
         $expense = $this->expense_repo->findExpenseById($id);
-        $expenseRepo = new ExpenseRepository($expense);
-        $expenseRepo->archive($expense);
+        $expense->archive();
+        return response()->json([], 200);
     }
 
     /**
