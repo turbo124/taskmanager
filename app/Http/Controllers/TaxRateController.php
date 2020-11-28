@@ -75,9 +75,8 @@ class TaxRateController extends Controller
      */
     public function archive(int $id)
     {
-        $taxRate = $this->tax_rate_repo->findTaxRateById($id);
-        $taxRateRepo = new TaxRateRepository($taxRate);
-        $taxRateRepo->delete();
+        $tax_rate = $this->tax_rate_repo->findTaxRateById($id);
+        $tax_rate->archive();
         return response()->json('deleted');
     }
 
@@ -88,7 +87,7 @@ class TaxRateController extends Controller
     public function destroy(int $id)
     {
         $tax_rate = TaxRate::withTrashed()->where('id', '=', $id)->first();
-        $this->tax_rate_repo->newDelete($tax_rate);
+        $tax_rate->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -98,8 +97,8 @@ class TaxRateController extends Controller
      */
     public function restore(int $id)
     {
-        $group = TaxRate::withTrashed()->where('id', '=', $id)->first();
-        $this->tax_rate_repo->restore($group);
+        $tax_rate = TaxRate::withTrashed()->where('id', '=', $id)->first();
+        $tax_rate->restore();
         return response()->json([], 200);
     }
 
