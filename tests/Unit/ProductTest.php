@@ -149,8 +149,7 @@ class ProductTest extends TestCase
     public function it_can_delete_a_product()
     {
         $product = Product::factory()->create();
-        $productRepo = new ProductRepository($product);
-        $deleted = $productRepo->newDelete($product);
+        $deleted = $product->deleteEntity();
         $this->assertTrue($deleted);
         //$this->assertDatabaseMissing('products', ['name' => $product->name]);
     }
