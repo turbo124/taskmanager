@@ -121,7 +121,7 @@ class LeadController extends Controller
     public function restore(int $id)
     {
         $lead = Lead::withTrashed()->where('id', '=', $id)->first();
-        $lead->restore();
+        $lead->restoreEntity();
         return response()->json([], 200);
     }
 

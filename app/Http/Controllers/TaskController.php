@@ -326,7 +326,7 @@ class TaskController extends Controller
     public function restore(int $id)
     {
         $task = Task::withTrashed()->where('id', '=', $id)->first();
-        $task->restore();
+        $task->restoreEntity();
         return response()->json([], 200);
     }
 

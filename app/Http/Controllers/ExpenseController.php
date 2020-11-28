@@ -107,7 +107,7 @@ class ExpenseController extends Controller
     public function restore(int $id)
     {
         $expense = Expense::withTrashed()->where('id', '=', $id)->first();
-        $expense->restore();
+        $expense->restoreEntity();
         return response()->json([], 200);
     }
 

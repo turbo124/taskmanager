@@ -141,7 +141,7 @@ class RecurringQuoteController extends BaseController
     public function restore(int $id)
     {
         $recurring_quote = RecurringQuote::withTrashed()->where('id', '=', $id)->first();
-        $recurring_quote->restore();
+        $recurring_quote->restoreEntity();
         return response()->json([], 200);
     }
 

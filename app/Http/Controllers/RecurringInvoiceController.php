@@ -136,7 +136,7 @@ class RecurringInvoiceController extends BaseController
     public function restore(int $id)
     {
         $recurring_invoice = RecurringInvoice::withTrashed()->where('id', '=', $id)->first();
-        $recurring_invoice->restore();
+        $recurring_invoice->restoreEntity();
         return response()->json([], 200);
     }
 

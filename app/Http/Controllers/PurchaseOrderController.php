@@ -141,7 +141,7 @@ class PurchaseOrderController extends BaseController
     public function restore(int $id)
     {
         $purchase_order = PurchaseOrder::withTrashed()->where('id', '=', $id)->first();
-        $purchase_order->restore();
+        $purchase_order->restoreEntity();
         return response()->json([], 200);
     }
 

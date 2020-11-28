@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Events\Invoice\InvoiceWasDeleted;
 use App\Services\Invoice\InvoiceService;
 use App\Services\Transaction\TransactionService;
+use App\Traits\Archiveable;
 use App\Traits\Balancer;
 use App\Traits\Money;
 use Exception;
@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
-use App\Traits\Archiveable;
 
 class Invoice extends Model
 {
@@ -128,12 +127,7 @@ class Invoice extends Model
             return false;
         }
 
-        $this->is_deleted = true;
-        $this->save();
-
-        $this->delete();
-
-        event(new InvoiceWasDeleted($this));
+        $this->deleteEntity();
 
         return true;
     }

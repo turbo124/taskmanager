@@ -135,7 +135,7 @@ class OrderController extends BaseController
     public function restore(int $id)
     {
         $order = $this->order_repo->findOrderById($id);
-        $order->restore();
+        $order->restoreEntity();
         return response()->json([], 200);
     }
 }

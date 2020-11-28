@@ -26,6 +26,7 @@ class Expense extends Model
         'company_id',
         'currency_id',
         'project_id',
+        'invoice_id',
         'date',
         'invoice_currency_id',
         'amount',

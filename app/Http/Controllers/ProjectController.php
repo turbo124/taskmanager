@@ -96,7 +96,7 @@ class ProjectController extends Controller
     public function restore(int $id)
     {
         $project = Project::withTrashed()->where('id', '=', $id)->first();
-        $project->restore();
+        $project->restoreEntity();
         return response()->json([], 200);
     }
 

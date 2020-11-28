@@ -45,7 +45,7 @@ export default class CreditItem extends Component {
                     customers={customers}
                     modal={true}
                 /> : null
-                const restoreButton = credit.deleted_at
+                const restoreButton = credit.deleted_at && !credit.is_deleted
                     ? <RestoreModal id={credit.id} entities={credits} updateState={this.props.updateCustomers}
                         url={`/api/credits/restore/${credit.id}`}/> : null
                 const archiveButton = !credit.deleted_at

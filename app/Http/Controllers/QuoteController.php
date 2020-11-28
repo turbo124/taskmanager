@@ -165,7 +165,7 @@ class QuoteController extends BaseController
     public function restore(int $id)
     {
         $quote = Quote::withTrashed()->where('id', '=', $id)->first();
-        $quote->restore();
+        $quote->restoreEntity();
         return response()->json([], 200);
     }
 }

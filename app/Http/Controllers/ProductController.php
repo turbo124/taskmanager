@@ -225,7 +225,7 @@ class ProductController extends Controller
     public function restore(int $id)
     {
         $product = Product::withTrashed()->where('id', '=', $id)->first();
-        $product->restore();
+        $product->restoreEntity();
         return response()->json([], 200);
     }
 }

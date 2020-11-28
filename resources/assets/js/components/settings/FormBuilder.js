@@ -91,7 +91,7 @@ class FormBuilder extends React.Component {
             <FormGroup>
                 <Label>{field.label}</Label>
                 <Input value={field.value} type="select" name={field.name} onChange={this.props.handleChange}>
-                    <option>Select Item</option>
+                    <option value="">Select Item</option>
                     {options}
                 </Input>
             </FormGroup>

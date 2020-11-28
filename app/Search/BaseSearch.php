@@ -88,7 +88,7 @@ class BaseSearch
         }
 
         if ($status === 'archived') {
-            $this->query->whereNotNull($table . '.deleted_at')->withTrashed();
+            $this->query->whereNotNull($table . '.deleted_at')->where($table . '.is_deleted', '=', 0)->withTrashed();
         }
 
         if ($status === 'deleted') {

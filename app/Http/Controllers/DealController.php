@@ -131,7 +131,7 @@ class DealController extends Controller
     public function restore(int $id)
     {
         $deal = Deal::withTrashed()->where('id', '=', $id)->first();
-        $deal->restore();
+        $deal->restoreEntity();
         return response()->json([], 200);
     }
 

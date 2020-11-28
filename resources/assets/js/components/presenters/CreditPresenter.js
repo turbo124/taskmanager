@@ -8,9 +8,10 @@ import { translations } from '../utils/_translations'
 export default function CreditPresenter (props) {
     const { field, entity } = props
 
-    const status = !entity.deleted_at
-        ? <Badge color={creditStatusColors[entity.status_id]}>{creditStatuses[entity.status_id]}</Badge>
-        : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
+    const status = (entity.deleted_at && !entity.is_deleted) ? (<Badge className="mr-2"
+        color="warning">{translations.archived}</Badge>) : ((entity.deleted_at && entity.is_deleted) ? (
+        <Badge className="mr-2" color="danger">{translations.deleted}</Badge>) : (
+        <Badge color={creditStatusColors[entity.status_id]}>{creditStatuses[entity.status_id]}</Badge>))
 
     switch (field) {
         case 'status_field':

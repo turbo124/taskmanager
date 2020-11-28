@@ -178,10 +178,10 @@ class PaymentController extends Controller
         $payment = Payment::withTrashed()->where('id', '=', $id)->first();
 
         if ($payment->is_deleted === true) {
-            return response()->json('Unable to restore deleted payment', 500);
+            return response()->json('Unable to restoreEntity deleted payment', 500);
         }
 
-        $payment->restore();
+        $payment->restoreEntity();
         return response()->json([], 200);
     }
 

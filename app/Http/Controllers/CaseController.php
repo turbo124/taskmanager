@@ -137,7 +137,7 @@ class CaseController extends Controller
     public function restore(int $id)
     {
         $case = Cases::withTrashed()->where('id', '=', $id)->first();
-        $case->restore();
+        $case->restoreEntity();
         return response()->json([], 200);
     }
 

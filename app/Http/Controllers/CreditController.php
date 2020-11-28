@@ -110,7 +110,7 @@ class CreditController extends BaseController
     public function restore(int $id)
     {
         $credit = Credit::withTrashed()->where('id', '=', $id)->first();
-        $credit->restore();
+        $credit->restoreEntity();
         return response()->json([], 200);
     }
 

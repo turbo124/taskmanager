@@ -44,7 +44,7 @@ export default class PaymentItem extends Component {
                 const paymentableInvoices = invoices && invoices.length ? paymentModel.paymentableInvoices : null
                 const paymentableCredits = credits && credits.length ? paymentModel.paymentableCredits : null
 
-                const restoreButton = paymentModel.isDeleted
+                const restoreButton = paymentModel.isDeleted && !payment.is_deleted
                     ? <RestoreModal id={payment.id} entities={payments} updateState={this.props.updateCustomers}
                         url={`/api/payments/restore/${payment.id}`}/> : null
 

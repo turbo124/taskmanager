@@ -32,7 +32,7 @@ trait PaymentTransformable
             ) : [],
             'deleted_at'            => $payment->deleted_at,
             //$obj->archived_at = $payment->deleted_at;
-            //$obj->is_deleted = (bool) $payment->is_deleted;
+            'is_deleted'            => (bool)$payment->is_deleted,
             'type_id'               => (string)$payment->type_id,
             'invitation_id'         => (string)$payment->invitation_id ?: '',
             'invoice_id'            => $payment->invoices->pluck('id')->toArray(),

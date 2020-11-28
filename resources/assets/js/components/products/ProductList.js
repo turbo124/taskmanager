@@ -41,6 +41,7 @@ export default class ProductList extends Component {
                 end_date: ''
             },
             ignoredColumns: [
+                'is_deleted',
                 'ratings_count',
                 'account_id',
                 'reserved_stock',

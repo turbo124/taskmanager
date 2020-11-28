@@ -70,7 +70,9 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
     {
         $entity_class = $notification->notifiable_type;
 
-        if (in_array(
+        if ($entity_class === 'App\Models\User') {
+            $entity = $entity_class::withTrashed()->find($notification->entity_id)->first();
+        } elseif (in_array(
             $entity_class,
             ['App\Models\Company', 'App\Models\Customer', 'App\Models\Lead', 'App\Models\PurchaseOrder']
         )) {

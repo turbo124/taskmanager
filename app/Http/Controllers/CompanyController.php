@@ -133,7 +133,7 @@ class CompanyController extends Controller
     public function restore(int $id)
     {
         $company = Company::withTrashed()->where('id', '=', $id)->first();
-        $company->restore();
+        $company->restoreEntity();
         return response()->json([], 200);
     }
 

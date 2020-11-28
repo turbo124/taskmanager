@@ -37,7 +37,7 @@ export default class RecurringQuoteItem extends Component {
         const { invoices, custom_fields, customers, allQuotes } = this.props
         if (invoices && invoices.length && customers.length) {
             return invoices.map(user => {
-                const restoreButton = user.deleted_at
+                const restoreButton = user.deleted_at && !user.is_deleted
                     ? <RestoreModal id={user.id} entities={invoices} updateState={this.props.updateInvoice}
                         url={`/api/recurringQuote/restore/${user.id}`}/> : null
                 const archiveButton = !user.deleted_at

@@ -8,6 +8,7 @@
 
 namespace Tests\Unit;
 
+use App\Factory\InvoiceFactory;
 use App\Factory\QuoteFactory;
 use App\Models\Account;
 use App\Models\Customer;
@@ -23,6 +24,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\QuoteRepository;
 use App\Requests\SearchRequest;
 use App\Search\QuoteSearch;
+use App\Settings\AccountSettings;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -216,5 +218,41 @@ class QuoteTest extends TestCase
         $this->assertNotNull($quote->order_id);
         $this->assertInstanceOf(Order::class, $order);
         $this->assertEquals($order->id, $quote->order_id);
+    }
+
+    /** @test */
+    public function testQuotePadding()
+    {
+        $customer = Customer::factory()->create();
+        $customerSettings = (new AccountSettings())->getAccountDefaults();
+        $customerSettings->counter_padding = 5;
+        $customerSettings->quote_number_counter = 7;
+        $customerSettings->quote_counter_type = 'customer';
+        $customer->settings = $customerSettings;
+        $customer->save();
+
+        $quote = QuoteFactory::create($this->account, $this->user, $customer);
+
+        $quote_number = $this->objNumberGenerator->getNextNumberForEntity($quote, $customer);
+        $this->assertEquals($customer->getSetting('counter_padding'), 5);
+        $this->assertEquals($quote_number, '00007');
+        $this->assertEquals(strlen($quote_number), 5);
+    }
+
+    public function testQuotePrefix()
+    {
+        $customer = Customer::factory()->create();
+        $customerSettings = (new AccountSettings())->getAccountDefaults();
+        $customerSettings->quote_number_prefix = 'YEAR';
+        $customerSettings->counter_padding = 5;
+        $customerSettings->quote_number_counter = 7;
+        $customer->settings = $customerSettings;
+        $customer->save();
+
+        $quote = QuoteFactory::create($this->account, $this->user, $customer);
+
+        $invoice_number = $this->objNumberGenerator->getNextNumberForEntity($quote, $customer);
+
+        $this->assertEquals($invoice_number, date('Y').'-00007');
     }
 }

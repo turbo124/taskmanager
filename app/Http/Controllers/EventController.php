@@ -174,7 +174,7 @@ class EventController extends Controller
     public function restore(int $id)
     {
         $event = Event::withTrashed()->where('id', '=', $id)->first();
-        $event->restore();
+        $event->restoreEntity();
         return response()->json([], 200);
     }
 

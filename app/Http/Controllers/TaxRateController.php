@@ -98,7 +98,7 @@ class TaxRateController extends Controller
     public function restore(int $id)
     {
         $tax_rate = TaxRate::withTrashed()->where('id', '=', $id)->first();
-        $tax_rate->restore();
+        $tax_rate->restoreEntity();
         return response()->json([], 200);
     }
 

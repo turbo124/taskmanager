@@ -162,7 +162,7 @@ class NumberSettings extends Component {
                         },
                         {
                             value: 'group',
-                            text: 'group'
+                            text: translations.group
                         }
                     ],
                     placeholder: translations.counter_type,
@@ -203,7 +203,7 @@ class NumberSettings extends Component {
                         },
                         {
                             value: 'group',
-                            text: 'group'
+                            text: translations.group
                         }
                     ],
                     placeholder: translations.counter_type,
@@ -244,7 +244,7 @@ class NumberSettings extends Component {
                         },
                         {
                             value: 'group',
-                            text: 'group'
+                            text: translations.group
                         }
                     ],
                     placeholder: translations.counter_type,
@@ -285,7 +285,7 @@ class NumberSettings extends Component {
                         },
                         {
                             value: 'group',
-                            text: 'group'
+                            text: translations.group
                         }
                     ],
                     placeholder: translations.counter_type,
@@ -326,7 +326,7 @@ class NumberSettings extends Component {
                         },
                         {
                             value: 'group',
-                            text: 'group'
+                            text: translations.group
                         }
                     ],
                     placeholder: translations.counter_type,
@@ -367,7 +367,7 @@ class NumberSettings extends Component {
                         },
                         {
                             value: 'group',
-                            text: 'group'
+                            text: translations.group
                         }
                     ],
                     placeholder: translations.counter_type,
@@ -408,7 +408,7 @@ class NumberSettings extends Component {
                         },
                         {
                             value: 'group',
-                            text: 'group'
+                            text: translations.group
                         }
                     ],
                     placeholder: translations.counter_type,
@@ -451,7 +451,7 @@ class NumberSettings extends Component {
                         },
                         {
                             value: 'group',
-                            text: 'group'
+                            text: translations.group
                         }
                     ],
                     placeholder: translations.counter_type,
@@ -492,7 +492,7 @@ class NumberSettings extends Component {
                         },
                         {
                             value: 'group',
-                            text: 'group'
+                            text: translations.group
                         }
                     ],
                     placeholder: translations.counter_type,
@@ -533,7 +533,7 @@ class NumberSettings extends Component {
                         },
                         {
                             value: 'group',
-                            text: 'group'
+                            text: translations.group
                         }
                     ],
                     placeholder: translations.counter_type,
@@ -576,7 +576,7 @@ class NumberSettings extends Component {
                         },
                         {
                             value: 'group',
-                            text: 'group'
+                            text: translations.group
                         }
                     ],
                     placeholder: translations.counter_type,
@@ -619,12 +619,12 @@ class NumberSettings extends Component {
                         },
                         {
                             value: 'group',
-                            text: 'group'
+                            text: translations.group
                         }
                     ],
-                    placeholder: translations.number_type,
+                    placeholder: translations.counter_type,
                     value: settings.quote_counter_type
-                }
+                },
                 {
                     name: 'quote_design_id',
                     label: 'Quote Design',
@@ -685,12 +685,12 @@ class NumberSettings extends Component {
                         },
                         {
                             value: 'group',
-                            text: 'group'
+                            text: translations.group
                         }
                     ],
                     placeholder: translations.counter_type,
                     value: settings.credit_counter_type
-                },
+                }
                 // {
                 //     name: 'credit_design_id',
                 //     label: 'Credit Design',
@@ -743,7 +743,7 @@ class NumberSettings extends Component {
                         },
                         {
                             value: 'group',
-                            text: 'group'
+                            text: translations.group
                         }
                     ],
                     placeholder: translations.counter_type,

@@ -533,13 +533,13 @@ class BaseSettings
             'default_value'    => false,
             'type'             => 'bool'
         ],
-        'task_number_prefix'                  => [
+        'task_number_prefix'                   => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'task_counter_type'                  => [
+        'task_counter_type'                    => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
@@ -551,13 +551,13 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'int'
         ],
-        'project_number_prefix'               => [
+        'project_number_prefix'                => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'project_counter_type'               => [
+        'project_counter_type'                 => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
@@ -569,13 +569,13 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'int'
         ],
-        'expense_number_prefix'               => [
+        'expense_number_prefix'                => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'expense_counter_type'               => [
+        'expense_counter_type'                 => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
@@ -587,13 +587,13 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'int'
         ],
-        'company_number_prefix'               => [
+        'company_number_prefix'                => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'company_counter_type'               => [
+        'company_counter_type'                 => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
@@ -605,13 +605,13 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'int'
         ],
-        'lead_number_prefix'                  => [
+        'lead_number_prefix'                   => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'lead_counter_type'                  => [
+        'lead_counter_type'                    => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
@@ -623,13 +623,13 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'int'
         ],
-        'case_number_prefix'                  => [
+        'case_number_prefix'                   => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-         'case_counter_type'                  => [
+        'case_counter_type'                    => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
@@ -641,13 +641,13 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'int'
         ],
-        'payment_number_prefix'               => [
+        'payment_number_prefix'                => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-         'payment_counter_type'                  => [
+        'payment_counter_type'                 => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
@@ -725,13 +725,13 @@ class BaseSettings
             'default_value'    => 225,
             'type'             => 'string'
         ],
-        'customer_number_prefix'              => [
+        'customer_number_prefix'               => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'customer_counter_type'              => [
+        'customer_counter_type'                => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
@@ -743,13 +743,13 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'integer'
         ],
-        'credit_number_prefix'                => [
+        'credit_number_prefix'                 => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'credit_counter_type'                => [
+        'credit_counter_type'                  => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
@@ -761,13 +761,13 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'integer'
         ],
-        'order_number_prefix'                 => [
+        'order_number_prefix'                  => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'order_counter_type'                 => [
+        'order_counter_type'                   => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
@@ -779,13 +779,13 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'integer'
         ],
-        'recurringinvoice_number_prefix'      => [
+        'recurringinvoice_number_prefix'       => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'recurringinvoice_counter_type'      => [
+        'recurringinvoice_counter_type'        => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
@@ -797,13 +797,13 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'integer'
         ],
-        'recurringquote_number_prefix'        => [
+        'recurringquote_number_prefix'         => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'recurringquote_counter_type'        => [
+        'recurringquote_counter_type'          => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
@@ -857,13 +857,13 @@ class BaseSettings
             'default_value'    => false,
             'type'             => 'bool'
         ],
-        'invoice_number_prefix'               => [
+        'invoice_number_prefix'                => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'invoice_counter_type'               => [
+        'invoice_counter_type'                 => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
@@ -1001,13 +1001,13 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'int'
         ],
-        'quote_number_prefix'                 => [
+        'quote_number_prefix'                  => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'quote_counter_type'                 => [
+        'quote_counter_type'                   => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
@@ -1019,37 +1019,37 @@ class BaseSettings
             'default_value'    => 1,
             'type'             => 'integer'
         ],
-        'deal_order_number_prefix'            => [
+        'deal_number_prefix'                   => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'deal_order_counter_type'            => [
+        'deal_counter_type'                    => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'deal_order_number_counter'            => [
+        'deal_number_counter'                  => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 1,
             'type'             => 'integer'
         ],
-        'purchaseorder_number_prefix'        => [
+        'purchaseorder_number_prefix'          => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'purchaseorder_counter_type'        => [
+        'purchaseorder_counter_type'           => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => '',
             'type'             => 'string'
         ],
-        'purchaseorder_number_counter'        => [
+        'purchaseorder_number_counter'         => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => 1,
@@ -1204,6 +1204,18 @@ class BaseSettings
             'translated_value' => '',
             'default_value'    => false,
             'type'             => 'bool'
+        ],
+        'date_counter_next_reset'              => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => '',
+            'type'             => 'string'
+        ],
+        'counter_frequency_type'               => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => 'MONTHLY',
+            'type'             => 'string'
         ],
         'counter_padding'                      => [
             'required'         => false,

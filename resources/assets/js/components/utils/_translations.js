@@ -305,6 +305,7 @@ _localizedValues.en = {
     quote: 'Quote',
     public_notes: 'Public Notes',
     private_notes: 'Private Notes',
+    group: 'Group',
     group_settings: 'Group Settings',
     edit_group: 'Edit Group',
     add_group: 'Add Group',
@@ -742,7 +743,9 @@ _localizedValues.en = {
     include_times_on_invoice_help: 'Add time details to the invoice line items',
     default_task_rate: 'Default Task Rate',
     configure_categories: 'Configure Categories',
-    dispatch_note: 'Dispatch Note'
+    dispatch_note: 'Dispatch Note',
+    counter_type: 'Counter Type',
+    number_prefix: 'Number Prefix'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
