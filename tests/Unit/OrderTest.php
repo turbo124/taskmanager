@@ -142,8 +142,7 @@ class OrderTest extends TestCase
     public function it_can_delete_the_order()
     {
         $order = Order::factory()->create();
-        $orderRepo = new OrderRepository(new Order);
-        $deleted = $orderRepo->newDelete($order);
+        $deleted = $order->deleteEntity();
         $this->assertTrue($deleted);
     }
 
@@ -151,8 +150,7 @@ class OrderTest extends TestCase
     public function it_can_archive_the_order()
     {
         $order = Order::factory()->create();
-        $orderRepo = new OrderRepository($order);
-        $deleted = $orderRepo->archive($order);
+        $deleted = $order->archive();
         $this->assertTrue($deleted);
     }
 
