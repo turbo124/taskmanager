@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Archiveable;
 
 class Product extends Model
 {
@@ -16,6 +17,7 @@ class Product extends Model
     use SoftDeletes;
     use ManageStock;
     use HasFactory;
+    use Archiveable;
 
     public const MASS_UNIT = [
         'OUNCES' => 'oz',
