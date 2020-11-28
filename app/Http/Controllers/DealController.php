@@ -114,13 +114,13 @@ class DealController extends Controller
     public function archive(int $id)
     {
         $deal = $this->deal_repo->findDealById($id);
-        $deal->delete();
+        $deal->archive();
     }
 
     public function destroy(int $id)
     {
         $deal = $this->deal_repo->findDealById($id);
-        $this->deal_repo->newDelete($deal);
+        $deal->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -131,7 +131,7 @@ class DealController extends Controller
     public function restore(int $id)
     {
         $deal = Deal::withTrashed()->where('id', '=', $id)->first();
-        $this->deal_repo->restore($deal);
+        $deal->restore();
         return response()->json([], 200);
     }
 
