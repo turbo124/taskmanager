@@ -87,8 +87,8 @@ class CreditController extends BaseController
      */
     public function archive(int $id)
     {
-        $invoice = $this->credit_repo->findCreditById($id);
-        $this->credit_repo->archive($invoice);
+        $credit = $this->credit_repo->findCreditById($id);
+        $credit->archive();
         return response()->json([], 200);
     }
 
@@ -99,7 +99,7 @@ class CreditController extends BaseController
     public function destroy(int $id)
     {
         $credit = Credit::withTrashed()->where('id', '=', $id)->first();
-        $this->credit_repo->newDelete($credit);
+        $credit->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -110,7 +110,7 @@ class CreditController extends BaseController
     public function restore(int $id)
     {
         $credit = Credit::withTrashed()->where('id', '=', $id)->first();
-        $this->credit_repo->restore($credit);
+        $credit->restore();
         return response()->json([], 200);
     }
 
