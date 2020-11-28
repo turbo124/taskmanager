@@ -117,15 +117,15 @@ class RecurringInvoiceController extends BaseController
      */
     public function archive(int $id)
     {
-        $invoice = $this->recurring_invoice_repo->findInvoiceById($id);
-        $this->recurring_invoice_repo->archive($invoice);
+        $recurring_invoice = $this->recurring_invoice_repo->findInvoiceById($id);
+        $recurring_invoice->archive();
         return response()->json([], 200);
     }
 
     public function destroy(int $id)
     {
         $recurring_invoice = RecurringInvoice::withTrashed()->where('id', '=', $id)->first();
-        $this->recurring_invoice_repo->newDelete($recurring_invoice);
+        $recurring_invoice->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -135,8 +135,8 @@ class RecurringInvoiceController extends BaseController
      */
     public function restore(int $id)
     {
-        $group = RecurringInvoice::withTrashed()->where('id', '=', $id)->first();
-        $this->recurring_invoice_repo->restore($group);
+        $recurring_invoice = RecurringInvoice::withTrashed()->where('id', '=', $id)->first();
+        $recurring_invoice->restore();
         return response()->json([], 200);
     }
 
