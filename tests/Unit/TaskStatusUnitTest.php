@@ -38,8 +38,7 @@ class TaskStatusUnitTest extends TestCase
     public function it_can_delete_the_order_status()
     {
         $os = TaskStatus::factory()->create();
-        $taskStatusRepo = new TaskStatusRepository($os);
-        $taskStatusRepo->deleteTaskStatus($os);
+        $os->deleteEntity();
         $this->assertDatabaseMissing('task_statuses', $os->toArray());
     }
 
