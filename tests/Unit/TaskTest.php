@@ -57,16 +57,14 @@ class TaskTest extends TestCase
     public function it_can_delete_the_task()
     {
         $task = Task::factory()->create();
-        $taskRepo = new TaskRepository($task, new ProjectRepository(new Project));
-        $deleted = $taskRepo->newDelete($task);
+        $deleted = $task->deleteEntity();
         $this->assertTrue($deleted);
     }
 
     public function it_can_archive_the_task()
     {
         $task = Task::factory()->create();
-        $taskRepo = new TaskRepository($task, new ProjectRepository(new Project));
-        $deleted = $taskRepo->archive($task);
+        $deleted = $task->archive();
         $this->assertTrue($deleted);
     }
 
