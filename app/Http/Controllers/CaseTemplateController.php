@@ -23,7 +23,7 @@ class CaseTemplateController extends Controller
     /**
      * @var BrandRepository
      */
-    private CaseTemplateRepository $brand_repo;
+    private CaseTemplateRepository $template_repo;
 
     /**
      * BrandController constructor.
@@ -31,7 +31,7 @@ class CaseTemplateController extends Controller
      */
     public function __construct(CaseTemplateRepository $case_template_repo)
     {
-        $this->brand_repo = $case_template_repo;
+        $this->template_repo = $case_template_repo;
     }
 
     /**
@@ -39,7 +39,7 @@ class CaseTemplateController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $templates = (new CaseTemplateSearch($this->brand_repo))->filter(
+        $templates = (new CaseTemplateSearch($this->template_repo))->filter(
             $request,
             auth()->user()->account_user()->account
         );
@@ -52,7 +52,7 @@ class CaseTemplateController extends Controller
      */
     public function store(CreateCaseTemplateRequest $request)
     {
-        $template = $this->brand_repo->save(
+        $template = $this->template_repo->save(
             $request->all(),
             CaseTemplateFactory::create(auth()->user()->account_user()->account, auth()->user())
         );
@@ -66,10 +66,8 @@ class CaseTemplateController extends Controller
      */
     public function update(UpdateCaseTemplateRequest $request, $id)
     {
-        $template = $this->brand_repo->findCaseTemplateById($id);
-
-        $brandRepo = new CaseTemplateRepository($template);
-        $brand = $brandRepo->save($request->all(), $template);
+        $template = $this->template_repo->findCaseTemplateById($id);
+        $template = $this->template_repo->save($request->all(), $template);
 
         return response()->json($this->transformCaseTemplate($template));
     }
@@ -81,10 +79,8 @@ class CaseTemplateController extends Controller
      */
     public function destroy($id)
     {
-        $template = $this->brand_repo->findCaseTemplateById($id);
-
-        $brandRepo = new CaseTemplateRepository($template);
-        $brandRepo->newDelete($template);
+        $template = $this->template_repo->findCaseTemplateById($id);
+        $template->deleteEntity();
 
         return response()->json('deleted');
     }
