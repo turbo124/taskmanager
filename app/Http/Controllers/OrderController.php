@@ -107,7 +107,7 @@ class OrderController extends BaseController
     public function archive(int $id)
     {
         $order = $this->order_repo->findOrderById($id);
-        $this->order_repo->archive($order);
+        $order->archive();
         return response()->json([], 200);
     }
 
@@ -118,7 +118,7 @@ class OrderController extends BaseController
     public function destroy(int $id)
     {
         $order = $this->order_repo->findOrderById($id);
-        $this->order_repo->newDelete($order);
+        $order->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -129,7 +129,7 @@ class OrderController extends BaseController
     public function restore(int $id)
     {
         $order = $this->order_repo->findOrderById($id);
-        $this->order_repo->restore($order);
+        $order->restore();
         return response()->json([], 200);
     }
 }
