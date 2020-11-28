@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kalnoy\Nestedset\NodeTrait;
+use App\Traits\Archiveable;
 
 class Category extends Model
 {
 
     use NodeTrait;
     use HasFactory;
+    use Archiveable;
 
     /**
      * The attributes that are mass assignable.
