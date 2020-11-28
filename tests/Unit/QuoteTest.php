@@ -164,17 +164,15 @@ class QuoteTest extends TestCase
     /** @test */
     public function it_can_delete_the_quote()
     {
-        $invoice = Quote::factory()->create();
-        $invoiceRepo = new QuoteRepository($invoice);
-        $deleted = $invoiceRepo->newDelete($invoice);
+        $quote = Quote::factory()->create();
+        $deleted = $quote->deleteEntity();
         $this->assertTrue($deleted);
     }
 
     public function it_can_archive_the_quote()
     {
         $quote = Quote::factory()->create();
-        $taskRepo = new QuoteRepository($quote);
-        $deleted = $taskRepo->archive($quote);
+        $deleted = $quote->archive();
         $this->assertTrue($deleted);
     }
 
