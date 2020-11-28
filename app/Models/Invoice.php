@@ -13,11 +13,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
+use App\Traits\Archiveable;
 
 class Invoice extends Model
 {
 
-    use PresentableTrait, SoftDeletes, Money, Balancer, HasFactory;
+    use PresentableTrait, SoftDeletes, Money, Balancer, HasFactory, Archiveable;
 
     const STATUS_DRAFT = 1;
     const STATUS_SENT = 2;
