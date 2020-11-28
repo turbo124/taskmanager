@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
+use App\Traits\Archiveable;
 
 /**
  * Class for Recurring Invoices.
@@ -23,6 +24,7 @@ class RecurringQuote extends Model
     use Money;
     use HasFactory;
     use CalculateRecurringDateRanges;
+    use Archiveable;
 
     const STATUS_DRAFT = 1;
     const STATUS_PENDING = 2;
