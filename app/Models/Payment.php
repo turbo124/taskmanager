@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
+use App\Traits\Archiveable;
 
 class Payment extends Model
 {
@@ -18,6 +19,7 @@ class Payment extends Model
     use SoftDeletes;
     use Money;
     use HasFactory;
+    use Archiveable;
 
     const STATUS_PENDING = 1;
     const STATUS_VOIDED = 2;
