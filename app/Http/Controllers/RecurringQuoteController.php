@@ -118,8 +118,8 @@ class RecurringQuoteController extends BaseController
      */
     public function archive(int $id)
     {
-        $invoice = $this->recurring_quote_repo->findQuoteById($id);
-        $this->recurring_quote_repo->archive($invoice);
+        $recurring_quote = $this->recurring_quote_repo->findQuoteById($id);
+        $recurring_quote->archive();
         return response()->json([], 200);
     }
 
@@ -129,8 +129,8 @@ class RecurringQuoteController extends BaseController
      */
     public function destroy(int $id)
     {
-        $quote = RecurringQuote::withTrashed()->where('id', '=', $id)->first();
-        $this->recurring_quote_repo->newDelete($quote);
+        $recurring_quote = RecurringQuote::withTrashed()->where('id', '=', $id)->first();
+        $recurring_quote->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -140,8 +140,8 @@ class RecurringQuoteController extends BaseController
      */
     public function restore(int $id)
     {
-        $group = RecurringQuote::withTrashed()->where('id', '=', $id)->first();
-        $this->recurring_quote_repo->restore($group);
+        $recurring_quote = RecurringQuote::withTrashed()->where('id', '=', $id)->first();
+        $recurring_quote->restore();
         return response()->json([], 200);
     }
 
