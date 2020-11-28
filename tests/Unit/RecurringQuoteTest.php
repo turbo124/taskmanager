@@ -74,16 +74,14 @@ class RecurringQuoteTest extends TestCase
     public function it_can_delete_the_quote()
     {
         $recurring_quote = RecurringQuote::factory()->create();
-        $taskRepo = new RecurringQuoteRepository($recurring_quote);
-        $deleted = $taskRepo->newDelete($recurring_quote);
+        $deleted = $recurring_quote->deleteEntity();
         $this->assertTrue($deleted);
     }
 
     public function it_can_archive_the_recurring_quote()
     {
         $recurring_quote = RecurringQuote::factory()->create();
-        $taskRepo = new RecurringQuoteRepository($recurring_quote);
-        $deleted = $taskRepo->archive($recurring_quote);
+        $deleted = $recurring_quote->archive();
         $this->assertTrue($deleted);
     }
 
