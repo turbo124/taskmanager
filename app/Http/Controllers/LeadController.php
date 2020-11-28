@@ -104,13 +104,13 @@ class LeadController extends Controller
     public function archive(int $id)
     {
         $lead = $this->lead_repo->findLeadById($id);
-        $lead->delete();
+        $lead->archive();
     }
 
     public function destroy(int $id)
     {
         $lead = $this->lead_repo->findLeadById($id);
-        $this->lead_repo->newDelete($lead);
+        $lead->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -121,7 +121,7 @@ class LeadController extends Controller
     public function restore(int $id)
     {
         $lead = Lead::withTrashed()->where('id', '=', $id)->first();
-        $this->lead_repo->restore($lead);
+        $lead->restore();
         return response()->json([], 200);
     }
 
