@@ -309,13 +309,13 @@ class TaskController extends Controller
     public function archive(int $id)
     {
         $task = $this->task_repo->findTaskById($id);
-        $task->delete();
+        $task->archive();
     }
 
     public function destroy(int $id)
     {
         $task = $this->task_repo->findTaskById($id);
-        $this->task_repo->newDelete($task);
+        $task->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -326,7 +326,7 @@ class TaskController extends Controller
     public function restore(int $id)
     {
         $task = Task::withTrashed()->where('id', '=', $id)->first();
-        $this->task_repo->restore($task);
+        $task->restore();
         return response()->json([], 200);
     }
 
