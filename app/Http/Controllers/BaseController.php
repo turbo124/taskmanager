@@ -190,17 +190,7 @@ class BaseController extends Controller
                 }
 
                 break;
-            case 'hold_order':
-                $order = $entity->service()->holdOrder();
-
-                if (!$order) {
-                    $response = false;
-                    $message = 'Order is already hold';
-                } else {
-                    $response = $this->transformOrder($order);
-                }
-
-                break;
+        
             case 'dispatch_note':
                 $disk = config('filesystems.default');
                 $content = Storage::disk($disk)->get($entity->service()->generateDispatchNote(null));
@@ -303,11 +293,11 @@ class BaseController extends Controller
                 $response = ['data' => base64_encode($content)];
                 break;
             case 'archive': //done
-                $this->invoice_repo->archive($entity);
+                $entity->archive();
                 $response = $this->transformEntity($entity);
                 break;
             case 'delete': //done
-                $this->quote_repo->newDelete($entity);
+                $entity->deleteEntity();
                 $response = $this->transformEntity($entity);
                 break;
             case 'email': //done

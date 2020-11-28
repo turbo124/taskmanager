@@ -59,7 +59,7 @@ class ServiceBase
         }
 
         if (!empty($this->config['archive'])) {
-            $repo->archive($this->entity);
+            $this->entity->archive();
         }
 
         return true;
