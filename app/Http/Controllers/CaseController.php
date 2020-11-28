@@ -120,8 +120,7 @@ class CaseController extends Controller
     public function destroy(int $id)
     {
         $case = $this->case_repo->findCaseById($id);
-        //may not need these destroy routes as we are using actions to 'archive/delete'
-        $case->delete();
+        $case->deleteEntity();
 
         return response()->json($case);
     }
