@@ -43,6 +43,7 @@ trait LeadTransformable
             'private_notes'  => $lead->private_notes ?: '',
             'public_notes'   => $lead->public_notes ?: '',
             'emails'         => $this->transformLeadEmails($lead->emails()),
+            'is_deleted'     => (bool)$lead->is_deleted,
         ];
     }
 

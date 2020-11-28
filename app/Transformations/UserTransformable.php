@@ -33,6 +33,7 @@ trait UserTransformable
             'custom_value4'   => $user->custom_value4 ?: '',
             'deleted_at'      => $user->deleted_at,
             'created_at'      => $user->created_at,
+            'is_deleted'      => (bool)$user->is_deleted,
         ];
         /*if ($user->departments->count() > 0) {
             $objDepartment = $user->departments->first();

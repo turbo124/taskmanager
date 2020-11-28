@@ -36,7 +36,7 @@ export default class OrderItem extends Component {
         const { orders, customers, custom_fields } = this.props
         if (orders && orders.length && customers.length) {
             return orders.map(order => {
-                const restoreButton = order.deleted_at
+                const restoreButton = order.deleted_at && !order.is_deleted
                     ? <RestoreModal id={order.id} entities={orders} updateState={this.props.updateOrder}
                         url={`/api/order/restore/${order.id}`}/> : null
 

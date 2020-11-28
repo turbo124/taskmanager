@@ -181,7 +181,7 @@ class PaymentController extends Controller
             return response()->json('Unable to restore deleted payment', 500);
         }
 
-        $payment->restore();
+        $payment->restoreEntity();
         return response()->json([], 200);
     }
 

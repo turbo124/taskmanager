@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input } from 'reactstrap'
+import { Badge, Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditCompany from './edit/EditCompany'
 import CompanyPresenter from '../presenters/CompanyPresenter'
+import { translations } from '../utils/_translations'
 
 export default class CompanyItem extends Component {
     constructor (props) {
@@ -39,7 +40,7 @@ export default class CompanyItem extends Component {
         const { brands, custom_fields, users, ignoredColumns } = this.props
         if (brands && brands.length) {
             return brands.map(brand => {
-                const restoreButton = brand.deleted_at
+                const restoreButton = brand.deleted_at && !brand.is_deleted
                     ? <RestoreModal id={brand.id} entities={brands} updateState={this.props.addUserToState}
                         url={`/api/companies/restore/${brand.id}`}/> : null
                 const archiveButton = !brand.deleted_at
@@ -53,6 +54,10 @@ export default class CompanyItem extends Component {
                     brands={brands}
                     action={this.props.addUserToState}
                 /> : null
+
+                const status = (brand.deleted_at && !brand.is_deleted) ? (<Badge className="mr-2"
+                    color="warning">{translations.archived}</Badge>) : ((brand.deleted_at && brand.is_deleted) ? (
+                    <Badge className="mr-2" color="danger">{translations.deleted}</Badge>) : (''))
 
                 const columnList = Object.keys(brand).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
@@ -74,6 +79,7 @@ export default class CompanyItem extends Component {
                             onChange={this.props.onChangeBulk}/>
                         {actionMenu}
                     </td>
+                    {!!status && <td>{status}</td>}
                     {columnList}
                 </tr>
             })

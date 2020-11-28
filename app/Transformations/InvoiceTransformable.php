@@ -71,7 +71,8 @@ class InvoiceTransformable
             'tax_rate_name'        => $invoice->tax_rate_name,
             'tax_rate_name_2'      => $invoice->tax_rate_name_2,
             'tax_rate_name_3'      => $invoice->tax_rate_name_3,
-            'viewed'               => (bool)$invoice->viewed
+            'viewed'               => (bool)$invoice->viewed,
+            'is_deleted'           => (bool)$invoice->is_deleted,
         ];
     }
 

@@ -36,10 +36,10 @@ export default class BankAccountItem extends Component {
     }
 
     render () {
-        const { bank_accounts, custom_fields, customers, ignoredColumns } = this.props
+        const { bank_accounts, custom_fields, ignoredColumns } = this.props
         if (bank_accounts && bank_accounts.length) {
             return bank_accounts.map(bank_account => {
-                const restoreButton = bank_account.deleted_at
+                const restoreButton = bank_account.deleted_at && !bank_account.is_deleted
                     ? <RestoreModal id={bank_account.id} entities={bank_accounts} updateState={this.props.addUserToState}
                         url={`/api/bank_accounts/restore/${bank_account.id}`}/> : null
                 const archiveButton = !bank_account.deleted_at

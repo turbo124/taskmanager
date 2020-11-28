@@ -15,9 +15,10 @@ export default function InvoicePresenter (props) {
 
     const entity_status = (is_viewed === true) ? (consts.invoice_status_viewed) : ((is_late === true) ? (100) : (entity.status_id))
 
-    const status = !entity.deleted_at
-        ? <Badge color={invoiceStatusColors[entity_status]}>{invoiceStatuses[entity_status]}</Badge>
-        : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
+    const status = (entity.deleted_at && !entity.is_deleted) ? (<Badge className="mr-2"
+        color="warning">{translations.archived}</Badge>) : ((entity.deleted_at && entity.is_deleted) ? (
+        <Badge className="mr-2" color="danger">{translations.deleted}</Badge>) : (
+        <Badge color={invoiceStatusColors[entity_status]}>{invoiceStatuses[entity_status]}</Badge>))
 
     switch (field) {
         case 'assigned_to': {

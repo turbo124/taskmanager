@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input } from 'reactstrap'
+import { Badge, Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditProduct from './edit/EditProduct'
 import ProductPresenter from '../presenters/ProductPresenter'
+import { translations } from '../utils/_translations'
 
 export default class ProductItem extends Component {
     constructor (props) {
@@ -34,7 +35,7 @@ export default class ProductItem extends Component {
 
         if (products && products.length) {
             return products.map(product => {
-                const restoreButton = product.deleted_at
+                const restoreButton = product.deleted_at && !product.is_deleted
                     ? <RestoreModal id={product.id} entities={products} updateState={this.props.addProductToState}
                         url={`/api/products/restore/${product.id}`}/> : null
                 const deleteButton = !product.deleted_at
@@ -50,6 +51,10 @@ export default class ProductItem extends Component {
 
                 const archiveButton = !product.deleted_at
                     ? <DeleteModal archive={true} deleteFunction={this.deleteProduct} id={product.id}/> : null
+
+                const status = (product.deleted_at && !product.is_deleted) ? (<Badge className="mr-2"
+                    color="warning">{translations.archived}</Badge>) : ((product.deleted_at && product.is_deleted) ? (
+                    <Badge className="mr-2" color="danger">{translations.deleted}</Badge>) : (''))
 
                 const columnList = Object.keys(product).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
@@ -73,6 +78,7 @@ export default class ProductItem extends Component {
                         {actionMenu}
                     </td>
                     {columnList}
+                    {!!status && <td>{status}</td>}
                 </tr>
             })
         } else {

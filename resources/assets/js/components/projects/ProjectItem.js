@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input } from 'reactstrap'
+import { Badge, Input } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditProject from './edit/EditProject'
 import ProjectPresenter from '../presenters/ProjectPresenter'
+import { translations } from '../utils/_translations'
 
 export default class ProjectItem extends Component {
     constructor (props) {
@@ -39,7 +40,7 @@ export default class ProjectItem extends Component {
         const { projects, custom_fields, customers, ignoredColumns } = this.props
         if (projects && projects.length) {
             return projects.map(project => {
-                const restoreButton = project.deleted_at
+                const restoreButton = project.deleted_at && !project.is_deleted
                     ? <RestoreModal id={project.id} entities={projects} updateState={this.props.addUserToState}
                         url={`/api/projects/restore/${project.id}`}/> : null
                 const archiveButton = !project.deleted_at
@@ -70,6 +71,10 @@ export default class ProjectItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
+                const status = (project.deleted_at && !project.is_deleted) ? (<Badge className="mr-2"
+                    color="warning">{translations.archived}</Badge>) : ((project.deleted_at && project.is_deleted) ? (
+                    <Badge className="mr-2" color="danger">{translations.deleted}</Badge>) : (''))
+
                 return <tr className={selectedRow} key={project.id}>
                     <td>
                         <Input checked={isChecked} className={checkboxClass} value={project.id} type="checkbox"
@@ -77,6 +82,7 @@ export default class ProjectItem extends Component {
                         {actionMenu}
                     </td>
                     {columnList}
+                    {!!status && <td>{status}</td>}
                 </tr>
             })
         } else {

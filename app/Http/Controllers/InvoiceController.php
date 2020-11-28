@@ -164,7 +164,7 @@ class InvoiceController extends BaseController
     public function restore(int $id)
     {
         $invoice = Invoice::withTrashed()->where('id', '=', $id)->first();
-        $invoice->restore();
+        $invoice->restoreEntity();
         return response()->json([], 200);
     }
 }

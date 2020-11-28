@@ -34,7 +34,7 @@ export default class DealItem extends Component {
         const { deals, custom_fields, users, ignoredColumns } = this.props
         if (deals && deals.length && users.length) {
             return deals.map(deal => {
-                const restoreButton = deal.deleted_at
+                const restoreButton = deal.deleted_at && !deal.is_deleted
                     ? <RestoreModal id={deal.id} entities={deals} updateState={this.props.addUserToState}
                         url={`/api/deals/restore/${deal.id}`}/> : null
                 const archiveButton = !deal.deleted_at

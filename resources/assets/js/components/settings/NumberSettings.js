@@ -137,11 +137,11 @@ class NumberSettings extends Component {
         return [
             [
                 {
-                    name: 'invoice_number_pattern',
-                    label: translations.number_pattern,
+                    name: 'invoice_number_prefix',
+                    label: translations.number_prefix,
                     type: 'text',
-                    placeholder: translations.number_pattern,
-                    value: settings.invoice_number_pattern,
+                    placeholder: translations.number_prefix,
+                    value: settings.invoice_number_prefix,
                     group: 1
                 },
                 {
@@ -150,6 +150,23 @@ class NumberSettings extends Component {
                     type: 'text',
                     placeholder: translations.number_counter,
                     value: settings.invoice_number_counter
+                },
+                {
+                    name: 'invoice_counter_type',
+                    label: translations.counter_type,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'customer',
+                            text: translations.customer
+                        },
+                        {
+                            value: 'group',
+                            text: translations.group
+                        }
+                    ],
+                    placeholder: translations.counter_type,
+                    value: settings.invoice_counter_type || ''
                 }
             ]
         ]
@@ -161,11 +178,11 @@ class NumberSettings extends Component {
         return [
             [
                 {
-                    name: 'project_number_pattern',
-                    label: translations.number_pattern,
+                    name: 'project_number_prefix',
+                    label: translations.number_prefix,
                     type: 'text',
-                    placeholder: translations.number_pattern,
-                    value: settings.project_number_pattern,
+                    placeholder: translations.number_prefix,
+                    value: settings.project_number_prefix,
                     group: 1
                 },
                 {
@@ -174,6 +191,23 @@ class NumberSettings extends Component {
                     type: 'text',
                     placeholder: translations.number_counter,
                     value: settings.project_number_counter
+                },
+                {
+                    name: 'project_counter_type',
+                    label: translations.counter_type,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'customer',
+                            text: translations.customer
+                        },
+                        {
+                            value: 'group',
+                            text: translations.group
+                        }
+                    ],
+                    placeholder: translations.counter_type,
+                    value: settings.project_counter_type || ''
                 }
             ]
         ]
@@ -185,11 +219,11 @@ class NumberSettings extends Component {
         return [
             [
                 {
-                    name: 'expense_number_pattern',
-                    label: translations.number_pattern,
+                    name: 'expense_number_prefix',
+                    label: translations.number_prefix,
                     type: 'text',
-                    placeholder: translations.number_pattern,
-                    value: settings.expense_number_pattern,
+                    placeholder: translations.number_prefix,
+                    value: settings.expense_number_prefix,
                     group: 1
                 },
                 {
@@ -198,6 +232,23 @@ class NumberSettings extends Component {
                     type: 'text',
                     placeholder: translations.number_counter,
                     value: settings.expense_number_counter
+                },
+                {
+                    name: 'expense_counter_type',
+                    label: translations.counter_type,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'customer',
+                            text: translations.customer
+                        },
+                        {
+                            value: 'group',
+                            text: translations.group
+                        }
+                    ],
+                    placeholder: translations.counter_type,
+                    value: settings.expense_counter_type || ''
                 }
             ]
         ]
@@ -209,11 +260,11 @@ class NumberSettings extends Component {
         return [
             [
                 {
-                    name: 'company_number_pattern',
-                    label: translations.number_pattern,
+                    name: 'company_number_prefix',
+                    label: translations.number_prefix,
                     type: 'text',
-                    placeholder: translations.number_pattern,
-                    value: settings.company_number_pattern,
+                    placeholder: translations.number_prefix,
+                    value: settings.company_number_prefix,
                     group: 1
                 },
                 {
@@ -222,6 +273,23 @@ class NumberSettings extends Component {
                     type: 'text',
                     placeholder: translations.number_counter,
                     value: settings.company_number_counter
+                },
+                {
+                    name: 'company_counter_type',
+                    label: translations.counter_type,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'customer',
+                            text: translations.customer
+                        },
+                        {
+                            value: 'group',
+                            text: translations.group
+                        }
+                    ],
+                    placeholder: translations.counter_type,
+                    value: settings.company_counter_type || ''
                 }
             ]
         ]
@@ -233,11 +301,11 @@ class NumberSettings extends Component {
         return [
             [
                 {
-                    name: 'purchaseorder_number_pattern',
-                    label: translations.number_pattern,
+                    name: 'purchaseorder_number_prefix',
+                    label: translations.number_prefix,
                     type: 'text',
-                    placeholder: translations.number_pattern,
-                    value: settings.purchaseorder_number_pattern,
+                    placeholder: translations.number_prefix,
+                    value: settings.purchaseorder_number_prefix,
                     group: 1
                 },
                 {
@@ -246,6 +314,23 @@ class NumberSettings extends Component {
                     type: 'text',
                     placeholder: translations.number_counter,
                     value: settings.purchaseorder_number_counter
+                },
+                {
+                    name: 'purchaseorder_counter_type',
+                    label: translations.counter_type,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'customer',
+                            text: translations.customer
+                        },
+                        {
+                            value: 'group',
+                            text: translations.group
+                        }
+                    ],
+                    placeholder: translations.counter_type,
+                    value: settings.purchaseorder_counter_type
                 }
             ]
         ]
@@ -257,11 +342,11 @@ class NumberSettings extends Component {
         return [
             [
                 {
-                    name: 'deal_number_pattern',
-                    label: translations.number_pattern,
+                    name: 'deal_number_prefix',
+                    label: translations.number_prefix,
                     type: 'text',
-                    placeholder: translations.number_pattern,
-                    value: settings.deal_number_pattern,
+                    placeholder: translations.number_prefix,
+                    value: settings.deal_number_prefix,
                     group: 1
                 },
                 {
@@ -270,6 +355,23 @@ class NumberSettings extends Component {
                     type: 'text',
                     placeholder: translations.number_counter,
                     value: settings.deal_number_counter
+                },
+                {
+                    name: 'deal_counter_type',
+                    label: translations.counter_type,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'customer',
+                            text: translations.customer
+                        },
+                        {
+                            value: 'group',
+                            text: translations.group
+                        }
+                    ],
+                    placeholder: translations.counter_type,
+                    value: settings.deal_counter_type
                 }
             ]
         ]
@@ -281,11 +383,11 @@ class NumberSettings extends Component {
         const formFields = [
             [
                 {
-                    name: 'case_number_pattern',
-                    label: translations.number_pattern,
+                    name: 'case_number_prefix',
+                    label: translations.number_prefix,
                     type: 'text',
-                    placeholder: translations.number_pattern,
-                    value: settings.case_number_pattern,
+                    placeholder: translations.number_prefix,
+                    value: settings.case_number_prefix,
                     group: 1
                 },
                 {
@@ -294,6 +396,23 @@ class NumberSettings extends Component {
                     type: 'text',
                     placeholder: translations.number_counter,
                     value: settings.case_number_counter
+                },
+                {
+                    name: 'case_counter_type',
+                    label: translations.counter_type,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'customer',
+                            text: translations.customer
+                        },
+                        {
+                            value: 'group',
+                            text: translations.group
+                        }
+                    ],
+                    placeholder: translations.counter_type,
+                    value: settings.case_counter_type
                 }
             ]
         ]
@@ -307,11 +426,11 @@ class NumberSettings extends Component {
         return [
             [
                 {
-                    name: 'task_number_pattern',
-                    label: translations.number_pattern,
+                    name: 'task_number_prefix',
+                    label: translations.number_prefix,
                     type: 'text',
-                    placeholder: translations.number_pattern,
-                    value: settings.task_number_pattern,
+                    placeholder: translations.number_prefix,
+                    value: settings.task_number_prefix,
                     group: 1
                 },
                 {
@@ -320,6 +439,23 @@ class NumberSettings extends Component {
                     type: 'text',
                     placeholder: translations.number_counter,
                     value: settings.task_number_counter
+                },
+                {
+                    name: 'task_counter_type',
+                    label: translations.counter_type,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'customer',
+                            text: translations.customer
+                        },
+                        {
+                            value: 'group',
+                            text: translations.group
+                        }
+                    ],
+                    placeholder: translations.counter_type,
+                    value: settings.task_counter_type
                 }
             ]
         ]
@@ -331,11 +467,11 @@ class NumberSettings extends Component {
         return [
             [
                 {
-                    name: 'recurringinvoice_number_pattern',
-                    label: translations.number_pattern,
+                    name: 'recurringinvoice_number_prefix',
+                    label: translations.number_prefix,
                     type: 'text',
-                    placeholder: translations.number_pattern,
-                    value: settings.recurringinvoice_number_pattern,
+                    placeholder: translations.number_prefix,
+                    value: settings.recurringinvoice_number_prefix,
                     group: 1
                 },
                 {
@@ -344,6 +480,23 @@ class NumberSettings extends Component {
                     type: 'text',
                     placeholder: translations.number_counter,
                     value: settings.recurringinvoice_number_counter
+                },
+                {
+                    name: 'recurringinvoice_counter_type',
+                    label: translations.counter_type,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'customer',
+                            text: translations.customer
+                        },
+                        {
+                            value: 'group',
+                            text: translations.group
+                        }
+                    ],
+                    placeholder: translations.counter_type,
+                    value: settings.recurringinvoice_counter_type
                 }
             ]
         ]
@@ -355,11 +508,11 @@ class NumberSettings extends Component {
         return [
             [
                 {
-                    name: 'recurringquote_number_pattern',
-                    label: translations.number_pattern,
+                    name: 'recurringquote_number_prefix',
+                    label: translations.number_prefix,
                     type: 'text',
-                    placeholder: translations.number_pattern,
-                    value: settings.recurringquote_number_pattern,
+                    placeholder: translations.number_prefix,
+                    value: settings.recurringquote_number_prefix,
                     group: 1
                 },
                 {
@@ -368,6 +521,23 @@ class NumberSettings extends Component {
                     type: 'text',
                     placeholder: translations.number_counter,
                     value: settings.recurringquote_number_counter
+                },
+                {
+                    name: 'recurringquote_counter_type',
+                    label: translations.counter_type,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'customer',
+                            text: translations.customer
+                        },
+                        {
+                            value: 'group',
+                            text: translations.group
+                        }
+                    ],
+                    placeholder: translations.counter_type,
+                    value: settings.recurringquote_counter_type
                 }
             ]
         ]
@@ -381,11 +551,11 @@ class NumberSettings extends Component {
         const formFields = [
             [
                 {
-                    name: 'order_number_pattern',
-                    label: translations.number_pattern,
+                    name: 'order_number_prefix',
+                    label: translations.number_prefix,
                     type: 'text',
-                    placeholder: translations.number_pattern,
-                    value: settings.order_number_pattern,
+                    placeholder: translations.number_prefix,
+                    value: settings.order_number_prefix,
                     group: 1
                 },
                 {
@@ -394,6 +564,23 @@ class NumberSettings extends Component {
                     type: 'text',
                     placeholder: translations.number_counter,
                     value: settings.order_number_counter
+                },
+                {
+                    name: 'order_counter_type',
+                    label: translations.counter_type,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'customer',
+                            text: translations.customer
+                        },
+                        {
+                            value: 'group',
+                            text: translations.group
+                        }
+                    ],
+                    placeholder: translations.counter_type,
+                    value: settings.order_counter_type
                 }
             ]
         ]
@@ -407,11 +594,11 @@ class NumberSettings extends Component {
         return [
             [
                 {
-                    name: 'quote_number_pattern',
-                    label: translations.number_pattern,
+                    name: 'quote_number_prefix',
+                    label: translations.number_prefix,
                     type: 'text',
-                    placeholder: translations.number_pattern,
-                    value: settings.quote_number_pattern,
+                    placeholder: translations.number_prefix,
+                    value: settings.quote_number_prefix,
                     group: 1
                 },
                 {
@@ -420,6 +607,23 @@ class NumberSettings extends Component {
                     type: 'text',
                     placeholder: translations.number_counter,
                     value: settings.quote_number_counter
+                },
+                {
+                    name: 'quote_counter_type',
+                    label: translations.counter_type,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'customer',
+                            text: translations.customer
+                        },
+                        {
+                            value: 'group',
+                            text: translations.group
+                        }
+                    ],
+                    placeholder: translations.counter_type,
+                    value: settings.quote_counter_type
                 },
                 {
                     name: 'quote_design_id',
@@ -456,11 +660,11 @@ class NumberSettings extends Component {
         return [
             [
                 {
-                    name: 'credit_number_pattern',
-                    label: translations.number_pattern,
+                    name: 'credit_number_prefix',
+                    label: translations.number_prefix,
                     type: 'text',
-                    placeholder: translations.number_pattern,
-                    value: settings.credit_number_pattern,
+                    placeholder: translations.number_prefix,
+                    value: settings.credit_number_prefix,
                     group: 1
                 },
                 {
@@ -469,6 +673,23 @@ class NumberSettings extends Component {
                     type: 'text',
                     placeholder: translations.number_counter,
                     value: settings.credit_number_counter
+                },
+                {
+                    name: 'credit_counter_type',
+                    label: translations.counter_type,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'customer',
+                            text: translations.customer
+                        },
+                        {
+                            value: 'group',
+                            text: translations.group
+                        }
+                    ],
+                    placeholder: translations.counter_type,
+                    value: settings.credit_counter_type
                 }
                 // {
                 //     name: 'credit_design_id',
@@ -505,11 +726,28 @@ class NumberSettings extends Component {
         return [
             [
                 {
-                    name: 'payment_number_counter',
-                    label: translations.number_counter,
+                    name: 'payment_number_prefix',
+                    label: translations.number_prefix,
                     type: 'text',
-                    placeholder: translations.number_counter,
-                    value: settings.payment_number_counter
+                    placeholder: translations.number_prefix,
+                    value: settings.payment_number_prefix
+                },
+                {
+                    name: 'payment_counter_type',
+                    label: translations.counter_type,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'customer',
+                            text: translations.customer
+                        },
+                        {
+                            value: 'group',
+                            text: translations.group
+                        }
+                    ],
+                    placeholder: translations.counter_type,
+                    value: settings.payment_counter_type
                 },
                 {
                     name: 'payment_terms',

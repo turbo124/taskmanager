@@ -71,7 +71,8 @@ trait CustomerTransformable
             'private_notes'          => $customer->private_notes ?: '',
             'public_notes'           => $customer->public_notes ?: '',
             'files'                  => $this->transformCustomerFiles($customer->files),
-            'gateway_tokens'         => $this->transformGatewayTokens($customer->gateways)
+            'gateway_tokens'         => $this->transformGatewayTokens($customer->gateways),
+            'is_deleted'             => (bool)$customer->is_deleted,
         ];
     }
 

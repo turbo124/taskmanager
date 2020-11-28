@@ -36,7 +36,7 @@ export default class QuoteItem extends Component {
         const { quotes, custom_fields, customers } = this.props
         if (this.props.quotes && this.props.quotes.length && customers.length) {
             return quotes.map(user => {
-                const restoreButton = user.deleted_at
+                const restoreButton = user.deleted_at && !user.is_deleted
                     ? <RestoreModal id={user.id} entities={quotes} updateState={this.props.updateInvoice}
                         url={`/api/quotes/restore/${user.id}`}/> : null
 

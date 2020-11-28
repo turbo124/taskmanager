@@ -26,11 +26,11 @@ class CloneExpenseToInvoiceFactory
         $invoice->setAccount($account);
         $invoice->setCustomer($expense->customer);
         $invoice->setUser($user);
-        //$invoice->setTotal($expense->total);
+        $invoice->setTotal($expense->amount);
         $invoice->setStatus(invoice::STATUS_DRAFT);
         $invoice->setNumber();
         $invoice->setDueDate();
-        //$invoice->setBalance($order->total);
+        $invoice->setBalance($expense->amount);
 
         //$invoice->order_id = $order->id;
         //$invoice->expense_id = $order->expense_id;

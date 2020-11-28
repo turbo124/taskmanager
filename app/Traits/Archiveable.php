@@ -17,7 +17,7 @@ trait Archiveable
     /**
      * @param $entity
      */
-    public function restore($entity)
+    public function restoreEntity()
     {
         $this->restore();
         $this->is_deleted = false;
@@ -43,11 +43,11 @@ trait Archiveable
 
     private function triggerEvent($type)
     {
-        $entity_class = (new ReflectionClass($this))->getShortName();
+        $entity_class = (new \ReflectionClass($this))->getShortName();
         $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "Was" . ucfirst($type);
 
         if (class_exists($event_class)) {
-            event(new $event_class($entity));
+            event(new $event_class($this));
         }
 
         return true;

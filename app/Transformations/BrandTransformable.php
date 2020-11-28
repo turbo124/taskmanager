@@ -19,6 +19,7 @@ trait BrandTransformable
             'cover'       => $brand->cover,
             'description' => $brand->description,
             'status'      => $brand->status,
+            'is_deleted'  => (bool)$brand->is_deleted,
         ];
     }
 

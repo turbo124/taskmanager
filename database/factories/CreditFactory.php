@@ -42,7 +42,7 @@ class CreditFactory extends Factory
         return [
             'account_id'     => 1,
             'status_id'      => Credit::STATUS_DRAFT,
-            'number'         => $this->faker->ean13(),
+            'number'         => $this->faker->ean8(),
             'total'          => $total,
             'balance'        => $total,
             'tax_total'      => $this->faker->randomFloat(2),

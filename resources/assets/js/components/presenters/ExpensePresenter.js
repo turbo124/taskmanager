@@ -2,15 +2,20 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { expenseStatusColors, expenseStatuses, frequencyOptions } from '../utils/_consts'
+import {
+    expenseStatusColors,
+    expenseStatuses,
+    frequencyOptions
+} from '../utils/_consts'
 import { translations } from '../utils/_translations'
 
 export default function ExpensePresenter (props) {
     const { field, entity } = props
 
-    const status = !entity.deleted_at
-        ? <Badge color={expenseStatusColors[entity.status_id]}>{expenseStatuses[entity.status_id]}</Badge>
-        : <Badge color="warning">{translations.archived}</Badge>
+    const status = (entity.deleted_at && !entity.is_deleted) ? (<Badge className="mr-2"
+        color="warning">{translations.archived}</Badge>) : ((entity.deleted_at && entity.is_deleted) ? (
+        <Badge className="mr-2" color="danger">{translations.deleted}</Badge>) : (
+        <Badge color={expenseStatusColors[entity.status_id]}>{expenseStatuses[entity.status_id]}</Badge>))
 
     const paymentInvoices = entity.invoices && Object.keys(entity.invoices).length > 0 ? Array.prototype.map.call(entity.invoices, s => s.number).toString() : null
 

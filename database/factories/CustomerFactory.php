@@ -28,6 +28,7 @@ class CustomerFactory extends Factory
 
         return [
             'name'          => $this->faker->name(),
+            'number'        => $this->faker->ean8(),
             'website'       => $this->faker->url,
             'currency_id'   => 2,
             'private_notes' => $this->faker->text(200),

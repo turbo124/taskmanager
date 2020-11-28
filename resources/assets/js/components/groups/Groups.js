@@ -29,7 +29,7 @@ export default class Groups extends Component {
             show_success: false,
             error_message: translations.unexpected_error,
             success_message: translations.success_message,
-            ignoredColumns: ['settings', 'deleted_at', 'created_at'],
+            ignoredColumns: ['settings', 'deleted_at', 'created_at', 'is_deleted'],
             filters: {
                 group_id: queryString.parse(this.props.location.search).group_id || '',
                 searchText: '',

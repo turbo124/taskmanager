@@ -9,17 +9,14 @@
 namespace Tests\Unit;
 
 use App\Components\InvoiceCalculator\LineItem;
-use App\Components\Payment\Gateways\Stripe;
 use App\Factory\CreditFactory;
 use App\Factory\InvoiceFactory;
 use App\Jobs\Invoice\AutobillInvoice;
 use App\Jobs\Invoice\ProcessReminders;
 use App\Models\Account;
-use App\Models\CompanyGateway;
 use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\CustomerContact;
-use App\Models\CustomerGateway;
 use App\Models\Invoice;
 use App\Models\NumberGenerator;
 use App\Models\Payment;
@@ -266,7 +263,7 @@ class InvoiceUnitTest extends TestCase
         $customerSettings = (new AccountSettings())->getAccountDefaults();
         $customerSettings->counter_padding = 5;
         $customerSettings->invoice_number_counter = 7;
-        $customerSettings->invoice_number_pattern = '{$clientCounter}';
+        $customerSettings->invoice_counter_type = 'customer';
         $customer->settings = $customerSettings;
         $customer->save();
 
@@ -278,19 +275,39 @@ class InvoiceUnitTest extends TestCase
         $this->assertEquals(strlen($invoice_number), 5);
     }
 
-    /* public function testInvoicePrefix()
+    public function testInvoicePrefixYear()
     {
-        $settings = CompanySettings::defaults();
-        $this->account->settings = $settings;
-        $this->account->save();
-        $customer = factory ( Customer::class )->create ();
-        $settings = CustomerSettings::defaults();
-        $settings->invoice_number_counter = 1;
-        $customer->settings = $settings;
+        $customer = Customer::factory()->create();
+        $customerSettings = (new AccountSettings())->getAccountDefaults();
+        $customerSettings->invoice_number_prefix = 'YEAR';
+        $customerSettings->counter_padding = 5;
+        $customerSettings->invoice_number_counter = 7;
+        $customer->settings = $customerSettings;
         $customer->save();
-        $invoice_number = $this->getNextInvoiceNumber($customer);
-        $this->assertEquals($invoice_number, '000002');
-    } */
+
+        $invoice = InvoiceFactory::create($this->main_account, $this->user, $customer);
+
+        $invoice_number = $this->objNumberGenerator->getNextNumberForEntity($invoice, $customer);
+
+        $this->assertEquals($invoice_number, date('Y') . '-00007');
+    }
+
+    public function testInvoicePrefixCustomer()
+    {
+        $customer = Customer::factory()->create();
+        $customerSettings = (new AccountSettings())->getAccountDefaults();
+        $customerSettings->invoice_number_prefix = 'CUSTOMER';
+        $customerSettings->counter_padding = 5;
+        $customerSettings->invoice_number_counter = 7;
+        $customer->settings = $customerSettings;
+        $customer->save();
+
+        $invoice = InvoiceFactory::create($this->main_account, $this->user, $customer);
+
+        $invoice_number = $this->objNumberGenerator->getNextNumberForEntity($invoice, $customer);
+
+        $this->assertEquals($invoice_number, $customer->number . '-00007');
+    }
 
     /** @test */
     public function testReverseInvoice()

@@ -71,7 +71,8 @@ trait CreditTransformable
             'tax_rate_name'       => $credit->tax_rate_name,
             'tax_rate_name_2'     => $credit->tax_rate_name_2,
             'tax_rate_name_3'     => $credit->tax_rate_name_3,
-            'viewed'              => (bool)$credit->viewed
+            'viewed'              => (bool)$credit->viewed,
+            'is_deleted'          => (bool)$credit->is_deleted,
         ];
     }
 

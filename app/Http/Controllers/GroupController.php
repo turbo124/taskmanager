@@ -142,7 +142,7 @@ class GroupController extends Controller
     public function restore(int $id)
     {
         $group = Group::withTrashed()->where('id', '=', $id)->first();
-        $group->restore();
+        $group->restoreEntity();
         return response()->json([], 200);
     }
 }

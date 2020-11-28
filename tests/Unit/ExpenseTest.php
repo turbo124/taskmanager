@@ -96,6 +96,7 @@ class ExpenseTest extends TestCase
     {
         $settings = $this->account->settings;
         $settings->expense_auto_create_invoice = true;
+        $settings->expense_approval_required = false;
         $this->account->settings = $settings;
         $this->account->save();
 

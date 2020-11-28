@@ -36,7 +36,7 @@ export default class PurchaseOrderItem extends Component {
         const { purchase_orders, custom_fields, companies } = this.props
         if (purchase_orders && purchase_orders.length && companies.length) {
             return purchase_orders.map(purchase_order => {
-                const restoreButton = purchase_order.deleted_at
+                const restoreButton = purchase_order.deleted_at && !purchase_order.is_deleted
                     ? <RestoreModal id={purchase_order.id} entities={purchase_orders}
                         updateState={this.props.updateInvoice}
                         url={`/api/purchase_order/restore/${purchase_order.id}`}/> : null

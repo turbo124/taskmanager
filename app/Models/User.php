@@ -123,6 +123,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Models\AccountUser::class);
     }
 
+    public function domain()
+    {
+        return $this->hasOne(Domain::class, 'id', 'domain_id');
+    }
+
     public function files()
     {
         return $this->morphMany(File::class, 'fileable');

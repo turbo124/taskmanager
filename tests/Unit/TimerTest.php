@@ -78,7 +78,7 @@ class TimerTest extends TestCase
         $end_time = Carbon::now()->format('Y-m-d H:i:s');
 
         $timer = $timerRepo->stopTimer($this->task);
-        $this->assertEquals($timer->stopped_at, $end_time);
+        $this->assertEquals($timer->stopped_at->format('Y-m-d H:i:s'), $end_time);
 
         $count = $this->task->timers->count();
 

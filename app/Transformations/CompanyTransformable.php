@@ -43,7 +43,8 @@ trait CompanyTransformable
             'custom_value4' => $company->custom_value4 ?: '',
             'contacts'      => $this->transformContacts($company->contacts),
             'files'         => $this->transformCompanyFiles($company->files),
-            'logo'          => $company->logo ?: ''
+            'logo'          => $company->logo ?: '',
+            'is_deleted'    => (bool)$company->is_deleted,
         ];
     }
 

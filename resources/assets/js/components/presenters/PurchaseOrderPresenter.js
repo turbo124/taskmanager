@@ -2,7 +2,10 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import { purchaseOrderStatusColors, purchaseOrderStatuses } from '../utils/_consts'
+import {
+    purchaseOrderStatusColors,
+    purchaseOrderStatuses
+} from '../utils/_consts'
 import PurchaseOrderModel from '../models/PurchaseOrderModel'
 import { translations } from '../utils/_translations'
 
@@ -13,9 +16,10 @@ export default function PurchaseOrderPresenter (props) {
     const is_late = objQuoteModel.isLate()
     const entity_status = is_late === true ? 100 : entity.status_id
 
-    const status = !entity.deleted_at
-        ? <Badge color={purchaseOrderStatusColors[entity_status]}>{purchaseOrderStatuses[entity_status]}</Badge>
-        : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
+    const status = (entity.deleted_at && !entity.is_deleted) ? (<Badge className="mr-2"
+        color="warning">{translations.archived}</Badge>) : ((entity.deleted_at && entity.is_deleted) ? (
+        <Badge className="mr-2" color="danger">{translations.deleted}</Badge>) : (
+        <Badge color={purchaseOrderStatusColors[entity_status]}>{purchaseOrderStatuses[entity_status]}</Badge>))
 
     switch (field) {
         case 'assigned_to': {

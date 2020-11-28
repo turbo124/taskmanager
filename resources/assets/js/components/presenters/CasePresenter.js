@@ -1,15 +1,23 @@
 import { Badge } from 'reactstrap'
 import React from 'react'
-import { caseLinkTypes, casePriorities, casePriorityColors, caseStatusColors, caseStatuses } from '../utils/_consts'
+import {
+    caseLinkTypes,
+    casePriorities,
+    casePriorityColors,
+    caseStatusColors,
+    caseStatuses,
+    quoteStatusColors, quoteStatuses
+} from '../utils/_consts'
 import { translations } from '../utils/_translations'
 import FormatDate from '../common/FormatDate'
 
 export default function CasePresenter (props) {
     const { field, entity } = props
 
-    const status = !entity.deleted_at
-        ? <Badge color={caseStatusColors[entity.status_id]}>{caseStatuses[entity.status_id]}</Badge>
-        : <Badge className="mr-2" color="warning">{translations.archived}</Badge>
+    const status = (entity.deleted_at && !entity.is_deleted) ? (<Badge className="mr-2"
+        color="warning">{translations.archived}</Badge>) : ((entity.deleted_at && entity.is_deleted) ? (
+        <Badge className="mr-2" color="danger">{translations.deleted}</Badge>) : (
+        <Badge color={caseStatusColors[entity.status_id]}>{caseStatuses[entity.status_id]}</Badge>))
 
     const priority = <Badge
         color={casePriorityColors[entity.priority_id]}>{casePriorities[entity.priority_id]}</Badge>
