@@ -49,20 +49,18 @@ class DealTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_the_task()
+    public function it_can_delete_the_deal()
     {
         $deal = Deal::factory()->create();
-        $dealRepo = new DealRepository($deal);
-        $deleted = $dealRepo->newDelete($deal);
+        $deleted = $deal->deleteEntity();
         $this->assertTrue($deleted);
     }
 
     /** @test */
-    public function it_can_archive_the_task()
+    public function it_can_archive_the_deal()
     {
         $deal = Deal::factory()->create();
-        $dealRepo = new DealRepository($deal);
-        $deleted = $dealRepo->archive($deal);
+        $deleted = $deal->archive();
         $this->assertTrue($deleted);
     }
 
