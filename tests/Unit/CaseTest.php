@@ -60,16 +60,14 @@ class CaseTest extends TestCase
     public function it_can_delete_the_case()
     {
         $case = Cases::factory()->create();
-        $taskRepo = new CaseRepository($case);
-        $deleted = $taskRepo->newDelete($case);
+        $deleted = $case->deleteEntity();
         $this->assertTrue($deleted);
     }
 
     public function it_can_archive_the_case()
     {
         $case = Cases::factory()->create();
-        $taskRepo = new CaseRepository($case);
-        $deleted = $taskRepo->archive($case);
+        $deleted = $case->archive();
         $this->assertTrue($deleted);
     }
 
