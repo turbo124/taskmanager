@@ -140,7 +140,7 @@ class InvoiceController extends BaseController
     public function archive(int $id)
     {
         $invoice = $this->invoice_repo->findInvoiceById($id);
-        $this->invoice_repo->archive($invoice);
+        $invoice->archive();
         return response()->json([], 200);
     }
 
@@ -164,7 +164,7 @@ class InvoiceController extends BaseController
     public function restore(int $id)
     {
         $invoice = Invoice::withTrashed()->where('id', '=', $id)->first();
-        $this->invoice_repo->restore($invoice);
+        $invoice->restore();
         return response()->json([], 200);
     }
 }
