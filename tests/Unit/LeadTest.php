@@ -45,16 +45,14 @@ class LeadTest extends TestCase
     public function it_can_delete_the_lead()
     {
         $lead = Lead::factory()->create();
-        $taskRepo = new LeadRepository($lead);
-        $deleted = $taskRepo->newDelete($lead);
+        $deleted = $lead->deleteEntity();
         $this->assertTrue($deleted);
     }
 
     public function it_can_archive_the_lead()
     {
         $lead = Lead::factory()->create();
-        $taskRepo = new LeadRepository($lead);
-        $deleted = $taskRepo->archive($lead);
+        $deleted = $lead->archive();
         $this->assertTrue($deleted);
     }
 
