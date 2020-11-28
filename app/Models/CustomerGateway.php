@@ -6,10 +6,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Archiveable;
 
 class CustomerGateway extends Model
 {
     use HasFactory;
+    use Archiveable;
 
     public function company_gateway()
     {
