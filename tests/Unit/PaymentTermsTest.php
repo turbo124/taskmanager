@@ -52,16 +52,14 @@ class PaymentTermsTest extends TestCase
     public function it_can_delete_the_term()
     {
         $payment_term = PaymentTerms::factory()->create();
-        $payment_terms_repo = new PaymentTermsRepository($payment_term);
-        $deleted = $payment_terms_repo->newDelete($payment_term);
+        $deleted = $payment_term->deleteEntity();
         $this->assertTrue($deleted);
     }
 
     public function it_can_archive_the_term()
     {
         $payment_term = PaymentTerms::factory()->create();
-        $payment_terms_repo = new PaymentTermsRepository($payment_term);
-        $deleted = $payment_terms_repo->archive($payment_term);
+        $deleted = $payment_term->archive();
         $this->assertTrue($deleted);
     }
 
