@@ -113,42 +113,6 @@ class BaseRepository implements BaseRepositoryInterface
 
     /**
      * @param $entity
-     */
-    public function archive($entity)
-    {
-        $entity->delete();
-
-        $entity_class = (new ReflectionClass($entity))->getShortName();
-        $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "WasArchived";
-
-        if (class_exists($event_class)) {
-            event(new $event_class($entity));
-        }
-
-        return true;
-    }
-
-    /**
-     * @param $entity
-     */
-    public function restore($entity)
-    {
-        $entity->restore();
-        $entity->is_deleted = false;
-        $entity->save();
-
-        $entity_class = (new ReflectionClass($entity))->getShortName();
-        $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "WasRestored";
-
-        if (class_exists($event_class)) {
-            event(new $event_class($entity));
-        }
-
-        return true;
-    }
-
-    /**
-     * @param $entity
      * @return |null
      * @throws ReflectionException
      */
@@ -187,25 +151,6 @@ class BaseRepository implements BaseRepositoryInterface
         }
 
         return $entity;
-    }
-
-    /**
-     * @param $entity
-     */
-    public function newDelete($entity)
-    {
-        $entity->is_deleted = true;
-        $entity->save();
-        $entity->delete();
-
-        $entity_class = (new ReflectionClass($entity))->getShortName();
-        $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "WasDeleted";
-
-        if (class_exists($event_class)) {
-            event(new $event_class($entity));
-        }
-
-        return true;
     }
 
     /**
