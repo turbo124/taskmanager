@@ -126,7 +126,7 @@ class CustomerController extends Controller
     public function archive(int $id)
     {
         $customer = $this->customer_repo->findCustomerById($id);
-        $response = (new CustomerRepository($customer))->delete($id);
+        $response = $customer->archive();
 
         if ($response) {
             return response()->json('Customer deleted!');
@@ -138,7 +138,7 @@ class CustomerController extends Controller
     public function destroy(int $id)
     {
         $customer = Customer::withTrashed()->where('id', '=', $id)->first();
-        $this->customer_repo->newDelete($customer);
+        $customer->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -153,11 +153,11 @@ class CustomerController extends Controller
         $action = request()->input('action');
 
         $ids = request()->input('ids');
-        $clients = Customer::withTrashed()->find($ids);
+        $customers = Customer::withTrashed()->find($ids);
 
-        $clients->each(
-            function ($client, $key) use ($action) {
-                $this->customer_repo->{$action}($client);
+        $customers->each(
+            function ($customer, $key) use ($action) {
+                $this->customer_repo->{$action}($customer);
             }
         );
         return response()->json(Customer::withTrashed()->whereIn('id', $ids));
