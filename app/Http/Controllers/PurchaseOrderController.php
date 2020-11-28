@@ -118,8 +118,8 @@ class PurchaseOrderController extends BaseController
      */
     public function archive(int $id)
     {
-        $po = $this->purchase_order_repo->findPurchaseOrderById($id);
-        $this->purchase_order_repo->archive($po);
+        $purchase_order = $this->purchase_order_repo->findPurchaseOrderById($id);
+        $purchase_order->archive();
         return response()->json([], 200);
     }
 
@@ -129,8 +129,8 @@ class PurchaseOrderController extends BaseController
      */
     public function destroy(int $id)
     {
-        $po = PurchaseOrder::withTrashed()->where('id', '=', $id)->first();
-        $this->purchase_order_repo->newDelete($po);
+        $purchase_order = PurchaseOrder::withTrashed()->where('id', '=', $id)->first();
+        $purchase_order->deleteEntity();
         return response()->json([], 200);
     }
 
@@ -140,8 +140,8 @@ class PurchaseOrderController extends BaseController
      */
     public function restore(int $id)
     {
-        $po = PurchaseOrder::withTrashed()->where('id', '=', $id)->first();
-        $this->purchase_order_repo->restore($po);
+        $purchase_order = PurchaseOrder::withTrashed()->where('id', '=', $id)->first();
+        $purchase_order->restore();
         return response()->json([], 200);
     }
 
