@@ -170,7 +170,7 @@ class CustomerController extends Controller
     public function restore(int $id)
     {
         $customer = Customer::withTrashed()->where('id', '=', $id)->first();
-        $this->customer_repo->restore($customer);
+        $customer->restore();
         return response()->json([], 200);
     }
 
