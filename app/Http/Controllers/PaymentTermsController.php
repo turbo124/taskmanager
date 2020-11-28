@@ -90,7 +90,7 @@ class PaymentTermsController extends Controller
     public function archive(int $id)
     {
         $payment_terms = $this->payment_terms_repo->findPaymentTermsById($id);
-        $payment_terms->delete();
+        $payment_terms->archive();
         return response()->json([], 200);
     }
 
@@ -101,7 +101,7 @@ class PaymentTermsController extends Controller
     public function destroy(int $id)
     {
         $payment_terms = PaymentTerms::withTrashed()->where('id', '=', $id)->first();
-        $this->payment_terms_repo->newDelete($payment_terms);
+        $payment_terms->deleteEntity($payment_terms);
         return response()->json([], 200);
     }
 
@@ -112,7 +112,7 @@ class PaymentTermsController extends Controller
     public function restore(int $id)
     {
         $payment_terms = PaymentTerms::withTrashed()->where('id', '=', $id)->first();
-        $this->payment_terms_repo->restore($payment_terms);
+        $payment_terms->restore();
         return response()->json([], 200);
     }
 }
