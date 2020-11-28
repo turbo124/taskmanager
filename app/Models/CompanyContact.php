@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laracasts\Presenter\PresentableTrait;
+use App\Traits\Archiveable;
 
 //use App\Notifications\ClientContactResetPassword as ResetPasswordNotification;
 //use App\Notifications\ClientContactResetPassword;
@@ -18,6 +19,7 @@ class CompanyContact extends Model implements ContactInterface
     use PresentableTrait;
     use SoftDeletes;
     use HasFactory;
+    use Archiveable;
 
     protected $presenter = 'App\Presenters\ClientContactPresenter';
 
