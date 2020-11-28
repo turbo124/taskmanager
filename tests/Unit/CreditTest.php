@@ -54,16 +54,14 @@ class CreditTest extends TestCase
     public function it_can_delete_the_credit()
     {
         $credit = Credit::factory()->create();
-        $invoiceRepo = new CreditRepository($credit);
-        $deleted = $invoiceRepo->newDelete($credit);
+        $deleted = $credit->deleteEntity();
         $this->assertTrue($deleted);
     }
 
     public function it_can_archive_the_credit()
     {
         $credit = Credit::factory()->create();
-        $taskRepo = new CreditRepository($credit);
-        $deleted = $taskRepo->archive($credit);
+        $deleted = $credit->archive();
         $this->assertTrue($deleted);
     }
 

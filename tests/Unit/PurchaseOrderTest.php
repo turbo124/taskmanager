@@ -129,17 +129,15 @@ class PurchaseOrderTest extends TestCase
     /** @test */
     public function it_can_delete_the_purchase_order()
     {
-        $invoice = PurchaseOrder::factory()->create();
-        $invoiceRepo = new PurchaseOrderRepository($invoice);
-        $deleted = $invoiceRepo->newDelete($invoice);
+        $purchase_order = PurchaseOrder::factory()->create();
+        $deleted = $purchase_order->deleteEntity();
         $this->assertTrue($deleted);
     }
 
     public function it_can_archive_the_purchase_order()
     {
         $purchase_order = PurchaseOrder::factory()->create();
-        $taskRepo = new PurchaseOrderRepository($purchase_order);
-        $deleted = $taskRepo->archive($purchase_order);
+        $deleted = $purchase_order->archive();
         $this->assertTrue($deleted);
     }
 

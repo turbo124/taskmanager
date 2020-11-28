@@ -154,8 +154,7 @@ class PaymentUnitTest extends TestCase
     public function it_can_archive_the_payment()
     {
         $payment = Payment::factory()->create();
-        $taskRepo = new PaymentRepository($payment);
-        $deleted = $taskRepo->archive($payment);
+        $deleted = $payment->archive();
         $this->assertTrue($deleted);
     }
 

@@ -115,7 +115,7 @@ class DesignController extends Controller
     public function destroy(int $id)
     {
         $design = Design::withTrashed()->where('id', '=', $id)->first();
-        $this->design_repo->newDelete($design);
+        $design->deleteEntity();
         return response()->json([], 200);
     }
 }

@@ -52,8 +52,7 @@ class ProjectTest extends TestCase
     public function it_can_delete_the_project()
     {
         $project = Project::factory()->create();
-        $projectRepo = new ProjectRepository($project);
-        $deleted = $projectRepo->newDelete($project);
+        $deleted = $project->deleteEntity();
         $this->assertTrue($deleted);
     }
 

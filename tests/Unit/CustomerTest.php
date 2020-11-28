@@ -55,16 +55,14 @@ class CustomerTest extends TestCase
     public function it_can_delete_the_customer()
     {
         $customer = Customer::factory()->create();
-        $invoiceRepo = new CustomerRepository($customer);
-        $deleted = $invoiceRepo->newDelete($customer);
+        $deleted = $customer->deleteEntity();
         $this->assertTrue($deleted);
     }
 
     public function it_can_archive_the_customer()
     {
         $customer = Customer::factory()->create();
-        $taskRepo = new CustomerRepository($customer);
-        $deleted = $taskRepo->archive($customer);
+        $deleted = $customer->archive();
         $this->assertTrue($deleted);
     }
 

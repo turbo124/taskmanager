@@ -57,17 +57,15 @@ class GroupTest extends TestCase
     /** @test */
     public function it_can_delete_the_group()
     {
-        $group_setting = Group::factory()->create();
-        $group_setting_repo = new GroupRepository($group_setting);
-        $deleted = $group_setting_repo->newDelete($group_setting);
+        $group = Group::factory()->create();
+        $deleted = $group->deleteEntity();
         $this->assertTrue($deleted);
     }
 
     public function it_can_archive_the_group()
     {
-        $group_setting = Group::factory()->create();
-        $group_setting_repo = new GroupRepository($group_setting);
-        $deleted = $group_setting_repo->archive($group_setting);
+        $group = Group::factory()->create();
+        $deleted = $group->archive();
         $this->assertTrue($deleted);
     }
 

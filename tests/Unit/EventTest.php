@@ -54,8 +54,7 @@ class EventTest extends TestCase
     public function it_can_delete_a_event()
     {
         $event = Event::factory()->create();
-        $eventRepo = new EventRepository($event);
-        $delete = $eventRepo->deleteEvent();
+        $delete = $event->deleteEntity();
         $this->assertTrue($delete);
         //$this->assertDatabaseHas('events', $event->toArray());
     }

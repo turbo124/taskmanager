@@ -44,9 +44,8 @@ class UserTest extends TestCase
     /** @test */
     public function it_can_delete_the_user()
     {
-        $user = User::factory()->create();;
-        $userRepo = new UserRepository($user);
-        $deleted = $userRepo->deleteUser($user->id);
+        $user = User::factory()->create();
+        $deleted = $user->deleteEntity();
         $this->assertTrue($deleted);
     }
 

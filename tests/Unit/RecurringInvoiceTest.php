@@ -68,19 +68,17 @@ class RecurringInvoiceTest extends TestCase
     }
 
     /** @test */
-    public function it_can_delete_the_invoice()
+    public function it_can_delete_the_recurring_invoice()
     {
         $recurring_invoice = RecurringInvoice::factory()->create();
-        $taskRepo = new RecurringInvoiceRepository($recurring_invoice);
-        $deleted = $taskRepo->newDelete($recurring_invoice);
+        $deleted = $recurring_invoice->deleteEntity();
         $this->assertTrue($deleted);
     }
 
     public function it_can_archive_the_recurring_invoice()
     {
         $recurring_invoice = RecurringInvoice::factory()->create();
-        $taskRepo = new RecurringInvoiceRepository($recurring_invoice);
-        $deleted = $taskRepo->archive($recurring_invoice);
+        $deleted = $recurring_invoice->archive();
         $this->assertTrue($deleted);
     }
 

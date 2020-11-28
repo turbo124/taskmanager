@@ -255,8 +255,7 @@ class InvoiceUnitTest extends TestCase
     public function it_can_archive_the_invoice()
     {
         $invoice = Invoice::factory()->create();
-        $taskRepo = new InvoiceRepository($invoice);
-        $deleted = $taskRepo->archive($invoice);
+        $deleted = $invoice->archive();
         $this->assertTrue($deleted);
     }
 
