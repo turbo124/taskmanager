@@ -200,6 +200,7 @@ class EditTask extends Component {
         this.initialState = this.taskModel.fields
         this.taskModel.start_date = this.initialState.start_date
         this.taskModel.due_date = this.initialState.due_date
+        this.setState(this.initialState)
     }
 
     render () {
