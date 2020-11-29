@@ -421,7 +421,7 @@ export default class EditOrder extends Component {
         this.orderModel = new OrderModel(data, this.props.customers)
         this.initialState = this.orderModel.fields
         //this.orderModel.task_id = this.props.task_id
-        this.state = this.initialState
+        this.setState(this.initialState)
     }
 
     buildForm () {
