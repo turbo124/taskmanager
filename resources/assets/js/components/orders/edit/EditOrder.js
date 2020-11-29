@@ -417,6 +417,13 @@ export default class EditOrder extends Component {
         })
     }
 
+    reload (data) {
+        this.orderModel = new OrderModel(data, this.props.customers)
+        this.initialState = this.orderModel.fields
+        //this.orderModel.task_id = this.props.task_id
+        this.state = this.initialState
+    }
+
     buildForm () {
         const successMessage = this.state.showSuccessMessage !== false && this.state.showSuccessMessage !== ''
             ? <SuccessMessage message={this.state.showSuccessMessage}/> : null
@@ -545,7 +552,7 @@ export default class EditOrder extends Component {
         const documents = this.state.id ? <Documents order={this.state}/> : null
 
         const dropdownMenu = this.state.id
-            ? <DropdownMenuBuilder invoices={this.props.orders} formData={this.getFormData()}
+            ? <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.orders} formData={this.getFormData()}
                 model={this.orderModel}
                 task_id={this.state.task_id}
                 handleTaskChange={this.handleTaskChange}
