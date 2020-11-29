@@ -527,7 +527,7 @@ class EditInvoice extends Component {
     reload (data) {
         this.invoiceModel = new InvoiceModel(data, this.props.customers)
         this.initialState = this.invoiceModel.fields
-        this.state = this.initialState
+        this.setState(this.initialState)
     }
 
     buildForm () {
