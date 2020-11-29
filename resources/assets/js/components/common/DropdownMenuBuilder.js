@@ -151,6 +151,7 @@ export default class DropdownMenuBuilder extends Component {
                 const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
                 this.props.invoices[index] = response
                 this.props.action(this.props.invoices)
+                this.props.reload(response)
                 const recurring_text = this.props.model.entity === 'RecurringInvoice' ? translations.recurring_invoice : translations.recurring_quote
                 message = `${recurring_text} ${response.number} ${translations.has_started}`
             }
@@ -159,6 +160,7 @@ export default class DropdownMenuBuilder extends Component {
                 const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
                 this.props.invoices[index] = response
                 this.props.action(this.props.invoices)
+                this.props.reload(response)
                 const recurring_text = this.props.model.entity === 'RecurringInvoice' ? translations.recurring_invoice : translations.recurring_quote
                 message = `${recurring_text} ${response.number} ${translations.has_stopped}`
             }
@@ -210,6 +212,7 @@ export default class DropdownMenuBuilder extends Component {
                 const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
                 this.props.invoices[index] = response
                 this.props.action(this.props.invoices)
+                this.props.reload(response)
                 message = `The ${this.props.model.entity} ${translations.approved}`
             }
 
@@ -217,6 +220,7 @@ export default class DropdownMenuBuilder extends Component {
                 const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
                 this.props.invoices[index] = response
                 this.props.action(this.props.invoices)
+                this.props.reload(response)
                 message = `The ${this.props.model.entity} ${translations.sent}`
             }
 
@@ -224,12 +228,14 @@ export default class DropdownMenuBuilder extends Component {
                 const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
                 this.props.invoices[index] = response
                 this.props.action(this.props.invoices)
+                this.props.reload(response)
                 message = `The ${this.props.model.entity} ${translations.paid}.`
             }
 
             if (action === 'cancel') {
                 const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
                 this.props.invoices[index] = response
+                this.props.reload(response)
                 this.props.action(this.props.invoices)
                 message = `The ${this.props.model.entity} ${translations.cancelled_invoice}`
             }
@@ -238,6 +244,7 @@ export default class DropdownMenuBuilder extends Component {
                 const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
                 this.props.invoices[index] = response
                 this.props.action(this.props.invoices)
+                this.props.reload(response)
                 message = `The ${this.props.model.entity} ${translations.reversed_invoice}`
             }
 
@@ -250,6 +257,7 @@ export default class DropdownMenuBuilder extends Component {
                 this.props.invoices[index] = response
                 console.log('response', response)
                 this.props.action(this.props.invoices)
+                this.props.reload(response)
                 message = `${translations.order_held}`
             }
 
@@ -257,6 +265,7 @@ export default class DropdownMenuBuilder extends Component {
                 const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
                 this.props.invoices[index] = response
                 this.props.action(this.props.invoices)
+                this.props.reload(response)
                 message = `${translations.order_unheld}`
             }
 
