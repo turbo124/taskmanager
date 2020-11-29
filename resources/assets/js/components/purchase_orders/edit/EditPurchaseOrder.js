@@ -475,11 +475,10 @@ class EditPurchaseOrder extends Component {
         this.setState({ recurring: recurring, changesMade: true })
     }
 
-    reload () {
-        const data = this.props.invoice ? this.props.invoice : null
+    reload (data) {
         this.purchaseOrderModel = new PurchaseOrderModel(data, this.props.companies)
         this.initialState = this.purchaseOrderModel.fields
-        this.state = this.initialState
+        this.setState(this.initialState)
     }
 
     buildForm () {
