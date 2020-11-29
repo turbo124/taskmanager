@@ -524,6 +524,12 @@ class EditInvoice extends Component {
         this.setState({ invitations: invitations }, () => console.log('invitations', invitations))
     }
 
+    reload (data) {
+        this.invoiceModel = new InvoiceModel(data, this.props.customers)
+        this.initialState = this.invoiceModel.fields
+        this.state = this.initialState
+    }
+
     buildForm () {
         const successMessage = this.state.showSuccessMessage !== false && this.state.showSuccessMessage !== ''
             ? <SuccessMessage message={this.state.showSuccessMessage}/> : null
@@ -659,7 +665,7 @@ class EditInvoice extends Component {
         const documents = this.state.id ? <Documents invoice={this.state}/> : null
 
         const dropdownMenu = this.state.id
-            ? <DropdownMenu invoices={this.props.invoices} formData={this.getFormData()}
+            ? <DropdownMenu reload={this.reload.bind(this)} invoices={this.props.invoices} formData={this.getFormData()}
                 task_id={this.state.task_id}
                 handleTaskChange={this.handleTaskChange}
                 action={this.props.action} model={this.invoiceModel}
