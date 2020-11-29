@@ -475,6 +475,13 @@ class EditPurchaseOrder extends Component {
         this.setState({ recurring: recurring, changesMade: true })
     }
 
+    reload () {
+        const data = this.props.invoice ? this.props.invoice : null
+        this.purchaseOrderModel = new PurchaseOrderModel(data, this.props.companies)
+        this.initialState = this.purchaseOrderModel.fields
+        this.state = this.initialState
+    }
+
     buildForm () {
         const successMessage = this.state.showSuccessMessage !== false && this.state.showSuccessMessage !== ''
             ? <SuccessMessage message={this.state.showSuccessMessage}/> : null
@@ -610,7 +617,7 @@ class EditPurchaseOrder extends Component {
                 entity_id={this.state.id}/> : null
 
         const dropdownMenu = this.state.id
-            ? <DropdownMenuBuilder invoices={this.props.invoices}
+            ? <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.invoices}
                 formData={this.getFormData()}
                 model={this.purchaseOrderModel}
                 handleTaskChange={this.handleTaskChange}
