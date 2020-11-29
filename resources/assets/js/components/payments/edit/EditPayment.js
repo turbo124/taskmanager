@@ -168,7 +168,7 @@ class EditPayment extends React.Component {
     }
 
     reload (data) {
-        this.paymentModel = new PaymentModel(this.props.invoices, this.props.payment)
+        this.paymentModel = new PaymentModel(this.props.invoices, data)
         this.initialState = this.paymentModel.fields
         this.setState(this.initialState)
     }
