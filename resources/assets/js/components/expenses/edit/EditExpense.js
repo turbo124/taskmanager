@@ -165,6 +165,12 @@ class EditExpense extends React.Component {
         })
     }
 
+    reload (data) {
+        this.expenseModel = new ExpenseModel(data, this.props.customers)
+        this.initialState = this.expenseModel.fields
+        this.setState(this.initialState)
+    }
+
     render () {
         const successMessage = this.state.showSuccessMessage === true
             ? <SuccessMessage message="Invoice was updated successfully"/> : null
@@ -187,7 +193,7 @@ class EditExpense extends React.Component {
                             {message}
                         </div>}
 
-                        <DropdownMenuBuilder invoices={this.props.expenses} formData={this.getFormData()}
+                        <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.expenses} formData={this.getFormData()}
                             model={this.expenseModel}
                             action={this.props.action}/>
 
