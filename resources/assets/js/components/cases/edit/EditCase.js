@@ -178,6 +178,12 @@ export default class EditCase extends React.Component {
         })
     }
 
+    reset (data) {
+        this.caseModel = new CaseModel(data, this.props.customers)
+        this.initialState = this.caseModel.fields
+        this.setState(this.initialState)
+    }
+
     render () {
         const email_editor = this.state.id
             ? <Emails width={400} model={this.caseModel} emails={this.state.emails} template="email_template_case"
@@ -241,7 +247,7 @@ export default class EditCase extends React.Component {
 
                         <TabContent activeTab={this.state.activeTab}>
                             <TabPane tabId="1">
-                                <DropdownMenuBuilder invoices={this.props.cases} formData={this.getFormData()}
+                                <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.cases} formData={this.getFormData()}
                                     model={this.caseModel}
                                     action={this.props.action}/>
 
