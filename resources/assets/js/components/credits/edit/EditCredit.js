@@ -476,7 +476,7 @@ export default class EditCredit extends Component {
     reload (data) {
         this.creditModel = new CreditModel(data, this.props.customers)
         this.initialState = this.creditModel.fields
-        this.state = this.initialState
+        this.setState(this.initialState)
     }
 
     buildForm () {
