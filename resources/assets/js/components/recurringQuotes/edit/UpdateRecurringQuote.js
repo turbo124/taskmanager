@@ -519,6 +519,12 @@ class UpdateRecurringQuote extends Component {
         this.setState({ recurring: recurring, changesMade: true })
     }
 
+    reload (data) {
+        this.quoteModel = new RecurringQuoteModel(data, this.props.customers)
+        this.initialState = this.quoteModel.fields
+        this.state = this.initialState
+    }
+
     buildForm () {
         const successMessage = this.state.showSuccessMessage !== false && this.state.showSuccessMessage !== ''
             ? <SuccessMessage message={this.state.showSuccessMessage}/> : null
@@ -657,7 +663,7 @@ class UpdateRecurringQuote extends Component {
                 entity_id={this.state.id}/> : null
 
         const dropdownMenu = this.state.id
-            ? <DropdownMenuBuilder invoices={this.props.invoices}
+            ? <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.invoices}
                 formData={this.getFormData()}
                 model={this.quoteModel}
                 handleTaskChange={this.handleTaskChange}
