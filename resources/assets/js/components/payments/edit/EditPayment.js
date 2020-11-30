@@ -167,6 +167,13 @@ class EditPayment extends React.Component {
         this.setState({ payable_credits: payableCredits }, () => localStorage.setItem('paymentForm', JSON.stringify(this.state)))
     }
 
+    reload (data) {
+        this.paymentModel = new PaymentModel(this.props.invoices, data)
+        this.initialState = this.paymentModel.fields
+        this.initialState.modal = true
+        this.setState(this.initialState)
+    }
+
     render () {
         const { message, loading } = this.state
 
@@ -191,7 +198,7 @@ class EditPayment extends React.Component {
                             {message}
                         </div>}
 
-                        <DropdownMenuBuilder invoices={this.props.payments} formData={this.getFormData()}
+                        <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.payments} formData={this.getFormData()}
                             model={this.paymentModel}
                             action={this.props.action}/>
 

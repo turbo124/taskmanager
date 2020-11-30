@@ -97,15 +97,20 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
     {
         $original_amount = $invoice->total;
         $invoice->fill($data);
+        $invoice = $invoice->service()->calculateInvoiceTotals();
         $invoice = $this->populateDefaults($invoice);
         $invoice = $this->formatNotes($invoice);
-        $invoice = $invoice->service()->calculateInvoiceTotals();
+
         $invoice->setNumber();
         $invoice->save();
 
         $this->saveInvitations($invoice, $data);
 
-        $this->updateEntities($invoice);
+        $entities_added = $this->updateEntities($invoice);
+
+        if (!empty($entities_added['expenses'])) {
+            $this->saveDocuments($invoice, $entities_added['expenses']);
+        }
 
         if ($invoice->status_id !== Invoice::STATUS_DRAFT && $original_amount !== $invoice->total) {
             $updated_amount = $invoice->total - $original_amount;
@@ -121,6 +126,8 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
             return true;
         }
 
+        $entities_added = [];
+
         foreach ($invoice->line_items as $line_item) {
             if ($line_item->type_id === Invoice::EXPENSE_TYPE) {
                 $expense = Expense::where('id', '=', $line_item->product_id)->first();
@@ -132,6 +139,8 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
                 $expense->setStatus(Expense::STATUS_INVOICED);
                 $expense->invoice_id = $invoice->id;
                 $expense->save();
+
+                $entities_added['expenses'][] = $expense;
             }
 
             if ($line_item->type_id === Invoice::TASK_TYPE) {
@@ -144,10 +153,12 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
                 //$task->setStatus(Task::STATUS_INVOICED);
                 $task->invoice_id = $invoice->id;
                 $task->save();
+
+                $entities_added['tasks'][] = $task;
             }
         }
 
-        return true;
+        return $entities_added;
     }
 
     /**
@@ -206,5 +217,21 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
                       )->get();
     }
 
+    /**
+     * @param Invoice $invoice
+     * @param $expenses
+     * @return bool
+     */
+    private function saveDocuments(Invoice $invoice, $expenses): bool
+    {
+        foreach ($expenses as $expense) {
+            foreach ($expense->files as $file) {
+                $clone = $file->replicate();
 
+                $invoice->files()->save($clone);
+            }
+        }
+
+        return true;
+    }
 }

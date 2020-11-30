@@ -43,6 +43,7 @@ trait ProductTransformable
             'status'         => $product->status,
             'features'       => $product->features,
             'cover'          => $product->cover,
+            'brand_id'       => (int)$product->brand_id,
             'company_id'     => (int)$product->company_id,
             'brand'          => !empty($product->company) ? $product->company->name : null,
             'is_featured'    => (bool)$product->is_featured,

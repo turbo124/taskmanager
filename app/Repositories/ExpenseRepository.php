@@ -76,6 +76,11 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
     public function save(array $data, Expense $expense): ?Expense
     {
         $expense->fill($data);
+
+        if (!empty($data['create_invoice']) && $data['create_invoice'] === true && empty($expense->invoice_id)) {
+            $expense->setStatus(Expense::STATUS_PENDING);
+        }
+
         $expense->setNumber();
         $expense->save();
 

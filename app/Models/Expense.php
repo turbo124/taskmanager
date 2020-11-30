@@ -61,6 +61,7 @@ class Expense extends Model
         'recurring_frequency',
         'invoice_id'
     ];
+
     protected $casts = [
         'is_deleted' => 'boolean',
         'updated_at' => 'timestamp',

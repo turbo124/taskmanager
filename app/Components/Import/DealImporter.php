@@ -16,6 +16,16 @@ class DealImporter extends BaseCsvImporter
     use ImportMapper;
     use DealTransformable;
 
+    private array $export_columns = [
+        'name'          => 'name',
+        'description'   => 'description',
+        'valued_at'     => 'valued at',
+        'due_date'      => 'due date',
+        'terms'         => 'terms',
+        'public_notes'  => 'public notes',
+        'private_notes' => 'private notes'
+    ];
+
     /**
      * @var array|string[]
      */
@@ -26,7 +36,9 @@ class DealImporter extends BaseCsvImporter
         'due_date'      => 'due_date',
         'terms'         => 'terms',
         'public notes'  => 'public_notes',
-        'private notes' => 'private_notes'
+        'private notes' => 'private_notes',
+        'customer name' => 'customer_id',
+        'task status'   => 'task_status_id'
     ];
 
     /**
@@ -62,14 +74,15 @@ class DealImporter extends BaseCsvImporter
     public function csvConfigurations()
     {
         return [
-            'mappings'  => [
-                'name'        => ['required', 'cast' => 'string'],
-                'description' => ['cast' => 'string'],
-                'valued_at'   => ['cast' => 'string'],
-                'due_date'    => ['cast' => 'date'],
-                //'customer_id' => ['required', 'cast' => 'int'],
+            'mappings' => [
+                'name'          => ['validation' => 'required|unique:deals', 'cast' => 'string'],
+                'description'   => ['cast' => 'string'],
+                'valued_at'     => ['cast' => 'string'],
+                'due_date'      => ['cast' => 'date'],
+                'customer name' => ['validation' => 'required', 'cast' => 'string'],
+                'task status'   => ['validation' => 'required', 'cast' => 'string'],
             ],
-            'config'    => [
+            'config'   => [
                 'csv_date_format' => 'Y-m-d'
             ]
         ];
@@ -97,7 +110,24 @@ class DealImporter extends BaseCsvImporter
         return $this->transformDeal($object);
     }
 
-    public function customHandler()
+    public function export()
     {
+        $export_columns = $this->getExportColumns();
+        $csvExporter = new Export($this->account, $this->user);
+        $list = Deal::get();
+
+        $deals = $list->map(
+            function (Deal $deal) {
+                return $this->transformObject($deal);
+            }
+        )->all();
+
+        $csvExporter->build(collect($deals), $export_columns);
+        return $csvExporter->download();
+    }
+
+    public function getExportColumns()
+    {
+        return $this->export_columns;
     }
 }

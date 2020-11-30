@@ -473,6 +473,13 @@ export default class EditCredit extends Component {
         this.setState({ invitations: invitations }, () => console.log('invitations', invitations))
     }
 
+    reload (data) {
+        this.creditModel = new CreditModel(data, this.props.customers)
+        this.initialState = this.creditModel.fields
+        this.initialState.modalOpen = true
+        this.setState(this.initialState)
+    }
+
     buildForm () {
         const successMessage = this.state.showSuccessMessage !== false && this.state.showSuccessMessage !== ''
             ? <SuccessMessage message={this.state.showSuccessMessage}/> : null
@@ -601,7 +608,7 @@ export default class EditCredit extends Component {
         const documents = this.state.id ? <Documents credit={this.state}/> : null
 
         const dropdownMenu = this.state.id
-            ? <DropdownMenuBuilder invoices={this.props.credits} formData={this.getFormData()}
+            ? <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.credits} formData={this.getFormData()}
                 model={this.creditModel}
                 task_id={this.state.task_id}
                 handleTaskChange={this.handleTaskChange}

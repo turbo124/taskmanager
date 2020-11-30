@@ -12,15 +12,24 @@ use App\Models\Customer;
 use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\Project;
+use App\Models\TaskStatus;
 use App\Repositories\CompanyContactRepository;
 use App\Repositories\CompanyRepository;
+use Illuminate\Support\Collection;
 
 trait ImportMapper
 {
     /**
      * @var array
      */
+    private array $task_statuses = [];
+
+    /**
+     * @var array
+     */
     private array $customers = [];
+
+    private Collection $customer_objects;
 
     /**
      * @var array
@@ -58,7 +67,8 @@ trait ImportMapper
         'company name'          => 'getCompany',
         'payment type'          => 'getPaymentType',
         'project name'          => 'getProject',
-        'currency code'           => 'getCurrency'
+        'currency code'         => 'getCurrency',
+        'task status'           => 'getTaskStatus'
     ];
 
     private array $success = [];
@@ -75,7 +85,6 @@ trait ImportMapper
      */
     public function handle($items)
     {
-
         $object = $this->buildObject($items);
 
         $factory = $this->factory($object);
@@ -126,7 +135,6 @@ trait ImportMapper
             }
 
             if (isset($this->converters[$key])) {
-
                 $value = $this->{$this->converters[$key]}(strtolower(trim($items[$key])));
 
                 $object[$columns] = $value;
@@ -151,6 +159,8 @@ trait ImportMapper
      */
     public function invalid($item)
     {
+        die('invalid');
+
         $this->insertTo('invalid_entities', $item);
     }
 
@@ -190,10 +200,14 @@ trait ImportMapper
     private function getCustomer(string $value): ?int
     {
         if (empty($this->customers)) {
-            $customers = Customer::where('account_id', $this->account->id)->where('is_deleted', false)->get(
-            )->keyBy('name');
+            $this->customer_objects = Customer::where('account_id', $this->account->id)->where(
+                'is_deleted',
+                false
+            )->get()->keyBy(
+                'name'
+            );
 
-            $this->customers = array_change_key_case($customers->toArray(), CASE_LOWER);
+            $this->customers = array_change_key_case($this->customer_objects->toArray(), CASE_LOWER);
         }
 
         if (empty($this->customers) || empty($this->customers[strtolower($value)])) {
@@ -201,14 +215,13 @@ trait ImportMapper
         }
 
         $customer = $this->customers[strtolower($value)];
-        $this->customer = $customers->where('id', $customer['id'])->first();
+        $this->customer = $this->customer_objects->where('id', $customer['id'])->first();
 
         return $this->customer->id;
     }
 
     private function getCompany(string $value)
     {
-
         if (empty($this->companies)) {
             $this->companies = Company::where('account_id', $this->account->id)->where('is_deleted', false)->get(
             )->keyBy('name')->toArray();
@@ -249,10 +262,27 @@ trait ImportMapper
         return $payment_type['id'];
     }
 
+    private function getTaskStatus(string $value)
+    {
+        if (empty($this->task_statuses)) {
+            $this->task_statuses = TaskStatus::all()->keyBy('name')->toArray();
+            $this->task_statuses = array_change_key_case($this->task_statuses, CASE_LOWER);
+        }
+
+        if (empty($this->task_statuses) || empty($this->task_statuses[strtolower($value)])) {
+            return null;
+        }
+
+        $task_status = $this->task_statuses[strtolower($value)];
+
+        return $task_status['id'];
+    }
+
     private function getProject(string $value)
     {
         if (empty($this->projects)) {
-            $this->projects = Project::where('account_id', $this->account->id)->where('is_deleted', false)->get()->keyBy('name')->toArray();
+            $this->projects = Project::where('account_id', $this->account->id)->where('is_deleted', false)->get(
+            )->keyBy('name')->toArray();
             $this->projects = array_change_key_case($this->projects, CASE_LOWER);
         }
 
@@ -267,7 +297,6 @@ trait ImportMapper
 
     private function getCurrency(string $value)
     {
-
         if (empty($this->currencies)) {
             $this->currencies = Currency::all()->keyBy('iso_code')->toArray();
             $this->currencies = array_change_key_case($this->currencies, CASE_LOWER);

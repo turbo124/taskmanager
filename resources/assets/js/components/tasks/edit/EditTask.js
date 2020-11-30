@@ -195,6 +195,15 @@ class EditTask extends Component {
         this.setState({ selectedUsers: Array.from(e.target.selectedOptions, (item) => item.value) })
     }
 
+    reload (data) {
+        this.taskModel = new TaskModel(data, this.props.customers)
+        this.initialState = this.taskModel.fields
+        this.taskModel.start_date = this.initialState.start_date
+        this.taskModel.due_date = this.initialState.due_date
+        this.initialState.modal = true
+        this.setState(this.initialState)
+    }
+
     render () {
         console.log('timers', this.state.timers)
         const email_editor = this.state.id
@@ -260,7 +269,7 @@ class EditTask extends Component {
 
             <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId="1">
-                    <DropdownMenuBuilder invoices={this.state} formData={this.getFormData()}
+                    <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.state} formData={this.getFormData()}
                         model={this.taskModel}
                         action={this.props.action}/>
 
