@@ -51,11 +51,6 @@ class BankAccountController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        $objImporter = (new ImportFactory())->loadImporter('company', auth()->user()->account_user()->account, auth()->user());
-        $objImporter->export();
-
-        die('here');
-
         $bank_accounts = (new BankAccountSearch($this->bank_account_repo))->filter(
             $request,
             auth()->user()->account_user()->account
