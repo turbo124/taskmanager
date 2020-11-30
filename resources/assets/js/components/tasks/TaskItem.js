@@ -34,7 +34,7 @@ export default class TaskItem extends Component {
         const { tasks, custom_fields, users, ignoredColumns } = this.props
         if (tasks && tasks.length && users.length) {
             return tasks.map(task => {
-                const restoreButton = task.deleted_at && !task.is_deleted
+                const restoreButton = task.deleted_at
                     ? <RestoreModal id={task.id} entities={tasks} updateState={this.props.addUserToState}
                         url={`/api/tasks/restore/${task.id}`}/> : null
                 const archiveButton = !task.deleted_at
