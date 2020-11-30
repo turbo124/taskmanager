@@ -53,6 +53,10 @@ export default function ExpensePresenter (props) {
                 data-label="Status">{status}</td>
 
         case 'customer_id': {
+            if (!entity[field]) {
+                return ''
+            }
+
             const customerIndex = props.customers.findIndex(customer => customer.id === entity[field])
             const customer = props.customers[customerIndex]
             return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}

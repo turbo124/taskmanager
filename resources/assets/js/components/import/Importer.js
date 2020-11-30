@@ -3,10 +3,9 @@ import UploadService from '../bank_accounts/UploadService'
 import ImportPreview from '../bank_accounts/ImportPreview'
 import { translations } from '../utils/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
-import { Alert } from 'reactstrap'
+import { Alert, CustomInput } from 'reactstrap'
 import queryString from 'query-string'
 import FormatMoney from '../common/FormatMoney'
-import { Button, Card, CardBody, CardHeader, CustomInput, FormGroup, Input, Label } from 'reactstrap'
 
 export default class Importer extends React.Component {
     constructor (props) {
@@ -43,7 +42,7 @@ export default class Importer extends React.Component {
     selectFile (e) {
         console.log('file', e.target.files)
         this.setState({
-            selectedFile:e.target.files[0]
+            selectedFile: e.target.files[0]
         })
     }
 
@@ -186,7 +185,9 @@ export default class Importer extends React.Component {
                                                 label="File"/>
                                         </div>
                                         <div className="col">
-                                            <select name="import_type" id="import_type" className="form-control" value={this.state.import_type} onChange={this.changeImportType.bind(this)}>
+                                            <select name="import_type" id="import_type" className="form-control"
+                                                value={this.state.import_type}
+                                                onChange={this.changeImportType.bind(this)}>
                                                 <option value="">{translations.select_option}</option>
                                                 <option value="invoice">{translations.invoice}</option>
                                                 <option value="customer">{translations.customer}</option>
@@ -194,11 +195,14 @@ export default class Importer extends React.Component {
                                                 <option value="deal">{translations.deal}</option>
                                                 <option value="product">{translations.product}</option>
                                                 <option value="expense">{translations.expense}</option>
+                                                <option value="company">{translations.company}</option>
                                             </select>
                                         </div>
 
                                         <div className="col">
-                                            <select name="file_type" id="file_type" className="form-control" value={this.state.file_type} onChange={this.changeImportType.bind(this)}>
+                                            <select name="file_type" id="file_type" className="form-control"
+                                                value={this.state.file_type}
+                                                onChange={this.changeImportType.bind(this)}>
                                                 <option value="csv">CSV</option>
                                                 <option value="json">JSON</option>
                                             </select>

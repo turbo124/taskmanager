@@ -11,12 +11,32 @@ use App\Models\CustomerContact;
 use App\Models\User;
 use App\Repositories\CustomerContactRepository;
 use App\Repositories\CustomerRepository;
+use App\Transformations\ContactTransformable;
 use App\Transformations\CustomerTransformable;
 
 class CustomerImporter extends BaseCsvImporter
 {
     use ImportMapper;
     use CustomerTransformable;
+
+    private array $export_columns = [
+        'number'        => 'Number',
+        'first_name'    => 'first name',
+        'last_name'     => 'last name',
+        'email'         => 'email',
+        'phone'         => 'phone',
+        'website'       => 'website',
+        'terms'         => 'terms',
+        'public notes'  => 'public notes',
+        'private notes' => 'private notes',
+        'job_title'     => 'job title',
+        'address_1'     => 'address 1',
+        'address_2'     => 'address 2',
+        'zip'           => 'zip',
+        'city'          => 'city',
+        'name'          => 'name',
+        'description'   => 'description',
+    ];
 
     /**
      * @var array|string[]
@@ -68,7 +88,7 @@ class CustomerImporter extends BaseCsvImporter
     public function csvConfigurations()
     {
         return [
-            'mappings'  => [
+            'mappings' => [
                 'first_name' => ['required', 'cast' => 'string'],
                 'last_name'  => ['cast' => 'string'],
                 'email'      => ['cast' => 'string'],
@@ -78,7 +98,7 @@ class CustomerImporter extends BaseCsvImporter
                 //'due date'      => ['cast' => 'date'],
                 //'customer_id' => ['required', 'cast' => 'int'],
             ],
-            'config'    => [
+            'config'   => [
                 'csv_date_format' => 'Y-m-d'
             ]
         ];
@@ -119,7 +139,31 @@ class CustomerImporter extends BaseCsvImporter
         return $customer->fresh();
     }
 
-    public function customHandler()
+    public function export()
     {
+        $export_columns = $this->getExportColumns();
+        $csvExporter = new Export($this->account, $this->user);
+        $list = Customer::get();
+
+        $customers = [];
+
+        foreach ($list as $customer) {
+            $formatted_customer = $this->transformObject($customer);
+
+            foreach ($customer->contacts as $contact) {
+                $formatted_contact = (new ContactTransformable())->transformContact($contact);
+
+                $customers[] = array_merge($formatted_customer, $formatted_contact);
+            }
+        }
+
+        $csvExporter->build(collect($customers), $export_columns);
+        return $csvExporter->download();
+    }
+
+
+    public function getExportColumns()
+    {
+        return $this->export_columns;
     }
 }

@@ -178,9 +178,10 @@ export default class EditCase extends React.Component {
         })
     }
 
-    reset (data) {
+    reload (data) {
         this.caseModel = new CaseModel(data, this.props.customers)
         this.initialState = this.caseModel.fields
+        this.initialState.modal = true
         this.setState(this.initialState)
     }
 

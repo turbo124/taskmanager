@@ -5,15 +5,18 @@ namespace App\Components\Import;
 
 
 use App\Models\Account;
+use App\Models\Invoice;
 use App\Models\User;
+use App\Transformations\InvoiceTransformable;
 
 class ImportFactory
 {
+
     /**
      * @param $type
      * @param Account $account
      * @param User $user
-     * @return CustomerImporter|DealImporter|ExpenseImporter|InvoiceImporter|LeadImporter|ProductImporter
+     * @return CompanyImporter|CustomerImporter|DealImporter|ExpenseImporter|InvoiceImporter|LeadImporter|ProductImporter
      * @throws CsvImporterException
      */
     public function loadImporter($type, Account $account, User $user)
@@ -41,6 +44,10 @@ class ImportFactory
 
             case 'expense':
                 return new ExpenseImporter($account, $user);
+                break;
+
+            case 'company':
+                return new CompanyImporter($account, $user);
                 break;
         }
     }

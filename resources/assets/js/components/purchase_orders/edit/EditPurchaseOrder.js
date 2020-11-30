@@ -478,6 +478,7 @@ class EditPurchaseOrder extends Component {
     reload (data) {
         this.purchaseOrderModel = new PurchaseOrderModel(data, this.props.companies)
         this.initialState = this.purchaseOrderModel.fields
+        this.initialState.modalOpen = true
         this.setState(this.initialState)
     }
 

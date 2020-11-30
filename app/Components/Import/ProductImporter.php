@@ -24,6 +24,23 @@ class ProductImporter extends BaseCsvImporter
     use ImportMapper;
     use ProductTransformable;
 
+    private array $export_columns = [
+        'name'          => 'name',
+        'description'   => 'description',
+        'price'         => 'price',
+        'cost'          => 'cost',
+        'length'        => 'length',
+        'width'         => 'width',
+        'height'        => 'height',
+        'weight'        => 'weight',
+        'quantity'      => 'quantity',
+        'sku'           => 'sku',
+        'category_id'   => 'category name',
+        'brand_id'      => 'brand name',
+        'public_notes'  => 'public notes',
+        'private_notes' => 'private notes'
+    ];
+
     /**
      * @var array|string[]
      */
@@ -78,14 +95,14 @@ class ProductImporter extends BaseCsvImporter
     {
         return [
             'mappings' => [
-                'name'          => ['required', 'cast' => 'string'],
+                'name'          => ['validation' => 'required|unique:products', 'cast' => 'string'],
                 'sku'           => ['cast' => 'string'],
                 'description'   => ['required', 'cast' => 'string'],
-                'price'         => ['cast' => 'float'],
-                'cost'          => ['cast' => 'float'],
+                'price'         => ['validation' => 'required', 'cast' => 'float'],
+                'cost'          => ['validation' => 'required', 'cast' => 'float'],
                 'category name' => ['cast' => 'string'],
                 'brand name'    => ['cast' => 'string'],
-                'quantity'      => ['required', 'cast' => 'int'],
+                'quantity'      => ['validation' => 'required', 'cast' => 'int'],
                 'width'         => ['cast' => 'float'],
                 'height'        => ['cast' => 'float'],
                 'weight'        => ['cast' => 'float'],
@@ -174,6 +191,26 @@ class ProductImporter extends BaseCsvImporter
      * @param string $value
      * @return int
      */
+    public function getCategoryById(int $id)
+    {
+        if (empty($this->categories)) {
+            $this->categories = Category::where('account_id', $this->account->id)->where(
+                'is_deleted',
+                false
+            )->get()->keyBy('id');
+        }
+
+        if (empty($this->categories) || empty($this->categories[$id])) {
+            return null;
+        }
+
+        return $this->categories[$id];
+    }
+
+    /**
+     * @param string $value
+     * @return int
+     */
     private function getBrand(string $value): ?int
     {
         if (empty($this->brands)) {
@@ -201,5 +238,32 @@ class ProductImporter extends BaseCsvImporter
         $brand = $this->brands[strtolower($value)];
 
         return $brand['id'];
+    }
+
+    public function export()
+    {
+        $export_columns = $this->getExportColumns();
+        $csvExporter = new Export($this->account, $this->user);
+        $list = Product::get();
+
+        $products = $list->map(
+            function (Product $product) {
+                $object = $this->transformObject($product);
+
+                if ($product->categories->count() > 0) {
+                    $object['category_id'] = implode(' | ', $product->categories()->pluck('name')->toArray());
+                }
+
+                return $object;
+            }
+        )->all();
+
+        $csvExporter->build(collect($products), $export_columns);
+        return $csvExporter->download();
+    }
+
+    public function getExportColumns()
+    {
+        return $this->export_columns;
     }
 }

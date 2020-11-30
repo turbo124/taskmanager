@@ -568,6 +568,7 @@ class UpdateRecurringInvoice extends Component {
     reload (data) {
         this.invoiceModel = new RecurringInvoiceModel(data, this.props.customers)
         this.initialState = this.invoiceModel.fields
+        this.initialState.modalOpen = true
         this.setState(this.initialState)
     }
 

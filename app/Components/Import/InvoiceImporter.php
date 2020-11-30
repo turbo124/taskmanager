@@ -16,6 +16,25 @@ class InvoiceImporter extends BaseCsvImporter
 {
     use ImportMapper;
 
+    private array $export_columns = [
+        'number'        => 'Number',
+        'customer_id'   => 'Customer name',
+        'date'          => 'Date',
+        'po_number'     => 'po number',
+        'due_date'      => 'due date',
+        'terms'         => 'terms',
+        'public_notes'  => 'public notes',
+        'private_notes' => 'private notes',
+        'description'   => 'description',
+        'product'       => 'product_id',
+        'unit_price'    => 'unit_price',
+        'unit_discount' => 'unit_discount',
+        'unit_tax'      => 'unit_tax',
+        'quantity'      => 'quantity',
+        'shipping_cost' => 'shipping_cost',
+        'tax_rate'      => 'tax_rate'
+    ];
+
     /**
      * @var array|string[]
      */
@@ -78,17 +97,17 @@ class InvoiceImporter extends BaseCsvImporter
     public function csvConfigurations()
     {
         return [
-            'mappings'  => [
-                'customer name' => ['required', 'cast' => 'string'],
+            'mappings' => [
+                'customer name' => ['validation' => 'required', 'cast' => 'string'],
                 'terms'         => ['cast' => 'string'],
                 'private notes' => ['cast' => 'string'],
                 'public notes'  => ['cast' => 'string'],
                 'po number'     => ['cast' => 'string'],
-                'date'          => ['required', 'cast' => 'date'],
-                'due date'      => ['cast' => 'date'],
+                'date'          => ['validation' => 'required', 'cast' => 'date'],
+                'due date'      => ['validation' => 'required', 'cast' => 'date'],
                 //'customer_id' => ['required', 'cast' => 'int'],
             ],
-            'config'    => [
+            'config'   => [
                 'csv_date_format' => 'Y-m-d'
             ]
         ];
@@ -118,5 +137,31 @@ class InvoiceImporter extends BaseCsvImporter
     public function transformObject($object)
     {
         return (new InvoiceTransformable())->transformInvoice($object);
+    }
+
+    public function export()
+    {
+        $export_columns = $this->getExportColumns();
+        $csvExporter = new Export($this->account, $this->user);
+        $list = Invoice::get();
+
+        $invoices = [];
+
+        foreach ($list as $invoice) {
+            $arr_invoice = $this->transformObject($invoice);
+
+            foreach ($invoice->line_items as $line_item) {
+                $invoices[] = array_merge($arr_invoice, (array)$line_item);
+            }
+        }
+
+        $csvExporter->build(collect($invoices), $export_columns);
+        return $csvExporter->download();
+    }
+
+
+    public function getExportColumns()
+    {
+        return $this->export_columns;
     }
 }

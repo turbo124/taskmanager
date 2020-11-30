@@ -105,7 +105,7 @@ trait CustomerTransformable
 
         return $contacts->map(
             function (CustomerContact $contact) {
-                return (new ContactTransformable())->transformClientContact($contact);
+                return (new ContactTransformable())->transformContact($contact);
             }
         )->all();
     }

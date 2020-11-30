@@ -432,7 +432,7 @@ class LineItemEditor extends Component {
                     </TabPane>
 
                     <TabPane tabId={consts.line_item_expense}>
-                        {this.state.tasks.length &&
+                        {this.state.expenses.length &&
                         <LineItem
                             invoice={this.props.invoice}
                             line_type={parseInt(this.state.line_type)}

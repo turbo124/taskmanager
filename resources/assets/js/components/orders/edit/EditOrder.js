@@ -420,7 +420,7 @@ export default class EditOrder extends Component {
     reload (data) {
         this.orderModel = new OrderModel(data, this.props.customers)
         this.initialState = this.orderModel.fields
-        //this.orderModel.task_id = this.props.task_id
+        this.initialState.modalOpen = true
         this.setState(this.initialState)
     }
 

@@ -10,7 +10,7 @@ class ContactTransformable
      * @param CustomerContact $contact
      * @return array
      */
-    public function transformClientContact(CustomerContact $contact)
+    public function transformContact(CustomerContact $contact)
     {
         return [
             'id'            => (int)$contact->id,

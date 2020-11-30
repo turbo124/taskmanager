@@ -16,6 +16,25 @@ class LeadImporter extends BaseCsvImporter
     use ImportMapper;
     use LeadTransformable;
 
+    private array $export_columns = [
+        'first_name'    => 'first name',
+        'last_name'     => 'last name',
+        'email'         => 'email',
+        'phone'         => 'phone',
+        'website'       => 'website',
+        'terms'         => 'terms',
+        'public notes'  => 'public notes',
+        'private notes' => 'private notes',
+        'job_title'     => 'job title',
+        'address_1'     => 'address 1',
+        'address_2'     => 'address 2',
+        'zip'           => 'zip',
+        'city'          => 'city',
+        'name'          => 'name',
+        'description'   => 'description',
+        'task status'   => 'task_status_id'
+    ];
+
     /**
      * @var array|string[]
      */
@@ -35,6 +54,7 @@ class LeadImporter extends BaseCsvImporter
         'city'          => 'city',
         'name'          => 'name',
         'description'   => 'description',
+        'task status'   => 'task_status_id'
     ];
 
     /**
@@ -70,10 +90,10 @@ class LeadImporter extends BaseCsvImporter
     public function csvConfigurations()
     {
         return [
-            'mappings'  => [
-                'first_name'  => ['required', 'cast' => 'string'],
-                'last_name'   => ['cast' => 'string'],
-                'email'       => ['cast' => 'string'],
+            'mappings' => [
+                'first_name'  => ['validation' => 'required', 'cast' => 'string'],
+                'last_name'   => ['validation' => 'required', 'cast' => 'string'],
+                'email'       => ['validation' => 'required:|unique:leads', 'cast' => 'string'],
                 'phone'       => ['cast' => 'string'],
                 'website'     => ['cast' => 'string'],
                 'address_1'   => ['required', 'cast' => 'string'],
@@ -83,9 +103,10 @@ class LeadImporter extends BaseCsvImporter
                 'name'        => ['required', 'cast' => 'string'],
                 'description' => ['required', 'cast' => 'string'],
                 'job_title'   => ['cast' => 'string'],
+                'task status' => ['validation' => 'required', 'cast' => 'string'],
                 //'customer_id' => ['required', 'cast' => 'int'],
             ],
-            'config'    => [
+            'config'   => [
                 'csv_date_format' => 'Y-m-d'
             ]
         ];
@@ -113,7 +134,24 @@ class LeadImporter extends BaseCsvImporter
         return $this->transformLead($object);
     }
 
-    public function customHandler()
+    public function export()
     {
+        $export_columns = $this->getExportColumns();
+        $csvExporter = new Export($this->account, $this->user);
+        $list = Lead::get();
+
+        $leads = $list->map(
+            function (Lead $lead) {
+                return $this->transformObject($lead);
+            }
+        )->all();
+
+        $csvExporter->build(collect($leads), $export_columns);
+        return $csvExporter->download();
+    }
+
+    public function getExportColumns()
+    {
+        return $this->export_columns;
     }
 }

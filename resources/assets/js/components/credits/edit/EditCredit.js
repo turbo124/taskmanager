@@ -476,6 +476,7 @@ export default class EditCredit extends Component {
     reload (data) {
         this.creditModel = new CreditModel(data, this.props.customers)
         this.initialState = this.creditModel.fields
+        this.initialState.modalOpen = true
         this.setState(this.initialState)
     }
 

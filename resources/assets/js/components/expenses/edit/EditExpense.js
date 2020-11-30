@@ -168,6 +168,7 @@ class EditExpense extends React.Component {
     reload (data) {
         this.expenseModel = new ExpenseModel(data, this.props.customers)
         this.initialState = this.expenseModel.fields
+        this.initialState.modal = true
         this.setState(this.initialState)
     }
 

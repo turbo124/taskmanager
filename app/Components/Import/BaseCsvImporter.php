@@ -787,7 +787,6 @@ abstract class BaseCsvImporter
      */
     private function tryStart()
     {
-
         if (!$this->isLocked()) {
 
             if (!$this->exists()) {
@@ -1171,8 +1170,11 @@ abstract class BaseCsvImporter
             $customValidationRules = [];
 
             foreach ($this->config['mappings'] as $field => $rules) {
+
                 if (isset($rules[self::VALIDATION]) && isset($item[$field])) {
+
                     $rules = $this->separateValidationFilters($rules[self::VALIDATION]);
+
                     $validationRules[$field] = $rules['standard'];
 
                     if (!empty($rules['custom'])) {
@@ -1220,6 +1222,7 @@ abstract class BaseCsvImporter
     public function separateValidationFilters($filters)
     {
         $filters                 = (is_string($filters)) ? explode('|', $filters) : (array)$filters;
+
         $customValidationFilters = [];
 
         foreach ($filters as $key => $filter) {

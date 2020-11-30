@@ -481,6 +481,7 @@ class EditInvoice extends Component {
     reload (data) {
         this.quoteModel = new QuoteModel(data, this.props.customers)
         this.initialState = this.quoteModel.fields
+        this.initialState.modalOpen = true
         this.setState(this.initialState)
     }
 
