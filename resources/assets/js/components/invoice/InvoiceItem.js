@@ -36,7 +36,7 @@ export default class InvoiceItem extends Component {
         const { invoices, customers, custom_fields } = this.props
         if (invoices && invoices.length && customers.length) {
             return invoices.map(invoice => {
-                const restoreButton = invoice.deleted_at && !invoice.is_deleted
+                const restoreButton = invoice.deleted_at
                     ? <RestoreModal id={invoice.id} entities={invoices} updateState={this.props.updateInvoice}
                         url={`/api/invoice/restore/${invoice.id}`}/> : null
 

@@ -28,7 +28,7 @@ export default class CustomerItem extends Component {
         const { customers, custom_fields, ignoredColumns } = this.props
         if (customers && customers.length) {
             return customers.map(customer => {
-                const restoreButton = customer.deleted_at && !customer.is_deleted
+                const restoreButton = customer.deleted_at
                     ? <RestoreModal id={customer.id} entities={customers} updateState={this.props.updateCustomers}
                         url={`/api/customers/restore/${customer.id}`}/> : null
                 const archiveButton = !customer.deleted_at
