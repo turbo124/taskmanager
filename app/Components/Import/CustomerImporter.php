@@ -66,6 +66,11 @@ class CustomerImporter extends BaseCsvImporter
     private User $user;
 
     /**
+     * @var Export
+     */
+    private Export $export;
+
+    /**
      * InvoiceImporter constructor.
      * @param Account $account
      * @param User $user
@@ -77,6 +82,7 @@ class CustomerImporter extends BaseCsvImporter
 
         $this->account = $account;
         $this->user = $user;
+        $this->export = new Export($this->account, $this->user);
     }
 
     /**
@@ -142,8 +148,7 @@ class CustomerImporter extends BaseCsvImporter
     public function export()
     {
         $export_columns = $this->getExportColumns();
-        $csvExporter = new Export($this->account, $this->user);
-        $list = Customer::get();
+        $list = Customer::where('account_id', '=', $this->account->id)->get();
 
         $customers = [];
 
@@ -157,8 +162,14 @@ class CustomerImporter extends BaseCsvImporter
             }
         }
 
-        $csvExporter->build(collect($customers), $export_columns);
-        return $csvExporter->download();
+        $this->export->build(collect($customers), $export_columns);
+
+        return true;
+    }
+
+    public function getContent()
+    {
+        return $this->export->getContent();
     }
 
 

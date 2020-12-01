@@ -55,6 +55,7 @@ Route::group(
                 Route::resource('bank_accounts', 'BankAccountController');
 
                 Route::post('import', 'ImportController@import');
+                Route::post('export', 'ImportController@export');
 
                 // banks
                 Route::resource('banks', 'BankController');

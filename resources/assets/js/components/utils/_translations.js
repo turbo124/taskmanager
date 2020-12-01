@@ -745,7 +745,9 @@ _localizedValues.en = {
     configure_categories: 'Configure Categories',
     dispatch_note: 'Dispatch Note',
     counter_type: 'Counter Type',
-    number_prefix: 'Number Prefix'
+    number_prefix: 'Number Prefix',
+    menu: 'Menu',
+    import_settings: 'Import / Export'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id

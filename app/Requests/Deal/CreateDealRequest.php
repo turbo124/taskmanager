@@ -17,12 +17,10 @@ class CreateDealRequest extends BaseFormRequest
         return [
             'source_type' => 'nullable|numeric',
             'rating'      => 'nullable|numeric',
-            'customer_id' => 'nullable|numeric',
-            //'task_type' => 'required',
-            'name'        => 'required',
+            'customer_id' => 'required|numeric',
+            'name'        => 'required|unique:deals',
             'description' => 'required',
-
-            'start_date' => 'nullable',
+            'start_date'  => 'nullable',
             //'task_status' => 'required',
 
         ];

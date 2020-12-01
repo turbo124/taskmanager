@@ -19,6 +19,21 @@ class ExpenseImporter extends BaseCsvImporter
     use ImportMapper;
     use ExpenseTransformable;
 
+    private array $export_columns = [
+        'expense_category_id'   => 'expense category name',
+        'company_id'            => 'company name',
+        'customer_id'           => 'customer name',
+        'payment_type_id'       => 'payment type',
+        'transaction_reference' => 'transaction reference',
+        'project_id'            => 'project name',
+        'date'                  => 'date',
+        'amount'                => 'amount',
+        'currency_id'           => 'currency code',
+        'terms'                 => 'terms',
+        'public_notes'          => 'public notes',
+        'private_notes'         => 'private notes'
+    ];
+
     /**
      * @var array|string[]
      */
@@ -48,6 +63,11 @@ class ExpenseImporter extends BaseCsvImporter
     private User $user;
 
     /**
+     * @var Export
+     */
+    private Export $export;
+
+    /**
      * InvoiceImporter constructor.
      * @param Account $account
      * @param User $user
@@ -59,6 +79,7 @@ class ExpenseImporter extends BaseCsvImporter
 
         $this->account = $account;
         $this->user = $user;
+        $this->export = new Export($this->account, $this->user);
     }
 
     /**
@@ -70,7 +91,7 @@ class ExpenseImporter extends BaseCsvImporter
     public function csvConfigurations()
     {
         return [
-            'mappings'  => [
+            'mappings' => [
                 'expense category name' => ['required', 'cast' => 'string'],
                 'company name'          => ['cast' => 'string'],
                 'customer name'         => ['cast' => 'string'],
@@ -81,7 +102,7 @@ class ExpenseImporter extends BaseCsvImporter
                 'date'                  => ['cast' => 'date'],
                 'currency code'         => ['required', 'cast' => 'string'],
             ],
-            'config'    => [
+            'config'   => [
                 'csv_date_format' => 'Y-m-d'
             ]
         ];
@@ -136,5 +157,31 @@ class ExpenseImporter extends BaseCsvImporter
         $expense_category = $this->expense_categories[strtolower($value)];
 
         return $expense_category['id'];
+    }
+
+    public function export()
+    {
+        $export_columns = $this->getExportColumns();
+        $list = Expense::where('account_id', '=', $this->account->id)->get();
+
+        $expenses = $list->map(
+            function (Expense $expense) {
+                return $this->transformObject($expense);
+            }
+        )->all();
+
+        $this->export->build(collect($expenses), $export_columns);
+
+        return true;
+    }
+
+    public function getContent()
+    {
+        return $this->export->getContent();
+    }
+
+    public function getExportColumns()
+    {
+        return $this->export_columns;
     }
 }

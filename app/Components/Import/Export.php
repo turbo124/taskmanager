@@ -172,7 +172,7 @@ class Export
      */
     public function getReader(): Reader
     {
-        return Reader::createFromString($this->writer->getContent());
+        return Reader::createFromString($this->writer->__toString());
     }
 
     /**
@@ -262,5 +262,10 @@ class Export
         if (Arr::get($this->config, 'header', true) !== false) {
             $writer->insertOne($headers);
         }
+    }
+
+    public function getContent()
+    {
+       return str_replace('""', '', $this->writer->__toString());
     }
 }

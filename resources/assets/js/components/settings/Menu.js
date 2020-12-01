@@ -8,7 +8,7 @@ export default class Menu extends Component {
         return (
             <UncontrolledDropdown className="mr-3 pt-2 pl-3">
                 <DropdownToggle tag="a" caret>
-                    {translations.settings}
+                    {translations.menu}
                 </DropdownToggle>
                 <DropdownMenu style={{ height: 'auto', maxHeight: '400px', overflowX: 'hidden' }}>
                     <DropdownItem header>{translations.basic_settings}</DropdownItem>
@@ -33,6 +33,7 @@ export default class Menu extends Component {
                     <MenuItem section="portal-settings"/>
                     <MenuItem section="email-settings"/>
                     <MenuItem section="template-settings"/>
+                    <MenuItem section="import-settings"/>
                     <DropdownItem tag="a" href="/#/users"><i className={`fa ${icons.user}`}/>{translations.users}
                     </DropdownItem>
                 </DropdownMenu>

@@ -68,6 +68,11 @@ class LeadImporter extends BaseCsvImporter
     private User $user;
 
     /**
+     * @var Export
+     */
+    private Export $export;
+
+    /**
      * InvoiceImporter constructor.
      * @param Account $account
      * @param User $user
@@ -79,6 +84,7 @@ class LeadImporter extends BaseCsvImporter
 
         $this->account = $account;
         $this->user = $user;
+        $this->export = new Export($this->account, $this->user);
     }
 
     /**
@@ -137,8 +143,7 @@ class LeadImporter extends BaseCsvImporter
     public function export()
     {
         $export_columns = $this->getExportColumns();
-        $csvExporter = new Export($this->account, $this->user);
-        $list = Lead::get();
+        $list = Lead::where('account_id', '=', $this->account->id)->get();
 
         $leads = $list->map(
             function (Lead $lead) {
@@ -146,8 +151,14 @@ class LeadImporter extends BaseCsvImporter
             }
         )->all();
 
-        $csvExporter->build(collect($leads), $export_columns);
-        return $csvExporter->download();
+        $this->export->build(collect($leads), $export_columns);
+
+        return true;
+    }
+
+    public function getContent()
+    {
+        return $this->export->getContent();
     }
 
     public function getExportColumns()
