@@ -6,11 +6,13 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { Alert, CustomInput } from 'reactstrap'
 import queryString from 'query-string'
 import FormatMoney from '../common/FormatMoney'
+import moment from 'moment'
 
 export default class Importer extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
+            export_data: '',
             import_type: '',
             file_type: '',
             selectedFile: null,
@@ -29,6 +31,7 @@ export default class Importer extends React.Component {
 
         this.selectFile = this.selectFile.bind(this)
         this.upload = this.upload.bind(this)
+        this.export = this.export.bind(this)
     }
 
     componentDidMount () {
@@ -44,6 +47,38 @@ export default class Importer extends React.Component {
         this.setState({
             selectedFile: e.target.files[0]
         })
+    }
+
+    export () {
+        if (!this.state.import_type.length) {
+            alert('Please select an import type')
+            return false
+        }
+
+        UploadService.export(this.state.import_type, {}, (event) => {
+            this.setState({
+                progress: Math.round((100 * event.loaded) / event.total)
+            })
+        })
+            .then((response) => {
+                var downloadLink = document.createElement('a')
+                var blob = new Blob(['\ufeff', response.data])
+                var url = URL.createObjectURL(blob)
+                downloadLink.href = url
+                downloadLink.download = `${moment().format('Y-M-d')}-${this.state.import_type}.csv`
+
+                document.body.appendChild(downloadLink)
+                downloadLink.click()
+                document.body.removeChild(downloadLink)
+            })
+            .catch((e) => {
+                alert(e)
+                this.setState({
+                    progress: 0,
+                    message: 'Could not upload the file!',
+                    currentFile: undefined
+                })
+            })
     }
 
     upload () {
@@ -133,7 +168,6 @@ export default class Importer extends React.Component {
     }
 
     changeImportType (e) {
-        alert(e.target.name + ' ' + e.target.value)
         this.setState({ [e.target.name]: e.target.value })
     }
 
@@ -214,6 +248,13 @@ export default class Importer extends React.Component {
                                                 onClick={this.upload}
                                             >
                                                 {translations.upload}
+                                            </button>
+
+                                            <button className="btn btn-success ml-2"
+                                                disabled={!this.state.import_type}
+                                                onClick={this.export}
+                                            >
+                                                {translations.export}
                                             </button>
                                         </div>
                                     </div>

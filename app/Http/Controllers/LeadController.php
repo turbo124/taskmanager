@@ -17,6 +17,8 @@ use App\Repositories\Interfaces\MessageRepositoryInterface;
 use App\Repositories\LeadRepository;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
+use App\Requests\Lead\CreateLeadRequest;
+use App\Requests\Lead\UpdateLeadRequest;
 use App\Requests\SearchRequest;
 use App\Search\LeadSearch;
 use App\Transformations\DealTransformable;
@@ -60,10 +62,10 @@ class LeadController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @return mixed
+     * @param CreateLeadRequest $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(CreateLeadRequest $request)
     {
         $token_sent = $request->bearerToken();
 
@@ -80,10 +82,10 @@ class LeadController extends Controller
 
     /**
      * @param int $id
-     * @param Request $request
-     * @return mixed
+     * @param UpdateLeadRequest $request
+     * @return JsonResponse
      */
-    public function update(int $id, Request $request)
+    public function update(int $id, UpdateLeadRequest $request)
     {
         $lead = $this->lead_repo->findLeadById($id);
         $lead = $this->lead_repo->updateLead($lead, $request->all());

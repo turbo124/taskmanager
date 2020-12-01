@@ -57,4 +57,17 @@ class ImportController extends Controller
 
         return response()->json($importer->getSuccess());
     }
+
+    public function export(Request $request)
+    {
+        $objImporter = (new ImportFactory())->loadImporter(
+            $request->input('export_type'),
+            auth()->user()->account_user()->account,
+            auth()->user()
+        );
+
+        $objImporter->export();
+
+        return response()->json(['data' => $objImporter->getContent()]);
+    }
 }

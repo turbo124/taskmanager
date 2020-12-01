@@ -75,6 +75,11 @@ class InvoiceImporter extends BaseCsvImporter
     private Customer $customer;
 
     /**
+     * @var Export
+     */
+    private Export $export;
+
+    /**
      * InvoiceImporter constructor.
      * @param Account $account
      * @param User $user
@@ -86,6 +91,7 @@ class InvoiceImporter extends BaseCsvImporter
 
         $this->account = $account;
         $this->user = $user;
+        $this->export = new Export($this->account, $this->user);
     }
 
     /**
@@ -139,11 +145,10 @@ class InvoiceImporter extends BaseCsvImporter
         return (new InvoiceTransformable())->transformInvoice($object);
     }
 
-    public function export()
+    public function export($is_json = false)
     {
         $export_columns = $this->getExportColumns();
-        $csvExporter = new Export($this->account, $this->user);
-        $list = Invoice::get();
+        $list = Invoice::where('account_id', '=', $this->account->id)->get();
 
         $invoices = [];
 
@@ -155,8 +160,18 @@ class InvoiceImporter extends BaseCsvImporter
             }
         }
 
-        $csvExporter->build(collect($invoices), $export_columns);
-        return $csvExporter->download();
+        if ($is_json) {
+            return json_encode($invoices);
+        }
+
+        $this->export->build(collect($invoices), $export_columns);
+
+        return true;
+    }
+
+    public function getContent()
+    {
+        return $this->export->getContent();
     }
 
 

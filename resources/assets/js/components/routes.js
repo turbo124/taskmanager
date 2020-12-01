@@ -73,7 +73,7 @@ const routes = [
         component: BankAccountImport
     },
     {
-        path: '/import',
+        path: '/import-settings',
         name: 'Import',
         component: Importer
     },

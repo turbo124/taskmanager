@@ -64,6 +64,7 @@ export const icons = {
     globe: 'fa-globe',
     double_right: 'fa-angle-double-right',
     cloud: 'fa-cloud',
+    cloud_upload: 'fa-cloud-upload',
     cloud_download: 'fa-cloud-download',
     portal: 'fa-search-plus',
     header: 'fa-header',
@@ -203,5 +204,7 @@ export function getSettingsIcon (section) {
             return icons.payment_terms
         case 'account-settings':
             return icons.building
+        case 'import-settings':
+            return icons.cloud_upload
     }
 }
