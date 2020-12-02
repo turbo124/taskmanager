@@ -7,6 +7,7 @@ namespace App\Components\Payment\Gateways;
 use App\Models\Invoice;
 use App\Models\Payment;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Stripe\Customer;
 use Stripe\Exception\ApiConnectionException;
 use Stripe\Exception\ApiErrorException;
@@ -148,8 +149,13 @@ class Stripe extends BasePaymentGateway
         }
 
         if (!empty($errors)) {
+
+            echo '<pre>';
+            print_r($errors);
+
             $user = !empty($invoice) ? $invoice->user : $this->customer->user;
-            $this->addErrorLog($user, $errors);
+            $this->addErrorToLog($user, $errors);
+            Log::emergency($errors);
             return false;
         }
 

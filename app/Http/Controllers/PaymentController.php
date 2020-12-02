@@ -8,8 +8,10 @@ use App\Components\Refund\RefundFactory;
 use App\Events\Payment\PaymentWasCreated;
 use App\Factory\PaymentFactory;
 use App\Jobs\Payment\CreatePayment;
+use App\Models\CompanyGateway;
 use App\Models\Credit;
 use App\Models\Customer;
+use App\Models\Invoice;
 use App\Models\Payment;
 use App\Repositories\CreditRepository;
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
@@ -160,7 +162,6 @@ class PaymentController extends Controller
      */
     public function refund(RefundPaymentRequest $request)
     {
-
         $payment = $request->payment();
 
         $payment = (new RefundFactory())->createRefund($payment, $request->all(), new CreditRepository(new Credit));
@@ -194,5 +195,13 @@ class PaymentController extends Controller
         $payment = CreatePayment::dispatchNow($request->all(), $this->payment_repo);
 
         return response()->json(['code' => 200, 'payment_id' => $payment->id], 200);
+    }
+
+    public function buyNow(string $invoice_number, Request $request)
+    {
+        $invoice = Invoice::where('number', '=', $invoice_number)->first();
+        $company_gateway = CompanyGateway::where('gateway_key', '=', '64bcbdce')->first();
+
+        return view('payment.buy_now', ['invoice' => $invoice, 'company_gateway' => $company_gateway]);
     }
 }

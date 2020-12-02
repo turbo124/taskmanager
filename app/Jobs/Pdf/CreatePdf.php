@@ -121,7 +121,7 @@ class CreatePdf implements ShouldQueue
     private function makePdf($header, $footer, $html)
     {
         $pdf = App::make('dompdf.wrapper');
-
+        //$pdf->setOptions(['isJavascriptEnabled' => true]);
         $pdf->loadHTML($html);
         return $pdf->stream();
     }

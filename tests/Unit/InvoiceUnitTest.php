@@ -9,11 +9,13 @@
 namespace Tests\Unit;
 
 use App\Components\InvoiceCalculator\LineItem;
+use App\Components\Payment\Gateways\PaypalExpress;
 use App\Factory\CreditFactory;
 use App\Factory\InvoiceFactory;
 use App\Jobs\Invoice\AutobillInvoice;
 use App\Jobs\Invoice\ProcessReminders;
 use App\Models\Account;
+use App\Models\CompanyGateway;
 use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\CustomerContact;
@@ -21,6 +23,7 @@ use App\Models\Invoice;
 use App\Models\NumberGenerator;
 use App\Models\Payment;
 use App\Models\Paymentable;
+use App\Models\Product;
 use App\Models\RecurringInvoice;
 use App\Models\User;
 use App\Repositories\CreditRepository;
@@ -658,4 +661,53 @@ class InvoiceUnitTest extends TestCase
         $this->assertEquals(40, $updated_invoice->late_fee_charge);
         $this->assertEquals($updated_invoice->date_to_send->format('Y-m-d'), $date_to_send);
     }
+
+    /* public function test_buy_now_link()
+    {
+        $invoice = Invoice::factory()->create();
+        $invoice->customer_id = 5;
+
+        $products = Product::get();
+
+        $line_items = [];
+
+        foreach ($products as $key => $product) {
+            $line_items[] = (new \App\Components\InvoiceCalculator\LineItem)
+                ->setQuantity(1)
+                ->setUnitPrice($product->price)
+                ->calculateSubTotal()
+                ->setUnitDiscount(0)
+                ->setUnitTax(0)
+                ->setProductId($product->id)
+                ->setNotes($product->description)
+                ->toObject();
+
+            if ($key > 5) {
+                break;
+            }
+        }
+
+        $invoice->line_items = $line_items;
+
+        $invoice->save();
+
+        $company_gateway = CompanyGateway::where('gateway_key', '=', '64bcbdce')->first();
+
+        $objPaypal = new PaypalExpress($invoice->customer, $company_gateway);
+
+        $options = array(
+            'amount'               => $invoice->balance,
+            'returnUrl'            => $objPaypal->getReturnUrl($invoice, $invoice->customer, $invoice->balance),
+            'cancelUrl'            => 'https://www.example.com/cancel',
+            'transactionReference' => $invoice->id,
+            'currency'             => $invoice->customer->currency->iso_code
+        );
+
+        $response = $objPaypal->purchase($options, $invoice);
+        $data = $response->getData();
+
+        $options['TOKEN'] = $data['TOKEN'];
+
+        $response = $objPaypal->complete($options);
+    } */
 }

@@ -128,6 +128,8 @@ $table_here
                $client_signature_here
            </div>
 </div>
+
+$pay_now_link
 		
 		<div class="footer_class bg-warning py-4 px-4 pt-4" style="page-break-inside: avoid; width: 100%"> 
 			    <div class="mt-2 text-center" style="width: 100%; margin-left: 20%">

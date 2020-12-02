@@ -20,7 +20,7 @@ class BasePaymentGateway
     /**
      * @var CustomerGateway
      */
-    protected CustomerGateway $customer_gateway;
+    protected ?CustomerGateway $customer_gateway;
 
     /**
      * @var CompanyGateway
