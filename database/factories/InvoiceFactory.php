@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -29,6 +30,7 @@ class InvoiceFactory extends Factory
         $total = 800;
 
         for ($x = 0; $x < 5; $x++) {
+
             $line_items[] = (new \App\Components\InvoiceCalculator\LineItem)
                 ->setQuantity(1)
                 ->setUnitPrice(160)

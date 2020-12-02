@@ -143,6 +143,8 @@ $table_here
            </div>
 </div>
 
+$pay_now_link
+
         <div class="footer_class py-4 px-4" style="page-break-inside: avoid;">
         $footer
         </div>

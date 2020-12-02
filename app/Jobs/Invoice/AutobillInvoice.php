@@ -3,6 +3,7 @@
 namespace App\Jobs\Invoice;
 
 use App\Components\InvoiceCalculator\GatewayCalculator;
+use App\Components\Payment\Gateways\CalculateGatewayFee;
 use App\Components\Payment\Gateways\GatewayFactory;
 use App\Jobs\Payment\CreatePayment;
 use App\Models\CompanyGateway;
@@ -49,7 +50,7 @@ class AutobillInvoice implements ShouldQueue
         return $this->build();
     }
 
-    private function build()
+    private function build($return_fee = false)
     {
         if ($this->invoice->balance <= 0 && $this->invoice->partial <= 0 && $this->invoice->customer->getSetting(
                 'credit_payments_enabled'
@@ -57,16 +58,15 @@ class AutobillInvoice implements ShouldQueue
             return $this->completePaymentWithCredit();
         }
 
-        $amount = $this->invoice->partial > 0 ? $this->invoice->partial : $this->invoice->balance;
-        $customer_gateway = $this->findGatewayFee();
+        $objCalculateGatewayFee = new CalculateGatewayFee($this->invoice, $this->invoice_repo);
+        $amount = $objCalculateGatewayFee->getFee(true);
+        $customer_gateway = $objCalculateGatewayFee->getCustomerGateway();
 
         if (empty($customer_gateway)) {
             return false;
         }
 
         $company_gateway = $customer_gateway->company_gateway;
-
-        $amount = $this->calculateFee($company_gateway, $amount);
 
         $gateway_obj = (new GatewayFactory($customer_gateway, $company_gateway))->create(
             $this->invoice->customer->fresh()
@@ -80,81 +80,18 @@ class AutobillInvoice implements ShouldQueue
     private function completePaymentWithCredit(): ?Payment
     {
         $data = [
-            'payment_method' => null,
-            'payment_type' => PaymentMethod::CREDIT,
-            'amount' => $this->invoice->balance,
-            'customer_id' => $this->invoice->customer->id,
+            'payment_method'     => null,
+            'payment_type'       => PaymentMethod::CREDIT,
+            'amount'             => $this->invoice->balance,
+            'customer_id'        => $this->invoice->customer->id,
             'company_gateway_id' => null,
-            'ids' => $this->invoice->id,
-            'order_id' => null,
-            'apply_credits' => true
+            'ids'                => $this->invoice->id,
+            'order_id'           => null,
+            'apply_credits'      => true
         ];
 
         $payment = CreatePayment::dispatchNow($data, (new PaymentRepository(new Payment())));
 
         return $payment;
-    }
-
-    private function findGatewayFee(): ?CustomerGateway
-    {
-        //TODO
-        $gateways = $this->invoice->customer->gateways()->orderBy('is_default', 'DESC')->get();
-        $amount = $this->invoice->total;
-
-        foreach ($gateways as $gateway) {
-            $company_gateway = $gateway->company_gateway;
-
-            if (empty($company_gateway->fees_and_limits)) {
-                continue;
-            }
-
-            $fees_and_limits = $company_gateway->fees_and_limits[0];
-
-            if ((!empty($fees_and_limits->min_limit) && $amount < $fees_and_limits->min_limit) || (!empty($fees_and_limits->max_limit) && $amount > $fees_and_limits->max_limit)) {
-                continue;
-            }
-
-            return $gateway;
-        }
-
-        return null;
-    }
-
-    /**
-     * @param CompanyGateway $company_gateway
-     * @param float $amount
-     * @return float
-     */
-    private function calculateFee(CompanyGateway $company_gateway, float $amount)
-    {
-        $fee = $company_gateway->fees_and_limits[0];
-
-        $fee = (new GatewayCalculator($company_gateway))
-            ->setSubTotal($amount)
-            ->setFeeAmount($fee->fee_amount)
-            ->setFeePercent($fee->fee_percent)
-            ->setTaxRate('tax_rate', !empty($fee->tax) ? $fee->tax : 0)
-            ->setTaxRate('tax_2', !empty($fee->tax_2) ? $fee->tax_2 : 0)
-            ->setTaxRate('tax_3', !empty($fee->tax_3) ? $fee->tax_3 : 0)
-            ->build()
-            ->getFeeTotal();
-
-        if (!empty($fee)) {
-            $amount += $fee;
-            $this->addFeeToInvoice($fee);
-        }
-
-        return $amount;
-    }
-
-    private function addFeeToInvoice($fee)
-    {
-        if (empty($fee)) {
-            return true;
-        }
-
-        $this->invoice_repo->save(['gateway_fee' => $fee], $this->invoice);
-
-        return $fee;
     }
 }

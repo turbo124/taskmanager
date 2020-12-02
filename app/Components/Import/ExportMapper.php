@@ -8,6 +8,7 @@ use App\Models\Brand;
 use App\Models\Company;
 use App\Models\Currency;
 use App\Models\Customer;
+use App\Models\ExpenseCategory;
 use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\Project;
@@ -172,7 +173,6 @@ trait ExportMapper
      */
     private function getBrandById(int $id): ?string
     {
-
         if (empty($this->brands)) {
             $this->brands = Brand::where('account_id', $this->account->id)->where(
                 'is_deleted',
@@ -185,5 +185,21 @@ trait ExportMapper
         }
 
         return $this->brands[$id]->name;
+    }
+
+    public function getExpenseCategory(int $id)
+    {
+        if (empty($this->expense_categories)) {
+            $this->expense_categories = ExpenseCategory::where('account_id', $this->account->id)->where(
+                'is_deleted',
+                false
+            )->get()->keyBy('id');
+        }
+
+        if (empty($this->expense_categories) || empty($this->expense_categories[$id])) {
+            return null;
+        }
+
+        return $this->expense_categories[$id]->name;
     }
 }

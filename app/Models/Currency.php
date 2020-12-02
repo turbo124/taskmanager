@@ -13,11 +13,8 @@ class Currency extends Model
      */
     protected $fillable = [
         'name',
-        'iso',
-        'iso3',
-        'numcode',
-        'phonecode',
-        'status',
+        'iso_code',
+        'iso_numeric',
         'exchange_rate'
     ];
     /**

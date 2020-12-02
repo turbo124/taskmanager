@@ -71,6 +71,12 @@ class BaseSettings
             'default_value'    => false,
             'type'             => 'bool'
         ],
+        'buy_now_links_enabled'                => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
         'task_rate'                            => [
             'required'         => false,
             'translated_value' => '',
