@@ -58,7 +58,7 @@ class CustomerContactRepository extends BaseRepository
         foreach (array_diff_key($array_client, $array_database) as $id => $data) {
             $data = $array_client[$id];
             unset($data['id']);
-            $create_contact = CustomerContactFactory::create($customer->account, $customer->user);
+            $create_contact = CustomerContactFactory::create($customer->account, $customer->user, $customer);
             $create_contact->customer_id = $customer->id;
             $create_contact->fill($data);
             $create_contact->password = isset($item['password']) && strlen($item['password']) > 0 ? Hash::make(

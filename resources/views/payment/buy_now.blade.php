@@ -42,33 +42,45 @@
     <!-- End -->
 
 
-    <form class="form-horizontal" method="POST" action="https://www.sandbox.PayPal.com/cgi-bin/webscr ">
-        <fieldset>
-            <!-- Form Name -->
-            <legend>Pay with PayPal</legend>
-            <!-- Text input-->
-            <div class="form-group">
-                <input id="amount" name="amount" type="hidden" placeholder="amount to pay"
-                       class="form-control input-md" value="{{ $invoice->balance }}">
-            </div>
-            <input type='hidden' name='business' value='sb-7j4hl606677@personal.example.com'>
-            <input type='hidden' name='item_name' value='Camera'>
-            <input type='hidden' name='item_number' value='CAM#N1'>
-            <!--<input type='hidden' name='amount' value='10'>-->
-            <input type='hidden' name='no_shipping' value='1'>
-            <input type='hidden' name='currency_code' value='{{ $invoice->customer->currency->iso_code }}'>
-            <input type='hidden' name='notify_url' value=''>
-            <input type='hidden' name='cancel_return' value=''>
-            <input type='hidden' name='return' value=''>
-            <input type="hidden" name="cmd" value="_xclick">
-            <!-- Button -->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="submit"></label>
-                <div class="col-md-4">
-                    <button id="submit" name="pay_now" class="btn btn-primary">Pay With PayPal</button>
-                </div>
-            </div>
-        </fieldset>
+    <form style="float:right" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" >
+
+        <input type="hidden" name="cmd" value="_cart">
+        <input type="hidden" name="return" value="{{ $return_url }}">
+        <input type="hidden" name="upload" value="1">
+        <input type="hidden" name="business" value="michaelhamptondesign@yahoo.com">
+
+        @foreach($invoice->line_items as $key => $line_item)
+
+            <?php if ($line_item->type_id !== \App\Models\Invoice::PRODUCT_TYPE) {
+                continue;
+            }
+
+            $product = \App\Models\Product::where('id', '=', $line_item->product_id)->first();
+
+            ?>
+            <input type="hidden" name="item_name_{{ $key === 0 ? 1 : $key }}" value="{{ $product->name }}">
+            <input type="hidden" name="amount_{{ $key === 0 ? 1 : $key }}" value="{{ $line_item->unit_price }}">
+            <input type="hidden" name="quantity_{{ $key === 0 ? 1 : $key }}" value="{{ $line_item->quantity }}">
+
+        @endforeach
+
+{{--        <input type="hidden" name="item_name_1" value="Paper">--}}
+{{--        <input type="hidden" name="amount_1" value="20">--}}
+{{--        <input type="hidden" name="shipping_1" value="3.99">--}}
+        <input type="hidden" name="currency_code" value="USD">
+        <input type="hidden" name="button_subtype" value="services">
+        <input type="hidden" name="no_note" value="0">
+        <input type="hidden" name="cn" value="Add special instructions to the seller:">
+
+        <input type="hidden" name="no_shipping" value="2">
+
+        <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHosted">
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
     </form>
 
 </div>
+
+<script>
+    document.querySelector('form').submit();
+</script>

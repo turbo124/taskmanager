@@ -11,8 +11,11 @@ use App\Jobs\Payment\CreatePayment;
 use App\Models\CompanyGateway;
 use App\Models\Credit;
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Models\PaymentType;
+use App\Models\Product;
 use App\Repositories\CreditRepository;
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use App\Requests\Payment\CreatePaymentRequest;
@@ -202,6 +205,18 @@ class PaymentController extends Controller
         $invoice = Invoice::where('number', '=', $invoice_number)->first();
         $company_gateway = CompanyGateway::where('gateway_key', '=', '64bcbdce')->first();
 
-        return view('payment.buy_now', ['invoice' => $invoice, 'company_gateway' => $company_gateway]);
+        $return_url = 'http://' . config(
+                'taskmanager.app_domain'
+            ) . '/pay_now/success?invoice_number=' . $invoice_number;
+
+        return view(
+            'payment.buy_now',
+            ['invoice' => $invoice, 'company_gateway' => $company_gateway, 'return_url' => $return_url]
+        );
+    }
+
+    public function buyNowSuccess()
+    {
+        die('return');
     }
 }
