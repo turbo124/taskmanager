@@ -108,7 +108,7 @@ class ContactRegister
      */
     private function createContact(Customer $customer)
     {
-        $client_contact = CustomerContactFactory::create($this->account, $this->user);
+        $client_contact = CustomerContactFactory::create($this->account, $this->user, $customer);
         $client_contact->fill($this->data);
 
         $client_contact->customer_id = $customer->id;

@@ -28,6 +28,7 @@ class InvoiceFactory
         $invoice->setStatus(Invoice::STATUS_DRAFT);
         $invoice->setUser($user);
         $invoice->setCustomer($customer);
+        $invoice->setDueDate();
 
         return $invoice;
     }

@@ -24,5 +24,7 @@ Route::post('setup/user/save', 'SetupController@saveUser')->name('setup.saveUser
 Route::post('setup/environment/save', 'SetupController@saveWizard')->name('setup.environment-save-wizard');
 Route::get('setup/environmentClassic', 'SetupController@environmentClassic')->name('setup.environment-classic');
 Route::get('dashboard', 'DashboardController@index');
-Route::get('pay_now/{invoice_id}', 'PaymentController@buyNow');
+Route::get('buy_now', 'BuyNowController@buyNowTrigger');
+Route::get('pay_now/process/{invoice_id}', 'PaymentController@buyNow');
+Route::get('pay_now/success', 'PaymentController@buyNowSuccess');
 Route::view('/{path?}', 'app');
