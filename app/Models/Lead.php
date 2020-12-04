@@ -10,12 +10,12 @@ namespace App\Models;
 
 
 use App\Services\Lead\LeadService;
+use App\Traits\Archiveable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laracasts\Presenter\PresentableTrait;
-use App\Traits\Archiveable;
 
 class Lead extends Model
 {

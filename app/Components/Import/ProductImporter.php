@@ -130,19 +130,6 @@ class ProductImporter extends BaseCsvImporter
     }
 
     /**
-     * @return ProductRepository
-     */
-    public function repository(): ProductRepository
-    {
-        return new ProductRepository(new Product());
-    }
-
-    public function transformObject($object)
-    {
-        return $this->transformProduct($object);
-    }
-
-    /**
      * @param Customer $customer
      * @param array $data
      */
@@ -194,6 +181,14 @@ class ProductImporter extends BaseCsvImporter
     }
 
     /**
+     * @return ProductRepository
+     */
+    public function repository(): ProductRepository
+    {
+        return new ProductRepository(new Product());
+    }
+
+    /**
      * @param string $value
      * @return int
      */
@@ -211,6 +206,43 @@ class ProductImporter extends BaseCsvImporter
         }
 
         return $this->categories[$id];
+    }
+
+    public function export()
+    {
+        $export_columns = $this->getExportColumns();
+        $list = Product::where('account_id', '=', $this->account->id)->get();
+
+        $products = $list->map(
+            function (Product $product) {
+                $object = $this->transformObject($product);
+
+                if ($product->categories->count() > 0) {
+                    $object['category_id'] = implode(' | ', $product->categories()->pluck('name')->toArray());
+                }
+
+                return $object;
+            }
+        )->all();
+
+        $this->export->build(collect($products), $export_columns);
+
+        return true;
+    }
+
+    public function getExportColumns()
+    {
+        return $this->export_columns;
+    }
+
+    public function transformObject($object)
+    {
+        return $this->transformProduct($object);
+    }
+
+    public function getContent()
+    {
+        return $this->export->getContent();
     }
 
     /**
@@ -244,37 +276,5 @@ class ProductImporter extends BaseCsvImporter
         $brand = $this->brands[strtolower($value)];
 
         return $brand['id'];
-    }
-
-    public function export()
-    {
-        $export_columns = $this->getExportColumns();
-        $list = Product::where('account_id', '=', $this->account->id)->get();
-
-        $products = $list->map(
-            function (Product $product) {
-                $object = $this->transformObject($product);
-
-                if ($product->categories->count() > 0) {
-                    $object['category_id'] = implode(' | ', $product->categories()->pluck('name')->toArray());
-                }
-
-                return $object;
-            }
-        )->all();
-
-        $this->export->build(collect($products), $export_columns);
-
-        return true;
-    }
-
-    public function getContent()
-    {
-        return $this->export->getContent();
-    }
-
-    public function getExportColumns()
-    {
-        return $this->export_columns;
     }
 }

@@ -814,7 +814,11 @@ class PdfBuilder
 
                     case Invoice::EXPENSE_TYPE:
                         $product = Expense::find($item->product_id);
-                        $this->line_items[$item->type_id][$key][$table_type . '.product_key'] = !empty($product->category) ? $product->category->name : trans('texts.expense');
+                        $this->line_items[$item->type_id][$key][$table_type . '.product_key'] = !empty($product->category)
+                            ? $product->category->name
+                            : trans(
+                                'texts.expense'
+                            );
 
                         break;
                 }
@@ -837,7 +841,10 @@ class PdfBuilder
                 $this->line_items[$item->type_id][$key][$table_type . '.notes'] = $item->description;
             }
 
-            $this->line_items[$item->type_id][$key][$table_type . '.cost'] = $this->formatCurrency($item->unit_price, $customer);
+            $this->line_items[$item->type_id][$key][$table_type . '.cost'] = $this->formatCurrency(
+                $item->unit_price,
+                $customer
+            );
             $this->line_items[$item->type_id][$key][$table_type . '.line_total'] = !empty($item->sub_total) ? $this->formatCurrency(
                 $item->sub_total,
                 $customer

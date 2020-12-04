@@ -80,31 +80,6 @@ class NumberGenerator
         return $number;
     }
 
-    private function formtPrefix($number, Customer $customer = null)
-    {
-        $prefix = '';
-
-        switch ($this->pattern) {
-            case 'YEAR':
-                $prefix = date('Y');
-                break;
-            case 'DATE':
-                $prefix = date('d-m-Y');
-                break;
-            case 'MONTH':
-                $prefix = date('M');
-                break;
-            case 'CUSTOMER':
-                if (!empty($customer)) {
-                    $prefix = $customer->number;
-                }
-
-                break;
-        }
-
-        return !empty($prefix) ? "{$prefix}-{$number}" : $number;
-    }
-
     /**
      * @param $pattern_entity
      * @param $counter_var
@@ -174,6 +149,31 @@ class NumberGenerator
             $counter++;
         } while ($check);
         return $number;
+    }
+
+    private function formtPrefix($number, Customer $customer = null)
+    {
+        $prefix = '';
+
+        switch ($this->pattern) {
+            case 'YEAR':
+                $prefix = date('Y');
+                break;
+            case 'DATE':
+                $prefix = date('d-m-Y');
+                break;
+            case 'MONTH':
+                $prefix = date('M');
+                break;
+            case 'CUSTOMER':
+                if (!empty($customer)) {
+                    $prefix = $customer->number;
+                }
+
+                break;
+        }
+
+        return !empty($prefix) ? "{$prefix}-{$number}" : $number;
     }
 
     private function isRecurring($resource)

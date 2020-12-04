@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models;
 use App\Services\RecurringInvoice\RecurringInvoiceService;
+use App\Traits\Archiveable;
 use App\Traits\Balancer;
 use App\Traits\CalculateRecurringDateRanges;
 use App\Traits\Money;
@@ -12,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
-use App\Traits\Archiveable;
 
 /**
  * Class for Recurring Invoices.

@@ -149,7 +149,6 @@ class Stripe extends BasePaymentGateway
         }
 
         if (!empty($errors)) {
-
             echo '<pre>';
             print_r($errors);
 

@@ -61,10 +61,12 @@ class ActivityController extends Controller
         $comments = auth()->user()->account_user()->account->comments()->with('user')->get();
         $list = $this->notification_repo->listNotifications('*', 'created_at', 'DESC');
 
-        if(!empty($request->input('read_only'))) {
-            $list = $list->filter(function ($value, $key) {
-                return empty($value->read_at);
-            });
+        if (!empty($request->input('read_only'))) {
+            $list = $list->filter(
+                function ($value, $key) {
+                    return empty($value->read_at);
+                }
+            );
         }
 
         $userEvents = $this->event_repo->getEventsForUser($currentUser, auth()->user()->account_user()->account_id);

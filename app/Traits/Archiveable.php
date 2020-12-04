@@ -14,6 +14,18 @@ trait Archiveable
         return true;
     }
 
+    private function triggerEvent($type)
+    {
+        $entity_class = (new \ReflectionClass($this))->getShortName();
+        $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "Was" . ucfirst($type);
+
+        if (class_exists($event_class)) {
+            event(new $event_class($this));
+        }
+
+        return true;
+    }
+
     /**
      * @param $entity
      */
@@ -26,7 +38,6 @@ trait Archiveable
 
         return true;
     }
-   
 
     /**
      * @param $entity
@@ -37,18 +48,6 @@ trait Archiveable
         $this->save();
         $this->delete();
         $this->triggerEvent('deleted');
-
-        return true;
-    }
-
-    private function triggerEvent($type)
-    {
-        $entity_class = (new \ReflectionClass($this))->getShortName();
-        $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "Was" . ucfirst($type);
-
-        if (class_exists($event_class)) {
-            event(new $event_class($this));
-        }
 
         return true;
     }

@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use App\Services\Product\ProductService;
+use App\Traits\Archiveable;
 use App\Traits\ManageStock;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\Archiveable;
 
 class Product extends Model
 {

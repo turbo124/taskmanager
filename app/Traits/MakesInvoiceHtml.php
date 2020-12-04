@@ -2,12 +2,7 @@
 
 namespace App\Traits;
 
-use App\Components\Payment\Gateways\CalculateGatewayFee;
-use App\Components\Payment\Gateways\PaypalExpress;
 use App\Designs\PdfColumns;
-use App\Models\Customer;
-use App\Models\Invoice;
-use App\Repositories\InvoiceRepository;
 use Illuminate\Support\Facades\App;
 use ReflectionClass;
 use ReflectionException;
@@ -59,7 +54,7 @@ trait MakesInvoiceHtml
             ? $designer->buildStatementTable()
             : ((in_array(
                 get_class($entity),
-                ['App\Models\Task', 'App\Models\Cases', 'App\Models\Deal']
+                ['App\Models\Task', 'App\Models\Cases', 'App\Models\Deal', 'App\Models\Lead']
             )) ? $designer->getSection('task_table') : $designer->buildInvoiceTable());
 
         $settings = $entity->account->settings;
@@ -89,21 +84,27 @@ trait MakesInvoiceHtml
         $footer = str_replace('$signature_here', $signature, $footer);
         $footer = str_replace('$client_signature_here', $client_signature, $footer);
 
-        if(get_class($entity) === 'App\Models\Invoice') {
-            if($entity->customer->getSetting('buy_now_links_enabled') === true) {
-                $footer = str_replace('$pay_now_link', '<a target="_blank" class="btn btn-primary" href="http://'.config('taskmanager.app_domain').'/pay_now/'.$entity->number.'">Pay Now</a>', $footer);
+        if (get_class($entity) === 'App\Models\Invoice') {
+            if ($entity->customer->getSetting('buy_now_links_enabled') === true) {
+                $footer = str_replace(
+                    '$pay_now_link',
+                    '<a target="_blank" class="btn btn-primary" href="http://' . config(
+                        'taskmanager.app_domain'
+                    ) . '/pay_now/' . $entity->number . '">Pay Now</a>',
+                    $footer
+                );
             } else {
                 $footer = str_replace('$pay_now_link', '', $footer);
             }
         }
 
         $data = [
-            'entity'   => $entity,
-            'lang'     => $lang,
+            'entity' => $entity,
+            'lang' => $lang,
             'settings' => $settings,
-            'header'   => $designer->getSection('header'),
-            'body'     => str_replace('$table_here', $table, $designer->getSection('body')),
-            'footer'   => $footer
+            'header' => $designer->getSection('header'),
+            'body' => str_replace('$table_here', $table, $designer->getSection('body')),
+            'footer' => $footer
         ];
 
         $html = view('pdf.stub', $data)->render();

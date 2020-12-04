@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Collection;
 use App\Models;
+use App\Traits\Archiveable;
 use App\Traits\HasPermissionsTrait;
 use App\Util\Jobs\FileUploader;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +16,6 @@ use Laracasts\Presenter\PresentableTrait;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use stdClass;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use App\Traits\Archiveable;
 
 class User extends Authenticatable implements JWTSubject
 {

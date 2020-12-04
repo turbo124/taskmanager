@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\Archiveable;
+use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {

@@ -358,7 +358,6 @@ class PdfColumns
         ];
 
         foreach ($table_data as $key => $item) {
-
             if (empty($item['header'])) {
                 continue;
             }

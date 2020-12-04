@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Traits\Archiveable;
 use App\Traits\SearchableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\Archiveable;
 
 class TaskStatus extends Model
 {

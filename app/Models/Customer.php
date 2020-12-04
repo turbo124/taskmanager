@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Archiveable;
 use App\Traits\Balancer;
 use App\Traits\Money;
 use Illuminate\Contracts\Translation\HasLocalePreference;
@@ -11,14 +12,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use App\Traits\Archiveable;
 
 class Customer extends Model implements HasLocalePreference
 {
 
     use SoftDeletes, PresentableTrait, Balancer, Money, HasFactory, Archiveable;
-
-    private $merged_settings;
 
     const CUSTOMER_TYPE_WON = 1;
     protected $presenter = 'App\Presenters\CustomerPresenter';
@@ -53,13 +51,13 @@ class Customer extends Model implements HasLocalePreference
         'industry_id',
         'vat_number'
     ];
-
     protected $casts = [
         'settings'   => 'object',
         'updated_at' => 'timestamp',
         'deleted_at' => 'timestamp',
         'is_deleted' => 'boolean',
     ];
+    private $merged_settings;
 
     /**
      * @return HasMany
@@ -181,7 +179,7 @@ class Customer extends Model implements HasLocalePreference
      */
     public function getSetting($setting)
     {
-        if(empty($this->merged_settings)) {
+        if (empty($this->merged_settings)) {
             $account_settings = $this->account->settings;
             $customer_settings = $this->settings;
             unset($account_settings->pdf_variables, $customer_settings->pdf_variables);

@@ -112,11 +112,6 @@ class Invoice extends Model
         'date_to_send',
     ];
 
-    public function service(): InvoiceService
-    {
-        return new InvoiceService($this);
-    }
-
     /**
      * @return bool
      * @throws Exception
@@ -127,9 +122,15 @@ class Invoice extends Model
             return false;
         }
 
+        $this->service()->deleteInvoice();
         $this->deleteEntity();
 
         return true;
+    }
+
+    public function service(): InvoiceService
+    {
+        return new InvoiceService($this);
     }
 
     public function account()

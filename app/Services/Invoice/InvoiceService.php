@@ -41,12 +41,19 @@ class InvoiceService extends ServiceBase
         $this->invoice = $invoice;
     }
 
+    public function deleteInvoice()
+    {
+        $this->invoice = (new CancelInvoice($this->invoice, true))->execute();
+
+        return $this->invoice;
+    }
+
     /**
      * @return Invoice
      */
     public function cancelInvoice(): Invoice
     {
-        $this->invoice = (new CancelInvoice($this->invoice))->execute();
+        $this->invoice = (new CancelInvoice($this->invoice, false))->execute();
 
         return $this->invoice;
     }

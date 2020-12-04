@@ -15,10 +15,10 @@ class CreateLeadRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'first_name'  => 'required|string',
-            'last_name'   => 'required|strong',
-            'email'       => 'required|unique:leads',
-            'name'        => 'required',
+            'first_name' => 'required|string',
+            'last_name'  => 'required|strong',
+            'email'      => 'required|unique:leads',
+            'name'       => 'required',
             'start_date' => 'nullable',
             //'task_status' => 'required',
 

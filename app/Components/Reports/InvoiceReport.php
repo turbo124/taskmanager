@@ -18,9 +18,6 @@ class InvoiceReport extends BaseReport
         '$customer' => 'texts.customer',
         '$contact'  => 'texts.contact_name'
     ];
-
-    private array $totals = [];
-
     protected array $table_structure = [
         'outstanding' => [
             'header' => '',
@@ -31,7 +28,7 @@ class InvoiceReport extends BaseReport
             'body'   => ''
         ]
     ];
-
+    private array $totals = [];
     /**
      * @var Customer
      */

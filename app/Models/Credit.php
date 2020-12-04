@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Services\Credit\CreditService;
 use App\Services\Transaction\TransactionService;
+use App\Traits\Archiveable;
 use App\Traits\Balancer;
 use App\Traits\Money;
 use Carbon\Carbon;
@@ -12,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use App\Traits\Archiveable;
 
 class Credit extends Model
 {

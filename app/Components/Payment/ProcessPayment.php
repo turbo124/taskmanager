@@ -32,6 +32,6 @@ class ProcessPayment
             $payment = (new InvoicePayment($data, $payment, $payment_repo))->process($objCreditPayment);
         }
 
-        return $payment;
+        return $payment->fresh();
     }
 }

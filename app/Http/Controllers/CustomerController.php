@@ -12,7 +12,6 @@ use App\Models\CompanyToken;
 use App\Models\Customer;
 use App\Models\CustomerType;
 use App\Repositories\CustomerContactRepository;
-use App\Repositories\CustomerRepository;
 use App\Repositories\CustomerTypeRepository;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Requests\Customer\CreateCustomerRequest;

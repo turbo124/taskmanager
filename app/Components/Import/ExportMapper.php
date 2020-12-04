@@ -75,6 +75,22 @@ trait ExportMapper
         return $value ?: '';
     }
 
+    public function getExpenseCategory(int $id)
+    {
+        if (empty($this->expense_categories)) {
+            $this->expense_categories = ExpenseCategory::where('account_id', $this->account->id)->where(
+                'is_deleted',
+                false
+            )->get()->keyBy('id');
+        }
+
+        if (empty($this->expense_categories) || empty($this->expense_categories[$id])) {
+            return null;
+        }
+
+        return $this->expense_categories[$id]->name;
+    }
+
     /**
      * @param $value
      * @return int|null
@@ -185,21 +201,5 @@ trait ExportMapper
         }
 
         return $this->brands[$id]->name;
-    }
-
-    public function getExpenseCategory(int $id)
-    {
-        if (empty($this->expense_categories)) {
-            $this->expense_categories = ExpenseCategory::where('account_id', $this->account->id)->where(
-                'is_deleted',
-                false
-            )->get()->keyBy('id');
-        }
-
-        if (empty($this->expense_categories) || empty($this->expense_categories[$id])) {
-            return null;
-        }
-
-        return $this->expense_categories[$id]->name;
     }
 }

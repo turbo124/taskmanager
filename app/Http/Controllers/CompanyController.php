@@ -7,7 +7,6 @@ use App\Factory\CompanyFactory;
 use App\Models\Company;
 use App\Models\Industry;
 use App\Repositories\CompanyContactRepository;
-use App\Repositories\CompanyRepository;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
 use App\Requests\Company\CreateCompanyRequest;
 use App\Requests\Company\UpdateCompanyRequest;

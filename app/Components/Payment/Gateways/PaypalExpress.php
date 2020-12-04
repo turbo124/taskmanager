@@ -80,6 +80,28 @@ class PaypalExpress extends BasePaymentGateway
             ->send();
     }
 
+    private function buildItems(Invoice $invoice)
+    {
+        //https://recalll.co/?q=Omnipay%20with%20Paypal%20Express&type=code
+        $items = new ItemBag();
+
+        foreach ($invoice->line_items as $line_item) {
+            if ($line_item->type_id !== Invoice::PRODUCT_TYPE) {
+                continue;
+            }
+
+            $product = Product::where('id', '=', $line_item->product_id)->first();
+
+            $items->add(
+                array(
+                    'name'     => $product->name,
+                    'quantity' => $line_item->quantity,
+                    'price'    => $product->unit_price,
+                )
+            );
+        }
+    }
+
     /**
      * @param array $parameters
      */
@@ -159,27 +181,5 @@ class PaypalExpress extends BasePaymentGateway
         $env = 'sandbox';
 
         return route('webhook.paypal.ipn', [$invoice->id, $env]);
-    }
-
-    private function buildItems(Invoice $invoice)
-    {
-        //https://recalll.co/?q=Omnipay%20with%20Paypal%20Express&type=code
-        $items = new ItemBag();
-
-        foreach ($invoice->line_items as $line_item) {
-            if ($line_item->type_id !== Invoice::PRODUCT_TYPE) {
-                continue;
-            }
-
-            $product = Product::where('id', '=', $line_item->product_id)->first();
-
-            $items->add(
-                array(
-                    'name'     => $product->name,
-                    'quantity' => $line_item->quantity,
-                    'price'    => $product->unit_price,
-                )
-            );
-        }
     }
 }

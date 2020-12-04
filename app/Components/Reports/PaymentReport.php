@@ -9,8 +9,6 @@ use App\Models\Payment;
 
 class PaymentReport extends BaseReport
 {
-    private array $totals = [];
-
     protected array $translations = [
         '$total'    => 'texts.total',
         '$balance'  => 'texts.balance_due',
@@ -20,18 +18,17 @@ class PaymentReport extends BaseReport
         '$customer' => 'texts.customer',
         '$contact'  => 'texts.contact_name'
     ];
-
     protected array $table_structure = [
         'completed' => [
             'header' => '',
             'body'   => ''
         ],
-        'pending'        => [
+        'pending'   => [
             'header' => '',
             'body'   => ''
         ]
     ];
-
+    private array $totals = [];
     /**
      * @var Customer
      */
@@ -67,7 +64,9 @@ class PaymentReport extends BaseReport
                 '$due_date' => '',
                 '$date'     => $this->objPdf->formatDate($this->customer, $payment->date),
                 '$customer' => $payment->customer->name,
-                '$status'   => ($payment->status_id === Invoice::STATUS_PAID) ? '<div class="badge badge-success">' . trans('texts.status_paid') . '</div>' : '<div class="badge badge-primary">' . trans('texts.status_pending') . '</div>'
+                '$status'   => ($payment->status_id === Invoice::STATUS_PAID) ? '<div class="badge badge-success">' . trans(
+                        'texts.status_paid'
+                    ) . '</div>' : '<div class="badge badge-primary">' . trans('texts.status_pending') . '</div>'
 
             ];
 
@@ -75,10 +74,10 @@ class PaymentReport extends BaseReport
 
             $tables[$label][] = $item;
 
-            if(!isset($totals[$label])) {
+            if (!isset($totals[$label])) {
                 $this->totals[$label] = [
                     'balance_due' => 0,
-                    'total' => 0
+                    'total'       => 0
                 ];
             }
 

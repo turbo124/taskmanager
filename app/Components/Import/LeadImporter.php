@@ -135,11 +135,6 @@ class LeadImporter extends BaseCsvImporter
         return new LeadRepository(new Lead());
     }
 
-    public function transformObject($object)
-    {
-        return $this->transformLead($object);
-    }
-
     public function export()
     {
         $export_columns = $this->getExportColumns();
@@ -156,13 +151,18 @@ class LeadImporter extends BaseCsvImporter
         return true;
     }
 
-    public function getContent()
-    {
-        return $this->export->getContent();
-    }
-
     public function getExportColumns()
     {
         return $this->export_columns;
+    }
+
+    public function transformObject($object)
+    {
+        return $this->transformLead($object);
+    }
+
+    public function getContent()
+    {
+        return $this->export->getContent();
     }
 }

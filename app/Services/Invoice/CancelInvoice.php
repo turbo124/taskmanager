@@ -5,6 +5,7 @@ namespace App\Services\Invoice;
 use App\Events\Invoice\InvoiceWasCancelled;
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\Payment;
 
 /**
  * Class CancelInvoice
@@ -23,14 +24,17 @@ class CancelInvoice
      */
     private float $balance;
 
+    private bool $is_delete = false;
+
     /**
      * CancelInvoice constructor.
      * @param Invoice $invoice
      */
-    public function __construct(Invoice $invoice)
+    public function __construct(Invoice $invoice, bool $is_delete = false)
     {
         $this->invoice = $invoice;
         $this->balance = $this->invoice->balance;
+        $this->is_delete = $is_delete;
     }
 
     /**
@@ -38,7 +42,7 @@ class CancelInvoice
      */
     public function execute(): Invoice
     {
-        if (!$this->invoice->isCancellable()) {
+        if (!$this->is_delete && !$this->invoice->isCancellable()) {
             return $this->invoice;
         }
 
@@ -55,6 +59,10 @@ class CancelInvoice
             $this->invoice->customer->balance,
             "Invoice cancellation"
         );
+
+        if ($this->is_delete) {
+            $this->updatePayment();
+        }
 
         return $this->invoice;
     }
@@ -84,8 +92,34 @@ class CancelInvoice
     {
         $customer = $this->invoice->customer;
         $customer->reduceBalance($this->balance);
+
+        if ($this->is_delete) {
+            $customer->reducePaidToDateAmount($this->balance);
+        }
+
         $customer->save();
 
         return $customer;
     }
+
+    private function updatePayment()
+    {
+        $paymentables = $this->invoice->paymentables();
+        $paymentable_total = $paymentables->sum('amount');
+        $invoice_total = $this->invoice->payments->sum('amount');
+
+        if ((float)$paymentable_total === (float)$invoice_total) {
+            Payment::whereIn('id', $this->invoice->payments->pluck('id'))->delete();
+        }
+
+        if ((float)$paymentable_total !== (float)$invoice_total) {
+            $payment = $this->invoice->payments->first();
+            $payment->reduceAmount($paymentable_total);
+        }
+
+        $paymentables->delete();
+
+        return true;
+    }
+
 }

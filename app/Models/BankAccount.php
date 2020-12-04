@@ -8,9 +8,9 @@
 
 namespace App\Models;
 
+use App\Traits\Archiveable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\Archiveable;
 
 class BankAccount extends Model
 {

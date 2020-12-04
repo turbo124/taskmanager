@@ -82,7 +82,7 @@ class CompanyGatewayController extends Controller
         return response()->json($this->transformCompanyGateway($company_gateway));
     }
 
-     /**
+    /**
      * @param int $id
      * @return mixed
      */

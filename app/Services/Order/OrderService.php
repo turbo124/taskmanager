@@ -29,7 +29,7 @@ class OrderService extends ServiceBase
     public function __construct(Order $order)
     {
         $config = [
-            'email' => $order->customer->getSetting('should_email_order'),
+            'email'   => $order->customer->getSetting('should_email_order'),
             'archive' => $order->customer->getSetting('should_archive_order')
         ];
 
