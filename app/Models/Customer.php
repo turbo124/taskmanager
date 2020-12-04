@@ -74,6 +74,16 @@ class Customer extends Model implements HasLocalePreference
         return $this->hasMany(Credit::class);
     }
 
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     public function company()
     {
         return $this->belongsTo(Company::class, 'company_id');

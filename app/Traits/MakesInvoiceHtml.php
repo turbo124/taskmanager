@@ -56,11 +56,11 @@ trait MakesInvoiceHtml
         $designer->buildDesign();
 
         $table = (get_class($entity) === 'App\Models\Customer')
-            ? $designer->getSection('statement_table')
+            ? $designer->buildStatementTable()
             : ((in_array(
                 get_class($entity),
                 ['App\Models\Task', 'App\Models\Cases', 'App\Models\Deal']
-            )) ? $designer->getSection('task_table') : $designer->getSection('table'));
+            )) ? $designer->getSection('task_table') : $designer->buildInvoiceTable());
 
         $settings = $entity->account->settings;
 

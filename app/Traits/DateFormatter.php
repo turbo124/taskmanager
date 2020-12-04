@@ -37,6 +37,8 @@ trait DateFormatter
                 return 'D M Y';
             case 'DD-MMM-YYYY':
                 return 'D-M-Y';
+            case 'DD-MMMM-YYYY':
+                return 'D-M-Y';
         }
 
         return $date_format;
