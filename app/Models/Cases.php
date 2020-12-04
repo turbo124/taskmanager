@@ -5,11 +5,11 @@ namespace App\Models;
 
 
 use App\Services\Cases\CasesService;
+use App\Traits\Archiveable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use App\Traits\Archiveable;
 
 class Cases extends Model
 {

@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use App\Models;
+use App\Traits\Archiveable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laracasts\Presenter\PresentableTrait;
-use App\Traits\Archiveable;
 
 //use App\Notifications\ClientContactResetPassword as ResetPasswordNotification;
 //use App\Notifications\ClientContactResetPassword;

@@ -4,14 +4,16 @@
 namespace App\Components\Pdf;
 
 
-use App\Models\Customer;
-use App\Models\Transaction;
+use App\Components\Reports\InvoiceReport;
+use App\Components\Reports\PaymentReport;
 use ReflectionClass;
 use ReflectionException;
 
 class StatementPdf extends PdfBuilder
 {
     protected $entity;
+
+    private array $totals = [];
 
     /**
      * TaskPdf constructor.
@@ -53,53 +55,32 @@ class StatementPdf extends PdfBuilder
         return $this;
     }
 
-    public function buildTable($columns)
+    public function buildStatementTables()
     {
-        $labels = $this->getLabels();
-        $values = $this->getValues();
+        $columns = $this->entity->account->settings->pdf_variables->statement_columns;
 
-        $table = new \stdClass();
+        return $this->buildTable($columns);
+    }
 
-        $table->header = '<tr>';
-        $table->body = '';
-        $table_row = '<tr>';
+    private function buildTable($columns)
+    {
+        $tables = [];
 
-        $translations = [
-            '$amount'           => trans('texts.amount'),
-            '$original_balance' => trans('texts.original_balance'),
-            '$new_balance'      => trans('texts.new_balance'),
-            '$date'             => trans('texts.date'),
-            '$type'             => trans('texts.type')
-        ];
+        $objInvoiceReport = (new InvoiceReport($this->entity, $this, $columns));
+        $objPaymentReport = (new PaymentReport($this->entity, $this, $columns));
 
-        foreach ($columns as $key => $column) {
-            $table->header .= '<td class="table_header_td_class">' . $translations[$column] . '</td>';
-            $table_row .= '<td class="table_header_td_class">' . $column . '</td>';
-        }
+        $tables['invoice'] = $objInvoiceReport->buildStatement();
 
-        $table_row .= '</tr>';
+        $this->totals['invoice'] = $objInvoiceReport->getTotals();
+        $this->totals['payment'] = $objPaymentReport->getTotals();
 
-        $transactions = Transaction::where('customer_id', $this->entity->id)->orderBy('created_at', 'desc')->get();
+        $tables['payment'] = $objPaymentReport->buildStatement();
 
-        foreach ($transactions as $key => $transaction) {
-            $item = [
-                '$amount'           => $transaction->amount,
-                '$original_balance' => $transaction->original_customer_balance,
-                '$new_balance'      => $transaction->updated_balance,
-                '$date'             => $this->formatDate($this->entity, $transaction->created_at),
-                '$type'             => $transaction->transactionable_type
-            ];
+        return $tables;
+    }
 
-            $tmp = strtr($table_row, $item);
-            $tmp = strtr($tmp, $values);
-
-            $table->body .= $tmp;
-        }
-
-        $table->header .= '</tr>';
-
-        $table->header = strtr($table->header, $labels);
-
-        return $table;
+    public function getTotals()
+    {
+        return $this->totals;
     }
 }

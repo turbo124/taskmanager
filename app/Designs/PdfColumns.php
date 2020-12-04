@@ -2,6 +2,8 @@
 
 namespace App\Designs;
 
+use App\Models\Invoice;
+
 class PdfColumns
 {
     public $design;
@@ -242,30 +244,30 @@ class PdfColumns
     {
         $this->objPdf->build();
 
+        if (!in_array($this->entity_string, ['lead', 'case', 'deal', 'task'])) {
+            return true;
+        }
+
         $task_columns = $this->getTableColumns();
 
         $table = $this->objPdf->buildTable(
             $task_columns
         );
 
-        $header_key = ($this->entity_string === 'customer')
-            ? '$statement_table_header'
-            : ((in_array(
-                $this->entity_string,
-                ['lead', 'case', 'deal', 'task']
-            )) ? '$task_table_header' : '$product_table_header');
+        $header_key = in_array(
+            $this->entity_string,
+            ['lead', 'case', 'deal', 'task']
+        ) ? '$task_table_header' : '$product_table_header';
 
-        $body_key = ($this->entity_string === 'customer')
-            ? '$statement_table_body'
-            : ((in_array(
-                $this->entity_string,
-                [
-                    'lead',
-                    'case',
-                    'deal',
-                    'task'
-                ]
-            )) ? '$task_table_body' : '$product_table_body');
+        $body_key = in_array(
+            $this->entity_string,
+            [
+                'lead',
+                'case',
+                'deal',
+                'task'
+            ]
+        ) ? '$task_table_body' : '$product_table_body';
 
         if (empty($table)) {
             return true;
@@ -309,5 +311,69 @@ class PdfColumns
     {
         return $this->default_columns;
     }
+
+    public function buildStatementTable()
+    {
+        $table_data = $this->objPdf->buildStatementTables();
+
+        $statement_html = $this->design->statement_table;
+
+        $table_html = '';
+
+        foreach ($table_data as $key => $table_datum) {
+            $table_html .= '<h3 class="mt-3">' . trans('texts.' . $key) . '</h3>';
+
+            foreach ($table_datum as $table_type => $item) {
+                if (empty($item['header'])) {
+                    continue;
+                }
+
+                $table_html .= '<h3 class="mt-3">' . trans('texts.' . $table_type) . '</h3>';
+                $table_html .= str_replace(
+                    ['$statement_table_header', '$statement_table_body'],
+                    [$item['header'], $item['body']],
+                    $statement_html
+                );
+            }
+        }
+
+
+        return $table_html;
+    }
+
+    public function buildInvoiceTable()
+    {
+        $table_data = $this->objPdf->buildTable($this->getTableColumns());
+
+        $invoice_html = $this->design->table;
+
+        $table_html = '';
+
+        $table_html = '';
+
+        $translations = [
+            Invoice::TASK_TYPE    => 'tasks',
+            Invoice::EXPENSE_TYPE => 'expenses',
+            Invoice::PRODUCT_TYPE => 'products'
+        ];
+
+        foreach ($table_data as $key => $item) {
+            if (empty($item['header'])) {
+                continue;
+            }
+
+            $table_html .= '<h3 class="mt-3">' . trans('texts.' . $translations[$key]) . '</h3>';
+
+
+            $table_html .= str_replace(
+                ['$product_table_header', '$product_table_body'],
+                [$item['header'], $item['body']],
+                $invoice_html
+            );
+        }
+
+        return $table_html;
+    }
+
 
 }

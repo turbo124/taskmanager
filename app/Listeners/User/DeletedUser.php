@@ -39,7 +39,6 @@ class DeletedUser implements ShouldQueue
             $fields['data']['id'] = auth()->user()->id;
             $fields['notifiable_id'] = auth()->user()->id;
             $account_id = auth()->user()->account_user()->account->id;
-
         } else {
             $fields['data']['id'] = $event->user->id;
             $fields['notifiable_id'] = $event->user->id;

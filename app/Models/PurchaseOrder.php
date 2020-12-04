@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\PurchaseOrder\PurchaseOrderService;
+use App\Traits\Archiveable;
 use App\Traits\Balancer;
 use App\Traits\MoneyVendor;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Presenter\PresentableTrait;
-use App\Traits\Archiveable;
 
 class PurchaseOrder extends Model
 {

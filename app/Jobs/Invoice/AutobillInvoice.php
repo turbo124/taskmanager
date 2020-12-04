@@ -2,12 +2,9 @@
 
 namespace App\Jobs\Invoice;
 
-use App\Components\InvoiceCalculator\GatewayCalculator;
 use App\Components\Payment\Gateways\CalculateGatewayFee;
 use App\Components\Payment\Gateways\GatewayFactory;
 use App\Jobs\Payment\CreatePayment;
-use App\Models\CompanyGateway;
-use App\Models\CustomerGateway;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\PaymentMethod;

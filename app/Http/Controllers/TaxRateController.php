@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Factory\TaxRateFactory;
 use App\Models\TaxRate;
 use App\Repositories\Interfaces\TaxRateRepositoryInterface;
-use App\Repositories\TaxRateRepository;
 use App\Requests\SearchRequest;
 use App\Requests\TaxRate\CreateTaxRateRequest;
 use App\Requests\TaxRate\UpdateTaxRateRequest;

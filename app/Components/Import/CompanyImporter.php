@@ -140,11 +140,6 @@ class CompanyImporter extends BaseCsvImporter
         return new CompanyRepository(new Company(), new CompanyContactRepository(new CompanyContact()));
     }
 
-    public function transformObject($object)
-    {
-        return $this->transformCompany($object);
-    }
-
     /**
      * @param Company $company
      * @param array $data
@@ -181,13 +176,18 @@ class CompanyImporter extends BaseCsvImporter
         return true;
     }
 
-    public function getContent()
-    {
-        return $this->export->getContent();
-    }
-
     public function getExportColumns()
     {
         return $this->export_columns;
+    }
+
+    public function transformObject($object)
+    {
+        return $this->transformCompany($object);
+    }
+
+    public function getContent()
+    {
+        return $this->export->getContent();
     }
 }

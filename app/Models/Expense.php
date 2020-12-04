@@ -4,10 +4,10 @@ namespace App\Models;
 
 use App\Models;
 use App\Services\Expense\ExpenseService;
+use App\Traits\Archiveable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\Archiveable;
 
 class Expense extends Model
 {

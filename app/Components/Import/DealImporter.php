@@ -111,11 +111,6 @@ class DealImporter extends BaseCsvImporter
         return new DealRepository(new Deal());
     }
 
-    public function transformObject($object)
-    {
-        return $this->transformDeal($object);
-    }
-
     public function export()
     {
         $export_columns = $this->getExportColumns();
@@ -132,13 +127,18 @@ class DealImporter extends BaseCsvImporter
         return true;
     }
 
-    public function getContent()
-    {
-        return $this->export->getContent();
-    }
-
     public function getExportColumns()
     {
         return $this->export_columns;
+    }
+
+    public function transformObject($object)
+    {
+        return $this->transformDeal($object);
+    }
+
+    public function getContent()
+    {
+        return $this->export->getContent();
     }
 }

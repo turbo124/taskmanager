@@ -798,23 +798,27 @@ class PdfBuilder
                 $item->type_id = Invoice::PRODUCT_TYPE;
             }
 
-            $this->line_items[$key][$table_type . '.product_key'] = $item->product_id;
+            $this->line_items[$item->type_id][$key][$table_type . '.product_key'] = $item->product_id;
 
             if (is_numeric($item->product_id)) {
                 switch ($item->type_id) {
                     case Invoice::PRODUCT_TYPE:
                         $product = Product::find($item->product_id);
-                        $this->line_items[$key][$table_type . '.product_key'] = $product->name;
+                        $this->line_items[$item->type_id][$key][$table_type . '.product_key'] = $product->name;
                         break;
 
                     case Invoice::TASK_TYPE:
                         $product = Task::find($item->product_id);
-                        $this->line_items[$key][$table_type . '.product_key'] = $product->name;
+                        $this->line_items[$item->type_id][$key][$table_type . '.product_key'] = $product->name;
                         break;
 
                     case Invoice::EXPENSE_TYPE:
                         $product = Expense::find($item->product_id);
-                        $this->line_items[$key][$table_type . '.product_key'] = 'Expense'; // TODO
+                        $this->line_items[$item->type_id][$key][$table_type . '.product_key'] = !empty($product->category)
+                            ? $product->category->name
+                            : trans(
+                                'texts.expense'
+                            );
 
                         break;
                 }
@@ -823,42 +827,45 @@ class PdfBuilder
                     $product_attribute = ProductAttribute::find($item->attribute_id);
 
                     $product_attribute_values = array_column($product_attribute->attributesValues->toArray(), 'value');
-                    $this->line_items[$key][$table_type . '.product_key'] .= ' (' . implode(
+                    $this->line_items[$item->type_id][$key][$table_type . '.product_key'] .= ' (' . implode(
                             ',',
                             $product_attribute_values
                         ) . ')';
                 }
             }
 
-            $this->line_items[$key][$table_type . '.quantity'] = $item->quantity;
-            $this->line_items[$key][$table_type . '.notes'] = !empty($item->notes) ? $item->notes : '';
+            $this->line_items[$item->type_id][$key][$table_type . '.quantity'] = $item->quantity;
+            $this->line_items[$item->type_id][$key][$table_type . '.notes'] = !empty($item->notes) ? $item->notes : '';
 
-            if (empty($this->line_items[$key][$table_type . '.notes']) && !empty($item->description)) {
-                $this->line_items[$key][$table_type . '.notes'] = $item->description;
+            if (empty($this->line_items[$item->type_id][$key][$table_type . '.notes']) && !empty($item->description)) {
+                $this->line_items[$item->type_id][$key][$table_type . '.notes'] = $item->description;
             }
 
-            $this->line_items[$key][$table_type . '.cost'] = $this->formatCurrency($item->unit_price, $customer);
-            $this->line_items[$key][$table_type . '.line_total'] = !empty($item->sub_total) ? $this->formatCurrency(
+            $this->line_items[$item->type_id][$key][$table_type . '.cost'] = $this->formatCurrency(
+                $item->unit_price,
+                $customer
+            );
+            $this->line_items[$item->type_id][$key][$table_type . '.line_total'] = !empty($item->sub_total) ? $this->formatCurrency(
                 $item->sub_total,
                 $customer
             ) : 0;
 
-            $this->line_items[$key][$table_type . '.discount'] = '';
+            $this->line_items[$item->type_id][$key][$table_type . '.discount'] = '';
 
             if (isset($item->unit_discount) && $item->unit_discount > 0) {
                 if (isset($item->is_amount_discount) && $item->is_amount_discount) {
-                    $this->line_items[$key][$table_type . '.discount'] = $this->formatCurrency(
+                    $this->line_items[$item->type_id][$key][$table_type . '.discount'] = $this->formatCurrency(
                         $item->unit_discount,
                         $customer
                     );
                 } else {
-                    $this->line_items[$key][$table_type . '.discount'] = $item->unit_discount . '%';
+                    $this->line_items[$item->type_id][$key][$table_type . '.discount'] = $item->unit_discount . '%';
                 }
             }
 
             if (isset($item->unit_tax) && $item->unit_tax > 0) {
-                $this->line_items[$key][$table_type . '.tax'] = round($item->unit_tax, 2) . "%";
-                $this->line_items[$key][$table_type . '.tax1'] = &$this->line_items[$key][$table_type . '.tax_rate1'];
+                $this->line_items[$item->type_id][$key][$table_type . '.tax'] = round($item->unit_tax, 2) . "%";
+                $this->line_items[$item->type_id][$key][$table_type . '.tax1'] = &$this->line_items[$item->type_id][$key][$table_type . '.tax_rate1'];
             }
         }
 

@@ -49,7 +49,7 @@ class InvoicePayment extends BasePaymentProcessor
 
             $this->increasePaymentAmount($amount);
 
-            (new RecalculateInvoice($invoice, $this->payment, $amount))->execute();
+            (new RecalculateInvoice($invoice, $this->payment->fresh(), $amount))->execute();
         }
 
         $this->reduceCreditedAmount($objCreditPayment);

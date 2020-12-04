@@ -190,7 +190,7 @@ class BaseController extends Controller
                 }
 
                 break;
-        
+
             case 'dispatch_note':
                 $disk = config('filesystems.default');
                 $content = Storage::disk($disk)->get($entity->service()->generateDispatchNote(null));

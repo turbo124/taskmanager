@@ -152,7 +152,7 @@ class InvoiceController extends BaseController
     public function destroy(int $id)
     {
         $invoice = $this->invoice_repo->findInvoiceById($id);
-        $invoice->service()->cancelInvoice();
+        //$invoice->service()->cancelInvoice();
         $invoice->deleteInvoice();
         return response()->json([], 200);
     }

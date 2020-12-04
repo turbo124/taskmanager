@@ -125,11 +125,6 @@ class ExpenseImporter extends BaseCsvImporter
         return new ExpenseRepository(new Expense());
     }
 
-    public function transformObject($object)
-    {
-        return $this->transformExpense($object);
-    }
-
     public function getExpenseCategory(string $value)
     {
         if (empty($this->expense_categories)) {
@@ -175,13 +170,18 @@ class ExpenseImporter extends BaseCsvImporter
         return true;
     }
 
-    public function getContent()
-    {
-        return $this->export->getContent();
-    }
-
     public function getExportColumns()
     {
         return $this->export_columns;
+    }
+
+    public function transformObject($object)
+    {
+        return $this->transformExpense($object);
+    }
+
+    public function getContent()
+    {
+        return $this->export->getContent();
     }
 }

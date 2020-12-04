@@ -9,13 +9,13 @@
 namespace Tests\Unit;
 
 use App\Components\InvoiceCalculator\LineItem;
-use App\Components\Payment\Gateways\PaypalExpress;
+use App\Components\Payment\ProcessPayment;
 use App\Factory\CreditFactory;
 use App\Factory\InvoiceFactory;
+use App\Factory\PaymentFactory;
 use App\Jobs\Invoice\AutobillInvoice;
 use App\Jobs\Invoice\ProcessReminders;
 use App\Models\Account;
-use App\Models\CompanyGateway;
 use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\CustomerContact;
@@ -23,7 +23,6 @@ use App\Models\Invoice;
 use App\Models\NumberGenerator;
 use App\Models\Payment;
 use App\Models\Paymentable;
-use App\Models\Product;
 use App\Models\RecurringInvoice;
 use App\Models\User;
 use App\Repositories\CreditRepository;
@@ -36,6 +35,8 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+
+use function PHPUnit\Framework\assertFalse;
 
 /**
  * Description of InvoiceTest
@@ -473,7 +474,6 @@ class InvoiceUnitTest extends TestCase
 
         $this->assertTrue($invoice->isCancellable());
 
-        (new InvoiceRepository(new Invoice()))->markSent($invoice);
         $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
 
         $invoice = $invoice->service()->cancelInvoice();
@@ -481,6 +481,73 @@ class InvoiceUnitTest extends TestCase
         $this->assertEquals(0, $invoice->balance);
         $this->assertEquals($invoice->customer->balance, $client_balance);
         $this->assertEquals(Invoice::STATUS_CANCELLED, $invoice->status_id);
+    }
+
+    /** @test */
+    public function testDeleteInvoice()
+    {
+        $invoice = Invoice::factory()->create();
+        $client_balance = $invoice->customer->balance;
+
+        $invoice = (new InvoiceRepository(new Invoice))->markSent($invoice);
+
+        (new InvoiceRepository(new Invoice()))->markSent($invoice);
+        $this->assertEquals(Invoice::STATUS_SENT, $invoice->status_id);
+
+        $invoice->service()->createPayment(
+            new InvoiceRepository(new Invoice),
+            new PaymentRepository(new Payment)
+        )->save();
+
+        $invoice = $invoice->service()->deleteInvoice();
+
+        $this->assertEquals(0, $invoice->balance);
+        $this->assertEquals($invoice->customer->balance, $client_balance);
+        $this->assertEquals(Invoice::STATUS_CANCELLED, $invoice->status_id);
+
+        $payment = $invoice->payments->first()->fresh();
+
+        $this->assertTrue($payment->trashed());
+    }
+
+    public function testPartialDelete()
+    {
+        $first_invoice = Invoice::factory()->create();
+
+        (new InvoiceRepository(new Invoice))->markSent($first_invoice);
+
+        $second_invoice = Invoice::factory()->create();
+
+        (new InvoiceRepository(new Invoice))->markSent($second_invoice);
+
+        $factory = (new PaymentFactory())->create($this->customer, $this->user, $this->account);
+        $paid_to_date = $this->customer->paid_to_date;
+        $balance = $this->customer->balance;
+
+        $data = [
+            'customer_id' => $this->customer->id,
+            'type_id'     => 1,
+            'amount'      => $this->faker->randomFloat()
+        ];
+
+        $data['invoices'][0]['invoice_id'] = $first_invoice->id;
+        $data['invoices'][0]['amount'] = $first_invoice->total;
+        $data['invoices'][1]['invoice_id'] = $second_invoice->id;
+        $data['invoices'][1]['amount'] = $second_invoice->total;
+
+        $paymentRepo = new PaymentRepository(new Payment);
+        $created = (new ProcessPayment())->process($data, $paymentRepo, $factory);
+
+        $this->assertEquals((float)$created->customer->balance, ($balance - ($first_invoice->balance + $second_invoice->balance)));
+        $this->assertEquals($created->customer->paid_to_date, ($paid_to_date + ($first_invoice->balance + $second_invoice->balance)));
+        $this->assertEquals($data['customer_id'], $created->customer_id);
+        $this->assertEquals($data['type_id'], $created->type_id);
+
+        $invoice = $first_invoice->service()->deleteInvoice();
+        $payment = $invoice->payments()->first()->fresh();
+
+        $this->assertEquals($payment->amount, ($created->amount - $first_invoice->total));
+        $this->assertFalse($payment->trashed());
     }
 
     /** @test */

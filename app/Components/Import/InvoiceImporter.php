@@ -140,11 +140,6 @@ class InvoiceImporter extends BaseCsvImporter
         return new InvoiceRepository(new Invoice());
     }
 
-    public function transformObject($object)
-    {
-        return (new InvoiceTransformable())->transformInvoice($object);
-    }
-
     public function export($is_json = false)
     {
         $export_columns = $this->getExportColumns();
@@ -169,14 +164,18 @@ class InvoiceImporter extends BaseCsvImporter
         return true;
     }
 
-    public function getContent()
-    {
-        return $this->export->getContent();
-    }
-
-
     public function getExportColumns()
     {
         return $this->export_columns;
+    }
+
+    public function transformObject($object)
+    {
+        return (new InvoiceTransformable())->transformInvoice($object);
+    }
+
+    public function getContent()
+    {
+        return $this->export->getContent();
     }
 }

@@ -5,13 +5,13 @@ namespace App\Models;
 use App\Events\Payment\PaymentWasDeleted;
 use App\Services\Payment\PaymentService;
 use App\Services\Transaction\TransactionService;
+use App\Traits\Archiveable;
 use App\Traits\Money;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use App\Traits\Archiveable;
 
 class Payment extends Model
 {
@@ -218,5 +218,12 @@ class Payment extends Model
         }
 
         return substr($invoice_texts, 0, -1);
+    }
+
+    public function reduceAmount($amount)
+    {
+        $this->amount -= $amount;
+        $this->applied -= $amount;
+        $this->save();
     }
 }

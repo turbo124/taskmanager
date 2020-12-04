@@ -93,6 +93,85 @@ class Export
     }
 
     /**
+     * Adds a header row to the CSV.
+     *
+     * @param Writer $writer
+     * @param array $headers
+     * @return void
+     */
+    private function addHeader(Writer $writer, array $headers): void
+    {
+        if (Arr::get($this->config, 'header', true) !== false) {
+            $writer->insertOne($headers);
+        }
+    }
+
+    /**
+     * Get all the header fields for the current set of fields.
+     *
+     * @param array $fields
+     * @return array
+     */
+    private function getHeaderFields(array $fields): array
+    {
+        return array_values($fields);
+    }
+
+    /**
+     * Add rows to the CSV.
+     *
+     * @param Writer $writer
+     * @param array $fields
+     * @param \Illuminate\Support\Collection $collection
+     * @throws \League\Csv\CannotInsertRecord
+     */
+    private function addCsvRows(Writer $writer, array $fields, Collection $collection): void
+    {
+        foreach ($collection as $model) {
+            $beforeEachCallback = $this->beforeEachCallback;
+
+            // Call hook
+            if ($beforeEachCallback) {
+                $return = $beforeEachCallback($model);
+
+                if ($return === false) {
+                    continue;
+                }
+            }
+
+            if (!Arr::accessible($model)) {
+                $model = collect($model);
+            }
+
+            $csvRow = [];
+            foreach ($fields as $field) {
+                $value = $this->convert($field, Arr::get($model, $field));
+
+                $csvRow[] = $value;
+            }
+
+            $writer->insertOne($csvRow);
+        }
+    }
+
+    /**
+     * Get all the data fields for the current set of fields.
+     *
+     * @param array $fields
+     * @return array
+     */
+    private function getDataFields(array $fields): array
+    {
+        foreach ($fields as $key => $field) {
+            if (is_string($key)) {
+                $fields[$key] = $key;
+            }
+        }
+
+        return array_values($fields);
+    }
+
+    /**
      * Build the CSV from a builder instance.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
@@ -185,87 +264,8 @@ class Export
         return $this->writer;
     }
 
-    /**
-     * Get all the data fields for the current set of fields.
-     *
-     * @param array $fields
-     * @return array
-     */
-    private function getDataFields(array $fields): array
-    {
-        foreach ($fields as $key => $field) {
-            if (is_string($key)) {
-                $fields[$key] = $key;
-            }
-        }
-
-        return array_values($fields);
-    }
-
-    /**
-     * Get all the header fields for the current set of fields.
-     *
-     * @param array $fields
-     * @return array
-     */
-    private function getHeaderFields(array $fields): array
-    {
-        return array_values($fields);
-    }
-
-    /**
-     * Add rows to the CSV.
-     *
-     * @param Writer $writer
-     * @param array $fields
-     * @param \Illuminate\Support\Collection $collection
-     * @throws \League\Csv\CannotInsertRecord
-     */
-    private function addCsvRows(Writer $writer, array $fields, Collection $collection): void
-    {
-        foreach ($collection as $model) {
-            $beforeEachCallback = $this->beforeEachCallback;
-
-            // Call hook
-            if ($beforeEachCallback) {
-                $return = $beforeEachCallback($model);
-
-                if ($return === false) {
-                    continue;
-                }
-            }
-
-            if (!Arr::accessible($model)) {
-                $model = collect($model);
-            }
-
-            $csvRow = [];
-            foreach ($fields as $field) {
-                $value = $this->convert($field, Arr::get($model, $field));
-
-                $csvRow[] = $value;
-            }
-
-            $writer->insertOne($csvRow);
-        }
-    }
-
-    /**
-     * Adds a header row to the CSV.
-     *
-     * @param Writer $writer
-     * @param array $headers
-     * @return void
-     */
-    private function addHeader(Writer $writer, array $headers): void
-    {
-        if (Arr::get($this->config, 'header', true) !== false) {
-            $writer->insertOne($headers);
-        }
-    }
-
     public function getContent()
     {
-       return str_replace('""', '', $this->writer->__toString());
+        return str_replace('""', '', $this->writer->__toString());
     }
 }

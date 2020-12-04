@@ -14,7 +14,6 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Repositories\OrderRepository;
-use App\Repositories\ProductRepository;
 use App\Repositories\TaskRepository;
 use App\Requests\Product\CreateProductRequest;
 use App\Requests\Product\UpdateProductRequest;

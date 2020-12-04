@@ -127,11 +127,6 @@ class CustomerImporter extends BaseCsvImporter
         return new CustomerRepository(new Customer(), new CustomerContactRepository(new CustomerContact()));
     }
 
-    public function transformObject($object)
-    {
-        return $this->transformCustomer($object);
-    }
-
     /**
      * @param Customer $customer
      * @param array $data
@@ -167,14 +162,18 @@ class CustomerImporter extends BaseCsvImporter
         return true;
     }
 
-    public function getContent()
-    {
-        return $this->export->getContent();
-    }
-
-
     public function getExportColumns()
     {
         return $this->export_columns;
+    }
+
+    public function transformObject($object)
+    {
+        return $this->transformCustomer($object);
+    }
+
+    public function getContent()
+    {
+        return $this->export->getContent();
     }
 }

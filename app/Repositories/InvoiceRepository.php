@@ -162,6 +162,24 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
     }
 
     /**
+     * @param Invoice $invoice
+     * @param $expenses
+     * @return bool
+     */
+    private function saveDocuments(Invoice $invoice, $expenses): bool
+    {
+        foreach ($expenses as $expense) {
+            foreach ($expense->files as $file) {
+                $clone = $file->replicate();
+
+                $invoice->files()->save($clone);
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @param array $data
      * @param Invoice $invoice
      */
@@ -215,23 +233,5 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
                           'status_id',
                           [Invoice::STATUS_SENT, Invoice::STATUS_PARTIAL]
                       )->get();
-    }
-
-    /**
-     * @param Invoice $invoice
-     * @param $expenses
-     * @return bool
-     */
-    private function saveDocuments(Invoice $invoice, $expenses): bool
-    {
-        foreach ($expenses as $expense) {
-            foreach ($expense->files as $file) {
-                $clone = $file->replicate();
-
-                $invoice->files()->save($clone);
-            }
-        }
-
-        return true;
     }
 }

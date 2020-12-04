@@ -4,6 +4,7 @@
 namespace App\Components\Pdf;
 
 
+use App\Models\Invoice;
 use ReflectionClass;
 use ReflectionException;
 
@@ -73,37 +74,52 @@ class InvoicePdf extends PdfBuilder
      */
     public function buildTable($columns)
     {
+        $header = '';
+        $table_row = '';
+
         $labels = $this->getLabels();
         $values = $this->getValues();
 
-        $table = new \stdClass();
-
-        $table->header = '<tr>';
-        $table->body = '';
-        $table_row = '<tr>';
-
         foreach ($columns as $key => $column) {
-            $table->header .= '<td class="table_header_td_class">' . $column . '_label</td>';
+            $header .= '<td>' . $labels[$column . '_label'] . '</td>';
             $table_row .= '<td class="table_header_td_class">' . $column . '</td>';
         }
-
-        $table_row .= '</tr>';
 
         if (empty($this->line_items)) {
             return [];
         }
 
-        foreach ($this->line_items as $key => $item) {
-            $tmp = strtr($table_row, $item);
-            $tmp = strtr($tmp, $values);
-            $table->body .= $tmp;
+        $table_structure = [
+            Invoice::PRODUCT_TYPE => [
+                'header' => '',
+                'body'   => ''
+            ],
+            Invoice::TASK_TYPE    => [
+                'header' => '',
+                'body'   => ''
+            ],
+            Invoice::EXPENSE_TYPE => [
+                'header' => '',
+                'body'   => ''
+            ]
+        ];
+
+        $types = array_keys($table_structure);
+
+        foreach ($types as $type) {
+            if (!empty($this->line_items[$type])) {
+                $table_structure[$type]['header'] .= '<tr>' . strtr($header, $labels) . '</tr>';
+
+                foreach ($this->line_items[$type] as $data) {
+                    $tmp = strtr($table_row, $data);
+                    $tmp = strtr($tmp, $values);
+
+                    $table_structure[$type]['body'] .= '<tr>' . $tmp . '</tr>';
+                }
+            }
         }
 
-        $table->header .= '</tr>';
-
-        $table->header = strtr($table->header, $labels);
-
-        return $table;
+        return $table_structure;
     }
 
     protected function buildObject()

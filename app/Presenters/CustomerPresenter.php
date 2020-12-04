@@ -14,22 +14,6 @@ class CustomerPresenter extends Presenter
     /**
      * @return string
      */
-    /**
-     * @return string
-     */
-    public function name()
-    {
-        $contact = $this->entity->primary_contact->first();
-
-        $contact_name = '';
-
-        if ($contact) {
-            $contact_name = $contact->first_name . ' ' . $contact->last_name;
-        }
-
-        return $this->entity->name ?: $contact_name;
-    }
-
     public function email()
     {
         return $this->entity->primary_contact->first() !==
@@ -83,6 +67,22 @@ class CustomerPresenter extends Presenter
     public function clientName()
     {
         return $this->name();
+    }
+
+    /**
+     * @return string
+     */
+    public function name()
+    {
+        $contact = $this->entity->primary_contact->first();
+
+        $contact_name = '';
+
+        if ($contact) {
+            $contact_name = $contact->first_name . ' ' . $contact->last_name;
+        }
+
+        return $this->entity->name ?: $contact_name;
     }
 
     public function cityStateZip($city, $state, $postalCode, $swap)
