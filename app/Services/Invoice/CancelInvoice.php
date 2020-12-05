@@ -24,13 +24,11 @@ class CancelInvoice
      */
     private float $balance;
 
-    private bool $is_delete = false;
-
     /**
      * CancelInvoice constructor.
      * @param Invoice $invoice
      */
-    public function __construct(Invoice $invoice, bool $is_delete = false)
+    public function __construct(Invoice $invoice)
     {
         $this->invoice = $invoice;
         $this->balance = $this->invoice->balance;
@@ -49,7 +47,7 @@ class CancelInvoice
 
         $old_balance = $this->invoice->balance;
 
-        if ($this->is_delete) {
+        if ($this->invoice->status_id === Invoice::STATUS_PAID) {
             $this->updatePayment();
         }
 
@@ -109,7 +107,7 @@ class CancelInvoice
 
     private function updatePayment()
     {
-        $paymentables = $this->invoice->paymentables();
+        $paymentables = $this->invoice->paymentables()->keyBy('payment_id');
         $paymentable_total = $paymentables->sum('amount');
         $this->balance = $paymentable_total;
         $invoice_total = $this->invoice->payments->sum('amount');
@@ -119,8 +117,12 @@ class CancelInvoice
         }
 
         if ((float)$paymentable_total !== (float)$invoice_total) {
-            $payment = $this->invoice->payments->first();
-            $payment->reduceAmount($paymentable_total);
+            $payments = $this->invoice->payments;
+
+            foreach($payments as $payment) {
+                $amount = $paymentables[$payment->id]->amount;
+                $payment->reduceAmount($amount);
+            }
         }
 
         $paymentables->delete();
