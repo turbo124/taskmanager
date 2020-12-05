@@ -118,7 +118,7 @@ class Invoice extends Model
      */
     public function deleteInvoice(): bool
     {
-        $this->service()->deleteInvoice();
+        $this->service()->cancelInvoice();
         $this->deleteEntity();
 
         return true;
