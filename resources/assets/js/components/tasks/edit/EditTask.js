@@ -318,7 +318,7 @@ class EditTask extends Component {
                     <Card>
                         <CardHeader>{translations.times}</CardHeader>
                         <CardBody>
-                            <EditTaskTimes timers={this.props.task.timers} model={this.taskModel}
+                            <EditTaskTimes entity={this.state} timers={this.props.task.timers} model={this.taskModel}
                                 task_id={this.props.task.id}/>
                         </CardBody>
                     </Card>

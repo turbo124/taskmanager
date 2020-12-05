@@ -127,14 +127,15 @@ export default class TaskModel extends BaseModel {
     }
 
     calculateDuration (currentStartTime, currentEndTime, returnAsSeconds = false) {
-        const startTime = moment(currentStartTime, 'hh:mm:ss a')
+
+        const startTime = moment(currentStartTime, 'YYYY-MM-DD HH:mm:ss')
         let endTime = ''
 
         if (currentEndTime.length) {
-            endTime = moment(currentEndTime, 'hh:mm:ss a')
-            const hours = (endTime.diff(startTime, 'hours'))
-            const totalHours = ('0' + hours).slice(-2)
+            endTime = moment(currentEndTime, 'YYYY-MM-DD HH:mm:ss')
+            let hours = (endTime.diff(startTime, 'hours'))
             const totalMinutes = endTime.diff(startTime, 'minutes')
+            const totalSeconds = endTime.diff(startTime, 'seconds')
             const minutes = totalMinutes % 60
             const clearMinutes = ('0' + minutes).slice(-2)
 
@@ -143,7 +144,9 @@ export default class TaskModel extends BaseModel {
                 return duration * 3600
             }
 
-            return `${totalHours}:${clearMinutes}`
+            hours = (hours < 10 ? '0' : '') + hours
+
+            return `${hours}:${clearMinutes}:${totalSeconds}`
         }
 
         return ''
@@ -269,5 +272,21 @@ export default class TaskModel extends BaseModel {
 
         const parts = time.split(':')
         return `${parts[0]}:${parts[1]}`
+    }
+
+    formatTime (secs) {
+        let hours = Math.floor(secs / (60 * 60))
+
+        const divisor_for_minutes = secs % (60 * 60)
+        let minutes = Math.floor(divisor_for_minutes / 60)
+
+        const divisor_for_seconds = divisor_for_minutes % 60
+        let seconds = Math.ceil(divisor_for_seconds)
+
+        seconds = (seconds < 10 ? '0' : '') + seconds
+        minutes = (minutes < 10 ? '0' : '') + minutes
+        hours = (hours < 10 ? '0' : '') + hours
+
+        return `${hours} : ${minutes} : ${seconds}`
     }
 }

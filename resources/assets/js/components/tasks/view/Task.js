@@ -15,7 +15,13 @@ export default class Task extends Component {
             entity: this.props.entity,
             activeTab: '1',
             obj_url: null,
-            show_success: false
+            show_success: false,
+            totalOn: false,
+            totalStart: 0,
+            totalTime: 0,
+            lastOn: false,
+            lastStart: 0,
+            lastTime: 0
         }
 
         this.taskModel = new TaskModel(this.state.entity)
@@ -23,10 +29,57 @@ export default class Task extends Component {
         this.triggerAction = this.triggerAction.bind(this)
         this.loadPdf = this.loadPdf.bind(this)
         this.refresh = this.refresh.bind(this)
+        this.startTimer = this.startTimer.bind(this)
+        this.stopTimer = this.stopTimer.bind(this)
 
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
         const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
         this.settings = user_account[0].account.settings
+    }
+
+    componentDidMount () {
+        if (this.taskModel.isRunning && this.state.entity.timers && this.state.entity.timers.length) {
+            this.startTimer()
+        }
+    }
+
+    startTimer () {
+        const last_timer = this.state.entity.timers[this.state.entity.timers.length - 1]
+        const first_timer = this.state.entity.timers[0]
+        const start_date = new Date(first_timer.date + ' ' + first_timer.start_time)
+        const start_date_last = new Date(last_timer.date + ' ' + last_timer.start_time)
+
+        let diff = 0
+
+        if (this.state.entity.timers && this.state.entity.timers.length) {
+            this.state.entity.timers.map((timer, index) => {
+                var timeStart = new Date(timer.date + ' ' + timer.start_time).getTime()
+                var timeEnd = timer.end_time && timer.end_time.length ? new Date(timer.end_date + ' ' + timer.end_time).getTime() : new Date().getTime()
+                diff += timeEnd - timeStart
+            })
+        }
+
+        this.setState({
+            totalOn: true,
+            totalTime: diff / 1000,
+            totalStart: (Date.now() / 1000) - (start_date.getTime() / 1000),
+            lastOn: true,
+            lastTime: (Date.now() / 1000) - (start_date_last.getTime() / 1000)
+        })
+
+        this.timer = setInterval(() => {
+            this.setState({
+                totalTime: this.state.totalTime + 1,
+                lastTime: this.state.lastTime + 1
+            }, () => {
+                console.log('total time', this.state.totalTime)
+            })
+        }, 1000)
+    }
+
+    stopTimer () {
+        this.setState({ totalOn: false })
+        clearInterval(this.timer)
     }
 
     refresh (entity) {
@@ -36,8 +89,16 @@ export default class Task extends Component {
 
     triggerAction (action) {
         this.taskModel.completeAction(this.state.entity, action).then(response => {
-            this.setState({ show_success: true }, () => {
+            this.setState({ show_success: true, entity: response }, () => {
                 this.props.updateState(response, this.refresh)
+
+                if (action === 'stop_timer') {
+                    this.stopTimer()
+                }
+
+                if (action === 'start_timer' || action === 'resume_timer') {
+                    this.startTimer()
+                }
             })
 
             setTimeout(
@@ -125,6 +186,7 @@ export default class Task extends Component {
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                         <Overview customers={this.props.customers} model={this.taskModel}
+                            lastTime={this.state.lastTime} totalTime={this.state.totalTime}
                             totalDuration={formatDuration(this.taskModel.duration)}
                             calculatedAmount={this.taskModel.calculateAmount(task_rate)}
                             entity={this.state.entity}/>

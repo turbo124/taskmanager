@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import moment from 'moment'
 
 class ElapsedTime extends React.Component {
     constructor (props) {
@@ -24,14 +23,14 @@ class ElapsedTime extends React.Component {
     }
 
     tick () {
-        const formattedDate = moment(this.state.date + ' ' + this.state.currentStartTime)
-        const elapsedDuration = moment.duration(moment().diff(moment(formattedDate).format('YYYY-MM-DD hh:mm:ss')))
-        this.setState({ secondsElapsed: elapsedDuration })
+        const formattedDate = new Date(this.state.currentStartTime).getTime() / 1000
+        const now = new Date().getTime() / 1000
+        const elapsedSeconds = (Date.now() / 1000) - formattedDate
+        this.setState({ secondsElapsed: elapsedSeconds })
     }
 
     render () {
-        return Object.keys(this.state.secondsElapsed).length
-            ? <small>{moment.utc(this.state.secondsElapsed.as('milliseconds')).format('HH:mm:ss')}</small> : null
+        return this.props.model.formatTime(this.state.secondsElapsed)
     }
 }
 

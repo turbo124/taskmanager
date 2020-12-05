@@ -111,12 +111,16 @@ export default function Overview (props) {
         }
     }
 
+    const time_display = props.model.formatTime(props.lastTime)
+    const last_timer = props.entity.timers[props.entity.timers.length - 1]
+
     const task_times = props.entity.timers && props.entity.timers.length ? props.entity.timers.map((timer, index) => {
-        return <TaskTimeItem key={index} taskTime={timer}/>
+        const lastTime = timer.id === last_timer.id ? time_display : null
+        return <TaskTimeItem lastTime={lastTime} key={index} taskTime={timer}/>
     }) : null
 
     return <React.Fragment>
-        <PlainEntityHeader heading_1={translations.duration} value_1={props.totalDuration}
+        <PlainEntityHeader heading_1={translations.duration} value_1={props.model.formatTime(props.totalTime)}
             heading_2={translations.amount}
             value_2={<FormatMoney amount={props.calculatedAmount} customers={props.customers}/>}/>
 

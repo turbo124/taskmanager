@@ -3,8 +3,10 @@ import moment from 'moment'
 import BaseModel from './BaseModel'
 
 const TaskTimeItem = {
+    id: Date.now(),
     date: moment(new Date()).format('YYYY-MM-DD'),
     start_time: moment().format('HH:MM:ss'),
+    end_date: moment(new Date()).format('YYYY-MM-DD'),
     end_time: moment().add('1', 'hour').format('HH:MM:ss')
 }
 
