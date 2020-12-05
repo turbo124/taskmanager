@@ -1,5 +1,6 @@
 const _localizedValues = []
 _localizedValues.en = {
+    no_timers: 'Click play to add time',
     edit_bank_account: 'Edit Bank Account',
     add_bank_account: 'Add Bank Account',
     bank: 'Bank',

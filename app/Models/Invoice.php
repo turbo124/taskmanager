@@ -118,10 +118,6 @@ class Invoice extends Model
      */
     public function deleteInvoice(): bool
     {
-        if (!in_array($this->status_id, [self::STATUS_DRAFT, self::STATUS_SENT]) || $this->balance > 0) {
-            return false;
-        }
-
         $this->service()->deleteInvoice();
         $this->deleteEntity();
 

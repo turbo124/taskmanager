@@ -81,8 +81,10 @@ class ServiceBase
         }
 
         $previous_balance = $this->entity->previous_balance;
-        $customer = $this->entity->customer;
+        $customer = $this->entity->customer->fresh();
+
         $customer->increaseBalance($previous_balance);
+
         $customer->save();
 
         $this->entity->transaction_service()->createTransaction(

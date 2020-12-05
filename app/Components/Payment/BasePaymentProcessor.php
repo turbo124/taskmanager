@@ -137,7 +137,7 @@ class BasePaymentProcessor
         $customer = $this->payment->customer;
 
         $customer->increasePaidToDateAmount($amount);
-        $customer->reduceBalance($this->amount);
+        $customer->reduceBalance($amount);
         $customer->save();
 
         $this->payment->transaction_service()->createTransaction(

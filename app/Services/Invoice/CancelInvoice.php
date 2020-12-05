@@ -46,23 +46,24 @@ class CancelInvoice
             return $this->invoice;
         }
 
+
         $old_balance = $this->invoice->balance;
 
-        // update invoice
-        $this->updateInvoice();
+        if ($this->is_delete) {
+            $this->updatePayment();
+        }
 
         // update customer
         $this->updateCustomer();
+
+        // update invoice
+        $this->updateInvoice();
 
         $this->invoice->transaction_service()->createTransaction(
             $old_balance,
             $this->invoice->customer->balance,
             "Invoice cancellation"
         );
-
-        if ($this->is_delete) {
-            $this->updatePayment();
-        }
 
         return $this->invoice;
     }
@@ -73,6 +74,7 @@ class CancelInvoice
     private function updateInvoice(): Invoice
     {
         $invoice = $this->invoice;
+
         $this->invoice->setPreviousStatus();
         $this->invoice->setPreviousBalance();
         $this->invoice->setBalance(0);
@@ -90,11 +92,14 @@ class CancelInvoice
      */
     private function updateCustomer(): Customer
     {
-        $customer = $this->invoice->customer;
-        $customer->reduceBalance($this->balance);
+        $customer = $this->invoice->customer->fresh();
 
         if ($this->is_delete) {
             $customer->reducePaidToDateAmount($this->balance);
+        }
+
+        if ($this->invoice->status_id !== Invoice::STATUS_PAID) {
+            $customer->reduceBalance($this->balance);
         }
 
         $customer->save();
@@ -106,6 +111,7 @@ class CancelInvoice
     {
         $paymentables = $this->invoice->paymentables();
         $paymentable_total = $paymentables->sum('amount');
+        $this->balance = $paymentable_total;
         $invoice_total = $this->invoice->payments->sum('amount');
 
         if ((float)$paymentable_total === (float)$invoice_total) {
