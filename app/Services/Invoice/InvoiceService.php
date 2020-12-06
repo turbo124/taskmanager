@@ -51,8 +51,12 @@ class InvoiceService extends ServiceBase
     /**
      * @return Invoice
      */
-    public function cancelInvoice(): Invoice
+    public function cancelInvoice(): ?Invoice
     {
+        if(!$this->invoice->isCancellable()) {
+            return null;
+        }
+
         $this->invoice = (new CancelInvoice($this->invoice, false))->execute();
 
         return $this->invoice;
