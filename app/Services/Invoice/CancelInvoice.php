@@ -24,11 +24,13 @@ class CancelInvoice
      */
     private float $balance;
 
+    private bool $is_delete = false;
+
     /**
      * CancelInvoice constructor.
      * @param Invoice $invoice
      */
-    public function __construct(Invoice $invoice)
+    public function __construct(Invoice $invoice, bool $is_delete = false)
     {
         $this->invoice = $invoice;
         $this->balance = $this->invoice->balance;
@@ -54,8 +56,10 @@ class CancelInvoice
         // update customer
         $this->updateCustomer();
 
-        // update invoice
-        $this->updateInvoice();
+        // update invoice 
+        if(!$this->is_delete) {
+            $this->updateInvoice();
+        }
 
         $this->invoice->transaction_service()->createTransaction(
             $old_balance,
