@@ -490,7 +490,7 @@ class InvoiceUnitTest extends TestCase
         $client_paid_to_date = $invoice->customer->paid_to_date;
         $client_balance = $invoice->customer->balance;
 
-        $invoice->cancelInvoice();
+        $invoice->deleteInvoice();
         $invoice = Invoice::where('id', '=', $invoice->id)->withTrashed()->first();
 
         $payment = $invoice->payments()->withTrashed()->first()->fresh();
@@ -552,7 +552,7 @@ class InvoiceUnitTest extends TestCase
         $this->assertEquals($data['type_id'], $created->type_id);
         $this->assertEquals($first_invoice->status_id, Invoice::STATUS_PAID);
 
-        $first_invoice->cancelInvoice();
+        $first_invoice->deleteInvoice();
         $invoice = Invoice::where('id', '=', $first_invoice->id)->withTrashed()->first();
 
         $this->assertEquals($first_invoice->customer->fresh()->paid_to_date, ($data['amount'] - $invoice_balance));
