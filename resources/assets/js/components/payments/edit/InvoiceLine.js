@@ -269,7 +269,8 @@ export default class InvoiceLine extends Component {
     render () {
         const { lines, credit_lines } = this.state
 
-        const status = this.props.status ? this.props.status : null
+        const invoice_status = (this.props.invoiceStatus && this.props.invoiceStatus !== null) ? (this.props.invoiceStatus) : ((this.props.status) ? (this.props.status) : (null))
+        const credit_status = (this.props.creditStatus && this.props.creditStatus !== null) ? (this.props.creditStatus) : ((this.props.status) ? (this.props.status) : (null))
         const invoices = this.props.allInvoices ? this.props.allInvoices : []
         const credits = this.props.allCredits ? this.props.allCredits : []
         const has_invoice = this.paymentModel.hasInvoice(lines)
@@ -287,7 +288,7 @@ export default class InvoiceLine extends Component {
                 {(!this.props.refund || this.paymentModel.paymentable_invoices.length) &&
                 <InvoiceLineInputs hideEmpty={this.props.hideEmpty} allowed_invoices={this.allowed_invoices}
                     payment={this.props.payment}
-                    invoices={invoices} status={status} errors={this.props.errors}
+                    invoices={invoices} status={invoice_status} errors={this.props.errors}
                     onChange={this.handleChange} lines={lines}
                     removeLine={this.removeLine}
                     addLine={this.addLine}/>
@@ -296,7 +297,7 @@ export default class InvoiceLine extends Component {
                 {has_invoice && (!this.props.refund || this.paymentModel.paymentable_credits.length) &&
                 <CreditLineInputs hideEmpty={this.props.hideEmpty} allowed_credits={this.allowed_credits}
                     payment={this.props.payment} credits={credits}
-                    status={status} errors={this.props.errors}
+                    status={credit_status} errors={this.props.errors}
                     onChange={this.handleChange} lines={credit_lines}
                     removeLine={this.removeCredit}
                     addLine={this.addCredit}/>
