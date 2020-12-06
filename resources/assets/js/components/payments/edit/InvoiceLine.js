@@ -101,7 +101,7 @@ export default class InvoiceLine extends Component {
                 return
             }
 
-            let invoice_total = name !== 'amount' ? parseFloat(invoice.total) : parseFloat(e.target.value)
+            let invoice_total = name !== 'amount' ? parseFloat(invoice.balance) : parseFloat(e.target.value)
 
             let refunded_amount = 0
 
@@ -155,7 +155,7 @@ export default class InvoiceLine extends Component {
                 return
             }
 
-            let credit_total = e.target.dataset.credit && e.target.dataset.credit.length && name === 'amount' ? parseFloat(e.target.value) : parseFloat(credit.total)
+            let credit_total = e.target.dataset.credit && e.target.dataset.credit.length && name === 'amount' ? parseFloat(e.target.value) : parseFloat(credit.balance)
 
             let refunded_amount = 0
 
