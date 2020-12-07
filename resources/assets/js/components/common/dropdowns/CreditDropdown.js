@@ -60,7 +60,7 @@ export default class CreditDropdown extends Component {
             }
 
             creditList = credits.map((credit, index) => (
-                <option key={index} value={credit.id}>{credit.number} ({credit.total})</option>
+                <option key={index} value={credit.id}>{credit.number} ({credit.balance})</option>
             ))
         }
 

@@ -15,17 +15,21 @@ export default class InvoiceLine extends Component {
             this.getInvoices()
         }
 
-        const amount = 0
+        let amount = 0
+        let invoice_id = null
 
-        // if (this.props.refund && this.props.allInvoices.length === 1 && this.props.allInvoices[0].paymentables.length) {
-        //     this.props.allInvoices[0].paymentables.forEach(function (paymentable) {
-        //         amount += paymentable.amount
-        //     })
-        // }
+        if (this.props.refund && this.props.payment.paymentables && this.props.payment.paymentables.length && this.props.allInvoices.length === 1 && this.props.allInvoices[0].paymentables.length) {
+            this.props.payment.paymentables.forEach((paymentable) => {
+                if (paymentable.paymentable_type.includes('Invoice') && this.props.allInvoices[0].id === paymentable.invoice_id) {
+                    amount += parseFloat(paymentable.amount)
+                    invoice_id = paymentable.invoice_id
+                }
+            })
+        }
 
         this.state = {
             lines: this.props.lines && this.props.lines.length ? this.props.lines : [{
-                invoice_id: null,
+                invoice_id: invoice_id,
                 amount: amount
             }],
             credit_lines: this.props.credit_lines && this.props.credit_lines.length ? this.props.credit_lines : [{
@@ -41,6 +45,24 @@ export default class InvoiceLine extends Component {
         this.addCredit = this.addCredit.bind(this)
         this.removeLine = this.removeLine.bind(this)
         this.removeCredit = this.removeCredit.bind(this)
+    }
+
+    componentDidMount () {
+        let amount = 0
+        let invoice_id = null
+
+        if (this.props.refund && this.props.payment.paymentables && this.props.payment.paymentables.length && this.props.allInvoices.length === 1 && this.props.allInvoices[0].paymentables.length) {
+            this.props.payment.paymentables.forEach((paymentable) => {
+                if (paymentable.paymentable_type.includes('Invoice') && this.props.allInvoices[0].id === paymentable.invoice_id) {
+                    amount += parseFloat(paymentable.amount)
+                    invoice_id = paymentable.invoice_id
+                }
+            })
+        }
+
+        if (amount > 0 && invoice_id !== null) {
+            this.props.onChange(this.state.lines)
+        }
     }
 
     getInvoices () {
@@ -101,15 +123,23 @@ export default class InvoiceLine extends Component {
                 return
             }
 
-            let invoice_total = name !== 'amount' ? parseFloat(invoice.total) : parseFloat(e.target.value)
+            let invoice_total = name !== 'amount' ? parseFloat(invoice.balance) : parseFloat(e.target.value)
+
+            if (this.props.refund && name !== 'amount') {
+                this.props.payment.paymentables.forEach((paymentable) => {
+                    if (paymentable.paymentable_type.includes('Invoice') && paymentable.invoice_id === parseInt(e.target.value)) {
+                        invoice_total = parseFloat(paymentable.amount)
+                    }
+                })
+            }
 
             let refunded_amount = 0
 
-            if (this.props.paymentables && this.props.paymentables.length > 0) {
-                refunded_amount = this.paymentModel.calculateRefundedAmount(this.props.paymentables)
+            if (this.props.payment.paymentables && this.props.payment.paymentables.length > 0) {
+                refunded_amount = this.paymentModel.calculateRefundedAmount(this.props.payment.paymentables)
             }
 
-            if ((refunded_amount + invoice_total) > invoice.total) {
+            if ((refunded_amount + invoice_total) > invoice.balance) {
                 invoice_total = invoice.total - refunded_amount
                 manual_update = true
             }
@@ -155,7 +185,7 @@ export default class InvoiceLine extends Component {
                 return
             }
 
-            let credit_total = e.target.dataset.credit && e.target.dataset.credit.length && name === 'amount' ? parseFloat(e.target.value) : parseFloat(credit.total)
+            let credit_total = e.target.dataset.credit && e.target.dataset.credit.length && name === 'amount' ? parseFloat(e.target.value) : parseFloat(credit.balance)
 
             let refunded_amount = 0
 
@@ -163,7 +193,7 @@ export default class InvoiceLine extends Component {
                 refunded_amount = this.paymentModel.calculateRefundedAmount(this.props.paymentables)
             }
 
-            if ((refunded_amount + credit_total) > credit.total) {
+            if ((refunded_amount + credit_total) > credit.balance) {
                 credit_total = credit.total - refunded_amount
                 manual_update = true
             }
@@ -269,7 +299,8 @@ export default class InvoiceLine extends Component {
     render () {
         const { lines, credit_lines } = this.state
 
-        const status = this.props.status ? this.props.status : null
+        const invoice_status = (this.props.invoiceStatus && this.props.invoiceStatus !== null) ? (this.props.invoiceStatus) : ((this.props.status) ? (this.props.status) : (null))
+        const credit_status = (this.props.creditStatus && this.props.creditStatus !== null) ? (this.props.creditStatus) : ((this.props.status) ? (this.props.status) : (null))
         const invoices = this.props.allInvoices ? this.props.allInvoices : []
         const credits = this.props.allCredits ? this.props.allCredits : []
         const has_invoice = this.paymentModel.hasInvoice(lines)
@@ -287,7 +318,7 @@ export default class InvoiceLine extends Component {
                 {(!this.props.refund || this.paymentModel.paymentable_invoices.length) &&
                 <InvoiceLineInputs hideEmpty={this.props.hideEmpty} allowed_invoices={this.allowed_invoices}
                     payment={this.props.payment}
-                    invoices={invoices} status={status} errors={this.props.errors}
+                    invoices={invoices} status={invoice_status} errors={this.props.errors}
                     onChange={this.handleChange} lines={lines}
                     removeLine={this.removeLine}
                     addLine={this.addLine}/>
@@ -296,7 +327,7 @@ export default class InvoiceLine extends Component {
                 {has_invoice && (!this.props.refund || this.paymentModel.paymentable_credits.length) &&
                 <CreditLineInputs hideEmpty={this.props.hideEmpty} allowed_credits={this.allowed_credits}
                     payment={this.props.payment} credits={credits}
-                    status={status} errors={this.props.errors}
+                    status={credit_status} errors={this.props.errors}
                     onChange={this.handleChange} lines={credit_lines}
                     removeLine={this.removeCredit}
                     addLine={this.addCredit}/>

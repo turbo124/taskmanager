@@ -67,7 +67,7 @@ class InvoiceRefundValidation implements Rule
             $invoice_total += $invoice->total;
         }
 
-        if ($invoice_total > $this->request['amount']) {
+        if ($this->request['amount'] > $invoice_total) {
             return false;
         }
 

@@ -44,16 +44,22 @@ class InvoicePaymentValidation implements Rule
     {
         $invoice_total = 0;
         $this->customer = null;
+        $arrAddedInvoices = [];
 
         foreach ($arrInvoices as $arrInvoice) {
             if (empty($arrInvoice['invoice_id'])) {
                 continue;
             }
 
-            $invoice = $this->validateInvoice($arrInvoice['invoice_id']);
+            $invoice = $this->validateInvoice($arrInvoice);
 
             if (!$invoice) {
                 $this->validationFailures[] = 'Invalid invoice';
+                return false;
+            }
+
+            if (in_array($invoice->id, $arrAddedInvoices)) {
+                $this->validationFailures[] = 'Duplicate invoice found';
                 return false;
             }
 
@@ -62,21 +68,23 @@ class InvoicePaymentValidation implements Rule
                 return false;
             }
 
+            $arrAddedInvoices[] = $invoice->id;
+
 
             $invoice_total += $invoice->total;
         }
 
-        if ($invoice_total > $this->request['amount']) {
-            $this->validationFailures[] = 'Payment amount cannot be more that the invoice total';
-            return false;
-        }
+//        if ($invoice_total > $this->request['amount']) {
+//            $this->validationFailures[] = 'Payment amount cannot be more that the invoice total';
+//            return false;
+//        }
 
         return true;
     }
 
-    private function validateInvoice(int $invoice_id)
+    private function validateInvoice(array $arrInvoice)
     {
-        $invoice = Invoice::whereId($invoice_id)->first();
+        $invoice = Invoice::whereId($arrInvoice['invoice_id'])->first();
 
         // check allowed statuses here
         if (!$invoice || $invoice->is_deleted) {
@@ -91,6 +99,11 @@ class InvoicePaymentValidation implements Rule
 
         if (!in_array($invoice->status_id, [Invoice::STATUS_SENT, Invoice::STATUS_PARTIAL])) {
             $this->validationFailures[] = 'Invoice is at the wrong status';
+            return false;
+        }
+
+        if ($invoice->balance <= 0 || $arrInvoice['amount'] > $invoice->balance) {
+            $this->validationFailures[] = 'Payment amount cannot be more that the invoice total';
             return false;
         }
 

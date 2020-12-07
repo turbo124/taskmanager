@@ -16,6 +16,7 @@ class VerifyCsrfToken extends Middleware
         '/api/tasks/deal',
         '/api/customer/register',
         'api/lead',
+        '/api/statement/*',
         '/api/invoice',
         '/api/invoice/download',
         '/api/recurring-invoice/cancel',

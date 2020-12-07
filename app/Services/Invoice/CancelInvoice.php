@@ -6,6 +6,7 @@ use App\Events\Invoice\InvoiceWasCancelled;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Models\Paymentable;
 
 /**
  * Class CancelInvoice
@@ -49,15 +50,17 @@ class CancelInvoice
 
         $old_balance = $this->invoice->balance;
 
-        if ($this->is_delete) {
+        if ($this->invoice->status_id === Invoice::STATUS_PAID) {
             $this->updatePayment();
         }
 
         // update customer
         $this->updateCustomer();
 
-        // update invoice
-        $this->updateInvoice();
+        // update invoice 
+        if (!$this->is_delete) {
+            $this->updateInvoice();
+        }
 
         $this->invoice->transaction_service()->createTransaction(
             $old_balance,
@@ -109,9 +112,13 @@ class CancelInvoice
 
     private function updatePayment()
     {
-        $paymentables = $this->invoice->paymentables();
+        $paymentables = $this->invoice->paymentables()->get()->keyBy('payment_id');
         $paymentable_total = $paymentables->sum('amount');
-        $this->balance = $paymentable_total;
+
+        if($this->balance <= 0) {
+            $this->balance = $paymentable_total;
+        }
+
         $invoice_total = $this->invoice->payments->sum('amount');
 
         if ((float)$paymentable_total === (float)$invoice_total) {
@@ -119,11 +126,15 @@ class CancelInvoice
         }
 
         if ((float)$paymentable_total !== (float)$invoice_total) {
-            $payment = $this->invoice->payments->first();
-            $payment->reduceAmount($paymentable_total);
+            $payments = $this->invoice->payments;
+
+            foreach ($payments as $payment) {
+                $amount = $paymentables[$payment->id]->amount;
+                $payment->reduceAmount($amount);
+            }
         }
 
-        $paymentables->delete();
+        Paymentable::whereIn('id', $paymentables->pluck('id'))->delete();
 
         return true;
     }
