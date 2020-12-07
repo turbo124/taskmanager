@@ -66,4 +66,10 @@ class Transaction extends Model
     {
         $this->amount = $amount;
     }
+
+    public function getEntity()
+    {
+        $class_name = $this->transactionable_type;
+        return $class_name::where('id', $this->transactionable_id)->withTrashed()->first();
+    }
 }

@@ -322,6 +322,8 @@ export default class PaymentModel extends BaseModel {
     calculateRefundedAmount (paymentables) {
         let refunded = 0
 
+        console.log('paymentables', paymentables)
+
         paymentables.map((paymentable, idx) => {
             if (paymentable.refunded > 0) {
                 refunded += parseFloat(paymentable.refunded)

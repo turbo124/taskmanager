@@ -46,9 +46,10 @@ class CreditPaymentValidation implements Rule
     {
         $credit_total = 0;
         $this->customer = null;
+        $arrAddedCredits = [];
 
         foreach ($arrCredits as $arrCredit) {
-            $credit = $this->validateCredit($arrCredit['credit_id']);
+            $credit = $this->validateCredit($arrCredit);
 
             if (!$credit) {
                 return false;
@@ -58,20 +59,22 @@ class CreditPaymentValidation implements Rule
                 return false;
             }
 
+            if (in_array($credit->id, $arrAddedCredits)) {
+                return false;
+            }
+
+            $arrAddedCredits[] = $credit->id;
+
 
             $credit_total += $credit->total;
-        }
-
-        if ($credit_total > $this->request['amount']) {
-            return false;
         }
 
         return true;
     }
 
-    private function validateCredit(int $credit_id)
+    private function validateCredit(array $arrCredit)
     {
-        $credit = Credit::whereId($credit_id)->first();
+        $credit = Credit::whereId($arrCredit['credit_id'])->first();
 
         // check allowed statuses here
         if (!$credit || $credit->is_deleted) {
@@ -79,12 +82,12 @@ class CreditPaymentValidation implements Rule
             return false;
         }
 
-        if ($credit->balance <= 0 || $this->request['amount'] > $credit->balance) {
-            $this->validationFailures[] = 'The credit has already been paid';
+        if ($credit->balance <= 0 || $arrCredit['amount'] > $credit->balance) {
+            $this->validationFailures[] = 'Payment amount cannot be more that the invoice total';
             return false;
         }
 
-        if (!in_array($credit->status_id, [Credit::STATUS_SENT])) {
+        if (!in_array($credit->status_id, [Credit::STATUS_SENT, Credit::STATUS_PARTIAL])) {
             $this->validationFailures[] = 'Credit is at the wrong status';
             return false;
         }

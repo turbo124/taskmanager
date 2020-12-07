@@ -84,18 +84,18 @@ trait MakesInvoiceHtml
         $footer = str_replace('$signature_here', $signature, $footer);
         $footer = str_replace('$client_signature_here', $client_signature, $footer);
 
-        if (get_class($entity) === 'App\Models\Invoice') {
-            if ($entity->customer->getSetting('buy_now_links_enabled') === true) {
-                $footer = str_replace(
-                    '$pay_now_link',
-                    '<a target="_blank" class="btn btn-primary" href="http://' . config(
-                        'taskmanager.app_domain'
-                    ) . '/pay_now/' . $entity->number . '">Pay Now</a>',
-                    $footer
-                );
-            } else {
-                $footer = str_replace('$pay_now_link', '', $footer);
-            }
+        if (get_class($entity) === 'App\Models\Invoice' && $entity->customer->getSetting(
+                'buy_now_links_enabled'
+            ) === true) {
+            $footer = str_replace(
+                '$pay_now_link',
+                '<a target="_blank" class="btn btn-primary" href="http://' . config(
+                    'taskmanager.app_domain'
+                ) . '/pay_now/' . $entity->number . '">Pay Now</a>',
+                $footer
+            );
+        } else {
+            $footer = str_replace('$pay_now_link', '', $footer);
         }
 
         $data = [

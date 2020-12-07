@@ -396,8 +396,6 @@ Route::group(
             'CustomerController@getCustomerTypes'
         )->middleware('role:null,customercontroller.show');
         Route::post('customers/restore/{id}', 'CustomerController@restore');
-        Route::post('statement/{customer}/{action}', 'StatementController@download');
-
 
 // tasks
         Route::post('tasks/restore/{id}', 'TaskController@restore');
@@ -567,5 +565,8 @@ Route::group(
         Route::resource('case_template', 'CaseTemplateController');
 
         Route::post('uploads', 'UploadController@store');
+
+        //statement
+        Route::post('statement/{customer}/{action}', 'StatementController@download');
     }
 );

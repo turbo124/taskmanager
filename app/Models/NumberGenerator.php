@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Jobs\ResetNumbers;
 use App\Traits\CalculateRecurring;
-use Carbon\Carbon;
 use Exception;
 use ReflectionClass;
 
@@ -19,29 +19,6 @@ class NumberGenerator
     private $counter_entity;
 
     private $counter_var;
-
-    /**
-     * @var array|string[]
-     */
-    private array $availiable_reset_types = [
-        'task',
-        'project',
-        'invoice',
-        'credit',
-        'order',
-        'expense',
-        'company',
-        'lead',
-        'case',
-        'payment',
-        'customer',
-        'recurringinvoice',
-        'recurringquote',
-        'quote',
-        'deal',
-        'purchaseorder'
-
-    ];
 
     /**
      * @var string
@@ -75,7 +52,7 @@ class NumberGenerator
 
         $this->updateEntityCounter();
 
-        $this->resetCounters($entity_obj);
+        ResetNumbers::dispatchNow($this->entity_obj, true, false);
 
         return $number;
     }
@@ -137,7 +114,7 @@ class NumberGenerator
         $check = false;
         do {
             $number = str_pad($counter, $padding, '0', STR_PAD_LEFT);
-            $number = $this->formtPrefix($number, $customer);
+            $number = $this->formatPrefix($number, $customer);
 
             if ($this->isRecurring($class)) {
                 $number = $this->addPrefixToCounter($number, $class, $customer);
@@ -151,7 +128,7 @@ class NumberGenerator
         return $number;
     }
 
-    private function formtPrefix($number, Customer $customer = null)
+    private function formatPrefix($number, Customer $customer = null)
     {
         $prefix = '';
 
@@ -168,6 +145,12 @@ class NumberGenerator
             case 'CUSTOMER':
                 if (!empty($customer)) {
                     $prefix = $customer->number;
+                }
+
+                break;
+            case 'COMPANY':
+                if (!empty($this->entity_obj->company)) {
+                    $prefix = $this->entity_obj->company->number;
                 }
 
                 break;
@@ -202,63 +185,5 @@ class NumberGenerator
         $settings->{$this->counter_var} = !empty($settings->{$this->counter_var}) ? $settings->{$this->counter_var} + 1 : 1;
         $this->counter_entity->settings = $settings;
         $this->counter_entity->save();
-    }
-
-    /**
-     * @param $entity
-     * @param bool $reset_all
-     * @param bool $reset_customer
-     * @return bool
-     * @throws \ReflectionException
-     */
-    public function resetCounters($entity, bool $reset_all = true, bool $reset_customer = true): bool
-    {
-        $date_to_reset = !empty($entity->customer) ? $entity->customer->getSetting(
-            'date_counter_next_reset'
-        ) : $entity->account->settings->{'date_counter_next_reset'};
-
-        $frequency_type = !empty($entity->customer) ? $entity->customer->getSetting(
-            'counter_frequency_type'
-        ) : $entity->account->settings->{'counter_frequency_type'};
-
-        if (!Carbon::parse($date_to_reset)->isToday()) {
-            return false;
-        }
-
-        $next_date_to_send = $this->calculateDate($frequency_type)->format('Y-m-d');
-
-        if (!$reset_all) {
-            $entity_id = strtolower((new ReflectionClass($entity))->getShortName());
-            $counter_var = "{$entity_id}_number_counter";
-            $this->resetVariable($counter_var, $entity, $next_date_to_send);
-        }
-
-        foreach ($this->availiable_reset_types as $availiable_reset_type) {
-            $counter_var = "{$availiable_reset_type}_number_counter";
-            $this->resetVariable($counter_var, $entity, $next_date_to_send);
-        }
-
-        return true;
-    }
-
-    /**
-     * @param string $variable
-     * @param $entity
-     * @param string $next_send_date
-     * @param bool $reset_customer
-     */
-    private function resetVariable(string $variable, $entity, string $next_send_date, bool $reset_customer = true): bool
-    {
-        if (!empty($entity->customer) && $reset_customer) {
-            $entity->customer->settings->{$variable} = 1;
-            $entity->customer->settings->date_counter_next_reset = $next_send_date;
-            $entity->customer->save();
-        }
-
-        $entity->account->settings->{$variable} = 1;
-        $entity->account->settings->date_counter_next_reset = $next_send_date;
-        $entity->account->save();
-
-        return true;
     }
 }

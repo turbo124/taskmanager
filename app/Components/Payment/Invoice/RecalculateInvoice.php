@@ -75,9 +75,11 @@ class RecalculateInvoice
             $this->invoice->setDueDate();
         }
 
+        $balance_remaining = $this->invoice->balance - $this->payment_amount;
+
         $this->invoice->reduceBalance($this->payment_amount);
 
-        $status = $this->invoice->partial && $this->invoice->partial > 0 ? Invoice::STATUS_PARTIAL : Invoice::STATUS_PAID;
+        $status = $balance_remaining > 0 || ($this->invoice->partial && $this->invoice->partial > 0) ? Invoice::STATUS_PARTIAL : Invoice::STATUS_PAID;
         $this->invoice->setStatus($status);
 
         $this->save();
