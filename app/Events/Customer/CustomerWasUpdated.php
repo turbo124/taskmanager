@@ -25,5 +25,6 @@ class CustomerWasUpdated
     public function __construct(Customer $customer)
     {
         $this->customer = $customer;
+        $this->send($customer, get_class($this));
     }
 }
