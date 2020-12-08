@@ -23,5 +23,6 @@ class CreditWasUpdated
     public function __construct(Credit $credit)
     {
         $this->credit = $credit;
+        $this->send($credit, get_class($this));
     }
 }
