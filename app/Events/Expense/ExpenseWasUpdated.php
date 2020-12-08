@@ -24,5 +24,6 @@ class ExpenseWasUpdated
     public function __construct(Expense $expense)
     {
         $this->expense = $expense;
+        $this->send($expense, get_class($this));
     }
 }
