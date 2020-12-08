@@ -3,6 +3,7 @@
 namespace App\Events\Expense;
 
 use App\Models\Expense;
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class ExpenseWasDeleted
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var Expense
@@ -24,5 +26,6 @@ class ExpenseWasDeleted
     public function __construct(Expense $expense)
     {
         $this->expense = $expense;
+        $this->send($expense, get_class($this));
     }
 }

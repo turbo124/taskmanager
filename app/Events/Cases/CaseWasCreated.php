@@ -3,6 +3,7 @@
 namespace App\Events\Cases;
 
 use App\Models\Cases;
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class CaseWasCreated
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var case
@@ -25,5 +27,6 @@ class CaseWasCreated
     public function __construct(Cases $case)
     {
         $this->case = $case;
+        $this->send($case, get_class($this));
     }
 }

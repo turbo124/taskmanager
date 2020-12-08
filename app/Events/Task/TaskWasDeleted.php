@@ -3,6 +3,7 @@
 namespace App\Events\Task;
 
 use App\Models\task;
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class TaskWasDeleted
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var task
@@ -22,8 +24,9 @@ class TaskWasDeleted
      *
      * @param Task $task
      */
-    public function __construct(task $task)
+    public function __construct(Task $task)
     {
         $this->task = $task;
+        $this->send($task, get_class($this));
     }
 }

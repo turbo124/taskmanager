@@ -64,15 +64,26 @@ export default class InvoiceDropdown extends Component {
                 invoices = invoices.filter(invoice => this.props.allowed_invoices.includes(invoice.id))
             }
 
+            const totals = []
+
+            if (this.props.refund && this.props.refund === true && this.props.payment.paymentables && this.props.payment.paymentables.length) {
+                this.props.payment.paymentables.map((paymentable) => {
+                    if (paymentable.paymentable_type.includes('Invoice')) {
+                        totals[paymentable.invoice_id] = paymentable.amount
+                    }
+                })
+            }
+
             if (this.props.is_recurring) {
                 invoices = invoices.filter(invoice => !invoice.recurring_invoice_id)
             }
 
             this.count = invoices.length
 
-            invoiceList = invoices.map((invoice, index) => (
-                <option key={index} value={invoice.id}>{invoice.number} ({invoice.balance})</option>
-            ))
+            invoiceList = invoices.map((invoice, index) => {
+                const amount = totals.length && totals[invoice.id] ? totals[invoice.id] : invoice.balance
+                return <option key={index} value={invoice.id}>{invoice.number} ({amount})</option>
+            })
         }
 
         const name = this.props.name && this.props.name ? this.props.name : 'invoice_id'
