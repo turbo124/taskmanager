@@ -33,6 +33,6 @@ class PaymentWasUpdated implements PerformsMetrics
     public function __construct(Payment $payment)
     {
         $this->payment = $payment;
-        //$this->send($payment, get_class($this));
+        $this->send($payment, get_class($this));
     }
 }
