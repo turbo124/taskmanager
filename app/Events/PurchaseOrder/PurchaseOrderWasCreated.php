@@ -24,6 +24,6 @@ class PurchaseOrderWasCreated
     public function __construct(PurchaseOrder $purchase_order)
     {
         $this->purchase_order = $purchase_order;
-        //$this->send($purchase_order, get_class($this));
+        $this->send($purchase_order, get_class($this));
     }
 }

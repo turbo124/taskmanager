@@ -3,6 +3,7 @@
 namespace App\Events\Deal;
 
 use App\Models\Deal;
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class DealWasDeleted
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var deal
@@ -25,5 +27,6 @@ class DealWasDeleted
     public function __construct(Deal $deal)
     {
         $this->deal = $deal;
+        $this->send($deal, get_class($this));
     }
 }

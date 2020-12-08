@@ -3,7 +3,9 @@
 namespace App\Jobs\Invoice;
 
 use App\Components\InvoiceCalculator\InvoiceCalculator;
+use App\Jobs\Subscription\SendSubscription;
 use App\Models\Invoice;
+use App\Models\Subscription;
 use App\Repositories\InvoiceRepository;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -181,8 +183,15 @@ class ProcessReminders implements ShouldQueue
         return true;
     }
 
+    /**
+     * @param Invoice $invoice
+     */
     private function handleLateInvoices(Invoice $invoice)
     {
-        //TODO
+        $event_name = 'LATEINVOICES';
+        $class = new \ReflectionClass(Subscription::class);
+        $value = $class->getConstant(strtoupper($event_name));
+
+        SendSubscription::dispatchNow($invoice, $value);
     }
 }

@@ -84,8 +84,9 @@ class DealRepository extends BaseRepository implements DealRepositoryInterface
 
 
     /**
-     *
-     * @return type
+     * @param int $task_type
+     * @param $account_id
+     * @return Support
      */
     public function getSourceTypeCounts(int $task_type, $account_id): Support
     {
@@ -95,8 +96,9 @@ class DealRepository extends BaseRepository implements DealRepositoryInterface
     }
 
     /**
-     *
-     * @return type
+     * @param int $task_type
+     * @param int $account_id
+     * @return Support
      */
     public function getStatusCounts(int $task_type, int $account_id): Support
     {
@@ -110,10 +112,10 @@ class DealRepository extends BaseRepository implements DealRepositoryInterface
     }
 
     /**
-     *
      * @param int $task_type
      * @param int $number_of_days
-     * @return type
+     * @param int $account_id
+     * @return int
      */
     public function getRecentTasks(int $task_type, int $number_of_days, int $account_id)
     {
@@ -125,9 +127,8 @@ class DealRepository extends BaseRepository implements DealRepositoryInterface
     }
 
     /**
-     *
-     * @param int $task_type
-     * @return type
+     * @param int $account_id
+     * @return int
      */
     public function getNewDeals(int $account_id)
     {

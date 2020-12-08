@@ -45,6 +45,19 @@ export default class Details extends Component {
                         <option value={consts.quote_created_subscription}>{translations.quote_created}</option>
                         <option value={consts.quote_deleted_subscription}>{translations.quote_deleted}</option>
                         <option value={consts.lead_created_subscription}>{translations.lead_created}</option>
+                        <option value={consts.deal_created_subscription}>{translations.deal_created}</option>
+                        <option value={consts.deal_deleted_subscription}>{translations.deal_deleted}</option>
+                        <option value={consts.project_created_subscription}>{translations.project_created}</option>
+                        <option value={consts.project_deleted_subscription}>{translations.project_deleted}</option>
+                        <option value={consts.task_created_subscription}>{translations.task_created}</option>
+                        <option value={consts.task_deleted_subscription}>{translations.task_deleted}</option>
+                        <option value={consts.case_created_subscription}>{translations.case_created}</option>
+                        <option value={consts.case_deleted_subscription}>{translations.case_deleted}</option>
+                        <option value={consts.expense_created_subscription}>{translations.expense_created}</option>
+                        <option value={consts.expense_deleted_subscription}>{translations.expense_deleted}</option>
+                        <option value={consts.purchase_order_created_subscription}>{translations.purchase_order_created}</option>
+                        <option value={consts.purchase_order_deleted_subscription}>{translations.purchase_order_deleted}</option>
+                        <option value={consts.late_invoices_subscription}>{translations.late_invoices}</option>
                     </Input>
                     {this.props.renderErrorFor('event_id')}
                 </FormGroup>

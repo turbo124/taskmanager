@@ -26,6 +26,20 @@ class Subscription extends Model
     const LEADWASCREATED = 13;
     const ORDERWASBACKORDERED = 14;
     const ORDERWASHELD = 15;
+    const DEALWASCREATED = 16;
+    const DEALWASDELETED = 17;
+    const PROJECTWASCREATED = 18;
+    const PROJECTWASDELETED = 19;
+    const TASKWASCREATED = 20;
+    const TASKWASDELETED = 21;
+    const PURCHASEORDERWASCREATED = 22;
+    const PURCHASEORDERWASDELETED = 23;
+    const CASEWASCREATED = 24;
+    const CASEWASDELETED = 25;
+    const EXPENSEWASDELETED = 26;
+    const EXPENSEWASCREATED = 27;
+    const LATEINVOICES = 28;
+
 
     protected $fillable = [
         'name',

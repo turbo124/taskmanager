@@ -4,11 +4,16 @@ namespace App\Repositories;
 
 use App\Events\Project\ProjectWasCreated;
 use App\Events\Project\ProjectWasUpdated;
+use App\Models\Account;
 use App\Models\Project;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
+use App\Requests\SearchRequest;
+use App\Search\InvoiceSearch;
+use App\Search\ProjectSearch;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection as Support;
 
 class ProjectRepository extends BaseRepository implements ProjectRepositoryInterface
@@ -28,6 +33,16 @@ class ProjectRepository extends BaseRepository implements ProjectRepositoryInter
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return InvoiceSearch|LengthAwarePaginator
+     */
+    public function getAll(SearchRequest $search_request, Account $account)
+    {
+        return (new ProjectSearch($this))->filter($search_request, $account);
     }
 
     /**

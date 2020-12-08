@@ -3,6 +3,7 @@
 namespace App\Events\Project;
 
 use App\Models\Project;
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class ProjectWasDeleted
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var Project
@@ -24,5 +26,6 @@ class ProjectWasDeleted
     public function __construct(Project $project)
     {
         $this->project = $project;
+        $this->send($project, get_class($this));
     }
 }

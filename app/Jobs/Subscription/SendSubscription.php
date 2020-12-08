@@ -15,13 +15,15 @@ class SendSubscription
 
     protected $event;
     protected $entity;
+    protected array $data = [];
 
     /**
-     * Create a new job instance.
-     *
-     * @return void
+     * SendSubscription constructor.
+     * @param $entity
+     * @param $event
+     * @param array|null $data
      */
-    public function __construct($entity, $event)
+    public function __construct($entity, $event, array $data = null)
     {
         $this->event = $event;
         $this->entity = $entity;
@@ -44,7 +46,7 @@ class SendSubscription
             return true;
         }
 
-        $data = $this->buildEntityData($this->entity);
+        $data = !empty($this->data) ? $this->data : $this->buildEntityData($this->entity);
 
         if (empty($data)) {
             return false;
