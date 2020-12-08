@@ -6,6 +6,7 @@ use App\Models\Credit;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\SendSubscription;
 
 class CreditWasUpdated
 {
