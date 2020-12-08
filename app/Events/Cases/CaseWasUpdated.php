@@ -25,5 +25,6 @@ class CaseWasUpdated
     public function __construct(Cases $case)
     {
         $this->case = $case;
+        $this->send($case, get_class($this));
     }
 }
