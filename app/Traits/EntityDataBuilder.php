@@ -28,6 +28,7 @@ trait EntityDataBuilder
 
         if (!method_exists($this->repository, 'getAll')) {
             $this->errors[] = "Unable to filter";
+            return false;
         }
 
         $data = $this->repository->getAll(new SearchRequest(), $this->entity->account);
