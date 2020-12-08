@@ -4,6 +4,7 @@ namespace App\Events\Lead;
 
 use App\Models\Lead;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\SendSubscription;
 
 /**
  * Class InvoiceWasMarkedSent.
