@@ -24,5 +24,6 @@ class ProjectWasUpdated
     public function __construct(Project $project)
     {
         $this->project = $project;
+        $this->send($project, get_class($this));
     }
 }
