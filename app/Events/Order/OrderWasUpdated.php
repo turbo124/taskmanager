@@ -21,5 +21,6 @@ class OrderWasUpdated
     public function __construct($order)
     {
         $this->order = $order;
+        $this->send($order, get_class($this));
     }
 }
