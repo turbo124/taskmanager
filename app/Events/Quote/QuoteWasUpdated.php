@@ -3,6 +3,7 @@
 namespace App\Events\Quote;
 
 use Illuminate\Queue\SerializesModels;
+use App\Traits\SendSubscription;
 
 /**
  * Class QuoteWasUpdated.
