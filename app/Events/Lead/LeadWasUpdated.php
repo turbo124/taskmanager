@@ -25,5 +25,6 @@ class LeadWasUpdated
     public function __construct(Lead $lead)
     {
         $this->lead = $lead;
+        $this->send($lead, get_class($this));
     }
 }
