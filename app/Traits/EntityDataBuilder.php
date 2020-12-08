@@ -31,6 +31,9 @@ trait EntityDataBuilder
             return false;
         }
 
+        //$search_request = new SearchRequest();
+        //$request->replace(['id' => $this->entity->id]);
+
         $data = $this->repository->getAll(new SearchRequest(), $this->entity->account);
 
         if (empty($data)) {
