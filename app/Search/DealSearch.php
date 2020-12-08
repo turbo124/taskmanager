@@ -32,7 +32,7 @@ class DealSearch extends BaseSearch
      * @param Account $account
      * @return LengthAwarePaginator|mixed
      */
-    public function filter(SearchRequest $request, Account $account, int $id = null)
+    public function filter(SearchRequest $request, Account $account)
     {
         $recordsPerPage = !$request->per_page ? 0 : $request->per_page;
         $orderBy = !$request->column ? 'task_sort_order' : $request->column;
@@ -82,6 +82,7 @@ class DealSearch extends BaseSearch
 
         return $deals;
     }
+    
 
     public function searchFilter(string $filter = ''): bool
     {
