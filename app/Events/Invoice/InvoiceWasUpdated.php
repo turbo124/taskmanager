@@ -25,5 +25,6 @@ class InvoiceWasUpdated
     public function __construct(Invoice $invoice)
     {
         $this->invoice = $invoice;
+        $this->send($invoice, get_class($this));
     }
 }
