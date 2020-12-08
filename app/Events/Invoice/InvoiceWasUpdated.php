@@ -4,6 +4,7 @@ namespace App\Events\Invoice;
 
 use App\Models\Invoice;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\SendSubscription;
 
 /**
  * Class InvoiceWasUpdated.
