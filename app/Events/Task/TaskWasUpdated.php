@@ -25,5 +25,6 @@ class TaskWasUpdated
     public function __construct(task $task)
     {
         $this->task = $task;
+        $this->send($task, get_class($this));
     }
 }
