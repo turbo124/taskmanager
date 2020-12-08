@@ -24,6 +24,7 @@ class DealWasUpdated
      */
     public function __construct(Deal $deal)
     {
-        $this->deal = $deal;
+        $this->deal = $deal; 
+        $this->send($deal, get_class($this));
     }
 }
