@@ -20,6 +20,7 @@ class QuoteWasUpdated
      */
     public function __construct($quote)
     {
-        $this->quote = $quote;
+        $this->quote = $quote;    
+        $this->send($quote, get_class($this));
     }
 }
