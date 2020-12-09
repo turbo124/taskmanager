@@ -92,7 +92,6 @@ class PurchaseOrderService extends ServiceBase
             return null;
         }
 
-        event(new PurchaseOrderWasEmailed($this->purchase_order->invitations->first()));
         return $this->purchase_order;
     }
 

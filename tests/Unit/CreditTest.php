@@ -58,6 +58,7 @@ class CreditTest extends TestCase
         $this->assertTrue($deleted);
     }
 
+    /** @test */
     public function it_can_archive_the_credit()
     {
         $credit = Credit::factory()->create();
@@ -106,5 +107,17 @@ class CreditTest extends TestCase
         $this->assertInstanceOf(Credit::class, $credit);
         $this->assertEquals($data['customer_id'], $credit->customer_id);
         $this->assertNotEmpty($credit->invitations);
+    }
+
+    public function testEmail()
+    {
+        $credit = CreditFactory::create($this->account, $this->user, $this->customer);
+        $credit = (new CreditRepository(new Credit()))->save([], $credit);
+
+        $template = strtolower('credit');
+        $subject = $credit->customer->getSetting('email_subject_' . $template);
+        $body = $credit->customer->getSetting('email_template_' . $template);
+        $result = $credit->service()->sendEmail(null, $subject, $body);
+        $this->assertInstanceOf(Credit::class, $result);
     }
 }

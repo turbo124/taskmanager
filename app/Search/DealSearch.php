@@ -65,6 +65,10 @@ class DealSearch extends BaseSearch
             $this->query->where('assigned_to', '=', $request->user_id);
         }
 
+        if ($request->filled('id')) {
+            $this->query->whereId($request->id);
+        }
+
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
             $this->filterDates($request);
         }
@@ -83,6 +87,10 @@ class DealSearch extends BaseSearch
         return $deals;
     }
 
+    /**
+     * @param string $filter
+     * @return bool
+     */
     public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {

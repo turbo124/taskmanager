@@ -39,6 +39,22 @@ class Subscription extends Model
     const EXPENSEWASDELETED = 26;
     const EXPENSEWASCREATED = 27;
     const LATEINVOICES = 28;
+    const ORDERWASUPDATED = 29;
+    const CREDITWASUPDATED = 30;
+    const CUSTOMERWASUPDATED = 31;
+    const INVOICEWASUPDATED = 32;
+    const PAYMENTWASUPDATED = 33;
+    const QUOTEWASUPDATED = 34;
+    const LEADWASUPDATED = 35;
+    const DEALWASUPDATED = 36;
+    const PROJECTWASUPDATED = 37;
+    const TASKWASUPDATED = 38;
+    const PURCHASEORDERWASUPDATED = 39;
+    const CASEWASUPDATED = 40;
+    const EXPENSEWASUPDATED = 41;
+    const COMPANYWASCREATED = 42;
+    const COMPANYWASUPDATED = 43;
+    const COMPANYWASDELETED = 44;
 
 
     protected $fillable = [

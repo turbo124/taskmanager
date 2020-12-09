@@ -61,6 +61,10 @@ class CreditSearch extends BaseSearch
             $this->query->where('assigned_to', '=', $request->user_id);
         }
 
+        if ($request->filled('id')) {
+            $this->query->whereId($request->id);
+        }
+
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
             $this->filterDates($request);
         }

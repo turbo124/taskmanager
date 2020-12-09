@@ -4,6 +4,7 @@ namespace App\Events\Lead;
 
 use App\Models\Lead;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\SendSubscription;
 
 /**
  * Class InvoiceWasMarkedSent.
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class LeadWasUpdated
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var Lead
@@ -25,5 +27,6 @@ class LeadWasUpdated
     public function __construct(Lead $lead)
     {
         $this->lead = $lead;
+        $this->send($lead, get_class($this));
     }
 }

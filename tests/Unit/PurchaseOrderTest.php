@@ -8,13 +8,17 @@
 
 namespace Tests\Unit;
 
+use App\Factory\OrderFactory;
 use App\Factory\PurchaseOrderFactory;
 use App\Models\Account;
 use App\Models\Company;
+use App\Models\CompanyContact;
 use App\Models\NumberGenerator;
+use App\Models\Order;
 use App\Models\PurchaseOrder;
 use App\Models\RecurringPurchaseOrder;
 use App\Models\User;
+use App\Repositories\OrderRepository;
 use App\Repositories\PurchaseOrderRepository;
 use App\Requests\SearchRequest;
 use App\Search\PurchaseOrderSearch;
@@ -51,6 +55,8 @@ class PurchaseOrderTest extends TestCase
         parent::setUp();
         $this->beginDatabaseTransaction();
         $this->company = Company::factory()->create();
+        $contact = CompanyContact::factory()->create(['company_id' => $this->company->id]);
+        $this->company->contacts()->save($contact);
         $this->account = Account::where('id', 1)->first();
         $this->user = User::factory()->create();
         $this->objNumberGenerator = new NumberGenerator;
@@ -159,5 +165,17 @@ class PurchaseOrderTest extends TestCase
         $this->assertNotNull($purchase_order->deleted_at);
         $this->assertEquals($purchase_order->date_approved->toDateString(), Carbon::now()->toDateString());
         $this->assertInstanceOf(PurchaseOrder::class, $purchase_order);
+    }
+
+    public function testEmail()
+    {
+        $order = PurchaseOrderFactory::create($this->account, $this->user, $this->company);
+        $order = (new PurchaseOrderRepository(new PurchaseOrder()))->save([], $order);
+
+        $template = strtolower('purchase_order');
+        $subject = $order->account->settings->{'email_subject_' . $template};
+        $body = $order->account->settings->{'email_template_' . $template};
+        $result = $order->service()->sendEmail(null, $subject, $body);
+        $this->assertInstanceOf(PurchaseOrder::class, $result);
     }
 }

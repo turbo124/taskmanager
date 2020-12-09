@@ -4,6 +4,7 @@ namespace App\Events\Project;
 
 use App\Models\Project;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\SendSubscription;
 
 /**
  * Class InvoiceWasMarkedSent.
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class ProjectWasUpdated
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var Project
@@ -24,5 +26,6 @@ class ProjectWasUpdated
     public function __construct(Project $project)
     {
         $this->project = $project;
+        $this->send($project, get_class($this));
     }
 }

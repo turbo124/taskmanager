@@ -50,12 +50,16 @@ class QuoteSearch extends BaseSearch
             $this->searchFilter($request->search_term);
         }
 
+        if ($request->filled('id')) {
+            $this->query->whereId($request->id);
+        }
+
         if ($request->filled('user_id')) {
             $this->query->where('assigned_to', '=', $request->user_id);
         }
 
         if ($request->filled('project_id')) {
-            $this->query->where('project_id', '=', $request->project_id);
+            $this->query->whereProjectId($request->project_id);
         }
 
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
@@ -76,6 +80,10 @@ class QuoteSearch extends BaseSearch
         return $quotes;
     }
 
+    /**
+     * @param string $filter
+     * @return bool
+     */
     public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {

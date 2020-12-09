@@ -53,6 +53,10 @@ class TaskSearch extends BaseSearch
             $this->query->whereProjectId($request->project_id);
         }
 
+        if ($request->filled('id')) {
+            $this->query->whereId($request->id);
+        }
+
         if ($request->filled('user_id')) {
             $this->query->where('assigned_to', '=', $request->user_id);
         }
@@ -89,6 +93,10 @@ class TaskSearch extends BaseSearch
         return $tasks;
     }
 
+    /**
+     * @param string $filter
+     * @return bool
+     */
     public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {

@@ -4,6 +4,7 @@ namespace App\Events\Task;
 
 use App\Models\task;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\SendSubscription;
 
 /**
  * Class InvoiceWasMarkedSent.
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class TaskWasUpdated
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var task
@@ -25,5 +27,6 @@ class TaskWasUpdated
     public function __construct(task $task)
     {
         $this->task = $task;
+        $this->send($task, get_class($this));
     }
 }

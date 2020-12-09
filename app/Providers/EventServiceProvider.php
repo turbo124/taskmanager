@@ -61,6 +61,7 @@ use App\Events\Order\OrderWasBackordered;
 use App\Events\Order\OrderWasCreated;
 use App\Events\Order\OrderWasDeleted;
 use App\Events\Order\OrderWasDispatched;
+use App\Events\Order\OrderWasEmailed;
 use App\Events\Order\OrderWasHeld;
 use App\Events\Order\OrderWasMarkedSent;
 use App\Events\Order\OrderWasRestored;
@@ -124,6 +125,7 @@ use App\Listeners\Credit\CreditArchived;
 use App\Listeners\Credit\CreditCreated;
 use App\Listeners\Credit\CreditDeleted;
 use App\Listeners\Credit\CreditEmail;
+use App\Listeners\Credit\CreditEmailedNotification;
 use App\Listeners\Credit\CreditMarkedSent;
 use App\Listeners\Credit\CreditRestored;
 use App\Listeners\Credit\CreditUpdated;
@@ -171,6 +173,8 @@ use App\Listeners\Order\OrderBackorderedNotification;
 use App\Listeners\Order\OrderCreated;
 use App\Listeners\Order\OrderDeleted;
 use App\Listeners\Order\OrderDispatched;
+use App\Listeners\Order\OrderEmailed;
+use App\Listeners\Order\OrderEmailedNotification;
 use App\Listeners\Order\OrderHeld;
 use App\Listeners\Order\OrderHeldNotification;
 use App\Listeners\Order\OrderMarkedSent;
@@ -196,6 +200,7 @@ use App\Listeners\PurchaseOrder\PurchaseOrderArchived;
 use App\Listeners\PurchaseOrder\PurchaseOrderCreated;
 use App\Listeners\PurchaseOrder\PurchaseOrderDeleted;
 use App\Listeners\PurchaseOrder\PurchaseOrderEmailed;
+use App\Listeners\PurchaseOrder\PurchaseOrderEmailedNotification;
 use App\Listeners\PurchaseOrder\PurchaseOrderMarkedSent;
 use App\Listeners\PurchaseOrder\PurchaseOrderRestored;
 use App\Listeners\PurchaseOrder\PurchaseOrderUpdated;
@@ -204,6 +209,7 @@ use App\Listeners\Quote\QuoteArchived;
 use App\Listeners\Quote\QuoteCreated;
 use App\Listeners\Quote\QuoteDeleted;
 use App\Listeners\quote\QuoteEmailed;
+use App\Listeners\Quote\QuoteEmailedNotification;
 use App\Listeners\Quote\QuoteMarkedSent;
 use App\Listeners\Quote\QuoteRestored;
 use App\Listeners\Quote\QuoteUpdated;
@@ -329,7 +335,8 @@ class EventServiceProvider extends ServiceProvider
             QuoteCreated::class
         ],
         QuoteWasEmailed::class             => [
-            QuoteEmailed::class
+            QuoteEmailed::class,
+            QuoteEmailedNotification::class
         ],
         QuoteWasUpdated::class             => [
             QuoteUpdated::class
@@ -489,7 +496,8 @@ class EventServiceProvider extends ServiceProvider
             CreditMarkedSent::class
         ],
         CreditWasEmailed::class            => [
-            CreditEmail::class
+            CreditEmail::class,
+            CreditEmailedNotification::class
         ],
         LeadWasCreated::class              => [
             LeadCreated::class,
@@ -514,6 +522,10 @@ class EventServiceProvider extends ServiceProvider
             OrderCreated::class,
             OrderNotification::class
         ],
+        OrderWasEmailed::class             => [
+            OrderEmailed::class,
+            OrderEmailedNotification::class
+        ],
         FileWasUploaded::class             => [
         ],
         FileWasDeleted::class              => [
@@ -534,7 +546,8 @@ class EventServiceProvider extends ServiceProvider
             PurchaseOrderDeleted::class
         ],
         PurchaseOrderWasEmailed::class     => [
-            PurchaseOrderEmailed::class
+            PurchaseOrderEmailed::class,
+            PurchaseOrderEmailedNotification::class
         ],
         PurchaseOrderWasMarkedSent::class  => [
             PurchaseOrderMarkedSent::class

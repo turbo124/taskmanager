@@ -51,6 +51,10 @@ class LeadSearch extends BaseSearch
             $this->query->where('assigned_to', '=', $request->user_id);
         }
 
+        if ($request->filled('id')) {
+            $this->query->whereId($request->id);
+        }
+
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
             $this->filterDates($request);
         }
@@ -69,6 +73,10 @@ class LeadSearch extends BaseSearch
         return $leads;
     }
 
+    /**
+     * @param string $filter
+     * @return bool
+     */
     public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {

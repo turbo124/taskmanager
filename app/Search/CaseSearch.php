@@ -66,6 +66,10 @@ class CaseSearch extends BaseSearch
             $this->query->wherePriorityId($request->priority_id);
         }
 
+        if ($request->filled('id')) {
+            $this->query->whereId($request->id);
+        }
+
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
             $this->filterDates($request);
         }

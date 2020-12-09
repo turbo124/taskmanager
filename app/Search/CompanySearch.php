@@ -49,6 +49,10 @@ class CompanySearch extends BaseSearch
             $this->searchFilter($request->search_term);
         }
 
+        if ($request->filled('id')) {
+            $this->query->whereId($request->id);
+        }
+
         if ($request->input('start_date') <> '' && $request->input('end_date') <> '') {
             $this->filterDates($request);
         }
@@ -69,6 +73,10 @@ class CompanySearch extends BaseSearch
         return $companies;
     }
 
+    /**
+     * @param string $filter
+     * @return bool
+     */
     public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {

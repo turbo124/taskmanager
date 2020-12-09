@@ -4,6 +4,7 @@ namespace App\Events\Expense;
 
 use App\Models\Expense;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\SendSubscription;
 
 /**
  * Class InvoiceWasMarkedSent.
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class ExpenseWasUpdated
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var Expense
@@ -24,5 +26,6 @@ class ExpenseWasUpdated
     public function __construct(Expense $expense)
     {
         $this->expense = $expense;
+        $this->send($expense, get_class($this));
     }
 }

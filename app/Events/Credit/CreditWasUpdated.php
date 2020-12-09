@@ -6,10 +6,11 @@ use App\Models\Credit;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\SendSubscription;
 
 class CreditWasUpdated
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels, SendSubscription;
 
     /**
      * @var Credit
@@ -23,5 +24,6 @@ class CreditWasUpdated
     public function __construct(Credit $credit)
     {
         $this->credit = $credit;
+        $this->send($credit, get_class($this));
     }
 }

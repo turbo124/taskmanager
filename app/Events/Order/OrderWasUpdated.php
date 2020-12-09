@@ -2,7 +2,9 @@
 
 namespace App\Events\Order;
 
+use App\Models\Order;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\SendSubscription;
 
 /**
  * Class OrderWasUpdated.
@@ -10,16 +12,20 @@ use Illuminate\Queue\SerializesModels;
 class OrderWasUpdated
 {
     use SerializesModels;
-
-    public $order;
+    use SendSubscription;
 
     /**
-     * Create a new event instance.
-     *
-     * @param $order
+     * @var Order
      */
-    public function __construct($order)
+    public Order $order;
+
+    /**
+     * OrderWasUpdated constructor.
+     * @param Order $order
+     */
+    public function __construct(Order $order)
     {
         $this->order = $order;
+        $this->send($order, get_class($this));
     }
 }

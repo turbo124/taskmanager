@@ -4,6 +4,7 @@ namespace App\Events\Customer;
 
 use App\Models\Customer;
 use Illuminate\Queue\SerializesModels;
+use App\Traits\SendSubscription;
 
 /**
  * Class CustomerWasUpdated.
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class CustomerWasUpdated
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var Customer
@@ -25,5 +27,6 @@ class CustomerWasUpdated
     public function __construct(Customer $customer)
     {
         $this->customer = $customer;
+        $this->send($customer, get_class($this));
     }
 }

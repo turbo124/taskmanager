@@ -54,6 +54,18 @@ export default class Notifications extends Component {
                 },
                 {
                     id: 4,
+                    value: consts.notification_order_sent,
+                    label: translations.order_sent,
+                    isChecked: false
+                },
+                {
+                    id: 4,
+                    value: consts.notification_purchase_order_sent,
+                    label: translations.purchase_order_sent,
+                    isChecked: false
+                },
+                {
+                    id: 4,
                     value: consts.notification_quote_sent,
                     label: translations.quote_sent,
                     isChecked: false
