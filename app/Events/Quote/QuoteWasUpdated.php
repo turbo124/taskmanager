@@ -11,6 +11,7 @@ use App\Traits\SendSubscription;
 class QuoteWasUpdated
 {
     use SerializesModels;
+    use SendSubscription;
 
     public $quote;
 

@@ -83,6 +83,8 @@ class SendEmail implements ShouldQueue
             $body = str_replace("$body", $body, $email_style_custom);
         }
 
+        return true;
+
         $message = (new SendMail($this->entity, $this->contact))
             ->setData($this->buildMailMessageData($settings, $body, $design_style))
             ->setBody($body)

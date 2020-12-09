@@ -20,9 +20,9 @@ class PaymentWasUpdated implements PerformsMetrics
     use SendSubscription;
 
     /**
-     * @var array $payment
+     * @var Payment
      */
-    public $payment;
+    public Payment $payment;
     protected $meter = 'payment-updated';
 
     /**

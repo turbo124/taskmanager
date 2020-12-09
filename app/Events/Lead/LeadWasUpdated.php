@@ -12,6 +12,7 @@ use App\Traits\SendSubscription;
 class LeadWasUpdated
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var Lead

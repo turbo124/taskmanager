@@ -10,7 +10,7 @@ use App\Traits\SendSubscription;
 
 class CreditWasUpdated
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels, SendSubscription;
 
     /**
      * @var Credit

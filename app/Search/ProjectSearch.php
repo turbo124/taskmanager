@@ -47,6 +47,10 @@ class ProjectSearch extends BaseSearch
             $this->query->whereCustomerId($request->customer_id);
         }
 
+        if ($request->filled('id')) {
+            $this->query->whereId($request->id);
+        }
+
         if ($request->has('search_term') && !empty($request->search_term)) {
             $this->searchFilter($request->search_term);
         }
@@ -73,6 +77,10 @@ class ProjectSearch extends BaseSearch
         return $projects;
     }
 
+    /**
+     * @param string $filter
+     * @return bool
+     */
     public function searchFilter(string $filter = ''): bool
     {
         if (strlen($filter) == 0) {

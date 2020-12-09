@@ -52,6 +52,9 @@ class Subscription extends Model
     const PURCHASEORDERWASUPDATED = 39;
     const CASEWASUPDATED = 40;
     const EXPENSEWASUPDATED = 41;
+    const COMPANYWASCREATED = 42;
+    const COMPANYWASUPDATED = 43;
+    const COMPANYWASDELETED = 44;
 
 
     protected $fillable = [

@@ -12,16 +12,16 @@ use App\Traits\SendSubscription;
 class CaseWasUpdated
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
-     * @var case
+     * @var Cases
      */
     public Cases $case;
 
     /**
-     * Create a new event instance.
-     *
-     * @param case $case
+     * CaseWasUpdated constructor.
+     * @param Cases $case
      */
     public function __construct(Cases $case)
     {

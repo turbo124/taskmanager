@@ -12,6 +12,7 @@ use App\Traits\SendSubscription;
 class ExpenseWasUpdated
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var Expense

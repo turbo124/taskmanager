@@ -3,10 +3,12 @@
 namespace Tests\Unit;
 
 use App\Components\Payment\Gateways\Stripe;
+use App\Factory\CreditFactory;
 use App\Factory\OrderFactory;
 use App\Jobs\Order\CreateOrder;
 use App\Jobs\Payment\CreatePayment;
 use App\Models\Account;
+use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\CustomerContact;
 use App\Models\CustomerGateway;
@@ -18,6 +20,7 @@ use App\Models\Product;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
+use App\Repositories\CreditRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
@@ -410,6 +413,17 @@ class OrderTest extends TestCase
         $this->assertNotNull($payment->transaction_reference);
     }
 
+    public function testEmail()
+    {
+        $order = OrderFactory::create($this->account, $this->user, $this->customer);
+        $order = (new OrderRepository(new Order()))->save([], $order);
+
+        $template = strtolower('order');
+        $subject = $order->customer->getSetting('email_subject_' . $template);
+        $body = $order->customer->getSetting('email_template_' . $template);
+        $result = $order->service()->sendEmail(null, $subject, $body);
+        $this->assertInstanceOf(Order::class, $result);
+    }
 
     public function tearDown(): void
     {

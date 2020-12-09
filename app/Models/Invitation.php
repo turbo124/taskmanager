@@ -51,6 +51,11 @@ class Invitation extends Model
         return $this->belongsTo(Models\CustomerContact::class, 'contact_id', 'id')->withTrashed();
     }
 
+    public function company_contact()
+    {
+        return $this->belongsTo(Models\CompanyContact::class, 'contact_id', 'id')->withTrashed();
+    }
+
     public function inviteable()
     {
         return $this->morphTo();

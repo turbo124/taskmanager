@@ -64,6 +64,10 @@ class ExpenseSearch extends BaseSearch
             $this->query->whereExpenseCategoryId($request->expense_category_id);
         }
 
+        if ($request->filled('id')) {
+            $this->query->whereId($request->id);
+        }
+
         if ($request->filled('user_id')) {
             $this->query->where('assigned_to', '=', $request->user_id);
         }
@@ -87,12 +91,8 @@ class ExpenseSearch extends BaseSearch
     }
 
     /**
-     * Filter based on search text
-     *
-     * @param string query filter
-     * @return Illuminate\Database\Query\Builder
-     * @deprecated
-     *
+     * @param string $filter
+     * @return bool
      */
     public function searchFilter(string $filter = ''): bool
     {

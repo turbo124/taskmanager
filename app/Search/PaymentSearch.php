@@ -74,12 +74,8 @@ class PaymentSearch extends BaseSearch
 
 
     /**
-     * Filter based on search text
-     *
-     * @param string query filter
-     * @return Illuminate\Database\Query\Builder
-     * @deprecated
-     *
+     * @param string $filter
+     * @return bool
      */
     public function searchFilter(string $filter = ''): bool
     {

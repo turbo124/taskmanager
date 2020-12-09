@@ -12,6 +12,7 @@ use App\Traits\SendSubscription;
 class ProjectWasUpdated
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var Project

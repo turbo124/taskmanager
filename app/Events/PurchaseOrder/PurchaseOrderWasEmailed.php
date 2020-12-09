@@ -15,14 +15,17 @@ class PurchaseOrderWasEmailed
     /**
      * @var Invitation
      */
-    public Invitation $purchase_order_invitation;
+    public Invitation $invitation;
+
+    public string $template;
 
     /**
-     * PurchaseOrderWasEmailed constructor.
-     * @param Invitation $purchase_order_invitation
+     * InvoiceWasEmailed constructor.
+     * @param Invitation $invitation
      */
-    public function __construct(Invitation $purchase_order_invitation)
+    public function __construct(Invitation $invitation, string $template = '')
     {
-        $this->purchase_order_invitation = $purchase_order_invitation;
+        $this->invitation = $invitation;
+        $this->template = $template;
     }
 }

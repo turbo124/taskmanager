@@ -12,6 +12,7 @@ use App\Traits\SendSubscription;
 class TaskWasUpdated
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var task

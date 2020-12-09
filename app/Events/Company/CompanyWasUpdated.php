@@ -3,6 +3,7 @@
 namespace App\Events\Company;
 
 use App\Models\Company;
+use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 
 /**
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class CompanyWasUpdated
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
      * @var Company
@@ -24,5 +26,6 @@ class CompanyWasUpdated
     public function __construct(Company $company)
     {
         $this->company = $company;
+        $this->send($company, get_class($this));
     }
 }

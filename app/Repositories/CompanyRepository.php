@@ -4,12 +4,16 @@ namespace App\Repositories;
 
 use App\Events\Company\CompanyWasCreated;
 use App\Events\Company\CompanyWasUpdated;
+use App\Models\Account;
 use App\Models\Company;
 use App\Models\Product;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
+use App\Requests\SearchRequest;
+use App\Search\CompanySearch;
 use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Collection as Support;
 
 class CompanyRepository extends BaseRepository implements CompanyRepositoryInterface
 {
@@ -47,23 +51,13 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
     }
 
     /**
-     * @param array $columns
-     * @param string $orderBy
-     * @param string $sortBy
-     *
-     * @return Collection
+     * @param SearchRequest $search_request
+     * @param Account $account
+     * @return Support
      */
-    public function listBrands($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc'): Collection
+    public function getAll(SearchRequest $search_request, Account $account)
     {
-        return $this->all($columns, $orderBy, $sortBy);
-    }
-
-    /**
-     * @param Product $product
-     */
-    public function saveProduct(Product $product)
-    {
-        $this->model->products()->save($product);
+        return (new CompanySearch($this))->filter($search_request, $account);
     }
 
     public function getModel()

@@ -25,7 +25,7 @@ class ObjectSent extends AdminMailer
     {
         $this->entity_name = strtolower((new \ReflectionClass($invitation->inviteable))->getShortName());
         $this->invitation = $invitation;
-        $this->contact = $invitation->contact;
+        $this->contact = get_class($invitation->inviteable) === 'App\\Models\\PurchaseOrder' ? $invitation->company_contact : $invitation->contact;
         $this->entity = $invitation->inviteable;
         $this->user = $user;
 

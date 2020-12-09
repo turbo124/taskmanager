@@ -12,16 +12,16 @@ use App\Traits\SendSubscription;
 class DealWasUpdated
 {
     use SerializesModels;
+    use SendSubscription;
 
     /**
-     * @var deal
+     * @var Deal
      */
     public Deal $deal;
 
     /**
-     * Create a new event instance.
-     *
-     * @param deal $deal
+     * DealWasUpdated constructor.
+     * @param Deal $deal
      */
     public function __construct(Deal $deal)
     {

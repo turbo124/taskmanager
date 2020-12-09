@@ -31,10 +31,10 @@ trait EntityDataBuilder
             return false;
         }
 
-        //$search_request = new SearchRequest();
-        //$request->replace(['id' => $this->entity->id]);
+        $search_request = new SearchRequest();
+        $search_request->replace(['id' => $this->entity->id]);
 
-        $data = $this->repository->getAll(new SearchRequest(), $this->entity->account);
+        $data = $this->repository->getAll($search_request, $this->entity->account);
 
         if (empty($data)) {
             return false;
