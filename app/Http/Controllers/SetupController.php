@@ -321,13 +321,12 @@ class SetupController extends Controller
 
         $data['username'] = $data['email'];
 
-        // Initialise the 2FA class
-        $google2fa = app('pragmarx.google2fa');
-
-        $data["google2fa_secret"] = $google2fa->generateSecretKey();
-
         // create new user
         $user = $user_repo->save($data, UserFactory::create($domain->id));
+
+        $user = Auth::user();
+        $user->token_2fa_expiry = \Carbon\Carbon::now();
+        $user->save();
 
         $user->attachUserToAccount($account, true);
 
