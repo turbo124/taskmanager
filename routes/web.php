@@ -11,7 +11,8 @@
 |
 */
 
-
+Route::get('/2fa', 'TwoFactorController@show2faForm');
+Route::post('/2fa', 'TwoFactorController@verifyToken');
 Route::get('setup', 'SetupController@welcome')->name('setup.welcome');
 Route::get('setup/requirements', 'SetupController@requirements')->name('setup.requirements');
 Route::get('setup/permissions', 'SetupController@permissions')->name('setup.permissions');
