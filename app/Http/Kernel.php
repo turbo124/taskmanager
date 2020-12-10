@@ -89,6 +89,7 @@ class Kernel extends HttpKernel
         'api-header'       => API::class,
         'role'             => RoleMiddleware::class,
         'password.confirm' => RequirePassword::class,
+        'two_factor_auth'  => \App\Http\Middleware\TwoFactorVerification::class,
     ];
 
 }

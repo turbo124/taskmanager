@@ -2,22 +2,24 @@
 
 namespace App\Notifications\Admin;
 
-use App\Mail\Admin\QuoteApproved;
-use App\Models\Quote;
+use App\Mail\Admin\ExpenseApproved;
+use App\Mail\Admin\PurchaseOrderApproved;
+use App\Models\Expense;
+use App\Models\PurchaseOrder;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 
-class QuoteApprovedNotification extends Notification implements ShouldQueue
+class ExpenseApprovedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
 
     /**
-     * @var Quote
+     * @var Expense
      */
-    private Quote $quote;
+    private Expense $expense;
 
     /**
      * @var string
@@ -25,13 +27,13 @@ class QuoteApprovedNotification extends Notification implements ShouldQueue
     private string $message_type;
 
     /**
-     * QuoteApprovedNotification constructor.
-     * @param Quote $quote
+     * ExpenseApprovedNotification constructor.
+     * @param Expense $expense
      * @param string $message_type
      */
-    public function __construct(Quote $quote, $message_type = '')
+    public function __construct(Expense $expense, $message_type = '')
     {
-        $this->quote = $quote;
+        $this->expense = $expense;
         $this->message_type = $message_type;
     }
 
@@ -53,11 +55,11 @@ class QuoteApprovedNotification extends Notification implements ShouldQueue
 
     /**
      * @param $notifiable
-     * @return QuoteApproved
+     * @return ExpenseApproved
      */
     public function toMail($notifiable)
     {
-        return new QuoteApproved($this->quote, $notifiable);
+        return new ExpenseApproved($this->expense, $notifiable);
     }
 
     /**
@@ -75,7 +77,7 @@ class QuoteApprovedNotification extends Notification implements ShouldQueue
     public function toSlack($notifiable)
     {
         return (new SlackMessage)->success()
-                                 ->from("System")->image($this->quote->account->present()->logo())->content(
+                                 ->from("System")->image($this->expense->account->present()->logo())->content(
                 $this->getMessage()
             );
     }
@@ -83,10 +85,10 @@ class QuoteApprovedNotification extends Notification implements ShouldQueue
     private function getMessage()
     {
         $this->subject = trans(
-            'texts.notification_quote_approved_subject',
+            'texts.notification_expense_approved_subject',
             [
-                'total' => $this->quote->getFormattedTotal(),
-                'quote' => $this->quote->getNumber(),
+                'total' => $this->expense->getFormattedTotal(),
+                'quote' => $this->expense->getNumber(),
             ]
         );
     }

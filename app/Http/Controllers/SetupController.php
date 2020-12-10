@@ -290,7 +290,7 @@ class SetupController extends Controller
      * @param Redirector $redirect
      * @return RedirectResponse
      */
-    public function saveUser(Request $request, Redirector $redirect)
+    public function saveUser(Request $request)
     {
         $rules = config('installer.user.form.rules');
         $messages = [
@@ -300,7 +300,7 @@ class SetupController extends Controller
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
-            return $redirect->route('setup.user')->withInput()->withErrors($validator->errors());
+            return redirect()->route('setup.user')->withInput()->withErrors($validator->errors());
         }
 
         $data = $request->except('_token');
@@ -310,6 +310,7 @@ class SetupController extends Controller
 
         // create account
         $account = AccountFactory::create($domain->id);
+
         $account = (new AccountRepository(new Account))->save($data, $account);
 
         // set default account
@@ -321,7 +322,11 @@ class SetupController extends Controller
         $data['username'] = $data['email'];
 
         // create new user
-        $user = $user_repo->save($request->all(), UserFactory::create($domain->id));
+        $user = $user_repo->save($data, UserFactory::create($domain->id));
+
+        $user = Auth::user();
+        $user->token_2fa_expiry = \Carbon\Carbon::now();
+        $user->save();
 
         $user->attachUserToAccount($account, true);
 
@@ -333,7 +338,7 @@ class SetupController extends Controller
 
         //$account->service()->convertAccount();
 
-        return $redirect->route('setup.environment');
+        return redirect()->route('setup.environment');
     }
 
     /**
@@ -356,5 +361,27 @@ class SetupController extends Controller
         event(new SetupFinished);
 
         return view('setup.finished', compact('finalMessages', 'finalStatusMessage', 'finalEnvFile'));
+    }
+
+    public function twoFactorSetup(User $user)
+    {
+        phpinfo();
+
+        if(!class_exists(\Imagick::class)) {
+            die('here');
+            }
+
+        die('mike');
+
+        $google2fa = app('pragmarx.google2fa');
+
+        $QR_Image = $google2fa->getQRCodeInline(
+            config('app.name'),
+            $user->email,
+            $user->google2fa_secret
+        );
+
+        var_dump($QR_Image);
+        die;
     }
 }

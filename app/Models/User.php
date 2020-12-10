@@ -50,6 +50,7 @@ class User extends Authenticatable implements JWTSubject
         'custom_value2',
         'custom_value3',
         'custom_value4',
+        'google2fa_secret'
     ];
 
     /**
