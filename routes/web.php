@@ -19,6 +19,7 @@ Route::get('setup/environment', 'SetupController@environmentMenu')->name('setup.
 Route::get('setup/database', 'SetupController@database')->name('setup.database');
 Route::get('setup/user', 'SetupController@user')->name('setup.user');
 Route::get('setup/final', 'SetupController@finish')->name('setup.final');
+Route::get('setup/twofactor/{user}', 'SetupController@twoFactorSetup')->name('setup.welcome');
 Route::get('setup/environmentWizard', 'SetupController@environmentWizard')->name('setup.environment-wizard');
 Route::post('setup/user/save', 'SetupController@saveUser')->name('setup.saveUser');
 Route::post('setup/environment/save', 'SetupController@saveWizard')->name('setup.environment-save-wizard');

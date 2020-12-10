@@ -34,6 +34,7 @@ use App\Events\Deal\DealWasEmailed;
 use App\Events\Deal\DealWasRestored;
 use App\Events\Deal\DealWasUpdated;
 use App\Events\EmailFailedToSend;
+use App\Events\Expense\ExpenseWasApproved;
 use App\Events\Expense\ExpenseWasArchived;
 use App\Events\Expense\ExpenseWasCreated;
 use App\Events\Expense\ExpenseWasDeleted;
@@ -143,11 +144,13 @@ use App\Listeners\Deal\DealRestored;
 use App\Listeners\Deal\DealUpdated;
 use App\Listeners\Entity\EntityEmailFailedToSend;
 use App\Listeners\Entity\EntityViewedListener;
+use App\Listeners\Expense\ExpenseApproved;
 use App\Listeners\Expense\ExpenseArchived;
 use App\Listeners\Expense\ExpenseCreated;
 use App\Listeners\Expense\ExpenseDeleted;
 use App\Listeners\Expense\ExpenseRestored;
 use App\Listeners\Expense\ExpenseUpdated;
+use App\Listeners\Expense\SendExpenseApprovedNotification;
 use App\Listeners\Invoice\InvoiceArchived;
 use App\Listeners\Invoice\InvoiceCancelled;
 use App\Listeners\Invoice\InvoiceCreated;
@@ -204,6 +207,7 @@ use App\Listeners\PurchaseOrder\PurchaseOrderEmailedNotification;
 use App\Listeners\PurchaseOrder\PurchaseOrderMarkedSent;
 use App\Listeners\PurchaseOrder\PurchaseOrderRestored;
 use App\Listeners\PurchaseOrder\PurchaseOrderUpdated;
+use App\Listeners\PurchaseOrder\SendPurchaseOrderApprovedNotification;
 use App\Listeners\Quote\QuoteApproved;
 use App\Listeners\Quote\QuoteArchived;
 use App\Listeners\Quote\QuoteCreated;
@@ -385,6 +389,10 @@ class EventServiceProvider extends ServiceProvider
         ExpenseWasRestored::class          => [
             ExpenseRestored::class
         ],
+        ExpenseWasApproved::class          => [
+            ExpenseApproved::class,
+            SendExpenseApprovedNotification::class
+        ],
         //recurring invoice
         RecurringInvoiceWasCreated::class  => [
             RecurringInvoiceCreated::class
@@ -537,7 +545,8 @@ class EventServiceProvider extends ServiceProvider
             PurchaseOrderCreated::class
         ],
         PurchaseOrderWasApproved::class    => [
-            PurchaseOrderApproved::class
+            PurchaseOrderApproved::class,
+            SendPurchaseOrderApprovedNotification::class
         ],
         PurchaseOrderWasArchived::class    => [
             PurchaseOrderArchived::class

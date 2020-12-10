@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Listeners\Quote;
 
+namespace App\Listeners\PurchaseOrder;
+
+
+use App\Notifications\Admin\PurchaseOrderApprovedNotification;
 use App\Notifications\Admin\QuoteApprovedNotification;
 use App\Traits\Notifications\UserNotifies;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;
 
-class SendQuoteApprovedNotification implements ShouldQueue
+class SendPurchaseOrderApprovedNotification
 {
     use UserNotifies;
 
@@ -28,25 +30,25 @@ class SendQuoteApprovedNotification implements ShouldQueue
      */
     public function handle($event)
     {
-        $quote = $event->quote;
+        $purchase_order = $event->purchase_order;
 
-        if (!empty($quote->account->account_users)) {
-            foreach ($quote->account->account_users as $account_user) {
+        if (!empty($purchase_order->account->account_users)) {
+            foreach ($purchase_order->account->account_users as $account_user) {
                 $notification_types = $this->getNotificationTypesForAccountUser(
                     $account_user,
                     ['quote_approved']
                 );
 
                 if (!empty($notification_types) && in_array('mail', $notification_types)) {
-                    $account_user->user->notify(new QuoteApprovedNotification($quote, 'mail'));
+                    $account_user->user->notify(new PurchaseOrderApprovedNotification($purchase_order, 'mail'));
                 }
             }
         }
 
-        if (isset($quote->account->slack_webhook_url)) {
-            Notification::route('slack', $quote->account->slack_webhook_url)->notify(
-                new QuoteApprovedNotification(
-                    $quote,
+        if (isset($purchase_order->account->slack_webhook_url)) {
+            Notification::route('slack', $purchase_order->account->slack_webhook_url)->notify(
+                new PurchaseOrderApprovedNotification(
+                    $purchase_order,
                     'slack'
                 )
             );
