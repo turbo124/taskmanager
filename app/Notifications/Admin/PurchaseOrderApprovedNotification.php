@@ -86,7 +86,7 @@ class PurchaseOrderApprovedNotification extends Notification implements ShouldQu
             'texts.notification_purchase_order_approved_subject',
             [
                 'total' => $this->purchase_order->getFormattedTotal(),
-                'quote' => $this->purchase_order->getNumber(),
+                'purchase_order' => $this->purchase_order->getNumber(),
             ]
         );
     }
