@@ -36,7 +36,7 @@ class SendPurchaseOrderApprovedNotification
             foreach ($purchase_order->account->account_users as $account_user) {
                 $notification_types = $this->getNotificationTypesForAccountUser(
                     $account_user,
-                    ['quote_approved']
+                    ['purchase_order_approved']
                 );
 
                 if (!empty($notification_types) && in_array('mail', $notification_types)) {
