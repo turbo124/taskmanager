@@ -28,7 +28,7 @@ class TwoFactorVerification
         $user->save();
 
         Mail::to($user)->send(new TwoFactorAuthMail($user->two_factor_token));
-
+        //Twilio::message($user->phone_number, 'Two Factor Code: ' . $user->two_factor_token);
         return redirect('/2fa');
     }
 }
