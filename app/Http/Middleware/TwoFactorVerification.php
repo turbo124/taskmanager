@@ -24,7 +24,7 @@ class TwoFactorVerification
             return $next($request);
         }
 
-        $user->two_factor_token = str_random(10);
+        $user->two_factor_token = mt_rand(10000,99999);
         $user->save();
 
         Mail::to($user)->send(new TwoFactorAuthMail($user->two_factor_token));

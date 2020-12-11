@@ -1,4 +1,4 @@
-@extends('layouts.app') 
+@extends('layouts.main')
 @section('content')
 <div class="container">
   <div class="row justify-content-center">
@@ -6,6 +6,10 @@
       <div class="card">
         <div class="card-header">Enter Token</div>
         <div class="card-body">
+          @if(\Illuminate\Support\Facades\Session::has('message'))
+            <p class="alert alert-danger">{{ \Illuminate\Support\Facades\Session::get('message') }}</p>
+          @endif
+
           <form action="" method="post">
             @csrf
             <div class="form-group">

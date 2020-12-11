@@ -20,6 +20,7 @@ use App\Notifications\Account\NewAccount;
 use App\Repositories\AccountRepository;
 use App\Repositories\DomainRepository;
 use App\Repositories\UserRepository;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -27,6 +28,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
@@ -324,8 +326,7 @@ class SetupController extends Controller
         // create new user
         $user = $user_repo->save($data, UserFactory::create($domain->id));
 
-        $user = Auth::user();
-        $user->token_2fa_expiry = \Carbon\Carbon::now();
+        $user->token_2fa_expiry = Carbon::now();
         $user->save();
 
         $user->attachUserToAccount($account, true);
@@ -335,6 +336,8 @@ class SetupController extends Controller
             event(new UserWasCreated($user));
             $user->notify(new NewAccount($account));
         }
+
+        Auth::login($user);
 
         //$account->service()->convertAccount();
 
