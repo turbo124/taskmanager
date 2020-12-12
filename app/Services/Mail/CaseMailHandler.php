@@ -10,7 +10,7 @@ class CaseMailHandler {
         Cases::create([
             'sender'    => $email->from(),
             'subject'   => $email->subject(),
-            'body'      => $email->text(),
+            'message'   => $email->text(),
         ]);
     }
 }
