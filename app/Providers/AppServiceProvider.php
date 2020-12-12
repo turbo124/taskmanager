@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
 //        });
 
         //Mailbox::to('leads@tamtamcrm.com', LeadMailHandler::class);
-        //Mailbox::to('cases@tamtamcrm.com', CaseMailHandler::class);
+        //Mailbox::to('{hash}@tamtamcrm.com', CaseMailHandler::class);
     }
 
     /**
