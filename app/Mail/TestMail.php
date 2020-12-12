@@ -18,6 +18,6 @@ class TestMail extends Mailable {
         return $this
             ->from($this->sender)
             ->subject($this->subject)
-            ->markdown('tests.emails.testmail');
+            ->markdown('email.testmail');
     }
 }
