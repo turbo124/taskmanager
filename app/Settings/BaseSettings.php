@@ -11,6 +11,18 @@ class BaseSettings
     protected array $validationFailures = [];
 
     protected array $account_settings = [
+        'case_forwarding_enabled'                => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'lead_forwarding_enabled'                => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
         'show_transaction_fee'                 => [
             'required'         => false,
             'translated_value' => '',
