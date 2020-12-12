@@ -133,6 +133,20 @@ class EmailSettings extends Component {
                     type: 'text',
                     placeholder: translations.bcc_email,
                     value: settings.bcc_email
+                },
+                {
+                    name: 'case_forwarding_address',
+                    label: translations.case_forwarding_address,
+                    type: 'text',
+                    placeholder: translations.case_forwarding_address,
+                    value: settings.case_forwarding_address
+                },
+                {
+                    name: 'lead_forwarding_address',
+                    label: translations.lead_forwarding_address,
+                    type: 'text',
+                    placeholder: translations.lead_forwarding_address,
+                    value: settings.lead_forwarding_address
                 }
                 /* {
                     name: 'enable_email_markup',
