@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\LeadMailHandler;
+use App\CaseMailHandler;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
 //                $query->time
 //            );
 //        });
+
+        //Mailbox::to('leads@tamtamcrm.com', LeadMailHandler::class);
+        //Mailbox::to('cases@tamtamcrm.com', CaseMailHandler::class);
     }
 
     /**
