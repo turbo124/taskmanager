@@ -779,7 +779,11 @@ _localizedValues.en = {
     counter_type: 'Counter Type',
     number_prefix: 'Number Prefix',
     menu: 'Menu',
-    import_settings: 'Import / Export'
+    import_settings: 'Import / Export',
+    lead_forwarding_address: 'Lead Forwarding Address',
+    case_forwarding_address: 'Case Forwarding Address',
+    lead_forwarding_enabled: 'Lead Forwarding Enabled',
+    case_forwarding_enabled: 'Case Forwarding Enabled'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
