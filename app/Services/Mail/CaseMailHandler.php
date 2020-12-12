@@ -24,5 +24,6 @@ class CaseMailHandler {
         }
  
         // handle attachments
+         $this->storeAttachments($case, $email);
     }
 }
