@@ -16,5 +16,7 @@ class CaseMailHandler {
             'subject'      => $email->subject(),
             'message'      => $email->text(),
         ]);
+ 
+        // handle attachments
     }
 }
