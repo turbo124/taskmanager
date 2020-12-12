@@ -29,6 +29,8 @@ class LeadTest extends TestCase
         $this->beginDatabaseTransaction();
         $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
+
+        config(['mail.driver' => 'log']);
     }
 
     /** @test */
@@ -112,6 +114,28 @@ class LeadTest extends TestCase
         $lead = $lead->service()->convertLead();
         $this->assertInstanceOf(Lead::class, $lead);
     }
+
+    /* public function incoming_mail_is_saved_to_the_leads_table() {
+        // Given: we have an e-mail﻿
+        $email = new TestMail(
+            $sender = 'sender@example.com',
+            $subject = 'Test E-mail',
+            $body = 'Some example text in the body'
+        );
+
+        // When: we receive that e-mail
+        Mail::to('leads@tamtamcrm.com')->send($email);
+
+        // Then: we assert the e-mails (meta)data was stored
+        $lead = Lead::whereName($subject)->first();
+        //$this->assertInstanceOf(Lead::class, $lead);
+       
+        tap(Lead::whereName($subject)->first(), function ($mail) use ($sender, $subject, $body) {
+            $this->assertEquals($sender, $mail->sender);    
+            $this->assertEquals($subject, $mail->subject);    
+            $this->assertContains($body, $mail->body);    
+        });
+    } */
 
     public function tearDown(): void
     {
