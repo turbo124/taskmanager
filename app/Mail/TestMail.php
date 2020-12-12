@@ -1,3 +1,8 @@
+<?php
+
+namespace App\Mail;
+
+
 class TestMail extends Mailable {
     public $sender;
     public $subject;
