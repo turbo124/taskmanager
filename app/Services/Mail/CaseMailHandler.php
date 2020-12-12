@@ -6,16 +6,22 @@ use App\Models\Cases;
 use BeyondCode\Mailbox\InboundEmail;
 
 class CaseMailHandler {
-    public function __invoke(InboundEmail $email) {
+    public function __invoke(InboundEmail $email, $token)
+    {
         $from = $email->from();
         $contact = CustomerContact::whereEmail($from)->first();
         
-        Cases::create([
-            'customer_id'  => $contact->customer->id,
-            'contact_id'   => $contact->id,
-            'subject'      => $email->subject(),
-            'message'      => $email->text(),
-        ]);
+
+        $case = Cases::where('token', $token)->first();
+
+        if(!$case) {
+            Cases::create([
+                'customer_id'  => $contact->customer->id,
+                'contact_id'   => $contact->id,
+                'subject'      => $email->subject(),
+                'message'      => $email->text(),
+            ]);
+        }
  
         // handle attachments
     }
