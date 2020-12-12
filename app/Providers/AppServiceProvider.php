@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Services\LeadMailHandler;
-use App\Services\CaseMailHandler;
+use App\Services\Mail\LeadMailHandler;
+use App\Services\Mail\CaseMailHandler;
 
 class AppServiceProvider extends ServiceProvider
 {
