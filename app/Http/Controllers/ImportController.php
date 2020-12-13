@@ -58,9 +58,13 @@ class ImportController extends Controller
         return response()->json($importer->getSuccess());
     }
 
-    public function importPreview() 
+    public function importPreview(Request $request) 
     {
         try {
+            $request->validate([
+                'file' => 'required|mimes:csv,txt|max:2048'
+            ]);
+
             $importer = (new ImportFactory())->loadImporter(
                 $request->input('import_type'),
                 auth()->user()->account_user()->account,
@@ -75,9 +79,9 @@ class ImportController extends Controller
                 $jsonString = file_get_contents($file_path);
                 $file_path = $this->convert($jsonString);
             }
- 
-            $key = Str::random(32);
-            Cache::put($key, file_get_contents($file_path), 60);
+            
+            $fileName = time().'_'.$request->file->getClientOriginalName();
+            $filePath = $request->file('file')->storeAs('uploads', $fileName, 'public');
 
             $importer->setCsvFile($file_path);
 
@@ -86,7 +90,7 @@ class ImportController extends Controller
             $data = [
                 'headers' => $headers,
                 'columns' => $importer->getImportColumns()
-                'key' => $key
+                'filename' => $fileName
             ];
 
         } catch (Exception $e) {
