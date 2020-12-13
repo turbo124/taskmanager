@@ -44,6 +44,9 @@ class ImportController extends Controller
                 $jsonString = file_get_contents($file_path);
                 $file_path = $this->convert($jsonString);
             }
+ 
+            $key = Str::random(32);
+            Cache::put($key, file_get_contents($file_path), 60);
 
             $importer->setCsvFile($file_path);
 
