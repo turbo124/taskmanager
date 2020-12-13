@@ -178,8 +178,4 @@ class InvoiceImporter extends BaseCsvImporter
     {
         return $this->export->getContent();
     }
-
-    public function getImportColumns() {
-        return array_keys($this->mappings);
-    }
 }
