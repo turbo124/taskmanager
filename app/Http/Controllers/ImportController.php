@@ -37,6 +37,7 @@ class ImportController extends Controller
             );
 
             $file_path = $request->file('file')->getPathname();
+            //$file = File::get(url('public/uploads/' . $request->input('filename'));
 
             $is_json = !empty($request->input('file_type')) && $request->input('file_type') === 'json';
 
