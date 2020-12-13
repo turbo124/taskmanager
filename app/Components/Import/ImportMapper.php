@@ -73,6 +73,8 @@ trait ImportMapper
 
     private array $success = [];
 
+    private array $object = [];
+
     public function after()
     {
         //TODO
@@ -83,11 +85,15 @@ trait ImportMapper
      * @param $items
      * @return bool
      */
-    public function handle($items)
+    public function handle($items, bool $save_data = false)
     {
-        $object = $this->buildObject($items);
+        $this->object = $this->buildObject($items);
 
-        $factory = $this->factory($object);
+        if(!$save_data) {
+            return true;
+        }
+
+        $factory = $this->factory($this->object);
 
         if (!$factory) {
             return false;
@@ -95,10 +101,10 @@ trait ImportMapper
 
         $repo = $this->repository();
 
-        $result = $repo->save($object, $factory);
+        $result = $repo->save($this->object, $factory);
 
         if (method_exists($this, 'saveCallback')) {
-            $result = $this->saveCallback($result, $object);
+            $result = $this->saveCallback($result, $this->object);
         }
 
         $this->success[] = $this->transformObject($result);
@@ -309,5 +315,14 @@ trait ImportMapper
         $currency = $this->currencies[strtolower($value)];
 
         return $currency['id'];
+    }
+
+    public function getImportColumns() {
+        return array_keys($this->mappings);
+    }
+
+    public function getObject()
+    {
+        return $this->object;
     }
 }
