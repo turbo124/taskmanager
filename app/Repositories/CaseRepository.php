@@ -127,4 +127,14 @@ class CaseRepository extends BaseRepository implements CaseRepositoryInterface
 
         return $case;
     }
+
+    public function getOverdueCases()
+    {
+        return Cases::whereDate('due_date', '<', Carbon::today()->subDay()->toDateString())
+                      ->where('is_deleted', '=', false)
+                      ->whereIn(
+                          'status_id',
+                          [Cases::STATUS_OPEN]
+                      )->get();
+    }
 }
