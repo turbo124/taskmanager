@@ -88,15 +88,12 @@ class RecalculateInvoice
      */
     private function resetPartialInvoice(): bool
     { 
-        $balance_adjustment = ($this->invoice->partial > $this->payment_amount) ? $this->payment_amount : (($this->invoice->partial == $this->payment_amount) ? 0 : $this->invoice->partial);
-        
-        if ($balance_adjustment > 0) {
-            $this->invoice->partial -= $balance_adjustment;
-            return true;
-        }
+        $this->invoice->partial -= $this->payment_amount;
 
-        $this->invoice->partial = null;
-        $this->invoice->partial_due_date = null;
+        if($this->invoice->partial <= 0) {
+            $this->invoice->partial = null;
+            $this->invoice->partial_due_date = null;
+        }
 
         return true;
     }
