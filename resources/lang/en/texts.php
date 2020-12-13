@@ -98,6 +98,8 @@ return [
     'notification_quote_sent_subject'           => 'Quote :invoice was sent to :customer',
     'notification_quote_approved'               => 'Quote :quote for :total has been approved.',
     'notification_quote_approved_subject'       => 'Quote :quote has been approved',
+    'notification_case_overdue'                 => 'Case :number for :customer is overdue.',
+    'notification_case_overdue_subject'         => 'Case :number was due on :due_date',
     'from_slack'                                => 'From',
     'login'                                     => 'Login',
     'new_account_created'                       => 'New Account created',
