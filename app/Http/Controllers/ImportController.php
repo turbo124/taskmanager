@@ -44,13 +44,10 @@ class ImportController extends Controller
                 $jsonString = file_get_contents($file_path);
                 $file_path = $this->convert($jsonString);
             }
- 
-            $key = Str::random(32);
-            Cache::put($key, file_get_contents($file_path), 60);
 
             $importer->setCsvFile($file_path);
 
-            $importer->run();
+            $importer->run(true);
         } catch (Exception $e) {
             $errors = $e->getMessage();
 
@@ -63,7 +60,43 @@ class ImportController extends Controller
 
     public function importPreview() 
     {
+        try {
+            $importer = (new ImportFactory())->loadImporter(
+                $request->input('import_type'),
+                auth()->user()->account_user()->account,
+                auth()->user()
+            );
 
+            $file_path = $request->file('file')->getPathname();
+
+            $is_json = !empty($request->input('file_type')) && $request->input('file_type') === 'json';
+
+            if ($is_json) {
+                $jsonString = file_get_contents($file_path);
+                $file_path = $this->convert($jsonString);
+            }
+ 
+            $key = Str::random(32);
+            Cache::put($key, file_get_contents($file_path), 60);
+
+            $importer->setCsvFile($file_path);
+
+            $headers = $importer->getHeaders();
+   
+            $data = [
+                'headers' => $headers,
+                'columns' => $importer->getImportColumns()
+                'key' => $key
+            ];
+
+        } catch (Exception $e) {
+            $errors = $e->getMessage();
+
+            echo $e->getMessage();
+            die('test');
+        }
+
+        return response()->json($data);
     }
 
     public function export(Request $request)
