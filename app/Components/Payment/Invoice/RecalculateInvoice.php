@@ -43,7 +43,6 @@ class RecalculateInvoice
         if ($this->invoice->partial && $this->invoice->partial > 0) {
             //is partial and amount is exactly the partial amount
             $this->resetPartialInvoice();
-            $this->invoice->setDueDate();
         }
 
         $this->updateInvoice();
@@ -93,6 +92,7 @@ class RecalculateInvoice
         if($this->invoice->partial <= 0) {
             $this->invoice->partial = null;
             $this->invoice->partial_due_date = null;
+            $this->invoice->setDueDate();
         }
 
         return true;
