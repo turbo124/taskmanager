@@ -851,6 +851,10 @@ abstract class BaseCsvImporter
         );
     }
 
+    public function getHeaders() {
+        return $this->headers;
+    }
+
     /**
      * @param string $delimiter
      * @return $this
