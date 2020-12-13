@@ -99,6 +99,22 @@ class ImportController extends Controller
         return response()->json($data);
     }
 
+    private function mapColumns(Request $request)
+    {
+        $mappings = $request->input('mappings');
+
+        $new_array = [];
+
+        foreach($data as $index => $items) {
+            foreach($items as $key => $value) {
+
+                $new_array[$index][$renameMap[$key]] = $value;
+            }
+        }
+
+        return $new_array;
+    }
+
     public function export(Request $request)
     {
         $objImporter = (new ImportFactory())->loadImporter(
