@@ -1117,16 +1117,16 @@ abstract class BaseCsvImporter
      * @return array|bool
      * @throws CsvImporterException
      */
-    public function run()
+    public function run(bool $save_data = false)
     {
-        return $this->tryStart();
+        return $this->tryStart($save_data);
     }
 
     /**
      * @return array|bool
      * @throws CsvImporterException
      */
-    private function tryStart()
+    private function tryStart(bool $save_data = false)
     {
         if (!$this->isLocked()) {
             if (!$this->exists()) {
@@ -1136,7 +1136,7 @@ abstract class BaseCsvImporter
             $this->lock();
 
             $this->initialize();
-            $this->process();
+            $this->process($save_data);
             $this->finalStage();
 
             $this->setAsFinished();
@@ -1515,12 +1515,12 @@ abstract class BaseCsvImporter
     /**
      * @return void
      */
-    protected function process()
+    protected function process(bool $save_data = false)
     {
         $this->each(
             function ($item) {
                 $this->isCanceled();
-                ($this->validateItem($item)) ? $this->handle($item) : $this->invalid($item);
+                ($this->validateItem($item)) ? $this->handle($item, $save_data) : $this->invalid($item);
                 $this->incrementProgress();
             }
         );
