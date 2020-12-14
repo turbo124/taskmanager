@@ -38,7 +38,7 @@ export default class UserItem extends Component {
 
         if (users && users.length) {
             return users.map(user => {
-                const restoreButton = user.deleted_at && !user.is_deleted
+                const restoreButton = user.deleted_at
                     ? <RestoreModal id={user.id} entities={users} updateState={this.props.addUserToState}
                         url={`/api/users/restore/${user.id}`}/> : null
                 const archiveButton = !user.deleted_at

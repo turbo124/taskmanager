@@ -6,6 +6,8 @@ use App\Components\Mail\CaseMailHandler;
 use App\Components\Mail\LeadMailHandler;
 use BeyondCode\Mailbox\Facades\Mailbox;
 use Illuminate\Support\ServiceProvider;
+use App\LeadMailHandler;
+use App\CaseMailHandler;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
 //                $query->time
 //            );
 //        });
-
+      
         Mailbox::to('leads@tamtamcrm.com', LeadMailHandler::class);
         Mailbox::to('{hash}_cases+{number}@tamtamcrm.com', CaseMailHandler::class);
         Mailbox::to('{hash}_cases@tamtamcrm.com', CaseMailHandler::class);
