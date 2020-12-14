@@ -29,7 +29,26 @@ class ImportController extends Controller
      */
     public function import(Request $request)
     {
-        try {
+        $mappings = [
+        'test1'        => 'number',
+        'test2' => 'customer name',
+        'test3'          => 'date',
+        'test4'     => 'po number',
+        'test5'      => 'due date',
+        'test6'         => 'terms',
+        'test7'  => 'public notes',
+        'test8' => 'private notes',
+        'test9'   => 'description',
+        'test11'       => 'product',
+        'test12'    => 'unit_price',
+        'test13' => 'unit_discount',
+        'test14'      => 'unit_tax',
+        'test15'      => 'quantity',
+        'test16' => 'shipping_cost',
+        'test17'      => 'tax_rate'
+    ];
+       
+    try {
             $importer = (new ImportFactory())->loadImporter(
                 $request->input('import_type'),
                 auth()->user()->account_user()->account,
@@ -47,6 +66,7 @@ class ImportController extends Controller
             }
 
             $importer->setCsvFile($file_path);
+            $importer->setColumnMappings($mappings);
 
             $importer->run(true);
         } catch (Exception $e) {
