@@ -53,8 +53,10 @@ Route::group(
                 Route::post('bank_accounts/ofx/preview', 'BankAccountController@preview');
                 Route::post('bank_accounts/ofx/import', 'BankAccountController@import');
                 Route::resource('bank_accounts', 'BankAccountController');
-
+     
+                // import
                 Route::post('import', 'ImportController@import');
+                Route::post('import/preview', 'ImportController@importPreview');
                 Route::post('export', 'ImportController@export');
 
                 // banks
