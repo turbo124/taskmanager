@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Mail;
+namespace App\Components\Mail;
 
 class BaseMailHandler
 {

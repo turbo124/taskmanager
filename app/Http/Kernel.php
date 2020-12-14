@@ -10,6 +10,7 @@ use App\Http\Middleware\RedirectIfNotUser;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
+use App\Http\Middleware\TwoFactorVerification;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
@@ -89,7 +90,7 @@ class Kernel extends HttpKernel
         'api-header'       => API::class,
         'role'             => RoleMiddleware::class,
         'password.confirm' => RequirePassword::class,
-        'two_factor_auth'  => \App\Http\Middleware\TwoFactorVerification::class,
+        'two_factor_auth'  => TwoFactorVerification::class,
     ];
 
 }

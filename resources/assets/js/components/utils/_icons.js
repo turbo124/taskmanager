@@ -192,6 +192,8 @@ export function getSettingsIcon (section) {
             return icons.expense
         case 'task-settings':
             return icons.task
+        case 'case-settings':
+            return icons.case
         case 'invoice-settings':
             return icons.pound_sign
         case 'gateway-settings':

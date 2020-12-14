@@ -11,13 +11,43 @@ class BaseSettings
     protected array $validationFailures = [];
 
     protected array $account_settings = [
-        'case_forwarding_enabled'                => [
+        'case_forwarding_enabled'              => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => true,
             'type'             => 'bool'
         ],
-        'lead_forwarding_enabled'                => [
+        'send_overdue_case_email'              => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'default_case_assignee'                => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => null,
+            'type'             => 'int'
+        ],
+        'case_template_new'                    => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => null,
+            'type'             => 'int'
+        ],
+        'case_template_open'                   => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => null,
+            'type'             => 'int'
+        ],
+        'case_template_closed'                 => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => null,
+            'type'             => 'int'
+        ],
+        'lead_forwarding_enabled'              => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => true,

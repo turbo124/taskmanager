@@ -3,8 +3,8 @@
 namespace App\Events\Order;
 
 use App\Models\Order;
-use Illuminate\Queue\SerializesModels;
 use App\Traits\SendSubscription;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * Class OrderWasUpdated.

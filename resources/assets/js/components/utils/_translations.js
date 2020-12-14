@@ -213,6 +213,7 @@ _localizedValues.en = {
     add_template: 'Add Template',
     edit_template: 'Edit Template',
     default_case_priority: 'Default Case Priority',
+    default_case_assignee: 'Default Assignee',
     message: 'Message',
     send: 'Send',
     target_url: 'Target URL',
@@ -257,6 +258,7 @@ _localizedValues.en = {
     clone_quote: 'Clone Quote',
     clone_credit: 'Clone Credit',
     clone_expense: 'Clone Expense',
+    case_settings: 'Case Settings',
     expense_settings: 'Expense Settings',
     account_settings: 'Account Settings',
     task_settings: 'Task Settings',
@@ -519,6 +521,7 @@ _localizedValues.en = {
     po_number: 'PO Number',
     export: 'Export',
     number_settings: 'Number Settings',
+    templates: 'Templates',
     template_settings: 'Template Settings',
     workflow_settings: 'Workflow Settings',
     settings_saved: 'The settings have been updated succesfully!',
@@ -783,7 +786,8 @@ _localizedValues.en = {
     lead_forwarding_address: 'Lead Forwarding Address',
     case_forwarding_address: 'Case Forwarding Address',
     lead_forwarding_enabled: 'Lead Forwarding Enabled',
-    case_forwarding_enabled: 'Case Forwarding Enabled'
+    case_forwarding_enabled: 'Case Forwarding Enabled',
+    send_overdue_case_email: 'Send email for overdue cases'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id

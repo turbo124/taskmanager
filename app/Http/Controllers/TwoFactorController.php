@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class TwoFactorController extends Controller
 {
@@ -16,9 +14,12 @@ class TwoFactorController extends Controller
 
     public function verifyToken(Request $request)
     {
-        $this->validate($request, [
-            'token' => 'required|string',
-        ]);
+        $this->validate(
+            $request,
+            [
+                'token' => 'required|string',
+            ]
+        );
 
         $user = auth()->user();
 

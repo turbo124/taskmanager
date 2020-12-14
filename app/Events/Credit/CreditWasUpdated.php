@@ -3,10 +3,10 @@
 namespace App\Events\Credit;
 
 use App\Models\Credit;
+use App\Traits\SendSubscription;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Traits\SendSubscription;
 
 class CreditWasUpdated
 {

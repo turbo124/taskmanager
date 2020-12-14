@@ -3,6 +3,8 @@
 namespace Tests\Unit;
 
 use App\Factory\CaseFactory;
+use App\Jobs\Cases\ProcessOverdueCases;
+use App\Mail\TestMail;
 use App\Models\Account;
 use App\Models\Cases;
 use App\Models\Customer;
@@ -11,10 +13,13 @@ use App\Repositories\CaseRepository;
 use App\Requests\SearchRequest;
 use App\Search\CaseSearch;
 use App\Transformations\TaskTransformable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class CaseTest extends TestCase
@@ -115,27 +120,49 @@ class CaseTest extends TestCase
         $this->assertEquals($data['message'], $case->message);
     }
 
-    /* public function incoming_mail_is_saved_to_the_leads_table() {
+    /** @test */
+    public function incoming_mail_is_saved_to_the_cases_table()
+    {
         // Given: we have an e-mail﻿
         $email = new TestMail(
-            $sender = 'sender@example.com',
+            $sender = 'michaelhamptondesign@yahoo.com',
             $subject = 'Test E-mail',
             $body = 'Some example text in the body'
         );
 
+        $user = User::whereId(5)->first();
+
+        Auth::login($user);
+
         // When: we receive that e-mail
-        Mail::to('leads@tamtamcrm.com')->send($email);
+        //Mail::to('michael.hampton_cases+0003@tamtamcrm.com')->send($email);
+        Mail::to('michael.hampton_cases@tamtamcrm.com')->send($email);
 
         // Then: we assert the e-mails (meta)data was stored
-        $lead = Lead::whereName($subject)->first();
-        //$this->assertInstanceOf(Lead::class, $lead);
-       
-        tap(Lead::whereName($subject)->first(), function ($mail) use ($sender, $subject, $body) {
-            $this->assertEquals($sender, $mail->sender);    
-            $this->assertEquals($subject, $mail->subject);    
-            $this->assertContains($body, $mail->body);    
-        });
-    } */
+        $case = Cases::whereSubject($subject)->first();
+        $this->assertInstanceOf(Cases::class, $case);
+    }
+
+    public function test_overdue_case()
+    {
+        $data = [
+            'account_id'  => $this->account->id,
+            'user_id'     => 5,
+            'customer_id' => $this->customer->id,
+            'subject'     => $this->faker->word,
+            'message'     => $this->faker->sentence,
+            'due_date'    => Carbon::tomorrow(),
+            'status_id' => Cases::STATUS_OPEN
+        ];
+
+        $caseRepo = new CaseRepository(new Cases);
+        $factory = (new CaseFactory)->create($this->account, $this->user, $this->customer);
+        $case = $caseRepo->createCase($data, $factory);
+
+        ProcessOverdueCases::dispatchNow(new CaseRepository(new Cases()));
+
+        $this->assertInstanceOf(Cases::class, $case);
+    }
 
     public function tearDown(): void
     {

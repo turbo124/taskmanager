@@ -4,6 +4,8 @@
 namespace App\Components\Import;
 
 
+use ReflectionClass;
+
 trait NameableTrait
 {
     /**
@@ -16,6 +18,6 @@ trait NameableTrait
      */
     public function __toString()
     {
-        return ($this->name && is_string($this->name)) ? $this->name : (new \ReflectionClass($this))->getShortName();
+        return ($this->name && is_string($this->name)) ? $this->name : (new ReflectionClass($this))->getShortName();
     }
 }

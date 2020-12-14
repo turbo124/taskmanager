@@ -2,7 +2,10 @@
 
 namespace App\Components\Import;
 
+use BadMethodCallException;
 use Carbon\Carbon;
+use Closure;
+use Exception;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Cache\FileStore;
 use Illuminate\Cache\MemcachedStore;
@@ -21,6 +24,7 @@ use NinjaMutex\Lock\MemcachedLock;
 use NinjaMutex\Lock\PredisRedisLock;
 use NinjaMutex\Mutex;
 use Predis\Client as PredisClient;
+use SplFileInfo;
 
 /**
  * Class BaseCsvImporter
@@ -326,7 +330,7 @@ abstract class BaseCsvImporter
     {
         try {
             return Carbon::createFromFormat($this->csvDateFormat, $date);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->dummyCarbonDate();
         }
     }
@@ -353,7 +357,7 @@ abstract class BaseCsvImporter
     {
         try {
             return Carbon::parse(trim(preg_replace('/(\/|\\\|\||\.|\,)/', '-', $date)));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->dummyCarbonDate();
         }
     }
@@ -521,7 +525,7 @@ abstract class BaseCsvImporter
      */
     protected static function isClosure($filter)
     {
-        return ($filter instanceof \Closure);
+        return ($filter instanceof Closure);
     }
 
     /**
@@ -588,17 +592,6 @@ abstract class BaseCsvImporter
         return static::addFilters(self::VALIDATION, func_get_args());
     }
 
-    public function setColumnMappings(array $column_mappings) 
-    {
-        $this->column_mappings = $column_mappings;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Getter
-    |--------------------------------------------------------------------------
-    */
-
     /**
      * @parameters BaseHeaderFilter
      * @return array
@@ -607,6 +600,12 @@ abstract class BaseCsvImporter
     {
         return static::addFilters(self::CAST, func_get_args());
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Getter
+    |--------------------------------------------------------------------------
+    */
 
     /**
      * @param $filter
@@ -618,12 +617,6 @@ abstract class BaseCsvImporter
         return static::addFilter(self::HEADERS, $filter, $name);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Basic csv manipulation methods
-    |--------------------------------------------------------------------------
-    */
-
     /**
      * @param $filter
      * @param null $name
@@ -633,6 +626,12 @@ abstract class BaseCsvImporter
     {
         return static::addFilter(self::VALIDATION, $filter, $name);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Basic csv manipulation methods
+    |--------------------------------------------------------------------------
+    */
 
     /**
      * @param $filter
@@ -652,6 +651,15 @@ abstract class BaseCsvImporter
         return static::getFilters(self::CAST);
     }
 
+    /**
+     * @param $type
+     * @return mixed
+     */
+    public static function getFilters($type)
+    {
+        return Arr::get(static::${$type . 'Filters'}, static::class, []);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Api methods
@@ -665,6 +673,26 @@ abstract class BaseCsvImporter
     public static function getHeadersFilter($name)
     {
         return static::getFilter(self::HEADERS, $name);
+    }
+
+    /**
+     * @param $type
+     * @param $name
+     * @return null
+     */
+    public static function getFilter($type, $name)
+    {
+        return (static::filterExists($type, $name)) ? static::${$type . 'Filters'}[static::class][$name] : null;
+    }
+
+    /**
+     * @param $type
+     * @param $name
+     * @return bool
+     */
+    public static function filterExists($type, $name)
+    {
+        return isset(static::${$type . 'Filters'}[static::class][$name]);
     }
 
     /**
@@ -726,6 +754,12 @@ abstract class BaseCsvImporter
         return static::flushFilters(self::HEADERS);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Main functionality
+    |--------------------------------------------------------------------------
+    */
+
     /**
      * @param $type
      * @return array
@@ -744,12 +778,6 @@ abstract class BaseCsvImporter
     {
         return static::flushFilters(self::VALIDATION);
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Main functionality
-    |--------------------------------------------------------------------------
-    */
 
     /**
      * @return array
@@ -775,6 +803,11 @@ abstract class BaseCsvImporter
     public static function castFilterExists($name)
     {
         return static::filterExists(self::CAST, $name);
+    }
+
+    public function setColumnMappings(array $column_mappings)
+    {
+        $this->column_mappings = array_flip($column_mappings);
     }
 
     /**
@@ -828,7 +861,7 @@ abstract class BaseCsvImporter
     }
 
     /**
-     * @param string|\SplFileInfo $file
+     * @param string|SplFileInfo $file
      * @return static
      */
     public function setCsvFile($file)
@@ -858,7 +891,8 @@ abstract class BaseCsvImporter
         );
     }
 
-    public function getHeaders() {
+    public function getHeaders()
+    {
         return $this->headers;
     }
 
@@ -1013,10 +1047,10 @@ abstract class BaseCsvImporter
     }
 
     /**
-     * @param \Closure $callable
+     * @param Closure $callable
      * @return bool
      */
-    public function each(\Closure $callable)
+    public function each(Closure $callable)
     {
         if (!$this->exists()) {
             return false;
@@ -1083,26 +1117,6 @@ abstract class BaseCsvImporter
     public static function getCastFilter($name)
     {
         return static::getFilter(self::CAST, $name);
-    }
-
-    /**
-     * @param $type
-     * @param $name
-     * @return null
-     */
-    public static function getFilter($type, $name)
-    {
-        return (static::filterExists($type, $name)) ? static::${$type . 'Filters'}[static::class][$name] : null;
-    }
-
-    /**
-     * @param $type
-     * @param $name
-     * @return bool
-     */
-    public static function filterExists($type, $name)
-    {
-        return isset(static::${$type . 'Filters'}[static::class][$name]);
     }
 
     /**
@@ -1351,8 +1365,11 @@ abstract class BaseCsvImporter
     protected function validateHeaders()
     {
         foreach ($this->getRequiredHeaders() as $field) {
-            if (array_search($field, $this->headers) === false) {
-                $this->setError('Required headers not found:', 'The "' . $field . '" header is required');
+            if (array_search($this->column_mappings[$field], $this->headers) === false) {
+                $this->setError(
+                    'Required headers not found:',
+                    'The "' . $this->column_mappings['field'] . '" header is required'
+                );
             }
         }
 
@@ -1408,15 +1425,6 @@ abstract class BaseCsvImporter
     public static function getHeadersFilters()
     {
         return static::getFilters(self::HEADERS);
-    }
-
-    /**
-     * @param $type
-     * @return mixed
-     */
-    public static function getFilters($type)
-    {
-        return Arr::get(static::${$type . 'Filters'}, static::class, []);
     }
 
     /**
@@ -1529,7 +1537,7 @@ abstract class BaseCsvImporter
     protected function process(bool $save_data = false)
     {
         $this->each(
-            function ($item) {
+            function ($item) use ($save_data) {
                 $this->isCanceled();
                 ($this->validateItem($item)) ? $this->handle($item, $save_data) : $this->invalid($item);
                 $this->incrementProgress();
@@ -1553,13 +1561,16 @@ abstract class BaseCsvImporter
             $customValidationRules = [];
 
             foreach ($this->config['mappings'] as $field => $rules) {
-                if (isset($rules[self::VALIDATION]) && isset($item[$field])) {
+                if (isset($rules[self::VALIDATION]) && isset($item[$this->column_mappings[$field]])) {
                     $rules = $this->separateValidationFilters($rules[self::VALIDATION]);
 
-                    $validationRules[$field] = $rules['standard'];
+                    $validationRules[$this->column_mappings[$field]] = $rules['standard'];
 
                     if (!empty($rules['custom'])) {
-                        $customValidationRules[] = ['filters' => $rules['custom'], 'value' => $item[$field]];
+                        $customValidationRules[] = [
+                            'filters' => $rules['custom'],
+                            'value'   => $item[$this->column_mappings[$field]]
+                        ];
                     }
                 }
             }
@@ -1660,7 +1671,7 @@ abstract class BaseCsvImporter
     {
         try {
             return Validator::make($item, $validationRules)->passes();
-        } catch (\BadMethodCallException $e) {
+        } catch (BadMethodCallException $e) {
             throw new ImportValidationException($e->getMessage(), 400);
         }
     }
@@ -1671,7 +1682,7 @@ abstract class BaseCsvImporter
      * @param $item
      * @return array
      */
-    protected function handle($item)
+    protected function handle($item, bool $save_data = false)
     {
         die('lexie');
     }
@@ -1896,7 +1907,7 @@ abstract class BaseCsvImporter
     {
         try {
             return $this->csvWriters[$fileName]->insertOne($item);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new CsvImporterException(
                 ['message' => $fileName . ' file was not found, please check `csv_files` paths inside your configurations'],
                 400

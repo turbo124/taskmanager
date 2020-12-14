@@ -3,8 +3,8 @@
 namespace App\Events\Invoice;
 
 use App\Models\Invoice;
-use Illuminate\Queue\SerializesModels;
 use App\Traits\SendSubscription;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * Class InvoiceWasUpdated.

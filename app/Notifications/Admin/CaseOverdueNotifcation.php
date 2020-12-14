@@ -86,7 +86,7 @@ class CaseOverdueNotification extends Notification implements ShouldQueue
             'texts.notification_case_overdue_subject',
             [
                 'customer' => $this->case->customer->name,
-                'number' => $this->case->number,
+                'number'   => $this->case->number,
                 'due_date' => $this->case->due_date
             ]
         );

@@ -75,7 +75,11 @@ class AddLeadForm extends React.Component {
 
         this.leadModel.save(data).then(response => {
             if (!response) {
-                this.setState({ loading:false, errors: this.leadModel.errors, message: this.leadModel.error_message })
+                this.setState({
+                    loading: false,
+                    errors: this.leadModel.errors,
+                    message: this.leadModel.error_message
+                })
                 return
             }
             this.props.leads.push(response)

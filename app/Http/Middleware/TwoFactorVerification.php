@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Mail\TwoFactorAuthMail;
 use Carbon\Carbon;
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class TwoFactorVerification
@@ -12,8 +13,8 @@ class TwoFactorVerification
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param Request $request
+     * @param Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -24,7 +25,7 @@ class TwoFactorVerification
             return $next($request);
         }
 
-        $user->two_factor_token = mt_rand(10000,99999);
+        $user->two_factor_token = mt_rand(10000, 99999);
         $user->save();
 
         Mail::to($user)->send(new TwoFactorAuthMail($user->two_factor_token));

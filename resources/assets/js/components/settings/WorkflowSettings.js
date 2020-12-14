@@ -133,98 +133,6 @@ export default class WorkflowSettings extends Component {
         return formFields
     }
 
-    getExpenseFields () {
-        const settings = this.state.settings
-
-        const formFields = [
-            [
-                {
-                    name: 'create_expense_invoice',
-                    label: translations.create_expense_invoice,
-                    icon: `fa ${icons.envelope}`,
-                    type: 'switch',
-                    value: settings.create_expense_invoice,
-                    help_text: translations.create_expense_invoice_help,
-                    group: 1
-                },
-                {
-                    name: 'include_expense_documents',
-                    label: translations.include_expense_documents,
-                    icon: `fa ${icons.archive}`,
-                    type: 'switch',
-                    value: settings.include_expense_documents,
-                    help_text: translations.include_expense_documents_help,
-                    group: 1
-                },
-                {
-                    name: 'create_expense_payment',
-                    label: translations.create_expense_payment,
-                    icon: `fa ${icons.archive}`,
-                    type: 'switch',
-                    value: settings.create_expense_payment,
-                    help_text: translations.create_expense_payment_help,
-                    group: 1
-                },
-                {
-                    name: 'convert_expense_currency',
-                    label: translations.convert_expense_currency,
-                    icon: `fa ${icons.archive}`,
-                    type: 'switch',
-                    value: settings.convert_expense_currency,
-                    help_text: translations.convert_expense_currency_help,
-                    group: 1
-                }
-            ]
-        ]
-
-        return formFields
-    }
-
-    getTaskFields () {
-        const settings = this.state.settings
-
-        return [
-            [
-                {
-                    name: 'task_automation_enabled',
-                    label: translations.task_automation_enabled,
-                    icon: `fa ${icons.envelope}`,
-                    type: 'switch',
-                    value: settings.task_automation_enabled,
-                    help_text: translations.task_automation_enabled_help,
-                    group: 1
-                },
-                {
-                    name: 'include_task_documents',
-                    label: translations.include_expense_documents,
-                    icon: `fa ${icons.archive}`,
-                    type: 'switch',
-                    value: settings.include_task_documents,
-                    help_text: translations.include_expense_documents_help,
-                    group: 1
-                },
-                {
-                    name: 'show_tasks_onload',
-                    label: translations.show_tasks_onload,
-                    icon: `fa ${icons.archive}`,
-                    type: 'switch',
-                    value: settings.show_tasks_onload,
-                    help_text: translations.show_tasks_onload_help,
-                    group: 1
-                },
-                {
-                    name: 'include_times_on_invoice',
-                    label: translations.include_times_on_invoice,
-                    icon: `fa ${icons.archive}`,
-                    type: 'switch',
-                    value: settings.include_times_on_invoice,
-                    help_text: translations.include_times_on_invoice_help,
-                    group: 1
-                }
-            ]
-        ]
-    }
-
     getInvoiceFields () {
         const settings = this.state.settings
 
@@ -316,7 +224,7 @@ export default class WorkflowSettings extends Component {
                             text: translations.when_sent
                         }
                     ]
-                },
+                }
             ]
         ]
 
@@ -420,39 +328,6 @@ export default class WorkflowSettings extends Component {
                     icon: `fa ${icons.book}`,
                     type: 'switch',
                     value: settings.should_convert_deal,
-                    group: 1
-                }
-            ]
-        ]
-
-        return formFields
-    }
-
-    getCaseFields () {
-        const settings = this.state.settings
-
-        const formFields = [
-            [
-                {
-                    name: 'default_case_priority',
-                    label: translations.default_case_priority,
-                    icon: `fa ${icons.envelope}`,
-                    type: 'select',
-                    options: [
-                        {
-                            value: consts.low_priority,
-                            text: translations.low
-                        },
-                        {
-                            value: consts.medium_priority,
-                            text: translations.medium
-                        },
-                        {
-                            value: consts.high_priority,
-                            text: translations.high
-                        }
-                    ],
-                    value: settings.default_case_priority,
                     group: 1
                 }
             ]
@@ -595,51 +470,16 @@ export default class WorkflowSettings extends Component {
             </NavItem>
             }
 
-            {modules && modules.cases &&
-            <NavItem>
-                <NavLink
-                    className={this.state.activeTab === '7' ? 'active' : ''}
-                    onClick={(e) => {
-                        this.toggle('7', e)
-                    }}>
-                    {translations.cases}
-                </NavLink>
-            </NavItem>
-            }
-
             {modules && modules.payments &&
             <NavItem>
                 <NavLink
-                    className={this.state.activeTab === '8' ? 'active' : ''}
+                    className={this.state.activeTab === '7' ? 'active' : ''}
                     onClick={(e) => {
                         this.toggle('8', e)
                     }}>
                     {translations.payments}
                 </NavLink>
             </NavItem>
-            }
-
-            { // modules && modules.expenses &&
-                // <NavItem>
-                //     <NavLink
-                //         className={this.state.activeTab === '9' ? 'active' : ''}
-                //         onClick={(e) => {
-                //             this.toggle('9', e)
-                //         }}>
-                //         {translations.expenses}
-                //     </NavLink>
-                // </NavItem>
-            }
-            {// modules && modules.tasks &&
-                // <NavItem>
-                //     <NavLink
-                //         className={this.state.activeTab === '10' ? 'active' : ''}
-                //         onClick={(e) => {
-                //             this.toggle('10', e)
-                //         }}>
-                //         {translations.tasks}
-                //     </NavLink>
-                // </NavItem>
             }
         </Nav>
 
@@ -726,40 +566,7 @@ export default class WorkflowSettings extends Component {
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getCaseFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-
-                    <TabPane className="pr-0 pl-0" tabId="8">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
                                     formFieldsRows={this.getPaymentFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-
-                    <TabPane className="pr-0 pl-0" tabId="9">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getExpenseFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-
-                    <TabPane className="pr-0 pl-0" tabId="10">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getTaskFields()}
                                 />
                             </CardBody>
                         </Card>

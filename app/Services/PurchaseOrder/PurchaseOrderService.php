@@ -4,7 +4,6 @@ namespace App\Services\PurchaseOrder;
 
 use App\Components\Pdf\PurchaseOrderPdf;
 use App\Events\PurchaseOrder\PurchaseOrderWasApproved;
-use App\Events\PurchaseOrder\PurchaseOrderWasEmailed;
 use App\Factory\QuoteToRecurringPurchaseOrderFactory;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\Invoice;

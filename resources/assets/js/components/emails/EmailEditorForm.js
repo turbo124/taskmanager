@@ -164,7 +164,7 @@ export default class EmailEditorForm extends Component {
                     {this.renderErrorFor('body')}
                 </FormGroup>
 
-                {typeof this.props.model.isSent !== 'undefined' && this.props.model.isSent === false && 
+                {typeof this.props.model.isSent !== 'undefined' && this.props.model.isSent === false &&
                 <FormGroup check>
                     <Label check>
                         <Input value={this.state.mark_sent} onChange={this.props.handleCheck} type="checkbox"/>

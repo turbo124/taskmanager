@@ -67,9 +67,12 @@ export default class Details extends Component {
                         <option value={consts.expense_created_subscription}>{translations.expense_created}</option>
                         <option value={consts.expense_updated_subscription}>{translations.expense_updated}</option>
                         <option value={consts.expense_deleted_subscription}>{translations.expense_deleted}</option>
-                        <option value={consts.purchase_order_created_subscription}>{translations.purchase_order_created}</option>
-                        <option value={consts.purchase_order_updated_subscription}>{translations.purchase_order_updated}</option>
-                        <option value={consts.purchase_order_deleted_subscription}>{translations.purchase_order_deleted}</option>
+                        <option
+                            value={consts.purchase_order_created_subscription}>{translations.purchase_order_created}</option>
+                        <option
+                            value={consts.purchase_order_updated_subscription}>{translations.purchase_order_updated}</option>
+                        <option
+                            value={consts.purchase_order_deleted_subscription}>{translations.purchase_order_deleted}</option>
                         <option value={consts.company_created_subscription}>{translations.company_created}</option>
                         <option value={consts.company_updated_subscription}>{translations.company_updated}</option>
                         <option value={consts.company_deleted_subscription}>{translations.company_deleted}</option>

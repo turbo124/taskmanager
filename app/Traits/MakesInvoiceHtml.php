@@ -99,12 +99,12 @@ trait MakesInvoiceHtml
         }
 
         $data = [
-            'entity' => $entity,
-            'lang' => $lang,
+            'entity'   => $entity,
+            'lang'     => $lang,
             'settings' => $settings,
-            'header' => $designer->getSection('header'),
-            'body' => str_replace('$table_here', $table, $designer->getSection('body')),
-            'footer' => $footer
+            'header'   => $designer->getSection('header'),
+            'body'     => str_replace('$table_here', $table, $designer->getSection('body')),
+            'footer'   => $footer
         ];
 
         $html = view('pdf.stub', $data)->render();

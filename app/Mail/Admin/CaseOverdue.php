@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Mail\Admin;
@@ -52,7 +51,7 @@ class CaseOverdue extends AdminMailer
     {
         return [
             'customer' => $this->case->customer->name,
-            'number' => $this->case->number,
+            'number'   => $this->case->number,
             'due_date' => $this->case->due_date
         ];
     }

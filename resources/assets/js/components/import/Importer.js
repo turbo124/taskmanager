@@ -3,7 +3,7 @@ import UploadService from '../bank_accounts/UploadService'
 import ImportPreview from '../bank_accounts/ImportPreview'
 import { translations } from '../utils/_translations'
 import Snackbar from '@material-ui/core/Snackbar'
-import { Alert, CustomInput } from 'reactstrap'
+import { Alert, CustomInput, Form, FormGroup, Label } from 'reactstrap'
 import queryString from 'query-string'
 import FormatMoney from '../common/FormatMoney'
 import moment from 'moment'
@@ -26,12 +26,19 @@ export default class Importer extends React.Component {
             fileInfos: [],
             loading: false,
             checked: new Set(),
-            bank_id: queryString.parse(this.props.location.search).bank_id || 0
+            bank_id: queryString.parse(this.props.location.search).bank_id || 0,
+            headers: [],
+            columns: [],
+            hash: '',
+            mappings: {}
         }
 
         this.selectFile = this.selectFile.bind(this)
         this.upload = this.upload.bind(this)
         this.export = this.export.bind(this)
+        this.preview = this.preview.bind(this)
+        this.buildSelectList = this.buildSelectList.bind(this)
+        this.handleInputChanges = this.handleInputChanges.bind(this)
     }
 
     componentDidMount () {
@@ -81,6 +88,46 @@ export default class Importer extends React.Component {
             })
     }
 
+    preview () {
+        if (!this.state.import_type.length) {
+            alert('Please select an import type')
+            return false
+        }
+
+        const currentFile = this.state.selectedFile
+
+        this.setState({
+            progress: 0,
+            currentFile: currentFile
+        })
+
+        UploadService.preview(currentFile, `/api/import/preview?file_type=${this.state.file_type}`, this.state.import_type, (event) => {
+            this.setState({
+                progress: Math.round((100 * event.loaded) / event.total)
+            })
+        })
+            .then((response) => {
+                this.setState({
+                    error: response.data.length === 0,
+                    error_message: response.data.length === 0 ? translations.no_expenses_found : translations.unexpected_error,
+                    headers: response.data.headers,
+                    columns: response.data.columns,
+                    hash: response.data.filename,
+                    progress: 0,
+                    currentFile: undefined
+                })
+                // return UploadService.getFiles()
+            })
+            .catch((e) => {
+                alert(e)
+                this.setState({
+                    progress: 0,
+                    message: 'Could not upload the file!',
+                    currentFile: undefined
+                })
+            })
+    }
+
     upload () {
         if (!this.state.import_type.length) {
             alert('Please select an import type')
@@ -94,7 +141,13 @@ export default class Importer extends React.Component {
             currentFile: currentFile
         })
 
-        UploadService.upload(currentFile, `/api/import?file_type=${this.state.file_type}`, this.state.import_type, (event) => {
+        console.log('mapoings', this.state.mappings)
+
+        UploadService.upload(currentFile, `/api/import?file_type=${this.state.file_type || 'csv'}`, {
+            import_type: this.state.import_type,
+            mappings: JSON.stringify(this.state.mappings),
+            hash: this.state.hash
+        }, (event) => {
             this.setState({
                 progress: Math.round((100 * event.loaded) / event.total)
             })
@@ -171,6 +224,35 @@ export default class Importer extends React.Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
+    handleInputChanges (e) {
+        const mappings = this.state.mappings
+
+        mappings[e.target.name] = e.target.value
+
+        this.setState({ mappings: mappings }, () => {
+            console.log('mappings', this.state.mappings)
+        })
+    }
+
+    buildSelectList (header) {
+        let columns = null
+        if (!this.state.columns.length) {
+            columns = <option value="">Loading...</option>
+        } else {
+            columns = this.state.columns.map((column, index) => (
+                <option key={index} value={column}>{column}</option>
+            ))
+        }
+
+        return (
+            <select className="form-control form-control-inline" onChange={this.handleInputChanges}
+                name={header} id={header}>
+                <option value="">{translations.select_option}</option>
+                {columns}
+            </select>
+        )
+    }
+
     render () {
         const {
             checked,
@@ -179,6 +261,8 @@ export default class Importer extends React.Component {
             progress,
             message,
             fileInfos,
+            headers,
+            columns,
             loading,
             show_success,
             error,
@@ -187,6 +271,18 @@ export default class Importer extends React.Component {
         } = this.state
 
         const total = checked.size > 0 && fileInfos.length ? fileInfos.filter(row => checked.has(row.uniqueId)).reduce((result, { amount }) => result += amount, 0) : 0
+
+        const preview = headers.length && columns.length
+            ? headers.map((header, index) => {
+                const select_list = this.buildSelectList(header)
+                return <Form className="p-2" key={index} inline>
+                    <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                        <Label for="exampleEmail" className="mr-sm-2">{header}</Label>
+                        {select_list}
+                    </FormGroup>
+                </Form>
+            })
+            : null
 
         return (
             <React.Fragment>
@@ -243,12 +339,14 @@ export default class Importer extends React.Component {
                                         </div>
 
                                         <div className="col">
+                                            {!!this.state.hash.length &&
                                             <button className="btn btn-success"
                                                 disabled={!selectedFile}
                                                 onClick={this.upload}
                                             >
                                                 {translations.upload}
                                             </button>
+                                            }
 
                                             <button className="btn btn-success ml-2"
                                                 disabled={!this.state.import_type}
@@ -256,6 +354,15 @@ export default class Importer extends React.Component {
                                             >
                                                 {translations.export}
                                             </button>
+
+                                            {!this.state.hash.length &&
+                                            <button className="btn btn-success ml-2"
+                                                disabled={!this.state.import_type}
+                                                onClick={this.preview}
+                                            >
+                                                {translations.preview}
+                                            </button>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -267,6 +374,10 @@ export default class Importer extends React.Component {
                                 }
                             </div>
                         </div>
+
+                        {!!preview &&
+                        preview
+                        }
 
                         {fileInfos.length &&
                         <div className="card mt-2">

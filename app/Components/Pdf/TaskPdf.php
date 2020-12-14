@@ -9,6 +9,7 @@ use App\Models\Timer;
 use App\Repositories\TimerRepository;
 use ReflectionClass;
 use ReflectionException;
+use stdClass;
 
 class TaskPdf extends PdfBuilder
 {
@@ -59,7 +60,7 @@ class TaskPdf extends PdfBuilder
         $labels = $this->getLabels();
         $values = $this->getValues();
 
-        $table = new \stdClass();
+        $table = new stdClass();
 
         $table->header = '<tr>';
         $table->body = '';

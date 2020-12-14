@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
+use Imagick;
 
 class SetupController extends Controller
 {
@@ -370,9 +371,9 @@ class SetupController extends Controller
     {
         phpinfo();
 
-        if(!class_exists(\Imagick::class)) {
+        if (!class_exists(Imagick::class)) {
             die('here');
-            }
+        }
 
         die('mike');
 

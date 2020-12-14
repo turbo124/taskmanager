@@ -12,6 +12,7 @@ use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\ExpenseRepositoryInterface;
 use App\Requests\SearchRequest;
 use App\Search\ExpenseSearch;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * ExpenseRepository
@@ -46,7 +47,7 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
     /**
      * @param SearchRequest $search_request
      * @param Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @return LengthAwarePaginator|mixed
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {

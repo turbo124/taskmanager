@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Invoice;
 
+use App\Components\InvoiceCalculator\LineItem;
 use App\Factory\InvoiceFactory;
 use App\Models\Account;
 use App\Models\Customer;
@@ -49,7 +50,7 @@ class CreateInvoice implements ShouldQueue
             'date' => Carbon::now()
         ];
 
-        $data['line_items'][] = (new \App\Components\InvoiceCalculator\LineItem)
+        $data['line_items'][] = (new LineItem)
             ->setQuantity(!empty($this->data['quantity']) ? $this->data['quantity'] : 1)
             ->setUnitPrice($this->product->price)
             ->calculateSubTotal()

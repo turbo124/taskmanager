@@ -20,6 +20,7 @@ export default class Menu extends Component {
                     <MenuItem section="product-settings"/>
                     <MenuItem section="expense-settings"/>
                     <MenuItem section="task-settings"/>
+                    <MenuItem section="case-settings"/>
                     <MenuItem section="account-management"/>
                     <MenuItem section="device-settings"/>
                     <DropdownItem divider/>

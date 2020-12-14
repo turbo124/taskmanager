@@ -552,7 +552,8 @@ export default class EditOrder extends Component {
         const documents = this.state.id ? <Documents order={this.state}/> : null
 
         const dropdownMenu = this.state.id
-            ? <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.orders} formData={this.getFormData()}
+            ? <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.orders}
+                formData={this.getFormData()}
                 model={this.orderModel}
                 task_id={this.state.task_id}
                 handleTaskChange={this.handleTaskChange}

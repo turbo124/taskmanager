@@ -2,12 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Factory\InvoiceFactory;
-use App\Models\Account;
-use App\Models\Customer;
-use App\Models\Invoice;
-use App\Models\Product;
-use App\Repositories\InvoiceRepository;
 use App\Traits\CalculateRecurring;
 use App\Traits\CreditPayment;
 use Carbon\Carbon;
@@ -16,6 +10,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use ReflectionClass;
+use ReflectionException;
 
 class ResetNumbers implements ShouldQueue
 {
@@ -58,9 +54,9 @@ class ResetNumbers implements ShouldQueue
      */
     public function __construct($entity, bool $reset_all = true, bool $reset_customer = true)
     {
-       $this->entity = $entity;
-       $this->reset_all = $reset_all;
-       $this->reset_customer = $reset_customer;
+        $this->entity = $entity;
+        $this->reset_all = $reset_all;
+        $this->reset_customer = $reset_customer;
     }
 
     public function handle()
@@ -73,7 +69,7 @@ class ResetNumbers implements ShouldQueue
      * @param bool $reset_all
      * @param bool $reset_customer
      * @return bool
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function resetCounters(): bool
     {
@@ -92,7 +88,7 @@ class ResetNumbers implements ShouldQueue
         $next_date_to_send = $this->calculateDate($frequency_type)->format('Y-m-d');
 
         if (!$this->reset_all) {
-            $entity_id = strtolower((new \ReflectionClass($this->entity))->getShortName());
+            $entity_id = strtolower((new ReflectionClass($this->entity))->getShortName());
             $counter_var = "{$entity_id}_number_counter";
             $this->resetVariable($counter_var, $next_date_to_send);
         }

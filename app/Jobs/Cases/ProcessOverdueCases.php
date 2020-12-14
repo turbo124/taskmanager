@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Jobs\Case;
+namespace App\Jobs\Cases;
 
+use App\Jobs\Subscription\SendSubscription;
 use App\Models\Cases;
 use App\Models\Subscription;
-use App\Repositories\CaseRepository;
 use App\Notifications\Admin\CaseOverdueNotification;
-use Carbon\Carbon;
+use App\Repositories\CaseRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use ReflectionClass;
 
 class ProcessOverdueCases implements ShouldQueue
 {
@@ -56,12 +57,12 @@ class ProcessOverdueCases implements ShouldQueue
     }
 
     /**
-     * @param Invoice $invoice
+     * @param Cases $case
      */
     private function handleOverdueCases(Cases $case)
     {
         $event_name = 'LATECASES';
-        $class = new \ReflectionClass(Subscription::class);
+        $class = new ReflectionClass(Subscription::class);
         $value = $class->getConstant(strtoupper($event_name));
 
         SendSubscription::dispatchNow($case, $value);

@@ -1,13 +1,6 @@
 import { Badge } from 'reactstrap'
 import React from 'react'
-import {
-    caseLinkTypes,
-    casePriorities,
-    casePriorityColors,
-    caseStatusColors,
-    caseStatuses,
-    quoteStatusColors, quoteStatuses
-} from '../utils/_consts'
+import { caseLinkTypes, casePriorities, casePriorityColors, caseStatusColors, caseStatuses } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 import FormatDate from '../common/FormatDate'
 

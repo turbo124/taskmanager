@@ -13,6 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use ReflectionClass;
 
 class ProcessReminders implements ShouldQueue
 {
@@ -189,7 +190,7 @@ class ProcessReminders implements ShouldQueue
     private function handleLateInvoices(Invoice $invoice)
     {
         $event_name = 'LATEINVOICES';
-        $class = new \ReflectionClass(Subscription::class);
+        $class = new ReflectionClass(Subscription::class);
         $value = $class->getConstant(strtoupper($event_name));
 
         SendSubscription::dispatchNow($invoice, $value);

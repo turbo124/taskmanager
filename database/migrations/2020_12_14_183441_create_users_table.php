@@ -39,6 +39,8 @@ class CreateUsersTable extends Migration
             $table->dateTime('last_login')->nullable();
             $table->string('ip', 200)->nullable();
             $table->unsignedInteger('domain_id')->index('domain_id');
+            $table->string('two_factor_token');
+            $table->dateTime('two_factor_expiry')->nullable();
         });
     }
 

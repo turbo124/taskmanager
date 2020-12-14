@@ -87,7 +87,8 @@ export default class AddCase extends React.Component {
             category_id: this.state.category_id,
             assigned_to: this.state.assigned_to,
             link_type: this.state.link_type,
-            link_value: this.state.link_value
+            link_project_value: this.state.link_project_value,
+            link_product_value: this.state.link_product_value
         }
 
         this.caseModel.save(data).then(response => {

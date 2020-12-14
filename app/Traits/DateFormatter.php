@@ -5,6 +5,7 @@ namespace App\Traits;
 
 
 use Carbon\Carbon;
+use Exception;
 
 trait DateFormatter
 {
@@ -23,7 +24,7 @@ trait DateFormatter
 
         try {
             return Carbon::parse($value)->format($date_format);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return '';
         }
 

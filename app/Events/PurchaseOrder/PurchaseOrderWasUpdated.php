@@ -3,8 +3,8 @@
 namespace App\Events\PurchaseOrder;
 
 use App\Models\PurchaseOrder;
-use Illuminate\Queue\SerializesModels;
 use App\Traits\SendSubscription;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * Class QuoteWasUpdated.

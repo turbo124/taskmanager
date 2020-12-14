@@ -5,7 +5,6 @@ namespace App\Listeners\PurchaseOrder;
 
 
 use App\Notifications\Admin\PurchaseOrderApprovedNotification;
-use App\Notifications\Admin\QuoteApprovedNotification;
 use App\Traits\Notifications\UserNotifies;
 use Illuminate\Support\Facades\Notification;
 

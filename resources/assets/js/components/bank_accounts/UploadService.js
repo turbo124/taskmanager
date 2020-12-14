@@ -37,22 +37,22 @@ class UploadService {
         }
     }
 
-    async preview (data) {
+    async preview (file, url, import_type, onUploadProgress) {
         try {
             this.errors = []
             this.error_message = ''
-           
+
             const formData = new FormData()
 
-        formData.append('file', file)
-        formData.append('import_type', import_type)
+            formData.append('file', file)
+            formData.append('import_type', import_type)
 
-        return axios.post('/api/import/preview', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            onUploadProgress
-        })
+            return axios.post('/api/import/preview', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                onUploadProgress
+            })
         } catch (e) {
             this.handleError(e)
             return false
@@ -69,11 +69,24 @@ class UploadService {
         }
     }
 
-    upload (file, url, import_type, onUploadProgress) {
+    upload (file, url, data = {}, onUploadProgress) {
         const formData = new FormData()
 
         formData.append('file', file)
-        formData.append('import_type', import_type)
+
+        if (data.import_type) {
+            formData.append('import_type', data.import_type)
+        }
+
+        console.log('data', data)
+
+        if (data.mappings) {
+            formData.append('mappings', data.mappings)
+        }
+
+        if (data.hash) {
+            formData.append('hash', data.hash)
+        }
 
         return axios.post(url, formData, {
             headers: {

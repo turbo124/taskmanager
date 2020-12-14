@@ -62,6 +62,22 @@ class RecalculateInvoice
     }
 
     /**
+     * @return bool
+     */
+    private function resetPartialInvoice(): bool
+    {
+        $this->invoice->partial -= $this->payment_amount;
+
+        if ($this->invoice->partial <= 0) {
+            $this->invoice->partial = null;
+            $this->invoice->partial_due_date = null;
+            $this->invoice->setDueDate();
+        }
+
+        return true;
+    }
+
+    /**
      * @return Invoice
      */
     private function updateInvoice(): Invoice
@@ -80,22 +96,6 @@ class RecalculateInvoice
         $this->save();
 
         return $this->invoice;
-    }
-
-    /**
-     * @return bool
-     */
-    private function resetPartialInvoice(): bool
-    { 
-        $this->invoice->partial -= $this->payment_amount;
-
-        if($this->invoice->partial <= 0) {
-            $this->invoice->partial = null;
-            $this->invoice->partial_due_date = null;
-            $this->invoice->setDueDate();
-        }
-
-        return true;
     }
 
     private function save()

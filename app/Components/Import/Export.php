@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use League\Csv\CannotInsertRecord;
 use League\Csv\Reader;
 use League\Csv\Writer;
 use SplTempFileObject;
@@ -39,7 +40,7 @@ class Export
     /**
      * The CSV writer.
      *
-     * @var \League\Csv\Writer
+     * @var Writer
      */
     protected $writer;
 
@@ -76,11 +77,11 @@ class Export
     /**
      * Build the writer.
      *
-     * @param \Illuminate\Support\Collection $collection
+     * @param Collection $collection
      * @param array $fields
      * @param array $config
      * @return $this
-     * @throws \League\Csv\CannotInsertRecord
+     * @throws CannotInsertRecord
      */
     public function build($collection, array $fields, array $config = []): self
     {
@@ -122,8 +123,8 @@ class Export
      *
      * @param Writer $writer
      * @param array $fields
-     * @param \Illuminate\Support\Collection $collection
-     * @throws \League\Csv\CannotInsertRecord
+     * @param Collection $collection
+     * @throws CannotInsertRecord
      */
     private function addCsvRows(Writer $writer, array $fields, Collection $collection): void
     {
@@ -174,11 +175,11 @@ class Export
     /**
      * Build the CSV from a builder instance.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param Builder $builder
      * @param array $fields
      * @param array $config
      * @return $this
-     * @throws \League\Csv\CannotInsertRecord
+     * @throws CannotInsertRecord
      */
     public function buildFromBuilder(Builder $builder, array $fields, array $config = []): self
     {

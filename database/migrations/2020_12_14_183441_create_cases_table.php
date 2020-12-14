@@ -42,8 +42,9 @@ class CreateCasesTable extends Migration
             $table->unsignedInteger('closed_by')->nullable();
             $table->unsignedInteger('merged_case_id')->nullable();
             $table->tinyInteger('has_merged_case')->default(0);
-            $table->unsignedInteger('link_type');
-            $table->unsignedInteger('link_value');
+            $table->unsignedInteger('link_project_value');
+            $table->unsignedInteger('link_product_value')->nullable();
+            $table->tinyInteger('overdue_email_sent')->default(0);
         });
     }
 

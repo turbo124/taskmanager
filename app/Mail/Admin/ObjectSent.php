@@ -6,6 +6,8 @@ use App\Models\Invitation;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
+use ReflectionClass;
+use ReflectionException;
 
 class ObjectSent extends AdminMailer
 {
@@ -19,13 +21,15 @@ class ObjectSent extends AdminMailer
      * ObjectSent constructor.
      * @param Invitation $invitation
      * @param User $user
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function __construct(Invitation $invitation, User $user)
     {
-        $this->entity_name = strtolower((new \ReflectionClass($invitation->inviteable))->getShortName());
+        $this->entity_name = strtolower((new ReflectionClass($invitation->inviteable))->getShortName());
         $this->invitation = $invitation;
-        $this->contact = get_class($invitation->inviteable) === 'App\\Models\\PurchaseOrder' ? $invitation->company_contact : $invitation->contact;
+        $this->contact = get_class(
+            $invitation->inviteable
+        ) === 'App\\Models\\PurchaseOrder' ? $invitation->company_contact : $invitation->contact;
         $this->entity = $invitation->inviteable;
         $this->user = $user;
 

@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Events\Lead\LeadWasCreated;
 use App\Factory\LeadFactory;
+use App\Mail\TestMail;
 use App\Models\Account;
 use App\Models\Lead;
 use App\Models\User;
@@ -13,6 +14,8 @@ use App\Search\LeadSearch;
 use App\Transformations\TaskTransformable;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class LeadTest extends TestCase
@@ -115,7 +118,8 @@ class LeadTest extends TestCase
         $this->assertInstanceOf(Lead::class, $lead);
     }
 
-    /* public function incoming_mail_is_saved_to_the_leads_table() {
+    /** @test */
+     public function incoming_mail_is_saved_to_the_leads_table() {
         // Given: we have an e-mail﻿
         $email = new TestMail(
             $sender = 'sender@example.com',
@@ -123,19 +127,23 @@ class LeadTest extends TestCase
             $body = 'Some example text in the body'
         );
 
+        $user = User::whereId(5)->first();
+        Auth::login($user);
+
         // When: we receive that e-mail
         Mail::to('leads@tamtamcrm.com')->send($email);
 
         // Then: we assert the e-mails (meta)data was stored
         $lead = Lead::whereName($subject)->first();
-        //$this->assertInstanceOf(Lead::class, $lead);
+        $this->assertInstanceOf(Lead::class, $lead);
        
-        tap(Lead::whereName($subject)->first(), function ($mail) use ($sender, $subject, $body) {
-            $this->assertEquals($sender, $mail->sender);    
-            $this->assertEquals($subject, $mail->subject);    
-            $this->assertContains($body, $mail->body);    
-        });
-    } */
+//        tap($lead, function ($mail) use ($sender, $subject, $body) {
+//
+//            $this->assertEquals($sender, $mail->sender);
+//            $this->assertEquals($subject, $mail->subject);
+//            $this->assertContains($body, $mail->body);
+//        });
+    }
 
     public function tearDown(): void
     {

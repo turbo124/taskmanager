@@ -3,9 +3,7 @@
 namespace App\Notifications\Admin;
 
 use App\Mail\Admin\ExpenseApproved;
-use App\Mail\Admin\PurchaseOrderApproved;
 use App\Models\Expense;
-use App\Models\PurchaseOrder;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\SlackMessage;

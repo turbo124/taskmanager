@@ -10,6 +10,7 @@ import Invoice from './invoice/Invoice'
 import Order from './orders/Order'
 import Companies from './companies/Companies'
 import Categories from './categories/Categories'
+import CaseCategories from './case_categories/Categories'
 import Brands from './brands/Brands'
 import ProjectList from './projects/ProjectList'
 import Leads from './leads/Leads'
@@ -36,6 +37,7 @@ import Tokens from './tokens/Tokens'
 import Subscriptions from './subscriptions/Subscriptions'
 import Attributes from './attributes/Attributes'
 import ExpenseSettings from './settings/ExpenseSettings'
+import CaseSettings from './settings/CaseSettings'
 import TaskSettings from './settings/TaskSettings'
 import TemplateSettings from './settings/TemplateSettings'
 import CustomFieldSettings from './settings/CustomFieldSettings'
@@ -231,6 +233,11 @@ const routes = [
         component: ExpenseSettings
     },
     {
+        path: '/case-settings',
+        name: 'Case Settings',
+        component: CaseSettings
+    },
+    {
         path: '/task-settings',
         name: 'Task Settings',
         component: TaskSettings
@@ -384,6 +391,12 @@ const routes = [
         exact: true,
         name: 'Cases List',
         component: Cases
+    },
+    {
+        path: '/case_categories',
+        exact: true,
+        name: 'Cases List',
+        component: CaseCategories
     },
     {
         path: '/case_templates',

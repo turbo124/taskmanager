@@ -4,6 +4,8 @@
 namespace App\Traits;
 
 
+use ReflectionClass;
+
 trait Archiveable
 {
     public function archive()
@@ -16,7 +18,7 @@ trait Archiveable
 
     private function triggerEvent($type)
     {
-        $entity_class = (new \ReflectionClass($this))->getShortName();
+        $entity_class = (new ReflectionClass($this))->getShortName();
         $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "Was" . ucfirst($type);
 
         if (class_exists($event_class)) {

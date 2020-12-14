@@ -608,7 +608,8 @@ export default class EditCredit extends Component {
         const documents = this.state.id ? <Documents credit={this.state}/> : null
 
         const dropdownMenu = this.state.id
-            ? <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.credits} formData={this.getFormData()}
+            ? <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.credits}
+                formData={this.getFormData()}
                 model={this.creditModel}
                 task_id={this.state.task_id}
                 handleTaskChange={this.handleTaskChange}

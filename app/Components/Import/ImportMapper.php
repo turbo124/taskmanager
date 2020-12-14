@@ -89,7 +89,11 @@ trait ImportMapper
     {
         $this->object = $this->buildObject($items);
 
-        if(!$save_data) {
+        echo '<pre>';
+        print_r($this->object);
+        die;
+
+        if (!$save_data) {
             return true;
         }
 
@@ -115,43 +119,49 @@ trait ImportMapper
         $object = [];
         $count = 0;
 
+        $lookup = $this->column_mappings;
+
         foreach ($this->mappings as $key => $columns) {
             if (is_array($columns)) {
                 foreach ($columns as $column => $field) {
-                    if (!isset($items[$column])) {
+                    if (!isset($lookup[$column]) || !isset($items[$lookup[$column]])) {
                         continue;
                     }
 
                     if (isset($this->converters[$column])) {
-                        $value = $this->{$this->converters[$column]}(strtolower(trim($items[$column])));
+                        $value = $this->{$this->converters[$column]}(strtolower(trim($items[$lookup[$column]])));
 
                         $object[$key][$count][$field] = $value;
 
                         continue;
                     }
 
-                    $object[$key][$count][$field] = $items[$column];
+                    $object[$key][$count][$field] = $items[$lookup[$column]];
                 }
 
                 continue;
             }
 
-            if (!isset($items[$key])) {
+            if (!isset($lookup[$key]) || !isset($items[$lookup[$key]])) {
                 continue;
             }
 
             if (isset($this->converters[$key])) {
-                $value = $this->{$this->converters[$key]}(strtolower(trim($items[$key])));
+                $value = $this->{$this->converters[$key]}(strtolower(trim($items[$lookup[$key]])));
 
                 $object[$columns] = $value;
 
                 continue;
             }
 
-            $object[$columns] = $items[$key];
+            $object[$columns] = $items[$lookup[$key]];
 
             $count++;
         }
+
+        echo '<pre>';
+        print_r($object);
+        die;
 
         return $object;
     }
@@ -176,6 +186,31 @@ trait ImportMapper
     public function getSuccess(): array
     {
         return $this->success;
+    }
+
+    public function getImportColumns()
+    {
+        return $this->array_keys_multi($this->mappings);
+    }
+
+    private function array_keys_multi(array $array)
+    {
+        $keys = array();
+
+        foreach ($array as $key => $value) {
+            $keys[] = $key;
+
+            if (is_array($array[$key])) {
+                $keys = array_merge($keys, $this->array_keys_multi($array[$key]));
+            }
+        }
+
+        return $keys;
+    }
+
+    public function getObject()
+    {
+        return $this->object;
     }
 
     /**
@@ -315,14 +350,5 @@ trait ImportMapper
         $currency = $this->currencies[strtolower($value)];
 
         return $currency['id'];
-    }
-
-    public function getImportColumns() {
-        return array_keys($this->mappings);
-    }
-
-    public function getObject()
-    {
-        return $this->object;
     }
 }
