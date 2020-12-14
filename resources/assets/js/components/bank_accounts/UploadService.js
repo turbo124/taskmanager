@@ -37,6 +37,28 @@ class UploadService {
         }
     }
 
+    async preview (data) {
+        try {
+            this.errors = []
+            this.error_message = ''
+           
+            const formData = new FormData()
+
+        formData.append('file', file)
+        formData.append('import_type', import_type)
+
+        return axios.post('/api/import/preview', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            onUploadProgress
+        })
+        } catch (e) {
+            this.handleError(e)
+            return false
+        }
+    }
+
     handleError (error) {
         if (error.response && error.response.data.message) {
             this.error_message = error.response.data.message
