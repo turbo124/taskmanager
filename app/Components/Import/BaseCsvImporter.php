@@ -201,6 +201,8 @@ abstract class BaseCsvImporter
      */
     protected $csvDateFormat;
 
+    protected array $column_mappings = [];
+
     /**
      * BaseCsvImporter constructor.
      * @throws CsvImporterException
@@ -584,6 +586,11 @@ abstract class BaseCsvImporter
     public static function addValidationFilters()
     {
         return static::addFilters(self::VALIDATION, func_get_args());
+    }
+
+    public function setColumnMappings(array $column_mappings) 
+    {
+        $this->column_mappings = $column_mappings;
     }
 
     /*
