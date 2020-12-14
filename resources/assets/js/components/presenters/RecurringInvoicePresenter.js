@@ -2,11 +2,7 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import {
-    frequencyOptions,
-    recurringInvoiceStatusColors,
-    recurringInvoiceStatuses
-} from '../utils/_consts'
+import { frequencyOptions, recurringInvoiceStatusColors, recurringInvoiceStatuses } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 
 export default function RecurringInvoicePresenter (props) {
@@ -15,7 +11,8 @@ export default function RecurringInvoicePresenter (props) {
     const status = (entity.deleted_at && !entity.is_deleted) ? (<Badge className="mr-2"
         color="warning">{translations.archived}</Badge>) : ((entity.deleted_at && entity.is_deleted) ? (
         <Badge className="mr-2" color="danger">{translations.deleted}</Badge>) : (
-        <Badge color={recurringInvoiceStatusColors[entity.status_id]}>{recurringInvoiceStatuses[entity.status_id]}</Badge>))
+        <Badge
+            color={recurringInvoiceStatusColors[entity.status_id]}>{recurringInvoiceStatuses[entity.status_id]}</Badge>))
 
     switch (field) {
         case 'assigned_to': {

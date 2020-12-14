@@ -9,6 +9,7 @@ import { translations } from '../utils/_translations'
 import LanguageDropdown from '../common/dropdowns/LanguageDropdown'
 import { LearnMoreUrl } from '../common/LearnMore'
 import Datepicker from '../common/Datepicker'
+import UserDropdown from '../common/dropdowns/UserDropdown'
 
 /**
  * A component which renders a form based on a given list of fields.
@@ -114,6 +115,19 @@ class FormBuilder extends React.Component {
                         <Label>{field.label}</Label>
                         <CurrencyDropdown key={field.id}
                             currency_id={field.value}
+                            errors={{}}
+                            handleInputChanges={this.props.handleChange}
+                        />
+                    </FormGroup>
+                </React.Fragment>
+                break
+            case 'user':
+                returnedField = <React.Fragment>
+                    <FormGroup>
+                        <Label>{field.label}</Label>
+                        <UserDropdown key={field.id}
+                            user_id={field.value}
+                            name={field.name}
                             errors={{}}
                             handleInputChanges={this.props.handleChange}
                         />

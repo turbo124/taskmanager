@@ -4,7 +4,6 @@ import axios from 'axios'
 import { Button, Card, CardBody, CardHeader, FormGroup, Label } from 'reactstrap'
 import SuccessMessage from '../../common/SucessMessage'
 import ErrorMessage from '../../common/ErrorMessage'
-import ElapsedTime from './ElapsedTime'
 import { translations } from '../../utils/_translations'
 import TimePickerInput from '../../common/TimePickerInput'
 import Duration from '../../common/Duration'
@@ -12,7 +11,6 @@ import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/picker
 import MomentUtils from '@date-io/moment'
 import TimerModel from '../../models/TimerModel'
 import TaskTimeItem from '../../common/entityContainers/TaskTimeItem'
-import BottomNavigationButtons from '../../common/BottomNavigationButtons'
 import TaskModel from '../../models/TaskModel'
 
 class EditTaskTimes extends Component {
@@ -204,7 +202,8 @@ class EditTaskTimes extends Component {
         const { currentIndex, times, showSuccess, showError } = this.state
         const timeList = this.state.entity.timers && this.state.entity.timers.length ? this.state.entity.timers.map((timer, index) => {
             const lastTime = timer.id === last_timer.id ? time_display : null
-            return <TaskTimeItem show_edit={true} edit={() => this.handleSlideClick(index)} lastTime={lastTime} key={index} taskTime={timer}/>
+            return <TaskTimeItem show_edit={true} edit={() => this.handleSlideClick(index)} lastTime={lastTime}
+                key={index} taskTime={timer}/>
         }) : <h2>{translations.no_timers}</h2>
 
         const showSuccessMessage = showSuccess === true ? <SuccessMessage message="Times updated successfully"/> : null
@@ -266,14 +265,18 @@ class EditTaskTimes extends Component {
 
                 <div className={this.state.dropdownOpen ? 'collapse show' : 'collapse'}>
                     <Card>
-                        <CardHeader><i onClick={() => this.handleSlideClick(null)} className="fa fa-chevron-left mr-2" /> Update</CardHeader>
+                        <CardHeader><i onClick={() => this.handleSlideClick(null)}
+                            className="fa fa-chevron-left mr-2"/> Update</CardHeader>
                         <CardBody>
                             {form}
                         </CardBody>
                     </Card>
                 </div>
 
-                <button style={{ borderRadius: '20px' }} className="btn btn-primary pull-right" onClick={(e) => this.triggerAction((this.model.isRunning) ? ('stop_timer') : ((!this.state.entity.timers || !this.state.entity.timers.length) ? ('start_timer') : ('resume_timer')))}>{ (this.model.isRunning) ? (<i className="fa fa-stop" />) : ((!this.state.entity.timers || !this.state.entity.timers.length) ? (<i className="fa fa-play" />) : (<i className="fa fa-play" />)) }
+                <button style={{ borderRadius: '20px' }} className="btn btn-primary pull-right"
+                    onClick={(e) => this.triggerAction((this.model.isRunning) ? ('stop_timer') : ((!this.state.entity.timers || !this.state.entity.timers.length) ? ('start_timer') : ('resume_timer')))}>{(this.model.isRunning) ? (
+                        <i className="fa fa-stop"/>) : ((!this.state.entity.timers || !this.state.entity.timers.length) ? (
+                        <i className="fa fa-play"/>) : (<i className="fa fa-play"/>))}
                 </button>
 
             </React.Fragment>

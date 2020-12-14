@@ -3,8 +3,8 @@
 namespace App\Events\Deal;
 
 use App\Models\Deal;
-use Illuminate\Queue\SerializesModels;
 use App\Traits\SendSubscription;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * Class InvoiceWasMarkedSent.
@@ -25,7 +25,7 @@ class DealWasUpdated
      */
     public function __construct(Deal $deal)
     {
-        $this->deal = $deal; 
+        $this->deal = $deal;
         $this->send($deal, get_class($this));
     }
 }

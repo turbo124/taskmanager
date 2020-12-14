@@ -21,7 +21,8 @@ export default class CaseModel extends BaseModel {
         this._fields = {
             modal: false,
             link_type: '',
-            link_value: '',
+            link_project_value: '',
+            link_product_value: '',
             assigned_to: '',
             subject: '',
             message: '',

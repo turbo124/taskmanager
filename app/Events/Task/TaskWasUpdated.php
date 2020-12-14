@@ -3,8 +3,8 @@
 namespace App\Events\Task;
 
 use App\Models\task;
-use Illuminate\Queue\SerializesModels;
 use App\Traits\SendSubscription;
+use Illuminate\Queue\SerializesModels;
 
 /**
  * Class InvoiceWasMarkedSent.

@@ -109,9 +109,7 @@ class ServiceBase
      */
     protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null)
     {
-
         if ($contact !== null) {
-
             $invitation = $this->entity->invitations->first();
 
             $section = $invitation->getSection();
@@ -125,8 +123,9 @@ class ServiceBase
         }
 
         foreach ($this->entity->invitations as $invitation) {
-
-            $contact = get_class($invitation->inviteable) === 'App\\Models\\PurchaseOrder' ? $invitation->company_contact : $invitation->contact;
+            $contact = get_class(
+                $invitation->inviteable
+            ) === 'App\\Models\\PurchaseOrder' ? $invitation->company_contact : $invitation->contact;
 
             $section = $invitation->getSection();
 

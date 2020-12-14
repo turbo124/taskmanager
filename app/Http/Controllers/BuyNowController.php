@@ -13,6 +13,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Repositories\CustomerRepository;
 use App\Requests\Customer\CreateCustomerRequest;
+use Exception;
 use Illuminate\Http\Request;
 
 class BuyNowController
@@ -40,7 +41,7 @@ class BuyNowController
      * @param Account $account
      * @param User $user
      * @return Customer
-     * @throws \Exception
+     * @throws Exception
      */
     private function createCustomer(CreateCustomerRequest $request, Account $account, User $user): Customer
     {

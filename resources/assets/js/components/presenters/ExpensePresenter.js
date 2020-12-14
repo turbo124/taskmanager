@@ -2,11 +2,7 @@ import { Badge } from 'reactstrap'
 import React from 'react'
 import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
-import {
-    expenseStatusColors,
-    expenseStatuses,
-    frequencyOptions
-} from '../utils/_consts'
+import { expenseStatusColors, expenseStatuses, frequencyOptions } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 
 export default function ExpensePresenter (props) {

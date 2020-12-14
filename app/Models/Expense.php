@@ -7,6 +7,7 @@ use App\Services\Expense\ExpenseService;
 use App\Traits\Archiveable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Expense extends Model
@@ -103,7 +104,7 @@ class Expense extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function category()
     {

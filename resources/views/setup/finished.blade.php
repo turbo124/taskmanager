@@ -12,7 +12,7 @@
 
 @section('container')
 
-	@if(session('message')['dbOutputLog'])
+	@if(!empty(session('message')) && session('message')['dbOutputLog'])
 		<p><strong><small>{{ trans('texts.final.migration') }}</small></strong></p>
 		<pre><code>{{ session('message')['dbOutputLog'] }}</code></pre>
 	@endif

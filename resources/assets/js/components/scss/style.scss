@@ -40,3 +40,8 @@
 @import "monthpicker";
 
 @import "html_editor";
+
+.form-control-inline {
+  width: auto !important;
+  display: inline-block !important;
+}

@@ -2,6 +2,7 @@
 
 namespace App\Components\Import;
 
+use Exception;
 use Illuminate\Config\Repository;
 
 trait CsvImporterConfigurationTrait
@@ -30,15 +31,15 @@ trait CsvImporterConfigurationTrait
     /**
      * Inject given config file into an instance of Laravel's config
      *
-     * @return \Illuminate\Config\Repository configuration repository
-     * @throws \Exception when the configuration file is not found
+     * @return Repository configuration repository
+     * @throws Exception when the configuration file is not found
      */
     protected function getConfigHelper()
     {
         $configFile = $this->getConfigFile();
 
         if (!file_exists($configFile)) {
-            throw new \Exception('Config file not found.');
+            throw new Exception('Config file not found.');
         }
 
         return new Repository(['csv-importer' => require $configFile]);

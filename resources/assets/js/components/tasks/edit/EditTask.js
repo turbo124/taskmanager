@@ -269,7 +269,8 @@ class EditTask extends Component {
 
             <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId="1">
-                    <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.state} formData={this.getFormData()}
+                    <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.state}
+                        formData={this.getFormData()}
                         model={this.taskModel}
                         action={this.props.action}/>
 

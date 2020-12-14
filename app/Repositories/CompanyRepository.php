@@ -6,13 +6,11 @@ use App\Events\Company\CompanyWasCreated;
 use App\Events\Company\CompanyWasUpdated;
 use App\Models\Account;
 use App\Models\Company;
-use App\Models\Product;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\CompanyRepositoryInterface;
 use App\Requests\SearchRequest;
 use App\Search\CompanySearch;
 use Exception;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Collection as Support;
 
 class CompanyRepository extends BaseRepository implements CompanyRepositoryInterface

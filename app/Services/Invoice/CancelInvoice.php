@@ -71,23 +71,33 @@ class CancelInvoice
         return $this->invoice;
     }
 
-    /**
-     * @return Invoice
-     */
-    private function updateInvoice(): Invoice
+    private function updatePayment()
     {
-        $invoice = $this->invoice;
+        $paymentables = $this->invoice->paymentables()->get()->keyBy('payment_id');
+        $paymentable_total = $paymentables->sum('amount');
 
-        $this->invoice->setPreviousStatus();
-        $this->invoice->setPreviousBalance();
-        $this->invoice->setBalance(0);
-        $this->invoice->setStatus(Invoice::STATUS_CANCELLED);
-        $this->invoice->setDateCancelled();
-        $this->invoice->save();
+        if ($this->balance <= 0) {
+            $this->balance = $paymentable_total;
+        }
 
-        event(new InvoiceWasCancelled($invoice));
+        $invoice_total = $this->invoice->payments->sum('amount');
 
-        return $this->invoice;
+        if ((float)$paymentable_total === (float)$invoice_total) {
+            Payment::whereIn('id', $this->invoice->payments->pluck('id'))->delete();
+        }
+
+        if ((float)$paymentable_total !== (float)$invoice_total) {
+            $payments = $this->invoice->payments;
+
+            foreach ($payments as $payment) {
+                $amount = $paymentables[$payment->id]->amount;
+                $payment->reduceAmount($amount);
+            }
+        }
+
+        Paymentable::whereIn('id', $paymentables->pluck('id'))->delete();
+
+        return true;
     }
 
     /**
@@ -110,33 +120,23 @@ class CancelInvoice
         return $customer;
     }
 
-    private function updatePayment()
+    /**
+     * @return Invoice
+     */
+    private function updateInvoice(): Invoice
     {
-        $paymentables = $this->invoice->paymentables()->get()->keyBy('payment_id');
-        $paymentable_total = $paymentables->sum('amount');
+        $invoice = $this->invoice;
 
-        if($this->balance <= 0) {
-            $this->balance = $paymentable_total;
-        }
+        $this->invoice->setPreviousStatus();
+        $this->invoice->setPreviousBalance();
+        $this->invoice->setBalance(0);
+        $this->invoice->setStatus(Invoice::STATUS_CANCELLED);
+        $this->invoice->setDateCancelled();
+        $this->invoice->save();
 
-        $invoice_total = $this->invoice->payments->sum('amount');
+        event(new InvoiceWasCancelled($invoice));
 
-        if ((float)$paymentable_total === (float)$invoice_total) {
-            Payment::whereIn('id', $this->invoice->payments->pluck('id'))->delete();
-        }
-
-        if ((float)$paymentable_total !== (float)$invoice_total) {
-            $payments = $this->invoice->payments;
-
-            foreach ($payments as $payment) {
-                $amount = $paymentables[$payment->id]->amount;
-                $payment->reduceAmount($amount);
-            }
-        }
-
-        Paymentable::whereIn('id', $paymentables->pluck('id'))->delete();
-
-        return true;
+        return $this->invoice;
     }
 
 }

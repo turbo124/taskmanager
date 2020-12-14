@@ -12,6 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
+use ReflectionClass;
 
 class CreatePdf implements ShouldQueue
 {
@@ -73,7 +74,7 @@ class CreatePdf implements ShouldQueue
         $design = Design::find($this->entity->getDesignId());
 
         $entity = empty($this->entity_string) ? strtolower(
-            (new \ReflectionClass($this->entity))->getShortName()
+            (new ReflectionClass($this->entity))->getShortName()
         ) : $this->entity_string;
 
         $this->designer =

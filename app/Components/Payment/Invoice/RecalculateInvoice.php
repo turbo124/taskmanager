@@ -42,11 +42,7 @@ class RecalculateInvoice
 
         if ($this->invoice->partial && $this->invoice->partial > 0) {
             //is partial and amount is exactly the partial amount
-            return $this->updateInvoice(true);
-        }
-
-        if ($this->payment_amount > $this->invoice->balance) {
-            return $this->invoice;
+            $this->resetPartialInvoice();
         }
 
         $this->updateInvoice();
@@ -66,13 +62,28 @@ class RecalculateInvoice
     }
 
     /**
+     * @return bool
+     */
+    private function resetPartialInvoice(): bool
+    {
+        $this->invoice->partial -= $this->payment_amount;
+
+        if ($this->invoice->partial <= 0) {
+            $this->invoice->partial = null;
+            $this->invoice->partial_due_date = null;
+            $this->invoice->setDueDate();
+        }
+
+        return true;
+    }
+
+    /**
      * @return Invoice
      */
-    private function updateInvoice($partial = false): Invoice
+    private function updateInvoice(): Invoice
     {
-        if ($partial) {
-            $this->resetPartialInvoice();
-            $this->invoice->setDueDate();
+        if ($this->payment_amount > $this->invoice->balance) {
+            return true;
         }
 
         $balance_remaining = $this->invoice->balance - $this->payment_amount;
@@ -85,25 +96,6 @@ class RecalculateInvoice
         $this->save();
 
         return $this->invoice;
-    }
-
-    /**
-     * @return bool
-     */
-    private function resetPartialInvoice(): bool
-    {
-        $balance_adjustment = $this->invoice->partial > $this->payment_amount ? $this->payment_amount : $this->invoice->partial;
-        $balance_adjustment = $this->invoice->partial == $this->payment_amount ? 0 : $balance_adjustment;
-
-        if ($balance_adjustment > 0) {
-            $this->invoice->partial -= $balance_adjustment;
-            return true;
-        }
-
-        $this->invoice->partial = null;
-        $this->invoice->partial_due_date = null;
-
-        return true;
     }
 
     private function save()

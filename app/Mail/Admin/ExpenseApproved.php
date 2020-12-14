@@ -3,7 +3,6 @@
 namespace App\Mail\Admin;
 
 use App\Models\Expense;
-use App\Models\PurchaseOrder;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -51,7 +50,7 @@ class ExpenseApproved extends AdminMailer
     private function getData(): array
     {
         return [
-            'total' => $this->expense->getFormattedTotal(),
+            'total'   => $this->expense->getFormattedTotal(),
             'expense' => $this->expense->getNumber(),
         ];
     }

@@ -194,7 +194,8 @@ class EditExpense extends React.Component {
                             {message}
                         </div>}
 
-                        <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.expenses} formData={this.getFormData()}
+                        <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.expenses}
+                            formData={this.getFormData()}
                             model={this.expenseModel}
                             action={this.props.action}/>
 

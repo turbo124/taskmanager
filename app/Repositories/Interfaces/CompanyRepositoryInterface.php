@@ -4,10 +4,8 @@ namespace App\Repositories\Interfaces;
 
 use App\Models\Account;
 use App\Models\Company;
-use App\Models\Product;
 use App\Repositories\Base\BaseRepositoryInterface;
 use App\Requests\SearchRequest;
-use Illuminate\Support\Collection;
 
 interface CompanyRepositoryInterface extends BaseRepositoryInterface
 {

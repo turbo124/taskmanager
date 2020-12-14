@@ -6,6 +6,7 @@ namespace App\Components\OFX;
 
 use App\Factory\CompanyFactory;
 use App\Factory\ExpenseFactory;
+use App\Models\Account;
 use App\Models\Company;
 use App\Models\Expense;
 use App\Models\User;
@@ -13,6 +14,7 @@ use App\Repositories\CompanyRepository;
 use App\Repositories\ExpenseRepository;
 use App\Transformations\OfxImportTransformable;
 use OfxParser\Entities\Transaction;
+use OfxParser\Parser;
 
 class OFXImport
 {
@@ -30,7 +32,7 @@ class OFXImport
 
     /**
      * @param User $user
-     * @param \App\Models\Account $account
+     * @param Account $account
      * @param ExpenseRepository $expense_repo
      * @param CompanyRepository $company_repo
      * @param array $transactions
@@ -40,7 +42,7 @@ class OFXImport
      */
     public function import(
         User $user,
-        \App\Models\Account $account,
+        Account $account,
         ExpenseRepository $expense_repo,
         CompanyRepository $company_repo,
         array $transactions,
@@ -109,7 +111,7 @@ class OFXImport
 
     private function buildImport($file, $is_preview = false)
     {
-        $ofxParser = new \OfxParser\Parser();
+        $ofxParser = new Parser();
         $ofx = $ofxParser->loadFromFile($file);
 
         $bankAccount = reset($ofx->bankAccounts);

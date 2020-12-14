@@ -4,6 +4,8 @@ namespace App\Libraries;
 
 // https://github.com/denvertimothy/OFX
 
+use SimpleXMLElement;
+
 class OFX
 {
     public $bank;
@@ -43,7 +45,7 @@ class OFX
     {
         $xml = $this->responseBody;
         self::closeTags($xml);
-        $x = new \SimpleXMLElement($xml);
+        $x = new SimpleXMLElement($xml);
         return $x;
     }
 

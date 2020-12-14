@@ -7,6 +7,7 @@ namespace App\Components\Pdf;
 use App\Models\Invoice;
 use ReflectionClass;
 use ReflectionException;
+use stdClass;
 
 class PurchaseOrderPdf extends PdfBuilder
 {
@@ -67,7 +68,7 @@ class PurchaseOrderPdf extends PdfBuilder
 
     /**
      * @param $columns
-     * @return array|\stdClass
+     * @return array|stdClass
      */
     public function buildTable($columns)
     {

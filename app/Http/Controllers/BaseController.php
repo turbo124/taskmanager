@@ -52,6 +52,7 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use ReflectionClass;
 use ReflectionException;
 
 /**
@@ -432,7 +433,7 @@ class BaseController extends Controller
      */
     private function transformEntity($entity)
     {
-        $entity_class = (new \ReflectionClass($entity))->getShortName();
+        $entity_class = (new ReflectionClass($entity))->getShortName();
 
         switch ($entity_class) {
             case 'Invoice':

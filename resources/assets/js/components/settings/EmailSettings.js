@@ -147,10 +147,49 @@ class EmailSettings extends Component {
         return formFields
     }
 
+    getForwardingFormFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'lead_forwarding_enabled',
+                    label: translations.lead_forwarding_enabled,
+                    icon: `fa ${icons.pdf}`,
+                    type: 'switch',
+                    placeholder: translations.lead_forwarding_enabled,
+                    value: settings.lead_forwarding_enabled
+                },
+                {
+                    name: 'case_forwarding_enabled',
+                    label: translations.case_forwarding_enabled,
+                    icon: `fa ${icons.image_file}`,
+                    type: 'switch',
+                    placeholder: translations.case_forwarding_enabled,
+                    value: settings.case_forwarding_enabled
+                },
+                {
+                    name: 'case_forwarding_address',
+                    label: translations.case_forwarding_address,
+                    type: 'text',
+                    placeholder: translations.case_forwarding_address,
+                    value: settings.case_forwarding_address
+                },
+                {
+                    name: 'lead_forwarding_address',
+                    label: translations.lead_forwarding_address,
+                    type: 'text',
+                    placeholder: translations.lead_forwarding_address,
+                    value: settings.lead_forwarding_address
+                }
+            ]
+        ]
+    }
+
     getAttachmentFormFields () {
         const settings = this.state.settings
 
-        const formFields = [
+        return [
             [
                 {
                     name: 'pdf_email_attachment',
@@ -178,8 +217,6 @@ class EmailSettings extends Component {
                 }
             ]
         ]
-
-        return formFields
     }
 
     handleClose () {
@@ -211,6 +248,15 @@ class EmailSettings extends Component {
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
                             formFieldsRows={this.getAttachmentFormFields()}
+                        />
+                    </CardBody>
+                </Card>
+
+                <Card className="border-0">
+                    <CardBody>
+                        <FormBuilder
+                            handleChange={this.handleSettingsChange}
+                            formFieldsRows={this.getForwardingFormFields()}
                         />
                     </CardBody>
                 </Card>

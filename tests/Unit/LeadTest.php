@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Events\Lead\LeadWasCreated;
 use App\Factory\LeadFactory;
+use App\Mail\TestMail;
 use App\Models\Account;
 use App\Models\Lead;
 use App\Models\User;
@@ -13,6 +14,8 @@ use App\Search\LeadSearch;
 use App\Transformations\TaskTransformable;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class LeadTest extends TestCase
@@ -29,6 +32,8 @@ class LeadTest extends TestCase
         $this->beginDatabaseTransaction();
         $this->user = User::factory()->create();
         $this->account = Account::where('id', 1)->first();
+
+        config(['mail.driver' => 'log']);
     }
 
     /** @test */
@@ -111,6 +116,33 @@ class LeadTest extends TestCase
         $lead = Lead::factory()->create();
         $lead = $lead->service()->convertLead();
         $this->assertInstanceOf(Lead::class, $lead);
+    }
+
+    /** @test */
+     public function incoming_mail_is_saved_to_the_leads_table() {
+        // Given: we have an e-mail﻿
+        $email = new TestMail(
+            $sender = 'sender@example.com',
+            $subject = 'Test E-mail',
+            $body = 'Some example text in the body'
+        );
+
+        $user = User::whereId(5)->first();
+        Auth::login($user);
+
+        // When: we receive that e-mail
+        Mail::to('leads@tamtamcrm.com')->send($email);
+
+        // Then: we assert the e-mails (meta)data was stored
+        $lead = Lead::whereName($subject)->first();
+        $this->assertInstanceOf(Lead::class, $lead);
+       
+//        tap($lead, function ($mail) use ($sender, $subject, $body) {
+//
+//            $this->assertEquals($sender, $mail->sender);
+//            $this->assertEquals($subject, $mail->subject);
+//            $this->assertContains($body, $mail->body);
+//        });
     }
 
     public function tearDown(): void

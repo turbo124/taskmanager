@@ -4,7 +4,6 @@ namespace App\Components\Refund;
 
 use App\Models\Invoice;
 use App\Models\Payment;
-use App\Models\Paymentable;
 use App\Repositories\CreditRepository;
 
 class InvoiceRefund extends BaseRefund

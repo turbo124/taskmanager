@@ -198,7 +198,8 @@ class EditPayment extends React.Component {
                             {message}
                         </div>}
 
-                        <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.payments} formData={this.getFormData()}
+                        <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.payments}
+                            formData={this.getFormData()}
                             model={this.paymentModel}
                             action={this.props.action}/>
 

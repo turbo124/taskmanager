@@ -105,7 +105,8 @@ export default class EditCase extends React.Component {
             status_id: this.state.status_id,
             parent_id: this.state.parent_id,
             link_type: this.state.link_type,
-            link_value: this.state.link_value
+            link_product_value: this.state.link_product_value,
+            link_project_value: this.state.link_project_value
         }
     }
 
@@ -248,7 +249,8 @@ export default class EditCase extends React.Component {
 
                         <TabContent activeTab={this.state.activeTab}>
                             <TabPane tabId="1">
-                                <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.cases} formData={this.getFormData()}
+                                <DropdownMenuBuilder reload={this.reload.bind(this)} invoices={this.props.cases}
+                                    formData={this.getFormData()}
                                     model={this.caseModel}
                                     action={this.props.action}/>
 

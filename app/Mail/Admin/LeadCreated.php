@@ -6,6 +6,7 @@ use App\Models\Lead;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
+use Laracasts\Presenter\Exceptions\PresenterException;
 
 class LeadCreated extends AdminMailer
 {
@@ -46,7 +47,7 @@ class LeadCreated extends AdminMailer
 
     /**
      * @return array
-     * @throws \Laracasts\Presenter\Exceptions\PresenterException
+     * @throws PresenterException
      */
     private function getData(): array
     {

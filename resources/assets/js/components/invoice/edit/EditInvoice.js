@@ -666,7 +666,8 @@ class EditInvoice extends Component {
         const documents = this.state.id ? <Documents invoice={this.state}/> : null
 
         const dropdownMenu = this.state.id
-            ? <DropdownMenu reload={this.reload.bind(this)} invoices={this.props.invoices} formData={this.getFormData()}
+            ? <DropdownMenu reload={this.reload.bind(this)} invoices={this.props.invoices}
+                formData={this.getFormData()}
                 task_id={this.state.task_id}
                 handleTaskChange={this.handleTaskChange}
                 action={this.props.action} model={this.invoiceModel}

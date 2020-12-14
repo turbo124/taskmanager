@@ -14,9 +14,12 @@ class TwoFactorController extends Controller
 
     public function verifyToken(Request $request)
     {
-        $this->validate($request, [
-            'token' => 'required|string',
-        ]);
+        $this->validate(
+            $request,
+            [
+                'token' => 'required|string',
+            ]
+        );
 
         $user = auth()->user();
 

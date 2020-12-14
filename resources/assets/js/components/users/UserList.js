@@ -52,7 +52,7 @@ export default class UserList extends Component {
                 'custom_value4',
                 'deleted_at',
                 'created_at',
-                'is_deleted',
+                'is_deleted'
             ],
             showRestoreButton: false
         }

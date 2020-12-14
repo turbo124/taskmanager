@@ -127,7 +127,6 @@ export default class TaskModel extends BaseModel {
     }
 
     calculateDuration (currentStartTime, currentEndTime, returnAsSeconds = false) {
-
         const startTime = moment(currentStartTime, 'YYYY-MM-DD HH:mm:ss')
         let endTime = ''
 

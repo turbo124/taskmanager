@@ -17,6 +17,7 @@ use App\Repositories\Interfaces\CaseRepositoryInterface;
 use App\Requests\SearchRequest;
 use App\Search\CaseSearch;
 use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CaseRepository extends BaseRepository implements CaseRepositoryInterface
 {
@@ -47,7 +48,7 @@ class CaseRepository extends BaseRepository implements CaseRepositoryInterface
     /**
      * @param SearchRequest $search_request
      * @param Account $account
-     * @return \Illuminate\Pagination\LengthAwarePaginator|mixed
+     * @return LengthAwarePaginator|mixed
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
@@ -62,7 +63,7 @@ class CaseRepository extends BaseRepository implements CaseRepositoryInterface
         $comment->comment = $case->message;
         $case->comments()->save($comment);
 
-        $this->sendEmail($case, Cases::STATUS_DRAFT);
+        $this->sendEmail($case, 'new');
 
         event(new CaseWasCreated($case));
 
@@ -85,9 +86,16 @@ class CaseRepository extends BaseRepository implements CaseRepositoryInterface
         return $case;
     }
 
-    private function sendEmail(Cases $case, int $status)
+    /**
+     * @param Cases $case
+     * @param string $status
+     * @return bool
+     */
+    private function sendEmail(Cases $case, string $status)
     {
-        $template = CaseTemplate::where('send_on', '=', $status)->first();
+        $template_id = $case->customer->getSetting('case_template_' . $status);
+
+        $template = CaseTemplate::where('id', '=', $template_id)->first();
 
         if (!empty($template)) {
             $case->service()->sendEmail(
@@ -111,14 +119,14 @@ class CaseRepository extends BaseRepository implements CaseRepositoryInterface
             $case->date_opened = Carbon::now();
             $case->opened_by = $user->id;
 
-            $this->sendEmail($case, Cases::STATUS_OPEN);
+            $this->sendEmail($case, 'open');
         }
 
         if ($case->status_id === Cases::STATUS_OPEN && (int)$data['status_id'] === Cases::STATUS_CLOSED) {
             $case->date_closed = Carbon::now();
             $case->closed_by = $user->id;
 
-            $this->sendEmail($case, Cases::STATUS_CLOSED);
+            $this->sendEmail($case, 'closed');
         }
 
         $case = $this->save($data, $case);
@@ -126,5 +134,16 @@ class CaseRepository extends BaseRepository implements CaseRepositoryInterface
         event(new CaseWasUpdated($case));
 
         return $case;
+    }
+
+    public function getOverdueCases()
+    {
+        return Cases::whereDate('due_date', '>=', Carbon::today())
+                    ->where('is_deleted', '=', false)
+                    ->where('overdue_email_sent', 0)
+                    ->whereIn(
+                        'status_id',
+                        [Cases::STATUS_OPEN]
+                    )->get();
     }
 }

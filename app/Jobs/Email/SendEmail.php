@@ -14,6 +14,7 @@ use App\Models\Email;
 use App\Models\ErrorLog;
 use App\Models\Invoice;
 use App\Repositories\EmailRepository;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -117,7 +118,7 @@ class SendEmail implements ShouldQueue
         try {
             Mail::to($this->contact->email, $this->contact->present()->name())
                 ->send($message);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             event(new EmailFailedToSend($this->entity, $e->getMessage()));
         }
 

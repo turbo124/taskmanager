@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use ReflectionClass;
 
 /**
  * Class Invitation.
@@ -76,7 +77,7 @@ class Invitation extends Model
 
     public function getSection($plural = false)
     {
-        $entity = strtolower((new \ReflectionClass($this->inviteable))->getShortName());
+        $entity = strtolower((new ReflectionClass($this->inviteable))->getShortName());
 
         if ($plural) {
             return $this->pluralize(2, $entity);
