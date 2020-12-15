@@ -19,7 +19,8 @@ class PaymentPolicy extends BasePolicy
      */
     public function view(User $user, Payment $payment)
     {
-        return $user->hasPermissionTo('paymentcontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id) || $user->hasPermissionTo('paymentcontroller.show');
     }
 
     /**
@@ -29,10 +30,10 @@ class PaymentPolicy extends BasePolicy
      * @param \App\Models\Invoice $invoice
      * @return mixed
      */
-    public function update(User $user, $entity)
+    public function update(User $user, Payment $payment)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('paymentcontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
     }
 
     /**
