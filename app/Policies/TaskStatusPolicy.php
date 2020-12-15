@@ -30,6 +30,7 @@ class TaskStatusPolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('taskstatuscontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $user->hasPermissionTo('taskstatuscontroller.store');
     }
 }
