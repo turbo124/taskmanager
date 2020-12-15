@@ -30,6 +30,7 @@ class RecurringQuotePolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('recurringquotecontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $user->hasPermissionTo('recurringquotecontroller.store');
     }
 }
