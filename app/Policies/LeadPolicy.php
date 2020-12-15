@@ -19,7 +19,8 @@ class LeadPolicy extends BasePolicy
      */
     public function view(User $user, Lead $lead)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('leadcontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
     }
 
     /**
@@ -29,10 +30,10 @@ class LeadPolicy extends BasePolicy
      * @param \App\Models\Invoice $invoice
      * @return mixed
      */
-    public function update(User $user, $entity)
+    public function update(User $user, Lead $lead)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('leadcontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
     }
 
     /**
