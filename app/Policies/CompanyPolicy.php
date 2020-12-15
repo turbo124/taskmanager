@@ -30,6 +30,7 @@ class CompanyPolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('companycontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $user->hasPermissionTo('companycontroller.store');
     }
 }
