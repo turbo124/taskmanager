@@ -2,10 +2,22 @@
 
 namespace App\Requests\Credit;
 
+use App\Models\Credit;
 use App\Repositories\Base\BaseFormRequest;
 
 class UpdateCreditRequest extends BaseFormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        $credit = Credit::find($this->credit_id);
+        return auth()->user()->can('update', $credit);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

@@ -208,7 +208,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 
         event(new TaskWasUpdated($task));
 
-        return $task;
+        return $task->fresh();
     }
 
     private function saveProjectTask($data, Task $task)

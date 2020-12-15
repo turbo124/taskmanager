@@ -80,7 +80,7 @@ class AdminMailer extends Mailable
 
         try {
             return $this->to($this->user->email)
-                        ->from('tamtamcrm@support.com')
+                        ->from(config('taskmanager.from_email'))
                         ->subject($this->subject)
                         ->markdown(
                             empty($template) ? 'email.admin.new' : 'email.template.' . $template,

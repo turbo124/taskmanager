@@ -2,10 +2,20 @@
 
 namespace App\Requests\Product;
 
+use App\Models\Product;
 use App\Repositories\Base\BaseFormRequest;
 
 class CreateProductRequest extends BaseFormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return auth()->user()->can('create', Product::class);
+    }
 
     /**
      * Get the validation rules that apply to the request.

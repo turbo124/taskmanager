@@ -2,10 +2,21 @@
 
 namespace App\Requests\Project;
 
+use App\Models\Project;
 use App\Repositories\Base\BaseFormRequest;
 
 class UpdateProjectRequest extends BaseFormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        $project = Project::find($this->project_id);
+        return auth()->user()->can('update', $project);
+    }
 
     /**
      * Get the validation rules that apply to the request.

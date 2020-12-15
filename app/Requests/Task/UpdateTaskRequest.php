@@ -2,10 +2,21 @@
 
 namespace App\Requests\Task;
 
+use App\Models\Task;
 use App\Repositories\Base\BaseFormRequest;
 
 class UpdateTaskRequest extends BaseFormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        $task = Task::find($this->task_id);
+        return auth()->user()->can('update', $task);
+    }
 
     /**
      * Get the validation rules that apply to the request.

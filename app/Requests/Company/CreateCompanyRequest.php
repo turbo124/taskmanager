@@ -2,10 +2,20 @@
 
 namespace App\Requests\Company;
 
+use App\Models\Company;
 use App\Repositories\Base\BaseFormRequest;
 
 class CreateCompanyRequest extends BaseFormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return auth()->user()->can('create', Company::class);
+    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -44,7 +54,7 @@ class CreateCompanyRequest extends BaseFormRequest
     public function messages()
     {
         return [
-            'unique'                    => trans('validation.unique', ['attribute' => 'email']),
+            'unique'                    => trans('validation.unique', ['attribute' => 'name']),
             //'required' => trans('validation.required', ['attribute' => 'email']),
             'contacts.*.email.required' => trans('validation.email', ['attribute' => 'email']),
         ];

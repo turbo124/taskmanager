@@ -327,7 +327,7 @@ class SetupController extends Controller
         // create new user
         $user = $user_repo->save($data, UserFactory::create($domain->id));
 
-        $user->token_2fa_expiry = Carbon::now();
+        $user->two_factor_expiry = Carbon::now();
         $user->save();
 
         $user->attachUserToAccount($account, true);

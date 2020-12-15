@@ -33,7 +33,7 @@ class CreateLeadsTable extends Migration
             $table->string('description');
             $table->string('phone', 100);
             $table->string('email');
-            $table->decimal('valued_at')->default(0.00);
+            $table->decimal('valued_at')->nullable()->default(0.00);
             $table->string('company_name', 100)->nullable();
             $table->timestamps();
             $table->softDeletes();

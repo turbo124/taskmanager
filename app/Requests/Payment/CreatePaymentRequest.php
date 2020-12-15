@@ -2,6 +2,7 @@
 
 namespace App\Requests\Payment;
 
+use App\Models\Payment;
 use App\Repositories\Base\BaseFormRequest;
 use App\Rules\Payment\CreditPaymentValidation;
 use App\Rules\Payment\InvoicePaymentValidation;
@@ -10,6 +11,16 @@ use Illuminate\Validation\Rule;
 
 class CreatePaymentRequest extends BaseFormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return auth()->user()->can('create', Payment::class);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

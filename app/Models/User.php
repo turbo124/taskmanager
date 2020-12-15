@@ -27,6 +27,7 @@ class User extends Authenticatable implements JWTSubject
     public $account;
     protected $presenter = 'App\Presenters\UserPresenter';
     protected $with = ['accounts'];
+
     /**
      * The attributes that are mass assignable.
      *

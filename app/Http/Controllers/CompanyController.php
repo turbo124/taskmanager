@@ -65,7 +65,7 @@ class CompanyController extends Controller
     {
         $company = (new CompanyFactory)->create(auth()->user(), auth()->user()->account_user()->account);
 
-        if ($request->company_logo !== null) {
+        if ($request->company_logo !== null && !empty($request->file('company_logo'))) {
             $company->logo = $this->uploadLogo($request->file('company_logo'));
         }
 

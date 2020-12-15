@@ -2,9 +2,10 @@
 
 namespace App\Requests\Quote;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\PurchaseOrder;
+use App\Repositories\Base\BaseFormRequest;
 
-class UpdatePurchaseOrderRequest extends FormRequest
+class UpdatePurchaseOrderRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,8 @@ class UpdatePurchaseOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $purchase_order = PurchaseOrder::find($this->purchase_order_id);
+        return auth()->user()->can('update', $purchase_order);
     }
 
     /**

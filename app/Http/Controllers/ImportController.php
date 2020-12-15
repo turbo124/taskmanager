@@ -92,13 +92,14 @@ class ImportController extends Controller
 
             $fileName = time() . '_' . $request->file->getClientOriginalName();
 
-            $filePath = $request->file('file')->storeAs('uploads', $fileName, 'public');
+            $request->file('file')->storeAs('uploads', $fileName, 'public');
 
             $importer->setCsvFile($file_path);
 
             $headers = $importer->getHeaders();
 
             $data = [
+                'template' => $importer->getTemplate(),
                 'headers'  => $headers,
                 'columns'  => $importer->getImportColumns(),
                 'filename' => $fileName

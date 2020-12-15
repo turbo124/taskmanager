@@ -2,11 +2,22 @@
 
 namespace App\Requests\Product;
 
+use App\Models\Product;
 use App\Repositories\Base\BaseFormRequest;
 use Illuminate\Validation\Rule;
 
 class UpdateProductRequest extends BaseFormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        $product = Product::find($this->product_id);
+        return auth()->user()->can('update', $product);
+    }
 
     /**
      * Get the validation rules that apply to the request.

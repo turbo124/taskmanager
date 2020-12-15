@@ -178,4 +178,9 @@ class InvoiceImporter extends BaseCsvImporter
     {
         return $this->export->getContent();
     }
+
+    public function getTemplate()
+    {
+        return asset('storage/templates/invoice.csv');
+    }
 }

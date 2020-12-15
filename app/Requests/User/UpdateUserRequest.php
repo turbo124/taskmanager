@@ -2,11 +2,22 @@
 
 namespace App\Requests\User;
 
+use App\Models\User;
 use App\Repositories\Base\BaseFormRequest;
 use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends BaseFormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        $user = User::find($this->user_id);
+        return auth()->user()->can('update', $user);
+    }
 
     /**
      * Get the validation rules that apply to the request.
