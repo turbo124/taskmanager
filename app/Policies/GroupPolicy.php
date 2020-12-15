@@ -19,7 +19,8 @@ class GroupPolicy extends BasePolicy
      */
     public function view(User $user, Group $group)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('groupcontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
     }
 
     /**
@@ -29,10 +30,10 @@ class GroupPolicy extends BasePolicy
      * @param \App\Models\Invoice $invoice
      * @return mixed
      */
-    public function update(User $user, $entity)
+    public function update(User $user, Group $group)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('groupcontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
     }
 
     /**
