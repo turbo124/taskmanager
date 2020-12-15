@@ -30,6 +30,7 @@ class TaskPolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('taskcontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $user->hasPermissionTo('taskcontroller.store');
     }
 }
