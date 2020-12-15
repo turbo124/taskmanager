@@ -2,11 +2,21 @@
 
 namespace App\Requests\Customer;
 
+use App\Models\Customer;
 use App\Models\Group;
 use App\Repositories\Base\BaseFormRequest;
 
 class CreateCustomerRequest extends BaseFormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return auth()->user()->can('create', Customer::class);
+    }
 
     /**
      * Get the validation rules that apply to the request.

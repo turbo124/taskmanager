@@ -37,7 +37,7 @@ class CreateExpensesTable extends Migration
             $table->date('date')->nullable();
             $table->date('payment_date')->nullable();
             $table->text('public_notes')->nullable();
-            $table->text('transaction_reference');
+            $table->text('transaction_reference')->nullable();
             $table->tinyInteger('create_invoice')->default(0);
             $table->tinyInteger('include_documents')->nullable()->default(1);
             $table->string('transaction_id')->nullable();

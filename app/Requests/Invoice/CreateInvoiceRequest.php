@@ -2,6 +2,7 @@
 
 namespace App\Requests\Invoice;
 
+use App\Models\Invoice;
 use App\Rules\Invoice\ValidateProjectCustomer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -15,7 +16,7 @@ class CreateInvoiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->user()->can('create', Invoice::class);
     }
 
     /**

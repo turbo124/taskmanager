@@ -2,10 +2,21 @@
 
 namespace App\Requests\Customer;
 
+use App\Models\Customer;
 use App\Repositories\Base\BaseFormRequest;
 
 class UpdateCustomerRequest extends BaseFormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        $customer = Customer::find($this->customer_id);
+        return auth()->user()->can('update', $customer);
+    }
 
     /**
      * Get the validation rules that apply to the request.

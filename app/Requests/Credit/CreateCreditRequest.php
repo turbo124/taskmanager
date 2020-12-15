@@ -2,11 +2,22 @@
 
 namespace App\Requests\Credit;
 
+use App\Models\Credit;
 use App\Repositories\Base\BaseFormRequest;
 use Illuminate\Validation\Rule;
 
 class CreateCreditRequest extends BaseFormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return auth()->user()->can('create', Credit::class);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

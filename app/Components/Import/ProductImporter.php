@@ -277,4 +277,9 @@ class ProductImporter extends BaseCsvImporter
 
         return $brand['id'];
     }
+
+    public function getTemplate()
+    {
+        return asset('storage/templates/products.csv');
+    }
 }

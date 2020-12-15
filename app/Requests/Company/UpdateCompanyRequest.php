@@ -2,10 +2,21 @@
 
 namespace App\Requests\Company;
 
+use App\Models\Company;
 use App\Repositories\Base\BaseFormRequest;
 
 class UpdateCompanyRequest extends BaseFormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        $company = Company::find($this->company_id);
+        return auth()->user()->can('update', $company);
+    }
 
 
     /**

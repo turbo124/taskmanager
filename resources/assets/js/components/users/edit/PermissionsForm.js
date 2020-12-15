@@ -48,16 +48,16 @@ export default class PermissionsForm extends React.Component {
     }
 
     render () {
-        const account = this.props.accounts.filter(account => account.id === this.account_id)
+        const account = this.props.accounts.filter(account => parseInt(account.id) === parseInt(this.account_id))
 
         const is_admin = this.state.selectedAccounts && this.state.selectedAccounts.is_admin === true
 
-        const accountList = (
+        const accountList = this.props.accounts.length && account ? (
             <React.Fragment key={account[0].id}>
                 <div>
                     <FormGroup check inline>
                         <Label check>
-                            <Input name="is_admin" checked={is_admin} value={account[0].id}
+                            <Input name="is_admin" checked={is_admin} value={account && account.length ? account[0].id : false}
                                 onChange={this.handleCheck}
                                 type="checkbox"/>
                             Administrator
@@ -65,7 +65,7 @@ export default class PermissionsForm extends React.Component {
                     </FormGroup>
                 </div>
             </React.Fragment>
-        )
+        ) : null
 
         return (<Card>
             <CardHeader>Permissions</CardHeader>
@@ -95,7 +95,7 @@ export default class PermissionsForm extends React.Component {
                 <Row form>
                     <h4>Accounts</h4>
                     <Col md={6}>
-                        {accountList}
+                        {!!accountList && accountList}
                     </Col>
                 </Row>
             </CardBody>

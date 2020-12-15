@@ -7,6 +7,7 @@ import { Alert, CustomInput, Form, FormGroup, Label } from 'reactstrap'
 import queryString from 'query-string'
 import FormatMoney from '../common/FormatMoney'
 import moment from 'moment'
+import { icons } from '../utils/_icons'
 
 export default class Importer extends React.Component {
     constructor (props) {
@@ -30,7 +31,8 @@ export default class Importer extends React.Component {
             headers: [],
             columns: [],
             hash: '',
-            mappings: {}
+            mappings: {},
+            template: ''
         }
 
         this.selectFile = this.selectFile.bind(this)
@@ -113,6 +115,7 @@ export default class Importer extends React.Component {
                     headers: response.data.headers,
                     columns: response.data.columns,
                     hash: response.data.filename,
+                    template: response.data.template,
                     progress: 0,
                     currentFile: undefined
                 })
@@ -134,9 +137,26 @@ export default class Importer extends React.Component {
             return false
         }
 
+        let isEmpty = false
+
+        Object.values(this.state.headers).forEach(key => {
+            if (!this.state.mappings[key] || !this.state.mappings[key].length) {
+                isEmpty = true
+            }
+        })
+
+        if (isEmpty || !Object.keys(this.state.mappings).length) {
+            this.setState({ message: 'All mappings must have a value' })
+            return false
+        }
+
         const currentFile = this.state.selectedFile
 
         this.setState({
+            template: '',
+            hash: '',
+            headers: [],
+            columns: [],
             progress: 0,
             currentFile: currentFile
         })
@@ -239,9 +259,11 @@ export default class Importer extends React.Component {
         if (!this.state.columns.length) {
             columns = <option value="">Loading...</option>
         } else {
-            columns = this.state.columns.map((column, index) => (
-                <option key={index} value={column}>{column}</option>
-            ))
+            columns = this.state.columns.map((column, index) => {
+                const formatted_column = column.replace(' ', '_').toLowerCase()
+                const value = translations[formatted_column] ? translations[formatted_column] : column
+                return <option key={index} value={column}>{value}</option>
+            })
         }
 
         return (
@@ -363,12 +385,16 @@ export default class Importer extends React.Component {
                                                 {translations.preview}
                                             </button>
                                             }
+
+                                            {!!this.state.template &&
+                                            <a download={true} href={this.state.template}><i style={{ fontSize: '26px' }} className={`ml-2 fa ${icons.cloud_download}`} /></a>
+                                            }
                                         </div>
                                     </div>
                                 </div>
 
                                 {!!message &&
-                                <div className="alert alert-danger" role="alert">
+                                <div className="alert alert-danger mt-2" role="alert">
                                     {message}
                                 </div>
                                 }

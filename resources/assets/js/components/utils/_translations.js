@@ -787,7 +787,10 @@ _localizedValues.en = {
     case_forwarding_address: 'Case Forwarding Address',
     lead_forwarding_enabled: 'Lead Forwarding Enabled',
     case_forwarding_enabled: 'Case Forwarding Enabled',
-    send_overdue_case_email: 'Send email for overdue cases'
+    send_overdue_case_email: 'Send email for overdue cases',
+    unit_price: 'Unit Price',
+    unit_tax: 'Unit Tax',
+    unit_discount: 'Unit Discount'
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id

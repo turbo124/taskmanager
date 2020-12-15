@@ -82,6 +82,10 @@ class ExpenseRepository extends BaseRepository implements ExpenseRepositoryInter
             $expense->setStatus(Expense::STATUS_PENDING);
         }
 
+        if (empty($expense->currency_id)) {
+            $expense->currency_id = $expense->account->settings->currency_id;
+        }
+
         $expense->setNumber();
         $expense->save();
 

@@ -2,10 +2,11 @@
 
 namespace App\Requests\Quote;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Quote;
+use App\Repositories\Base\BaseFormRequest;
 use Illuminate\Validation\Rule;
 
-class CreateQuoteRequest extends FormRequest
+class CreateQuoteRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +15,7 @@ class CreateQuoteRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->user()->can('create', Quote::class);
     }
 
     /**

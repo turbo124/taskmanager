@@ -2,10 +2,11 @@
 
 namespace App\Requests\PurchaseOrder;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\PurchaseOrder;
+use App\Repositories\Base\BaseFormRequest;
 use Illuminate\Validation\Rule;
 
-class CreatePurchaseOrderRequest extends FormRequest
+class CreatePurchaseOrderRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +15,7 @@ class CreatePurchaseOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->user()->can('create', PurchaseOrder::class);
     }
 
     /**

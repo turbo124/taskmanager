@@ -2,11 +2,12 @@
 
 namespace App\Requests\Order;
 
+use App\Models\Order;
+use App\Repositories\Base\BaseFormRequest;
 use App\Rules\Order\OrderTotals;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CreateOrderRequest extends FormRequest
+class CreateOrderRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +16,7 @@ class CreateOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->user()->can('create', Order::class);
     }
 
     /**

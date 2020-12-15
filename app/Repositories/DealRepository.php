@@ -190,7 +190,7 @@ class DealRepository extends BaseRepository implements DealRepositoryInterface
 
         event(new DealWasUpdated($deal));
 
-        return $deal;
+        return $deal->fresh();
     }
 
 }
