@@ -30,6 +30,7 @@ class RecurringInvoicePolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('recurringinvoicecontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $user->hasPermissionTo('recurringinvoicecontroller.store');
     }
 }
