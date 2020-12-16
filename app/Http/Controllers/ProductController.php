@@ -126,6 +126,9 @@ class ProductController extends Controller
     public function destroy(int $id)
     {
         $product = Product::withTrashed()->where('id', '=', $id)->first();
+
+        $this->authorize('delete', $product);
+
         $product->deleteEntity();
         return response()->json([], 200);
     }

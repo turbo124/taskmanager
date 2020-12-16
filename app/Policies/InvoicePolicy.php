@@ -19,7 +19,34 @@ class InvoicePolicy extends BasePolicy
      */
     public function view(User $user, Invoice $invoice)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $invoice->user_id === $user->id || $user->hasPermissionTo('invoicecontroller.show') || (!empty($invoice->assigned_to) && $invoice->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function update(User $user, Invoice $invoice)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $invoice->user_id === $user->id || $user->hasPermissionTo('invoicecontroller.update') || (!empty($invoice->assigned_to) && $invoice->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, Invoice $invoice)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $invoice->user_id === $user->id || $user->hasPermissionTo('invoicecontroller.destroy') || (!empty($invoice->assigned_to) && $invoice->assigned_to === $user->id);
     }
 
     /**
@@ -30,6 +57,7 @@ class InvoicePolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('invoicecontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $user->hasPermissionTo('invoicecontroller.store');
     }
 }

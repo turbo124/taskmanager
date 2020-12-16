@@ -18,7 +18,34 @@ class UserPolicy extends BasePolicy
      */
     public function view(User $user, User $model)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $model->user_id === $user->id || $user->hasPermissionTo('usercontroller.show');
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, User $model)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $model->user_id === $user->id || $user->hasPermissionTo('usercontroller.destroy');
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function update(User $user, User $model)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $model->user_id === $user->id || $user->hasPermissionTo('usercontroller.update');
     }
 
     /**
@@ -29,6 +56,8 @@ class UserPolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('usercontroller.store');
+        return $user->account_user()->is_admin || $user->account_user()->is_owner || $user->hasPermissionTo(
+                'usercontroller.store'
+            );
     }
 }

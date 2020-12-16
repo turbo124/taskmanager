@@ -120,6 +120,9 @@ class DealController extends Controller
     public function destroy(int $id)
     {
         $deal = $this->deal_repo->findDealById($id);
+
+        $this->authorize('delete', $deal);
+
         $deal->deleteEntity();
         return response()->json([], 200);
     }

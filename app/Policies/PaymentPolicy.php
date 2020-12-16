@@ -19,7 +19,34 @@ class PaymentPolicy extends BasePolicy
      */
     public function view(User $user, Payment $payment)
     {
-        return $user->hasPermissionTo('paymentcontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $payment->user_id === $user->id || (!empty($payment->assigned_to) && $payment->assigned_to === $user->id) || $user->hasPermissionTo('paymentcontroller.show');
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function update(User $user, Payment $payment)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $payment->user_id === $user->id || $user->hasPermissionTo('paymentcontroller.update') || (!empty($payment->assigned_to) && $payment->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, Payment $payment)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $payment->user_id === $user->id || $user->hasPermissionTo('paymentcontroller.destroy') || (!empty($payment->assigned_to) && $payment->assigned_to === $user->id);
     }
 
     /**
@@ -30,6 +57,7 @@ class PaymentPolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('paymentcontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $user->hasPermissionTo('paymentcontroller.store');
     }
 }

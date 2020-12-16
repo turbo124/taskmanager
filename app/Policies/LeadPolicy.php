@@ -19,7 +19,34 @@ class LeadPolicy extends BasePolicy
      */
     public function view(User $user, Lead $lead)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $lead->user_id === $user->id || $user->hasPermissionTo('leadcontroller.show') || (!empty($lead->assigned_to) && $lead->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function update(User $user, Lead $lead)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $lead->user_id === $user->id || $user->hasPermissionTo('leadcontroller.update') || (!empty($lead->assigned_to) && $lead->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, Lead $lead)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $lead->user_id === $user->id || $user->hasPermissionTo('leadcontroller.destroy') || (!empty($lead->assigned_to) && $lead->assigned_to === $user->id);
     }
 
     /**
@@ -30,6 +57,7 @@ class LeadPolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('leadcontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $user->hasPermissionTo('leadcontroller.store');
     }
 }

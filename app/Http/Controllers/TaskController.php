@@ -315,6 +315,7 @@ class TaskController extends Controller
     public function destroy(int $id)
     {
         $task = $this->task_repo->findTaskById($id);
+        $this->authorize('delete', $task);
         $task->deleteEntity();
         return response()->json([], 200);
     }

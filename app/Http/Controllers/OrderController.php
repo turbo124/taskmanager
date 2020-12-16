@@ -124,6 +124,9 @@ class OrderController extends BaseController
     public function destroy(int $id)
     {
         $order = $this->order_repo->findOrderById($id);
+
+        $this->authorize('delete', $order);
+
         $order->deleteEntity();
         return response()->json([], 200);
     }

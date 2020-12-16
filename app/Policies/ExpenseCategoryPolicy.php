@@ -19,7 +19,34 @@ class ExpenseCategoryPolicy extends BasePolicy
      */
     public function view(User $user, ExpenseCategory $expenseCategory)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $expenseCategory->user_id === $user->id || $user->hasPermissionTo('expensecategorycontroller.show') || (!empty($expenseCategory->assigned_to) && $expenseCategory->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, ExpenseCategory $expenseCategory)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $expenseCategory->user_id === $user->id || $user->hasPermissionTo('expensecategorycontroller.destroy') || (!empty($expenseCategory->assigned_to) && $expenseCategory->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function update(User $user, ExpenseCategory $expenseCategory)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $expenseCategory->user_id === $user->id || $user->hasPermissionTo('expensecategorycontroller.update') || (!empty($expenseCategory->assigned_to) && $expenseCategory->assigned_to === $user->id);
     }
 
     /**
@@ -30,6 +57,7 @@ class ExpenseCategoryPolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('expensecategorycontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $user->hasPermissionTo('expensecategorycontroller.store');
     }
 }

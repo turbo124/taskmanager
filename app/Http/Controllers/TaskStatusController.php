@@ -76,7 +76,9 @@ class TaskStatusController extends Controller
      */
     public function destroy(int $id)
     {
-        $this->taskStatusRepository->findTaskStatusById($id)->delete();
+        $task_status = $this->task_status_repo->findTaskStatusById($id);
+        $this->authorize('delete', $task_status);
+        $task_status->delete();
     }
 
 }

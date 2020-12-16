@@ -19,7 +19,34 @@ class RecurringInvoicePolicy extends BasePolicy
      */
     public function view(User $user, RecurringInvoice $recurringInvoice)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $recurringInvoice->user_id === $user->id || $user->hasPermissionTo('recurringinvoicecontroller.show') || (!empty($recurringInvoice->assigned_to) && $recurringInvoice->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, RecurringInvoice $recurringInvoice)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $recurringInvoice->user_id === $user->id || $user->hasPermissionTo('recurringinvoicecontroller.destroy') || (!empty($recurringInvoice->assigned_to) && $recurringInvoice->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function update(User $user, RecurringInvoice $recurringInvoice)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $recurringInvoice->user_id === $user->id || $user->hasPermissionTo('recurringinvoicecontroller.update') || (!empty($recurringInvoice->assigned_to) && $recurringInvoice->assigned_to === $user->id);
     }
 
     /**
@@ -30,6 +57,7 @@ class RecurringInvoicePolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('recurringinvoicecontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $user->hasPermissionTo('recurringinvoicecontroller.store');
     }
 }

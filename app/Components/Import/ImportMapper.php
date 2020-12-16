@@ -89,10 +89,6 @@ trait ImportMapper
     {
         $this->object = $this->buildObject($items);
 
-        echo '<pre>';
-        print_r($this->object);
-        die;
-
         if (!$save_data) {
             return true;
         }
@@ -158,10 +154,6 @@ trait ImportMapper
 
             $count++;
         }
-
-        echo '<pre>';
-        print_r($object);
-        die;
 
         return $object;
     }

@@ -96,6 +96,7 @@ class ExpenseController extends Controller
     public function destroy(int $id)
     {
         $expense = Expense::withTrashed()->where('id', '=', $id)->first();
+        $this->authorize('delete', $expense);
         $expense->deleteEntity();
         return response()->json([], 200);
     }

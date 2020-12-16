@@ -17,9 +17,42 @@ class CasePolicy extends BasePolicy
      * @param \App\Models\Cases $cases
      * @return mixed
      */
-    public function view(User $user, Cases $cases)
+    public function view(User $user, Cases $case)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $case->user_id === $user->id || $user->hasPermissionTo(
+                'casecontroller.index'
+            ) || (!empty($case->assigned_to) && $case->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function update(User $user, Cases $case)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $case->user_id === $user->id || $user->hasPermissionTo(
+                'casecontroller.update'
+            ) || (!empty($case->assigned_to) && $case->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, Cases $case)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $case->user_id === $user->id || $user->hasPermissionTo(
+                'casecontroller.destroy'
+            ) || (!empty($case->assigned_to) && $case->assigned_to === $user->id);
     }
 
     /**
@@ -30,6 +63,8 @@ class CasePolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('casecontroller.store');
+        return $user->account_user()->is_admin || $user->account_user()->is_owner || $user->hasPermissionTo(
+                'casecontroller.store'
+            );
     }
 }

@@ -118,6 +118,7 @@ class GroupController extends Controller
     public function destroy(int $id)
     {
         $group = Group::withTrashed()->where('id', '=', $id)->first();
+        $this->authorize('delete', $group);
         $group->deleteEntity();
         return response()->json([], 200);
     }

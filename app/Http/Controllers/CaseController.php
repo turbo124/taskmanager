@@ -125,6 +125,9 @@ class CaseController extends Controller
     public function destroy(int $id)
     {
         $case = Cases::withTrashed()->where('id', '=', $id)->first();
+
+        $this->authorize('delete', $case);
+
         $case->deleteEntity();
         return response()->json([], 200);
     }

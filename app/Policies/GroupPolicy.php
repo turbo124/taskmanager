@@ -19,7 +19,34 @@ class GroupPolicy extends BasePolicy
      */
     public function view(User $user, Group $group)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $group->user_id === $user->id || $user->hasPermissionTo('groupcontroller.show') || (!empty($group->assigned_to) && $group->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function update(User $user, Group $group)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $group->user_id === $user->id || $user->hasPermissionTo('groupcontroller.update') || (!empty($group->assigned_to) && $group->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, Group $group)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $group->user_id === $user->id || $user->hasPermissionTo('groupcontroller.destroy') || (!empty($group->assigned_to) && $group->assigned_to === $user->id);
     }
 
     /**
@@ -30,6 +57,7 @@ class GroupPolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('groupcontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $user->hasPermissionTo('groupcontroller.store');
     }
 }

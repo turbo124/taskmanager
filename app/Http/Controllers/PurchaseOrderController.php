@@ -130,6 +130,7 @@ class PurchaseOrderController extends BaseController
     public function destroy(int $id)
     {
         $purchase_order = PurchaseOrder::withTrashed()->where('id', '=', $id)->first();
+        $this->authorize('delete', $purchase_order);
         $purchase_order->deleteEntity();
         return response()->json([], 200);
     }

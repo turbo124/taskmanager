@@ -19,7 +19,34 @@ class CustomerPolicy extends BasePolicy
      */
     public function view(User $user, Customer $customer)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $customer->user_id === $user->id || $user->hasPermissionTo('customercontroller.show') || (!empty($customer->assigned_to) && $customer->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function update(User $user, Customer $customer)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $customer->user_id === $user->id || $user->hasPermissionTo('customercontroller.update') || (!empty($customer->assigned_to) && $customer->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, Customer $customer)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $customer->user_id === $user->id || $user->hasPermissionTo('customercontroller.destroy') || (!empty($customer->assigned_to) && $customer->assigned_to === $user->id);
     }
 
     /**
@@ -30,6 +57,7 @@ class CustomerPolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('customercontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $user->hasPermissionTo('customercontroller.store');
     }
 }

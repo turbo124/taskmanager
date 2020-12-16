@@ -19,7 +19,34 @@ class CreditPolicy extends BasePolicy
      */
     public function view(User $user, Credit $credit)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $credit->user_id === $user->id || $user->hasPermissionTo('creditcontroller.show') || (!empty($credit->assigned_to) && $credit->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function update(User $user, Credit $credit)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $credit->user_id === $user->id || $user->hasPermissionTo('creditcontroller.update') || (!empty($credit->assigned_to) && $credit->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, Credit $credit)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $credit->user_id === $user->id || $user->hasPermissionTo('creditcontroller.destroy') || (!empty($credit->assigned_to) && $credit->assigned_to === $user->id);
     }
 
     /**
@@ -30,6 +57,7 @@ class CreditPolicy extends BasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo('creditcontroller.store');
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $user->hasPermissionTo('creditcontroller.store');
     }
 }

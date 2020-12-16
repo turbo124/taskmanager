@@ -127,6 +127,7 @@ class UserController extends Controller
     public function destroy(int $id)
     {
         $user = $this->user_repo->findUserById($id);
+        $this->authorize('delete', $user);
         $this->user_repo->destroy($user);
         return response()->json([], 200);
     }

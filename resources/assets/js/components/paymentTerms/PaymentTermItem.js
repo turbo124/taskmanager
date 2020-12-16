@@ -14,7 +14,7 @@ export default class PaymentTermItem extends Component {
     }
 
     deletePaymentTerm (id, archive = false) {
-        const url = archive === true ? `/api/paymentTerms /archive/${id}` : `/api/paymentTerms /${id}`
+        const url = archive === true ? `/api/payment_terms/archive/${id}` : `/api/payment_terms/${id}`
         const self = this
         axios.delete(url)
             .then(function (response) {

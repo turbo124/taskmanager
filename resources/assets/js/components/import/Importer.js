@@ -260,7 +260,7 @@ export default class Importer extends React.Component {
             columns = <option value="">Loading...</option>
         } else {
             columns = this.state.columns.map((column, index) => {
-                const formatted_column = column.replace(' ', '_').toLowerCase()
+                const formatted_column = column.replace(/ /g, '_').toLowerCase()
                 const value = translations[formatted_column] ? translations[formatted_column] : column
                 return <option key={index} value={column}>{value}</option>
             })

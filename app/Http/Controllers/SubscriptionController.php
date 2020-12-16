@@ -88,6 +88,7 @@ class SubscriptionController extends Controller
     public function destroy(int $id)
     {
         $subscription = $this->subscription_repo->findSubscriptionById($id);
+        $this->authorize('delete', $subscription);
         $subscription->deleteEntity();
 
         return response()->json($subscription);

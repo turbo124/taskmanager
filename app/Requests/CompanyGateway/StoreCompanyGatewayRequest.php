@@ -2,10 +2,21 @@
 
 namespace App\Requests\CompanyGateway;
 
+use App\Models\CompanyGateway;
+use App\Models\Customer;
 use App\Repositories\Base\BaseFormRequest;
 
 class StoreCompanyGatewayRequest extends BaseFormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return auth()->user()->can('create', CompanyGateway::class);
+    }
 
     public function rules()
     {

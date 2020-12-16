@@ -137,6 +137,9 @@ class CustomerController extends Controller
     public function destroy(int $id)
     {
         $customer = Customer::withTrashed()->where('id', '=', $id)->first();
+
+        $this->authorize('delete', $customer);
+
         $customer->deleteEntity();
         return response()->json([], 200);
     }

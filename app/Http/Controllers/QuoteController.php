@@ -154,6 +154,7 @@ class QuoteController extends BaseController
     public function destroy(int $id)
     {
         $quote = Quote::withTrashed()->where('id', '=', $id)->first();
+        $this->authorize('delete', $quote);
         $quote->deleteEntity();
         return response()->json([], 200);
     }
