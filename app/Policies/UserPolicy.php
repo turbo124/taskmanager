@@ -18,7 +18,8 @@ class UserPolicy extends BasePolicy
      */
     public function view(User $user, User $model)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('usercontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
     }
 
     /**
@@ -28,10 +29,10 @@ class UserPolicy extends BasePolicy
      * @param \App\Models\Invoice $invoice
      * @return mixed
      */
-    public function update(User $user, $entity)
+    public function update(User $user, User $model)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('usercontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
     }
 
     /**
