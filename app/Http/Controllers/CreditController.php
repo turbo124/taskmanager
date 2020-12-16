@@ -99,6 +99,9 @@ class CreditController extends BaseController
     public function destroy(int $id)
     {
         $credit = Credit::withTrashed()->where('id', '=', $id)->first();
+
+        $this->authorize('delete', $credit);
+
         $credit->deleteEntity();
         return response()->json([], 200);
     }

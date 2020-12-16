@@ -125,6 +125,7 @@ class RecurringInvoiceController extends BaseController
     public function destroy(int $id)
     {
         $recurring_invoice = RecurringInvoice::withTrashed()->where('id', '=', $id)->first();
+        $this->authorize('delete', $recurring_invoice);
         $recurring_invoice->deleteEntity();
         return response()->json([], 200);
     }

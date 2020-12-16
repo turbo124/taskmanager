@@ -20,7 +20,7 @@ class ExpensePolicy extends BasePolicy
     public function view(User $user, Expense $expense)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('expensecontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $expense->user_id === $user->id || $user->hasPermissionTo('expensecontroller.show') || (!empty($expense->assigned_to) && $expense->assigned_to === $user->id);
     }
 
     /**
@@ -33,7 +33,7 @@ class ExpensePolicy extends BasePolicy
     public function delete(User $user, Expense $expense)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $expense->user_id === $user->id || $user->hasPermissionTo('expensecontroller.destroy') || (!empty($expense->assigned_to) && $expense->assigned_to === $user->id);
     }
 
     /**
@@ -46,7 +46,7 @@ class ExpensePolicy extends BasePolicy
     public function update(User $user, Expense $expense)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('expensecontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $expense->user_id === $user->id || $user->hasPermissionTo('expensecontroller.update') || (!empty($expense->assigned_to) && $expense->assigned_to === $user->id);
     }
 
     /**

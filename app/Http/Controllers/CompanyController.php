@@ -151,6 +151,9 @@ class CompanyController extends Controller
     public function destroy(int $id)
     {
         $company = Company::withTrashed()->where('id', '=', $id)->first();
+
+        $this->authorize('delete', $company);
+
         $company->deleteEntity();
         return response()->json([], 200);
     }

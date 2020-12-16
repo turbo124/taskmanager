@@ -20,7 +20,7 @@ class OrderPolicy extends BasePolicy
     public function view(User $user, Order $order)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('ordercontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $order->user_id === $user->id || $user->hasPermissionTo('ordercontroller.show') || (!empty($order->assigned_to) && $order->assigned_to === $user->id);
     }
 
     /**
@@ -33,7 +33,7 @@ class OrderPolicy extends BasePolicy
     public function update(User $user, Order $order)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('ordercontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $order->user_id === $user->id || $user->hasPermissionTo('ordercontroller.update') || (!empty($order->assigned_to) && $order->assigned_to === $user->id);
     }
 
     /**
@@ -46,7 +46,7 @@ class OrderPolicy extends BasePolicy
     public function delete(User $user, Order $order)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $order->user_id === $user->id || $user->hasPermissionTo('ordercontroller.destroy') || (!empty($order->assigned_to) && $order->assigned_to === $user->id);
     }
 
     /**

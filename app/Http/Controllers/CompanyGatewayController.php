@@ -108,6 +108,9 @@ class CompanyGatewayController extends Controller
     public function destroy(int $id)
     {
         $company = CompanyGateway::withTrashed()->where('id', '=', $id)->first();
+
+        $this->authorize('delete', $company);
+
         $company->deleteEntity();
         return response()->json([], 200);
     }

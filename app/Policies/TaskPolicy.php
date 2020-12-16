@@ -20,7 +20,20 @@ class TaskPolicy extends BasePolicy
     public function view(User $user, Task $task)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('taskcontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $task->user_id === $user->id || $user->hasPermissionTo('taskcontroller.show') || (!empty($task->assigned_to) && $task->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, Task $task)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $task->user_id === $user->id || $user->hasPermissionTo('taskcontroller.destroy') || (!empty($task->assigned_to) && $task->assigned_to === $user->id);
     }
 
     /**
@@ -33,7 +46,7 @@ class TaskPolicy extends BasePolicy
     public function update(User $user, Task $task)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('taskcontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $task->user_id === $user->id || $user->hasPermissionTo('taskcontroller.update') || (!empty($task->assigned_to) && $task->assigned_to === $user->id);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Factory\PaymentTermsFactory;
+use App\Models\PaymentTerms;
 use App\Repositories\PaymentTermsRepository;
 use App\Requests\PaymentTerms\StorePaymentTermsRequest;
 use App\Requests\PaymentTerms\UpdatePaymentTermsRequest;

@@ -21,13 +21,13 @@ class CaseTemplateController extends Controller
     use CaseTemplateTransformable;
 
     /**
-     * @var BrandRepository
+     * @var CaseTemplateRepository
      */
     private CaseTemplateRepository $template_repo;
 
     /**
-     * BrandController constructor.
-     * @param CaseTemplateRepository $brandRepository
+     * CaseTemplateController constructor.
+     * @param CaseTemplateRepository $case_template_repo
      */
     public function __construct(CaseTemplateRepository $case_template_repo)
     {

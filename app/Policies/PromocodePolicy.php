@@ -11,26 +11,42 @@ class PromocodePolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any models.
-     *
-     * @param \App\Models\User $user
-     * @return mixed
-     */
-    public function viewAny(User $user)
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can view the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Promocode $promocode
+     * @param \App\Models\User $promocode
      * @return mixed
      */
     public function view(User $user, Promocode $promocode)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $promocode->user_id === $user->id || $user->hasPermissionTo('promocodecontroller.show');
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, Promocode $promocode)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $promocode->user_id === $user->id || $user->hasPermissionTo('promocodecontroller.destroy');
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function update(User $user, Promocode $promocode)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $promocode->user_id === $user->id || $user->hasPermissionTo('promocodecontroller.update');
     }
 
     /**
@@ -41,54 +57,8 @@ class PromocodePolicy
      */
     public function create(User $user)
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\Promocode $promocode
-     * @return mixed
-     */
-    public function update(User $user, Promocode $promocode)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\Promocode $promocode
-     * @return mixed
-     */
-    public function delete(User $user, Promocode $promocode)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\Promocode $promocode
-     * @return mixed
-     */
-    public function restore(User $user, Promocode $promocode)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\Promocode $promocode
-     * @return mixed
-     */
-    public function forceDelete(User $user, Promocode $promocode)
-    {
-        //
+        return $user->account_user()->is_admin || $user->account_user()->is_owner || $user->hasPermissionTo(
+                'promocodecontroller.store'
+            );
     }
 }

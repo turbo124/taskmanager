@@ -115,6 +115,8 @@ class ProjectController extends Controller
     public function destroy(int $id)
     {
         $project = Project::withTrashed()->where('id', '=', $id)->first();
+
+        $this->authorize('delete', $project);
         $project->deleteEntity();
         return response()->json([], 200);
     }

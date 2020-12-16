@@ -20,7 +20,20 @@ class RecurringQuotePolicy extends BasePolicy
     public function view(User $user, RecurringQuote $recurringQuote)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('recurringquotecontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $recurringQuote->user_id === $user->id || $user->hasPermissionTo('recurringquotecontroller.show') || (!empty($recurringQuote->assigned_to) && $recurringQuote->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, RecurringQuote $recurringQuote)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $recurringQuote->user_id === $user->id || $user->hasPermissionTo('recurringquotecontroller.destroy') || (!empty($recurringQuote->assigned_to) && $recurringQuote->assigned_to === $user->id);
     }
 
     /**
@@ -33,7 +46,7 @@ class RecurringQuotePolicy extends BasePolicy
     public function update(User $user, RecurringQuote $recurringQuote)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('recurringquotecontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $recurringQuote->user_id === $user->id || $user->hasPermissionTo('recurringquotecontroller.update') || (!empty($recurringQuote->assigned_to) && $recurringQuote->assigned_to === $user->id);
     }
 
     /**

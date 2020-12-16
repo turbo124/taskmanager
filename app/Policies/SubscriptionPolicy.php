@@ -20,7 +20,20 @@ class SubscriptionPolicy extends BasePolicy
     public function view(User $user, Subscription $subscription)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('subscriptioncontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $subscription->user_id === $user->id || $user->hasPermissionTo('subscriptioncontroller.show') || (!empty($subscription->assigned_to) && $subscription->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, Subscription $subscription)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $subscription->user_id === $user->id || $user->hasPermissionTo('subscriptioncontroller.destroy') || (!empty($subscription->assigned_to) && $subscription->assigned_to === $user->id);
     }
 
     /**
@@ -33,7 +46,7 @@ class SubscriptionPolicy extends BasePolicy
     public function update(User $user, Subscription $subscription)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('subscriptioncontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $subscription->user_id === $user->id || $user->hasPermissionTo('subscriptioncontroller.update') || (!empty($subscription->assigned_to) && $subscription->assigned_to === $user->id);
     }
 
     /**

@@ -20,7 +20,7 @@ class CreditPolicy extends BasePolicy
     public function view(User $user, Credit $credit)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('creditcontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $credit->user_id === $user->id || $user->hasPermissionTo('creditcontroller.show') || (!empty($credit->assigned_to) && $credit->assigned_to === $user->id);
     }
 
     /**
@@ -33,7 +33,7 @@ class CreditPolicy extends BasePolicy
     public function update(User $user, Credit $credit)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('creditcontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $credit->user_id === $user->id || $user->hasPermissionTo('creditcontroller.update') || (!empty($credit->assigned_to) && $credit->assigned_to === $user->id);
     }
 
     /**
@@ -46,7 +46,7 @@ class CreditPolicy extends BasePolicy
     public function delete(User $user, Credit $credit)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $credit->user_id === $user->id || $user->hasPermissionTo('creditcontroller.destroy') || (!empty($credit->assigned_to) && $credit->assigned_to === $user->id);
     }
 
     /**

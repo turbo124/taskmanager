@@ -5,6 +5,7 @@ namespace App\Components\Import;
 
 
 use App\Factory\CustomerFactory;
+use App\Jobs\Customer\StoreCustomerAddress;
 use App\Models\Account;
 use App\Models\Customer;
 use App\Models\CustomerContact;
@@ -44,6 +45,8 @@ class CustomerImporter extends BaseCsvImporter
     private array $mappings = [
         'name'          => 'name',
         'vat_number'    => 'vat_number',
+        'currency code' => 'currency_id',
+        'website'       => 'website',
         'terms'         => 'terms',
         'public notes'  => 'public_notes',
         'private notes' => 'private_notes',
@@ -52,6 +55,18 @@ class CustomerImporter extends BaseCsvImporter
             'last_name'  => 'last_name',
             'email'      => 'email',
             'phone'      => 'phone'
+        ],
+        'billing'       => [
+            'billing address 1' => 'address_1',
+            'billing address 2' => 'address_2',
+            'billing zip'       => 'zip',
+            'billing city'      => 'city'
+        ],
+        'shipping'      => [
+            'shipping address 1' => 'address_1',
+            'shipping address 2' => 'address_2',
+            'shipping zip'       => 'zip',
+            'shipping city'      => 'city'
         ]
     ];
 
@@ -133,8 +148,27 @@ class CustomerImporter extends BaseCsvImporter
      */
     public function saveCallback(Customer $customer, array $data)
     {
+
         if (!empty($data['contacts'])) {
             (new CustomerContactRepository(new CustomerContact()))->save($data['contacts'], $customer);
+        }
+
+        $addresses[0] = [];
+
+        if(!empty($data['billing'])) {
+            $billing = array_values($data['billing']);
+
+            $addresses[0]['billing'] = $billing[0];
+        }
+
+        if(!empty($data['shipping'])) {
+            $shipping = array_values($data['shipping']);
+
+            $addresses[0]['shipping'] = $shipping[0];
+        }
+
+        if(!empty($addresses[0])) {
+            $customer = StoreCustomerAddress::dispatchNow($customer, ['addresses' => $addresses]);
         }
 
         return $customer->fresh();

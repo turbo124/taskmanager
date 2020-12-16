@@ -20,7 +20,20 @@ class TaxRatePolicy extends BasePolicy
     public function view(User $user, TaxRate $taxRate)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('taxratecontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $taxRate->user_id === $user->id || $user->hasPermissionTo('taxratecontroller.show') || (!empty($taxRate->assigned_to) && $taxRate->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function delete(User $user, TaxRate $taxRate)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $taxRate->user_id === $user->id || $user->hasPermissionTo('taxratecontroller.destroy') || (!empty($taxRate->assigned_to) && $taxRate->assigned_to === $user->id);
     }
 
     /**
@@ -33,7 +46,7 @@ class TaxRatePolicy extends BasePolicy
     public function update(User $user, TaxRate $taxRate)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('taxratecontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $taxRate->user_id === $user->id || $user->hasPermissionTo('taxratecontroller.update') || (!empty($taxRate->assigned_to) && $taxRate->assigned_to === $user->id);
     }
 
     /**

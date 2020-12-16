@@ -20,7 +20,7 @@ class CompanyPolicy extends BasePolicy
     public function view(User $user, Company $company)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('companycontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $company->user_id === $user->id || $user->hasPermissionTo('companycontroller.show') || (!empty($company->assigned_to) && $company->assigned_to === $user->id);
     }
 
     /**
@@ -33,7 +33,7 @@ class CompanyPolicy extends BasePolicy
     public function update(User $user, Company $company)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('companycontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $company->user_id === $user->id || $user->hasPermissionTo('companycontroller.update') || (!empty($company->assigned_to) && $company->assigned_to === $user->id);
     }
 
    /**
@@ -46,7 +46,7 @@ class CompanyPolicy extends BasePolicy
     public function delete(User $user, Company $company)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $company->user_id === $user->id || $user->hasPermissionTo('companycontroller.destroy') || (!empty($company->assigned_to) && $company->assigned_to === $user->id);
     }
 
     /**

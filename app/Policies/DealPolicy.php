@@ -20,7 +20,7 @@ class DealPolicy extends BasePolicy
     public function view(User $user, Deal $deal)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('dealcontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $deal->user_id === $user->id || $user->hasPermissionTo('dealcontroller.show') || (!empty($deal->assigned_to) && $deal->assigned_to === $user->id);
     }
 
     /**
@@ -33,7 +33,7 @@ class DealPolicy extends BasePolicy
     public function update(User $user, Deal $deal)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('dealcontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $deal->user_id === $user->id || $user->hasPermissionTo('dealcontroller.update') || (!empty($deal->assigned_to) && $deal->assigned_to === $user->id);
     }
 
     /**
@@ -46,7 +46,7 @@ class DealPolicy extends BasePolicy
     public function delete(User $user, Deal $deal)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $deal->user_id === $user->id || $user->hasPermissionTo('dealcontroller.destroy') || (!empty($deal->assigned_to) && $deal->assigned_to === $user->id);
     }
 
     /**

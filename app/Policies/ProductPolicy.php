@@ -20,7 +20,7 @@ class ProductPolicy extends BasePolicy
     public function view(User $user, Product $product)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('productcontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $product->user_id === $user->id || $user->hasPermissionTo('productcontroller.show') || (!empty($product->assigned_to) && $product->assigned_to === $user->id);
     }
 
     /**
@@ -33,7 +33,7 @@ class ProductPolicy extends BasePolicy
     public function update(User $user, Product $product)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('productcontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $product->user_id === $user->id || $user->hasPermissionTo('productcontroller.update') || (!empty($product->assigned_to) && $product->assigned_to === $user->id);
     }
 
     /**
@@ -46,7 +46,7 @@ class ProductPolicy extends BasePolicy
     public function delete(User $user, Product $product)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $product->user_id === $user->id || $user->hasPermissionTo('productcontroller.destroy') || (!empty($product->assigned_to) && $product->assigned_to === $user->id);
     }
 
     /**

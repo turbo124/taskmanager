@@ -20,7 +20,7 @@ class ProjectPolicy extends BasePolicy
     public function view(User $user, Project $project)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('projectcontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $project->user_id === $user->id || $user->hasPermissionTo('projectcontroller.show') || (!empty($project->assigned_to) && $project->assigned_to === $user->id);
     }
 
     /**
@@ -33,7 +33,7 @@ class ProjectPolicy extends BasePolicy
     public function update(User $user, Project $project)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('projectcontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $project->user_id === $user->id || $user->hasPermissionTo('projectcontroller.update') || (!empty($project->assigned_to) && $project->assigned_to === $user->id);
     }
 
     /**
@@ -46,7 +46,7 @@ class ProjectPolicy extends BasePolicy
     public function delete(User $user, Project $project)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $project->user_id === $user->id || $user->hasPermissionTo('projectcontroller.destroy') || (!empty($project->assigned_to) && $project->assigned_to === $user->id);
     }
 
     /**

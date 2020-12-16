@@ -20,7 +20,7 @@ class CompanyGatewayPolicy
     public function view(User $user, CompanyGateway $companyGateway)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('companygatewaycontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $companyGateway->user_id === $user->id || $user->hasPermissionTo('companygatewaycontroller.show') || (!empty($companyGateway->assigned_to) && $companyGateway->assigned_to === $user->id);
     }
 
     /**
@@ -33,7 +33,7 @@ class CompanyGatewayPolicy
     public function update(User $user, CompanyGateway $companyGateway)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('companygatewaycontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $companyGateway->user_id === $user->id || $user->hasPermissionTo('companygatewaycontroller.update') || (!empty($companyGateway->assigned_to) && $companyGateway->assigned_to === $user->id);
     }
 
     /**
@@ -46,7 +46,7 @@ class CompanyGatewayPolicy
     public function delete(User $user, CompanyGateway $companyGateway)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $companyGateway->user_id === $user->id || $user->hasPermissionTo('companygatewaycontroller.destroy') || (!empty($companyGateway->assigned_to) && $companyGateway->assigned_to === $user->id);
     }
 
     /**

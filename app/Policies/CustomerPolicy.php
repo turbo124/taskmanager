@@ -20,7 +20,7 @@ class CustomerPolicy extends BasePolicy
     public function view(User $user, Customer $customer)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('customercontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $customer->user_id === $user->id || $user->hasPermissionTo('customercontroller.show') || (!empty($customer->assigned_to) && $customer->assigned_to === $user->id);
     }
 
     /**
@@ -33,7 +33,7 @@ class CustomerPolicy extends BasePolicy
     public function update(User $user, Customer $customer)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('customercontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $customer->user_id === $user->id || $user->hasPermissionTo('customercontroller.update') || (!empty($customer->assigned_to) && $customer->assigned_to === $user->id);
     }
 
     /**
@@ -46,7 +46,7 @@ class CustomerPolicy extends BasePolicy
     public function delete(User $user, Customer $customer)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $customer->user_id === $user->id || $user->hasPermissionTo('customercontroller.destroy') || (!empty($customer->assigned_to) && $customer->assigned_to === $user->id);
     }
 
     /**

@@ -86,6 +86,7 @@ class TaxRateController extends Controller
     public function destroy(int $id)
     {
         $tax_rate = TaxRate::withTrashed()->where('id', '=', $id)->first();
+        $this->authorize('delete', $tax_rate);
         $tax_rate->deleteEntity();
         return response()->json([], 200);
     }

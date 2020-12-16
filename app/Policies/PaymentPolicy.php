@@ -20,7 +20,7 @@ class PaymentPolicy extends BasePolicy
     public function view(User $user, Payment $payment)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id) || $user->hasPermissionTo('paymentcontroller.show');
+            )->is_owner || $payment->user_id === $user->id || (!empty($payment->assigned_to) && $payment->assigned_to === $user->id) || $user->hasPermissionTo('paymentcontroller.show');
     }
 
     /**
@@ -33,7 +33,7 @@ class PaymentPolicy extends BasePolicy
     public function update(User $user, Payment $payment)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('paymentcontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $payment->user_id === $user->id || $user->hasPermissionTo('paymentcontroller.update') || (!empty($payment->assigned_to) && $payment->assigned_to === $user->id);
     }
 
     /**
@@ -46,7 +46,7 @@ class PaymentPolicy extends BasePolicy
     public function delete(User $user, Payment $payment)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $payment->user_id === $user->id || $user->hasPermissionTo('paymentcontroller.destroy') || (!empty($payment->assigned_to) && $payment->assigned_to === $user->id);
     }
 
     /**

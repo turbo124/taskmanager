@@ -112,6 +112,9 @@ class LeadController extends Controller
     public function destroy(int $id)
     {
         $lead = $this->lead_repo->findLeadById($id);
+
+        $this->authorize('delete', $lead);
+
         $lead->deleteEntity();
         return response()->json([], 200);
     }

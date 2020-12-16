@@ -20,7 +20,7 @@ class PurchaseOrderPolicy extends BasePolicy
     public function view(User $user, PurchaseOrder $purchaseOrder)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('purchaseordercontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $purchaseOrder->user_id === $user->id || $user->hasPermissionTo('purchaseordercontroller.show') || (!empty($purchaseOrder->assigned_to) && $purchaseOrder->assigned_to === $user->id);
     }
 
     /**
@@ -33,7 +33,7 @@ class PurchaseOrderPolicy extends BasePolicy
     public function update(User $user, PurchaseOrder $purchaseOrder)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('purchaseordercontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $purchaseOrder->user_id === $user->id || $user->hasPermissionTo('purchaseordercontroller.update') || (!empty($purchaseOrder->assigned_to) && $purchaseOrder->assigned_to === $user->id);
     }
 
     /**
@@ -46,7 +46,7 @@ class PurchaseOrderPolicy extends BasePolicy
     public function delete(User $user, PurchaseOrder $purchaseOrder)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+            )->is_owner || $purchaseOrder->user_id === $user->id || $user->hasPermissionTo('purchaseordercontroller.destroy') || (!empty($purchaseOrder->assigned_to) && $purchaseOrder->assigned_to === $user->id);
     }
 
     /**

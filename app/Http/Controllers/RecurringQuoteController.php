@@ -130,6 +130,7 @@ class RecurringQuoteController extends BaseController
     public function destroy(int $id)
     {
         $recurring_quote = RecurringQuote::withTrashed()->where('id', '=', $id)->first();
+        $this->authorize('delete', $recurring_quote);
         $recurring_quote->deleteEntity();
         return response()->json([], 200);
     }
