@@ -30,7 +30,7 @@ class TaskStatusPolicy extends BasePolicy
      * @param \App\Models\Invoice $invoice
      * @return mixed
      */
-    public function update(User $user, $entity)
+    public function update(User $user, TaskStatus $taskStatus)
     {
         return $user->account_user()->is_admin || $user->account_user(
             )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('taskstatuscontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
