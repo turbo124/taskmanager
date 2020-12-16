@@ -11,26 +11,29 @@ class CompanyGatewayPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any models.
-     *
-     * @param \App\Models\User $user
-     * @return mixed
-     */
-    public function viewAny(User $user)
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can view the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\CompanyGateway $companyGateway
+     * @param \App\Models\User $model
      * @return mixed
      */
     public function view(User $user, CompanyGateway $companyGateway)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('companygatewaycontroller.show') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Invoice $invoice
+     * @return mixed
+     */
+    public function update(User $user, CompanyGateway $companyGateway)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $entity->user_id === $user->id || $user->hasPermissionTo('companygatewaycontroller.update') || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
     }
 
     /**
@@ -41,54 +44,7 @@ class CompanyGatewayPolicy
      */
     public function create(User $user)
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\CompanyGateway $companyGateway
-     * @return mixed
-     */
-    public function update(User $user, CompanyGateway $companyGateway)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\CompanyGateway $companyGateway
-     * @return mixed
-     */
-    public function delete(User $user, CompanyGateway $companyGateway)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\CompanyGateway $companyGateway
-     * @return mixed
-     */
-    public function restore(User $user, CompanyGateway $companyGateway)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\CompanyGateway $companyGateway
-     * @return mixed
-     */
-    public function forceDelete(User $user, CompanyGateway $companyGateway)
-    {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $user->hasPermissionTo('companygatewaycontroller.store');
     }
 }
