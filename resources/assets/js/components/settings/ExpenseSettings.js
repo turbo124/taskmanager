@@ -185,7 +185,7 @@ export default class ExpenseSettings extends Component {
                 <Header title={translations.expense_settings} handleSubmit={this.handleSubmit}/>
 
                 <div className="fixed-margin-mobile bg-transparent">
-                    <Card className="border-0">
+                    <Card>
                         <CardBody>
                             <FormBuilder
                                 handleChange={this.handleSettingsChange}
