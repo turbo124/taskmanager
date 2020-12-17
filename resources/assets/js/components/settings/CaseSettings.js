@@ -181,7 +181,7 @@ export default class CaseSettings extends Component {
                 <Header title={translations.case_settings} handleSubmit={this.handleSubmit}/>
 
                 <div className="fixed-margin-mobile bg-transparent">
-                    <Card className="border-0">
+                    <Card>
                         <CardBody>
                             <FormBuilder
                                 handleChange={this.handleSettingsChange}
@@ -191,7 +191,7 @@ export default class CaseSettings extends Component {
                     </Card>
                 </div>
 
-                <Card className="border-0">
+                <Card>
                     <CardHeader>{translations.templates}</CardHeader>
                     <CardBody>
                         <FormGroup>
