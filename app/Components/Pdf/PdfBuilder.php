@@ -617,7 +617,7 @@ class PdfBuilder
 
     public function setNotes($notes): self
     {
-        $this->data['$entity.public_notes'] = ['value' => $notes ?: '&nbsp;', 'label' => trans('texts.public_notes')];
+        $this->data['$entity.public_notes'] = ['value' => !empty($notes) ? nl2br($notes) : '&nbsp;', 'label' => trans('texts.public_notes')];
         return $this;
     }
 
