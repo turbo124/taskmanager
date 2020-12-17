@@ -250,8 +250,8 @@ class CustomFieldSettings extends Component {
         const tabItems = []
 
         if (customers && this.modules.customers === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
-                <Card className="border-0">
+            tabContent.push(<TabPane tabId={String(tabCounter)}>
+                <Card>
                     <CardBody>
                         {
                             customers.map((val, idx) => {
@@ -280,8 +280,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (product && this.modules.products === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
-                <Card className="border-0">
+            tabContent.push(<TabPane tabId={String(tabCounter)}>
+                <Card>
                     <CardBody>
                         {
                             product.map((val, idx) => {
@@ -311,8 +311,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (invoices && this.modules.invoices === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
-                <Card className="border-0">
+            tabContent.push(<TabPane tabId={String(tabCounter)}>
+                <Card>
                     <CardBody>
                         {
                             invoices.map((val, idx) => {
@@ -342,8 +342,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (payments && this.modules.payments === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
-                <Card className="border-0">
+            tabContent.push(<TabPane tabId={String(tabCounter)}>
+                <Card>
                     <CardBody>
                         {
                             payments.map((val, idx) => {
@@ -373,8 +373,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (companies && this.modules.companies === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
-                <Card className="border-0">
+            tabContent.push(<TabPane tabId={String(tabCounter)}>
+                <Card>
                     <CardBody>
                         {
                             companies.map((val, idx) => {
@@ -404,8 +404,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (quotes && this.modules.quotes === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
-                <Card className="border-0">
+            tabContent.push(<TabPane tabId={String(tabCounter)}>
+                <Card>
                     <CardBody>
                         {
                             quotes.map((val, idx) => {
@@ -435,8 +435,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (credits && this.modules.credits === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
-                <Card className="border-0">
+            tabContent.push(<TabPane tabId={String(tabCounter)}>
+                <Card>
                     <CardBody>
                         {
                             credits.map((val, idx) => {
@@ -466,7 +466,7 @@ class CustomFieldSettings extends Component {
         }
 
         if (tasks && this.modules.tasks === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
+            tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
                     <CardBody>
                         {
@@ -497,8 +497,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (expenses && this.modules.expenses === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
-                <Card className="border-0">
+            tabContent.push(<TabPane tabId={String(tabCounter)}>
+                <Card>
                     <CardBody>
                         {
                             expenses.map((val, idx) => {
@@ -528,8 +528,8 @@ class CustomFieldSettings extends Component {
         }
 
         if (orders && this.modules.orders === true) {
-            tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
-                <Card className="border-0">
+            tabContent.push(<TabPane tabId={String(tabCounter)}>
+                <Card>
                     <CardBody>
                         {
                             orders.map((val, idx) => {
@@ -558,8 +558,8 @@ class CustomFieldSettings extends Component {
             tabCounter++
         }
 
-        tabContent.push(<TabPane tabId={String(tabCounter)} className="px-0">
-            <Card className="border-0">
+        tabContent.push(<TabPane tabId={String(tabCounter)}>
+            <Card>
                 <CardBody>
                     {
                         users.map((val, idx) => {
