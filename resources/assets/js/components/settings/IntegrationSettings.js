@@ -114,7 +114,7 @@ class IntegrationSettings extends Component {
 
                 <Header title={translations.integration_settings} handleSubmit={this.handleSubmit}/>
 
-                <Card className="fixed-margin-extra border-0">
+                <Card className="fixed-margin-extra">
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
