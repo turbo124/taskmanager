@@ -211,8 +211,8 @@ class TemplateSettings extends Component {
                     tabs={tabs}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
-                    <TabPane className="px-0" tabId="1">
-                        <Card className="border-0">
+                    <TabPane tabId="1">
+                        <Card>
                             <CardBody>
                                 <Row>
                                     <Col md={8}>
@@ -230,8 +230,8 @@ class TemplateSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane className="px-0" tabId="2">
-                        <Card className="border-0">
+                    <TabPane tabId="2">
+                        <Card>
                             <CardBody>
                                 {spinner}
                                 {preview}
