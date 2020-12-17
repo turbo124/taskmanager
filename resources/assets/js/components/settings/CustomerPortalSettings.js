@@ -262,8 +262,8 @@ export default class CustomerPortalSettings extends Component {
                     handleSubmit={this.handleSubmit.bind(this)}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
-                    <TabPane tabId="1" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="1">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -273,8 +273,8 @@ export default class CustomerPortalSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="2" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="2">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -284,8 +284,8 @@ export default class CustomerPortalSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="3" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="3">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
