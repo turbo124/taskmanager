@@ -161,7 +161,7 @@ export default class TaxSettings extends Component {
                 <Header title={translations.tax_settings}
                     handleSubmit={this.handleSubmit.bind(this)}/>
 
-                <Card className="border-0 fixed-margin-mobile bg-transparent">
+                <Card className="fixed-margin-mobile bg-transparent">
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
