@@ -495,8 +495,8 @@ class Settings extends Component {
                     tabs={tabs}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
-                    <TabPane className="px-0" tabId="1">
-                        <Card className="border-0">
+                    <TabPane tabId="1">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -505,8 +505,8 @@ class Settings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
-                    <TabPane className="px-0" tabId="2">
-                        <Card className="border-0">
+                    <TabPane tabId="2">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -515,8 +515,8 @@ class Settings extends Component {
                             </CardBody>
                         </Card>
                     </TabPane>
-                    <TabPane className="px-0" tabId="3">
-                        <Card className="border-0">
+                    <TabPane tabId="3">
+                        <Card>
                             <CardBody>
                                 <FormGroup>
 
@@ -530,8 +530,8 @@ class Settings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane className="px-0" tabId="4">
-                        <Card className="border-0">
+                    <TabPane tabId="4">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
