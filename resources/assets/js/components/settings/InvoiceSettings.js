@@ -495,11 +495,11 @@ class InvoiceSettings extends Component {
                     tabs={tabs}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
-                    <TabPane tabId="1" className="px-0">
+                    <TabPane tabId="1">
                         <BlockButton icon={icons.link} button_text={translations.customize_and_preview}
                             button_link="/#/designs"/>
 
-                        <Card className="border-0">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -509,14 +509,14 @@ class InvoiceSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="2" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="2">
+                        <Card>
                             <CardBody/>
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="3" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="3">
+                        <Card>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
                                     section="client_details" columns={customer_pdf_fields}
@@ -525,8 +525,8 @@ class InvoiceSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="4" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="4">
+                        <Card>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
                                     section="company_details" columns={account_pdf_fields}
@@ -536,8 +536,8 @@ class InvoiceSettings extends Component {
                     </TabPane>
 
                     {modules && modules.invoices &&
-                    <TabPane tabId="5" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="5">
+                        <Card>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
                                     section="invoice" columns={this.getInvoiceFields()}
@@ -548,8 +548,8 @@ class InvoiceSettings extends Component {
                     }
 
                     {modules && modules.quotes &&
-                    <TabPane tabId="6" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="6">
+                        <Card>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
                                     section="quote" columns={this.getQuoteFields()}
@@ -560,8 +560,8 @@ class InvoiceSettings extends Component {
                     }
 
                     {modules && modules.orders &&
-                    <TabPane tabId="7" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="7">
+                        <Card>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
                                     section="order" columns={this.getOrderFields()}
@@ -572,8 +572,8 @@ class InvoiceSettings extends Component {
                     }
 
                     {modules && modules.purchase_orders &&
-                    <TabPane tabId="8" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="8">
+                        <Card>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
                                     section="purchase_order" columns={this.getPurchaseOrderFields()}
@@ -584,8 +584,8 @@ class InvoiceSettings extends Component {
                     }
 
                     {modules && modules.credits &&
-                    <TabPane tabId="9" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="9">
+                        <Card>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
                                     section="credit" columns={this.getCreditFields()}
@@ -595,8 +595,8 @@ class InvoiceSettings extends Component {
                     </TabPane>
                     }
 
-                    <TabPane tabId="10" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="10">
+                        <Card>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
                                     section="product_columns" columns={this.getProductFields()}
@@ -606,8 +606,8 @@ class InvoiceSettings extends Component {
                     </TabPane>
 
                     {modules && modules.tasks &&
-                    <TabPane tabId="11" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="11">
+                        <Card>
                             <CardBody>
                                 <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
                                     section="task_columns" columns={this.getTaskFields()}
