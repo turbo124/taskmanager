@@ -192,7 +192,7 @@ export default class LocalisationSettings extends Component {
 
                 <Header title={translations.localisation_settings} handleSubmit={this.handleSubmit}/>
 
-                <Card className="fixed-margin-mobile border-0">
+                <Card className="fixed-margin-mobile">
                     <CardBody>
                         <FormGroup>
                             <Label>{translations.date_format}</Label>
@@ -224,7 +224,7 @@ export default class LocalisationSettings extends Component {
                     </CardBody>
                 </Card>
 
-                <Card className="fixed-margin-extra border-0">
+                <Card className="fixed-margin-extra">
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
