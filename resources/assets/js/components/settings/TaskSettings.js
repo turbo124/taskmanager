@@ -173,7 +173,7 @@ export default class TaskSettings extends Component {
                 <Header title={translations.task_settings} handleSubmit={this.handleSubmit}/>
 
                 <div className="fixed-margin-mobile bg-transparent">
-                    <Card className="border-0">
+                    <Card>
                         <CardBody>
                             <FormBuilder
                                 handleChange={this.handleSettingsChange}
