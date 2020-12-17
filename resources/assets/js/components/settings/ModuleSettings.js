@@ -265,8 +265,8 @@ class ModuleSettings extends Component {
                     tabs={tabs}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
-                    <TabPane tabId="1" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="1">
+                        <Card>
                             <CardBody>
                                 <BlockButton icon={icons.link} button_text={translations.subscriptions}
                                     button_link="/#/subscriptions"/>
@@ -281,8 +281,8 @@ class ModuleSettings extends Component {
                         </Card>
                     </TabPane>
 
-                    <TabPane tabId="2" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="2">
+                        <Card>
                             <CardBody>
                                 <Form>
                                     <FormGroup>
