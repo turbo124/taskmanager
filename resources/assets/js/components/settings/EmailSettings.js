@@ -234,7 +234,7 @@ class EmailSettings extends Component {
 
                 <Header title={translations.email_settings} handleSubmit={this.handleSubmit}/>
 
-                <Card className="fixed-margin-extra border-0">
+                <Card className="fixed-margin-extra">
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
@@ -243,7 +243,7 @@ class EmailSettings extends Component {
                     </CardBody>
                 </Card>
 
-                <Card className="border-0">
+                <Card>
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
@@ -252,7 +252,7 @@ class EmailSettings extends Component {
                     </CardBody>
                 </Card>
 
-                <Card className="border-0">
+                <Card>
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
