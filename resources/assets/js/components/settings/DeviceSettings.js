@@ -236,7 +236,7 @@ export default class DeviceSettings extends Component {
 
                 <Header title={translations.device_settings}/>
 
-                <Card className="fixed-margin-extra border-0">
+                <Card className="fixed-margin-extra">
                     <CardBody>
                         <ColorPicker label={translations.header_background_color} value={header_background_color}
                             handleChange={this.handleHeaderColor}/>
@@ -247,7 +247,7 @@ export default class DeviceSettings extends Component {
                     </CardBody>
                 </Card>
 
-                <Card className="border-0">
+                <Card>
                     <CardBody>
                         <FormBuilder
                             handleChange={this.handleSettingsChange}
