@@ -964,8 +964,8 @@ class NumberSettings extends Component {
                     tabs={tabs}/>
 
                 <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
-                    <TabPane tabId="1" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="1">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -976,8 +976,8 @@ class NumberSettings extends Component {
                     </TabPane>
 
                     {modules && modules.invoices &&
-                    <TabPane tabId="2" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="2">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -989,8 +989,8 @@ class NumberSettings extends Component {
                     }
 
                     {modules && modules.quotes &&
-                    <TabPane tabId="3" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="3">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -1002,8 +1002,8 @@ class NumberSettings extends Component {
                     }
 
                     {modules && modules.payments &&
-                    <TabPane tabId="4" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="4">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -1015,8 +1015,8 @@ class NumberSettings extends Component {
                     }
 
                     {modules && modules.credits &&
-                    <TabPane tabId="5" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="5">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -1028,8 +1028,8 @@ class NumberSettings extends Component {
                     }
 
                     {modules && modules.orders &&
-                    <TabPane tabId="6" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="6">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -1041,8 +1041,8 @@ class NumberSettings extends Component {
                     }
 
                     {modules && modules.purchase_orders &&
-                    <TabPane tabId="7" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="7">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -1054,8 +1054,8 @@ class NumberSettings extends Component {
                     }
 
                     {modules && modules.deals &&
-                    <TabPane tabId="8" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="8">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -1067,8 +1067,8 @@ class NumberSettings extends Component {
                     }
 
                     {modules && modules.cases &&
-                    <TabPane tabId="9" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="9">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -1080,8 +1080,8 @@ class NumberSettings extends Component {
                     }
 
                     {modules && modules.tasks &&
-                    <TabPane tabId="10" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="10">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -1093,8 +1093,8 @@ class NumberSettings extends Component {
                     }
 
                     {modules && modules.recurringInvoices &&
-                    <TabPane tabId="11" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="11">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -1106,8 +1106,8 @@ class NumberSettings extends Component {
                     }
 
                     {modules && modules.recurringQuotes &&
-                    <TabPane tabId="12" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="12">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -1118,8 +1118,8 @@ class NumberSettings extends Component {
                     </TabPane>
                     }
                     {modules && modules.expenses &&
-                    <TabPane tabId="13" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="13">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -1130,8 +1130,8 @@ class NumberSettings extends Component {
                     </TabPane>
                     }
                     {modules && modules.projects &&
-                    <TabPane tabId="14" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="14">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
@@ -1142,8 +1142,8 @@ class NumberSettings extends Component {
                     </TabPane>
                     }
                     {modules && modules.companies &&
-                    <TabPane tabId="15" className="px-0">
-                        <Card className="border-0">
+                    <TabPane tabId="15">
+                        <Card>
                             <CardBody>
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
