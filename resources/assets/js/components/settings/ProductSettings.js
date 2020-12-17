@@ -221,7 +221,7 @@ class ProductSettings extends Component {
 
                 <Header title={translations.product_settings} handleSubmit={this.handleSubmit}/>
 
-                <Card className="fixed-margin-extra border-0">
+                <Card className="fixed-margin-extra">
                     <CardBody>
                         <FormBuilder
                             handleCheckboxChange={this.handleCheckboxChange}
@@ -231,7 +231,7 @@ class ProductSettings extends Component {
                     </CardBody>
                 </Card>
 
-                <Card className="border-0">
+                <Card>
                     <CardBody>
                         <FormBuilder
                             handleCheckboxChange={this.handleCheckboxChange}
