@@ -27,7 +27,7 @@ class UserWasCreated implements PerformsMetrics
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param $user
      */
     public function __construct($user)
     {

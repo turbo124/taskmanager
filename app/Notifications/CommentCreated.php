@@ -16,7 +16,7 @@ class CommentCreated extends Notification
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param Comment $comment
      */
     public function __construct(Comment $comment)
     {

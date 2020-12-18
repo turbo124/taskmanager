@@ -27,7 +27,7 @@ class QuoteSearch extends BaseSearch
 
     /**
      * @param SearchRequest $request
-     * @param int $account_id
+     * @param Account $account
      * @return LengthAwarePaginator|mixed
      */
     public function filter(SearchRequest $request, Account $account)
@@ -104,7 +104,6 @@ class QuoteSearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

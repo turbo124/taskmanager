@@ -109,8 +109,8 @@ class CreatePayment implements ShouldQueue
     }
 
     /**
-     * @param Customer $customer
      * @param Payment $payment
+     * @param bool $complete_payment
      * @return Payment
      */
     private function attachInvoices(Payment $payment, bool $complete_payment = true): Payment
@@ -187,7 +187,7 @@ class CreatePayment implements ShouldQueue
 
     /**
      * @param Payment $payment
-     * @param Invoice $invoice
+     * @param $amount
      */
     private function updateCustomer(Payment $payment, $amount)
     {

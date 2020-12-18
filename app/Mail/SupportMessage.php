@@ -15,7 +15,7 @@ class SupportMessage extends Mailable
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param $message
      */
     public function __construct($message)
     {

@@ -20,6 +20,7 @@ class FulfilOrder
     /**
      * FulfilOrder constructor.
      * @param Order $order
+     * @param OrderRepository $order_repository
      */
     public function __construct(Order $order, OrderRepository $order_repository)
     {
@@ -27,7 +28,6 @@ class FulfilOrder
     }
 
     /**
-     * @param $quote
      * @return mixed
      */
     public function execute()

@@ -41,7 +41,7 @@ class DealController extends Controller
 
     /**
      *
-     * @param DealRepository $dealRepository
+     * @param DealRepository $deal_repo
      */
     public function __construct(DealRepository $deal_repo)
     {
@@ -57,7 +57,9 @@ class DealController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param CreateDealRequest $request
      * @return Response
+     * @throws Exception
      */
     public function store(CreateDealRequest $request)
     {
@@ -72,8 +74,9 @@ class DealController extends Controller
 
     /**
      *
-     * @param int $task_id
+     * @param int $deal_id
      * @return type
+     * @throws Exception
      */
     public function markAsCompleted(int $deal_id)
     {
@@ -88,6 +91,7 @@ class DealController extends Controller
      * @param int $id
      *
      * @return Response
+     * @throws Exception
      */
     public function update(UpdateDealRequest $request, int $id)
     {
@@ -106,9 +110,9 @@ class DealController extends Controller
 
 
     /**
-     * @param $id
+     * @param int $id
      *
-     * @return RedirectResponse
+     * @return void
      * @throws Exception
      */
     public function archive(int $id)

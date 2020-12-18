@@ -67,6 +67,8 @@ class BaseRefund
     /**
      * @param float $amount
      * @param Invoice|null $invoice
+     * @return BaseRefund
+     * @return BaseRefund
      */
     protected function createLineItem(float $amount, Invoice $invoice = null)
     {
@@ -89,6 +91,8 @@ class BaseRefund
 
     /**
      * @param float $amount
+     * @return BaseRefund
+     * @return BaseRefund
      */
     protected function increaseRefundAmount(float $amount)
     {
@@ -102,6 +106,8 @@ class BaseRefund
 
     /**
      * @param float $amount
+     * @return BaseRefund
+     * @return BaseRefund
      */
     protected function reduceRefundAmount(float $amount)
     {
@@ -181,6 +187,8 @@ class BaseRefund
         $this->payment->save();
 
         event(new PaymentWasRefunded($this->payment, $this->data));
+
+        return true;
     }
 
     private function reduceRefundTotal()

@@ -62,7 +62,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
 
     /**
      * @param Task $objTask
-     * @return Collection
+     * @return Invoice
      */
     public function getInvoiceForTask(Task $objTask): Invoice
     {
@@ -76,7 +76,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
 
     /**
      * @param array $data
-     * @param Quote $quote
+     * @param Invoice $invoice
      * @return Quote|null
      */
     public function updateInvoice(array $data, Invoice $invoice): ?Invoice
@@ -182,6 +182,8 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
     /**
      * @param array $data
      * @param Invoice $invoice
+     * @return Invoice|null
+     * @return Invoice|null
      */
     public function createInvoice(array $data, Invoice $invoice): ?Invoice
     {

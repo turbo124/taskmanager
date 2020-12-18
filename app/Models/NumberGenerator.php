@@ -58,11 +58,11 @@ class NumberGenerator
     }
 
     /**
-     * @param $pattern_entity
-     * @param $counter_var
+     * @param $entity_object
      * @param $resource
      * @param Customer|null $customer
      * @return bool
+     * @throws \ReflectionException
      */
     private function setType($entity_object, $resource, Customer $customer = null)
     {

@@ -44,7 +44,12 @@ class SendEmail implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $entity
+     * @param $subject
+     * @param $body
+     * @param $template
+     * @param null $contact
+     * @param array $footer
      */
     public function __construct($entity, $subject, $body, $template, $contact = null, array $footer = [])
     {

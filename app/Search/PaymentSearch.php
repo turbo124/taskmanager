@@ -29,6 +29,7 @@ class PaymentSearch extends BaseSearch
 
     /**
      * @param SearchRequest $request
+     * @param Account $account
      * @return array|LengthAwarePaginator
      */
     public function filter(SearchRequest $request, Account $account)

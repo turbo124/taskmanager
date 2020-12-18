@@ -64,24 +64,23 @@ class CategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param UpdateCategoryRequest $request
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
     public function update(UpdateCategoryRequest $request, int $id)
     {
         $category = $this->category_repo->findCategoryById($id);
         $update = new CategoryRepository($category);
         $update->updateCategory($request->except('_token', '_method'), $category);
+        return response()->json($category);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return Response
+     * @return void
      */
     public function destroy(int $id)
     {
@@ -92,7 +91,7 @@ class CategoryController extends Controller
 
     /**
      * @param Request $request
-     * @return RedirectResponse
+     * @return void
      */
     public function removeImage(Request $request)
     {

@@ -95,6 +95,7 @@ class CreditController extends BaseController
     /**
      * @param int $id
      * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(int $id)
     {
@@ -128,6 +129,8 @@ class CreditController extends BaseController
      * @param Credit $credit
      * @param $action
      * @return mixed
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws \ReflectionException
      */
     public function action(Request $request, Credit $credit, $action)
     {

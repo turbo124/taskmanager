@@ -128,7 +128,7 @@ trait CustomerTransformable
     }
 
     /**
-     * @param $transactions
+     * @param $error_logs
      * @return array
      */
     private function transformErrorLogs($error_logs)

@@ -27,7 +27,7 @@ class DealPolicy extends BasePolicy
      * Determine whether the user can update the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param Deal $deal
      * @return mixed
      */
     public function update(User $user, Deal $deal)
@@ -40,7 +40,7 @@ class DealPolicy extends BasePolicy
      * Determine whether the user can delete the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param Deal $deal
      * @return mixed
      */
     public function delete(User $user, Deal $deal)

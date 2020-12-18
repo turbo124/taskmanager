@@ -15,6 +15,7 @@ trait NameableTrait
 
     /**
      * @return string
+     * @throws \ReflectionException
      */
     public function __toString()
     {

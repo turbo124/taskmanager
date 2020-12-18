@@ -51,8 +51,8 @@ class CreditPayment extends BasePaymentProcessor
 
     /**
      * @param Credit $credit
-     * @param Payment $payment
      * @param $amount
+     * @return bool
      */
     private function updateCredits(Credit $credit, $amount)
     {

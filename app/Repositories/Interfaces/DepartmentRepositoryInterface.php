@@ -12,6 +12,8 @@ interface DepartmentRepositoryInterface extends BaseRepositoryInterface
      *
      * @param string $order
      * @param string $sort
+     * @return Collection
+     * @return Collection
      */
     public function listDepartments(string $order = 'id', string $sort = 'desc'): Collection;
 

@@ -81,8 +81,8 @@ class AddressRepository extends BaseRepository implements AddressRepositoryInter
      *
      * @param int $id
      *
+     * @param Customer $customer
      * @return Address
-     * @throws AddressNotFoundException
      */
     public function findCustomerAddressById(int $id, Customer $customer): Address
     {

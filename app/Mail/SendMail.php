@@ -37,7 +37,8 @@ class SendMail extends Mailable
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param $entity
+     * @param $contact
      */
     public function __construct($entity, $contact)
     {
@@ -71,6 +72,8 @@ class SendMail extends Mailable
 
     /**
      * @param mixed $subject
+     * @return SendMail
+     * @return SendMail
      */
     public function setSubject($subject): self
     {
@@ -80,6 +83,8 @@ class SendMail extends Mailable
 
     /**
      * @param mixed $body
+     * @return SendMail
+     * @return SendMail
      */
     public function setBody($body): self
     {
@@ -89,6 +94,8 @@ class SendMail extends Mailable
 
     /**
      * @param mixed $footer
+     * @return SendMail
+     * @return SendMail
      */
     public function setFooter($footer): self
     {
@@ -103,6 +110,8 @@ class SendMail extends Mailable
 
     /**
      * @param mixed $data
+     * @return SendMail
+     * @return SendMail
      */
     public function setData($data): self
     {
@@ -119,7 +128,8 @@ class SendMail extends Mailable
     }
 
     /**
-     * @param mixed $cc
+     * @param $cc_address
+     * @return SendMail
      */
     public function setCc($cc_address): self
     {
@@ -128,7 +138,8 @@ class SendMail extends Mailable
     }
 
     /**
-     * @param mixed $bcc
+     * @param $bcc_address
+     * @return SendMail
      */
     public function setBcc($bcc_address): self
     {
@@ -137,7 +148,8 @@ class SendMail extends Mailable
     }
 
     /**
-     * @param mixed $template
+     * @param $design
+     * @return SendMail
      */
     public function setDesign($design): self
     {
@@ -152,7 +164,8 @@ class SendMail extends Mailable
     }
 
     /**
-     * @param mixed $replyTo
+     * @param $reply_to_address
+     * @return SendMail
      */
     public function setReplyTo($reply_to_address): self
     {
@@ -162,6 +175,8 @@ class SendMail extends Mailable
 
     /**
      * @param mixed $attachment
+     * @return SendMail
+     * @return SendMail
      */
     public function setAttachments($attachment): self
     {
@@ -175,6 +190,8 @@ class SendMail extends Mailable
 
     /**
      * @param mixed $attachmentData
+     * @param string $filename
+     * @return SendMail
      */
     public function setAttachmentData(string $attachmentData, string $filename): self
     {

@@ -26,6 +26,8 @@ class CompanyGatewayController extends Controller
 
     /**
      * CompanyGatewayController constructor.
+     * @param AccountRepository $account_repo
+     * @param CompanyGatewayRepository $company_gateway_repo
      */
     public function __construct(AccountRepository $account_repo, CompanyGatewayRepository $company_gateway_repo)
     {
@@ -56,7 +58,7 @@ class CompanyGatewayController extends Controller
 
     /**
      * @param UpdateCompanyGatewayRequest $request
-     * @param CompanyGateway $company_gateway
+     * @param int $id
      * @return mixed
      */
     public function update(UpdateCompanyGatewayRequest $request, int $id)
@@ -68,7 +70,7 @@ class CompanyGatewayController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param string $gateway_key
      * @return mixed
      */
     public function show(string $gateway_key)
@@ -94,10 +96,9 @@ class CompanyGatewayController extends Controller
     }
 
     /**
-     * @param $id
+     * @param int $id
      *
-     * @return RedirectResponse
-     * @throws Exception
+     * @return void
      */
     public function archive(int $id)
     {

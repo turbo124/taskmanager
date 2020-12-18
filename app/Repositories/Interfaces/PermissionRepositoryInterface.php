@@ -17,18 +17,24 @@ interface PermissionRepositoryInterface extends BaseRepositoryInterface
     /**
      *
      * @param array $data
+     * @return Permission
+     * @return Permission
      */
     public function createPermission(array $data): Permission;
 
     /**
      *
      * @param int $id
+     * @return Permission
+     * @return Permission
      */
     public function findPermissionById(int $id): Permission;
 
     /**
      *
      * @param array $data
+     * @return bool
+     * @return bool
      */
     public function updatePermission(array $data): bool;
 
@@ -39,9 +45,10 @@ interface PermissionRepositoryInterface extends BaseRepositoryInterface
 
     /**
      *
-     * @param type $columns
+     * @param string[] $columns
      * @param string $orderBy
      * @param string $sortBy
+     * @return Collection
      */
     public function listPermissions($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc'): Collection;
 }

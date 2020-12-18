@@ -20,7 +20,7 @@ class CompanyGatewaySearch extends BaseSearch
 
     /**
      * InvoiceSearch constructor.
-     * @param InvoiceRepository $invoiceRepository
+     * @param CompanyGatewayRepository $company_gateway_repo
      */
     public function __construct(CompanyGatewayRepository $company_gateway_repo)
     {
@@ -76,9 +76,8 @@ class CompanyGatewaySearch extends BaseSearch
      * Filter based on search text
      *
      * @param string query filter
-     * @return Illuminate\Database\Query\Builder
+     * @return bool
      * @deprecated
-     *
      */
     public function searchFilter(string $filter = ''): bool
     {
@@ -104,7 +103,6 @@ class CompanyGatewaySearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

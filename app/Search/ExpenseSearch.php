@@ -23,7 +23,7 @@ class ExpenseSearch extends BaseSearch
 
     /**
      * CompanySearch constructor.
-     * @param CompanyRepository $companyRepository
+     * @param ExpenseRepository $expense_repo
      */
     public function __construct(ExpenseRepository $expense_repo)
     {
@@ -115,7 +115,6 @@ class ExpenseSearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

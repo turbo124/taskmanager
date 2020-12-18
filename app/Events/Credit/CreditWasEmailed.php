@@ -19,7 +19,7 @@ class CreditWasEmailed
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Invitation $invitation
      */
     public function __construct(Invitation $invitation)
     {

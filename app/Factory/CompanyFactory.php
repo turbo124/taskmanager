@@ -9,7 +9,8 @@ use App\Models\User;
 class CompanyFactory
 {
     /**
-     * @param int $user_id
+     * @param User $user
+     * @param Account $account
      * @return Company
      */
     public function create(User $user, Account $account): Company

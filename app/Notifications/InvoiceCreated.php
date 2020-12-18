@@ -19,7 +19,8 @@ class InvoiceCreated extends Notification
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param Invoice $invoice
+     * @param Account $account
      */
     public function __construct(Invoice $invoice, Account $account)
     {

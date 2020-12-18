@@ -26,7 +26,7 @@ class CaseTemplateRepository extends BaseRepository implements CaseTemplateRepos
     /**
      * @param array $data
      * @param CaseTemplate $template
-     * @return Brand
+     * @return CaseTemplate
      */
     public function save(array $data, CaseTemplate $template): CaseTemplate
     {

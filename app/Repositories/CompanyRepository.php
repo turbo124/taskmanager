@@ -22,6 +22,7 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
      * CompanyRepository constructor.
      *
      * @param Company $company
+     * @param CompanyContactRepository $contact_repo
      */
     public function __construct(Company $company, CompanyContactRepository $contact_repo)
     {

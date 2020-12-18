@@ -29,7 +29,7 @@ trait Archiveable
     }
 
     /**
-     * @param $entity
+     * @return bool
      */
     public function restoreEntity()
     {
@@ -42,7 +42,7 @@ trait Archiveable
     }
 
     /**
-     * @param $entity
+     * @return bool
      */
     public function deleteEntity()
     {

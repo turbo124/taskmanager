@@ -94,7 +94,7 @@ trait CreditTransformable
     }
 
     /**
-     * @param $invitations
+     * @param $emails
      * @return array
      */
     private function transformCreditEmails($emails)

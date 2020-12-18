@@ -85,7 +85,8 @@ class CreateOrder implements ShouldQueue
      */
     /**
      * CreateDeal constructor.
-     * @param $task
+     * @param Account $account
+     * @param User $user
      * @param Request $request
      * @param CustomerRepository $customer_repo
      * @param OrderRepository $order_repo

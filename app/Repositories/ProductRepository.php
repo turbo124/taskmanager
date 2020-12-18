@@ -57,8 +57,6 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     /**
      * Delete the product
      *
-     * @param Product $product
-     *
      * @return bool
      * @throws Exception
      */
@@ -84,6 +82,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     /**
      * Detach the categories
+     * @param Product $product
      */
     public function detachCategories(Product $product)
     {
@@ -104,6 +103,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * Sync the categories
      *
      * @param array $params
+     * @param Product $product
      */
     public function syncCategories(array $params, Product $product)
     {
@@ -145,8 +145,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      *
      * @param ProductAttribute $productAttribute
      *
+     * @param Product $product
      * @return bool|null
-     * @throws Exception
      */
     public function removeProductAttribute(ProductAttribute $productAttribute, Product $product): ?bool
     {
@@ -167,6 +167,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
      * Associate the product attribute to the product
      *
      * @param ProductAttribute $productAttribute
+     * @param Product $product
      * @return ProductAttribute
      */
     public function saveProductAttributes(ProductAttribute $productAttribute, Product $product): ProductAttribute
@@ -230,7 +231,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     /**
      *
      * @param Category $category
-     * @param type $value
+     * @param Request $request
+     * @return Support
      */
     public function getProductsByDealValueAndCategory(Category $category, Request $request): Support
     {
@@ -271,6 +273,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     }
 
     /**
+     * @param Product $product
      * @return mixed
      */
     public function findProductImages(Product $product): Collection

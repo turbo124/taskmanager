@@ -8,7 +8,7 @@ class AttributeTransformable
 {
 
     /**
-     * @param AttributeValue $attribute_value
+     * @param Attribute $attribute
      * @return array
      */
     public function transformAttribute(Attribute $attribute)

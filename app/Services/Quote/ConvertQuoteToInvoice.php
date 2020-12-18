@@ -36,6 +36,7 @@ class ConvertQuoteToInvoice
 
     /**
      * @return Invoice|null
+     * @throws \ReflectionException
      */
     public function execute(): ?Invoice
     {

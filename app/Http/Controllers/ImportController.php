@@ -20,12 +20,14 @@ class ImportController extends Controller
 
     /**
      * ImportController constructor.
+     * @param BankAccountRepository $bank_account_repository
      */
     public function __construct(BankAccountRepository $bank_account_repository)
     {
     }
 
     /**
+     * @param Request $request
      * @return JsonResponse
      */
     public function import(Request $request)

@@ -81,9 +81,8 @@ class ProductSearch extends BaseSearch
      * Filter based on search text
      *
      * @param string query filter
-     * @return Illuminate\Database\Query\Builder
+     * @return bool
      * @deprecated
-     *
      */
     public function searchFilter(string $filter = ''): bool
     {
@@ -107,7 +106,6 @@ class ProductSearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

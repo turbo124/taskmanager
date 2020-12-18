@@ -17,6 +17,8 @@ class BaseMailHandler
 
     /**
      * Stores the attachments on the server
+     * @param Stream $stream
+     * @param $attachment
      * @return array ['name', 'path']
      */
     public function attach(Stream $stream, $attachment)
@@ -33,6 +35,7 @@ class BaseMailHandler
 
     /**
      * Generates a filename for our attachment.
+     * @param $attachment
      * @return string (filename.ext)
      */
     public function getFileName($attachment)
@@ -42,6 +45,9 @@ class BaseMailHandler
 
     /**
      * Stores the actual file: streamtoken/filename.ext
+     * @param Stream $stream
+     * @param $filename
+     * @param $attachment
      * @return boolean
      */
     public function storeFileOnServer(Stream $stream, $filename, $attachment)

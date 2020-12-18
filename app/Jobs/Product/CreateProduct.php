@@ -22,7 +22,8 @@ class CreateProduct implements ShouldQueue
      * Create a new job instance.
      *
      * @param ProductRepository $product_repo
-     * @return void
+     * @param array $data
+     * @param Product $product
      */
     public function __construct(ProductRepository $product_repo, array $data, Product $product)
     {

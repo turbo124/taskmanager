@@ -11,9 +11,9 @@ use Illuminate\Support\Carbon;
 class PaymentFactory
 {
     /**
-     * @param int $customer_id
-     * @param int $user_id
-     * @param int $account_id
+     * @param Customer $customer
+     * @param User $user
+     * @param Account $account
      * @return Payment
      */
     public static function create(Customer $customer, User $user, Account $account): Payment

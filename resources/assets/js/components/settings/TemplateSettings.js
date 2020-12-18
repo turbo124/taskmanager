@@ -210,35 +210,37 @@ class TemplateSettings extends Component {
                 <Header title={translations.template_settings} handleSubmit={this.handleSubmit}
                     tabs={tabs}/>
 
-                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
-                    <TabPane className="px-0" tabId="1">
-                        <Card className="border-0">
-                            <CardBody>
-                                <Row>
-                                    <Col md={8}>
-                                        <Form>
-                                            {fields}
-                                        </Form>
-                                    </Col>
+                <div className="settings-container settings-container-narrow fixed-margin-mobile">
+                    <TabContent activeTab={this.state.activeTab}>
+                        <TabPane tabId="1">
+                            <Card>
+                                <CardBody>
+                                    <Row>
+                                        <Col md={8}>
+                                            <Form>
+                                                {fields}
+                                            </Form>
+                                        </Col>
 
-                                    <Col md={4}>
-                                        <Variables class="fixed-margin-mobile"/>
-                                    </Col>
-                                </Row>
+                                        <Col md={4}>
+                                            <Variables class="fixed-margin-mobile"/>
+                                        </Col>
+                                    </Row>
 
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    <TabPane className="px-0" tabId="2">
-                        <Card className="border-0">
-                            <CardBody>
-                                {spinner}
-                                {preview}
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                </TabContent>
+                        <TabPane tabId="2">
+                            <Card>
+                                <CardBody>
+                                    {spinner}
+                                    {preview}
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                    </TabContent>
+                </div>
             </React.Fragment>
         )
     }

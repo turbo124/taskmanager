@@ -69,6 +69,7 @@ class QuoteService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
+     * @throws \ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {
@@ -83,7 +84,8 @@ class QuoteService extends ServiceBase
      * @param null $contact
      * @param string $subject
      * @param string $body
-     * @return array
+     * @param string $template
+     * @return Quote|null
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'quote'): ?Quote
     {
@@ -114,6 +116,7 @@ class QuoteService extends ServiceBase
     /**
      * @param InvoiceRepository $invoice_repository
      * @return Invoice|null
+     * @throws \ReflectionException
      */
     public function convertQuoteToInvoice(InvoiceRepository $invoice_repository): ?Invoice
     {
@@ -121,7 +124,7 @@ class QuoteService extends ServiceBase
     }
 
     /**
-     * @param array $data
+     * @param array $recurring
      * @return RecurringQuote|null
      */
     public function createRecurringQuote(array $recurring): ?RecurringQuote

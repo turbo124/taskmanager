@@ -37,7 +37,12 @@ class CreatePdf implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $objPdf
+     * @param $entity
+     * @param null $contact
+     * @param bool $update
+     * @param string $entity_string
+     * @param string $disk
      */
     public function __construct(
         $objPdf,

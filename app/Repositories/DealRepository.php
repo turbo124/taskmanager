@@ -35,8 +35,7 @@ class DealRepository extends BaseRepository implements DealRepositoryInterface
     /**
      * @param int $id
      *
-     * @return Task
-     * @throws Exception
+     * @return Deal
      */
     public function findDealById(int $id): Deal
     {
@@ -140,7 +139,7 @@ class DealRepository extends BaseRepository implements DealRepositoryInterface
 
     /**
      *
-     * @param int $task_type
+     * @param int $account_id
      * @return type
      */
     public function getTotalEarnt(int $account_id)

@@ -15,7 +15,9 @@ interface CategoryRepositoryInterface extends BaseRepositoryInterface
      *
      * @param string $order
      * @param string $sort
-     * @param type $except
+     * @param Account $account
+     * @param array $except
+     * @return Collection
      */
     public function listCategories(
         string $order = 'id',
@@ -41,6 +43,8 @@ interface CategoryRepositoryInterface extends BaseRepositoryInterface
     /**
      *
      * @param int $id
+     * @return Category
+     * @return Category
      */
     public function findCategoryById(int $id): Category;
 
@@ -75,6 +79,8 @@ interface CategoryRepositoryInterface extends BaseRepositoryInterface
      *
      * @param array $file
      * @param type $disk
+     * @return bool
+     * @return bool
      */
     public function deleteFile(array $file, $disk = null): bool;
 

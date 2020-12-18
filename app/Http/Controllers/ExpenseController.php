@@ -92,6 +92,7 @@ class ExpenseController extends Controller
     /**
      * @param int $id
      * @return JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(int $id)
     {

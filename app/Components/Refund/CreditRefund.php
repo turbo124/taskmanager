@@ -17,7 +17,7 @@ class CreditRefund extends BaseRefund
      * CreditRefund constructor.
      * @param Payment $payment
      * @param array $data
-     * @param CreditRepository $credit_repository
+     * @param CreditRepository $credit_repo
      * @param array $payment_credits
      */
     public function __construct(Payment $payment, array $data, CreditRepository $credit_repo, $payment_credits)
@@ -55,7 +55,7 @@ class CreditRefund extends BaseRefund
     }
 
     /**
-     * @param Invoice $invoice
+     * @param $credit
      * @param $amount
      * @return bool
      */

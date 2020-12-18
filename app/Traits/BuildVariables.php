@@ -25,7 +25,10 @@ trait BuildVariables
     }
 
     /**
-     * @param $amount
+     * @param $content
+     * @param $entity
+     * @return string
+     * @throws \ReflectionException
      */
     public function parseVariables($content, $entity)
     {

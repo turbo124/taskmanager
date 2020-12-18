@@ -39,6 +39,7 @@ class AuthorizeRefund
      * AuthorizeRefund constructor.
      * @param Payment $payment
      * @param CompanyGateway $company_gateway
+     * @param array $data
      */
     public function __construct(Payment $payment, CompanyGateway $company_gateway, array $data)
     {

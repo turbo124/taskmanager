@@ -27,6 +27,7 @@ class InvoicePayment extends BasePaymentProcessor
     }
 
     /**
+     * @param null $objCreditPayment
      * @return Payment
      */
     public function process($objCreditPayment = null)

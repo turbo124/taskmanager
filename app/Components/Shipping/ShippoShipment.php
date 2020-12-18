@@ -55,6 +55,7 @@ class ShippoShipment
     /**
      * ShippoShipment constructor.
      * @param Customer $customer
+     * @param $line_items
      */
     public function __construct(Customer $customer, $line_items)
     {
@@ -128,8 +129,7 @@ class ShippoShipment
     }
 
     /**
-     * @param Collection $collection
-     *
+     * @param array $line_items
      * @return void
      */
     private function readyParcel(array $line_items)
@@ -224,9 +224,7 @@ class ShippoShipment
     }
 
     /**
-     * @param string $id
-     * @param string $currency
-     * @return Shippo_Get_Shipping_Rates
+     * @return array
      */
 //    public function getRates(string $id, string $currency = 'USD')
 //    {

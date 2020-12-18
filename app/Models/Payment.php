@@ -130,6 +130,7 @@ class Payment extends Model
     /**
      * @param Invoice $invoice
      * @param float|null $amount
+     * @param bool $send_transaction
      * @return $this
      */
     public function attachInvoice(Invoice $invoice, float $amount = null, $send_transaction = false): Payment
@@ -187,7 +188,9 @@ class Payment extends Model
         return true;
     }
 
-    /********************** Getters and setters ************************************/
+    /********************** Getters and setters ***********************************
+     * @param int $status
+     */
 
     public function setStatus(int $status)
     {

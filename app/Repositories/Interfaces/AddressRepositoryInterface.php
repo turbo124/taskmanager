@@ -23,6 +23,8 @@ interface AddressRepositoryInterface extends BaseRepositoryInterface
     /**
      *
      * @param array $update
+     * @return bool
+     * @return bool
      */
     public function updateAddress(array $update): bool;
 
@@ -36,6 +38,8 @@ interface AddressRepositoryInterface extends BaseRepositoryInterface
      * @param string $order
      * @param string $sort
      * @param array $columns
+     * @return Collection
+     * @return Collection
      */
     public function listAddress(string $order = 'id', string $sort = 'desc', array $columns = ['*']): Collection;
 
@@ -54,6 +58,8 @@ interface AddressRepositoryInterface extends BaseRepositoryInterface
     /**
      *
      * @param string $text
+     * @return Collection
+     * @return Collection
      */
     public function searchAddress(string $text): Collection;
 }

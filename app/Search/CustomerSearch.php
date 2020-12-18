@@ -115,7 +115,6 @@ class CustomerSearch extends BaseSearch
 
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

@@ -20,7 +20,7 @@ class CreditSearch extends BaseSearch
 
     /**
      * CompanySearch constructor.
-     * @param CompanyRepository $companyRepository
+     * @param CreditRepository $credit_repository
      */
     public function __construct(CreditRepository $credit_repository)
     {
@@ -107,7 +107,6 @@ class CreditSearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

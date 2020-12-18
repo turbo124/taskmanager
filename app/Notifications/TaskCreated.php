@@ -16,7 +16,7 @@ class TaskCreated extends Notification
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param Task $task
      */
     public function __construct(Task $task)
     {

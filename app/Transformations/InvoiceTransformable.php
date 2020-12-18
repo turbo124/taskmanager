@@ -94,7 +94,7 @@ class InvoiceTransformable
     }
 
     /**
-     * @param $invitations
+     * @param $emails
      * @return array
      */
     private function transformEmails($emails)

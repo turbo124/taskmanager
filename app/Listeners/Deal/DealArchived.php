@@ -16,7 +16,7 @@ class DealArchived implements ShouldQueue
     /**
      * Create the event listener.
      *
-     * @return void
+     * @param NotificationRepository $notification_repo
      */
     public function __construct(NotificationRepository $notification_repo)
     {

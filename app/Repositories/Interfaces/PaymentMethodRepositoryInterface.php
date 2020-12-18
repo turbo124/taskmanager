@@ -9,9 +9,10 @@ interface PaymentMethodRepositoryInterface
 
     /**
      *
-     * @param type $columns
+     * @param string[] $columns
      * @param string $orderBy
      * @param string $sortBy
+     * @return Collection
      */
     public function listPaymentMethods(
         $columns = array('*'),

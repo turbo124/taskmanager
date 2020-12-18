@@ -13,6 +13,8 @@ class RoleMiddleware
      *
      * @param Request $request
      * @param Closure $next
+     * @param $role
+     * @param null $permission
      * @return mixed
      */
     public function handle($request, Closure $next, $role, $permission = null)

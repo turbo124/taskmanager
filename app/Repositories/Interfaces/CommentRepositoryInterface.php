@@ -11,18 +11,23 @@ interface CommentRepositoryInterface
     /**
      *
      * @param Task $objTask
+     * @param int $account_id
      */
     public function getAllCommentsForTask(Task $objTask, int $account_id);
 
     /**
      *
      * @param array $data
+     * @return Comment
+     * @return Comment
      */
     public function createComment(array $data): Comment;
 
     /**
      *
      * @param int $id
+     * @return Comment
+     * @return Comment
      */
     public function findCommentById(int $id): Comment;
 
@@ -33,14 +38,16 @@ interface CommentRepositoryInterface
 
     /**
      *
-     * @param type $columns
+     * @param string[] $columns
      * @param string $orderBy
      * @param string $sortBy
+     * @return Collection
      */
     public function listComments($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc'): Collection;
 
     /**
-     *
+     * @param int $account_id
+     * @return Collection
      */
     public function getCommentsForActivityFeed(int $account_id): Collection;
 

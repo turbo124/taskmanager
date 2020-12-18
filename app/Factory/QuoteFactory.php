@@ -10,10 +10,9 @@ use App\Models\User;
 class QuoteFactory
 {
     /**
-     * @param int $customer_id
-     * @param int $account_id
-     * @param int $user_id
-     * @param $total
+     * @param Account $account
+     * @param User $user
+     * @param Customer $customer
      * @return Quote
      */
     public static function create(

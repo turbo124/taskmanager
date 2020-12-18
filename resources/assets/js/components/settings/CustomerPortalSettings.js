@@ -261,40 +261,42 @@ export default class CustomerPortalSettings extends Component {
                 <Header tabs={tabs} title={translations.customer_portal}
                     handleSubmit={this.handleSubmit.bind(this)}/>
 
-                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
-                    <TabPane tabId="1" className="px-0">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getSettingFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                <div className="settings-container settings-container-narrow fixed-margin-mobile">
+                    <TabContent activeTab={this.state.activeTab}>
+                        <TabPane tabId="1">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getSettingFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    <TabPane tabId="2" className="px-0">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getSecurityFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                        <TabPane tabId="2">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getSecurityFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    <TabPane tabId="3" className="px-0">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getBillingFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                </TabContent>
+                        <TabPane tabId="3">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getBillingFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                    </TabContent>
+                </div>
             </React.Fragment>
         ) : null
     }

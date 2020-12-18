@@ -35,8 +35,8 @@ class RoleController extends Controller
     /**
      * RoleController constructor.
      *
-     * @param RoleRepositoryInterface $roleRepository
-     * @param PermissionRepositoryInterface $permissionRepository
+     * @param RoleRepositoryInterface $role_repo
+     * @param PermissionRepositoryInterface $permission_repo
      */
     public function __construct(
         RoleRepositoryInterface $role_repo,
@@ -47,6 +47,7 @@ class RoleController extends Controller
     }
 
     /**
+     * @param SearchRequest $request
      * @return Factory|View
      */
     public function index(SearchRequest $request)

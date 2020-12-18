@@ -36,6 +36,7 @@ class BaseSearch
      * archived, active, deleted
      * @param string $table
      * @param string $filter
+     * @param string $column
      * @return mixed
      */
     protected function status(string $table, $filter = '', $column = '')

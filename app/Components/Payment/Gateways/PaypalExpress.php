@@ -66,6 +66,7 @@ class PaypalExpress extends BasePaymentGateway
 
     /**
      * @param array $parameters
+     * @param Invoice $invoice
      * @return mixed
      */
     public function purchase(array $parameters, Invoice $invoice)
@@ -104,6 +105,7 @@ class PaypalExpress extends BasePaymentGateway
 
     /**
      * @param array $parameters
+     * @return
      */
     public function complete(array $parameters)
     {
@@ -117,6 +119,8 @@ class PaypalExpress extends BasePaymentGateway
 
     /**
      * @param $amount
+     * @return string
+     * @return string
      */
     public function formatAmount($amount)
     {
@@ -125,6 +129,8 @@ class PaypalExpress extends BasePaymentGateway
 
     /**
      * @param $order
+     * @return string
+     * @return string
      */
     public function getCancelUrl($order)
     {
@@ -172,7 +178,8 @@ class PaypalExpress extends BasePaymentGateway
     }
 
     /**
-     * @param $order
+     * @param Invoice $invoice
+     * @return string
      */
     public function getNotifyUrl(Invoice $invoice)
     {

@@ -11,26 +11,48 @@ class BankAccountPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any models.
-     *
-     * @param \App\Models\User $user
-     * @return mixed
-     */
-    public function viewAny(User $user)
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can view the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\BankAccount $bankAccount
+     * @param BankAccount $bank_account
      * @return mixed
      */
-    public function view(User $user, BankAccount $bankAccount)
+    public function view(User $user, BankAccount $bank_account)
     {
-        //
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $bank_account->user_id === $user->id || $user->hasPermissionTo(
+                'bankaccountcontroller.index'
+            ) || (!empty($bank_account->assigned_to) && $bank_account->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can update the model.
+     *
+     * @param \App\Models\User $user
+     * @param BankAccount $bank_account
+     * @return mixed
+     */
+    public function update(User $user, BankAccount $bank_account)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $bank_account->user_id === $user->id || $user->hasPermissionTo(
+                'bankaccountcontroller.update'
+            ) || (!empty($bank_account->assigned_to) && $bank_account->assigned_to === $user->id);
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param \App\Models\User $user
+     * @param BankAccount $bank_account
+     * @return mixed
+     */
+    public function delete(User $user, BankAccount $bank_account)
+    {
+        return $user->account_user()->is_admin || $user->account_user(
+            )->is_owner || $bank_account->user_id === $user->id || $user->hasPermissionTo(
+                'bankaccountcontroller.destroy'
+            ) || (!empty($bank_account->assigned_to) && $bank_account->assigned_to === $user->id);
     }
 
     /**
@@ -41,54 +63,8 @@ class BankAccountPolicy
      */
     public function create(User $user)
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\BankAccount $bankAccount
-     * @return mixed
-     */
-    public function update(User $user, BankAccount $bankAccount)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\BankAccount $bankAccount
-     * @return mixed
-     */
-    public function delete(User $user, BankAccount $bankAccount)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\BankAccount $bankAccount
-     * @return mixed
-     */
-    public function restore(User $user, BankAccount $bankAccount)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param \App\Models\User $user
-     * @param \App\Models\BankAccount $bankAccount
-     * @return mixed
-     */
-    public function forceDelete(User $user, BankAccount $bankAccount)
-    {
-        //
+        return $user->account_user()->is_admin || $user->account_user()->is_owner || $user->hasPermissionTo(
+                'bankaccountcontroller.store'
+            );
     }
 }

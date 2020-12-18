@@ -34,8 +34,6 @@ class GatewayFactory
 
     /**
      * @param Customer $customer
-     * @param CustomerGateway $customer_gateway
-     * @param CompanyGateway $company_gateway
      * @return Authorize|Stripe|bool
      */
     public function create(Customer $customer)

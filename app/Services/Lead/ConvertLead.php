@@ -26,7 +26,7 @@ class ConvertLead
 
     /**
      * ConvertLead constructor.
-     * @param Task $task
+     * @param Lead $lead
      */
     public function __construct(Lead $lead)
     {

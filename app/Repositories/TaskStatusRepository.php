@@ -46,8 +46,7 @@ class TaskStatusRepository extends BaseRepository implements TaskStatusRepositor
      * Create the order status
      *
      * @param array $params
-     * @return OrderStatus
-     * @throws OrderStatusInvalidArgumentException
+     * @return TaskStatus
      */
     public function createTaskStatus(array $params): TaskStatus
     {
@@ -81,8 +80,7 @@ class TaskStatusRepository extends BaseRepository implements TaskStatusRepositor
 
     /**
      * @param int $id
-     * @return OrderStatus
-     * @throws OrderStatusNotFoundException
+     * @return TaskStatus
      */
     public function findTaskStatusById(int $id): TaskStatus
     {
@@ -90,6 +88,9 @@ class TaskStatusRepository extends BaseRepository implements TaskStatusRepositor
     }
 
     /**
+     * @param string $order
+     * @param string $sort
+     * @param array $columns
      * @return mixed
      */
     public function listTaskStatuses(string $order = 'id', string $sort = 'desc', array $columns = ['*']): Collection

@@ -63,6 +63,7 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
     /**
      * @param array $data
      * @param Payment $payment
+     * @param bool $create_transaction
      * @return Payment|null
      */
     public function save(array $data, Payment $payment, $create_transaction = false): ?Payment

@@ -59,6 +59,7 @@ class RequirementsChecker
     /**
      * Check PHP version requirement.
      *
+     * @param string|null $minPhpVersion
      * @return array
      */
     public function checkPHPversion(string $minPhpVersion = null)

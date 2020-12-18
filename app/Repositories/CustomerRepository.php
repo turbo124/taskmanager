@@ -55,6 +55,8 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
     /**
      * Store clients in bulk.
      * @param array $customer
+     * @return Customer|null
+     * @throws Exception
      */
     public function create($customer): ?Customer
     {
@@ -103,6 +105,7 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryInt
     /**
      *
      * @param int $number_of_days
+     * @param int $account_id
      * @return type
      */
     public function getRecentCustomers(int $number_of_days, int $account_id)

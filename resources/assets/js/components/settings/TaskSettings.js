@@ -172,8 +172,8 @@ export default class TaskSettings extends Component {
 
                 <Header title={translations.task_settings} handleSubmit={this.handleSubmit}/>
 
-                <div className="fixed-margin-mobile bg-transparent">
-                    <Card className="border-0">
+                <div className="settings-container settings-container-narrow fixed-margin-extra">
+                    <Card>
                         <CardBody>
                             <FormBuilder
                                 handleChange={this.handleSettingsChange}
@@ -182,6 +182,7 @@ export default class TaskSettings extends Component {
                         </CardBody>
                     </Card>
                 </div>
+
             </React.Fragment>
         ) : null
     }

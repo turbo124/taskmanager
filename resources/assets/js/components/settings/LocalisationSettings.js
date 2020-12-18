@@ -192,46 +192,48 @@ export default class LocalisationSettings extends Component {
 
                 <Header title={translations.localisation_settings} handleSubmit={this.handleSubmit}/>
 
-                <Card className="fixed-margin-mobile border-0">
-                    <CardBody>
-                        <FormGroup>
-                            <Label>{translations.date_format}</Label>
-                            <Input type="select" name="date_format" onChange={this.handleSettingsChange}>
-                                {date_format_list}
-                            </Input>
-                        </FormGroup>
+                <div className="settings-container settings-container-narrow fixed-margin-extra">
+                    <Card>
+                        <CardBody>
+                            <FormGroup>
+                                <Label>{translations.date_format}</Label>
+                                <Input type="select" name="date_format" onChange={this.handleSettingsChange}>
+                                    {date_format_list}
+                                </Input>
+                            </FormGroup>
 
-                        <FormGroup>
-                            <Label>{translations.first_day_of_week}</Label>
-                            <Input type="select" name="first_day_of_week" onChange={this.handleSettingsChange}>
-                                <option value=""/>
-                                {day_list}
-                            </Input>
-                        </FormGroup>
+                            <FormGroup>
+                                <Label>{translations.first_day_of_week}</Label>
+                                <Input type="select" name="first_day_of_week" onChange={this.handleSettingsChange}>
+                                    <option value=""/>
+                                    {day_list}
+                                </Input>
+                            </FormGroup>
 
-                        <FormGroup>
-                            <Label>{translations.first_month_of_year}</Label>
-                            <Input type="select" name="first_month_of_year" onChange={this.handleSettingsChange}>
-                                <option value=""/>
-                                {month_list}
-                            </Input>
-                        </FormGroup>
+                            <FormGroup>
+                                <Label>{translations.first_month_of_year}</Label>
+                                <Input type="select" name="first_month_of_year" onChange={this.handleSettingsChange}>
+                                    <option value=""/>
+                                    {month_list}
+                                </Input>
+                            </FormGroup>
 
-                        <FormBuilder
-                            handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getLanguageFields()}
-                        />
-                    </CardBody>
-                </Card>
+                            <FormBuilder
+                                handleChange={this.handleSettingsChange}
+                                formFieldsRows={this.getLanguageFields()}
+                            />
+                        </CardBody>
+                    </Card>
 
-                <Card className="fixed-margin-extra border-0">
-                    <CardBody>
-                        <FormBuilder
-                            handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getCurrencyFields()}
-                        />
-                    </CardBody>
-                </Card>
+                    <Card>
+                        <CardBody>
+                            <FormBuilder
+                                handleChange={this.handleSettingsChange}
+                                formFieldsRows={this.getCurrencyFields()}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
             </React.Fragment>
         ) : null
     }

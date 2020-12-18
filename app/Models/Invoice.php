@@ -233,7 +233,9 @@ class Invoice extends Model
         return true;
     }
 
-    /********************** Getters and setters ************************************/
+    /********************** Getters and setters ***********************************
+     * @param int $status
+     */
 
     public function setStatus(int $status)
     {

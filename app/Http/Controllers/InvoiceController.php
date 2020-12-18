@@ -82,6 +82,7 @@ class InvoiceController extends BaseController
     /**
      * @param int $invoice_id
      * @return mixed
+     * @throws Exception
      */
     public function show(int $invoice_id)
     {
@@ -112,9 +113,10 @@ class InvoiceController extends BaseController
     }
 
     /**
+     * @param UpdateInvoiceRequest $request
      * @param int $id
-     * @param Request $request
      * @return mixed
+     * @throws Exception
      */
     public function update(UpdateInvoiceRequest $request, int $id)
     {
@@ -136,6 +138,7 @@ class InvoiceController extends BaseController
     /**
      * @param int $id
      * @return mixed
+     * @throws Exception
      */
     public function archive(int $id)
     {

@@ -225,9 +225,8 @@ class CreateUbl implements ShouldQueue
     }
 
     /**
-     * @param $invoiceItem
-     * @param $invoiceTotal
-     *
+     * @param $item
+     * @param $invoice_total
      * @return float|int
      */
     private

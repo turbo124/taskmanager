@@ -22,7 +22,7 @@ class ConvertAccount
 
     /**
      * ConvertLead constructor.
-     * @param Task $task
+     * @param Account $account
      */
     public function __construct(Account $account)
     {

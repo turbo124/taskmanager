@@ -236,36 +236,39 @@ export default class DeviceSettings extends Component {
 
                 <Header title={translations.device_settings}/>
 
-                <Card className="fixed-margin-extra border-0">
-                    <CardBody>
-                        <ColorPicker label={translations.header_background_color} value={header_background_color}
-                            handleChange={this.handleHeaderColor}/>
+                <div className="settings-container settings-container-narrow fixed-margin-extra">
+                    <Card>
+                        <CardBody>
+                            <ColorPicker label={translations.header_background_color} value={header_background_color}
+                                handleChange={this.handleHeaderColor}/>
 
-                        <ColorPicker label={translations.footer_background_color} value={footer_background_color}
-                            handleChange={this.handleFooterColor}/>
+                            <ColorPicker label={translations.footer_background_color} value={footer_background_color}
+                                handleChange={this.handleFooterColor}/>
 
-                    </CardBody>
-                </Card>
+                        </CardBody>
+                    </Card>
 
-                <Card className="border-0">
-                    <CardBody>
-                        <FormBuilder
-                            handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getInventoryFields()}
-                        />
-                    </CardBody>
-                </Card>
+                    <Card>
+                        <CardBody>
+                            <FormBuilder
+                                handleChange={this.handleSettingsChange}
+                                formFieldsRows={this.getInventoryFields()}
+                            />
+                        </CardBody>
+                    </Card>
 
-                <Card>
-                    <CardBody>
-                        <Button onClick={this.refresh} color="primary" block>{translations.refresh}</Button>
-                        <Button className="mt-2" onClick={(e) => {
-                            e.preventDefault()
-                            localStorage.removeItem('access_token')
-                            window.location.href = '/#/login'
-                        }} color="primary" block>{translations.logout}</Button>
-                    </CardBody>
-                </Card>
+                    <Card>
+                        <CardBody>
+                            <Button onClick={this.refresh} color="primary" block>{translations.refresh}</Button>
+                            <Button className="mt-2" onClick={(e) => {
+                                e.preventDefault()
+                                localStorage.removeItem('access_token')
+                                window.location.href = '/#/login'
+                            }} color="primary" block>{translations.logout}</Button>
+                        </CardBody>
+                    </Card>
+
+                </div>
             </React.Fragment>
         )
     }

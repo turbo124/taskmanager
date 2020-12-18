@@ -29,7 +29,7 @@ class TaskPdf extends PdfBuilder
 
     public function build($contact = null)
     {
-        $contact === null ? $this->entity->customer->contacts->first() : $contact;
+        $contact = $contact === null ? $this->entity->customer->contacts->first() : $contact;
         $customer = $this->entity->customer;
 
         $this->setDefaults($customer)

@@ -38,6 +38,8 @@ class MessageController extends Controller
      * @param MessageRepositoryInterface $messageRepository
      * CustomerRepositoryInterface $customerRepository
      * UserRepositoryInterface $userRepository
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param UserRepositoryInterface $userRepository
      */
     public function __construct(
         MessageRepositoryInterface $messageRepository,
@@ -87,7 +89,7 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param CreateCustomerRequest $request
+     * @param CreateMessageRequest $request
      * @return Response
      */
     public function store(CreateMessageRequest $request)

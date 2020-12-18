@@ -33,7 +33,8 @@ class SubscriptionInvoice extends Mailable
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param Account $account
+     * @param Invoice $invoice
      */
     public function __construct(Account $account, Invoice $invoice)
     {

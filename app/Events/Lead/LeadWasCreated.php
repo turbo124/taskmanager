@@ -16,7 +16,7 @@ class LeadWasCreated
     use SendSubscription;
 
     /**
-     * @var array $payment
+     * @var Lead $payment
      */
     public Lead $lead;
 

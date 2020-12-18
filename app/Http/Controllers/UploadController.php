@@ -85,6 +85,7 @@ class UploadController extends Controller
      *
      * @param int $id
      *
+     * @param DeleteFile $request
      * @return Response
      * @throws Exception
      */

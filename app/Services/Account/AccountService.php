@@ -20,7 +20,7 @@ class AccountService extends ServiceBase
 
     /**
      * LeadService constructor.
-     * @param Lead $lead
+     * @param Account $account
      */
     public function __construct(Account $account)
     {
@@ -29,7 +29,7 @@ class AccountService extends ServiceBase
     }
 
     /**
-     * @return $this
+     * @return Account|null
      */
     public function convertAccount(): ?Account
     {

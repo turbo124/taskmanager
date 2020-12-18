@@ -494,84 +494,86 @@ export default class WorkflowSettings extends Component {
                 <Header title={translations.workflow_settings} handleSubmit={this.handleSubmit}
                     tabs={tabs}/>
 
-                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
-                    <TabPane className="px-0" tabId="1">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getInvoiceFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                <div className="settings-container settings-container-narrow fixed-margin-mobile">
+                    <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
+                        <TabPane tabId="1">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getInvoiceFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    <TabPane className="px-0" tabId="2">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getQuoteFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                        <TabPane tabId="2">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getQuoteFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    <TabPane className="pr-0 pl-0" tabId="3">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getLeadFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                        <TabPane tabId="3">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getLeadFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    <TabPane className="pr-0 pl-0" tabId="4">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                        <TabPane tabId="4">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getOrderFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    <TabPane className="pr-0 pl-0" tabId="5">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                        <TabPane tabId="5">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getOrderFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    <TabPane className="pr-0 pl-0" tabId="6">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPurchaseOrderFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                        <TabPane tabId="6">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getPurchaseOrderFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    <TabPane className="pr-0 pl-0" tabId="7">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPaymentFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                </TabContent>
+                        <TabPane tabId="7">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getPaymentFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                    </TabContent>
+                </div>
 
             </React.Fragment>
         ) : null

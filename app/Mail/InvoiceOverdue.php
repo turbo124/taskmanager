@@ -13,7 +13,8 @@ class InvoiceOverdue extends Mailable
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param $client
+     * @param $invoice
      */
     public function __construct($client, $invoice)
     {

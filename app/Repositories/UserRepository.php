@@ -64,10 +64,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     /**
      *
-     * @param type $columns
+     * @param string[] $columns
      * @param string $orderBy
      * @param string $sortBy
-     * @return type
+     * @return Collection
      */
     public function getActiveUsers($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc'): Collection
     {
@@ -86,8 +86,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     /**
      *
-     * @param string $username
-     * @return User
+     * @param Department $objDepartment
+     * @return Support
      */
     public function getUsersForDepartment(Department $objDepartment): Support
     {
@@ -169,7 +169,9 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     }
 
     /**
+     * @param User $user
      * @param array $roleIds
+     * @return array
      */
     public function syncRoles(User $user, array $roleIds)
     {
@@ -185,7 +187,9 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     /**
      * Sync the categories
      *
-     * @param array $params
+     * @param User $user
+     * @param int $department_id
+     * @return array
      */
     public function syncDepartment(User $user, int $department_id)
     {
@@ -193,8 +197,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     }
 
     /**
-     * @param array $data
      * @param User $user
+     * @param bool $delete_account
      * @return User|null
      * @throws Exception
      */

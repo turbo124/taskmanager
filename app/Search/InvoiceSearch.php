@@ -85,9 +85,8 @@ class InvoiceSearch extends BaseSearch
      * Filter based on search text
      *
      * @param string query filter
-     * @return Illuminate\Database\Query\Builder
+     * @return bool
      * @deprecated
-     *
      */
     public function searchFilter(string $filter = ''): bool
     {
@@ -111,7 +110,6 @@ class InvoiceSearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

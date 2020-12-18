@@ -9,7 +9,7 @@ class PaymentTermsRepository extends BaseRepository
 {
     /**
      * GroupRepository constructor.
-     * @param GroupSetting $group_setting
+     * @param PaymentTerms $payment_terms
      */
     public function __construct(PaymentTerms $payment_terms)
     {
@@ -28,7 +28,7 @@ class PaymentTermsRepository extends BaseRepository
 
     /**
      * @param int $id
-     * @return GroupSetting
+     * @return PaymentTerms
      */
     public function findPaymentTermsById(int $id): PaymentTerms
     {

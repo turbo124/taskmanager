@@ -109,8 +109,9 @@ class TimerRepository extends BaseRepository
     }
 
     /**
-     * @param array $data
+     * @param Task $task
      * @param Timer $timer
+     * @param array $data
      * @return Timer|null
      */
     public function save(Task $task, Timer $timer, array $data): ?Timer

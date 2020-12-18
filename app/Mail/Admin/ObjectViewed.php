@@ -35,7 +35,7 @@ class ObjectViewed extends AdminMailer
     /**
      * Build the message.
      *
-     * @return $this
+     * @return void
      */
     public function build()
     {

@@ -13,7 +13,7 @@ use App\Models\Subscription;
 trait CaseTransformable
 {
     /**
-     * @param Subscription $subscription
+     * @param Cases $cases
      * @return array
      */
     public function transform(Cases $cases)

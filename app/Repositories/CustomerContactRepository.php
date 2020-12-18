@@ -24,7 +24,7 @@ class CustomerContactRepository extends BaseRepository
     }
 
     /**
-     * @param $data
+     * @param array $contacts
      * @param Customer $customer
      * @return bool
      */

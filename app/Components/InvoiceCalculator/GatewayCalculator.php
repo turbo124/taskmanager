@@ -124,6 +124,7 @@ class GatewayCalculator extends BaseCalculator
     }
 
     /**
+     * @param $name
      * @return float
      */
     public function getTaxRate($name): float
@@ -132,7 +133,7 @@ class GatewayCalculator extends BaseCalculator
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getMinLimit(): float
     {
@@ -140,7 +141,7 @@ class GatewayCalculator extends BaseCalculator
     }
 
     /**
-     * @param float $unit_price
+     * @param float $min_limit
      * @return $this
      */
     public function setMinLimit(float $min_limit): self
@@ -150,7 +151,7 @@ class GatewayCalculator extends BaseCalculator
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getMaxLimit(): float
     {
@@ -158,7 +159,7 @@ class GatewayCalculator extends BaseCalculator
     }
 
     /**
-     * @param float $unit_price
+     * @param float $max_limit
      * @return $this
      */
     public function setMaxLimit(float $max_limit): self
@@ -168,7 +169,7 @@ class GatewayCalculator extends BaseCalculator
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getFeeAmount(): float
     {
@@ -176,7 +177,7 @@ class GatewayCalculator extends BaseCalculator
     }
 
     /**
-     * @param float $unit_price
+     * @param float $fee_amount
      * @return $this
      */
     public function setFeeAmount(float $fee_amount): self
@@ -200,6 +201,7 @@ class GatewayCalculator extends BaseCalculator
     }
 
     /**
+     * @param $name
      * @return string
      */
     public function getTaxRateName($name): string
@@ -208,7 +210,9 @@ class GatewayCalculator extends BaseCalculator
     }
 
     /**
+     * @param $name
      * @param float $tax_rate
+     * @return GatewayCalculator
      */
     public function setTaxRate($name, $tax_rate): self
     {
@@ -223,7 +227,7 @@ class GatewayCalculator extends BaseCalculator
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getSubTotal(): float
     {
@@ -249,7 +253,7 @@ class GatewayCalculator extends BaseCalculator
     }
 
     /**
-     * @return string
+     * @return int|null
      */
     public function getTaxRateId(): ?int
     {

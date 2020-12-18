@@ -27,7 +27,7 @@ class SubscriptionPolicy extends BasePolicy
      * Determine whether the user can delete the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param Subscription $subscription
      * @return mixed
      */
     public function delete(User $user, Subscription $subscription)
@@ -40,7 +40,7 @@ class SubscriptionPolicy extends BasePolicy
      * Determine whether the user can update the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param Subscription $subscription
      * @return mixed
      */
     public function update(User $user, Subscription $subscription)

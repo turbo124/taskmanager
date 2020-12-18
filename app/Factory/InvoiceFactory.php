@@ -10,11 +10,8 @@ use App\Models\User;
 class InvoiceFactory
 {
     /**
-     * @param int $customer_id
-     * @param $user_id
-     * @param $account_id
-     * @param int $total
-     * @param object|null $settings
+     * @param Account $account
+     * @param User $user
      * @param Customer|null $customer
      * @return Invoice
      */

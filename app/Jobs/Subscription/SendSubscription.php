@@ -32,7 +32,7 @@ class SendSubscription
     /**
      * Execute the job.
      *
-     * @return void
+     * @return bool
      */
     public function handle()
     {

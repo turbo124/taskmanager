@@ -76,6 +76,7 @@ class InvoiceService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
+     * @throws \ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {
@@ -119,7 +120,7 @@ class InvoiceService extends ServiceBase
     }
 
     /**
-     * @return Order
+     * @return Invoice|null
      */
     public function reverseStatus(): ?Invoice
     {
@@ -139,7 +140,8 @@ class InvoiceService extends ServiceBase
      * @param null $contact
      * @param string $subject
      * @param string $body
-     * @return array
+     * @param string $template
+     * @return Invoice|null
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'invoice'): ?Invoice
     {
@@ -157,7 +159,7 @@ class InvoiceService extends ServiceBase
     }
 
     /**
-     * @param array $data
+     * @param array $recurring
      * @return RecurringInvoice|null
      */
     public function createRecurringInvoice(array $recurring): ?RecurringInvoice

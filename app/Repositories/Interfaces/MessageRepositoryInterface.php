@@ -16,6 +16,8 @@ interface MessageRepositoryInterface
     /**
      *
      * @param array $data
+     * @return Message
+     * @return Message
      */
     public function createMessage(array $data): Message;
 
@@ -23,9 +25,9 @@ interface MessageRepositoryInterface
 
     /**
      *
-     * @param \App\Repositories\Interfaces\Customer $customer
-     * @param \App\Repositories\Interfaces\User $user
-     * @param type $blLastOnly
+     * @param Customer $customer
+     * @param User $user
+     * @param bool $blLastOnly
      */
     public function getMessagesForCustomer(Customer $customer, User $user, $blLastOnly = false);
 }

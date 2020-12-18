@@ -19,7 +19,7 @@ class RecurringQuoteWasCreated
     /**
      * Create a new event instance.
      *
-     * @param $quote
+     * @param RecurringQuote $recurring_quote
      */
     public function __construct(RecurringQuote $recurring_quote)
     {

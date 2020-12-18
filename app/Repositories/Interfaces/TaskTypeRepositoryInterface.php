@@ -11,6 +11,8 @@ interface TaskTypeRepositoryInterface
     /**
      *
      * @param int $id
+     * @return TaskType
+     * @return TaskType
      */
     public function findTaskTypeById(int $id): TaskType;
 }

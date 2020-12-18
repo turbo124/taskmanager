@@ -63,7 +63,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     /**
      * @param SearchRequest $search_request
      * @param Account $account
-     * @return LengthAwarePaginator|OrderSearch
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
     public function getAll(SearchRequest $search_request, Account $account)
     {
@@ -73,6 +73,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     /**
      * @param array $data
      * @param Order $order
+     * @return Order|null
+     * @return Order|null
      */
     public function updateOrder(array $data, Order $order): ?Order
     {

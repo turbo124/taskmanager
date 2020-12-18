@@ -39,6 +39,8 @@ class DashboardController extends Controller
      * DashboardController constructor.
      *
      * TaskRepositoryInterface $taskRepository
+     * @param TaskRepositoryInterface $taskRepository
+     * @param CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         TaskRepositoryInterface $taskRepository,

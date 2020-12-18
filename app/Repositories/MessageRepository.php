@@ -60,7 +60,7 @@ class MessageRepository extends BaseRepository implements MessageRepositoryInter
      *
      * @param Customer $customer
      * @param User $user
-     * @param type $blLastOnly
+     * @param bool $blLastOnly
      * @return type
      */
     public function getMessagesForCustomer(Customer $customer, User $user, $blLastOnly = false)

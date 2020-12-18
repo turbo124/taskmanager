@@ -27,7 +27,7 @@ class RecurringInvoicePolicy extends BasePolicy
      * Determine whether the user can delete the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param RecurringInvoice $recurringInvoice
      * @return mixed
      */
     public function delete(User $user, RecurringInvoice $recurringInvoice)
@@ -40,7 +40,7 @@ class RecurringInvoicePolicy extends BasePolicy
      * Determine whether the user can update the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param RecurringInvoice $recurringInvoice
      * @return mixed
      */
     public function update(User $user, RecurringInvoice $recurringInvoice)

@@ -13,7 +13,7 @@ class ErrorLogRepository extends BaseRepository
 
     /**
      * EmailRepository constructor.
-     * @param Email $email
+     * @param ErrorLog $error_log
      */
     public function __construct(ErrorLog $error_log)
     {
@@ -29,8 +29,7 @@ class ErrorLogRepository extends BaseRepository
     /**
      * @param int $id
      *
-     * @return User
-     * @throws Exception
+     * @return ErrorLog
      */
     public function findErrorLogById(int $id): ErrorLog
     {
@@ -52,7 +51,7 @@ class ErrorLogRepository extends BaseRepository
 
     /**
      * @param array $data
-     * @param Email $event
+     * @return ErrorLog|null
      */
     public function save(array $data): ?ErrorLog
     {

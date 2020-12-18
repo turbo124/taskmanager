@@ -162,7 +162,9 @@ class Quote extends Model
         return $this->belongsTo(RecurringQuote::class, 'recurring_quote_id', 'id');
     }
 
-    /********************** Getters and setters ************************************/
+    /********************** Getters and setters ***********************************
+     * @param User $user
+     */
     public function setUser(User $user)
     {
         $this->user_id = (int)$user->id;

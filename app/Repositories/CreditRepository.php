@@ -22,7 +22,7 @@ class CreditRepository extends BaseRepository implements CreditRepositoryInterfa
 
     /**
      * PaymentRepository constructor.
-     * @param Payment $payment
+     * @param Credit $credit
      */
     public function __construct(Credit $credit)
     {

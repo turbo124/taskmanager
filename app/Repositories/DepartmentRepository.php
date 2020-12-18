@@ -39,7 +39,7 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
 
     /**
      * @return bool
-     * @throws DeleteDepartmentErrorException
+     * @throws \Exception
      */
     public function deleteDepartment(): bool
     {

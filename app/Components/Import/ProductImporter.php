@@ -130,8 +130,9 @@ class ProductImporter extends BaseCsvImporter
     }
 
     /**
-     * @param Customer $customer
+     * @param Product $product
      * @param array $data
+     * @return Product|null
      */
     public function saveCallback(Product $product, array $data)
     {
@@ -189,7 +190,7 @@ class ProductImporter extends BaseCsvImporter
     }
 
     /**
-     * @param string $value
+     * @param int $id
      * @return int
      */
     public function getCategoryById(int $id)

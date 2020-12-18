@@ -23,7 +23,7 @@ class CompanyWasCreated
 
     /**
      * ExpenseWasCreated constructor.
-     * @param Expense $expense
+     * @param Company $company
      */
     public function __construct(Company $company)
     {

@@ -264,54 +264,56 @@ class ModuleSettings extends Component {
                 <Header title={translations.account_management}
                     tabs={tabs}/>
 
-                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
-                    <TabPane tabId="1" className="px-0">
-                        <Card className="border-0">
-                            <CardBody>
-                                <BlockButton icon={icons.link} button_text={translations.subscriptions}
-                                    button_link="/#/subscriptions"/>
-                                <BlockButton icon={icons.token} button_text={translations.tokens}
-                                    button_link="/#/tokens"/>
+                <div className="settings-container settings-container-narrow fixed-margin-mobile">
+                    <TabContent activeTab={this.state.activeTab}>
+                        <TabPane tabId="1">
+                            <Card>
+                                <CardBody>
+                                    <BlockButton icon={icons.link} button_text={translations.subscriptions}
+                                        button_link="/#/subscriptions"/>
+                                    <BlockButton icon={icons.token} button_text={translations.tokens}
+                                        button_link="/#/tokens"/>
 
-                                <Button onClick={() => this.setState({ showConfirm: true })} color="danger" size="lg"
-                                    block>
-                                    <i style={{ marginRight: '14px', fontSize: '24px' }}
-                                        className={`fa ${icons.delete}`}/>{translations.delete_account}</Button>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                                    <Button onClick={() => this.setState({ showConfirm: true })} color="danger" size="lg"
+                                        block>
+                                        <i style={{ marginRight: '14px', fontSize: '24px' }}
+                                            className={`fa ${icons.delete}`}/>{translations.delete_account}</Button>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    <TabPane tabId="2" className="px-0">
-                        <Card className="border-0">
-                            <CardBody>
-                                <Form>
-                                    <FormGroup>
-                                        <Label for="exampleCheckbox">Switches <input type="checkbox"
-                                            onClick={this.handleAllChecked}/>Check
-                                            all </Label>
-                                        {this.state.moduleTypes.map((module, index) => {
-                                            const isChecked = this.state.modules[module.id]
+                        <TabPane tabId="2">
+                            <Card>
+                                <CardBody>
+                                    <Form>
+                                        <FormGroup>
+                                            <Label for="exampleCheckbox">Switches <input type="checkbox"
+                                                onClick={this.handleAllChecked}/>Check
+                                                all </Label>
+                                            {this.state.moduleTypes.map((module, index) => {
+                                                const isChecked = this.state.modules[module.id]
 
-                                            return (
-                                                <div key={index}>
-                                                    <CustomInput
-                                                        checked={isChecked}
-                                                        type="switch"
-                                                        id={module.id}
-                                                        name="customSwitch"
-                                                        label={module.label}
-                                                        onChange={this.customInputSwitched.bind(this, module.value)}
-                                                    />
-                                                </div>
-                                            )
-                                        }
-                                        )}
-                                    </FormGroup>
-                                </Form>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                </TabContent>
+                                                return (
+                                                    <div key={index}>
+                                                        <CustomInput
+                                                            checked={isChecked}
+                                                            type="switch"
+                                                            id={module.id}
+                                                            name="customSwitch"
+                                                            label={module.label}
+                                                            onChange={this.customInputSwitched.bind(this, module.value)}
+                                                        />
+                                                    </div>
+                                                )
+                                            }
+                                            )}
+                                        </FormGroup>
+                                    </Form>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                    </TabContent>
+                </div>
 
                 <Modal isOpen={this.state.showConfirm} fade="false"
                     toggle={() => this.setState({ showConfirm: false })}>

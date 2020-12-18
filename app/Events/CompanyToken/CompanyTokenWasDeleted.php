@@ -21,7 +21,7 @@ class CompanyTokenWasDeleted
     /**
      * Create a new event instance.
      *
-     * @param Company $company
+     * @param CompanyToken $company_token
      */
     public function __construct(CompanyToken $company_token)
     {

@@ -34,7 +34,7 @@ class RecurringInvoiceRepository extends BaseRepository
 
     /**
      * @param array $data
-     * @param RecurringInvoice $invoice
+     * @param RecurringInvoice $recurring_invoice
      * @return RecurringInvoice|null
      */
     public function createInvoice(array $data, RecurringInvoice $recurring_invoice): ?RecurringInvoice

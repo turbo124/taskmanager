@@ -73,6 +73,8 @@ class CaseRepository extends BaseRepository implements CaseRepositoryInterface
     /**
      * @param array $data
      * @param Cases $case
+     * @return Cases|null
+     * @return Cases|null
      */
     public function save(array $data, Cases $case): ?Cases
     {
@@ -111,6 +113,7 @@ class CaseRepository extends BaseRepository implements CaseRepositoryInterface
     /**
      * @param array $data
      * @param Cases $case
+     * @param User $user
      * @return Cases|null
      */
     public function updateCase(array $data, Cases $case, User $user): ?Cases

@@ -19,7 +19,7 @@ class AttributeSearch extends BaseSearch
 
     /**
      * AttributeSearch constructor.
-     * @param AttributeRepository $attribute_rep
+     * @param AttributeRepository $attribute_repo
      */
     public function __construct(AttributeRepository $attribute_repo)
     {
@@ -75,7 +75,6 @@ class AttributeSearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

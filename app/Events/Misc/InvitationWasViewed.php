@@ -22,7 +22,8 @@ class InvitationWasViewed
     /**
      * Create a new event instance.
      *
-     * @param Invoice $invoice
+     * @param $entity
+     * @param $invitation
      */
     public function __construct($entity, $invitation)
     {

@@ -38,6 +38,8 @@ class UploadFile implements ShouldQueue
      * @param User $user
      * @param Account $account
      * @param $entity
+     * @param bool $uploaded_by_customer
+     * @param bool $customer_can_view
      */
     public function __construct(
         $file,
@@ -58,7 +60,7 @@ class UploadFile implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @return void
+     * @return File|null
      */
     public function handle(): ?File
     {

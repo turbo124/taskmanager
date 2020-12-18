@@ -48,6 +48,8 @@ class BasePaymentProcessor
 
     /**
      * @param float $amount
+     * @return BasePaymentProcessor
+     * @return BasePaymentProcessor
      */
     protected function increasePaymentAmount(float $amount)
     {
@@ -72,6 +74,8 @@ class BasePaymentProcessor
 
     /**
      * @param float $amount
+     * @return BasePaymentProcessor
+     * @return BasePaymentProcessor
      */
     protected function reducePaymentAmount(float $amount)
     {
@@ -122,6 +126,8 @@ class BasePaymentProcessor
             //$this->amount += $this->gateway_fee;
         }
         //$this->payment->save();
+
+        return true;
     }
 
     /**

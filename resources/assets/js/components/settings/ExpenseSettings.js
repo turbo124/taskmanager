@@ -184,8 +184,8 @@ export default class ExpenseSettings extends Component {
 
                 <Header title={translations.expense_settings} handleSubmit={this.handleSubmit}/>
 
-                <div className="fixed-margin-mobile bg-transparent">
-                    <Card className="border-0">
+                <div className="settings-container settings-container-narrow fixed-margin-extra">
+                    <Card>
                         <CardBody>
                             <FormBuilder
                                 handleChange={this.handleSettingsChange}
@@ -193,10 +193,10 @@ export default class ExpenseSettings extends Component {
                             />
                         </CardBody>
                     </Card>
-                </div>
 
-                <BlockButton icon={icons.percent} button_text={translations.configure_categories}
-                    button_link="/#/expense_categories"/>
+                    <BlockButton icon={icons.percent} button_text={translations.configure_categories}
+                        button_link="/#/expense_categories"/>
+                </div>
             </React.Fragment>
         ) : null
     }

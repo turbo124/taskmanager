@@ -97,6 +97,8 @@ class PromocodeController extends Controller
     /**
      * @param UpdatePromocode $request
      * @param int $id
+     * @return JsonResponse
+     * @return JsonResponse
      */
     public function update(UpdatePromocode $request, int $id)
     {
@@ -156,6 +158,7 @@ class PromocodeController extends Controller
 
     /**
      * @param int $id
+     * @throws \App\Exceptions\InvalidPromocodeException
      */
     public function destroy(int $id)
     {

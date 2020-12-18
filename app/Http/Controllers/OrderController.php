@@ -63,7 +63,7 @@ class OrderController extends BaseController
 
     /**
      * @param int $id
-     * @param Request $request
+     * @param UpdateOrderRequest $request
      * @return JsonResponse
      * @throws Exception
      */
@@ -109,6 +109,7 @@ class OrderController extends BaseController
     /**
      * @param int $id
      * @return mixed
+     * @throws Exception
      */
     public function archive(int $id)
     {
@@ -120,6 +121,7 @@ class OrderController extends BaseController
     /**
      * @param int $id
      * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(int $id)
     {
@@ -134,6 +136,7 @@ class OrderController extends BaseController
     /**
      * @param int $id
      * @return mixed
+     * @throws Exception
      */
     public function restore(int $id)
     {

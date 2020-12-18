@@ -29,8 +29,7 @@ class EmailRepository extends BaseRepository
     /**
      * @param int $id
      *
-     * @return User
-     * @throws Exception
+     * @return Email
      */
     public function findEmailById(int $id): Email
     {
@@ -52,7 +51,8 @@ class EmailRepository extends BaseRepository
 
     /**
      * @param array $data
-     * @param Email $event
+     * @param Email $email
+     * @return Email|null
      */
     public function save(array $data, Email $email): ?Email
     {

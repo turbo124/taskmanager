@@ -24,7 +24,7 @@ class ProjectController extends Controller
 
     /**
      *
-     * @param ProjectRepositoryInterface $projectRepository
+     * @param ProjectRepositoryInterface $project_repo
      */
     public function __construct(ProjectRepositoryInterface $project_repo)
     {
@@ -41,6 +41,7 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param CreateProjectRequest $request
      * @return Response
      */
     public function store(CreateProjectRequest $request)
@@ -101,10 +102,9 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param $id
+     * @param int $id
      *
-     * @return RedirectResponse
-     * @throws Exception
+     * @return void
      */
     public function archive(int $id)
     {

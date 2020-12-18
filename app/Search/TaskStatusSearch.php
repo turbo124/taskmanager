@@ -18,7 +18,7 @@ class TaskStatusSearch extends BaseSearch
     use TaskStatusTransformable;
 
     /**
-     * @var CaseCategoryRepository
+     * @var TaskStatusRepository
      */
     private TaskStatusRepository $task_status_repo;
 
@@ -26,7 +26,7 @@ class TaskStatusSearch extends BaseSearch
 
     /**
      * CaseCategorySearch constructor.
-     * @param CaseCategoryRepository $case_category_repo
+     * @param TaskStatusRepository $task_status_repo
      */
     public function __construct(TaskStatusRepository $task_status_repo)
     {
@@ -89,7 +89,6 @@ class TaskStatusSearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

@@ -35,8 +35,10 @@ class PurchaseOrderController extends BaseController
 
     /**
      * PurchaseOrderController constructor.
+     * @param PurchaseOrderRepositoryInterface $po_repo
      * @param InvoiceRepositoryInterface $invoice_repo
      * @param QuoteRepositoryInterface $quote_repo
+     * @param CreditRepository $credit_repo
      */
     public function __construct(
         PurchaseOrderRepositoryInterface $po_repo,
@@ -62,7 +64,7 @@ class PurchaseOrderController extends BaseController
     }
 
     /**
-     * @param int $quote_id
+     * @param int $po_id
      * @return mixed
      */
     public function show(int $po_id)
@@ -87,8 +89,8 @@ class PurchaseOrderController extends BaseController
     }
 
     /**
-     * @param $id
-     * @param Request $request
+     * @param UpdatePurchaseOrderRequest $request
+     * @param int $id
      * @return mixed
      */
     public function update(UpdatePurchaseOrderRequest $request, int $id)
@@ -102,10 +104,11 @@ class PurchaseOrderController extends BaseController
 
     /**
      * @param Request $request
-     * @param PurchaseOrder $po
+     * @param PurchaseOrder $purchase_order
      * @param $action
      * @return JsonResponse
      * @throws FileNotFoundException
+     * @throws \ReflectionException
      */
     public function action(Request $request, PurchaseOrder $purchase_order, $action)
     {
@@ -126,6 +129,7 @@ class PurchaseOrderController extends BaseController
     /**
      * @param int $id
      * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(int $id)
     {

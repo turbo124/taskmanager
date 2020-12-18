@@ -27,7 +27,7 @@ class LeadPolicy extends BasePolicy
      * Determine whether the user can update the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param Lead $lead
      * @return mixed
      */
     public function update(User $user, Lead $lead)
@@ -40,7 +40,7 @@ class LeadPolicy extends BasePolicy
      * Determine whether the user can delete the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param Lead $lead
      * @return mixed
      */
     public function delete(User $user, Lead $lead)

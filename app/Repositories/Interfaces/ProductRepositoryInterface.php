@@ -58,7 +58,8 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
     /**
      *
-     * @param \App\Repositories\Interfaces\Category $objCategory
+     * @param Category $objCategory
+     * @return Support
      */
     public function filterProductsByCategory(Category $objCategory): Support;
 
@@ -77,13 +78,15 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     /**
      *
      * @param ProductAttribute $productAttribute
+     * @param Product $product
+     * @return bool|null
      */
     public function removeProductAttribute(ProductAttribute $productAttribute, Product $product): ?bool;
 
     /**
      *
      * @param Category $category
-     * @param type $value
+     * @param Request $request
      */
     public function getProductsByDealValueAndCategory(Category $category, Request $request);
 }

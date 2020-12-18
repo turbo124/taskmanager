@@ -40,7 +40,7 @@ class AttributeController extends Controller
     }
 
     /**
-     * @return Factory|View
+     * @return void
      */
     public function create()
     {
@@ -104,6 +104,7 @@ class AttributeController extends Controller
     /**
      * @param $id
      * @return bool|null
+     * @throws \Exception
      */
     public function destroy($id)
     {

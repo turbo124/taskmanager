@@ -30,8 +30,8 @@ class Role extends Model
 
     /**
      *
-     * @param type $permissions
-     * @return type
+     * @param mixed ...$permissions
+     * @return void
      */
     public function syncPermissions(...$permissions)
     {

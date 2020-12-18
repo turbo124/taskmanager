@@ -87,6 +87,8 @@ trait CalculateRecurringDateRanges
                 return new DateInterval('P1Y');
                 break;
         }
+
+        return false;
     }
 
     private function calculateDueDate($date)
@@ -145,5 +147,7 @@ trait CalculateRecurringDateRanges
                 return $date->modify('+1 year');
                 break;
         }
+
+        return false;
     }
 }

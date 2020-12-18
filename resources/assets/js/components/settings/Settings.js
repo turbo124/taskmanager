@@ -494,74 +494,76 @@ class Settings extends Component {
                 <Header title={translations.account_details} handleSubmit={this.handleSubmit}
                     tabs={tabs}/>
 
-                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
-                    <TabPane className="px-0" tabId="1">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getFormFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    <TabPane className="px-0" tabId="2">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getAddressFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    <TabPane className="px-0" tabId="3">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormGroup>
+                <div className="settings-container settings-container-narrow fixed-margin-mobile">
+                    <TabContent activeTab={this.state.activeTab}>
+                        <TabPane tabId="1">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getFormFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        <TabPane tabId="2">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getAddressFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        <TabPane tabId="3">
+                            <Card>
+                                <CardBody>
+                                    <FormGroup>
 
-                                    <Label>{translations.logo}</Label>
-                                    <CustomInput className="mt-4 mb-4" onChange={this.handleFileChange.bind(this)}
-                                        type="file"
-                                        id="company_logo" name="company_logo"
-                                        label="Logo"/>
-                                </FormGroup>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                                        <Label>{translations.logo}</Label>
+                                        <CustomInput className="mt-4 mb-4" onChange={this.handleFileChange.bind(this)}
+                                            type="file"
+                                            id="company_logo" name="company_logo"
+                                            label="Logo"/>
+                                    </FormGroup>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    <TabPane className="px-0" tabId="4">
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPaymentTermFields()}
-                                />
+                        <TabPane tabId="4">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getPaymentTermFields()}
+                                    />
 
-                                <BlockButton icon={icons.cog} button_text={translations.configure_payment_terms}
-                                    button_link="/#/payment_terms"/>
-                            </CardBody>
-                        </Card>
+                                    <BlockButton icon={icons.cog} button_text={translations.configure_payment_terms}
+                                        button_link="/#/payment_terms"/>
+                                </CardBody>
+                            </Card>
 
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPaymentEmailFields()}
-                                />
-                            </CardBody>
-                        </Card>
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getPaymentEmailFields()}
+                                    />
+                                </CardBody>
+                            </Card>
 
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getDefaultFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                </TabContent>
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getDefaultFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                    </TabContent>
+                </div>
             </React.Fragment>
         ) : null
     }

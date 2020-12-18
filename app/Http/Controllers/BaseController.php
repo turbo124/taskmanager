@@ -110,6 +110,7 @@ class BaseController extends Controller
      * @param Request $request
      * @return JsonResponse
      * @throws FileNotFoundException
+     * @throws ReflectionException
      */
     public function bulk(Request $request)
     {
@@ -430,6 +431,7 @@ class BaseController extends Controller
     /**
      * @param $entity
      * @return array
+     * @throws ReflectionException
      */
     private function transformEntity($entity)
     {
@@ -455,6 +457,8 @@ class BaseController extends Controller
                 return $this->transformOrder($entity);
             case 'PurchaseOrder':
                 return $this->transformPurchaseOrder($entity);
+            default:
+                return $entity;
         }
     }
 

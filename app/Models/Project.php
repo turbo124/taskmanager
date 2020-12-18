@@ -57,7 +57,7 @@ class Project extends Model
     ];
 
     /**
-     * @return BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function tasks()
     {

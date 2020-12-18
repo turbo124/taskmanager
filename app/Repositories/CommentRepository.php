@@ -26,10 +26,7 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
 
     /**
      * @param array $data
-     * @param int $id
-     *
      * @return bool
-     * @throws Exception
      */
     public function updateComment(array $data): bool
     {
@@ -92,6 +89,7 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
 
     /**
      *
+     * @param int $account_id
      * @return Collection
      */
     public function getCommentsForActivityFeed(int $account_id): Collection
