@@ -21,7 +21,7 @@ class AccountWasDeleted
     /**
      * Create a new event instance.
      *
-     * @param Company $company
+     * @param Account $account
      */
     public function __construct(Account $account)
     {

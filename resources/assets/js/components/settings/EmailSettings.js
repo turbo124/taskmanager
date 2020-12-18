@@ -234,45 +234,47 @@ class EmailSettings extends Component {
 
                 <Header title={translations.email_settings} handleSubmit={this.handleSubmit}/>
 
-                <Card className="fixed-margin-extra">
-                    <CardBody>
-                        <FormBuilder
-                            handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getFormFields()}
-                        />
-                    </CardBody>
-                </Card>
+                <div className="settings-container fixed-margin-extra">
+                    <Card>
+                        <CardBody>
+                            <FormBuilder
+                                handleChange={this.handleSettingsChange}
+                                formFieldsRows={this.getFormFields()}
+                            />
+                        </CardBody>
+                    </Card>
 
-                <Card>
-                    <CardBody>
-                        <FormBuilder
-                            handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getAttachmentFormFields()}
-                        />
-                    </CardBody>
-                </Card>
+                    <Card>
+                        <CardBody>
+                            <FormBuilder
+                                handleChange={this.handleSettingsChange}
+                                formFieldsRows={this.getAttachmentFormFields()}
+                            />
+                        </CardBody>
+                    </Card>
 
-                <Card>
-                    <CardBody>
-                        <FormBuilder
-                            handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getForwardingFormFields()}
-                        />
-                    </CardBody>
-                </Card>
+                    <Card>
+                        <CardBody>
+                            <FormBuilder
+                                handleChange={this.handleSettingsChange}
+                                formFieldsRows={this.getForwardingFormFields()}
+                            />
+                        </CardBody>
+                    </Card>
 
-                <Card>
-                    <CardBody>
-                        <FormGroup>
-                            <Label>Email Signature</Label>
-                            <SignatureCanvas
-                                canvasProps={{ width: 1050, height: 200, className: 'sigCanvas border border-light' }}
-                                ref={(ref) => {
-                                    this.state.sigPad = ref
-                                }}/>
-                        </FormGroup>
-                    </CardBody>
-                </Card>
+                    <Card>
+                        <CardBody>
+                            <FormGroup>
+                                <Label>Email Signature</Label>
+                                <SignatureCanvas
+                                    canvasProps={{ width: 1050, height: 200, className: 'sigCanvas border border-light' }}
+                                    ref={(ref) => {
+                                        this.state.sigPad = ref
+                                    }}/>
+                            </FormGroup>
+                        </CardBody>
+                    </Card>
+                </div>
             </React.Fragment>
         ) : null
     }

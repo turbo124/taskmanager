@@ -68,7 +68,7 @@ class PermissionRepository extends BaseRepository implements PermissionRepositor
 
     /**
      * @return bool
-     * @throws DeletePermissionErrorException
+     * @throws \Exception
      */
     public function deletePermissionById(): bool
     {

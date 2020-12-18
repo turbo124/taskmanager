@@ -16,7 +16,8 @@ class StoreCustomerAddress
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param Customer $customer
+     * @param array $data
      */
     public function __construct(Customer $customer, array $data)
     {
@@ -27,7 +28,8 @@ class StoreCustomerAddress
     /**
      * Execute the job.
      *
-     * @return void
+     * @param CustomerRepository $client_repo
+     * @return Customer|null
      */
     public function handle(CustomerRepository $client_repo): ?Customer
     {

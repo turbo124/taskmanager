@@ -19,7 +19,7 @@ class PaymentTermsSearch extends BaseSearch
 
     /**
      * GroupSearch constructor.
-     * @param GroupSettingRepository $group_setting_repo
+     * @param PaymentTermsRepository $payment_terms_repo
      */
     public function __construct(PaymentTermsRepository $payment_terms_repo)
     {
@@ -78,7 +78,6 @@ class PaymentTermsSearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

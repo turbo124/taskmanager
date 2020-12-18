@@ -40,6 +40,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
      *
      * @param string $order
      * @param string $sort
+     * @param Account $account
      * @param array $except
      * @return Collection
      */
@@ -71,7 +72,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     /**
      * @param array $params
-     * @param Account $account
+     * @param Category $category
      * @return Category
      */
     public function createCategory(array $params, Category $category): Category
@@ -118,6 +119,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
      *
      * @param array $params
      *
+     * @param Category $category
      * @return Category
      */
     public function updateCategory(array $params, Category $category): Category

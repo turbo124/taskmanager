@@ -18,7 +18,7 @@ class ExpenseCategorySearch extends BaseSearch
     use ExpenseCategoryTransformable;
 
     /**
-     * @var CategoryRepository
+     * @var ExpenseCategoryRepository
      */
     private ExpenseCategoryRepository $category_repo;
 
@@ -85,7 +85,6 @@ class ExpenseCategorySearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

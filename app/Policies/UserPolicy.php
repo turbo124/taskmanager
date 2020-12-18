@@ -26,7 +26,7 @@ class UserPolicy extends BasePolicy
      * Determine whether the user can delete the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param User $model
      * @return mixed
      */
     public function delete(User $user, User $model)
@@ -39,7 +39,7 @@ class UserPolicy extends BasePolicy
      * Determine whether the user can update the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param User $model
      * @return mixed
      */
     public function update(User $user, User $model)

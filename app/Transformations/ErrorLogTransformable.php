@@ -9,7 +9,7 @@ class ErrorLogTransformable
 {
 
     /**
-     * @param Email $email
+     * @param ErrorLog $error_log
      * @return array
      */
     public function transformErrorLog(ErrorLog $error_log)

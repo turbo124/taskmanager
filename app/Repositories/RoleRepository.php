@@ -83,7 +83,7 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface
 
     /**
      * @return bool
-     * @throws DeleteRoleErrorException
+     * @throws \Exception
      */
     public function deleteRoleById(): bool
     {

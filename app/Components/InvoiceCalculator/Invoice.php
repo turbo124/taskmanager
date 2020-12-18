@@ -144,6 +144,8 @@ class Invoice extends BaseCalculator
 
     /**
      * @param float $custom_tax
+     * @return Invoice
+     * @return Invoice
      */
     public function setCustomTax(float $custom_tax): self
     {
@@ -204,6 +206,7 @@ class Invoice extends BaseCalculator
 
     /**
      * @param $item
+     * @param bool $is_charge
      * @return $this
      */
     public function addItem($item, bool $is_charge = false)
@@ -242,7 +245,7 @@ class Invoice extends BaseCalculator
     }
 
     /**
-     * @param int $decimals
+     * @return Invoice
      */
     public function calculateDiscount(): self
     {
@@ -296,6 +299,8 @@ class Invoice extends BaseCalculator
 
     /**
      * @param float $balance
+     * @return Invoice
+     * @return Invoice
      */
     public function setBalance($balance): self
     {
@@ -386,6 +391,8 @@ class Invoice extends BaseCalculator
 
     /**
      * @param float $tax_total
+     * @return Invoice
+     * @return Invoice
      */
     public function setTaxTotal(float $tax_total): self
     {
@@ -425,6 +432,8 @@ class Invoice extends BaseCalculator
 
     /**
      * @param int $partial
+     * @return Invoice
+     * @return Invoice
      */
     public function setPartial($partial): self
     {
@@ -450,7 +459,9 @@ class Invoice extends BaseCalculator
     }
 
     /**
+     * @param $name
      * @param float $tax_rate
+     * @return Invoice
      */
     public function setTaxRate($name, $tax_rate): self
     {
@@ -468,6 +479,8 @@ class Invoice extends BaseCalculator
 
     /**
      * @param bool $inclusive_taxes
+     * @return Invoice
+     * @return Invoice
      */
     public function setInclusiveTaxes(bool $inclusive_taxes): self
     {

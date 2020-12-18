@@ -27,7 +27,7 @@ class BrandController extends Controller
 
     /**
      * BrandController constructor.
-     * @param BrandRepository $brandRepository
+     * @param BrandRepository $brand_repo
      */
     public function __construct(BrandRepository $brand_repo)
     {
@@ -35,6 +35,7 @@ class BrandController extends Controller
     }
 
     /**
+     * @param SearchRequest $request
      * @return JsonResponse
      */
     public function index(SearchRequest $request)

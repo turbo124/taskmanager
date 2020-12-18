@@ -22,7 +22,7 @@ class TokenSearch extends BaseSearch
 
     /**
      * TokenSearch constructor.
-     * @param TokenRepository $tokenRepository
+     * @param TokenRepository $token_repo
      */
     public function __construct(TokenRepository $token_repo)
     {
@@ -81,7 +81,6 @@ class TokenSearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

@@ -87,6 +87,8 @@ class GenerateInvoice implements ShouldQueue
     /**
      * @param Invoice $invoice
      * @param Expense $expense
+     * @return Payment|null
+     * @return Payment|null
      */
     private function generatePayment(Invoice $invoice, Expense $expense)
     {

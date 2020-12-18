@@ -88,7 +88,7 @@ trait OrderTransformable
     }
 
     /**
-     * @param $invitations
+     * @param $emails
      * @return array
      */
     private function transformOrderEmails($emails)
@@ -118,7 +118,7 @@ trait OrderTransformable
     }
 
     /**
-     * @param $invitations
+     * @param $files
      * @return array
      */
     private function transformOrderFiles($files)

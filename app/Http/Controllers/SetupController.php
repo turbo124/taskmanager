@@ -290,7 +290,6 @@ class SetupController extends Controller
      * Processes the newly saved user and account
      *
      * @param Request $request
-     * @param Redirector $redirect
      * @return RedirectResponse
      */
     public function saveUser(Request $request)
@@ -348,9 +347,9 @@ class SetupController extends Controller
     /**
      * Update installed file and display finished view.
      *
-     * @param \RachidLaasri\LaravelInstaller\Helpers\InstalledFileManager $fileManager
-     * @param \RachidLaasri\LaravelInstaller\Helpers\FinalInstallManager $finalInstall
-     * @param \RachidLaasri\LaravelInstaller\Helpers\EnvironmentManager $environment
+     * @param InstalledFileManager $fileManager
+     * @param FinalInstallManager $finalInstall
+     * @param EnvironmentManager $environment
      * @return Factory|View
      */
     public function finish(

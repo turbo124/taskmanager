@@ -14,6 +14,7 @@ trait DepartmentTransformable
      *
      * @param Department $department
      * @return Department
+     * @throws \Exception
      */
     protected function transformDepartment(Department $department)
     {

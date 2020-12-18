@@ -32,8 +32,7 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
     /**
      * @param int $id
      *
-     * @return User
-     * @throws Exception
+     * @return Event
      */
     public function findEventById(int $id): Event
     {
@@ -77,6 +76,7 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
     /**
      *
      * @param User $objUser
+     * @param int $account_id
      * @return Collection
      */
     public function getEventsForUser(User $objUser, int $account_id): Collection
@@ -99,6 +99,8 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
     /**
      * @param array $data
      * @param Event $event
+     * @return Event|null
+     * @throws Exception
      */
     public function save(array $data, Event $event): ?Event
     {
@@ -122,6 +124,8 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
      *
      * @param Event $objEvent
      * @param array $arrUsers
+     * @return bool
+     * @throws Exception
      */
     public function attachUsers(Event $objEvent, array $arrUsers)
     {
@@ -138,7 +142,9 @@ class EventRepository extends BaseRepository implements EventRepositoryInterface
     /**
      * Sync the categories
      *
-     * @param array $params
+     * @param Event $event
+     * @param int $task_id
+     * @return array
      */
     public function syncTask(Event $event, int $task_id)
     {

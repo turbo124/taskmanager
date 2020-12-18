@@ -33,7 +33,7 @@ class CaseOverdue extends AdminMailer
     /**
      * Build the message.
      *
-     * @return $this
+     * @return bool
      */
     public function build()
     {
@@ -42,6 +42,8 @@ class CaseOverdue extends AdminMailer
         $this->setSubject($data);
         $this->setMessage($data);
         $this->execute($this->buildMessage());
+
+        return true;
     }
 
     /**

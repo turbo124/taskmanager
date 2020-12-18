@@ -7,8 +7,8 @@ trait InvoiceItemTransformable
     /**
      * Transform the invoice
      *
-     * @param Invoice $invoice
-     * @return Invoice
+     * @param $item
+     * @return array
      */
     protected function transform($item)
     {

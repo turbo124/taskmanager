@@ -65,9 +65,6 @@ class ResetNumbers implements ShouldQueue
     }
 
     /**
-     * @param $entity
-     * @param bool $reset_all
-     * @param bool $reset_customer
      * @return bool
      * @throws ReflectionException
      */

@@ -27,7 +27,7 @@ class PurchaseOrderPdf extends PdfBuilder
 
     public function build($contact = null)
     {
-        $contact === null ? $this->entity->company->contacts->first() : $contact;
+        $contact = $contact === null ? $this->entity->company->contacts->first() : $contact;
         $company = $this->entity->company;
 
         $this->buildContact($contact)

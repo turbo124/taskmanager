@@ -63,6 +63,7 @@ class PurchaseOrderService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
+     * @throws \ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {
@@ -83,7 +84,8 @@ class PurchaseOrderService extends ServiceBase
      * @param null $contact
      * @param string $subject
      * @param string $body
-     * @return array
+     * @param string $template
+     * @return PurchaseOrder|null
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'purchase_order'): ?PurchaseOrder
     {
@@ -121,7 +123,7 @@ class PurchaseOrderService extends ServiceBase
     }
 
     /**
-     * @param array $data
+     * @param array $recurring
      * @return RecurringQuote|null
      */
     public function createRecurringQuote(array $recurring): ?RecurringQuote

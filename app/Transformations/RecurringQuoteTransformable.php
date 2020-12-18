@@ -136,7 +136,7 @@ trait RecurringQuoteTransformable
     }
 
     /**
-     * @param $invitations
+     * @param $emails
      * @return array
      */
     private function transformRecurringQuoteEmails($emails)

@@ -66,6 +66,7 @@ class CustomerController extends Controller
      * @param UpdateCustomerRequest $request
      * @param int $id
      * @return Response
+     * @throws Exception
      */
     public function update(UpdateCustomerRequest $request, $id)
     {
@@ -94,7 +95,8 @@ class CustomerController extends Controller
 
     /**
      * @param CreateCustomerRequest $request
-     * @return Customer
+     * @return array
+     * @throws Exception
      */
     public function store(CreateCustomerRequest $request)
     {
@@ -178,6 +180,8 @@ class CustomerController extends Controller
 
     /**
      * @param CustomerRegistrationRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function register(CustomerRegistrationRequest $request)
     {

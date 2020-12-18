@@ -22,7 +22,7 @@ class SubscriptionSearch extends BaseSearch
 
     /**
      * SubscriptionSearch constructor.
-     * @param SubscriptionRepository $subscriptionRepository
+     * @param SubscriptionRepository $subscription_repo
      */
     public function __construct(SubscriptionRepository $subscription_repo)
     {
@@ -81,7 +81,6 @@ class SubscriptionSearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

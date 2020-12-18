@@ -19,7 +19,7 @@ class QuoteOrders implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param Quote $quote
      */
     public function __construct(Quote $quote)
     {

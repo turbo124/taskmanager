@@ -58,6 +58,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param SearchRequest $request
      * @return Response
      */
     public function index(SearchRequest $request)
@@ -72,7 +73,7 @@ class ProductController extends Controller
      *
      * @param CreateProductRequest $request
      *
-     * @return Response
+     * @return array
      */
     public function store(CreateProductRequest $request)
     {
@@ -122,6 +123,7 @@ class ProductController extends Controller
     /**
      * @param int $id
      * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(int $id)
     {
@@ -136,7 +138,9 @@ class ProductController extends Controller
     /**
      *
      * @param int $task_id
+     * @param string $status
      * @return type
+     * @throws Exception
      */
     public function getProductsForTask(int $task_id, string $status)
     {
@@ -163,6 +167,8 @@ class ProductController extends Controller
     /**
      *
      * @param int $id
+     * @return JsonResponse
+     * @return JsonResponse
      */
     public function getProductsForCategory(int $id)
     {

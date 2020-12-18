@@ -113,7 +113,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     /**
      * @param $entity
-     * @return |null
+     * @return |null |null |null
      * @throws ReflectionException
      */
     public function markSent($entity)
@@ -201,9 +201,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     /**
      * @param $entity
-     * @param $key
      * @param array $data
-     * @param null $extra_key
      * @return bool
      */
     protected function saveInvitations($entity, array $data): bool

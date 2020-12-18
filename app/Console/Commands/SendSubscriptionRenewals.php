@@ -67,8 +67,8 @@ class SendSubscriptionRenewals extends Command
 
     /**
      * @param Account $account
-     * @param Invoice $invoice
-     * @param float $total_paid
+     * @param float $total_to_pay
+     * @param $due_date
      * @return Invoice
      */
     private function createInvoice(Account $account, float $total_to_pay, $due_date): Invoice

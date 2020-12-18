@@ -27,7 +27,7 @@ class ProjectPolicy extends BasePolicy
      * Determine whether the user can update the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param Project $project
      * @return mixed
      */
     public function update(User $user, Project $project)
@@ -40,7 +40,7 @@ class ProjectPolicy extends BasePolicy
      * Determine whether the user can delete the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param Project $project
      * @return mixed
      */
     public function delete(User $user, Project $project)

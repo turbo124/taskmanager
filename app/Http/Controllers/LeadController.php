@@ -42,9 +42,7 @@ class LeadController extends Controller
 
     /**
      * MessageController constructor.
-     * @param MessageRepositoryInterface $messageRepository
-     * CustomerRepositoryInterface $customerRepository
-     * UserRepositoryInterface $userRepository
+     * @param LeadRepository $lead_repo
      */
     public function __construct(LeadRepository $lead_repo)
     {

@@ -31,8 +31,8 @@ class ConvertOrder
     }
 
     /**
-     * @param $quote
      * @return mixed
+     * @throws \ReflectionException
      */
     public function execute()
     {

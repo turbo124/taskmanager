@@ -24,7 +24,7 @@ class LeadRepository extends BaseRepository
 
     /**
      * MessageRepository constructor.
-     * @param Message $message
+     * @param Lead $lead
      */
     public function __construct(Lead $lead)
     {
@@ -51,7 +51,8 @@ class LeadRepository extends BaseRepository
      *
      * @param array $data
      *
-     * @return Message
+     * @param Lead $lead
+     * @return Lead
      */
     public function save(array $data, Lead $lead): Lead
     {

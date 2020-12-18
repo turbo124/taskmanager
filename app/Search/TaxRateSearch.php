@@ -20,7 +20,7 @@ class TaxRateSearch extends BaseSearch
 
     /**
      * CompanySearch constructor.
-     * @param CompanyRepository $companyRepository
+     * @param TaxRateRepository $tax_rate_repo
      */
     public function __construct(TaxRateRepository $tax_rate_repo)
     {
@@ -83,7 +83,6 @@ class TaxRateSearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

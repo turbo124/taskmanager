@@ -11,8 +11,8 @@ class CloneLeadToCustomerFactory
 {
     /**
      * @param Lead $lead
-     * @param $user_id
-     * @param $account_id
+     * @param User $user
+     * @param Account $account
      * @return Customer
      */
     public static function create(Lead $lead, User $user, Account $account): Customer

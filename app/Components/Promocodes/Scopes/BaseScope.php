@@ -7,7 +7,7 @@ namespace App\Components\Promocodes\Scopes;
 class BaseScope
 {
     /**
-     * @var Order
+     * @var \App\Models\Order
      */
     protected \App\Models\Order $order;
 
@@ -15,6 +15,8 @@ class BaseScope
 
     /**
      * @param mixed $scope_value
+     * @return BaseScope
+     * @return BaseScope
      */
     public function setScopeValue($scope_value)
     {

@@ -35,7 +35,7 @@ class PdfBuilder
     /**
      * PdfData constructor.
      * @param $entity
-     * @param CustomerContact $contact
+     * @throws ReflectionException
      */
     public function __construct($entity)
     {
@@ -703,7 +703,6 @@ class PdfBuilder
     /**
      * @param $due_date
      * @return $this
-     * @throws ReflectionException
      */
     public function setDueDate($due_date): self
     {

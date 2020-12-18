@@ -161,17 +161,19 @@ export default class TaxSettings extends Component {
                 <Header title={translations.tax_settings}
                     handleSubmit={this.handleSubmit.bind(this)}/>
 
-                <Card className="fixed-margin-mobile bg-transparent">
-                    <CardBody>
-                        <FormBuilder
-                            handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getTaxFields()}
-                        />
-                    </CardBody>
-                </Card>
+                <div className="settings-container settings-container-narrow fixed-margin-extra">
+                    <Card>
+                        <CardBody>
+                            <FormBuilder
+                                handleChange={this.handleSettingsChange}
+                                formFieldsRows={this.getTaxFields()}
+                            />
+                        </CardBody>
+                    </Card>
 
-                <BlockButton icon={icons.percent} button_text={translations.configure_rates}
-                    button_link="/#/tax-rates"/>
+                    <BlockButton icon={icons.percent} button_text={translations.configure_rates}
+                        button_link="/#/tax-rates"/>
+                </div>
             </React.Fragment>
         ) : null
     }

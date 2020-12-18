@@ -26,7 +26,7 @@ class CaseTemplateSearch extends BaseSearch
 
     /**
      * BrandSearch constructor.
-     * @param CaseTemplateRepository $brand_repo
+     * @param CaseTemplateRepository $template_repo
      */
     public function __construct(CaseTemplateRepository $template_repo)
     {
@@ -85,7 +85,6 @@ class CaseTemplateSearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

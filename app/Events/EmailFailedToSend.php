@@ -31,6 +31,7 @@ class EmailFailedToSend implements PerformsMetrics
      * Create a new event instance.
      *
      * @param $entity
+     * @param string $errors
      */
     public function __construct($entity, string $errors = '')
     {

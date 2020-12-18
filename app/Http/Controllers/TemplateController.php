@@ -23,7 +23,7 @@ class TemplateController extends Controller
      * Returns a template filled with entity variables
      *
      * @return Response
-     *
+     * @throws \ReflectionException
      */
     public function show()
     {

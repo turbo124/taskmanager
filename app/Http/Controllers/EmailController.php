@@ -40,6 +40,7 @@ class EmailController extends Controller
     /**
      * @param SendEmailRequest $request
      * @return JsonResponse
+     * @throws \ReflectionException
      */
     public function send(SendEmailRequest $request)
     {

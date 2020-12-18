@@ -7,7 +7,7 @@ use App\Models\CustomerGateway;
 class CustomerGatewayTransformable
 {
     /**
-     * @param CustomerGateway $contact
+     * @param CustomerGateway $gateway
      * @return array
      */
     public function transformGateway(CustomerGateway $gateway)

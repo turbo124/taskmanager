@@ -64,8 +64,8 @@ class TaskController extends Controller
 
     /**
      *
-     * @param TaskRepositoryInterface $taskRepository
-     * @param ProjectRepositoryInterface $projectRepository
+     * @param TaskRepositoryInterface $task_repo
+     * @param ProjectRepositoryInterface $project_repo
      */
     public function __construct(TaskRepositoryInterface $task_repo, ProjectRepositoryInterface $project_repo)
     {
@@ -230,7 +230,7 @@ class TaskController extends Controller
 
     /**
      *
-     * @param CreateDealRequest $request
+     * @param CreateOrderRequest $request
      * @return type
      */
     public function createDeal(CreateOrderRequest $request)
@@ -301,10 +301,9 @@ class TaskController extends Controller
     }
 
     /**
-     * @param $id
+     * @param int $id
      *
-     * @return RedirectResponse
-     * @throws Exception
+     * @return void
      */
     public function archive(int $id)
     {
@@ -335,6 +334,9 @@ class TaskController extends Controller
      * @param Request $request
      * @param Task $task
      * @param $action
+     * @return JsonResponse
+     * @throws FileNotFoundException
+     * @throws \ReflectionException
      */
     public function action(Request $request, Task $task, $action)
     {
@@ -363,7 +365,7 @@ class TaskController extends Controller
     /**
      * @param Request $request
      * @return JsonResponse
-     * @throws FileNotFoundException
+     * @throws Exception
      */
     public function bulk(Request $request)
     {

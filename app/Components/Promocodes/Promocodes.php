@@ -74,6 +74,8 @@ class Promocodes
      * @param null $expires_in
      * @param null $quantity
      * @param bool $is_disposable
+     * @param string $description
+     * @param string $amount_type
      * @return \Illuminate\Support\Collection
      */
     public function create(
@@ -225,9 +227,10 @@ class Promocodes
 
     /**
      * Apply promocode to user that it's used from now.
+     * @param Order $order
      * @param Account $account
      * @param $code
-     * @param User $user
+     * @param Customer $customer
      * @return Promocode|bool
      */
     public function apply(Order $order, Account $account, $code, Customer $customer)
@@ -269,6 +272,8 @@ class Promocodes
      * Check promocode in database if it is valid.
      * @param Account $account
      * @param $code
+     * @param Order $order
+     * @param Customer $customer
      * @return bool
      */
     public function check(Account $account, $code, Order $order, Customer $customer)
@@ -312,7 +317,7 @@ class Promocodes
      * Expire code as it won't usable anymore.
      *
      * @param string $code
-     * @return bool
+     * @return void
      * @throws InvalidPromocodeException
      */
     public function disable($code)
@@ -369,6 +374,7 @@ class Promocodes
      *
      * @param Promocode $promocode
      *
+     * @param Customer $customer
      * @return bool
      */
     public function isSecondUsageAttempt(Promocode $promocode, Customer $customer)

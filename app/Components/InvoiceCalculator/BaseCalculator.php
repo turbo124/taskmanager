@@ -36,6 +36,8 @@ class BaseCalculator
 
     /**
      * @param float $tax_total
+     * @return BaseCalculator
+     * @return BaseCalculator
      */
     public function setLineTaxTotal(float $tax_total): self
     {
@@ -53,6 +55,8 @@ class BaseCalculator
 
     /**
      * @param float $line_discount_total
+     * @return BaseCalculator
+     * @return BaseCalculator
      */
     public function setLineDiscountTotal(float $line_discount_total): self
     {
@@ -61,7 +65,7 @@ class BaseCalculator
     }
 
     /**
-     * @param float $target
+     * @param float $total
      * @param float $tax
      * @param bool $rate
      * @return false|float
@@ -82,6 +86,8 @@ class BaseCalculator
     }
 
     /**
+     * @param $total
+     * @param $balance
      * @return false|float
      */
     protected function calculateBalance($total, $balance)
@@ -100,7 +106,7 @@ class BaseCalculator
     }
 
     /**
-     * @param float $target
+     * @param float $total
      * @param float $discount
      * @param bool $rate
      * @return false|float

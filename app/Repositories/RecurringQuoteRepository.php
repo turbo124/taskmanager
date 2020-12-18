@@ -34,7 +34,7 @@ class RecurringQuoteRepository extends BaseRepository
 
     /**
      * @param array $data
-     * @param RecurringQuote $quote
+     * @param RecurringQuote $recurring_quote
      * @return RecurringQuote|null
      */
     public function createQuote(array $data, RecurringQuote $recurring_quote): ?RecurringQuote

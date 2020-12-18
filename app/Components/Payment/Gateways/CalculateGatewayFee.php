@@ -39,7 +39,6 @@ class CalculateGatewayFee
     }
 
     /**
-     * @param float $amount
      * @param bool $add_fee_to_invoice
      * @return bool|float
      */
@@ -86,6 +85,7 @@ class CalculateGatewayFee
     /**
      * @param CompanyGateway $company_gateway
      * @param float $amount
+     * @param bool $add_fee_to_invoice
      * @return float
      */
     private function calculateFee(CompanyGateway $company_gateway, float $amount, bool $add_fee_to_invoice)

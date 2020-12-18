@@ -154,7 +154,9 @@ class PurchaseOrder extends Model
         return $this->morphMany(File::class, 'fileable');
     }
 
-    /********************** Getters and setters ************************************/
+    /********************** Getters and setters ***********************************
+     * @param User $user
+     */
     public function setUser(User $user)
     {
         $this->user_id = (int)$user->id;

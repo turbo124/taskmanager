@@ -38,9 +38,11 @@ class CasesService extends ServiceBase
     }
 
     /**
+     * @param null $contact
      * @param string $subject
      * @param string $body
-     * @return array
+     * @param string $template
+     * @return bool
      */
     public function sendEmail($contact = null, $subject = '', $body = '', $template = 'case')
     {
@@ -51,6 +53,7 @@ class CasesService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
+     * @throws \ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {

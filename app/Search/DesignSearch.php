@@ -19,7 +19,7 @@ class DesignSearch extends BaseSearch
 
     /**
      * GroupSearch constructor.
-     * @param GroupSettingRepository $group_setting_repo
+     * @param DesignRepository $design_repo
      */
     public function __construct(DesignRepository $design_repo)
     {
@@ -76,7 +76,6 @@ class DesignSearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

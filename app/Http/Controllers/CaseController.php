@@ -121,6 +121,7 @@ class CaseController extends Controller
     /**
      * @param int $id
      * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(int $id)
     {
@@ -186,5 +187,7 @@ class CaseController extends Controller
                 return response()->json($response);
                 break;
         }
+
+        return false;
     }
 }

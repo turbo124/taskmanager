@@ -58,6 +58,7 @@ class Stripe extends BasePaymentGateway
     /**
      * @param float $amount
      * @param Invoice|null $invoice
+     * @param bool $confirm_payment
      * @return Payment|bool|null
      */
     private function createCharge(float $amount, Invoice $invoice = null, $confirm_payment = true)

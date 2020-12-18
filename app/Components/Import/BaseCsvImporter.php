@@ -1139,6 +1139,7 @@ abstract class BaseCsvImporter
     /**
      * Run import
      *
+     * @param bool $save_data
      * @return array|bool
      * @throws CsvImporterException
      */
@@ -1148,6 +1149,7 @@ abstract class BaseCsvImporter
     }
 
     /**
+     * @param bool $save_data
      * @return array|bool
      * @throws CsvImporterException
      */
@@ -1532,6 +1534,7 @@ abstract class BaseCsvImporter
     }
 
     /**
+     * @param bool $save_data
      * @return void
      */
     protected function process(bool $save_data = false)
@@ -1680,7 +1683,8 @@ abstract class BaseCsvImporter
      * If a csv line is valid, the method will be executed on it
      *
      * @param $item
-     * @return array
+     * @param bool $save_data
+     * @return void
      */
     protected function handle($item, bool $save_data = false)
     {
@@ -1691,10 +1695,11 @@ abstract class BaseCsvImporter
      * If a csv line will not pass `validation` filters, the method will be executed on the line
      *
      * @param $item
-     * @return array
+     * @return bool
      */
     protected function invalid($item)
     {
+        return false;
     }
 
     /**
@@ -1811,6 +1816,7 @@ abstract class BaseCsvImporter
      */
     public function progressBarDetails()
     {
+        return true;
     }
 
     /*

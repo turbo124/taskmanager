@@ -35,6 +35,7 @@ class CaseTemplateController extends Controller
     }
 
     /**
+     * @param SearchRequest $request
      * @return JsonResponse
      */
     public function index(SearchRequest $request)

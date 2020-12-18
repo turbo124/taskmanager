@@ -12,6 +12,7 @@ trait CsvImporterConfigurationTrait
      *
      * @param string $key the configuration key
      * @return array configuration
+     * @throws Exception
      */
     public function getBaseConfig($key = 'csv-importer')
     {

@@ -221,25 +221,28 @@ class ProductSettings extends Component {
 
                 <Header title={translations.product_settings} handleSubmit={this.handleSubmit}/>
 
-                <Card className="fixed-margin-extra">
-                    <CardBody>
-                        <FormBuilder
-                            handleCheckboxChange={this.handleCheckboxChange}
-                            handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getProductFields()}
-                        />
-                    </CardBody>
-                </Card>
+                <div className="settings-container settings-container-narrow fixed-margin-extra">
+                    <Card>
+                        <CardBody>
+                            <FormBuilder
+                                handleCheckboxChange={this.handleCheckboxChange}
+                                handleChange={this.handleSettingsChange}
+                                formFieldsRows={this.getProductFields()}
+                            />
+                        </CardBody>
+                    </Card>
 
-                <Card>
-                    <CardBody>
-                        <FormBuilder
-                            handleCheckboxChange={this.handleCheckboxChange}
-                            handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getInventoryFields()}
-                        />
-                    </CardBody>
-                </Card>
+                    <Card>
+                        <CardBody>
+                            <FormBuilder
+                                handleCheckboxChange={this.handleCheckboxChange}
+                                handleChange={this.handleSettingsChange}
+                                formFieldsRows={this.getInventoryFields()}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
+
             </React.Fragment>
         ) : null
     }

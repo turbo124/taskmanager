@@ -47,8 +47,8 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
 
     /**
      * @param array $data
-     * @param Quote $quote
-     * @return Quote
+     * @param PurchaseOrder $purchase_order
+     * @return PurchaseOrder|null
      */
     public function createPurchaseOrder(array $data, PurchaseOrder $purchase_order): ?PurchaseOrder
     {
@@ -102,7 +102,7 @@ class PurchaseOrderRepository extends BaseRepository implements PurchaseOrderRep
 
     /**
      * @param array $data
-     * @param Quote $quote
+     * @param PurchaseOrder $purchase_order
      * @return Quote|null
      */
     public function updatePurchaseOrder(array $data, PurchaseOrder $purchase_order): ?PurchaseOrder

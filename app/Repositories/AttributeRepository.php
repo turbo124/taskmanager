@@ -48,6 +48,7 @@ class AttributeRepository extends BaseRepository
 
     /**
      * @return bool|null
+     * @throws \Exception
      */
     public function deleteAttribute(): ?bool
     {

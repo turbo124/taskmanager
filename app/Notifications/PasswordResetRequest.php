@@ -15,7 +15,7 @@ class PasswordResetRequest extends Notification
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $token
      */
     public function __construct($token)
     {

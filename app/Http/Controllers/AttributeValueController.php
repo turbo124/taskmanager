@@ -72,8 +72,8 @@ class AttributeValueController extends Controller
     }
 
     /**
-     * @param $attributeId
-     * @param $attributeValueId
+     * @param $attribute_id
+     * @param $attribute_value_id
      * @return RedirectResponse
      */
     public function destroy($attribute_id, $attribute_value_id)

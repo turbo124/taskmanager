@@ -14,9 +14,10 @@ interface EventRepositoryInterface extends BaseRepositoryInterface
 
     /**
      *
-     * @param type $columns
+     * @param string[] $columns
      * @param string $orderBy
      * @param string $sortBy
+     * @return Collection
      */
     public function listEvents($columns = array('*'), string $orderBy = 'id', string $sortBy = 'asc'): Collection;
 
@@ -28,18 +29,23 @@ interface EventRepositoryInterface extends BaseRepositoryInterface
     /**
      *
      * @param int $id
+     * @return Event
+     * @return Event
      */
     public function findEventById(int $id): Event;
 
     /**
      *
-     * @param \App\Repositories\Interfaces\Task $objTask
+     * @param Task $objTask
+     * @return Collection
      */
     public function getEventsForTask(Task $objTask): Collection;
 
     /**
      *
-     * @param \App\Repositories\Interfaces\User $objUser
+     * @param User $objUser
+     * @param int $account_id
+     * @return Collection
      */
     public function getEventsForUser(User $objUser, int $account_id): Collection;
 }

@@ -48,7 +48,7 @@ trait LeadTransformable
     }
 
     /**
-     * @param $invitations
+     * @param $emails
      * @return array
      */
     private function transformLeadEmails($emails)

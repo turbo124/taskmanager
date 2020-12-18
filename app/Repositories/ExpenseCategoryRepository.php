@@ -31,6 +31,7 @@ class ExpenseCategoryRepository extends BaseRepository
      *
      * @param string $order
      * @param string $sort
+     * @param Account $account
      * @param array $except
      * @return Collection
      */
@@ -62,8 +63,8 @@ class ExpenseCategoryRepository extends BaseRepository
 
     /**
      * @param array $params
-     * @param Account $account
-     * @return Category
+     * @param ExpenseCategory $category
+     * @return ExpenseCategory
      */
     public function save(array $params, ExpenseCategory $category): ExpenseCategory
     {
@@ -80,7 +81,7 @@ class ExpenseCategoryRepository extends BaseRepository
 
     /**
      * @param int $id
-     * @return Category
+     * @return ExpenseCategory
      */
     public function findCategoryById(int $id): ExpenseCategory
     {

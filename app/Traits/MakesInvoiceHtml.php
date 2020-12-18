@@ -13,10 +13,13 @@ use ReflectionException;
 trait MakesInvoiceHtml
 {
     /**
+     * @param $objPdf
      * @param PdfColumns $designer
      * @param $entity
      * @param null $contact
+     * @param string $entity_string
      * @return string
+     * @throws ReflectionException
      */
     public function generateEntityHtml(
         $objPdf,
@@ -27,15 +30,12 @@ trait MakesInvoiceHtml
     ): string {
         switch (get_class($entity)) {
             case 'App\Models\Lead':
+            case 'App\Models\Customer':
                 $lang = $entity->preferredLocale();
                 App::setLocale($lang);
                 break;
             case 'App\Models\PurchaseOrder':
                 $lang = $entity->company->preferredLocale();
-                App::setLocale($lang);
-                break;
-            case 'App\Models\Customer':
-                $lang = $entity->preferredLocale();
                 App::setLocale($lang);
                 break;
             default:
@@ -158,7 +158,6 @@ trait MakesInvoiceHtml
      * @param $entity
      * @param $contact
      * @return string|null
-     * @throws ReflectionException
      */
     private function getClientSignature($entity, $contact = null): ?string
     {

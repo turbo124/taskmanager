@@ -41,7 +41,7 @@ class TaxRateController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param CreateTaxRateRequest $request
      * @return Response
      */
     public function store(CreateTaxRateRequest $request)
@@ -55,7 +55,7 @@ class TaxRateController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateCourierRequest $request
+     * @param UpdateTaxRateRequest $request
      * @param int $id
      * @return Response
      */
@@ -82,6 +82,7 @@ class TaxRateController extends Controller
     /**
      * @param int $id
      * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(int $id)
     {

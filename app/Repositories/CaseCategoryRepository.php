@@ -31,6 +31,7 @@ class CaseCategoryRepository extends BaseRepository
      *
      * @param string $order
      * @param string $sort
+     * @param Account $account
      * @param array $except
      * @return Collection
      */
@@ -62,8 +63,8 @@ class CaseCategoryRepository extends BaseRepository
 
     /**
      * @param array $params
-     * @param Account $account
-     * @return Category
+     * @param CaseCategory $category
+     * @return CaseCategory
      */
     public function save(array $params, CaseCategory $category): CaseCategory
     {
@@ -80,7 +81,7 @@ class CaseCategoryRepository extends BaseRepository
 
     /**
      * @param int $id
-     * @return Category
+     * @return CaseCategory
      */
     public function findCategoryById(int $id): CaseCategory
     {

@@ -40,7 +40,9 @@ class Group extends Model
     }
 
     /**
-     *
+     * @param $value
+     * @param null $field
+     * @return
      */
     public function resolveRouteBinding($value, $field = null)
     {

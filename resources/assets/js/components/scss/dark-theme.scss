@@ -3062,5 +3062,11 @@ $color_iron_approx: #d6d6d6;
   .MuiInput-underline:before {
     border-bottom: 1px solid #CCC;
   }
+
+  .settings-container {
+    .card {
+      border: 1px solid #808080 !important;
+    }
+  }
 }
 

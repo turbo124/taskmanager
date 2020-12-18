@@ -68,6 +68,7 @@ class EntitySentNotification extends Notification implements ShouldQueue
     /**
      * @param $notifiable
      * @return ObjectSent
+     * @throws \ReflectionException
      */
     public function toMail($notifiable)
     {

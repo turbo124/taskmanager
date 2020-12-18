@@ -28,8 +28,8 @@ class CommentController extends Controller
     /**
      * CommentController constructor.
      *
-     * @param CommentRepositoryInterface $commentRepository
-     * TaskRepositoryInterface $taskRepository
+     * @param CommentRepositoryInterface $comment_repo
+     * @param TaskRepositoryInterface $task_repo
      */
     public function __construct(CommentRepositoryInterface $comment_repo, TaskRepositoryInterface $task_repo)
     {

@@ -24,10 +24,11 @@ class Download implements ShouldQueue
     private $email;
 
     /**
-     * @return void
+     * @param $invoices
+     * @param Account $account
+     * @param $email
      * @deprecated confirm to be deleted
      * Create a new job instance.
-     *
      */
     public function __construct($invoices, Account $account, $email)
     {

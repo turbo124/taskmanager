@@ -27,7 +27,6 @@ class HoldStock
      * @return mixed
      */
     /**
-     * @param $quote
      * @return mixed
      */
     public function execute()

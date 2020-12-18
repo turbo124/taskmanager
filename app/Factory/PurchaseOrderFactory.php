@@ -10,10 +10,9 @@ use App\Models\User;
 class PurchaseOrderFactory
 {
     /**
-     * @param int $company_id
-     * @param int $account_id
-     * @param int $user_id
-     * @param $total
+     * @param Account $account
+     * @param User $user
+     * @param Company $company
      * @return PurchaseOrder
      */
     public static function create(

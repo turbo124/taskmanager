@@ -14,7 +14,7 @@ class CasePolicy extends BasePolicy
      * Determine whether the user can view the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Cases $cases
+     * @param Cases $case
      * @return mixed
      */
     public function view(User $user, Cases $case)
@@ -29,7 +29,7 @@ class CasePolicy extends BasePolicy
      * Determine whether the user can update the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param Cases $case
      * @return mixed
      */
     public function update(User $user, Cases $case)
@@ -44,7 +44,7 @@ class CasePolicy extends BasePolicy
      * Determine whether the user can delete the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param Cases $case
      * @return mixed
      */
     public function delete(User $user, Cases $case)

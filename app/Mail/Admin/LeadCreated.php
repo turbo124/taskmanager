@@ -35,7 +35,8 @@ class LeadCreated extends AdminMailer
     /**
      * Build the message.
      *
-     * @return $this
+     * @return void
+     * @throws PresenterException
      */
     public function build()
     {

@@ -35,6 +35,7 @@ class PermissionController extends Controller
     }
 
     /**
+     * @param SearchRequest $request
      * @return Factory|View
      */
     public function index(SearchRequest $request)
@@ -64,7 +65,7 @@ class PermissionController extends Controller
     }
 
     /**
-     * @param CreateRoleRequest $request
+     * @param CreatePermissionRequest $request
      *
      * @return RedirectResponse
      */
@@ -79,7 +80,7 @@ class PermissionController extends Controller
      * @param UpdatePermissionRequest $request
      * @param $id
      *
-     * @return json
+     * @return void
      */
     public function update(UpdatePermissionRequest $request, $id)
     {

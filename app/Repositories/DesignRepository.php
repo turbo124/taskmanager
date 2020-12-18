@@ -15,7 +15,7 @@ class DesignRepository extends BaseRepository
 
     /**
      * CustomerRepository constructor.
-     * @param Customer $customer
+     * @param Design $design
      */
     public function __construct(Design $design)
     {

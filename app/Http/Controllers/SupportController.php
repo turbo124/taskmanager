@@ -11,7 +11,8 @@ class SupportController extends Controller
 
     /**
      * Send a support message.
-     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function __invoke(Request $request)
     {

@@ -20,7 +20,7 @@ class CaseWasArchived
     /**
      * Create a new event instance.
      *
-     * @param case $case
+     * @param Cases $case $case
      */
     public function __construct(Cases $case)
     {

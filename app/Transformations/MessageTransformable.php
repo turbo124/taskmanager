@@ -11,9 +11,10 @@ trait MessageTransformable
 
     /**
      *
-     * @param \App\Transformations\Message $message
+     * @param Message $message
      * @param User $currentUser
-     * @return \App\Transformations\Message
+     * @param Customer $customer
+     * @return Message
      */
     protected function transformMessage(Message $message, User $currentUser, Customer $customer)
     {

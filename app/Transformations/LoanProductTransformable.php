@@ -16,6 +16,8 @@ trait LoanProductTransformable
      * Transform the product
      *
      * @param Product $product
+     * @param Category $parentCategory
+     * @param Request $request
      * @return Product
      */
     protected function transformLoanProduct(Product $product, Category $parentCategory, Request $request)

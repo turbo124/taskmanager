@@ -163,7 +163,7 @@ class PdfColumns
             '$credit.number'        => '<span>$credit.number_label: $credit.number</span>',
             '$credit.po_number'     => '<span>$credit.po_number_label: $credit.po_number</span>',
             '$credit.credit_date'   => '<span>$credit.date_label: $credit.date</span>',
-            '$credit.credit_date'   => '<span>$credit.due_date_label: $credit.due_date</span>',
+            '$credit.due_date'      => '<span>$credit.due_date_label: $credit.due_date</span>',
             '$credit.balance'       => '<span>$credit.balance_due_label: $credit.balance_due</span>',
             '$credit.credit_amount' => '<span>$credit.total_label: $credit.total</span>',
             '$credit.partial_due'   => '<span>$credit.partial_due_label: $quote.partial_due</span>',

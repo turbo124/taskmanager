@@ -35,7 +35,7 @@ class LeadService extends ServiceBase
     }
 
     /**
-     * @return $this
+     * @return Lead
      */
     public function convertLead(): Lead
     {
@@ -50,9 +50,11 @@ class LeadService extends ServiceBase
     }
 
     /**
+     * @param null $contact
      * @param string $subject
      * @param string $body
-     * @return array
+     * @param string $template
+     * @return void
      */
     public function sendEmail($contact = null, $subject = '', $body = '', $template = 'lead')
     {
@@ -63,6 +65,7 @@ class LeadService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
+     * @throws \ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {

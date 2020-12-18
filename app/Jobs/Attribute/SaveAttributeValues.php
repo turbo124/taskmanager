@@ -32,6 +32,7 @@ class SaveAttributeValues implements ShouldQueue
     /**
      * SaveAttributeValues constructor.
      * @param Attribute $attribute
+     * @param $attribute_values
      */
     public function __construct(Attribute $attribute, $attribute_values)
     {
@@ -40,7 +41,6 @@ class SaveAttributeValues implements ShouldQueue
     }
 
     /**
-     * @param array $values
      * @return bool
      */
     public function handle(): bool

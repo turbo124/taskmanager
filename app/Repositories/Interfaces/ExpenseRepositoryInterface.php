@@ -10,9 +10,8 @@ interface ExpenseRepositoryInterface
 {
     /**
      *
-     * @param string $order
-     * @param string $sort
-     * @param array $columns
+     * @param SearchRequest $search_request
+     * @param Account $account
      */
     public function getAll(SearchRequest $search_request, Account $account);
 

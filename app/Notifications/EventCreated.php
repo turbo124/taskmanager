@@ -17,7 +17,7 @@ class EventCreated extends Notification
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param Event $event
      */
     public function __construct(Event $event)
     {

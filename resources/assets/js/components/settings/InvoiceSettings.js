@@ -494,130 +494,131 @@ class InvoiceSettings extends Component {
                 <Header title={translations.invoice_settings} handleSubmit={this.handleSubmit}
                     tabs={tabs}/>
 
-                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
-                    <TabPane tabId="1">
-                        <BlockButton icon={icons.link} button_text={translations.customize_and_preview}
-                            button_link="/#/designs"/>
+                <div className="settings-container settings-container-narrow fixed-margin-mobile">
+                    <TabContent activeTab={this.state.activeTab}>
+                        <TabPane tabId="1">
+                            <BlockButton icon={icons.link} button_text={translations.customize_and_preview}
+                                button_link="/#/designs"/>
 
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getSettingFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getSettingFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    <TabPane tabId="2">
-                        <Card>
-                            <CardBody/>
-                        </Card>
-                    </TabPane>
+                        <TabPane tabId="2">
+                            <Card>
+                                <CardBody/>
+                            </Card>
+                        </TabPane>
 
-                    <TabPane tabId="3">
-                        <Card>
-                            <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="client_details" columns={customer_pdf_fields}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                        <TabPane tabId="3">
+                            <Card>
+                                <CardBody>
+                                    <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                        section="client_details" columns={customer_pdf_fields}
+                                        ignored_columns={this.state.settings.pdf_variables}/>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    <TabPane tabId="4">
-                        <Card>
-                            <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="company_details" columns={account_pdf_fields}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                        <TabPane tabId="4">
+                            <Card>
+                                <CardBody>
+                                    <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                        section="company_details" columns={account_pdf_fields}
+                                        ignored_columns={this.state.settings.pdf_variables}/>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    {modules && modules.invoices &&
-                    <TabPane tabId="5">
-                        <Card>
-                            <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="invoice" columns={this.getInvoiceFields()}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.invoices &&
+                        <TabPane tabId="5">
+                            <Card>
+                                <CardBody>
+                                    <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                        section="invoice" columns={this.getInvoiceFields()}
+                                        ignored_columns={this.state.settings.pdf_variables}/>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    {modules && modules.quotes &&
-                    <TabPane tabId="6">
-                        <Card>
-                            <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="quote" columns={this.getQuoteFields()}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.quotes &&
+                        <TabPane tabId="6">
+                            <Card>
+                                <CardBody>
+                                    <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                        section="quote" columns={this.getQuoteFields()}
+                                        ignored_columns={this.state.settings.pdf_variables}/>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    {modules && modules.orders &&
-                    <TabPane tabId="7">
-                        <Card>
-                            <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="order" columns={this.getOrderFields()}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.orders &&
+                        <TabPane tabId="7">
+                            <Card>
+                                <CardBody>
+                                    <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                        section="order" columns={this.getOrderFields()}
+                                        ignored_columns={this.state.settings.pdf_variables}/>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    {modules && modules.purchase_orders &&
-                    <TabPane tabId="8">
-                        <Card>
-                            <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="purchase_order" columns={this.getPurchaseOrderFields()}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.purchase_orders &&
+                        <TabPane tabId="8">
+                            <Card>
+                                <CardBody>
+                                    <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                        section="purchase_order" columns={this.getPurchaseOrderFields()}
+                                        ignored_columns={this.state.settings.pdf_variables}/>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    {modules && modules.credits &&
-                    <TabPane tabId="9">
-                        <Card>
-                            <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="credit" columns={this.getCreditFields()}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.credits &&
+                        <TabPane tabId="9">
+                            <Card>
+                                <CardBody>
+                                    <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                        section="credit" columns={this.getCreditFields()}
+                                        ignored_columns={this.state.settings.pdf_variables}/>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    <TabPane tabId="10">
-                        <Card>
-                            <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="product_columns" columns={this.getProductFields()}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                        <TabPane tabId="10">
+                            <Card>
+                                <CardBody>
+                                    <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                        section="product_columns" columns={this.getProductFields()}
+                                        ignored_columns={this.state.settings.pdf_variables}/>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    {modules && modules.tasks &&
-                    <TabPane tabId="11">
-                        <Card>
-                            <CardBody>
-                                <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
-                                    section="task_columns" columns={this.getTaskFields()}
-                                    ignored_columns={this.state.settings.pdf_variables}/>
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
-                </TabContent>
-
+                        {modules && modules.tasks &&
+                        <TabPane tabId="11">
+                            <Card>
+                                <CardBody>
+                                    <PdfFields onChange2={this.handleColumnChange} settings={this.state.settings}
+                                        section="task_columns" columns={this.getTaskFields()}
+                                        ignored_columns={this.state.settings.pdf_variables}/>
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
+                    </TabContent>
+                </div>
             </React.Fragment>
         ) : null
     }

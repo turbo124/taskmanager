@@ -14,7 +14,7 @@ class CompanyGatewayPolicy
      * Determine whether the user can view the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\User $model
+     * @param CompanyGateway $companyGateway
      * @return mixed
      */
     public function view(User $user, CompanyGateway $companyGateway)
@@ -27,7 +27,7 @@ class CompanyGatewayPolicy
      * Determine whether the user can update the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param CompanyGateway $companyGateway
      * @return mixed
      */
     public function update(User $user, CompanyGateway $companyGateway)
@@ -40,7 +40,7 @@ class CompanyGatewayPolicy
      * Determine whether the user can delete the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param CompanyGateway $companyGateway
      * @return mixed
      */
     public function delete(User $user, CompanyGateway $companyGateway)

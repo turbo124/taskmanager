@@ -11,6 +11,8 @@ interface EventTypeRepositoryInterface
     /**
      *
      * @param int $id
+     * @return EventType
+     * @return EventType
      */
     public function findEventTypeById(int $id): EventType;
 }

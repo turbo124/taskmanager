@@ -48,6 +48,8 @@ class CompanyGatewayRepository extends BaseRepository
     /**
      * @param CompanyGateway $company_gateway
      * @param array $data
+     * @return CompanyGateway|null
+     * @return CompanyGateway|null
      */
     public function save(CompanyGateway $company_gateway, array $data): ?CompanyGateway
     {

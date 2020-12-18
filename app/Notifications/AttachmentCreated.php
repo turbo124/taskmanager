@@ -16,7 +16,7 @@ class AttachmentCreated extends Notification
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param File $file
      */
     public function __construct(File $file)
     {

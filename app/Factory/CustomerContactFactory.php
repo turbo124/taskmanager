@@ -13,6 +13,7 @@ class CustomerContactFactory
     /**
      * @param Account $account
      * @param User $user
+     * @param Customer $customer
      * @return CustomerContact
      */
     public static function create(Account $account, User $user, Customer $customer): CustomerContact

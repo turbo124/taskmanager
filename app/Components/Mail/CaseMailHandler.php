@@ -100,5 +100,7 @@ class CaseMailHandler
 
             $case->files()->save($file);
         }
+
+        return true;
     }
 }

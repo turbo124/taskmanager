@@ -9,6 +9,8 @@ trait Balancer
 
     /**
      * @param $amount
+     * @return Balancer
+     * @return Balancer
      */
     public function reduceBalance($amount)
     {
@@ -47,6 +49,8 @@ trait Balancer
 
     /**
      * @param float $balance
+     * @return float
+     * @return float
      */
     public function setBalance(float $balance)
     {

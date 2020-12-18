@@ -12,6 +12,8 @@ interface SourceTypeRepositoryInterface
     /**
      *
      * @param int $id
+     * @return SourceType
+     * @return SourceType
      */
     public function findSourceById(int $id): SourceType;
 }

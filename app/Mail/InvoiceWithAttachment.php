@@ -19,7 +19,9 @@ class InvoiceWithAttachment extends Mailable
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param $content
+     * @param $attachment
+     * @param $entity
      */
     public function __construct($content, $attachment, $entity)
     {

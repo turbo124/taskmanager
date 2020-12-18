@@ -21,7 +21,7 @@ class Domain extends Model
     ];
 
     /**
-     * @return HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function default_company()
     {

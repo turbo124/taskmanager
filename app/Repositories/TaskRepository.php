@@ -26,6 +26,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
      * TaskRepository constructor.
      *
      * @param Task $task
+     * @param ProjectRepository $project_repo
      */
     public function __construct(Task $task, ProjectRepository $project_repo)
     {
@@ -70,7 +71,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
      *
      * @param Project $objProject
      * @param User $objUser
-     * @return type
+     * @return Support
      */
     public function getTasksForProject(Project $objProject, User $objUser = null): Support
     {
@@ -108,7 +109,9 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 
     /**
      *
-     * @return type
+     * @param int $task_type
+     * @param $account_id
+     * @return Support
      */
     public function getSourceTypeCounts(int $task_type, $account_id): Support
     {
@@ -121,7 +124,8 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 
     /**
      *
-     * @return type
+     * @param int $account_id
+     * @return Support
      */
     public function getStatusCounts(int $account_id): Support
     {
@@ -136,8 +140,8 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 
     /**
      *
-     * @param int $task_type
      * @param int $number_of_days
+     * @param int $account_id
      * @return type
      */
     public function getRecentTasks(int $number_of_days, int $account_id)
@@ -189,7 +193,9 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
     /**
      * Sync the users
      *
+     * @param Task $task
      * @param array $params
+     * @return array
      */
     public function syncUsers(Task $task, array $params)
     {

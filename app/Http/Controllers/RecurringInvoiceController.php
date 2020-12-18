@@ -100,7 +100,7 @@ class RecurringInvoiceController extends BaseController
 
     /**
      * @param Request $request
-     * @param RecurringInvoice $invoice
+     * @param RecurringInvoice $recurring_invoice
      * @param $action
      * @return array|bool|JsonResponse|string
      * @throws FileNotFoundException

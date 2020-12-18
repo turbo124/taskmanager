@@ -107,6 +107,7 @@ class UserController extends Controller
      *
      * @param int $id
      * @return Response
+     * @throws \Exception
      */
     public function archive(int $id)
     {
@@ -123,6 +124,7 @@ class UserController extends Controller
     /**
      * @param int $id
      * @return JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(int $id)
     {
@@ -182,7 +184,7 @@ class UserController extends Controller
     }
 
     /**
-     * @return JsonResponse
+     * @return void
      */
     public function bulk()
     {

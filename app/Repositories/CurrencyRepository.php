@@ -11,7 +11,7 @@ class CurrencyRepository extends BaseRepository implements CurrencyRepositoryInt
 {
     /**
      * CountryRepository constructor.
-     * @param Country $country
+     * @param Currency $currency
      */
     public function __construct(Currency $currency)
     {

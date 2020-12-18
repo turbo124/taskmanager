@@ -77,15 +77,14 @@ class CaseCategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
     public function destroy(int $id)
     {
         $category = $this->category_repo->findCategoryById($id);
         $category->deleteEntity();
+        return response()->json($category);
     }
 
     public function getRootCategories()

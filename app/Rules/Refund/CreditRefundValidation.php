@@ -21,7 +21,7 @@ class CreditRefundValidation implements Rule
     /**
      * Create a new rule instance.
      *
-     * @return void
+     * @param $request
      */
     public function __construct($request)
     {
@@ -139,7 +139,7 @@ class CreditRefundValidation implements Rule
     /**
      * Get the validation error message.
      *
-     * @return string
+     * @return array
      */
     public function message()
     {

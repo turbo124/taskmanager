@@ -94,6 +94,8 @@ class ReverseInvoicePayment
 
     /**
      * @param float $total_paid
+     * @return \App\Models\Credit|null
+     * @throws \ReflectionException
      */
     private function createCreditNote(float $total_paid)
     {

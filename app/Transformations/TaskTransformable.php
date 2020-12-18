@@ -71,7 +71,7 @@ trait TaskTransformable
     }
 
     /**
-     * @param $invitations
+     * @param $timers
      * @return array
      */
     private function transformTimers($timers)

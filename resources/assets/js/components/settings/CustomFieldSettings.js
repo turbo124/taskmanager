@@ -598,9 +598,11 @@ class CustomFieldSettings extends Component {
                         {tabItems}
                     </Nav>}/>
 
-                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
-                    {tabContent}
-                </TabContent>
+                <div className="settings-container settings-container-narrow fixed-margin-mobile">
+                    <TabContent activeTab={this.state.activeTab}>
+                        {tabContent}
+                    </TabContent>
+                </div>
             </React.Fragment>
         )
     }

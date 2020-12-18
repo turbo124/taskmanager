@@ -37,6 +37,7 @@ class CompanyController extends Controller
     /**
      * CompanyController constructor.
      * @param CompanyRepositoryInterface $company_repo
+     * @param CompanyContactRepository $company_contact_repo
      */
     public function __construct(
         CompanyRepositoryInterface $company_repo,
@@ -137,10 +138,9 @@ class CompanyController extends Controller
     }
 
     /**
-     * @param $id
+     * @param int $id
      *
-     * @return RedirectResponse
-     * @throws Exception
+     * @return void
      */
     public function archive(int $id)
     {

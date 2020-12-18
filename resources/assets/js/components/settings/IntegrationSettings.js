@@ -114,14 +114,16 @@ class IntegrationSettings extends Component {
 
                 <Header title={translations.integration_settings} handleSubmit={this.handleSubmit}/>
 
-                <Card className="fixed-margin-extra">
-                    <CardBody>
-                        <FormBuilder
-                            handleChange={this.handleSettingsChange}
-                            formFieldsRows={this.getFields()}
-                        />
-                    </CardBody>
-                </Card>
+                <div className="settings-container settings-container-narrow fixed-margin-extra">
+                    <Card className="fixed-margin-extra">
+                        <CardBody>
+                            <FormBuilder
+                                handleChange={this.handleSettingsChange}
+                                formFieldsRows={this.getFields()}
+                            />
+                        </CardBody>
+                    </Card>
+                </div>
             </React.Fragment>
         ) : null
     }

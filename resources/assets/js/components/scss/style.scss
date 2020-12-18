@@ -45,3 +45,20 @@
   width: auto !important;
   display: inline-block !important;
 }
+
+.settings-container {
+  margin-left: 10px;
+  margin-right: 10px;
+
+  .tab-pane {
+    padding: 0px !important;
+  }
+}
+
+.settings-container-narrow {
+  margin-right: 5px !important;
+}
+
+.settings-pane {
+
+}

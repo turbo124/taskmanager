@@ -101,7 +101,6 @@ class CompanySearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()

@@ -14,7 +14,7 @@ class PaymentTermPolicy
      * Determine whether the user can view the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\User $payment_terms
+     * @param PaymentTerms $payment_terms
      * @return mixed
      */
     public function view(User $user, PaymentTerms $payment_terms)
@@ -27,7 +27,7 @@ class PaymentTermPolicy
      * Determine whether the user can delete the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param PaymentTerms $payment_terms
      * @return mixed
      */
     public function delete(User $user, PaymentTerms $payment_terms)
@@ -40,7 +40,7 @@ class PaymentTermPolicy
      * Determine whether the user can update the model.
      *
      * @param \App\Models\User $user
-     * @param \App\Models\Invoice $invoice
+     * @param PaymentTerms $payment_terms
      * @return mixed
      */
     public function update(User $user, PaymentTerms $payment_terms)

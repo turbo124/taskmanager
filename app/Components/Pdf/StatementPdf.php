@@ -29,7 +29,7 @@ class StatementPdf extends PdfBuilder
 
     public function build($contact = null)
     {
-        $contact === null ? $this->entity->contacts->first() : $contact;
+        $contact = $contact === null ? $this->entity->contacts->first() : $contact;
         $customer = $this->entity;
 
         $this->setDefaults($customer)

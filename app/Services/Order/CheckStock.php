@@ -34,7 +34,6 @@ class CheckStock
     }
 
     /**
-     * @param $quote
      * @return mixed
      */
     public function execute()

@@ -118,7 +118,6 @@ class TaskSearch extends BaseSearch
     }
 
     /**
-     * @param $list
      * @return mixed
      */
     private function transformList()
@@ -135,6 +134,7 @@ class TaskSearch extends BaseSearch
 
     /**
      * @param $filters
+     * @param int $task_type
      * @param int $account_id
      * @return mixed
      */

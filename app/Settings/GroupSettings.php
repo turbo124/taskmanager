@@ -43,6 +43,7 @@ class GroupSettings extends BaseSettings
 
     /**
      * @param $client_settings
+     * @param $account_settings
      * @return object
      */
     public function buildCustomerSettings($client_settings, $account_settings)

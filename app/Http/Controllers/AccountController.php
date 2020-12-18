@@ -30,6 +30,7 @@ class AccountController extends BaseController
 
     /**
      * AccountController constructor.
+     * @param AccountRepository $account_repo
      */
     public function __construct(AccountRepository $account_repo)
     {
@@ -107,9 +108,9 @@ class AccountController extends BaseController
 
     /**
      * Remove the specified resource from storage.
+     * @param Request $request
      * @param int $id
      * @return mixed
-     * @throws Exception
      */
 
     public function destroy(Request $request, int $id)

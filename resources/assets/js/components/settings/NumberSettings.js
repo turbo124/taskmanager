@@ -963,197 +963,199 @@ class NumberSettings extends Component {
                 <Header title={translations.number_settings} handleSubmit={this.handleSubmit}
                     tabs={tabs}/>
 
-                <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
-                    <TabPane tabId="1">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getSettingFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
+                <div className="settings-container settings-container-narrow fixed-margin-mobile">
+                    <TabContent className="fixed-margin-mobile bg-transparent" activeTab={this.state.activeTab}>
+                        <TabPane tabId="1">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getSettingFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
 
-                    {modules && modules.invoices &&
-                    <TabPane tabId="2">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getInvoiceFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.invoices &&
+                        <TabPane tabId="2">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getInvoiceFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    {modules && modules.quotes &&
-                    <TabPane tabId="3">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getQuoteFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.quotes &&
+                        <TabPane tabId="3">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getQuoteFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    {modules && modules.payments &&
-                    <TabPane tabId="4">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPaymentFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.payments &&
+                        <TabPane tabId="4">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getPaymentFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    {modules && modules.credits &&
-                    <TabPane tabId="5">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getCreditFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.credits &&
+                        <TabPane tabId="5">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getCreditFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    {modules && modules.orders &&
-                    <TabPane tabId="6">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getOrderFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.orders &&
+                        <TabPane tabId="6">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getOrderFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    {modules && modules.purchase_orders &&
-                    <TabPane tabId="7">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getPurchaseOrderFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.purchase_orders &&
+                        <TabPane tabId="7">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getPurchaseOrderFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    {modules && modules.deals &&
-                    <TabPane tabId="8">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getDealFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.deals &&
+                        <TabPane tabId="8">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getDealFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    {modules && modules.cases &&
-                    <TabPane tabId="9">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getCaseFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.cases &&
+                        <TabPane tabId="9">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getCaseFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    {modules && modules.tasks &&
-                    <TabPane tabId="10">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getTaskFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.tasks &&
+                        <TabPane tabId="10">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getTaskFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    {modules && modules.recurringInvoices &&
-                    <TabPane tabId="11">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getRecurringInvoiceFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
+                        {modules && modules.recurringInvoices &&
+                        <TabPane tabId="11">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getRecurringInvoiceFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
 
-                    {modules && modules.recurringQuotes &&
-                    <TabPane tabId="12">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getRecurringQuoteFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
-                    {modules && modules.expenses &&
-                    <TabPane tabId="13">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getExpenseFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
-                    {modules && modules.projects &&
-                    <TabPane tabId="14">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getProjectFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
-                    {modules && modules.companies &&
-                    <TabPane tabId="15">
-                        <Card>
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getCompanyFields()}
-                                />
-                            </CardBody>
-                        </Card>
-                    </TabPane>
-                    }
-                </TabContent>
+                        {modules && modules.recurringQuotes &&
+                        <TabPane tabId="12">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getRecurringQuoteFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
+                        {modules && modules.expenses &&
+                        <TabPane tabId="13">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getExpenseFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
+                        {modules && modules.projects &&
+                        <TabPane tabId="14">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getProjectFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
+                        {modules && modules.companies &&
+                        <TabPane tabId="15">
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getCompanyFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+                        }
+                    </TabContent>
+                </div>
             </React.Fragment>
         ) : null
     }

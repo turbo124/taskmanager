@@ -42,8 +42,9 @@ class ActivityController extends Controller
     /**
      * ActivityController constructor.
      *
-     * @param CommentRepositoryInterface $commentRepository
-     * NotificationRepositoryInterface $notificationRepository
+     * @param CommentRepositoryInterface $comment_repo
+     * @param NotificationRepositoryInterface $notification_repo
+     * @param EventRepositoryInterface $event_repo
      */
     public function __construct(
         CommentRepositoryInterface $comment_repo,

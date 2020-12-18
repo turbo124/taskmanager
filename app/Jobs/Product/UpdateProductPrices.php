@@ -20,7 +20,7 @@ class UpdateProductPrices implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $line_items
      */
     public function __construct($line_items)
     {
@@ -31,7 +31,7 @@ class UpdateProductPrices implements ShouldQueue
      * Execute the job.
      *
      *
-     * @return void
+     * @return bool
      */
     public function handle()
     {

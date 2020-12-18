@@ -13,6 +13,8 @@ interface CompanyRepositoryInterface extends BaseRepositoryInterface
     /**
      *
      * @param int $id
+     * @return Company
+     * @return Company
      */
     public function findCompanyById(int $id): Company;
 

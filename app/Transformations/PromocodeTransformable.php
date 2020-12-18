@@ -9,7 +9,7 @@ trait PromocodeTransformable
 {
 
     /**
-     * @param QuoteInvitation $invitation
+     * @param Promocode $promocode
      * @return array
      */
     public function transformPromocodes(Promocode $promocode)

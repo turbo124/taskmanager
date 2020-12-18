@@ -36,6 +36,7 @@ class AutobillInvoice extends Command
      * Execute the console command.
      *
      * @return mixed
+     * @throws \ReflectionException
      */
     public function handle()
     {

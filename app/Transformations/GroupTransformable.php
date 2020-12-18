@@ -8,7 +8,7 @@ use stdClass;
 trait GroupTransformable
 {
     /**
-     * @param Group $group_setting
+     * @param Group $group
      * @return array
      */
     protected function transformGroup(Group $group)

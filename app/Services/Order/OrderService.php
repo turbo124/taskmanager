@@ -41,6 +41,7 @@ class OrderService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
+     * @throws \ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {
@@ -55,7 +56,8 @@ class OrderService extends ServiceBase
      * @param null $contact
      * @param string $subject
      * @param string $body
-     * @return array
+     * @param string $template
+     * @return Order|null
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'order'): ?Order
     {
@@ -70,7 +72,9 @@ class OrderService extends ServiceBase
     /**
      * @param InvoiceRepository $invoice_repo
      * @param OrderRepository $order_repo
-     * @return OrderService
+     * @param bool $force_invoice
+     * @return Order
+     * @throws \ReflectionException
      */
     public function dispatch(
         InvoiceRepository $invoice_repo,

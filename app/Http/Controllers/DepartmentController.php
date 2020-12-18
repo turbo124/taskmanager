@@ -29,7 +29,7 @@ class DepartmentController extends Controller
     /**
      * DepartmentController constructor.
      *
-     * @param DepartmentRepositoryInterface $departmentRepository
+     * @param DepartmentRepositoryInterface $department_repo
      */
     public function __construct(DepartmentRepositoryInterface $department_repo)
     {
@@ -37,6 +37,7 @@ class DepartmentController extends Controller
     }
 
     /**
+     * @param SearchRequest $request
      * @return Factory|View
      */
     public function index(SearchRequest $request)
@@ -75,6 +76,7 @@ class DepartmentController extends Controller
      * @param CreateDepartmentRequest $request
      *
      * @return RedirectResponse
+     * @throws Exception
      */
     public function store(CreateDepartmentRequest $request)
     {

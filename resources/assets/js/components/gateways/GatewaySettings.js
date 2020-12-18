@@ -304,7 +304,7 @@ export default class GatewaySettings extends Component {
     render () {
         const { error } = this.state.filters
         const { error_message, success_message, show_success } = this.state
-        const margin_class = 'fixed-margin-extra border-0 card'
+        const margin_class = 'fixed-margin-extra card'
 
         return (
             <Row>
@@ -340,22 +340,22 @@ export default class GatewaySettings extends Component {
                     </Snackbar>
                     }
 
-                    <div className={margin_class}>
+                    <div className="settings-container settings-container-narrow fixed-margin-extra">
                         {!!this.state.loaded &&
-                        <Card className="border-0">
-                            <CardBody>
-                                <FormBuilder
-                                    handleChange={this.handleSettingsChange}
-                                    formFieldsRows={this.getBillingFields()}
-                                />
-                            </CardBody>
-                        </Card>
+                            <Card>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getBillingFields()}
+                                    />
+                                </CardBody>
+                            </Card>
                         }
-                    </div>
 
-                    <BlockButton icon={getSettingsIcon('gateway-settings')}
-                        button_text={translations.configure_gateways}
-                        button_link="/#/gateways"/>
+                        <BlockButton icon={getSettingsIcon('gateway-settings')}
+                            button_text={translations.configure_gateways}
+                            button_link="/#/gateways"/>
+                    </div>
                 </div>
             </Row>
         )

@@ -145,6 +145,8 @@ class CustomerImporter extends BaseCsvImporter
     /**
      * @param Customer $customer
      * @param array $data
+     * @return Customer|null
+     * @return Customer|null
      */
     public function saveCallback(Customer $customer, array $data)
     {

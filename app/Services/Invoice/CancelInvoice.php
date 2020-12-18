@@ -30,6 +30,7 @@ class CancelInvoice
     /**
      * CancelInvoice constructor.
      * @param Invoice $invoice
+     * @param bool $is_delete
      */
     public function __construct(Invoice $invoice, bool $is_delete = false)
     {

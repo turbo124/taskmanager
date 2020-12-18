@@ -10,7 +10,7 @@ trait AccountTransformable
 
     /**
      * @param Account $account
-     * @return Address
+     * @return Account
      */
     public function transformAccount(Account $account)
     {

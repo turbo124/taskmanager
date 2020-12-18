@@ -47,6 +47,9 @@ trait CalculateRecurring
             case 'YEARLY':
                 return Carbon::today()->addYear();
                 break;
+            default:
+                return Carbon::today();
+                break;
         }
     }
 

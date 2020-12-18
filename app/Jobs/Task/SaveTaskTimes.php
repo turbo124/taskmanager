@@ -20,7 +20,9 @@ class SaveTaskTimes
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param Request $request
+     * @param Account $account
+     * @param Quote $quote
      */
     public function __construct(Request $request, Account $account, Quote $quote)
     {

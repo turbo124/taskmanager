@@ -42,6 +42,7 @@ class QuoteController extends BaseController
      * QuoteController constructor.
      * @param InvoiceRepositoryInterface $invoice_repo
      * @param QuoteRepositoryInterface $quote_repo
+     * @param CreditRepository $credit_repo
      */
     public function __construct(
         InvoiceRepositoryInterface $invoice_repo,
@@ -89,8 +90,8 @@ class QuoteController extends BaseController
     }
 
     /**
-     * @param $id
-     * @param Request $request
+     * @param UpdateQuoteRequest $request
+     * @param int $id
      * @return mixed
      */
     public function update(UpdateQuoteRequest $request, int $id)
@@ -108,6 +109,7 @@ class QuoteController extends BaseController
      * @param $action
      * @return JsonResponse
      * @throws FileNotFoundException
+     * @throws \ReflectionException
      */
     public function action(Request $request, Quote $quote, $action)
     {
@@ -150,6 +152,7 @@ class QuoteController extends BaseController
     /**
      * @param int $id
      * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(int $id)
     {

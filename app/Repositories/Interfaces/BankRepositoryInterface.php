@@ -16,7 +16,7 @@ interface BankRepositoryInterface extends BaseRepositoryInterface
 
     /**
      * @param int $id
-     * @return BankAccount
+     * @return Bank
      */
     public function findBankById(int $id): Bank;
 }

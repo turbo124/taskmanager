@@ -41,8 +41,7 @@ class LeadEmail
 
     /**
      * Builds the correct template to send
-     * @param string $reminder_template The template name ie reminder1
-     * @return array
+     * @return void
      */
     public function execute()
     {

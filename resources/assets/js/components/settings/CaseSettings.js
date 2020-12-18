@@ -180,7 +180,7 @@ export default class CaseSettings extends Component {
 
                 <Header title={translations.case_settings} handleSubmit={this.handleSubmit}/>
 
-                <div className="fixed-margin-mobile bg-transparent">
+                <div className="settings-container settings-container-narrow fixed-margin-extra">
                     <Card>
                         <CardBody>
                             <FormBuilder
@@ -189,43 +189,44 @@ export default class CaseSettings extends Component {
                             />
                         </CardBody>
                     </Card>
+
+                    <Card>
+                        <CardHeader>{translations.templates}</CardHeader>
+                        <CardBody>
+                            <FormGroup>
+                                <Label>{translations.new}</Label>
+                                <CaseTemplateDropdown
+                                    template={this.state.settings.case_template_new}
+                                    name="case_template_new"
+                                    handleInputChanges={this.handleSettingsChange}
+                                />
+                            </FormGroup>
+
+                            <FormGroup>
+                                <Label>{translations.open}</Label>
+                                <CaseTemplateDropdown
+                                    template={this.state.settings.case_template_open}
+                                    name="case_template_open"
+                                    handleInputChanges={this.handleSettingsChange}
+                                />
+                            </FormGroup>
+
+                            <FormGroup>
+                                <Label>{translations.closed}</Label>
+                                <CaseTemplateDropdown
+                                    template={this.state.settings.case_template_closed}
+                                    name="case_template_closed"
+                                    handleInputChanges={this.handleSettingsChange}
+                                />
+                            </FormGroup>
+
+                        </CardBody>
+                    </Card>
+
+                    <BlockButton icon={icons.percent} button_text={translations.configure_categories}
+                        button_link="/#/case_categories"/>
                 </div>
 
-                <Card>
-                    <CardHeader>{translations.templates}</CardHeader>
-                    <CardBody>
-                        <FormGroup>
-                            <Label>{translations.new}</Label>
-                            <CaseTemplateDropdown
-                                template={this.state.settings.case_template_new}
-                                name="case_template_new"
-                                handleInputChanges={this.handleSettingsChange}
-                            />
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label>{translations.open}</Label>
-                            <CaseTemplateDropdown
-                                template={this.state.settings.case_template_open}
-                                name="case_template_open"
-                                handleInputChanges={this.handleSettingsChange}
-                            />
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Label>{translations.closed}</Label>
-                            <CaseTemplateDropdown
-                                template={this.state.settings.case_template_closed}
-                                name="case_template_closed"
-                                handleInputChanges={this.handleSettingsChange}
-                            />
-                        </FormGroup>
-
-                    </CardBody>
-                </Card>
-
-                <BlockButton icon={icons.percent} button_text={translations.configure_categories}
-                    button_link="/#/case_categories"/>
             </React.Fragment>
         ) : null
     }

@@ -92,8 +92,8 @@ trait ExportMapper
     }
 
     /**
-     * @param $value
-     * @return int|null
+     * @param int $id
+     * @return string|null
      */
     private function getProduct(int $id): ?string
     {
@@ -110,8 +110,8 @@ trait ExportMapper
     }
 
     /**
-     * @param $value
-     * @return int|null
+     * @param int $id
+     * @return string|null
      */
     private function getCustomer(int $id): ?string
     {
@@ -184,8 +184,8 @@ trait ExportMapper
     }
 
     /**
-     * @param string $value
-     * @return int
+     * @param int $id
+     * @return string|null
      */
     private function getBrandById(int $id): ?string
     {

@@ -71,6 +71,7 @@ class ClientContactRequestCancellation extends Notification implements ShouldQue
      *
      * @param mixed $notifiable
      * @return MailMessage
+     * @throws \Laracasts\Presenter\Exceptions\PresenterException
      */
     public function toMail($notifiable)
     {

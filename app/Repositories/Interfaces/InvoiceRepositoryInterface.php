@@ -12,9 +12,8 @@ interface InvoiceRepositoryInterface
 {
     /**
      *
-     * @param string $order
-     * @param string $sort
-     * @param array $columns
+     * @param SearchRequest $search_request
+     * @param Account $account
      */
     public function getAll(SearchRequest $search_request, Account $account);
 
@@ -26,7 +25,8 @@ interface InvoiceRepositoryInterface
 
     /**
      *
-     * @param \App\Repositories\Interfaces\Task $objTask
+     * @param Task $objTask
+     * @return Invoice
      */
     public function getInvoiceForTask(Task $objTask): Invoice;
 

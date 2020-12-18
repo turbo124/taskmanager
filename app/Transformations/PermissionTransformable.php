@@ -13,12 +13,8 @@ trait PermissionTransformable
     /**
      * Transform the address
      *
-     * @param Address $address
-     *
-     * @return Address
-     * @throws CityNotFoundException
-     * @throws CountryNotFoundException
-     * @throws CustomerNotFoundException
+     * @param Permission $permission
+     * @return Permission
      */
     public function transformPermission(Permission $permission)
     {

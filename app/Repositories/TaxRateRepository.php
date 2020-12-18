@@ -41,6 +41,7 @@ class TaxRateRepository extends BaseRepository implements TaxRateRepositoryInter
     /**
      * Return all the tax rates
      *
+     * @param string[] $columns
      * @param string $order
      * @param string $sort
      * @return Collection|mixed

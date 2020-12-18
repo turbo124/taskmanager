@@ -45,6 +45,8 @@ class BasePaymentGateway
     /**
      * BasePaymentGateway constructor.
      * @param Customer $customer
+     * @param $customer_gateway
+     * @param $company_gateway
      */
     public function __construct(Customer $customer, $customer_gateway, $company_gateway)
     {

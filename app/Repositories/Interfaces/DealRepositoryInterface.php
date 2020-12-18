@@ -47,8 +47,9 @@ interface DealRepositoryInterface extends BaseRepositoryInterface
 
     /**
      *
-     * @param int $task_type
      * @param type $limit
+     * @param User|null $objUser
+     * @return Support
      */
     public function getDeals($limit = null, User $objUser = null): Support;
 }

@@ -90,7 +90,7 @@ class QuoteTransformable
     }
 
     /**
-     * @param $invitations
+     * @param $emails
      * @return array
      */
     private function transformQuoteEmails($emails)

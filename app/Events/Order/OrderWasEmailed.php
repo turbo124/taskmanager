@@ -21,6 +21,7 @@ class OrderWasEmailed
     /**
      * InvoiceWasEmailed constructor.
      * @param Invitation $invitation
+     * @param string $template
      */
     public function __construct(Invitation $invitation, string $template = '')
     {

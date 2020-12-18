@@ -23,7 +23,7 @@ class PaymentWasRefunded
      * Create a new event instance.
      *
      * @param Payment $payment
-     * @param $refund_amount
+     * @param $data
      */
     public function __construct(Payment $payment, $data)
     {

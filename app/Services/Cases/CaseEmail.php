@@ -48,5 +48,7 @@ class CaseEmail
         $body = strlen($this->body) > 0 ? $this->body : $this->case->account->getSetting('email_template_case');
 
         SendEmail::dispatchNow($this->case, $subject, $body, 'case', $this->case->customer->contacts->first());
+
+        return true;
     }
 }

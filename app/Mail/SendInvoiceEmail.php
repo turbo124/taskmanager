@@ -47,9 +47,10 @@ class SendInvoiceEmail extends Mailable
      * Create a new message instance.
      *
      * @param Invoice $invoice
-     * @param string $pdf
+     * @param bool $userId
      * @param bool $reminder
-     * @param mixed $pdfString
+     * @param bool $template
+     * @param bool $proposal
      */
     public function __construct(
         Invoice $invoice,

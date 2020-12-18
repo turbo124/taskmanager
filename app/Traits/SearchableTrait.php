@@ -181,7 +181,6 @@ trait SearchableTrait
      * @param string $column
      * @param string $relevance
      * @param array $words
-     * @param string $compare
      * @param float $relevance_multiplier
      * @param string $pre_word
      * @param string $post_word

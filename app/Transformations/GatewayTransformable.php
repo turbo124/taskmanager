@@ -8,7 +8,7 @@ use App\Models\PaymentGateway;
 class GatewayTransformable
 {
     /**
-     * @param Audit $audit
+     * @param PaymentGateway $gateway
      * @return array
      */
     public function transformGateway(PaymentGateway $gateway)

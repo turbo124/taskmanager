@@ -11,6 +11,8 @@ interface CustomerTypeRepositoryInterface
     /**
      *
      * @param int $id
+     * @return CustomerType
+     * @return CustomerType
      */
     public function findCustomerTypeById(int $id): CustomerType;
 }

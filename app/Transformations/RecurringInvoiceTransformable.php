@@ -135,7 +135,7 @@ trait RecurringInvoiceTransformable
     }
 
     /**
-     * @param $invitations
+     * @param $emails
      * @return array
      */
     private function transformRecurringInvoiceEmails($emails)

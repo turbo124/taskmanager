@@ -129,7 +129,7 @@ class LineItem extends BaseCalculator
     }
 
     /**
-     * @param int $decimals
+     * @return LineItem
      */
     public function calculateDiscount(): self
     {
@@ -154,6 +154,8 @@ class LineItem extends BaseCalculator
 
     /**
      * @param bool $is_amount_discount
+     * @return LineItem
+     * @return LineItem
      */
     public function setIsAmountDiscount(bool $is_amount_discount = false): self
     {
@@ -208,6 +210,8 @@ class LineItem extends BaseCalculator
 
     /**
      * @param string $tax_rate_name
+     * @return LineItem
+     * @return LineItem
      */
     public function setTaxRateName(string $tax_rate_name): self
     {
@@ -216,7 +220,7 @@ class LineItem extends BaseCalculator
     }
 
     /**
-     * @return string
+     * @return int|null
      */
     public function getTaxRateId(): ?int
     {
@@ -224,7 +228,8 @@ class LineItem extends BaseCalculator
     }
 
     /**
-     * @param string $tax_rate_name
+     * @param $tax_rate_id
+     * @return LineItem
      */
     public function setTaxRateId($tax_rate_id): self
     {
@@ -242,6 +247,8 @@ class LineItem extends BaseCalculator
 
     /**
      * @param int $type_id
+     * @return LineItem
+     * @return LineItem
      */
     public function setTypeId(int $type_id): self
     {
@@ -259,6 +266,8 @@ class LineItem extends BaseCalculator
 
     /**
      * @param int $quantity
+     * @return LineItem
+     * @return LineItem
      */
     public function setQuantity(int $quantity): self
     {
@@ -276,6 +285,8 @@ class LineItem extends BaseCalculator
 
     /**
      * @param string $notes
+     * @return LineItem
+     * @return LineItem
      */
     public function setNotes(string $notes): self
     {
@@ -284,7 +295,7 @@ class LineItem extends BaseCalculator
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getUnitPrice(): float
     {
@@ -311,6 +322,8 @@ class LineItem extends BaseCalculator
 
     /**
      * @param float $unit_discount
+     * @return LineItem
+     * @return LineItem
      */
     public function setUnitDiscount(float $unit_discount): self
     {
@@ -328,6 +341,8 @@ class LineItem extends BaseCalculator
 
     /**
      * @param float $unit_tax
+     * @return LineItem
+     * @return LineItem
      */
     public function setUnitTax(float $unit_tax): self
     {
@@ -344,7 +359,8 @@ class LineItem extends BaseCalculator
     }
 
     /**
-     * @param int $total
+     * @param float $total
+     * @return LineItem
      */
     public function setTotal(float $total): self
     {
@@ -353,7 +369,7 @@ class LineItem extends BaseCalculator
     }
 
     /**
-     * @return int
+     * @return float
      */
     public function getSubTotal(): float
     {
@@ -388,6 +404,8 @@ class LineItem extends BaseCalculator
 
     /**
      * @param string $product_id
+     * @return LineItem
+     * @return LineItem
      */
     public function setProductId(string $product_id): self
     {
@@ -405,6 +423,8 @@ class LineItem extends BaseCalculator
 
     /**
      * @param int $attribute_id
+     * @return LineItem
+     * @return LineItem
      */
     public function setAttributeId(int $attribute_id): self
     {
@@ -426,6 +446,8 @@ class LineItem extends BaseCalculator
 
     /**
      * @param float $transaction_fee
+     * @return LineItem
+     * @return LineItem
      */
     public function setTransactionFee(float $transaction_fee): self
     {

@@ -101,7 +101,7 @@ class RecurringQuoteController extends BaseController
 
     /**
      * @param Request $request
-     * @param RecurringQuote $quote
+     * @param RecurringQuote $recurring_quote
      * @param $action
      * @return array|bool|JsonResponse|string
      * @throws FileNotFoundException
@@ -126,6 +126,7 @@ class RecurringQuoteController extends BaseController
     /**
      * @param int $id
      * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(int $id)
     {

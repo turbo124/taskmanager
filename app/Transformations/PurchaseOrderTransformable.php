@@ -87,7 +87,7 @@ trait PurchaseOrderTransformable
     }
 
     /**
-     * @param $invitations
+     * @param $emails
      * @return array
      */
     private function transformPurchaseOrderEmails($emails)
