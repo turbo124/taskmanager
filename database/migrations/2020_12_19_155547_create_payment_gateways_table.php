@@ -21,6 +21,7 @@ class CreatePaymentGatewaysTable extends Migration
             $table->unsignedInteger('default_gateway_type_id')->default(1);
             $table->timestamps();
             $table->tinyInteger('offsite_only')->default(0);
+            $table->tinyInteger('is_custom')->default(0);
         });
     }
 

@@ -2,9 +2,11 @@
 
 namespace App\Requests\Order;
 
+use App\Models\CompanyToken;
 use App\Models\Order;
 use App\Repositories\Base\BaseFormRequest;
 use App\Rules\Order\OrderTotals;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class CreateOrderRequest extends BaseFormRequest
@@ -16,6 +18,15 @@ class CreateOrderRequest extends BaseFormRequest
      */
     public function authorize()
     {
+        $token_sent = request()->bearerToken();
+
+        if (empty(auth()->user()) && !empty($token_sent)) {
+            $token = CompanyToken::whereToken($token_sent)->first();
+
+            $user = $token->user;
+            Auth::login($user);
+        }
+
         return auth()->user()->can('create', Order::class);
     }
 

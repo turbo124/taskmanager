@@ -75,7 +75,7 @@ class CompanyGatewayRepository extends BaseRepository
         foreach ($fees as $fee) {
             $gateways[] = (new GatewayCalculator($company_gateway))
                 ->setFeeAmount($fee->fee_amount)
-                ->setFeePercent($fee->fee_percent)
+                ->setFeePercent(isset($fee->fee_percent) ? $fee->fee_percent : 0)
                 ->setTaxRate('tax_rate', isset($fee->tax) ? $fee->tax : 0)
                 ->setTaxRate('tax_2', isset($fee->tax_2) ? $fee->tax_2 : 0)
                 ->setTaxRate('tax_3', isset($fee->tax_3) ? $fee->tax_3 : 0)

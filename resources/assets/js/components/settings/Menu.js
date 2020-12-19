@@ -5,6 +5,8 @@ import { translations } from '../utils/_translations'
 
 export default class Menu extends Component {
     render () {
+        const modules = JSON.parse(localStorage.getItem('modules'))
+
         return (
             <UncontrolledDropdown className="mr-3 pt-2 pl-3">
                 <DropdownToggle tag="a" caret>
@@ -18,9 +20,19 @@ export default class Menu extends Component {
                     <MenuItem section="gateway-settings"/>
                     <MenuItem section="tax-rates"/>
                     <MenuItem section="product-settings"/>
+
+                    {modules && modules.expenses &&
                     <MenuItem section="expense-settings"/>
+                    }
+
+                    {modules && modules.tasks &&
                     <MenuItem section="task-settings"/>
+                    }
+
+                    {modules && modules.cases &&
                     <MenuItem section="case-settings"/>
+                    }
+
                     <MenuItem section="account-management"/>
                     <MenuItem section="device-settings"/>
                     <DropdownItem divider/>

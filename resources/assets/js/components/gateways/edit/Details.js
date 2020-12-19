@@ -20,6 +20,10 @@ export default class Details extends React.Component {
             {
                 key: consts.paypal_gateway,
                 name: translations.paypal
+            },
+            {
+                key: consts.custom_gateway,
+                name: translations.custom
             }
         ]
     }
@@ -48,6 +52,13 @@ export default class Details extends React.Component {
                         <Input value={this.props.gateway.name} onChange={this.props.handleInput} type="text"
                             name="name" id="name"/>
                         {this.props.renderErrorFor('name')}
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="name">{translations.description} <span className="text-danger">*</span></Label>
+                        <Input value={this.props.gateway.description} onChange={this.props.handleInput} type="textarea"
+                               name="description" id="description"/>
+                        {this.props.renderErrorFor('description')}
                     </FormGroup>
 
                     <Config gateway={this.props.gateway} handleConfig={this.props.handleConfig}/>

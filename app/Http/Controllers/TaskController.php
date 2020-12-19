@@ -42,6 +42,7 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
@@ -235,15 +236,9 @@ class TaskController extends Controller
      */
     public function createDeal(CreateOrderRequest $request)
     {
-        $token_sent = $request->bearerToken();
-        $token = CompanyToken::whereToken($token_sent)->first();
-
-        $user = $token->user;
-        $account = $token->account;
-
         $order = CreateOrder::dispatchNow(
-            $account,
-            $user,
+            auth()->user()->account_user()->account,
+            auth()->user(),
             $request,
             (new CustomerRepository(new Customer)),
             new OrderRepository(new Order),

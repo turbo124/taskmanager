@@ -185,6 +185,7 @@ export const consts = {
     stripe_gateway: '13bb8d58',
     authorize_gateway: '8ab2dce2',
     paypal_gateway: '64bcbdce',
+    custom_gateway: '4ntgik8629',
     switch: 'switch',
     text: 'text',
     textarea: 'textarea',
