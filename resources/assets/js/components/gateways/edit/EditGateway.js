@@ -10,7 +10,7 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 
 class EditGateway extends React.Component {
-    constructor (props) {name
+    constructor (props) {
         super(props)
 
         this.gatewayModel = new GatewayModel(this.props.gateway)
