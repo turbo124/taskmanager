@@ -109,7 +109,7 @@ class ServiceBase
      * @return bool
      * @throws \ReflectionException
      */
-    protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null)
+    protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null, $send_notification = true)
     {
         if ($contact !== null) {
             $invitation = $this->entity->invitations->first();
@@ -117,7 +117,7 @@ class ServiceBase
             $section = $invitation->getSection();
 
             $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_' . $section)];
-            return $this->dispatchEmail($contact, $subject, $body, $template, $footer, $invitation);
+            return $this->dispatchEmail($contact, $subject, $body, $template, $footer, $invitation, $send_notification);
         }
 
         if ($this->entity->invitations->count() === 0) {
@@ -133,7 +133,7 @@ class ServiceBase
 
             $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_' . $section)];
 
-            $this->dispatchEmail($contact, $subject, $body, $template, $footer, $invitation);
+            $this->dispatchEmail($contact, $subject, $body, $template, $footer, $invitation, $send_notification);
         }
 
         return true;
@@ -155,7 +155,8 @@ class ServiceBase
         string $body,
         string $template,
         array $footer,
-        $invitation = null
+        $invitation = null,
+        $send_notification = true
     ) {
         if ($contact->send_email && $contact->email) {
             SendEmail::dispatchNow($this->entity, $subject, $body, $template, $contact, $footer);
@@ -164,7 +165,7 @@ class ServiceBase
         $entity_class = (new ReflectionClass($this->entity))->getShortName();
         $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "WasEmailed";
 
-        if (class_exists($event_class) && $invitation !== null) {
+        if (class_exists($event_class) && $invitation !== null && $send_notification) {
             event(new $event_class($invitation, $template));
         }
 

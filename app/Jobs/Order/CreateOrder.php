@@ -116,7 +116,11 @@ class CreateOrder implements ShouldQueue
         DB::beginTransaction();
 
         try {
-            $customer = $this->saveCustomer();
+            $customer = !empty($this->request->customer_id) ? Customer::where(
+                'id',
+                '=',
+                $this->request->customer_id
+            )->first() : $this->saveCustomer();
 
             if (!$customer) {
                 return null;
@@ -138,7 +142,7 @@ class CreateOrder implements ShouldQueue
                 $order = $this->saveOrder($customer);
 
                 if (!$order) {
-                    Log::emergency('mike');
+                    Log::emergency('failed to create order');
                     die;
 
                     return null;

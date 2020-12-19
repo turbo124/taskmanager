@@ -10,7 +10,7 @@ import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 
 class EditGateway extends React.Component {
-    constructor (props) {
+    constructor (props) {name
         super(props)
 
         this.gatewayModel = new GatewayModel(this.props.gateway)
@@ -122,6 +122,7 @@ class EditGateway extends React.Component {
         formData.append('gateway_key', this.state.gateway_key)
         formData.append('customer_id', this.props.customer_id)
         formData.append('name', this.state.name)
+        formData.append('description', this.state.description)
         formData.append('group_id', this.props.group_id)
         formData.append('fields', JSON.stringify(required_fields))
         formData.append('require_cvv', this.state.require_cvv === true ? 1 : 0)

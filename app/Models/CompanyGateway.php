@@ -21,6 +21,7 @@ class CompanyGateway extends Model
     ];
     protected $fillable = [
         'name',
+        'description',
         'gateway_key',
         'accepted_credit_cards',
         'require_cvv',

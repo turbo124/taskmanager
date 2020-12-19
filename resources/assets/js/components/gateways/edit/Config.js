@@ -13,6 +13,10 @@ export default class Config extends Component {
         }
     }
 
+    getCustomConfig () {
+        return []
+    }
+
     getAuthorizeConfig () {
         const settings = this.props.gateway.config
 
@@ -201,7 +205,7 @@ export default class Config extends Component {
     render () {
         const formFields = this.props.gateway.gateway_key && this.props.gateway.gateway_key.length ? this.getFormFields(this.props.gateway.gateway_key) : null
 
-        return formFields !== null ? <FormBuilder
+        return formFields && formFields.length ? <FormBuilder
             handleChange={this.props.handleConfig}
             formFieldsRows={formFields}
         /> : null
