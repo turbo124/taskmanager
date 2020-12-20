@@ -112,7 +112,7 @@ class CustomerImporter extends BaseCsvImporter
             'mappings' => [
                 'first_name' => ['required', 'cast' => 'string'],
                 'last_name'  => ['cast' => 'string'],
-                'email'      => ['cast' => 'string'],
+                'email'      => ['validation' => 'email', 'cast' => 'string'],
                 'phone'      => ['cast' => 'string'],
                 'name'       => ['cast' => 'string'],
                 'vat_number' => ['required', 'cast' => 'string'],
