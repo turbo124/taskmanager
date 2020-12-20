@@ -10,11 +10,12 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\User;
 use App\Repositories\InvoiceRepository;
-use App\Transformations\InvoiceTransformable;
+use App\Transformations\PaymentTransformable;
 
 class PaymentImporter extends BaseCsvImporter
 {
     use ImportMapper;
+    use PaymentTransformable;
 
     private array $export_columns = [
         'number'        => 'Number',
@@ -101,7 +102,7 @@ class PaymentImporter extends BaseCsvImporter
 
     /**
      * @param array $params
-     * @return Invoice
+     * @return PaymentFactory
      */
     public function factory(array $params): ?Invoice
     {
@@ -109,7 +110,7 @@ class PaymentImporter extends BaseCsvImporter
             return null;
         }
 
-        return PaymentFactory::create($this->account, $this->user);
+        return PaymentFactory::create($this->customer, $this->user, $this->account);
     }
 
     /**
@@ -127,12 +128,8 @@ class PaymentImporter extends BaseCsvImporter
 
         $payments = [];
 
-        foreach ($list as $invoice) {
-            $arr_invoice = $this->transformObject($invoice);
-
-            foreach ($invoice->line_items as $line_item) {
-                $invoices[] = array_merge($arr_invoice, (array)$line_item);
-            }
+        foreach ($list as $payment) {
+           $payments[] = $this->transformObject($payment);
         }
 
         if ($is_json) {
@@ -151,7 +148,7 @@ class PaymentImporter extends BaseCsvImporter
 
     public function transformObject($object)
     {
-        return (new PaymentTransformable())->transformPayment($object);
+        return $this->transformPayment($object);
     }
 
     public function getContent()
