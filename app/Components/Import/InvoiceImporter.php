@@ -41,6 +41,7 @@ class InvoiceImporter extends BaseCsvImporter
     private array $mappings = [
         'number'        => 'number',
         'customer name' => 'customer_id',
+        'contact email'  => 'contact',
         'date'          => 'date',
         'po number'     => 'po_number',
         'due date'      => 'due_date',
