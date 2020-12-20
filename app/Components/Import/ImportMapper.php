@@ -62,6 +62,7 @@ trait ImportMapper
     private array $converters = [
         'product'               => 'getProduct',
         'customer name'         => 'getCustomer',
+        'contact name'         =>  'getContact',
         'brand name'            => 'getBrand',
         'expense category name' => 'getExpenseCategory',
         'company name'          => 'getCompany',
@@ -225,6 +226,27 @@ trait ImportMapper
         $product = $this->products[$value];
 
         return $product['id'];
+    }
+
+    /**
+     * @param $value
+     * @return int|null
+     */
+    private function getContact(string $value): ?int
+    {
+        if (empty($this->contacts)) {
+            $this->contacts = CustomerContact::where('account_id', $this->account->id)->where('is_deleted', false)->get(
+            )->keyBy('email')->toArray();
+            $this->contacts = array_change_key_case($this->contacts, CASE_LOWER);
+        }
+
+        if (empty($this->contacts) || empty($this->contacts[$value])) {
+            return null;
+        }
+
+        $contact = $this->contacts[$value];
+
+        return $contact['id'];
     }
 
     /**
