@@ -104,6 +104,7 @@ class InvoiceImporter extends BaseCsvImporter
     {
         return [
             'mappings' => [
+                'number'        => ['validation' => 'number_validation'],
                 'customer name' => ['validation' => 'required', 'cast' => 'string'],
                 'terms'         => ['cast' => 'string'],
                 'private notes' => ['cast' => 'string'],
