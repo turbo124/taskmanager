@@ -65,14 +65,7 @@ class LeadController extends Controller
      */
     public function store(CreateLeadRequest $request)
     {
-        $token_sent = $request->bearerToken();
-
-        $token = CompanyToken::whereToken($token_sent)->first();
-
-        $user = $token->user;
-        $account = $token->account;
-
-        $lead = $this->lead_repo->createLead(LeadFactory::create($account, $user), $request->all());
+       $lead = $this->lead_repo->createLead(LeadFactory::create(auth()->user()->account_user()->account, auth()->user()), $request->all());
 
         event(new LeadWasCreated($lead));
         return response()->json($this->transformLead($lead));
