@@ -88,15 +88,9 @@ class CaseController extends Controller
      */
     public function store(CreateCaseRequest $request)
     {
-        //Log::emergency($request->all());
-        $token_sent = request()->bearerToken();
-        $token = CompanyToken::whereToken($token_sent)->first();
-        $account = $token->account;
-        $user = $token->user;
-
         $case = CaseFactory::create(
-            $account,
-            $user,
+            auth()->user()->account_user()->account,
+            auth()->user(),
             Customer::find($request->customer_id)->first()
         );
 
