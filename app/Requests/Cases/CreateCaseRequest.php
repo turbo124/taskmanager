@@ -14,6 +14,15 @@ class CreateCaseRequest extends BaseFormRequest
      */
     public function authorize()
     {
+        $token_sent = request()->bearerToken();
+
+        if (empty(auth()->user()) && !empty($token_sent)) {
+            $token = CompanyToken::whereToken($token_sent)->first();
+
+            $user = $token->user;
+            Auth::login($user);
+        }
+
         return auth()->user()->can('create', Cases::class);
     }
 
