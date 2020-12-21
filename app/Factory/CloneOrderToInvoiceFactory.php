@@ -23,6 +23,7 @@ class CloneOrderToInvoiceFactory
     {
         $invoice = new Invoice();
         $invoice->fill($order->toArray());
+        $invoice->number = null;
         $invoice->setAccount($account);
         $invoice->setCustomer($order->customer);
         $invoice->setUser($user);

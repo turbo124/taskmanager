@@ -16,6 +16,7 @@ class CloneCreditFactory
     {
         $clone_credit = new Credit();
         $clone_credit->fill($credit->toArray());
+        $clone_credit->number = null;
         $clone_credit->setStatus(Credit::STATUS_DRAFT);
         $clone_credit->setCustomer($credit->customer);
         $clone_credit->setUser($user);

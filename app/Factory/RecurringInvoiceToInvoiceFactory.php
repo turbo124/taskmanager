@@ -21,6 +21,7 @@ class RecurringInvoiceToInvoiceFactory
     {
         $invoice = new Invoice();
         $invoice->fill($recurring_invoice->toArray());
+        $invoice->number = null;
         $invoice->setAccount($recurring_invoice->account);
         $invoice->setStatus(Invoice::STATUS_DRAFT);
         $invoice->setCustomer($recurring_invoice->customer);

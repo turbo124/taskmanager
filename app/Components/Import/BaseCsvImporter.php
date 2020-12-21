@@ -207,14 +207,17 @@ abstract class BaseCsvImporter
 
     protected array $column_mappings = [];
 
+    protected $entity;
+
     /**
      * BaseCsvImporter constructor.
      * @throws CsvImporterException
      */
-    public function __construct()
+    public function __construct($entity)
     {
         $this->baseConfig = $this->getBaseConfig();
         $this->mutexLockKey = $this->filterMutexLockKey();
+        $this->entity = $entity;
 
         $this->mutexLockTime = $this->getConfigProperty('mutex_lock_time', 300, 'integer');
         $this->inputEncoding = $this->getConfigProperty('input_encoding', 'UTF-8', 'string');
@@ -1367,10 +1370,14 @@ abstract class BaseCsvImporter
     protected function validateHeaders()
     {
         foreach ($this->getRequiredHeaders() as $field) {
-            if (array_search($this->column_mappings[$field], $this->headers) === false) {
+
+            if (empty($this->column_mappings[$field]) || array_search(
+                    $this->column_mappings[$field],
+                    $this->headers
+                ) === false) {
                 $this->setError(
-                    'Required headers not found:',
-                    'The "' . $this->column_mappings['field'] . '" header is required'
+                    'required_headers',
+                    'The "' . $field . '" header is required'
                 );
             }
         }
@@ -1415,7 +1422,7 @@ abstract class BaseCsvImporter
             if ($filter instanceof BaseHeadersFilter) {
                 $result = $filter->executeFilter($this->headers);
                 if ($result->error) {
-                    $this->setError('Headers error:', $result->message);
+                    $this->setError('headers', $result->message);
                 }
             }
         }
@@ -1438,7 +1445,7 @@ abstract class BaseCsvImporter
 
         if (!empty($duplicates)) {
             foreach ($duplicates as $value) {
-                $this->setError('Duplicated values:', 'Csv headers has duplicated fields "' . $value . '"');
+                $this->setError('duplicates', 'Csv headers has duplicated fields "' . $value . '"');
             }
         }
     }
@@ -1654,7 +1661,7 @@ abstract class BaseCsvImporter
             foreach ($couple['filters'] as $filterName) {
                 $filter = static::getFilter(self::VALIDATION, $filterName);
                 if ($filter instanceof BaseValidationFilter && !$filter->global) {
-                    if (!$filter->filter($couple['value'])) {
+                    if (!$filter->filter($couple['value'], $this->entity)) {
                         return false;
                     }
                 }

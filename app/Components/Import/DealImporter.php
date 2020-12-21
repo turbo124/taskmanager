@@ -56,6 +56,8 @@ class DealImporter extends BaseCsvImporter
      */
     private Export $export;
 
+    protected $entity;
+
     /**
      * InvoiceImporter constructor.
      * @param Account $account
@@ -64,7 +66,8 @@ class DealImporter extends BaseCsvImporter
      */
     public function __construct(Account $account, User $user)
     {
-        parent::__construct();
+        parent::__construct('Deal');
+        $this->entity = 'Deal';
 
         $this->account = $account;
         $this->user = $user;

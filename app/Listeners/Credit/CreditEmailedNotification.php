@@ -28,7 +28,7 @@ class CreditEmailedNotification implements ShouldQueue
         foreach ($invitation->account->account_users as $account_user) {
             $user = $account_user->user;
 
-            $notification = new EntitySentNotification($invitation, 'credit');
+            $notification = new EntitySentNotification($invitation, 'credit', $account_user);
 
             $notification->method = $this->findUserNotificationTypesByInvitation(
                 $invitation,

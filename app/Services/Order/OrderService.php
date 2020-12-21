@@ -61,7 +61,7 @@ class OrderService extends ServiceBase
      */
     public function sendEmail($contact = null, $subject, $body, $template = 'order'): ?Order
     {
-        if (!$this->sendInvitationEmails($subject, $body, $template, $contact, false)) {
+        if (!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
             return null;
         }
 

@@ -9,6 +9,7 @@ use App\Models\Company;
 use App\Models\CompanyContact;
 use App\Models\Currency;
 use App\Models\Customer;
+use App\Models\CustomerContact;
 use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\Project;
@@ -62,6 +63,7 @@ trait ImportMapper
     private array $converters = [
         'product'               => 'getProduct',
         'customer name'         => 'getCustomer',
+        'contact email'         => 'getContact',
         'brand name'            => 'getBrand',
         'expense category name' => 'getExpenseCategory',
         'company name'          => 'getCompany',
@@ -77,7 +79,7 @@ trait ImportMapper
 
     public function after()
     {
-        //TODO
+       //TODO
     }
 
     /**
@@ -94,6 +96,17 @@ trait ImportMapper
             return true;
         }
 
+        $result = method_exists($this, 'saveEntity') ? $this->saveEntity($this->object) : $this->save();
+
+        if (method_exists($this, 'saveCallback')) {
+            $result = $this->saveCallback($result, $this->object);
+        }
+
+        $this->success[] = $this->transformObject($result);
+    }
+
+    private function save()
+    {
         $factory = $this->factory($this->object);
 
         if (!$factory) {
@@ -102,13 +115,7 @@ trait ImportMapper
 
         $repo = $this->repository();
 
-        $result = $repo->save($this->object, $factory);
-
-        if (method_exists($this, 'saveCallback')) {
-            $result = $this->saveCallback($result, $this->object);
-        }
-
-        $this->success[] = $this->transformObject($result);
+        return $repo->save($this->object, $factory);
     }
 
     private function buildObject($items)
@@ -168,9 +175,9 @@ trait ImportMapper
      */
     public function invalid($item)
     {
+        echo '<pre>';
+        print_r($this->getErrors());
         die('invalid');
-
-        $this->insertTo('invalid_entities', $item);
     }
 
     /**
@@ -225,6 +232,27 @@ trait ImportMapper
         $product = $this->products[$value];
 
         return $product['id'];
+    }
+
+    /**
+     * @param $value
+     * @return int|null
+     */
+    private function getContact(string $value): ?int
+    {
+        if (empty($this->contacts)) {
+            $this->contacts = CustomerContact::where('account_id', $this->account->id)->get()->keyBy('email')->toArray(
+            );
+            $this->contacts = array_change_key_case($this->contacts, CASE_LOWER);
+        }
+
+        if (empty($this->contacts) || empty($this->contacts[$value])) {
+            return null;
+        }
+
+        $contact = $this->contacts[$value];
+
+        return $contact['id'];
     }
 
     /**

@@ -4,6 +4,7 @@
 namespace App\Components\Import;
 
 
+use App\Components\Import\ValidationFilters\NumberValidationFilter;
 use App\Factory\InvoiceFactory;
 use App\Models\Account;
 use App\Models\Customer;
@@ -41,6 +42,7 @@ class InvoiceImporter extends BaseCsvImporter
     private array $mappings = [
         'number'        => 'number',
         'customer name' => 'customer_id',
+        //'contact email'  => 'contact',
         'date'          => 'date',
         'po number'     => 'po_number',
         'due date'      => 'due_date',
@@ -54,6 +56,9 @@ class InvoiceImporter extends BaseCsvImporter
             'unit_discount' => 'unit_discount',
             'unit_tax'      => 'unit_tax',
             'quantity'      => 'quantity',
+        ],
+        'invitations' => [
+            'contact email' => 'contact_id',
         ],
         'shipping_cost' => 'shipping_cost',
         'tax_rate'      => 'tax_rate'
@@ -79,6 +84,8 @@ class InvoiceImporter extends BaseCsvImporter
      */
     private Export $export;
 
+    protected $entity;
+
     /**
      * InvoiceImporter constructor.
      * @param Account $account
@@ -87,11 +94,13 @@ class InvoiceImporter extends BaseCsvImporter
      */
     public function __construct(Account $account, User $user)
     {
-        parent::__construct();
+        parent::__construct('Invoice');
+        $this->entity = 'Invoice';
 
         $this->account = $account;
         $this->user = $user;
         $this->export = new Export($this->account, $this->user);
+        self::addValidationFilter(new NumberValidationFilter());
     }
 
     /**
@@ -104,6 +113,7 @@ class InvoiceImporter extends BaseCsvImporter
     {
         return [
             'mappings' => [
+                'number'        => ['validation' => 'number_validation'],
                 'customer name' => ['validation' => 'required', 'cast' => 'string'],
                 'terms'         => ['cast' => 'string'],
                 'private notes' => ['cast' => 'string'],

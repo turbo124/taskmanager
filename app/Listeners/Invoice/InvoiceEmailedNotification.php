@@ -28,7 +28,7 @@ class InvoiceEmailedNotification implements ShouldQueue
         foreach ($invitation->account->account_users as $account_user) {
             $user = $account_user->user;
 
-            $notification = new EntitySentNotification($invitation, 'invoice');
+            $notification = new EntitySentNotification($invitation, 'invoice', $account_user);
 
             $notification->method = $this->findUserNotificationTypesByInvitation(
                 $invitation,

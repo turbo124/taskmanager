@@ -2,8 +2,10 @@
 
 namespace App\Requests\Lead;
 
+use App\Models\CompanyToken;
 use App\Models\Lead;
 use App\Repositories\Base\BaseFormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CreateLeadRequest extends BaseFormRequest
 {
@@ -15,6 +17,15 @@ class CreateLeadRequest extends BaseFormRequest
      */
     public function authorize()
     {
+        $token_sent = request()->bearerToken();
+
+        if (empty(auth()->user()) && !empty($token_sent)) {
+            $token = CompanyToken::whereToken($token_sent)->first();
+
+            $user = $token->user;
+            Auth::login($user);
+        }
+
         return auth()->user()->can('create', Lead::class);
     }
 

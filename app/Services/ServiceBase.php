@@ -8,7 +8,6 @@ use App\Factory\CloneOrderToInvoiceFactory;
 use App\Jobs\Email\SendEmail;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\ContactInterface;
-use App\Models\CustomerContact;
 use ReflectionClass;
 
 class ServiceBase
@@ -109,7 +108,7 @@ class ServiceBase
      * @return bool
      * @throws \ReflectionException
      */
-    protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null, $send_notification = true)
+    protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null)
     {
         if ($contact !== null) {
             $invitation = $this->entity->invitations->first();
@@ -117,7 +116,7 @@ class ServiceBase
             $section = $invitation->getSection();
 
             $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_' . $section)];
-            return $this->dispatchEmail($contact, $subject, $body, $template, $footer, $invitation, $send_notification);
+            return $this->dispatchEmail($contact, $subject, $body, $template, $footer, $invitation);
         }
 
         if ($this->entity->invitations->count() === 0) {
@@ -133,7 +132,7 @@ class ServiceBase
 
             $footer = ['link' => $invitation->getLink(), 'text' => trans('texts.view_' . $section)];
 
-            $this->dispatchEmail($contact, $subject, $body, $template, $footer, $invitation, $send_notification);
+            $this->dispatchEmail($contact, $subject, $body, $template, $footer, $invitation);
         }
 
         return true;
@@ -155,8 +154,7 @@ class ServiceBase
         string $body,
         string $template,
         array $footer,
-        $invitation = null,
-        $send_notification = true
+        $invitation = null
     ) {
         if ($contact->send_email && $contact->email) {
             SendEmail::dispatchNow($this->entity, $subject, $body, $template, $contact, $footer);
@@ -165,7 +163,7 @@ class ServiceBase
         $entity_class = (new ReflectionClass($this->entity))->getShortName();
         $event_class = "App\Events\\" . $entity_class . "\\" . $entity_class . "WasEmailed";
 
-        if (class_exists($event_class) && $invitation !== null && $send_notification) {
+        if (class_exists($event_class) && $invitation !== null) {
             event(new $event_class($invitation, $template));
         }
 

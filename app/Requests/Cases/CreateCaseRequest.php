@@ -3,7 +3,9 @@
 namespace App\Requests\Cases;
 
 use App\Models\Cases;
+use App\Models\CompanyToken;
 use App\Repositories\Base\BaseFormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CreateCaseRequest extends BaseFormRequest
 {
@@ -14,6 +16,15 @@ class CreateCaseRequest extends BaseFormRequest
      */
     public function authorize()
     {
+        $token_sent = request()->bearerToken();
+
+        if (empty(auth()->user()) && !empty($token_sent)) {
+            $token = CompanyToken::whereToken($token_sent)->first();
+
+            $user = $token->user;
+            Auth::login($user);
+        }
+
         return auth()->user()->can('create', Cases::class);
     }
 
