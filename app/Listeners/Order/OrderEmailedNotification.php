@@ -28,7 +28,7 @@ class OrderEmailedNotification implements ShouldQueue
         foreach ($invitation->account->account_users as $account_user) {
             $user = $account_user->user;
 
-            $notification = new EntitySentNotification($invitation, 'order');
+            $notification = new EntitySentNotification($invitation, 'order', $account_user);
 
             $notification->method = $this->findUserNotificationTypesByInvitation(
                 $invitation,

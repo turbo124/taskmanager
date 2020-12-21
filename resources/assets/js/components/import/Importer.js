@@ -348,6 +348,7 @@ export default class Importer extends React.Component {
                                                 <option value="product">{translations.product}</option>
                                                 <option value="expense">{translations.expense}</option>
                                                 <option value="company">{translations.company}</option>
+                                                <option value="payment">{translations.payment}</option>
                                             </select>
                                         </div>
 

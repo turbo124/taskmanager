@@ -576,6 +576,7 @@ _localizedValues.en = {
     amount: 'Amount',
     title: 'Title',
     description: 'Description',
+    customer_name: 'Customer Name',
     customer: 'Customer',
     location: 'Location',
     event_type: 'Event Type',

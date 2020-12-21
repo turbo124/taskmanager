@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Components\Import\ImportFactory;
 use App\Components\Import\JsonConverter;
+use App\Mail\ImportCompleted;
 use App\Repositories\BankAccountRepository;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -58,11 +60,21 @@ class ImportController extends Controller
 
             Storage::delete($file_path);
         } catch (Exception $e) {
-            $errors = $e->getMessage();
+            $errors = $importer->getErrors();
 
-            echo $e->getMessage();
-            echo $e->getTraceAsString();
-            die('test');
+            Mail::to(auth()->user())->send(
+                new ImportCompleted(
+                    [
+                        'data' => [
+                            'errors' => $errors,
+                            'message' => 'The ' . ucfirst(
+                                    $request->input('import_type')
+                                ) . ' import failed with the following errors',
+                            'title' => ucfirst($request->input('import_type')) . ' Import Failed'
+                        ]
+                    ]
+                )
+            );
         }
 
         return response()->json($importer->getSuccess());

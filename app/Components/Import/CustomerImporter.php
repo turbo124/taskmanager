@@ -85,6 +85,8 @@ class CustomerImporter extends BaseCsvImporter
      */
     private Export $export;
 
+    protected $entity;
+
     /**
      * InvoiceImporter constructor.
      * @param Account $account
@@ -93,7 +95,8 @@ class CustomerImporter extends BaseCsvImporter
      */
     public function __construct(Account $account, User $user)
     {
-        parent::__construct();
+        parent::__construct('Customer');
+        $this->entity = 'Customer';
 
         $this->account = $account;
         $this->user = $user;

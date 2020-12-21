@@ -4,6 +4,7 @@
 namespace App\Components\Import;
 
 
+use App\Components\Import\ValidationFilters\NumberValidationFilter;
 use App\Factory\InvoiceFactory;
 use App\Models\Account;
 use App\Models\Customer;
@@ -83,6 +84,8 @@ class InvoiceImporter extends BaseCsvImporter
      */
     private Export $export;
 
+    protected $entity;
+
     /**
      * InvoiceImporter constructor.
      * @param Account $account
@@ -91,11 +94,13 @@ class InvoiceImporter extends BaseCsvImporter
      */
     public function __construct(Account $account, User $user)
     {
-        parent::__construct();
+        parent::__construct('Invoice');
+        $this->entity = 'Invoice';
 
         $this->account = $account;
         $this->user = $user;
         $this->export = new Export($this->account, $this->user);
+        self::addValidationFilter(new NumberValidationFilter());
     }
 
     /**

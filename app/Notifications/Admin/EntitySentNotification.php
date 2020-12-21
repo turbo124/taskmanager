@@ -3,6 +3,8 @@
 namespace App\Notifications\Admin;
 
 use App\Mail\Admin\ObjectSent;
+use App\Models\AccountUser;
+use App\Models\Invitation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -36,18 +38,25 @@ class EntitySentNotification extends Notification implements ShouldQueue
     private string $message_type;
 
     /**
+     * @var AccountUser
+     */
+    private AccountUser $account_user;
+
+    /**
      * EntitySentNotification constructor.
-     * @param $invitation
+     * @param Invitation $invitation
      * @param $entity_name
+     * @param AccountUser $account_user
      * @param string $message_type
      */
-    public function __construct($invitation, $entity_name, string $message_type = '')
+    public function __construct(Invitation $invitation, $entity_name, AccountUser $account_user, string $message_type = '')
     {
         $this->invitation = $invitation;
         $this->entity_name = $entity_name;
         $this->entity = $invitation->{$entity_name};
         $this->contact = $invitation->contact;
         $this->message_type = $message_type;
+        $this->account_user = $account_user;
     }
 
     /**
@@ -61,7 +70,7 @@ class EntitySentNotification extends Notification implements ShouldQueue
         return !empty($this->message_type)
             ? [$this->message_type]
             : [
-                $notifiable->account_user()->default_notification_type
+                $this->account_user->default_notification_type ?: 'mail'
             ];
     }
 

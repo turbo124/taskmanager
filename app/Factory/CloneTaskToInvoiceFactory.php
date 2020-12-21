@@ -23,6 +23,7 @@ class CloneTaskToInvoiceFactory
     public static function create(Task $task, User $user, Account $account): ?Invoice
     {
         $invoice = new Invoice();
+        $invoice->number = null;
         $invoice->setAccount($account);
         $invoice->setCustomer($task->customer);
         $invoice->setUser($user);

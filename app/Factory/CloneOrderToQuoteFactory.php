@@ -23,6 +23,7 @@ class CloneOrderToQuoteFactory
     {
         $quote = new Quote;
         $quote->fill($order->toArray());
+        $quote->number = null;
         $quote->setAccount($account);
         $quote->setCustomer($order->customer);
         $quote->setUser($user);

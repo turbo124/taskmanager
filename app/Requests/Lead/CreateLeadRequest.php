@@ -2,8 +2,10 @@
 
 namespace App\Requests\Lead;
 
+use App\Models\CompanyToken;
 use App\Models\Lead;
 use App\Repositories\Base\BaseFormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CreateLeadRequest extends BaseFormRequest
 {

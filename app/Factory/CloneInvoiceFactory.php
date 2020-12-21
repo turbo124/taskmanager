@@ -27,6 +27,7 @@ class CloneInvoiceFactory
 
         $clone_invoice->setAccount($account);
         $clone_invoice->setStatus(Invoice::STATUS_DRAFT);
+        $clone_invoice->number = null;
         $clone_invoice->setNumber();
         $clone_invoice->setUser($user);
         $clone_invoice->setBalance($invoice->total);

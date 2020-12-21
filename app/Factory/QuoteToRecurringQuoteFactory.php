@@ -19,6 +19,7 @@ class QuoteToRecurringQuoteFactory
     {
         $recurring_invoice = new RecurringQuote;
         $recurring_invoice->fill($quote->toArray());
+        $recurring_invoice->number = null;
         $recurring_invoice->status_id = RecurringQuote::STATUS_DRAFT;
         $recurring_invoice->number = '';
         $recurring_invoice->date = date_create()->format('Y-m-d');

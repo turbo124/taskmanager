@@ -3,7 +3,9 @@
 namespace App\Requests\Cases;
 
 use App\Models\Cases;
+use App\Models\CompanyToken;
 use App\Repositories\Base\BaseFormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CreateCaseRequest extends BaseFormRequest
 {

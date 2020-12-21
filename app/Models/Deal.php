@@ -104,7 +104,7 @@ class Deal extends Model
 
     public function setNumber()
     {
-        if (empty($this->number) || !isset($this->id)) {
+        if (empty($this->number)) {
             $this->number = (new NumberGenerator)->getNextNumberForEntity($this, $this->customer);
             return true;
         }

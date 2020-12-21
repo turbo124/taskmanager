@@ -28,7 +28,7 @@ class QuoteEmailedNotification implements ShouldQueue
         foreach ($invitation->account->account_users as $account_user) {
             $user = $account_user->user;
 
-            $notification = new EntitySentNotification($invitation, 'quote');
+            $notification = new EntitySentNotification($invitation, 'quote', $account_user);
 
             $notification->method = $this->findUserNotificationTypesByInvitation(
                 $invitation,

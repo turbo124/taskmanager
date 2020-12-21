@@ -14,8 +14,9 @@ abstract class BaseValidationFilter
     public $global = false;
 
     /**
-     * @param mixed $value
-     * @return bool
+     * @param $value
+     * @param $entity
+     * @return mixed
      */
-    abstract public function filter($value);
+    abstract public function filter($value, $entity);
 }

@@ -21,6 +21,7 @@ class CloneInvoiceToQuoteFactory
     {
         $quote = new Quote();
         $quote->fill($invoice->toArray());
+        $quote->number = null;
         $quote->setCustomer($invoice->customer);
         $quote->setUser($invoice->user);
         $quote->setAccount($invoice->account);

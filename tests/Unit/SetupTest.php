@@ -27,7 +27,7 @@ class SetupTest extends TestCase
         $this->beginDatabaseTransaction();
     }
 
-    public function test_user_created()
+    /*public function test_user_created()
     {
         $request = Request::create('/store', 'POST',[
             'first_name'     =>     $this->faker->firstName,
@@ -43,5 +43,5 @@ class SetupTest extends TestCase
         print_r($response);
         die;
 
-    }
+    }*/
 }

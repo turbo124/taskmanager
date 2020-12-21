@@ -21,6 +21,7 @@ class CloneCreditToQuoteFactory
     {
         $quote = new Quote();
         $quote->fill($credit->toArray());
+        $quote->number = null;
         $quote->setCustomer($credit->customer);
         $quote->setUser($user);
         $quote->setAccount($credit->account);

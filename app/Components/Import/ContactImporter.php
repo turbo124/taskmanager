@@ -14,7 +14,7 @@ use App\Repositories\CustomerRepository;
 use App\Transformations\ContactTransformable;
 use App\Transformations\CustomerTransformable;
 
-class CustomerImporter extends BaseCsvImporter
+class ContactImporter extends BaseCsvImporter
 {
     use ImportMapper;
 

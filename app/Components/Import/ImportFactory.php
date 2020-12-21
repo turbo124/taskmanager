@@ -14,7 +14,7 @@ class ImportFactory
      * @param $type
      * @param Account $account
      * @param User $user
-     * @return CompanyImporter|CustomerImporter|DealImporter|ExpenseImporter|InvoiceImporter|LeadImporter|ProductImporter
+     * @return CompanyImporter|CustomerImporter|DealImporter|ExpenseImporter|InvoiceImporter|LeadImporter|PaymentImporter|ProductImporter
      * @throws CsvImporterException
      */
     public function loadImporter($type, Account $account, User $user)
@@ -46,6 +46,9 @@ class ImportFactory
 
             case 'company':
                 return new CompanyImporter($account, $user);
+                break;
+            case 'payment':
+                return new PaymentImporter($account, $user);
                 break;
         }
     }

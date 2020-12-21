@@ -11,6 +11,7 @@ class InvoiceToRecurringInvoiceFactory
     {
         $recurring_invoice = new RecurringInvoice;
         $recurring_invoice->fill($invoice->toArray());
+        $recurring_invoice->number = null;
         $recurring_invoice->status_id = RecurringInvoice::STATUS_DRAFT;
         $recurring_invoice->number = '';
         $recurring_invoice->date = date_create()->format('Y-m-d');

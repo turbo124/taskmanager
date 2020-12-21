@@ -4,12 +4,15 @@
 namespace App\Components\Import;
 
 
-use App\Factory\InvoiceFactory;
+use App\Components\Import\ValidationFilters\NumberValidationFilter;
+use App\Components\Payment\ProcessPayment;
+use App\Factory\PaymentFactory;
 use App\Models\Account;
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\Payment;
 use App\Models\User;
-use App\Repositories\InvoiceRepository;
+use App\Repositories\PaymentRepository;
 use App\Transformations\PaymentTransformable;
 
 class PaymentImporter extends BaseCsvImporter
@@ -18,28 +21,28 @@ class PaymentImporter extends BaseCsvImporter
     use PaymentTransformable;
 
     private array $export_columns = [
-        'number'        => 'Number',
-        'customer_id'   => 'Customer name',
-        'date'          => 'Date',
-        'transaction_reference'        => 'Transaction Reference',
-        'amount' => 'Amount',
-        'payment_type' => 'Payment Type',
-        'invoices' => 'Invoices'
+        'number'                => 'Number',
+        'customer_id'           => 'Customer name',
+        'date'                  => 'Date',
+        'transaction_reference' => 'Transaction Reference',
+        'amount'                => 'Amount',
+        'payment_type'          => 'Payment Type',
+        'invoices'              => 'Invoices'
     ];
 
     /**
      * @var array|string[]
      */
     private array $mappings = [
-        'number'        => 'number',
-        'customer name' => 'customer_id',
-        'date'          => 'date',
-        'amount'        => 'amount',
-        'transaction reference'      => 'transaction_reference',
-        'payment type'         => 'payment_type_id',
-        'public notes'  => 'public_notes',
-        'private notes' => 'private_notes',
-        'invoices' => 'invoices'
+        'number'                => 'number',
+        'customer name'         => 'customer_id',
+        'date'                  => 'date',
+        'amount'                => 'amount',
+        'transaction reference' => 'transaction_reference',
+        'payment type'          => 'payment_type_id',
+        'public notes'          => 'public_notes',
+        'private notes'         => 'private_notes',
+        'invoices'              => 'invoices'
     ];
 
     /**
@@ -62,6 +65,8 @@ class PaymentImporter extends BaseCsvImporter
      */
     private Export $export;
 
+    protected $entity;
+
     /**
      * InvoiceImporter constructor.
      * @param Account $account
@@ -70,11 +75,13 @@ class PaymentImporter extends BaseCsvImporter
      */
     public function __construct(Account $account, User $user)
     {
-        parent::__construct();
+        parent::__construct('Payment');
 
+        $this->entity = 'Payment';
         $this->account = $account;
         $this->user = $user;
         $this->export = new Export($this->account, $this->user);
+        self::addValidationFilter(new NumberValidationFilter());
     }
 
     /**
@@ -87,8 +94,9 @@ class PaymentImporter extends BaseCsvImporter
     {
         return [
             'mappings' => [
+                'number'        => ['validation' => 'number_validation'],
                 'customer name' => ['validation' => 'required', 'cast' => 'string'],
-                'amount'         => ['validation' => 'required', 'cast' => 'string'],
+                'amount'        => ['validation' => 'required', 'cast' => 'float'],
                 'private notes' => ['cast' => 'string'],
                 'public notes'  => ['cast' => 'string'],
                 'date'          => ['validation' => 'required', 'cast' => 'date'],
@@ -102,9 +110,9 @@ class PaymentImporter extends BaseCsvImporter
 
     /**
      * @param array $params
-     * @return PaymentFactory
+     * @return Payment|null
      */
-    public function factory(array $params): ?Invoice
+    public function factory(array $params): ?Payment
     {
         if (empty($this->customer)) {
             return null;
@@ -124,12 +132,12 @@ class PaymentImporter extends BaseCsvImporter
     public function export($is_json = false)
     {
         $export_columns = $this->getExportColumns();
-        $list = Invoice::where('account_id', '=', $this->account->id)->get();
+        $list = Payment::where('account_id', '=', $this->account->id)->get();
 
         $payments = [];
 
         foreach ($list as $payment) {
-           $payments[] = $this->transformObject($payment);
+            $payments[] = $this->transformObject($payment);
         }
 
         if ($is_json) {
@@ -139,6 +147,19 @@ class PaymentImporter extends BaseCsvImporter
         $this->export->build(collect($payments), $export_columns);
 
         return true;
+    }
+
+    private function saveEntity(array $object)
+    {
+        if (!empty($this->object['invoices'])) {
+            $invoice_numbers = explode(',', $this->object['invoices']);
+
+            $invoices = Invoice::select('id AS invoice_id', 'balance AS amount')->whereIn('number', $invoice_numbers)->get()->toArray(
+            );
+            $object['invoices'] = $invoices;
+        }
+
+        return (new ProcessPayment())->process($object, $this->repository(), $this->factory($object));
     }
 
     public function getExportColumns()

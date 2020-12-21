@@ -19,6 +19,7 @@ class CloneQuoteFactory
     public static function create(Quote $quote, User $user): ?Quote
     {
         $clone_quote = $quote->replicate();
+        $clone_quote->number = null;
         $clone_quote->setStatus(Quote::STATUS_DRAFT);
         $clone_quote->setNumber();
         $clone_quote->setUser($user);
