@@ -21,7 +21,7 @@ export default function Overview (props) {
     let gateway = null
 
     if (companyGateway.length) {
-        const link = this.gatewayModel.getPaymentUrl(companyGateway[0].gateway_key, props.entity.transaction_reference)
+        const link = this.gatewayModel.getPaymentUrl(companyGateway[0].gateway_key, props.entity.reference_number)
         gateway = <SectionItem link={link}
             icon={icons.credit_card}
             title={`${translations.token} > ${companyGateway[0].name}`}/>
@@ -86,8 +86,8 @@ export default function Overview (props) {
             fields.payment_type = paymentType[0].name
         }
     }
-    if (props.entity.transaction_reference.length) {
-        fields.transaction_reference = props.entity.transaction_reference
+    if (props.entity.reference_number.length) {
+        fields.reference_number = props.entity.reference_number
     }
     if (props.entity.refunded !== 0) {
         fields.refunded = <FormatMoney amount={props.entity.refunded} customers={this.props.customers}/>

@@ -379,7 +379,7 @@ class OrderTest extends TestCase
         $customer_gateway = CustomerGateway::where('company_gateway_id', $payment->company_gateway_id)->first();
 
         $ref = (new Stripe($customer, $customer_gateway, $payment->gateway))->build($payment->amount, $invoice, false);
-        $payment->transaction_reference = $ref;
+        $payment->reference_number = $ref;
         $payment->save();
 
         $this->assertNotNull($order->invoice_id);
@@ -410,7 +410,7 @@ class OrderTest extends TestCase
         $this->assertEquals($invoice->balance, 0);
         $this->assertEquals($invoice->status_id, Invoice::STATUS_PAID);
         $this->assertEquals($order->status_id, Order::STATUS_PAID);
-        $this->assertNotNull($payment->transaction_reference);
+        $this->assertNotNull($payment->reference_number);
     }
 
     public function testEmail()

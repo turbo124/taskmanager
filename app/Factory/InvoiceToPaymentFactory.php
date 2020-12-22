@@ -16,7 +16,7 @@ class InvoiceToPaymentFactory
         $payment->amount = $invoice->balance;
         $payment->applied = $invoice->balance;
         $payment->customer_id = $invoice->customer_id;
-        $payment->transaction_reference = trans('texts.manual');
+        $payment->reference_number = trans('texts.manual');
 
         return $payment;
     }

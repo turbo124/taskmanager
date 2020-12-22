@@ -209,6 +209,8 @@ abstract class BaseCsvImporter
 
     protected $entity;
 
+    protected $validator;
+
     /**
      * BaseCsvImporter constructor.
      * @throws CsvImporterException
@@ -1370,7 +1372,6 @@ abstract class BaseCsvImporter
     protected function validateHeaders()
     {
         foreach ($this->getRequiredHeaders() as $field) {
-
             if (empty($this->column_mappings[$field]) || array_search(
                     $this->column_mappings[$field],
                     $this->headers
@@ -1680,7 +1681,18 @@ abstract class BaseCsvImporter
     protected function passes(array $item, array $validationRules)
     {
         try {
-            return Validator::make($item, $validationRules)->passes();
+            $this->validator = Validator::make($item, $validationRules);
+            $passes = $this->validator->passes();
+
+            if (!$passes) {
+                $messages = $this->validator->errors()->all();
+
+                foreach ($messages as $message) {
+                    $this->setError('data', $message);
+                }
+            }
+
+            return $passes;
         } catch (BadMethodCallException $e) {
             throw new ImportValidationException($e->getMessage(), 400);
         }

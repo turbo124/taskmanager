@@ -54,7 +54,7 @@ class AuthorizeRefund
 
         $this->setupConfig();
 
-        $transaction_details = $this->getTransactionDetails($this->payment->transaction_reference);
+        $transaction_details = $this->getTransactionDetails($this->payment->reference_number);
 
         $profile = $transaction_details->getProfile();
 
@@ -153,7 +153,7 @@ class AuthorizeRefund
             $this->transactionRequest->setPayment($this->payment_data);
         }
 
-        $this->transactionRequest->setRefTransId($this->payment->transaction_reference);
+        $this->transactionRequest->setRefTransId($this->payment->reference_number);
 
         return true;
     }

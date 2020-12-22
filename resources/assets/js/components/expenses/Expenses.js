@@ -43,7 +43,7 @@ export default class Expenses extends Component {
             },
             ignoredColumns:
                 [
-                    'transaction_reference',
+                    'reference_number',
                     'transaction_id',
                     'tax_rate',
                     'tax_rate_name',

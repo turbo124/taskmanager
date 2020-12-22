@@ -95,10 +95,10 @@ class GenerateInvoice implements ShouldQueue
         $payment = (new PaymentFactory())->create($invoice->customer, $invoice->user, $invoice->account);
 
         $data = [
-            'transaction_reference' => $expense->transaction_reference,
-            'type_id'               => $expense->payment_type_id,
-            'date'                  => $expense->payment_date,
-            'amount'                => $invoice->total
+            'reference_number' => $expense->reference_number,
+            'type_id'          => $expense->payment_type_id,
+            'date'             => $expense->payment_date,
+            'amount'           => $invoice->total
         ];
 
         $data['invoices'][0]['invoice_id'] = $invoice->id;

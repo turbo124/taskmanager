@@ -103,15 +103,15 @@ class ExpenseTest extends TestCase
         $factory = (new ExpenseFactory)->create($this->user, $this->account);
 
         $data = [
-            'account_id'            => $this->account->id,
-            'user_id'               => $this->user->id,
-            'customer_id'           => $this->customer->id,
-            'amount'                => $this->faker->randomFloat(),
-            'company_id'            => $this->company->id,
-            'create_invoice'        => true,
-            'payment_date'          => Carbon::now()->addDays(10)->format('Y-m-d'),
-            'transaction_reference' => $this->faker->name,
-            'payment_type_id'       => 1
+            'account_id'       => $this->account->id,
+            'user_id'          => $this->user->id,
+            'customer_id'      => $this->customer->id,
+            'amount'           => $this->faker->randomFloat(),
+            'company_id'       => $this->company->id,
+            'create_invoice'   => true,
+            'payment_date'     => Carbon::now()->addDays(10)->format('Y-m-d'),
+            'reference_number' => $this->faker->name,
+            'payment_type_id'  => 1
         ];
 
         $expenseRepo = new ExpenseRepository(new Expense);
@@ -126,7 +126,7 @@ class ExpenseTest extends TestCase
         $this->assertNotEmpty($invoice->payments);
         $payment = $invoice->payments->first();
 
-        $this->assertEquals($payment->transaction_reference, $expense->transaction_reference);
+        $this->assertEquals($payment->reference_number, $expense->reference_number);
         $this->assertEquals($payment->date, $expense->payment_date);
         $this->assertEquals($payment->type_id, $expense->payment_type_id);
     }

@@ -81,7 +81,7 @@ class BaseRefund
             ->setUnitPrice($amount)
             ->setProductId('CREDIT')
             ->setNotes(
-                !empty($invoice) ? 'REFUND for invoice number ' . $invoice->number : 'REFUND for transaction_reference ' . $this->payment->number
+                !empty($invoice) ? 'REFUND for invoice number ' . $invoice->number : 'REFUND for payment ' . $this->payment->number
             )
             ->setSubTotal($amount)
             ->toObject();

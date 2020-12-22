@@ -36,6 +36,12 @@
                 @endforeach;
             @endif
 
+            @if(!empty($data['errors']['data']))
+                @foreach($data['errors']['data'] as $data)
+                    <div class="alert alert-danger mt-2">{{ $data }}</div>
+                @endforeach;
+            @endif
+
             @if(!empty($data['button_text']) && !empty($data['url']))
                 @component('email.components.button', ['url' => $data['url']])
                     {{$data['button_text']}}

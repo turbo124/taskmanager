@@ -116,7 +116,7 @@ class AddExpense extends React.Component {
             company_id: this.state.company_id,
             public_notes: this.state.public_notes,
             private_notes: this.state.private_notes,
-            transaction_reference: this.state.transaction_reference,
+            reference_number: this.state.reference_number,
             expense_category_id: this.state.expense_category_id,
             date: this.state.date,
             payment_type_id: this.state.payment_type_id,

@@ -30,7 +30,7 @@ export default class PaymentModel extends BaseModel {
             account_id: JSON.parse(localStorage.getItem('appState')).user.account_id,
             status_id: null,
             invoice_id: null,
-            transaction_reference: '',
+            reference_number: '',
             date: moment(new Date()).format('YYYY-MM-DD'),
             amount: 0,
             refunded: 0,

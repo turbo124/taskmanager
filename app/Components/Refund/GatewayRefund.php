@@ -69,12 +69,12 @@ class GatewayRefund extends BaseRefund
 
         $response = $stripe->refunds->create(
             [
-                'charge' => $this->payment->transaction_reference,
+                'charge' => $this->payment->reference_number,
             ]
         );
 
         if ($response->status == $response::STATUS_SUCCEEDED) {
-            $this->payment->transaction_reference = $response->charge;
+            $this->payment->reference_number = $response->charge;
             $this->payment->save();
 
             return true;
@@ -92,7 +92,7 @@ class GatewayRefund extends BaseRefund
         $response = $gateway
             ->refund(
                 [
-                    'transactionReference' => $this->payment->transaction_reference,
+                    'transactionReference' => $this->payment->reference_number,
                     'amount'               => $this->data['amount'] ?? $this->payment->amount,
                     'currency'             => $this->payment->customer->currency->code
                 ]
