@@ -85,7 +85,7 @@ export default class ExpenseDropdown extends Component {
             productList = <option value="">Loading...</option>
         } else {
             productList = this.state.expenses.map((expense, index) => (
-                <option key={index} value={expense.id}>{expense.number} - {expense.transaction_reference}</option>
+                <option key={index} value={expense.id}>{expense.number} - {expense.reference_number}</option>
             ))
         }
 

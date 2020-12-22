@@ -128,11 +128,11 @@ export default class SettingsForm extends React.Component {
                             handleInput={this.props.handleInput}/>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="examplePassword">{translations.transaction_reference}</Label>
-                        <Input value={this.props.expense.transaction_reference} type="text"
-                            name="transaction_reference"
-                            onChange={this.props.handleInput} id="transaction_reference"
-                            placeholder="password placeholder"/>
+                        <Label for="examplePassword">{translations.reference_number}</Label>
+                        <Input value={this.props.expense.reference_number} type="text"
+                            name="reference_number"
+                            onChange={this.props.handleInput} id="reference_number"
+                            placeholder={translations.reference_number}/>
                     </FormGroup>
                 </Collapse>
 

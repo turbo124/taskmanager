@@ -122,7 +122,7 @@ class Authorize extends BasePaymentGateway
 
         $transactionRequestType = new TransactionRequestType();
         $transactionRequestType->setTransactionType("priorAuthCaptureTransaction");
-        $transactionRequestType->setRefTransId($payment->transaction_reference);
+        $transactionRequestType->setRefTransId($payment->reference_number);
 
         $request = new CreateTransactionRequest();
         $request->setMerchantAuthentication($config);

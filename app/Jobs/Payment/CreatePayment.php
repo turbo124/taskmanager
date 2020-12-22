@@ -92,12 +92,12 @@ class CreatePayment implements ShouldQueue
     {
         $payment = PaymentFactory::create($this->customer, $this->customer->user, $this->customer->account);
         $data = [
-            'company_gateway_id'    => !empty($this->data['company_gateway_id']) ? $this->data['company_gateway_id'] : null,
-            'status_id'             => $complete_payment === true ? Payment::STATUS_COMPLETED : Payment::STATUS_PENDING,
-            'date'                  => Carbon::now(),
-            'amount'                => $this->data['amount'],
-            'type_id'               => $this->data['payment_type'],
-            'transaction_reference' => $this->data['payment_method']
+            'company_gateway_id' => !empty($this->data['company_gateway_id']) ? $this->data['company_gateway_id'] : null,
+            'status_id'          => $complete_payment === true ? Payment::STATUS_COMPLETED : Payment::STATUS_PENDING,
+            'date'               => Carbon::now(),
+            'amount'             => $this->data['amount'],
+            'type_id'            => $this->data['payment_type'],
+            'reference_number'   => $this->data['payment_method']
 
         ];
 

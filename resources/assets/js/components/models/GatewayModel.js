@@ -180,10 +180,10 @@ export default class GatewayModel extends BaseModel {
         }
     }
 
-    getPaymentUrl (gateway_key, transaction_reference) {
+    getPaymentUrl (gateway_key, reference_number) {
         switch (gateway_key) {
             case consts.stripe_gateway:
-                return `https://dashboard.stripe.com/payments/${transaction_reference}`
+                return `https://dashboard.stripe.com/payments/${reference_number}`
             default:
                 return null
         }

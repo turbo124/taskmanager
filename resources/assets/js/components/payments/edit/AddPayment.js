@@ -115,7 +115,7 @@ class AddPayment extends React.Component {
             amount: this.state.amount,
             send_email: this.state.send_email,
             number: this.state.number,
-            transaction_reference: this.state.transaction_reference,
+            reference_number: this.state.reference_number,
             custom_value1: this.state.custom_value1,
             custom_value2: this.state.custom_value2,
             custom_value3: this.state.custom_value3,

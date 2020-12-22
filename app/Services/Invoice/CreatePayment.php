@@ -44,7 +44,7 @@ class CreatePayment
     {
         $payment = $this->payment_repo->save(
             [
-                'transaction_reference' => trans('texts.manual')
+                'reference_number' => trans('texts.manual')
             ],
             InvoiceToPaymentFactory::create($this->invoice)
         );

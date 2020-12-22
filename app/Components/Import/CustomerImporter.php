@@ -113,11 +113,11 @@ class CustomerImporter extends BaseCsvImporter
     {
         return [
             'mappings' => [
-                'first_name' => ['required', 'cast' => 'string'],
-                'last_name'  => ['cast' => 'string'],
-                'email'      => ['validation' => 'email', 'cast' => 'string'],
+                'first_name' => ['validation' => 'required', 'cast' => 'string'],
+                'last_name'  => ['validation' => 'required', 'cast' => 'string'],
+                'email'      => ['validation' => 'email|required', 'cast' => 'string'],
                 'phone'      => ['cast' => 'string'],
-                'name'       => ['cast' => 'string'],
+                'name'       => ['validation' => 'required', 'cast' => 'string'],
                 'vat_number' => ['required', 'cast' => 'string'],
                 //'due date'      => ['cast' => 'date'],
                 //'customer_id' => ['required', 'cast' => 'int'],
@@ -153,26 +153,25 @@ class CustomerImporter extends BaseCsvImporter
      */
     public function saveCallback(Customer $customer, array $data)
     {
-
         if (!empty($data['contacts'])) {
             (new CustomerContactRepository(new CustomerContact()))->save($data['contacts'], $customer);
         }
 
         $addresses[0] = [];
 
-        if(!empty($data['billing'])) {
+        if (!empty($data['billing'])) {
             $billing = array_values($data['billing']);
 
             $addresses[0]['billing'] = $billing[0];
         }
 
-        if(!empty($data['shipping'])) {
+        if (!empty($data['shipping'])) {
             $shipping = array_values($data['shipping']);
 
             $addresses[0]['shipping'] = $shipping[0];
         }
 
-        if(!empty($addresses[0])) {
+        if (!empty($addresses[0])) {
             $customer = StoreCustomerAddress::dispatchNow($customer, ['addresses' => $addresses]);
         }
 

@@ -649,9 +649,9 @@ class PaymentUnitTest extends TestCase
 
         $objStripe = new Stripe($payment->customer, $customer_gateway, $company_gateway);
 
-        $transaction_reference = $objStripe->build($payment->amount, null, false);
+        $reference_number = $objStripe->build($payment->amount, null, false);
 
-        $payment->transaction_reference = $transaction_reference;
+        $payment->reference_number = $reference_number;
         $payment->save();
 
         $objStripe->buildPaymentCapture($payment);

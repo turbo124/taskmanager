@@ -21,6 +21,7 @@ export default class Importer extends React.Component {
             progress: 0,
             message: '',
             error: '',
+            import_errors: {},
             show_success: false,
             error_message: translations.unexpected_error,
             success_message: translations.expenses_imported_successfully,
@@ -180,6 +181,11 @@ export default class Importer extends React.Component {
                     progress: 0,
                     currentFile: undefined
                 })
+
+                if (response.data.errors && Object.keys(response.data.errors).length) {
+                    this.setState({ import_errors: response.data.errors })
+                }
+
                 // return UploadService.getFiles()
             })
             .catch((e) => {
@@ -289,7 +295,8 @@ export default class Importer extends React.Component {
             show_success,
             error,
             error_message,
-            success_message
+            success_message,
+            import_errors
         } = this.state
 
         const total = checked.size > 0 && fileInfos.length ? fileInfos.filter(row => checked.has(row.uniqueId)).reduce((result, { amount }) => result += amount, 0) : 0
@@ -305,6 +312,37 @@ export default class Importer extends React.Component {
                 </Form>
             })
             : null
+
+        const errors = []
+
+        console.log('errors', import_errors)
+        console.log('errors', import_errors.required_headers)
+
+        if (Object.keys(import_errors).length) {
+            if (import_errors.data && import_errors.data.length) {
+                import_errors.data.forEach((message) => {
+                    errors.push(<div className="alert alert-danger">{message}</div>)
+                })
+            }
+
+            if (import_errors.required_headers && import_errors.required_headers.length) {
+                import_errors.required_headers.forEach((message) => {
+                    errors.push(<div className="alert alert-danger">{message}</div>)
+                })
+            }
+
+            if (import_errors.duplicates && import_errors.duplicates.length) {
+                import_errors.duplicates.forEach((message) => {
+                    errors.push(<div className="alert alert-danger">{message}</div>)
+                })
+            }
+
+            if (import_errors.headers && import_errors.headers.length) {
+                import_errors.headers.forEach((message) => {
+                    errors.push(<div className="alert alert-danger">{message}</div>)
+                })
+            }
+        }
 
         return (
             <React.Fragment>
@@ -406,7 +444,11 @@ export default class Importer extends React.Component {
                         preview
                         }
 
-                        {fileInfos.length &&
+                        {!!errors.length &&
+                            errors
+                        }
+
+                        {!!fileInfos.length &&
                         <div className="card mt-2">
                             <div
                                 className="card-header">{translations.expenses} {this.state.checked.size > 0 ? ` - ${this.state.checked.size} selected ` : ''}

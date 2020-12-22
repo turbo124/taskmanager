@@ -21,28 +21,28 @@ class PaymentImporter extends BaseCsvImporter
     use PaymentTransformable;
 
     private array $export_columns = [
-        'number'                => 'Number',
-        'customer_id'           => 'Customer name',
-        'date'                  => 'Date',
-        'transaction_reference' => 'Transaction Reference',
-        'amount'                => 'Amount',
-        'payment_type'          => 'Payment Type',
-        'invoices'              => 'Invoices'
+        'number'           => 'Number',
+        'customer_id'      => 'Customer name',
+        'date'             => 'Date',
+        'reference_number' => 'Reference Number',
+        'amount'           => 'Amount',
+        'payment_type'     => 'Payment Type',
+        'invoices'         => 'Invoices'
     ];
 
     /**
      * @var array|string[]
      */
     private array $mappings = [
-        'number'                => 'number',
-        'customer name'         => 'customer_id',
-        'date'                  => 'date',
-        'amount'                => 'amount',
-        'transaction reference' => 'transaction_reference',
-        'payment type'          => 'payment_type_id',
-        'public notes'          => 'public_notes',
-        'private notes'         => 'private_notes',
-        'invoices'              => 'invoices'
+        'number'           => 'number',
+        'customer name'    => 'customer_id',
+        'date'             => 'date',
+        'amount'           => 'amount',
+        'reference number' => 'reference_number',
+        'payment type'     => 'payment_type_id',
+        'public notes'     => 'public_notes',
+        'private notes'    => 'private_notes',
+        'invoices'         => 'invoices'
     ];
 
     /**
@@ -96,7 +96,7 @@ class PaymentImporter extends BaseCsvImporter
             'mappings' => [
                 'number'        => ['validation' => 'number_validation'],
                 'customer name' => ['validation' => 'required', 'cast' => 'string'],
-                'amount'        => ['validation' => 'required', 'cast' => 'float'],
+                'amount'        => ['validation' => 'required|numeric|min:0|not_in:0', 'cast' => 'float'],
                 'private notes' => ['cast' => 'string'],
                 'public notes'  => ['cast' => 'string'],
                 'date'          => ['validation' => 'required', 'cast' => 'date'],
@@ -154,8 +154,10 @@ class PaymentImporter extends BaseCsvImporter
         if (!empty($this->object['invoices'])) {
             $invoice_numbers = explode(',', $this->object['invoices']);
 
-            $invoices = Invoice::select('id AS invoice_id', 'balance AS amount')->whereIn('number', $invoice_numbers)->get()->toArray(
-            );
+            $invoices = Invoice::select('id AS invoice_id', 'balance AS amount')->whereIn(
+                'number',
+                $invoice_numbers
+            )->get()->toArray();
             $object['invoices'] = $invoices;
         }
 

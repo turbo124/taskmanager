@@ -119,7 +119,7 @@ class EditExpense extends React.Component {
             payment_date: this.state.payment_date,
             include_documents: this.state.include_documents,
             create_invoice: this.state.create_invoice,
-            transaction_reference: this.state.transaction_reference,
+            reference_number: this.state.reference_number,
             custom_value1: this.state.custom_value1,
             custom_value2: this.state.custom_value2,
             custom_value3: this.state.custom_value3,

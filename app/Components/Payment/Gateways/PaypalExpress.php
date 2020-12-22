@@ -36,7 +36,7 @@ class PaypalExpress extends BasePaymentGateway
     public function capturePayment(Payment $payment)
     {
         $this->gateway();
-        $ref = $payment->transaction_reference;
+        $ref = $payment->reference_number;
 
         // then later, when you want to capture it
         $data = array(

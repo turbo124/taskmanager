@@ -47,7 +47,7 @@ class Payment extends Model
         'status_id',
         'company_gateway_id',
         'refunded',
-        'transaction_reference',
+        'reference_number',
         'is_manual',
         'private_notes',
         'custom_value1',

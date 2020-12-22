@@ -58,12 +58,12 @@ export default class Details extends React.Component {
             </FormGroup>
 
             <FormGroup className="mb-3">
-                <Label>{translations.transaction_reference}</Label>
-                <Input className={this.hasErrorFor('transaction_reference') ? 'is-invalid' : ''} type="text"
-                    value={this.props.payment.transaction_reference}
-                    name="transaction_reference"
+                <Label>{translations.reference_number}</Label>
+                <Input className={this.hasErrorFor('reference_number') ? 'is-invalid' : ''} type="text"
+                    value={this.props.payment.reference_number}
+                    name="reference_number"
                     onChange={this.props.handleInput}/>
-                {this.renderErrorFor('transaction_reference')}
+                {this.renderErrorFor('reference_number')}
             </FormGroup>
 
             <FormGroup className="mb-3">

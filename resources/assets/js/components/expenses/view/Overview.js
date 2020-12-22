@@ -24,8 +24,8 @@ export default function Overview (props) {
         fields.date = <FormatDate date={props.entity.date}/>
     }
 
-    if (props.entity.transaction_reference.length) {
-        fields.transaction_reference = props.entity.transaction_reference
+    if (props.entity.reference_number.length) {
+        fields.reference_number = props.entity.reference_number
     }
 
     if (props.model.isConverted) {

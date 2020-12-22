@@ -79,7 +79,9 @@ trait ImportMapper
 
     public function after()
     {
-       //TODO
+        $errors = $this->getErrors();
+
+        return empty($errors);
     }
 
     /**
@@ -93,6 +95,7 @@ trait ImportMapper
         $this->object = $this->buildObject($items);
 
         if (!$save_data) {
+            $this->success[] = $this->transformObject($this->object);
             return true;
         }
 
@@ -175,9 +178,9 @@ trait ImportMapper
      */
     public function invalid($item)
     {
-        echo '<pre>';
-        print_r($this->getErrors());
-        die('invalid');
+//        echo '<pre>';
+//        print_r($this->getErrors());
+//        die('invalid');
     }
 
     /**

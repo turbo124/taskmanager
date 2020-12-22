@@ -334,7 +334,7 @@ _localizedValues.en = {
     api_login_id: 'Api Login ID',
     publishable_key: 'Publishable Key',
     secret_key: 'Secret Key',
-    transaction_reference: 'Transaction Reference',
+    reference_number: 'Reference Number',
     payment_type: 'Payment Type',
     start_date: 'Start Date',
     end_date: 'End Date',

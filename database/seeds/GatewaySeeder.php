@@ -26,7 +26,7 @@ class GatewaySeeder extends Seeder
         ];
 
         foreach ($gateway_types as $gateway_type) {
-            \Illuminate\Support\Facades\DB::table('gateway_types')->insert(
+            \Illuminate\Support\Facades\DB::table('payment_gateway_types')->insert(
                 $gateway_type
             );
         }
@@ -50,6 +50,12 @@ class GatewaySeeder extends Seeder
                 'provider'                => 'PayPal_Express',
                 'key'                     => '64bcbdce',
                 'default_gateway_type_id' => 2
+            ],
+            2 => [
+                'name'                    => 'Custom',
+                'provider'                => 'Custom',
+                'key'                     => '4ntgik8629',
+                'default_gateway_type_id' => 1
             ],
         ];
 

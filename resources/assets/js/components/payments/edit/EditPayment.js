@@ -112,7 +112,7 @@ class EditPayment extends React.Component {
             invoice_id: this.state.invoice_id,
             customer_id: this.state.customer_id,
             amount: this.state.amount,
-            transaction_reference: this.state.transaction_reference,
+            reference_number: this.state.reference_number,
             number: this.state.number,
             invoices: this.state.payable_invoices,
             credits: this.state.payable_credits,

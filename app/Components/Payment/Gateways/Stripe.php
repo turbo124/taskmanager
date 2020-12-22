@@ -159,17 +159,17 @@ class Stripe extends BasePaymentGateway
             return false;
         }
 
-        $transaction_reference = !$confirm_payment ? $response->id : $response->charges->data[0]->id;
+        $reference_number = !$confirm_payment ? $response->id : $response->charges->data[0]->id;
 
         if (!$confirm_payment) {
-            return $transaction_reference;
+            return $reference_number;
         }
 
         $brand = $response->charges->data[0]->payment_method_details->card->brand;
         $payment_method = !empty($this->card_types[$brand]) ? $this->card_types[$brand] : 12;
 
         if ($invoice !== null) {
-            return $this->completePayment($amount, $invoice, $transaction_reference, $payment_method);
+            return $this->completePayment($amount, $invoice, $reference_number, $payment_method);
         }
 
         return true;
@@ -220,19 +220,19 @@ class Stripe extends BasePaymentGateway
         try {
             if ($payment_intent) {
                 $response = $this->stripe->paymentIntents->capture(
-                    $payment->transaction_reference,
+                    $payment->reference_number,
                     []
                 );
 
                 $ref = $response->charges->data[0]->id;
-                $payment->transaction_reference = $ref;
+                $payment->reference_number = $ref;
                 $payment->save();
 
                 return $payment->fresh();
             }
 
             return $this->stripe->charges->capture(
-                $payment->transaction_reference,
+                $payment->reference_number,
                 []
             );
         } catch (Exception $e) {

@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * Class ImportController
@@ -75,6 +76,8 @@ class ImportController extends Controller
                     ]
                 )
             );
+
+           return response()->json(['errors' => $errors]);
         }
 
         return response()->json($importer->getSuccess());
@@ -109,6 +112,8 @@ class ImportController extends Controller
             $request->file('file')->storeAs('uploads', $fileName, 'public');
 
             $importer->setCsvFile($file_path);
+
+            //$importer->run(false);
 
             $headers = $importer->getHeaders();
 

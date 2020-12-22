@@ -20,18 +20,18 @@ class ExpenseImporter extends BaseCsvImporter
     use ExpenseTransformable;
 
     private array $export_columns = [
-        'expense_category_id'   => 'expense category name',
-        'company_id'            => 'company name',
-        'customer_id'           => 'customer name',
-        'payment_type_id'       => 'payment type',
-        'transaction_reference' => 'transaction reference',
-        'project_id'            => 'project name',
-        'date'                  => 'date',
-        'amount'                => 'amount',
-        'currency_id'           => 'currency code',
-        'terms'                 => 'terms',
-        'public_notes'          => 'public notes',
-        'private_notes'         => 'private notes'
+        'expense_category_id' => 'expense category name',
+        'company_id'          => 'company name',
+        'customer_id'         => 'customer name',
+        'payment_type_id'     => 'payment type',
+        'reference_number'    => 'reference number',
+        'project_id'          => 'project name',
+        'date'                => 'date',
+        'amount'              => 'amount',
+        'currency_id'         => 'currency code',
+        'terms'               => 'terms',
+        'public_notes'        => 'public notes',
+        'private_notes'       => 'private notes'
     ];
 
     /**
@@ -42,7 +42,7 @@ class ExpenseImporter extends BaseCsvImporter
         'company name'          => 'company_id',
         'customer name'         => 'customer_id',
         'payment type'          => 'payment_type_id',
-        'transaction reference' => 'transaction_reference',
+        'reference number'      => 'reference_number',
         'project name'          => 'project_id',
         'date'                  => 'date',
         'amount'                => 'amount',
@@ -99,7 +99,7 @@ class ExpenseImporter extends BaseCsvImporter
                 'company name'          => ['cast' => 'string'],
                 'customer name'         => ['cast' => 'string'],
                 'payment type'          => ['cast' => 'string'],
-                'transaction_reference' => ['cast' => 'string'],
+                'reference_number'      => ['cast' => 'string'],
                 'project name'          => ['cast' => 'string'],
                 'amount'                => ['cast' => 'float'],
                 'date'                  => ['cast' => 'date'],

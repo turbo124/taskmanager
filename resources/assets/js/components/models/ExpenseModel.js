@@ -43,7 +43,7 @@ export default class ExpenseModel extends BaseModel {
             invoice_currency_id: this.settings.currency_id.toString().length ? this.settings.currency_id : consts.default_currency,
             payment_type_id: '',
             exchange_rate: 1,
-            transaction_reference: '',
+            reference_number: '',
             payment_date: this.settings.create_expense_payment ? moment(new Date()).add(1, 'days').format('YYYY-MM-DD') : '',
             include_documents: this.settings.include_expense_documents || false,
             create_invoice: this.settings.create_expense_invoice || false,
