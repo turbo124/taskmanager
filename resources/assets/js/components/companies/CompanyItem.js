@@ -40,7 +40,7 @@ export default class CompanyItem extends Component {
         const { brands, custom_fields, users, ignoredColumns } = this.props
         if (brands && brands.length) {
             return brands.map(brand => {
-                const restoreButton = brand.deleted_at && !brand.is_deleted
+                const restoreButton = brand.deleted_at
                     ? <RestoreModal id={brand.id} entities={brands} updateState={this.props.addUserToState}
                         url={`/api/companies/restore/${brand.id}`}/> : null
                 const archiveButton = !brand.deleted_at

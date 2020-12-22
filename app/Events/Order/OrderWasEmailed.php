@@ -19,7 +19,7 @@ class OrderWasEmailed
     public string $template;
 
     /**
-     * InvoiceWasEmailed constructor.
+     * OrderWasEmailed constructor.
      * @param Invitation $invitation
      * @param string $template
      */
