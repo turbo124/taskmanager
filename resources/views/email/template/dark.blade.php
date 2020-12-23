@@ -25,7 +25,7 @@ if(!empty($data)) {
         <div class="col-8 offset-2">
             <div style="border-width: 4px !important;" class="bg-dark shadow border-top border-info">
                     @component('email.components.header', ['p' => $body, 'logo' => isset($logo) ? $logo : ''])
-        
+
                         @if(isset($title))
                         {{$title}}
                         @endif

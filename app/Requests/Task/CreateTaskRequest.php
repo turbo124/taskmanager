@@ -29,13 +29,11 @@ class CreateTaskRequest extends BaseFormRequest
             'source_type'  => 'nullable|numeric',
             'rating'       => 'nullable|numeric',
             'customer_id'  => 'nullable|numeric',
-            //'task_type' => 'required',
             'name'         => 'required',
             'description'  => 'required',
-            'contributors' => 'required|array',
+            //'contributors' => 'required|array',
             'due_date'     => 'required',
             'start_date'   => 'nullable',
-            //'task_status' => 'required',
             'project_id'   => 'nullable',
             'number'       => [
                 Rule::unique('tasks', 'number')->where(

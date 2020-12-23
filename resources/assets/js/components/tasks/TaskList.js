@@ -9,6 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
 import UserRepository from '../repositories/UserRepository'
+import EditTaskDesktop from "./edit/EditTaskDesktop";
 
 export default class TaskList extends Component {
     constructor (props) {
@@ -215,7 +216,9 @@ export default class TaskList extends Component {
             ? 'fixed-margin-datatable-collapsed'
             : 'fixed-margin-datatable-large fixed-margin-datatable-large-mobile'
 
-        const addButton = customers.length && users.length ? <AddModal
+        const is_mobile = window.innerWidth <= 768
+
+        const addButton = is_mobile ? <AddModal
             custom_fields={custom_fields}
             modal={true}
             status={1}
@@ -224,7 +227,16 @@ export default class TaskList extends Component {
             users={users}
             action={this.addUserToState}
             tasks={tasks}
-        /> : null
+        /> : <EditTaskDesktop
+            modal={true}
+            listView={true}
+            custom_fields={custom_fields}
+            users={users}
+            task={{}}
+            add={true}
+            tasks={tasks}
+            action={this.addUserToState}
+        />
 
         return customers.length ? (
             <Row>

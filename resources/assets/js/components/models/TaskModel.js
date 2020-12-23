@@ -102,6 +102,10 @@ export default class TaskModel extends BaseModel {
         return false
     }
 
+    get isNew () {
+        return !this.fields.id || !this.fields.id.toString().length || parseInt(this.fields.id) <= 0
+    }
+
     set customer_id (customer_id) {
         this.fields.customer_id = customer_id
     }
@@ -127,11 +131,11 @@ export default class TaskModel extends BaseModel {
     }
 
     calculateDuration (currentStartTime, currentEndTime, returnAsSeconds = false) {
-        const startTime = moment(currentStartTime, 'YYYY-MM-DD HH:mm:ss')
+        const startTime = moment(currentStartTime, 'YYYY-MM-DD hh:mm:ss a')
         let endTime = ''
 
         if (currentEndTime.length) {
-            endTime = moment(currentEndTime, 'YYYY-MM-DD HH:mm:ss')
+            endTime = moment(currentEndTime, 'YYYY-MM-DD hh:mm:ss a')
             let hours = (endTime.diff(startTime, 'hours'))
             const totalMinutes = endTime.diff(startTime, 'minutes')
             const totalSeconds = endTime.diff(startTime, 'seconds')
@@ -245,6 +249,10 @@ export default class TaskModel extends BaseModel {
     }
 
     async save (data) {
+        if (this.fields.id) {
+            return this.update(data)
+        }
+
         try {
             this.errors = []
             this.error_message = ''

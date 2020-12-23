@@ -6,6 +6,7 @@ import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditTask from './edit/EditTask'
 import TaskPresenter from '../presenters/TaskPresenter'
+import EditTaskDesktop from './edit/EditTaskDesktop'
 
 export default class TaskItem extends Component {
     constructor (props) {
@@ -32,6 +33,8 @@ export default class TaskItem extends Component {
 
     render () {
         const { tasks, custom_fields, users, ignoredColumns } = this.props
+        const is_mobile = window.innerWidth <= 768
+
         if (tasks && tasks.length && users.length) {
             return tasks.map(task => {
                 const restoreButton = task.deleted_at
@@ -41,7 +44,7 @@ export default class TaskItem extends Component {
                     ? <DeleteModal archive={true} deleteFunction={this.deleteTask} id={task.id}/> : null
                 const deleteButton = !task.deleted_at
                     ? <DeleteModal archive={false} deleteFunction={this.deleteTask} id={task.id}/> : null
-                const editButton = !task.deleted_at ? <EditTask
+                const editButton = is_mobile ? <EditTask
                     modal={true}
                     listView={true}
                     custom_fields={custom_fields}
@@ -49,7 +52,16 @@ export default class TaskItem extends Component {
                     task={task}
                     allTasks={tasks}
                     action={this.props.addUserToState}
-                /> : null
+                /> : <EditTaskDesktop
+                    add={false}
+                    modal={true}
+                    listView={true}
+                    custom_fields={custom_fields}
+                    users={users}
+                    task={task}
+                    tasks={tasks}
+                    action={this.props.addUserToState}
+                />
 
                 const columnList = Object.keys(task).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)

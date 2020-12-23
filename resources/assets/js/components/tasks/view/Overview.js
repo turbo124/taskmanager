@@ -120,7 +120,7 @@ export default function Overview (props) {
     }) : null
 
     return <React.Fragment>
-        <PlainEntityHeader heading_1={translations.duration} value_1={props.model.formatTime(props.totalTime)}
+        <PlainEntityHeader heading_1={translations.duration} value_1={props.totalDuration}
             heading_2={translations.amount}
             value_2={<FormatMoney amount={props.calculatedAmount} customers={props.customers}/>}/>
 

@@ -3,11 +3,13 @@
 namespace App\Services\Task;
 
 use App\Components\Pdf\TaskPdf;
+use App\Factory\TimerFactory;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\Task;
 use App\Repositories\CustomerRepository;
 use App\Repositories\InvoiceSum;
 use App\Repositories\TaskRepository;
+use App\Repositories\TimerRepository;
 use App\Services\EntityManager;
 use App\Services\ServiceBase;
 use App\Services\Task\ConvertLead;
@@ -69,31 +71,6 @@ class TaskService extends ServiceBase
         return $this;
     }
 
-    public function approve(InvoiceRepository $invoice_repo, TaskRepository $task_repo): ?Task
-    {
-        if ($this->deal->status_id != Deal::STATUS_SENT) {
-            return null;
-        }
-
-        $this->task->setStatus(Task::STATUS_APPROVED);
-        $this->task->save();
-
-        if ($this->task->customer->getSetting('should_convert_deal')) {
-            //$invoice = (new ConvertDeal($this->quote, $invoice_repo))->execute();
-            //$this->quote->setInvoiceId($invoice->id);
-            //$this->quote->save();
-        }
-
-        event(new DealWasApproved($this->task));
-
-        // trigger
-        $subject = trans('texts.deal_approved_subject');
-        $body = trans('texts.deal_approved_body');
-        $this->trigger($subject, $body, $task_repo);
-
-        return $this->quote;
-    }
-
     /**
      * @param null $contact
      * @param bool $update
@@ -107,6 +84,31 @@ class TaskService extends ServiceBase
         }
 
         return CreatePdf::dispatchNow((new TaskPdf($this->task)), $this->task, $contact, $update);
+    }
+
+    /**
+     * @param array $timers
+     * @param Task $task
+     * @param TimerRepository $timer_repository
+     * @return \App\Models\Timer|null
+     */
+    public function saveTimers(array $timers, Task $task, TimerRepository $timer_repository)
+    {
+        $task->timers()->forceDelete();
+
+        foreach ($timers as $time) {
+            $timer = $timer_repository->save(
+                $task,
+                TimerFactory::create(
+                    auth()->user(),
+                    auth()->user()->account_user()->account,
+                    $task
+                ),
+                $time
+            );
+        }
+
+        return $timer;
     }
 
     /**

@@ -8,7 +8,6 @@ use App\Factory\TimerFactory;
 use App\Jobs\Order\CreateOrder;
 use App\Jobs\Pdf\Download;
 use App\Jobs\Task\GenerateInvoice;
-use App\Models\CompanyToken;
 use App\Models\Customer;
 use App\Models\Deal;
 use App\Models\Invoice;
@@ -40,9 +39,7 @@ use App\Transformations\TaskTransformable;
 use Exception;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
@@ -93,7 +90,11 @@ class TaskController extends Controller
             (new TaskFactory)->create(auth()->user(), auth()->user()->account_user()->account)
         );
 
-        if ($task->customer->getSetting('task_automation_enabled') === true) {
+        if (!empty($request->input('timers'))) {
+            $task->service()->saveTimers($request->input('timers'), $task, new TimerRepository(new Timer()));
+        }
+
+        if ($task->customer->getSetting('task_automation_enabled') === true && empty($request->input('timers'))) {
             return $this->timerAction('start_timer', $task);
         }
 
@@ -150,13 +151,17 @@ class TaskController extends Controller
     /**
      * @param UpdateTaskRequest $request
      * @param int $id
-     *
-     * @return Response
+     * @return JsonResponse
      */
     public function update(UpdateTaskRequest $request, int $id)
     {
         $task = $this->task_repo->findTaskById($id);
         $task = $this->task_repo->updateTask($request->all(), $task);
+
+        if (!empty($request->input('timers'))) {
+            $task->service()->saveTimers($request->input('timers'), $task, (new TimerRepository(new Timer())));
+        }
+
         //$task = SaveTaskTimes::dispatchNow($request->all(), $task);
         return response()->json($task);
     }
