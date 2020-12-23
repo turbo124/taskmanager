@@ -53,9 +53,14 @@ export default class TimerModel extends BaseModel {
         return data
     }
 
-    updateTaskTime (index, field, value) {
+    updateTaskTime (index, field, value, update_end_time = false) {
         const data = [...this.time_log]
         data[index][field] = value
+
+        if(update_end_time) {
+            data[index].end_date = value
+        }
+
         this.time_log = data
         return data
     }

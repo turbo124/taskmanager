@@ -5,6 +5,12 @@
   border: 1px solid #999;
 }
 
+.desktop {
+  .MuiFormControl-root {
+    margin-top: 0 !important;
+  }
+}
+
 // If you want to override variables do it here
 @import "variables";
 

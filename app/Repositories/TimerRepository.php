@@ -119,8 +119,10 @@ class TimerRepository extends BaseRepository
         $start_time = date('H:i:s', strtotime($data['start_time']));
         $end_time = date('H:i:s', strtotime($data['end_time']));
 
+        $end_date = !empty($data['end_date']) ? $data['end_date'] : date('Y-m-d');
+
         $timer->started_at = date('Y-m-d H:i:s', strtotime($data['date'] . ' ' . $start_time));
-        $timer->stopped_at = empty($data['end_time']) ? null : date('Y-m-d') . $end_time;
+        $timer->stopped_at = empty($data['end_time']) ? null : $end_date . $end_time;
         $timer->task_id = $task->id;
 
         $timer->save();

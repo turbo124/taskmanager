@@ -26,19 +26,7 @@ class TimerController extends Controller
     {
         $task = $this->task_repo->findTaskById($request->task_id);
 
-        $task->timers()->forceDelete();
-
-        foreach ($request->time_log as $time) {
-            $timer = $this->timer_repo->save(
-                $task,
-                TimerFactory::create(
-                    auth()->user(),
-                    auth()->user()->account_user()->account,
-                    $task
-                ),
-                $time
-            );
-        }
+        $timer = $task->service()->saveTimers($request->input('time_log'), $task, $this->timer_repo);
 
         return response()->json($timer);
     }
