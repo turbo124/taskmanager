@@ -95,8 +95,10 @@ export default class PaymentItem extends Component {
                 return (
                     <tr className={selectedRow} key={payment.id}>
                         <td>
+                            {!!this.props.onChangeBulk && 
                             <Input checked={isChecked} className={checkboxClass} value={payment.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
+                            }
                             {actionMenu}
                         </td>
                         {columnList}
