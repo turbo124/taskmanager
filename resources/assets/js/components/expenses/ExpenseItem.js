@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input } from 'reactstrap'
+import { Input, ListGroupItem } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
@@ -65,7 +65,7 @@ export default class ExpenseItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return (
+                return this.props.show_list ? (
                     <tr className={selectedRow} key={expense.id}>
                         <td>
                             {!!this.props.onChangeBulk && 
@@ -76,7 +76,19 @@ export default class ExpenseItem extends Component {
                         </td>
                         {columnList}
                     </tr>
-                )
+                ) : <ListGroupItem key={expense.id}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1"> {<ExpensePresenter field="customer" entity={expense} edit={editButton}/>}</h5>
+                        {<ExpensePresenter key={key} customers={customers}
+                        toggleViewedEntity={this.props.toggleViewedEntity}
+                        field="amount" entity={expense} edit={editButton}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{invoice.number} . {<ExpensePresenter field="date" entity={expense} edit={editButton}/>} </span>
+                        <span>{<ExpensePresenter field="status_field" entity={expense}/>}</span>
+                    </div>
+                </ListGroupItem>
             })
         } else {
             return <tr>
