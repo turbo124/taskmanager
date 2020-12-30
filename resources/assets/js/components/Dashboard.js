@@ -1676,14 +1676,14 @@ export default class Dashboard extends Component {
 
         const filterTasksLast30Days = getLast30Days(this.state.tasks)
         let arrRecentTasks = filterTasksLast30Days.length ? groupByStatus(filterTasksLast30Days, 4, 'status_id') : []
-        arrRecentTasks = this.state.tasks.filter((item) => {
+        arrRecentTasks = arrRecentTasks.length ? arrRecentTasks.filter((item) => {
             const taskModel = new TaskModel(item)
             return !item.deleted_at &&  taskModel.isRunning
-        })
+        }) : []
  
         // TODO - Running tasks
         let runningTasks = null
-        const runningTasks =  = this.state.tasks.filter((item) => {
+        const runningTasks =  this.state.tasks.length ? this.state.tasks.filter((item) => {
             const taskModel = new TaskModel(item)
             return !item.deleted_at &&  taskModel.isRunning
         }) : []
