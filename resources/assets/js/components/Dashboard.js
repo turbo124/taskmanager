@@ -2302,7 +2302,7 @@ export default class Dashboard extends Component {
                             <TabContent activeTab={this.state.activeTab2}>
                                 <TabPane tabId="3">
                                     <Card>
-                                        <CardHeader>{translations.overdue_invoices}</CardHeader>
+                                        <CardHeader>{translations.overdue_invoices} {arrOverdueInvoices.length ? arrOverdueInvoices.length : ''}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
                                             <ListGroup>
                                                 {overdue_invoices}
@@ -2311,7 +2311,7 @@ export default class Dashboard extends Component {
                                     </Card>
 
                                     <Card>
-                                        <CardHeader>{translations.recent_invoices}</CardHeader>
+                                        <CardHeader>{translations.recent_invoices} {arrRecentInvoices.length ? arrRecentInvoices.length : ''}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
                                             <ListGroup>
                                                 {recent_invoices}
@@ -2322,7 +2322,7 @@ export default class Dashboard extends Component {
 
                                 <TabPane tabId="4">
                                     <Card>
-                                        <CardHeader>{translations.overdue_quotes}</CardHeader>
+                                        <CardHeader>{translations.overdue_quotes} {arrOverdueQuotes.length ? arrOverdueQuotes.length : ''}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
                                             <ListGroup>
                                                 {overdue_quotes}
@@ -2331,7 +2331,7 @@ export default class Dashboard extends Component {
                                     </Card>
 
                                     <Card>
-                                        <CardHeader>{translations.recent_quotes}</CardHeader>
+                                        <CardHeader>{translations.recent_quotes} {arrRecentQuotes.length ? arrRecentQuotes.length : ''}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
                                             <ListGroup>
                                                 {recent_quotes}
@@ -2342,7 +2342,7 @@ export default class Dashboard extends Component {
 
                                 <TabPane tabId="5">
                                     <Card>
-                                        <CardHeader>{translations.recent_payments}</CardHeader>
+                                        <CardHeader>{translations.recent_payments} {arrRecentPayments.length ? arrRecentPayments.length : ''}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
                                             <ListGroup>
                                                 {recent_payments}
@@ -2353,7 +2353,7 @@ export default class Dashboard extends Component {
 
                                 <TabPane tabId="6">
                                     <Card>
-                                        <CardHeader>{translations.overdue_orders}</CardHeader>
+                                        <CardHeader>{translations.overdue_orders} {arrOverdueOrders.length ? arrOverdueOrders.length : ''}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
                                             <ListGroup>
                                                 {overdue_orders}
@@ -2362,7 +2362,7 @@ export default class Dashboard extends Component {
                                     </Card>
 
                                     <Card>
-                                        <CardHeader>{translations.recent_orders}</CardHeader>
+                                        <CardHeader>{translations.recent_orders} {arrRecentOrders.length ? arrRecentOrders.length : ''}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
                                             <ListGroup>
                                                 {recent_orders}
@@ -2372,7 +2372,7 @@ export default class Dashboard extends Component {
                                 </TabPane>
                                 <TabPane tabId="7">
                                     <Card>
-                                        <CardHeader>{translations.recent_tasks}</CardHeader>
+                                        <CardHeader>{translations.recent_tasks} {arrRecentTasks.length ? arrRecentTasks.length : ''}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
                                             <ListGroup>
                                                 {recent_tasks}
@@ -2381,7 +2381,7 @@ export default class Dashboard extends Component {
                                     </Card>
 
                                     <Card>
-                                        <CardHeader>{translations.running_tasks}</CardHeader>
+                                        <CardHeader>{translations.running_tasks} {runningTasks.length ? runningTasks.length : ''}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
                                             <ListGroup>
                                                 {running_tasks}
@@ -2391,7 +2391,7 @@ export default class Dashboard extends Component {
                                 </TabPane>
                                 <TabPane tabId="8">
                                     <Card>
-                                        <CardHeader>{translations.recent_expenses}</CardHeader>
+                                        <CardHeader>{translations.recent_expenses} {arrRecentExpenses.length ? arrRecentExpenses.length : ''}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
                                             <ListGroup>
                                                 {recent_expenses}
