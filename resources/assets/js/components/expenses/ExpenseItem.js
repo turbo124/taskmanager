@@ -79,7 +79,7 @@ export default class ExpenseItem extends Component {
                 ) : <ListGroupItem key={expense.id}
                     className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1"> {<ExpensePresenter field="customer" entity={expense} edit={editButton}/>}</h5>
+                        <h5 className="mb-1">{actionMenu} {<ExpensePresenter field="customer" entity={expense} edit={editButton}/>}</h5>
                         {<ExpensePresenter key={key} customers={customers}
                         toggleViewedEntity={this.props.toggleViewedEntity}
                         field="amount" entity={expense} edit={editButton}/>}
