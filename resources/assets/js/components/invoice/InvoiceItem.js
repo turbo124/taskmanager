@@ -75,8 +75,10 @@ export default class InvoiceItem extends Component {
                 return (
                     <tr className={selectedRow} key={invoice.id}>
                         <td>
+                            {!!this.props.onChangeBulk && 
                             <Input checked={isChecked} className={checkboxClass} value={invoice.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
+                            }
                             {actionMenu}
                         </td>
                         {columnList}
