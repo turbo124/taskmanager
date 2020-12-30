@@ -45,6 +45,12 @@ import QuotePresenter from './presenters/QuotePresenter'
 import OrderPresenter from './presenters/OrderPresenter'
 import PaymentPresenter from './presenters/PaymentPresenter'
 import SettingsWizard from './settings/settings_wizard/SettingsWizard'
+import ViewEntity from './ViewEntity'
+import TaskItem from './tasks/TaskItem'
+import ExpenseItem from './expenses/ExpenseItem'
+import PaymentItem from './payments/PaymentItem'
+import QuoteItem from './QuoteItem'
+import OrderItem from './OrderItem'
 
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
@@ -331,8 +337,10 @@ export default class Dashboard extends Component {
             credits: [],
             activeTab: '1',
             activeTab2: window.innerWidth <= 768 ? '' : '3',
-            isMobile: window.innerWidth <= 768
-
+            isMobile: window.innerWidth <= 768,
+            view: null,
+            viewId: null,
+            ignoredColumns: ['is_deleted', 'viewed', 'tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'date_to_send', 'recurring_invoice_id', 'recurring', 'currency_id', 'exchange_rate', 'account_id', 'assigned_to', 'gateway_percentage', 'gateway_fee', 'files', 'audits', 'paymentables', 'customer_name', 'emails', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
         }
 
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
@@ -351,6 +359,8 @@ export default class Dashboard extends Component {
         this.toggleModal2 = this.toggleModal2.bind(this)
         this.getCustomer = this.getCustomer.bind(this)
         this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+        this.addUserToState = this.addUserToState.bind(this)
+        this.toggleViewedEntity = this.toggleViewedEntity.bind(this)
     }
 
     componentDidMount () {
@@ -383,6 +393,34 @@ export default class Dashboard extends Component {
         const selected_tab1 = window.innerWidth <= 768 ? this.state.activeTab : '1'
         const selected_tab2 = window.innerWidth <= 768 ? '' : '3'
         this.setState({ isMobile: window.innerWidth <= 768, activeTab: selected_tab1, activeTab2: selected_tab2 })
+    }
+
+    addUserToState (entity_name, entities) {
+        this.setState({ [entity_name]: entities })
+    }
+
+   toggleViewedEntity (id, title = null, edit = null) {
+        if (this.state.view.viewMode === true) {
+            this.setState({
+                view: {
+                    ...this.state.view,
+                    viewMode: false,
+                    viewedId: null
+                }
+            }, () => console.log('view', this.state.view))
+
+            return
+        }
+
+        this.setState({
+            view: {
+                ...this.state.view,
+                viewMode: !this.state.view.viewMode,
+                viewedId: id,
+                edit: edit,
+                title: title
+            }
+        }, () => console.log('view', this.state.view))
     }
 
     toggleDashboardFilter (e) {
@@ -1676,9 +1714,8 @@ export default class Dashboard extends Component {
         const filterExpensesLast30Days = getLast30Days(this.state.expenses)
         const arrRecentExpenses = filterExpensesLast30Days.length ? groupByStatus(filterExpensesLast30Days, 4, 'status_id') : []
 
-        const filterTasksLast30Days = getLast30Days(this.state.tasks)
-        let arrRecentTasks = filterTasksLast30Days.length ? groupByStatus(filterTasksLast30Days, 4, 'status_id') : []
-        arrRecentTasks = arrRecentTasks.length ? arrRecentTasks.filter((item) => {
+        const filterTasksLast30Days = this.state.tasks.length ? getLast30Days(this.state.tasks) : []
+        arrRecentTasks = filterTasksLast30Days.length ? filterTasksLast30Days.filter((item) => {
             const taskModel = new TaskModel(item)
             return !item.deleted_at &&  taskModel.isRunning
         }) : []
@@ -1694,166 +1731,123 @@ export default class Dashboard extends Component {
         const arrRecentInvoices = filterInvoicesLast30Days.length ? groupByStatus(filterInvoicesLast30Days, 1, 'status_id') : []
 
         const overdue_invoices = arrOverdueInvoices.length ? arrOverdueInvoices.map((invoice, index) => {
-            return (
-                <ListGroupItem key={index}
-                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
-                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
-                    </div>
-                    <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate
-                            date={invoice.due_date}/></span>
-                        <span>{<InvoicePresenter field="status_field" entity={invoice}/>}</span>
-                    </div>
-                </ListGroupItem>
-            )
+            return <InvoiceItem showCheckboxes={false} updateInvoice={(entities) => {
+            this.addUserToState('invoices', entities)
+          }} invoices={this.state.invoices} show_list={this.state.isMobile} users={[]}
+            custom_fields={[]} customers={this.state.customers}
+            viewId={this.state.viewId}
+            ignoredColumns={this.state.ignoredColumns}
+            toggleViewedEntity={this.toggleViewedEntity}
+            bulk={[]}
+            onChangeBulk={null}/>
         }) : null
 
         const recent_invoices = arrRecentInvoices.length ? arrRecentInvoices.map((invoice, index) => {
-            return (
-                <ListGroupItem key={index}
-                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
-                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
-                    </div>
-                    <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date}/></span>
-                        <span>{<InvoicePresenter field="status_field" entity={invoice}/>}</span>
-                    </div>
-                </ListGroupItem>
-            )
+            return <InvoiceItem showCheckboxes={false} updateInvoice={(entities) => {
+            this.addUserToState('invoices', entities)
+          }} invoices={this.state.invoices} show_list={this.state.isMobile} users={[]}
+            custom_fields={[]} customers={this.state.customers}
+            viewId={this.state.viewId}
+            ignoredColumns={this.state.ignoredColumns}
+            toggleViewedEntity={this.toggleViewedEntity}
+            bulk={[]}
+            onChangeBulk={null}/>
         }) : null
 
         const recent_tasks = arrRecentTasks.length ? arrRecentTasks.map((task, index) => {
-            return (
-                <ListGroupItem key={index}
-                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{this.getCustomer(task.customer_id)}</h5>
-                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
-                    </div>
-                    <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{task.number} . <FormatDate date={invoice.date}/></span>
-                        <span>{<TaskPresenter field="status_field" entity={task}/>}</span>
-                    </div>
-                </ListGroupItem>
-            )
+            return <TaskItem showCheckboxes={false} action={(entities) => {
+            this.addUserToState('tasks', entities)
+          }} tasks={this.state.tasks} show_list={this.state.isMobile} users={[]}
+            custom_fields={[]} customers={this.state.customers}
+            viewId={this.state.viewId}
+            ignoredColumns={this.state.ignoredColumns}
+            toggleViewedEntity={this.toggleViewedEntity}
+            bulk={[]}
+            onChangeBulk={null}/>
         }) : null
 
         const running_tasks = arrRunningTasks.length ? arrRunningTasks.map((task, index) => {
-            return (
-                <ListGroupItem key={index}
-                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{this.getCustomer(task.customer_id)}</h5>
-                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.amount}/>}
-                    </div>
-                    <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{task.number} . <FormatDate date={task.date}/></span>
-                        <span>{<TaskPresenter field="status_field" entity={task}/>}</span>
-                    </div>
-                </ListGroupItem>
-            )
+           return <TaskItem showCheckboxes={false} action={(entities) => {
+            this.addUserToState('tasks', entities)
+          }} tasks={this.state.tasks} show_list={this.state.isMobile} users={[]}
+            custom_fields={[]} customers={this.state.customers}
+            viewId={this.state.viewId}
+            ignoredColumns={this.state.ignoredColumns}
+            toggleViewedEntity={this.toggleViewedEntity}
+            bulk={[]}
+            onChangeBulk={null}/>
         }) : null
 
        const recent_expenses = arrRecentExpenses.length ? arrRecentExpenses.map((expense, index) => {
-            return (
-                <ListGroupItem key={index}
-                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{this.getCustomer(expense.customer_id)}</h5>
-                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
-                    </div>
-                    <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{expense.number} . <FormatDate date={invoice.date}/></span>
-                        <span>{<ExpensePresenter field="status_field" entity={expense}/>}</span>
-                    </div>
-                </ListGroupItem>
-            )
+            return <ExpenseItem showCheckboxes={false} updateExpenses={(entities) => {
+            this.addUserToState('expenses', entities)
+          }} expenses={this.state.expenses} show_list={this.state.isMobile} users={[]}
+            custom_fields={[]} customers={this.state.customers}
+            viewId={this.state.viewId}
+            ignoredColumns={this.state.ignoredColumns}
+            toggleViewedEntity={this.toggleViewedEntity}
+            bulk={[]}
+            onChangeBulk={null}/>
         }) : null
 
         const overdue_quotes = arrOverdueQuotes.length ? arrOverdueQuotes.map((invoice, index) => {
-            return (
-                <ListGroupItem key={index}
-                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
-                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
-                    </div>
-                    <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate
-                            date={invoice.due_date}/></span>
-                        <span>{<QuotePresenter field="status_field" entity={invoice}/>}</span>
-                    </div>
-                </ListGroupItem>
-            )
+           return <QuoteItem showCheckboxes={false} updateInvoice={(entities) => {
+            this.addUserToState('quotes', entities)
+          }} quotes={this.state.quotes} show_list={this.state.isMobile} users={[]}
+            custom_fields={[]} customers={this.state.customers}
+            viewId={this.state.viewId}
+            ignoredColumns={this.state.ignoredColumns}
+            toggleViewedEntity={this.toggleViewedEntity}
+            bulk={[]}
+            onChangeBulk={null}/>
         }) : null
 
         const recent_quotes = arrRecentQuotes.length ? arrRecentQuotes.map((invoice, index) => {
-            return (
-                <ListGroupItem key={index}
-                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
-                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
-                    </div>
-                    <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date}/></span>
-                        <span>{<QuotePresenter field="status_field" entity={invoice}/>}</span>
-                    </div>
-                </ListGroupItem>
-            )
+            return <QuoteItem showCheckboxes={false} updateInvoice={(entities) => {
+            this.addUserToState('quotes', entities)
+          }} quotes={this.state.quotes} show_list={this.state.isMobile} users={[]}
+            custom_fields={[]} customers={this.state.customers}
+            viewId={this.state.viewId}
+            ignoredColumns={this.state.ignoredColumns}
+            toggleViewedEntity={this.toggleViewedEntity}
+            bulk={[]}
+            onChangeBulk={null}/>
         }) : null
 
         const overdue_orders = arrOverdueOrders.length ? arrOverdueOrders.map((invoice, index) => {
-            return (
-                <ListGroupItem key={index}
-                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
-                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
-                    </div>
-                    <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate
-                            date={invoice.due_date}/></span>
-                        <span>{<OrderPresenter field="status_field" entity={invoice}/>}</span>
-                    </div>
-                </ListGroupItem>
-            )
+            return <OrderItem showCheckboxes={false} updateOrder={(entities) => {
+            this.addUserToState('orders', entities)
+          }} orders={this.state.orders} show_list={this.state.isMobile} users={[]}
+            custom_fields={[]} customers={this.state.customers}
+            viewId={this.state.viewId}
+            ignoredColumns={this.state.ignoredColumns}
+            toggleViewedEntity={this.toggleViewedEntity}
+            bulk={[]}
+            onChangeBulk={null}/>
         }) : null
 
         const recent_orders = arrRecentOrders.length ? arrRecentOrders.map((invoice, index) => {
-            return (
-                <ListGroupItem key={index}
-                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
-                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
-                    </div>
-                    <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date}/></span>
-                        <span>{<OrderPresenter field="status_field" entity={invoice}/>}</span>
-                    </div>
-                </ListGroupItem>
-            )
+            return <OrderItem showCheckboxes={false} updateOrder={(entities) => {
+            this.addUserToState('orders', entities)
+          }} invoices={this.state.orders} show_list={this.state.isMobile} users={[]}
+            custom_fields={[]} customers={this.state.customers}
+            viewId={this.state.viewId}
+            ignoredColumns={this.state.ignoredColumns}
+            toggleViewedEntity={this.toggleViewedEntity}
+            bulk={[]}
+            onChangeBulk={null}/>
         }) : null
 
         const recent_payments = arrRecentPayments.length ? arrRecentPayments.map((invoice, index) => {
-            return (
-                <ListGroupItem key={index}
-                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{this.getCustomer(invoice.customer_id)}</h5>
-                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.amount}/>}
-                    </div>
-                    <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . <FormatDate date={invoice.date}/></span>
-                        <span>{<PaymentPresenter field="status_field" entity={invoice}/>}</span>
-                    </div>
-                </ListGroupItem>
-            )
+            return <PaymentItem showCheckboxes={false} updateCustomers={(entities) => {
+            this.addUserToState('payments', entities)
+          }} payments={this.state.payments} credits={this.state.credits} invoices={this.state.invoices} show_list={this.state.isMobile} users={[]}
+            custom_fields={[]} customers={this.state.customers}
+            viewId={this.state.viewId}
+            ignoredColumns={this.state.ignoredColumns}
+            toggleViewedEntity={this.toggleViewedEntity}
+            bulk={[]}
+            onChangeBulk={null}/>
         }) : null
 
         const modules = JSON.parse(localStorage.getItem('modules'))
@@ -2432,6 +2426,19 @@ export default class Dashboard extends Component {
                     <Button color="secondary" onClick={this.toggleModal}>Close</Button>
                 </ModalFooter>
             </Modal>
+
+            {this.state.view && <ViewEntity
+                    updateState={this.props.updateState}
+                    toggle={this.toggleViewedEntity}
+                    title={this.state.view.title}
+                    viewed={this.state.view.viewMode}
+                    edit={this.state.view.edit}
+                    companies={this.props.companies}
+                    customers={this.props.customers && this.props.customers.length ? this.props.customers : []}
+                    entities={this.state.data}
+                    entity={this.state.view.viewedId}
+                    entity_type={this.props.entity_type}
+                />}
         </React.Fragment>
     }
 }
