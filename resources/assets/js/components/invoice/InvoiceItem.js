@@ -72,7 +72,7 @@ export default class InvoiceItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return this.props.show_list ? (
+                return !this.props.show_list ? (
                     <tr className={selectedRow} key={invoice.id}>
                         <td>
                             {!!this.props.onChangeBulk && 
