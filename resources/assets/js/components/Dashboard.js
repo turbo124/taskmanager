@@ -1724,6 +1724,54 @@ export default class Dashboard extends Component {
             )
         }) : null
 
+        const recent_tasks = arrRecentTasks.length ? arrRecentTasks.map((task, index) => {
+            return (
+                <ListGroupItem key={index}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{this.getCustomer(task.customer_id)}</h5>
+                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{task.number} . <FormatDate date={invoice.date}/></span>
+                        <span>{<TaskPresenter field="status_field" entity={task}/>}</span>
+                    </div>
+                </ListGroupItem>
+            )
+        }) : null
+
+        const running_tasks = arrRunningTasks.length ? arrRunningTasks.map((task, index) => {
+            return (
+                <ListGroupItem key={index}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{this.getCustomer(task.customer_id)}</h5>
+                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.amount}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{task.number} . <FormatDate date={task.date}/></span>
+                        <span>{<TaskPresenter field="status_field" entity={task}/>}</span>
+                    </div>
+                </ListGroupItem>
+            )
+        }) : null
+
+       const recent_expenses = arrRecentExpenses.length ? arrRecentExpenses.map((expense, index) => {
+            return (
+                <ListGroupItem key={index}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{this.getCustomer(expense.customer_id)}</h5>
+                        {<FormatMoney className="lead" customers={this.state.customers} amount={invoice.total}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{expense.number} . <FormatDate date={invoice.date}/></span>
+                        <span>{<ExpensePresenter field="status_field" entity={expense}/>}</span>
+                    </div>
+                </ListGroupItem>
+            )
+        }) : null
+
         const overdue_quotes = arrOverdueQuotes.length ? arrOverdueQuotes.map((invoice, index) => {
             return (
                 <ListGroupItem key={index}
@@ -2226,6 +2274,28 @@ export default class Dashboard extends Component {
                                     </NavLink>
                                 </NavItem>
                                 }
+                                {modules && modules.tasks &&
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab2 === '7' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggleTab2('7')
+                                        }}>
+                                        {translations.tasks}
+                                    </NavLink>
+                                </NavItem>
+                                }
+                                {modules && modules.expenses &&
+                                <NavItem>
+                                    <NavLink
+                                        className={this.state.activeTab2 === '8' ? 'active' : ''}
+                                        onClick={() => {
+                                            this.toggleTab2('8')
+                                        }}>
+                                        {translations.expenses}
+                                    </NavLink>
+                                </NavItem>
+                                }
                             </Nav>
                             }
 
@@ -2296,6 +2366,35 @@ export default class Dashboard extends Component {
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
                                             <ListGroup>
                                                 {recent_orders}
+                                            </ListGroup>
+                                        </CardBody>
+                                    </Card>
+                                </TabPane>
+                                <TabPane tabId="7">
+                                    <Card>
+                                        <CardHeader>{translations.recent_tasks}</CardHeader>
+                                        <CardBody style={{ height: '285px', overflowY: 'auto' }}>
+                                            <ListGroup>
+                                                {recent_tasks}
+                                            </ListGroup>
+                                        </CardBody>
+                                    </Card>
+
+                                    <Card>
+                                        <CardHeader>{translations.running_tasks}</CardHeader>
+                                        <CardBody style={{ height: '285px', overflowY: 'auto' }}>
+                                            <ListGroup>
+                                                {running_tasks}
+                                            </ListGroup>
+                                        </CardBody>
+                                    </Card>
+                                </TabPane>
+                                <TabPane tabId="8">
+                                    <Card>
+                                        <CardHeader>{translations.recent_expenses}</CardHeader>
+                                        <CardBody style={{ height: '285px', overflowY: 'auto' }}>
+                                            <ListGroup>
+                                                {recent_expenses}
                                             </ListGroup>
                                         </CardBody>
                                     </Card>
