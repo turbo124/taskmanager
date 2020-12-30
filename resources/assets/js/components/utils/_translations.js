@@ -802,7 +802,10 @@ _localizedValues.en = {
     send_overdue_case_email: 'Send email for overdue cases',
     unit_price: 'Unit Price',
     unit_tax: 'Unit Tax',
-    unit_discount: 'Unit Discount'
+    unit_discount: 'Unit Discount',
+    running_tasks: 'Running Tasks',
+    recent_tasks: 'Recent Tasks',
+    recent_expenses: 'Recent Expenses',
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
