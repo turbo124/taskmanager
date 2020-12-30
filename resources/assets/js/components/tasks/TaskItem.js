@@ -95,7 +95,7 @@ export default class TaskItem extends Component {
                 </tr> : <ListGroupItem key={task.id}
                     className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1"> {<TaskPresenter field="customer" entity={task} edit={editButton}/>}</h5>
+                        <h5 className="mb-1">{actionMenu} {<TaskPresenter field="customer" entity={task} edit={editButton}/>}</h5>
                         {<TaskPresenter key={key} customers={customers}
                         toggleViewedEntity={this.props.toggleViewedEntity}
                         field="name" entity={task} edit={editButton}/>}
