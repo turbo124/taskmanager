@@ -86,7 +86,7 @@ export default class QuoteItem extends Component {
                 ) : <ListGroupItem key={invoice.id}
                     className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1"> {<InvoicePresenter field="customer" entity={user} edit={editButton}/>}</h5>
+                        <h5 className="mb-1">{actionMenu} {<InvoicePresenter field="customer" entity={user} edit={editButton}/>}</h5>
                         {<QuotePresenter key={key} customers={customers}
                         toggleViewedEntity={this.props.toggleViewedEntity}
                         field="balance" entity={user} edit={editButton}/>}
