@@ -49,8 +49,8 @@ import ViewEntity from './ViewEntity'
 import TaskItem from './tasks/TaskItem'
 import ExpenseItem from './expenses/ExpenseItem'
 import PaymentItem from './payments/PaymentItem'
-import QuoteItem from './QuoteItem'
-import OrderItem from './OrderItem'
+import QuoteItem from './quotes/QuoteItem'
+import OrderItem from './orders/OrderItem'
 
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
