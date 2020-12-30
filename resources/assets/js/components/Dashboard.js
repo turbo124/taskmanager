@@ -51,6 +51,7 @@ import ExpenseItem from './expenses/ExpenseItem'
 import PaymentItem from './payments/PaymentItem'
 import QuoteItem from './quotes/QuoteItem'
 import OrderItem from './orders/OrderItem'
+import TaskModel from './models/TaskModel'
 
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
@@ -340,7 +341,46 @@ export default class Dashboard extends Component {
             isMobile: window.innerWidth <= 768,
             view: null,
             viewId: null,
-            ignoredColumns: ['is_deleted', 'viewed', 'tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'date_to_send', 'recurring_invoice_id', 'recurring', 'currency_id', 'exchange_rate', 'account_id', 'assigned_to', 'gateway_percentage', 'gateway_fee', 'files', 'audits', 'paymentables', 'customer_name', 'emails', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
+            ignoredColumns: ['is_deleted', 'viewed', 'tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'date_to_send', 'recurring_invoice_id', 'recurring', 'currency_id', 'exchange_rate', 'account_id', 'assigned_to', 'gateway_percentage', 'gateway_fee', 'files', 'audits', 'paymentables', 'customer_name', 'emails', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total',  'task_rate',
+                'timers',
+                'public_notes',
+                'private_notes',
+                'deleted_at',
+                'users',
+                'customer',
+                'contributors',
+                'users',
+                'comments',
+                'is_completed',
+                'task_status_id',
+                 'reference_number',
+                    'transaction_id',
+                    'tax_rate',
+                    'tax_rate_name',
+                    'tax_2', 'tax_3',
+                    'tax_rate_name_2',
+                    'tax_rate_name_3',
+                    'project_id',
+                    'category',
+                    'files',
+                    'customer_name',
+                    'user_id',
+                    'company_id',
+                    'invoice_currency_id',
+                    'converted_amount',
+                    'exchange_rate',
+                    'deleted_at',
+                    'recurring_expense_id',
+                    'currency_id',
+                    'type_id',
+                    'invoice_id',
+                    'assigned_to',
+                    'bank_id',
+                    'expense_category_id',
+                    'create_invoice',
+                    'include_documents'
+
+                ], 
         }
 
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
