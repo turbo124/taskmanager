@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { Component } from 'react'
-import { Input } from 'reactstrap'
+import { Input, ListGroupItem } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
@@ -83,7 +83,7 @@ export default class TaskItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return <tr className={selectedRow} key={task.id}>
+                return !this.props.show_list ? <tr className={selectedRow} key={task.id}>
                     <td>
                         {!!this.props.onChangeBulk && 
                         <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
@@ -92,7 +92,19 @@ export default class TaskItem extends Component {
                         {actionMenu}
                     </td>
                     {columnList}
-                </tr>
+                </tr> : <ListGroupItem key={task.id}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1"> {<TaskPresenter field="customer" entity={task} edit={editButton}/>}</h5>
+                        {<TaskPresenter key={key} customers={customers}
+                        toggleViewedEntity={this.props.toggleViewedEntity}
+                        field="name" entity={task} edit={editButton}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{task.number} . {<TaskPresenter field="date" entity={task} edit={editButton}/>} </span>
+                        <span>{<TaskPresenter field="status_field" entity={task}/>}</span>
+                    </div>
+                </ListGroupItem>
             })
         } else {
             return <tr>
