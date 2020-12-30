@@ -1675,9 +1675,19 @@ export default class Dashboard extends Component {
         const arrRecentExpenses = filterExpensesLast30Days.length ? groupByStatus(filterExpensesLast30Days, 4, 'status_id') : []
 
         const filterTasksLast30Days = getLast30Days(this.state.tasks)
-        const arrRecentTasks = filterTasksLast30Days.length ? groupByStatus(filterTasksLast30Days, 4, 'status_id') : []
+        let arrRecentTasks = filterTasksLast30Days.length ? groupByStatus(filterTasksLast30Days, 4, 'status_id') : []
+        arrRecentTasks = this.state.tasks.filter((item) => {
+            const taskModel = new TaskModel(item)
+            return !item.deleted_at &&  taskModel.isRunning
+        })
  
         // TODO - Running tasks
+        let runningTasks = null
+        const runningTasks =  = this.state.tasks.filter((item) => {
+            const taskModel = new TaskModel(item)
+            return !item.deleted_at &&  taskModel.isRunning
+        }) : []
+
         const filterInvoicesLast30Days = getLast30Days(this.state.invoices)
         const arrRecentInvoices = filterInvoicesLast30Days.length ? groupByStatus(filterInvoicesLast30Days, 1, 'status_id') : []
 
