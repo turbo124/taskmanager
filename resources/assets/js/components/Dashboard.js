@@ -2428,14 +2428,14 @@ export default class Dashboard extends Component {
             </Modal>
 
             {this.state.view && <ViewEntity
-                    updateState={this.props.updateState}
+                    updateState={this.updateState}
                     toggle={this.toggleViewedEntity}
                     title={this.state.view.title}
                     viewed={this.state.view.viewMode}
                     edit={this.state.view.edit}
-                    companies={this.props.companies}
-                    customers={this.props.customers && this.props.customers.length ? this.props.customers : []}
-                    entities={this.state.data}
+                    companies={[]}
+                    customers={this.state.customers && this.state.customers.length ? this.state.customers : []}
+                    entities={this.state.invoices}
                     entity={this.state.view.viewedId}
                     entity_type={this.props.entity_type}
                 />}
