@@ -68,8 +68,10 @@ export default class ExpenseItem extends Component {
                 return (
                     <tr className={selectedRow} key={expense.id}>
                         <td>
+                            {!!this.props.onChangeBulk && 
                             <Input checked={isChecked} className={checkboxClass} value={expense.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
+                            }
                             {actionMenu}
                         </td>
                         {columnList}
