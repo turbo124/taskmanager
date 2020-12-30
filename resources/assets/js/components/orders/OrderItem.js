@@ -75,8 +75,10 @@ export default class OrderItem extends Component {
                 return (
                     <tr className={selectedRow} key={order.id}>
                         <td>
+                            {!!this.props.onChangeBulk && 
                             <Input checked={isChecked} className={checkboxClass} value={order.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
+                            }
                             {actionMenu}
                         </td>
                         {columnList}
