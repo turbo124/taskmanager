@@ -92,7 +92,7 @@ export default class InvoiceItem extends Component {
                         field="balance" entity={invoice} edit={editButton}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . {<InvoicePresenter field="due_date" entity={invoice} edit={editButton}/>} </span>
+                        <span className="mb-1 text-muted">{actionMenu} {invoice.number} . {<InvoicePresenter field="due_date" entity={invoice} edit={editButton}/>} </span>
                         <span>{<InvoicePresenter field="status_field" entity={invoice}/>}</span>
                     </div>
                 </ListGroupItem>
