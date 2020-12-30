@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input } from 'reactstrap'
+import { Input, ListGroupItem } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
@@ -72,7 +72,7 @@ export default class InvoiceItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return (
+                return this.props.show_list ? (
                     <tr className={selectedRow} key={invoice.id}>
                         <td>
                             {!!this.props.onChangeBulk && 
@@ -83,7 +83,19 @@ export default class InvoiceItem extends Component {
                         </td>
                         {columnList}
                     </tr>
-                )
+                ) : <ListGroupItem key={invoice.id}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1"> {<InvoicePresenter field="customer" entity={invoice} edit={editButton}/>}</h5>
+                        {<InvoicePresenter key={key} customers={customers}
+                        toggleViewedEntity={this.props.toggleViewedEntity}
+                        field="balance" entity={invoice} edit={editButton}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{invoice.number} . {<InvoicePresenter field="due_date" entity={invoice} edit={editButton}/>} </span>
+                        <span>{<InvoicePresenter field="status_field" entity={invoice}/>}</span>
+                    </div>
+                </ListGroupItem>
             })
         } else {
             return <tr>
