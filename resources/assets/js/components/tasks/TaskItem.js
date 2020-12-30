@@ -85,8 +85,10 @@ export default class TaskItem extends Component {
 
                 return <tr className={selectedRow} key={task.id}>
                     <td>
+                        {!!this.props.onChangeBulk && 
                         <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
                             onChange={this.props.onChangeBulk}/>
+                        }
                         {actionMenu}
                     </td>
                     {columnList}
