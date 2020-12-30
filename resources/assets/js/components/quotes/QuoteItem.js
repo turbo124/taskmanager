@@ -75,8 +75,10 @@ export default class QuoteItem extends Component {
                 return (
                     <tr className={selectedRow} key={user.id}>
                         <td>
+                            {!!this.props.onChangeBulk && 
                             <Input checked={isChecked} className={checkboxClass} value={user.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
+                            }
                             {actionMenu}
                         </td>
                         {columnList}
