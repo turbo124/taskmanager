@@ -65,7 +65,7 @@ export default class ExpenseItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return this.props.show_list ? (
+                return !this.props.show_list ? (
                     <tr className={selectedRow} key={expense.id}>
                         <td>
                             {!!this.props.onChangeBulk && 
