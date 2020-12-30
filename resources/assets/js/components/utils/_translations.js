@@ -806,6 +806,7 @@ _localizedValues.en = {
     running_tasks: 'Running Tasks',
     recent_tasks: 'Recent Tasks',
     recent_expenses: 'Recent Expenses',
+    upcoming_expenses : 'Upcoming Expenses',
 }
 
 const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
