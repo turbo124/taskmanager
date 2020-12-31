@@ -40,7 +40,7 @@ export default class ProjectItem extends Component {
         const { projects, custom_fields, customers, ignoredColumns } = this.props
         if (projects && projects.length) {
             return projects.map(project => {
-                const restoreButton = project.deleted_at && !project.is_deleted
+                const restoreButton = project.deleted_at
                     ? <RestoreModal id={project.id} entities={projects} updateState={this.props.addUserToState}
                         url={`/api/projects/restore/${project.id}`}/> : null
                 const archiveButton = !project.deleted_at

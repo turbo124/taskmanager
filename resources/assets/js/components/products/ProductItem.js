@@ -35,7 +35,7 @@ export default class ProductItem extends Component {
 
         if (products && products.length) {
             return products.map(product => {
-                const restoreButton = product.deleted_at && !product.is_deleted
+                const restoreButton = product.deleted_at
                     ? <RestoreModal id={product.id} entities={products} updateState={this.props.addProductToState}
                         url={`/api/products/restore/${product.id}`}/> : null
                 const deleteButton = !product.deleted_at
