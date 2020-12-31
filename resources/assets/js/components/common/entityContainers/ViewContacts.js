@@ -19,7 +19,7 @@ export default function ViewContacts (props) {
             const link = props.entity.invitation_link.replace('$key', invitation.key)
             const contact = customerModel.findContact(invitation.contact_id)
 
-            return <ListGroupItem key={index} className={listClass}>
+            return contact !== false ? <ListGroupItem key={index} className={listClass}>
                 <a href={link}>
                     <ListGroupItemHeading><i
                         className={`fa ${icons.contact} mr-4`}/>{(!contact.fullName.length ? customerModel.displayName : contact.fullName)}
@@ -34,7 +34,7 @@ export default function ViewContacts (props) {
                 <p className="small"><span
                     onClick={(e) => props.entity.copyToClipboard(link)}> {translations.copy_to_clipboard}</span>
                 </p>
-            </ListGroupItem>
+            </ListGroupItem> : null
         })
     }
 

@@ -11,7 +11,6 @@ import {
     Col,
     Input,
     ListGroup,
-    ListGroupItem,
     Modal,
     ModalBody,
     ModalFooter,
@@ -37,21 +36,15 @@ import { icons } from './utils/_icons'
 import FormatMoney from './common/FormatMoney'
 import { consts } from './utils/_consts'
 import { translations } from './utils/_translations'
-import InvoicePresenter from './presenters/InvoicePresenter'
-import TaskPresenter from './presenters/TaskPresenter'
-import ExpensePresenter from './presenters/ExpensePresenter'
-import FormatDate from './common/FormatDate'
-import QuotePresenter from './presenters/QuotePresenter'
-import OrderPresenter from './presenters/OrderPresenter'
-import PaymentPresenter from './presenters/PaymentPresenter'
 import SettingsWizard from './settings/settings_wizard/SettingsWizard'
-import ViewEntity from './ViewEntity'
+import ViewEntity from './common/ViewEntity'
 import TaskItem from './tasks/TaskItem'
 import ExpenseItem from './expenses/ExpenseItem'
 import PaymentItem from './payments/PaymentItem'
 import QuoteItem from './quotes/QuoteItem'
 import OrderItem from './orders/OrderItem'
 import TaskModel from './models/TaskModel'
+import InvoiceItem from './invoice/InvoiceItem'
 
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
@@ -339,9 +332,14 @@ export default class Dashboard extends Component {
             activeTab: '1',
             activeTab2: window.innerWidth <= 768 ? '' : '3',
             isMobile: window.innerWidth <= 768,
-            view: null,
+            view: {
+                ignore: [],
+                viewMode: false,
+                viewedId: null,
+                title: null
+            },
             viewId: null,
-            ignoredColumns: ['is_deleted', 'viewed', 'tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'date_to_send', 'recurring_invoice_id', 'recurring', 'currency_id', 'exchange_rate', 'account_id', 'assigned_to', 'gateway_percentage', 'gateway_fee', 'files', 'audits', 'paymentables', 'customer_name', 'emails', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total',  'task_rate',
+            ignoredColumns: ['is_deleted', 'viewed', 'tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'date_to_send', 'recurring_invoice_id', 'recurring', 'currency_id', 'exchange_rate', 'account_id', 'assigned_to', 'gateway_percentage', 'gateway_fee', 'files', 'audits', 'paymentables', 'customer_name', 'emails', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total', 'task_rate',
                 'timers',
                 'public_notes',
                 'private_notes',
@@ -353,34 +351,34 @@ export default class Dashboard extends Component {
                 'comments',
                 'is_completed',
                 'task_status_id',
-                 'reference_number',
-                    'transaction_id',
-                    'tax_rate',
-                    'tax_rate_name',
-                    'tax_2', 'tax_3',
-                    'tax_rate_name_2',
-                    'tax_rate_name_3',
-                    'project_id',
-                    'category',
-                    'files',
-                    'customer_name',
-                    'user_id',
-                    'company_id',
-                    'invoice_currency_id',
-                    'converted_amount',
-                    'exchange_rate',
-                    'deleted_at',
-                    'recurring_expense_id',
-                    'currency_id',
-                    'type_id',
-                    'invoice_id',
-                    'assigned_to',
-                    'bank_id',
-                    'expense_category_id',
-                    'create_invoice',
-                    'include_documents'
+                'reference_number',
+                'transaction_id',
+                'tax_rate',
+                'tax_rate_name',
+                'tax_2', 'tax_3',
+                'tax_rate_name_2',
+                'tax_rate_name_3',
+                'project_id',
+                'category',
+                'files',
+                'customer_name',
+                'user_id',
+                'company_id',
+                'invoice_currency_id',
+                'converted_amount',
+                'exchange_rate',
+                'deleted_at',
+                'recurring_expense_id',
+                'currency_id',
+                'type_id',
+                'invoice_id',
+                'assigned_to',
+                'bank_id',
+                'expense_category_id',
+                'create_invoice',
+                'include_documents'
 
-                ], 
+            ]
         }
 
         const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
@@ -439,13 +437,15 @@ export default class Dashboard extends Component {
         this.setState({ [entity_name]: entities })
     }
 
-   toggleViewedEntity (id, title = null, edit = null) {
+    toggleViewedEntity (entity, entities, id, title = null, edit = null) {
         if (this.state.view.viewMode === true) {
             this.setState({
                 view: {
                     ...this.state.view,
                     viewMode: false,
-                    viewedId: null
+                    viewedId: null,
+                    entity: null,
+                    entities: []
                 }
             }, () => console.log('view', this.state.view))
 
@@ -458,7 +458,9 @@ export default class Dashboard extends Component {
                 viewMode: !this.state.view.viewMode,
                 viewedId: id,
                 edit: edit,
-                title: title
+                title: title,
+                entity: entity,
+                entities: entities
             }
         }, () => console.log('view', this.state.view))
     }
@@ -1751,144 +1753,154 @@ export default class Dashboard extends Component {
         const filterPaymentsLast30Days = getLast30Days(this.state.payments)
         const arrRecentPayments = filterPaymentsLast30Days.length ? groupByStatus(filterPaymentsLast30Days, 4, 'status_id') : []
 
-        const filterExpensesLast30Days = getLast30Days(this.state.expenses)
-        const arrRecentExpenses = filterExpensesLast30Days.length ? groupByStatus(filterExpensesLast30Days, 4, 'status_id') : []
+        const arrRecentExpenses = this.state.expenses.length ? getLast30Days(this.state.expenses) : []
 
         const filterTasksLast30Days = this.state.tasks.length ? getLast30Days(this.state.tasks) : []
-        arrRecentTasks = filterTasksLast30Days.length ? filterTasksLast30Days.filter((item) => {
+        const arrRecentTasks = filterTasksLast30Days.length ? filterTasksLast30Days.filter((item) => {
             const taskModel = new TaskModel(item)
-            return !item.deleted_at &&  taskModel.isRunning
+            return !item.deleted_at && !taskModel.isRunning
         }) : []
- 
+
         // TODO - Running tasks
-        let runningTasks = null
-        const runningTasks =  this.state.tasks.length ? this.state.tasks.filter((item) => {
+        const arrRunningTasks = this.state.tasks.length ? this.state.tasks.filter((item) => {
             const taskModel = new TaskModel(item)
-            return !item.deleted_at &&  taskModel.isRunning
+            return !item.deleted_at && taskModel.isRunning
         }) : []
 
         const filterInvoicesLast30Days = getLast30Days(this.state.invoices)
         const arrRecentInvoices = filterInvoicesLast30Days.length ? groupByStatus(filterInvoicesLast30Days, 1, 'status_id') : []
 
-        const overdue_invoices = arrOverdueInvoices.length ? arrOverdueInvoices.map((invoice, index) => {
-            return <InvoiceItem showCheckboxes={false} updateInvoice={(entities) => {
-            this.addUserToState('invoices', entities)
-          }} invoices={this.state.invoices} show_list={this.state.isMobile} users={[]}
+        const overdue_invoices = this.state.customers.length && arrOverdueInvoices.length
+            ? <InvoiceItem showCheckboxes={false} updateInvoice={(entities) => {
+                this.addUserToState('invoices', entities)
+            }} invoices={arrOverdueInvoices} show_list={true} users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
-            toggleViewedEntity={this.toggleViewedEntity}
+            toggleViewedEntity={(id, title = null, edit = null) => {
+                this.toggleViewedEntity('Invoice', this.state.invoices, id, title, edit)
+            }}
             bulk={[]}
             onChangeBulk={null}/>
-        }) : null
+            : null
 
-        const recent_invoices = arrRecentInvoices.length ? arrRecentInvoices.map((invoice, index) => {
-            return <InvoiceItem showCheckboxes={false} updateInvoice={(entities) => {
-            this.addUserToState('invoices', entities)
-          }} invoices={this.state.invoices} show_list={this.state.isMobile} users={[]}
+        const recent_invoices = this.state.customers.length && arrRecentInvoices.length
+            ? <InvoiceItem showCheckboxes={false} updateInvoice={(entities) => {
+                this.addUserToState('invoices', entities)
+            }} invoices={arrRecentInvoices} show_list={true} users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
-            toggleViewedEntity={this.toggleViewedEntity}
+            toggleViewedEntity={(id, title = null, edit = null) => {
+                this.toggleViewedEntity('Invoice', this.state.invoices, id, title, edit)
+            }}
             bulk={[]}
-            onChangeBulk={null}/>
-        }) : null
+            onChangeBulk={null}/> : null
 
-        const recent_tasks = arrRecentTasks.length ? arrRecentTasks.map((task, index) => {
-            return <TaskItem showCheckboxes={false} action={(entities) => {
-            this.addUserToState('tasks', entities)
-          }} tasks={this.state.tasks} show_list={this.state.isMobile} users={[]}
+        const recent_tasks = this.state.customers.length && arrRecentTasks.length
+            ? <TaskItem showCheckboxes={false} action={(entities) => {
+                this.addUserToState('tasks', entities)
+            }} tasks={arrRecentTasks} show_list={true} users={JSON.parse(localStorage.getItem('users'))}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
-            toggleViewedEntity={this.toggleViewedEntity}
+            toggleViewedEntity={(id, title = null, edit = null) => {
+                this.toggleViewedEntity('Task', this.state.tasks, id, title, edit)
+            }}
             bulk={[]}
-            onChangeBulk={null}/>
-        }) : null
+            onChangeBulk={null}/> : null
 
-        const running_tasks = arrRunningTasks.length ? arrRunningTasks.map((task, index) => {
-           return <TaskItem showCheckboxes={false} action={(entities) => {
-            this.addUserToState('tasks', entities)
-          }} tasks={this.state.tasks} show_list={this.state.isMobile} users={[]}
+        const running_tasks = this.state.customers.length && arrRunningTasks.length
+            ? <TaskItem showCheckboxes={false} action={(entities) => {
+                this.addUserToState('tasks', entities)
+            }} tasks={arrRunningTasks} show_list={true} users={JSON.parse(localStorage.getItem('users'))}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
-            toggleViewedEntity={this.toggleViewedEntity}
+            toggleViewedEntity={(id, title = null, edit = null) => {
+                this.toggleViewedEntity('Task', this.state.tasks, id, title, edit)
+            }}
             bulk={[]}
-            onChangeBulk={null}/>
-        }) : null
+            onChangeBulk={null}/> : null
 
-       const recent_expenses = arrRecentExpenses.length ? arrRecentExpenses.map((expense, index) => {
-            return <ExpenseItem showCheckboxes={false} updateExpenses={(entities) => {
-            this.addUserToState('expenses', entities)
-          }} expenses={this.state.expenses} show_list={this.state.isMobile} users={[]}
+        const recent_expenses = this.state.customers.length && arrRecentExpenses.length
+            ? <ExpenseItem showCheckboxes={false} updateExpenses={(entities) => {
+                this.addUserToState('expenses', entities)
+            }} expenses={arrRecentExpenses} show_list={true} users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
-            toggleViewedEntity={this.toggleViewedEntity}
+            toggleViewedEntity={(id, title = null, edit = null) => {
+                this.toggleViewedEntity('Expense', this.state.expenses, id, title, edit)
+            }}
             bulk={[]}
-            onChangeBulk={null}/>
-        }) : null
+            onChangeBulk={null}/> : null
 
-        const overdue_quotes = arrOverdueQuotes.length ? arrOverdueQuotes.map((invoice, index) => {
-           return <QuoteItem showCheckboxes={false} updateInvoice={(entities) => {
-            this.addUserToState('quotes', entities)
-          }} quotes={this.state.quotes} show_list={this.state.isMobile} users={[]}
+        const overdue_quotes = this.state.customers.length && arrOverdueQuotes.length
+            ? <QuoteItem showCheckboxes={false} updateInvoice={(entities) => {
+                this.addUserToState('quotes', entities)
+            }} quotes={arrOverdueQuotes} show_list={true} users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
-            toggleViewedEntity={this.toggleViewedEntity}
+            toggleViewedEntity={(id, title = null, edit = null) => {
+                this.toggleViewedEntity('Quote', this.state.quotes, id, title, edit)
+            }}
             bulk={[]}
-            onChangeBulk={null}/>
-        }) : null
+            onChangeBulk={null}/> : null
 
-        const recent_quotes = arrRecentQuotes.length ? arrRecentQuotes.map((invoice, index) => {
-            return <QuoteItem showCheckboxes={false} updateInvoice={(entities) => {
-            this.addUserToState('quotes', entities)
-          }} quotes={this.state.quotes} show_list={this.state.isMobile} users={[]}
+        const recent_quotes = this.state.customers.length && arrRecentQuotes.length
+            ? <QuoteItem showCheckboxes={false} updateInvoice={(entities) => {
+                this.addUserToState('quotes', entities)
+            }} quotes={arrRecentQuotes} show_list={true} users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
-            toggleViewedEntity={this.toggleViewedEntity}
+            toggleViewedEntity={(id, title = null, edit = null) => {
+                this.toggleViewedEntity('Quote', this.state.quotes, id, title, edit)
+            }}
             bulk={[]}
-            onChangeBulk={null}/>
-        }) : null
+            onChangeBulk={null}/> : null
 
-        const overdue_orders = arrOverdueOrders.length ? arrOverdueOrders.map((invoice, index) => {
-            return <OrderItem showCheckboxes={false} updateOrder={(entities) => {
-            this.addUserToState('orders', entities)
-          }} orders={this.state.orders} show_list={this.state.isMobile} users={[]}
+        const overdue_orders = this.state.customers.length && arrOverdueOrders.length
+            ? <OrderItem showCheckboxes={false} updateOrder={(entities) => {
+                this.addUserToState('orders', entities)
+            }} orders={arrOverdueOrders} show_list={true} users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
-            toggleViewedEntity={this.toggleViewedEntity}
+            toggleViewedEntity={(id, title = null, edit = null) => {
+                this.toggleViewedEntity('Order', this.state.orders, id, title, edit)
+            }}
             bulk={[]}
-            onChangeBulk={null}/>
-        }) : null
+            onChangeBulk={null}/> : null
 
-        const recent_orders = arrRecentOrders.length ? arrRecentOrders.map((invoice, index) => {
-            return <OrderItem showCheckboxes={false} updateOrder={(entities) => {
-            this.addUserToState('orders', entities)
-          }} invoices={this.state.orders} show_list={this.state.isMobile} users={[]}
+        const recent_orders = this.state.customers.length && arrRecentOrders.length
+            ? <OrderItem showCheckboxes={false} updateOrder={(entities) => {
+                this.addUserToState('orders', entities)
+            }} orders={arrRecentOrders} show_list={true} users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
-            toggleViewedEntity={this.toggleViewedEntity}
+            toggleViewedEntity={(id, title = null, edit = null) => {
+                this.toggleViewedEntity('Order', this.state.orders, id, title, edit)
+            }}
             bulk={[]}
-            onChangeBulk={null}/>
-        }) : null
+            onChangeBulk={null}/> : null
 
-        const recent_payments = arrRecentPayments.length ? arrRecentPayments.map((invoice, index) => {
-            return <PaymentItem showCheckboxes={false} updateCustomers={(entities) => {
-            this.addUserToState('payments', entities)
-          }} payments={this.state.payments} credits={this.state.credits} invoices={this.state.invoices} show_list={this.state.isMobile} users={[]}
+        const recent_payments = this.state.customers.length && arrRecentPayments.length
+            ? <PaymentItem showCheckboxes={false} updateCustomers={(entities) => {
+                this.addUserToState('payments', entities)
+            }} payments={arrRecentPayments} credits={this.state.credits} invoices={this.state.invoices} show_list={true}
+            users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
-            toggleViewedEntity={this.toggleViewedEntity}
+            toggleViewedEntity={(id, title = null, edit = null) => {
+                this.toggleViewedEntity('Payment', this.state.payments, id, title, edit)
+            }}
             bulk={[]}
-            onChangeBulk={null}/>
-        }) : null
+            onChangeBulk={null}/> : null
 
         const modules = JSON.parse(localStorage.getItem('modules'))
 
@@ -2417,7 +2429,7 @@ export default class Dashboard extends Component {
                                     </Card>
 
                                     <Card>
-                                        <CardHeader>{translations.running_tasks} {runningTasks.length ? runningTasks.length : ''}</CardHeader>
+                                        <CardHeader>{translations.running_tasks} {arrRunningTasks.length ? arrRunningTasks.length : ''}</CardHeader>
                                         <CardBody style={{ height: '285px', overflowY: 'auto' }}>
                                             <ListGroup>
                                                 {running_tasks}
@@ -2468,17 +2480,17 @@ export default class Dashboard extends Component {
             </Modal>
 
             {this.state.view && <ViewEntity
-                    updateState={this.updateState}
-                    toggle={this.toggleViewedEntity}
-                    title={this.state.view.title}
-                    viewed={this.state.view.viewMode}
-                    edit={this.state.view.edit}
-                    companies={[]}
-                    customers={this.state.customers && this.state.customers.length ? this.state.customers : []}
-                    entities={this.state.invoices}
-                    entity={this.state.view.viewedId}
-                    entity_type={this.props.entity_type}
-                />}
+                updateState={this.updateState}
+                toggle={this.toggleViewedEntity}
+                title={this.state.view.title}
+                viewed={this.state.view.viewMode}
+                edit={this.state.view.edit}
+                companies={[]}
+                customers={this.state.customers && this.state.customers.length ? this.state.customers : []}
+                entities={this.state.view.entities}
+                entity={this.state.view.viewedId}
+                entity_type={this.state.view.entity}
+            />}
         </React.Fragment>
     }
 }

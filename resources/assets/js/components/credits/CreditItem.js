@@ -71,7 +71,7 @@ export default class CreditItem extends Component {
                 return (
                     <tr className={selectedRow} key={credit.id}>
                         <td>
-                            {!!this.props.onChangeBulk && 
+                            {!!this.props.onChangeBulk &&
                             <Input checked={isChecked} className={checkboxClass} value={credit.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
                             }

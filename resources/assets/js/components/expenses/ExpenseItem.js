@@ -32,7 +32,7 @@ export default class ExpenseItem extends Component {
     render () {
         const { expenses, customers, custom_fields, ignoredColumns, companies } = this.props
         if (expenses && expenses.length && customers.length) {
-            return expenses.map(expense => {
+            return expenses.map((expense, index) => {
                 const restoreButton = expense.deleted_at
                     ? <RestoreModal id={expense.id} entities={expenses} updateState={this.props.updateExpenses}
                         url={`/api/expenses/restore/${expense.id}`}/> : null
@@ -53,9 +53,11 @@ export default class ExpenseItem extends Component {
                 const columnList = Object.keys(expense).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <ExpensePresenter key={key} companies={companies} customers={customers}
-                        toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={expense} edit={editButton}/>
+                    return <td key={key}
+                        onClick={() => this.props.toggleViewedEntity(expense, expense.number, editButton)}
+                        data-label={key}><ExpensePresenter companies={companies} customers={customers}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            field={key} entity={expense} edit={editButton}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -66,9 +68,9 @@ export default class ExpenseItem extends Component {
                         restore={restoreButton}/> : null
 
                 return !this.props.show_list ? (
-                    <tr className={selectedRow} key={expense.id}>
+                    <tr className={selectedRow} key={index}>
                         <td>
-                            {!!this.props.onChangeBulk && 
+                            {!!this.props.onChangeBulk &&
                             <Input checked={isChecked} className={checkboxClass} value={expense.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
                             }
@@ -76,18 +78,27 @@ export default class ExpenseItem extends Component {
                         </td>
                         {columnList}
                     </tr>
-                ) : <ListGroupItem key={expense.id}
+                ) : <ListGroupItem key={index}
+                    onClick={() => this.props.toggleViewedEntity(expense, expense.number, editButton)}
                     className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{actionMenu} {<ExpensePresenter field="customer" entity={expense} edit={editButton}/>}</h5>
-                        {<ExpensePresenter key={key} customers={customers}
-                        toggleViewedEntity={this.props.toggleViewedEntity}
-                        field="amount" entity={expense} edit={editButton}/>}
+                        <h5 className="mb-1">{<ExpensePresenter customers={customers} field="customer_id"
+                            entity={expense}
+                            edit={editButton}
+                            toggleViewedEntity={this.props.toggleViewedEntity}/>}</h5>
+                        {<ExpensePresenter customers={customers}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            field="amount" entity={expense} edit={editButton}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . {<ExpensePresenter field="date" entity={expense} edit={editButton}/>} </span>
-                        <span>{<ExpensePresenter field="status_field" entity={expense}/>}</span>
+                        <span className="mb-1 text-muted">{expense.number} . {<ExpensePresenter field="date"
+                            entity={expense}
+                            edit={editButton}
+                            toggleViewedEntity={this.props.toggleViewedEntity}/>} </span>
+                        <span>{<ExpensePresenter field="status_field" entity={expense} edit={editButton}
+                            toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
                     </div>
+                    {actionMenu}
                 </ListGroupItem>
             })
         } else {

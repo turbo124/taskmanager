@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input } from 'reactstrap'
+import { Input, ListGroupItem } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
@@ -35,7 +35,7 @@ export default class PurchaseOrderItem extends Component {
     render () {
         const { purchase_orders, custom_fields, companies } = this.props
         if (purchase_orders && purchase_orders.length && companies.length) {
-            return purchase_orders.map(purchase_order => {
+            return purchase_orders.map((purchase_order, index) => {
                 const restoreButton = purchase_order.deleted_at && !purchase_order.is_deleted
                     ? <RestoreModal id={purchase_order.id} entities={purchase_orders}
                         updateState={this.props.updateInvoice}
@@ -63,9 +63,12 @@ export default class PurchaseOrderItem extends Component {
                 const columnList = Object.keys(purchase_order).filter(key => {
                     return this.props.ignoredColumns && !this.props.ignoredColumns.includes(key)
                 }).map(key => {
-                    return <PurchaseOrderPresenter key={key} companies={companies} edit={editButton}
-                        toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={purchase_order}/>
+                    return <td key={key}
+                        onClick={() => this.props.toggleViewedEntity(purchase_order, purchase_order.number, editButton)}
+                        data-label={key}><PurchaseOrderPresenter companies={companies}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            field={key} entity={purchase_order}
+                            edit={editButton}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -75,8 +78,8 @@ export default class PurchaseOrderItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return (
-                    <tr className={selectedRow} key={purchase_order.id}>
+                return !this.props.show_list ? (
+                    <tr className={selectedRow} key={index}>
                         <td>
                             <Input checked={isChecked} className={checkboxClass} value={purchase_order.id}
                                 type="checkbox"
@@ -85,7 +88,27 @@ export default class PurchaseOrderItem extends Component {
                         </td>
                         {columnList}
                     </tr>
-                )
+                ) : <ListGroupItem key={index}
+                    onClick={() => this.props.toggleViewedEntity(purchase_order, purchase_order.number, editButton)}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1"> {<PurchaseOrderPresenter companies={companies} field="company_id"
+                            entity={purchase_order}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}</h5>
+                        {<PurchaseOrderPresenter companies={companies}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            field="balance" entity={purchase_order} edit={editButton}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{purchase_order.number} . {<PurchaseOrderPresenter
+                            field="due_date" entity={purchase_order} toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>} </span>
+                        <span>{<PurchaseOrderPresenter field="status_field" entity={purchase_order} edit={editButton}
+                            toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                    </div>
+                    {actionMenu}
+                </ListGroupItem>
             })
         } else {
             return <tr>

@@ -9,6 +9,8 @@ import { translations } from '../utils/_translations'
 export default function InvoicePresenter (props) {
     const { field, entity } = props
 
+    console.log('entity', entity)
+
     const objInvoiceModel = new InvoiceModel(entity, props.customers)
     const is_late = objInvoiceModel.isLate()
     const is_viewed = objInvoiceModel.isViewed
@@ -37,39 +39,30 @@ export default function InvoicePresenter (props) {
         case 'discount_total':
         case 'tax_total':
         case 'sub_total':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label={field}>
-                <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/>
-            </td>
+            return <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/>
         case 'status_field':
             return status
         case 'date':
         case 'due_date':
         case 'date_to_send':
         case 'created_at':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label={field}>
-                <FormatDate field={field} date={entity[field]}/></td>
+            return <FormatDate field={field} date={entity[field]}/>
 
         case 'status_id':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label="Status">{status}</td>
+            return status
 
         case 'customer_id': {
             const index = props.customers.findIndex(customer => customer.id === entity[field])
             const customer = props.customers[index]
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label="Customer">{customer.name}</td>
+            return customer.name
         }
 
         case 'currency_id': {
             const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(props.entity.currency_id))
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label={field}>{currency.length ? currency[0].iso_code : ''}</td>
+            return currency.length ? currency[0].iso_code : ''
         }
 
         default:
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} key={field}
-                data-label={field}>{entity[field]}</td>
+            return entity[field]
     }
 }

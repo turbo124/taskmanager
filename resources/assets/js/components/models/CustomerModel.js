@@ -239,7 +239,8 @@ export default class CustomerModel extends BaseModel {
     }
 
     findContact (contact_id) {
-        const contact = this.fields.contacts.filter(contact => contact.id === contact_id)
+        console.log('contacts 2', this.fields.contacts)
+        const contact = this.fields.contacts.filter(contact => contact.id === parseInt(contact_id))
 
         if (!contact.length) {
             return false

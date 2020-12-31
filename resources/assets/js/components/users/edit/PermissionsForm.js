@@ -57,7 +57,8 @@ export default class PermissionsForm extends React.Component {
                 <div>
                     <FormGroup check inline>
                         <Label check>
-                            <Input name="is_admin" checked={is_admin} value={account && account.length ? account[0].id : false}
+                            <Input name="is_admin" checked={is_admin}
+                                value={account && account.length ? account[0].id : false}
                                 onChange={this.handleCheck}
                                 type="checkbox"/>
                             Administrator

@@ -426,7 +426,9 @@ export default class Importer extends React.Component {
                                             }
 
                                             {!!this.state.template &&
-                                            <a download={true} href={this.state.template}><i style={{ fontSize: '26px' }} className={`ml-2 fa ${icons.cloud_download}`} /></a>
+                                            <a download={true} href={this.state.template}><i
+                                                style={{ fontSize: '26px' }}
+                                                className={`ml-2 fa ${icons.cloud_download}`}/></a>
                                             }
                                         </div>
                                     </div>
@@ -445,7 +447,7 @@ export default class Importer extends React.Component {
                         }
 
                         {!!errors.length &&
-                            errors
+                        errors
                         }
 
                         {!!fileInfos.length &&

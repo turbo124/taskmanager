@@ -39,7 +39,7 @@ export default class PaymentItem extends Component {
         const { payments, custom_fields, invoices, customers, credits } = this.props
 
         if (payments && payments.length && customers.length && invoices.length && credits.length) {
-            return payments.map(payment => {
+            return payments.map((payment, index) => {
                 const paymentModel = new PaymentModel(invoices, payment, credits)
                 const paymentableInvoices = invoices && invoices.length ? paymentModel.paymentableInvoices : null
                 const paymentableCredits = credits && credits.length ? paymentModel.paymentableCredits : null
@@ -68,10 +68,14 @@ export default class PaymentItem extends Component {
                 const columnList = Object.keys(payment).filter(key => {
                     return this.props.ignoredColumns && !this.props.ignoredColumns.includes(key)
                 }).map(key => {
-                    return <PaymentPresenter key={key} customers={customers} field={key}
-                        paymentables={paymentableInvoices} paymentable_credits={paymentableCredits}
-                        entity={payment} edit={editButton}
-                        toggleViewedEntity={this.props.toggleViewedEntity}/>
+                    return <td key={key}
+                        onClick={() => this.props.toggleViewedEntity(payment, payment.number, editButton)}
+                        data-label={key}><PaymentPresenter customers={customers} field={key}
+                            paymentables={paymentableInvoices}
+                            paymentable_credits={paymentableCredits}
+                            entity={payment} edit={editButton}
+                            toggleViewedEntity={this.props.toggleViewedEntity}/>
+                    </td>
                 })
 
                 const refundButton = paymentableInvoices.length && invoices.length
@@ -93,9 +97,9 @@ export default class PaymentItem extends Component {
                         restore={restoreButton}/> : null
 
                 return !this.props.show_list ? (
-                    <tr className={selectedRow} key={payment.id}>
+                    <tr className={selectedRow} key={index}>
                         <td>
-                            {!!this.props.onChangeBulk && 
+                            {!!this.props.onChangeBulk &&
                             <Input checked={isChecked} className={checkboxClass} value={payment.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
                             }
@@ -103,18 +107,27 @@ export default class PaymentItem extends Component {
                         </td>
                         {columnList}
                     </tr>
-                ) : <ListGroupItem key={invoice.id}
+                ) : <ListGroupItem key={index}
+                    onClick={() => this.props.toggleViewedEntity(payment, payment.number, editButton)}
                     className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1"> {<InvoicePresenter field="customer" entity={invoice} edit={editButton}/>}</h5>
-                        {<PaymentPresenter key={key} customers={customers}
-                        toggleViewedEntity={this.props.toggleViewedEntity}
-                        field="amount" entity={payment} edit={editButton}/>}
+                        <h5 className="mb-1"> {<PaymentPresenter customers={customers} field="customer_id"
+                            entity={payment}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}</h5>
+                        {<PaymentPresenter customers={customers}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            field="amount" entity={payment} edit={editButton}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{payment.number} . {<PaymentPresenter field="date" entity={payment} edit={editButton}/>} </span>
-                        <span>{<PaymentPresenter field="status_field" entity={payment}/>}</span>
+                        <span className="mb-1 text-muted">{payment.number} . {<PaymentPresenter field="date"
+                            entity={payment}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>} </span>
+                        <span>{<PaymentPresenter field="status_field" entity={payment} edit={editButton}
+                            toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
                     </div>
+                    {actionMenu}
                 </ListGroupItem>
             })
         } else {

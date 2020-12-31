@@ -57,7 +57,7 @@ export default class Details extends React.Component {
                     <FormGroup>
                         <Label for="name">{translations.description} <span className="text-danger">*</span></Label>
                         <Input value={this.props.gateway.description} onChange={this.props.handleInput} type="textarea"
-                               name="description" id="description"/>
+                            name="description" id="description"/>
                         {this.props.renderErrorFor('description')}
                     </FormGroup>
 

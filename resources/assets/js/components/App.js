@@ -14,6 +14,8 @@ class App extends Component {
         this.state = {
             authenticated: false
         }
+
+        console.log('search', props.location)
     }
 
     render () {

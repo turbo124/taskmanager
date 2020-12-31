@@ -35,7 +35,7 @@ export default class OrderItem extends Component {
     render () {
         const { orders, customers, custom_fields } = this.props
         if (orders && orders.length && customers.length) {
-            return orders.map(order => {
+            return orders.map((order, index) => {
                 const restoreButton = order.deleted_at && !order.is_deleted
                     ? <RestoreModal id={order.id} entities={orders} updateState={this.props.updateOrder}
                         url={`/api/order/restore/${order.id}`}/> : null
@@ -60,9 +60,11 @@ export default class OrderItem extends Component {
                 const columnList = Object.keys(order).filter(key => {
                     return this.props.ignoredColumns && !this.props.ignoredColumns.includes(key)
                 }).map(key => {
-                    return <OrderPresenter key={key} customers={customers}
-                        toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={order} edit={editButton}/>
+                    return <td key={key}
+                        onClick={() => this.props.toggleViewedEntity(order, order.number, editButton)}
+                        data-label={key}><OrderPresenter customers={customers}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            field={key} entity={order} edit={editButton}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -73,28 +75,35 @@ export default class OrderItem extends Component {
                         restore={restoreButton}/> : null
 
                 return !this.props.show_list ? (
-                    <tr className={selectedRow} key={order.id}>
+                    <tr className={selectedRow} key={index}>
                         <td>
-                            {!!this.props.onChangeBulk && 
+                            {!!this.props.onChangeBulk &&
                             <Input checked={isChecked} className={checkboxClass} value={order.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
                             }
                             {actionMenu}
                         </td>
                         {columnList}
-                    </tr> 
-                ) : <ListGroupItem key={invoice.id}
+                    </tr>
+                ) : <ListGroupItem key={index}
+                    onClick={() => this.props.toggleViewedEntity(order, order.number, editButton)}
                     className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1"> {<OrderPresenter field="customer" entity={invoice} edit={editButton}/>}</h5>
-                        {<OrderPresenter key={key} customers={customers}
-                        toggleViewedEntity={this.props.toggleViewedEntity}
-                        field="balance" entity={order} edit={editButton}/>}
+                        <h5 className="mb-1"> {<OrderPresenter customers={customers} field="customer_id" entity={order}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}</h5>
+                        {<OrderPresenter customers={customers}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            field="balance" entity={order} edit={editButton}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{actionMenu} {order.number} . {<OrderPresenter field="due_date" entity={order} edit={editButton}/>} </span>
-                        <span>{<OrderPresenter field="status_field" entity={order}/>}</span>
+                        <span className="mb-1 text-muted">{order.number} . {<OrderPresenter
+                            field="due_date" entity={order} toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>} </span>
+                        <span>{<OrderPresenter field="status_field" entity={order} edit={editButton}
+                            toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
                     </div>
+                    {actionMenu}
                 </ListGroupItem>
             })
         } else {
