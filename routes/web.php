@@ -34,3 +34,6 @@ Route::get('buy_now', 'BuyNowController@buyNowTrigger');
 Route::get('pay_now/process/{invoice_id}', 'PaymentController@buyNow');
 Route::get('pay_now/success', 'PaymentController@buyNowSuccess');
 Route::view('/{path?}', 'app');
+
+Route::get('auth/google', [\App\Http\Controllers\LoginController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [\App\Http\Controllers\LoginController::class, 'handleGoogleCallback']);

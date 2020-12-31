@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import TaskTimeInputs from './TaskTimeInputs'
 import moment from 'moment'
 import TimerModel from '../../models/TimerModel'
-import { translations } from "../../utils/_translations";
 
 export default class TaskTimeDesktop extends Component {
     constructor (props) {
@@ -91,7 +90,9 @@ export default class TaskTimeDesktop extends Component {
                     removeLine={this.handleDelete}
                     addLine={this.addTaskTime}/>
 
-                <button style={{ borderRadius: '20px' }} className="btn btn-primary pull-right" onClick={this.addTaskTime}>+</button>
+                <button style={{ borderRadius: '20px' }} className="btn btn-primary pull-right"
+                    onClick={this.addTaskTime}>+
+                </button>
             </form>
         )
     }

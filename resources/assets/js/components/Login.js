@@ -15,23 +15,40 @@ import {
     InputGroupText,
     Row
 } from 'reactstrap'
+import queryString from 'query-string'
 
 class Login extends Component {
     constructor (props) {
         super(props)
+
+        console.log('props', props)
+
         this.state = {
             email: '',
             password: '',
-            error: ''
+            error: '',
+            confirmed: queryString.parse(this.props.location.search).confirmed || false
         }
 
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.onSocialClick = this.onSocialClick.bind(this)
         this.dismissError = this.dismissError.bind(this)
+    }
+
+    componentDidMount (props) {
+        console.log('property_id', props)
     }
 
     dismissError () {
         this.setState({ error: '' })
+    }
+
+    onSocialClick (param, e) {
+        window.location.assign(`auth/${param}`)
+        this.setState({
+            isLoading: true
+        })
     }
 
     handleSubmit (evt) {
@@ -153,6 +170,18 @@ class Login extends Component {
                                                     <Button color="link" className="px-0">Forgot password?</Button>
                                                 </Col>
                                             </Row>
+
+                                            <a onClick={this.onSocialClick.bind(this, 'google')}
+                                                style={{
+                                                    marginTop: '0px !important',
+                                                    background: 'green',
+                                                    color: '#ffffff',
+                                                    padding: '5px',
+                                                    borderRadius: '7px'
+                                                }}
+                                                className="ml-2 btn-google">
+                                                <strong>Login With Google</strong>
+                                            </a>
                                         </Form>
                                     </CardBody>
                                 </Card>

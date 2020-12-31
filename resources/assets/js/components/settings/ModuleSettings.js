@@ -274,7 +274,8 @@ class ModuleSettings extends Component {
                                     <BlockButton icon={icons.token} button_text={translations.tokens}
                                         button_link="/#/tokens"/>
 
-                                    <Button onClick={() => this.setState({ showConfirm: true })} color="danger" size="lg"
+                                    <Button onClick={() => this.setState({ showConfirm: true })} color="danger"
+                                        size="lg"
                                         block>
                                         <i style={{ marginRight: '14px', fontSize: '24px' }}
                                             className={`fa ${icons.delete}`}/>{translations.delete_account}</Button>

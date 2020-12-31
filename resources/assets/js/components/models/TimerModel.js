@@ -57,7 +57,7 @@ export default class TimerModel extends BaseModel {
         const data = [...this.time_log]
         data[index][field] = value
 
-        if(update_end_time) {
+        if (update_end_time) {
             data[index].end_date = value
         }
 

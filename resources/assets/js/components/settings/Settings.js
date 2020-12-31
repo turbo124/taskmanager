@@ -522,7 +522,8 @@ class Settings extends Component {
                                     <FormGroup>
 
                                         <Label>{translations.logo}</Label>
-                                        <CustomInput className="mt-4 mb-4" onChange={this.handleFileChange.bind(this)}
+                                        <CustomInput className="mt-4 mb-4"
+                                            onChange={this.handleFileChange.bind(this)}
                                             type="file"
                                             id="company_logo" name="company_logo"
                                             label="Logo"/>

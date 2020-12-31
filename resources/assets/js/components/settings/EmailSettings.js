@@ -267,7 +267,11 @@ class EmailSettings extends Component {
                             <FormGroup>
                                 <Label>Email Signature</Label>
                                 <SignatureCanvas
-                                    canvasProps={{ width: 1050, height: 200, className: 'sigCanvas border border-light' }}
+                                    canvasProps={{
+                                        width: 1050,
+                                        height: 200,
+                                        className: 'sigCanvas border border-light'
+                                    }}
                                     ref={(ref) => {
                                         this.state.sigPad = ref
                                     }}/>

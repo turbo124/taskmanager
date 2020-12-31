@@ -9,7 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
 import UserRepository from '../repositories/UserRepository'
-import EditTaskDesktop from "./edit/EditTaskDesktop";
+import EditTaskDesktop from './edit/EditTaskDesktop'
 
 export default class TaskList extends Component {
     constructor (props) {

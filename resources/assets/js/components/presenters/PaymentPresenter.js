@@ -19,63 +19,48 @@ export default function PaymentPresenter (props) {
     switch (field) {
         case 'assigned_to': {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.assigned_to))
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label={field}>{assigned_user.length ? `${assigned_user[0].first_name} ${assigned_user[0].last_name}` : ''}</td>
+            return assigned_user.length ? `${assigned_user[0].first_name} ${assigned_user[0].last_name}` : ''
         }
         case 'user_id': {
             const user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.user_id))
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label={field}>{`${user[0].first_name} ${user[0].last_name}`}</td>
+            return `${user[0].first_name} ${user[0].last_name}`
         }
         case 'amount':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label="Total">{
-                    <FormatMoney
-                        customers={props.customers} customer_id={entity.customer_id}
-                        amount={entity.amount}/>}</td>
+            return <FormatMoney
+                customers={props.customers} customer_id={entity.customer_id}
+                amount={entity.amount}/>
         case 'applied':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label="Applied">{
-                    <FormatMoney
-                        customers={props.customers} customer_id={entity.customer_id}
-                        amount={entity.applied}/>}</td>
+            return <FormatMoney
+                customers={props.customers} customer_id={entity.customer_id}
+                amount={entity.applied}/>
         case 'date':
         case 'created_at': {
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} data-label="Date">
-                <FormatDate
-                    field={field} date={entity[field]}/></td>
+            return <FormatDate field={field} date={entity[field]}/>
         }
 
         case 'status_field':
             return status
 
         case 'status_id':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label="Status">{status}</td>
+            return status
 
         case 'customer_id': {
             const index = props.customers.findIndex(customer => customer.id === entity[field])
             const customer = props.customers[index]
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label="Customer">{customer.name}</td>
+            return customer.name
         }
 
         case 'invoices': {
             const invoices = paymentModel.paymentableInvoices
-            const paymentInvoices = invoices && invoices.length > 0 ? Array.prototype.map.call(invoices, s => s.number).toString() : null
-
-            return <td data-label="Invoices">{paymentInvoices}</td>
+            return invoices && invoices.length > 0 ? Array.prototype.map.call(invoices, s => s.number).toString() : null
         }
 
         case 'credits': {
             const credits = paymentModel.paymentableCredits
-            const paymentCredits = credits && credits.length > 0 ? Array.prototype.map.call(credits, s => s.number).toString() : null
-
-            return <td data-label="Credits">{paymentCredits}</td>
+            return credits && credits.length > 0 ? Array.prototype.map.call(credits, s => s.number).toString() : null
         }
 
         default:
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number)} key={field}
-                data-label={field}>{entity[field]}</td>
+            return entity[field]
     }
 }

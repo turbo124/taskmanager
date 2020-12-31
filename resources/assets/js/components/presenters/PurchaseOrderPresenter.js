@@ -21,13 +21,11 @@ export default function PurchaseOrderPresenter (props) {
     switch (field) {
         case 'assigned_to': {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.assigned_to))
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label={field}>{assigned_user.length ? `${assigned_user[0].first_name} ${assigned_user[0].last_name}` : ''}</td>
+            return assigned_user.length ? `${assigned_user[0].first_name} ${assigned_user[0].last_name}` : ''
         }
         case 'user_id': {
             const user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.user_id))
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label={field}>{`${user[0].first_name} ${user[0].last_name}`}</td>
+            return `${user[0].first_name} ${user[0].last_name}`
         }
         case 'balance':
         case 'total':
@@ -35,39 +33,30 @@ export default function PurchaseOrderPresenter (props) {
         case 'tax_total':
         case 'sub_total':
         case 'exchange_rate':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label={field}>
-                <FormatMoney customer_id={entity.company_id} customers={props.companies} amount={entity[field]}/>
-            </td>
+            return <FormatMoney customer_id={entity.company_id} customers={props.companies} amount={entity[field]}/>
         case 'status_field':
             return status
         case 'date':
         case 'created_at':
         case 'due_date': {
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label={field}><FormatDate
-                    field={field} date={entity[field]}/></td>
+            return <FormatDate field={field} date={entity[field]}/>
         }
 
         case 'status_id':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label="Status">{status}</td>
+            return status
 
         case 'company_id': {
             const index = props.companies.findIndex(company => company.id === entity[field])
             const company = props.companies[index]
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label="Company">{company.name}</td>
+            return company.name
         }
 
         case 'currency_id': {
             const currency = JSON.parse(localStorage.getItem('currencies')).filter(currency => currency.id === parseInt(props.entity.currency_id))
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)}
-                data-label={field}>{currency.length ? currency[0].iso_code : ''}</td>
+            return currency.length ? currency[0].iso_code : ''
         }
 
         default:
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.number, props.edit)} key={field}
-                data-label={field}>{entity[field]}</td>
+            return entity[field]
     }
 }

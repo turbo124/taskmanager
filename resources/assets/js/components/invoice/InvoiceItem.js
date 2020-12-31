@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input } from 'reactstrap'
+import { Input, ListGroupItem } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
@@ -34,9 +34,10 @@ export default class InvoiceItem extends Component {
 
     render () {
         const { invoices, customers, custom_fields } = this.props
+
         if (invoices && invoices.length && customers.length) {
-            return invoices.map(invoice => {
-                const restoreButton = invoice.deleted_at
+            return invoices.map((invoice, index) => {
+                const restoreButton = invoice.deleted_at && !invoice.is_deleted
                     ? <RestoreModal id={invoice.id} entities={invoices} updateState={this.props.updateInvoice}
                         url={`/api/invoice/restore/${invoice.id}`}/> : null
 
@@ -60,9 +61,11 @@ export default class InvoiceItem extends Component {
                 const columnList = Object.keys(invoice).filter(key => {
                     return this.props.ignoredColumns && !this.props.ignoredColumns.includes(key)
                 }).map(key => {
-                    return <InvoicePresenter key={key} customers={customers}
-                        toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={invoice} edit={editButton}/>
+                    return <td key={key}
+                        onClick={() => this.props.toggleViewedEntity(invoice, invoice.number, editButton)}
+                        data-label={key}><InvoicePresenter customers={customers}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            field={key} entity={invoice} edit={editButton}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -72,16 +75,38 @@ export default class InvoiceItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return (
-                    <tr className={selectedRow} key={invoice.id}>
+                return !this.props.show_list ? (
+                    <tr className={selectedRow} key={index}>
                         <td>
+                            {!!this.props.onChangeBulk &&
                             <Input checked={isChecked} className={checkboxClass} value={invoice.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
+                            }
                             {actionMenu}
                         </td>
                         {columnList}
                     </tr>
-                )
+                ) : <ListGroupItem key={index}
+                    onClick={() => this.props.toggleViewedEntity(invoice, invoice.number, editButton)}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1"> {<InvoicePresenter customers={customers} field="customer_id"
+                            entity={invoice}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}</h5>
+                        {<InvoicePresenter customers={customers}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            field="balance" entity={invoice} edit={editButton}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{invoice.number} . {<InvoicePresenter
+                            field="due_date" entity={invoice} toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>} </span>
+                        <span>{<InvoicePresenter field="status_field" entity={invoice} edit={editButton}
+                            toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                    </div>
+                    {actionMenu}
+                </ListGroupItem>
             })
         } else {
             return <tr>

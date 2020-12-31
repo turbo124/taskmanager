@@ -10,12 +10,22 @@ use App\Models\Invoice;
 use App\Models\Lead;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Project;
 use App\Models\Quote;
 use App\Models\Task;
+use App\Repositories\CreditRepository;
+use App\Repositories\CustomerRepository;
 use App\Repositories\DealRepository;
+use App\Repositories\ExpenseRepository;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\Interfaces\TaskRepositoryInterface;
+use App\Repositories\InvoiceRepository;
 use App\Repositories\LeadRepository;
+use App\Repositories\OrderRepository;
+use App\Repositories\PaymentRepository;
+use App\Repositories\ProjectRepository;
+use App\Repositories\QuoteRepository;
+use App\Repositories\TaskRepository;
 use App\Requests\SearchRequest;
 use App\Search\LeadSearch;
 use App\Transformations\TaskTransformable;
@@ -65,7 +75,10 @@ class DashboardController extends Controller
         $totalEarnt = $deal_repo->getTotalEarnt(auth()->user()->account_user()->account_id);
 
         $arrOutput = [
-            'customers'    => Customer::all(),
+            'customers'    => (new CustomerRepository(new Customer()))->getAll(
+                new SearchRequest(),
+                auth()->user()->account_user()->account
+            ),
             'sources'      => $arrSources->toArray(),
             'leadCounts'   => $arrStatuses->toArray(),
             'totalBudget'  => number_format($totalEarnt, 2),
@@ -74,13 +87,34 @@ class DashboardController extends Controller
             'newDeals'     => number_format($newDeals, 2),
             'newCustomers' => number_format($customersToday, 2),
             'deals'        => $leads,
-            'invoices'     => Invoice::all()->where('account_id', auth()->user()->account_user()->account_id),
-            'quotes'       => Quote::all()->where('account_id', auth()->user()->account_user()->account_id),
-            'credits'      => Credit::all()->where('account_id', auth()->user()->account_user()->account_id),
-            'payments'     => Payment::all()->where('account_id', auth()->user()->account_user()->account_id),
-            'orders'       => Order::all()->where('account_id', auth()->user()->account_user()->account_id),
-            'expenses'     => Expense::all()->where('account_id', auth()->user()->account_user()->account_id),
-            'tasks'        => Task::all()->where('account_id', auth()->user()->account_user()->account_id),
+            'invoices'     => (new InvoiceRepository(new Invoice()))->getAll(
+                new SearchRequest(),
+                auth()->user()->account_user()->account
+            ),
+            'quotes'       => (new QuoteRepository(new Quote()))->getAll(
+                new SearchRequest(),
+                auth()->user()->account_user()->account
+            ),
+            'credits'      => (new CreditRepository(new Credit()))->getAll(
+                new SearchRequest(),
+                auth()->user()->account_user()->account
+            ),
+            'payments'     => (new PaymentRepository(new Payment()))->getAll(
+                new SearchRequest(),
+                auth()->user()->account_user()->account
+            ),
+            'orders'       => (new OrderRepository(new Order()))->getAll(
+                new SearchRequest(),
+                auth()->user()->account_user()->account
+            ),
+            'expenses'     => (new ExpenseRepository(new Expense()))->getAll(
+                new SearchRequest(),
+                auth()->user()->account_user()->account
+            ),
+            'tasks'        => (new TaskRepository(new Task(), new ProjectRepository(new Project())))->getAll(
+                new SearchRequest(),
+                auth()->user()->account_user()->account
+            )
         ];
 
         return response()->json($arrOutput);

@@ -38,14 +38,16 @@ const TaskTimeInputs = (props) => {
                         <Col md={3}>
                             <FormGroup>
                                 <Label>{translations.start_time}</Label>
-                                <TimePickerInput name="start_time" index={idx} value={props.timers[idx].start_time} setValue={props.handleTimeChange}/>
+                                <TimePickerInput name="start_time" index={idx} value={props.timers[idx].start_time}
+                                    setValue={props.handleTimeChange}/>
                             </FormGroup>
                         </Col>
 
                         <Col md={3}>
                             <FormGroup>
                                 <Label>{translations.end_time}</Label>
-                                <TimePickerInput name="end_time" index={idx} value={props.timers[idx].end_time} setValue={props.handleTimeChange}/>
+                                <TimePickerInput name="end_time" index={idx} value={props.timers[idx].end_time}
+                                    setValue={props.handleTimeChange}/>
                             </FormGroup>
                         </Col>
 

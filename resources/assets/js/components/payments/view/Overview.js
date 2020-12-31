@@ -21,7 +21,7 @@ export default function Overview (props) {
     let gateway = null
 
     if (companyGateway.length) {
-        const link = this.gatewayModel.getPaymentUrl(companyGateway[0].gateway_key, props.entity.reference_number)
+        const link = props.gatewayModel.getPaymentUrl(companyGateway[0].gateway_key, props.entity.reference_number)
         gateway = <SectionItem link={link}
             icon={icons.credit_card}
             title={`${translations.token} > ${companyGateway[0].name}`}/>

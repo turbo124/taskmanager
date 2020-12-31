@@ -342,14 +342,14 @@ export default class GatewaySettings extends Component {
 
                     <div className="settings-container settings-container-narrow fixed-margin-extra">
                         {!!this.state.loaded &&
-                            <Card>
-                                <CardBody>
-                                    <FormBuilder
-                                        handleChange={this.handleSettingsChange}
-                                        formFieldsRows={this.getBillingFields()}
-                                    />
-                                </CardBody>
-                            </Card>
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getBillingFields()}
+                                />
+                            </CardBody>
+                        </Card>
                         }
 
                         <BlockButton icon={getSettingsIcon('gateway-settings')}
