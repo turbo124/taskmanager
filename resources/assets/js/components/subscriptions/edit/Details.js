@@ -49,6 +49,8 @@ export default class Details extends Component {
                         <option value={consts.payment_deleted_subscription}>{translations.payment_deleted}</option>
                         <option value={consts.quote_created_subscription}>{translations.quote_created}</option>
                         <option value={consts.quote_updated_subscription}>{translations.quote_updated}</option>
+                        <option value={consts.quote_approved_subscription}>{translations.quote_approved}</option>
+                        <option value={consts.quote_rejected_subscription}>{translations.quote_rejected}</option>
                         <option value={consts.quote_deleted_subscription}>{translations.quote_deleted}</option>
                         <option value={consts.lead_created_subscription}>{translations.lead_created}</option>
                         <option value={consts.lead_updated_subscription}>{translations.lead_updated}</option>
@@ -71,6 +73,10 @@ export default class Details extends Component {
                             value={consts.purchase_order_created_subscription}>{translations.purchase_order_created}</option>
                         <option
                             value={consts.purchase_order_updated_subscription}>{translations.purchase_order_updated}</option>
+                        <option
+                            value={consts.purchase_order_approved_subscription}>{translations.purchase_order_approved}</option>
+                        <option
+                            value={consts.purchase_order_rejected_subscription}>{translations.purchase_order_rejected}</option>
                         <option
                             value={consts.purchase_order_deleted_subscription}>{translations.purchase_order_deleted}</option>
                         <option value={consts.company_created_subscription}>{translations.company_created}</option>
