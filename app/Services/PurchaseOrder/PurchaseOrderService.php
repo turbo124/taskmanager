@@ -59,6 +59,46 @@ class PurchaseOrderService extends ServiceBase
         return $this->purchase_order;
     }
 
+    public function reject(PurchaseOrderRepository $po_repo): ?PurchaseOrder
+    {
+        if ($this->purchase_order->status_id != PurchaseOrder::STATUS_SENT) {
+            return null;
+        }
+
+        $this->purchase_order->setStatus(PurchaseOrder::STATUS_REJECTED);
+        $this->purchase_order->date_rejected = Carbon::now();
+        $this->purchase_order->save();
+
+        event(new PurchaseOrderWasRejected($this->purchase_order));
+
+        // trigger
+        $subject = trans('texts.purchase_order_rejected_subject');
+        $body = trans('texts.purchase_order_rejected_body');
+        $this->trigger($subject, $body, $po_repo);
+
+        return $this->purchase_order;
+    }
+
+    public function requestChange(PurchaseOrderRepository $po_repo): ?PurchaseOrder
+    {
+        if ($this->purchase_order->status_id != PurchaseOrder::STATUS_SENT) {
+            return null;
+        }
+
+        $this->purchase_order->setStatus(PurchaseOrder::STATUS_CHANGE_REQUESTED);
+        //$this->purchase_order->date_approved = Carbon::now();
+        $this->purchase_order->save();
+
+        event(new PurchaseOrderChangeWasRequested($this->purchase_order));
+
+        // trigger
+        $subject = trans('texts.purchase_order_change_requested_subject');
+        $body = trans('texts.purchase_order_change_requested_body');
+        $this->trigger($subject, $body, $po_repo);
+
+        return $this->purchase_order;
+    }
+
     /**
      * @param null $contact
      * @param bool $update
