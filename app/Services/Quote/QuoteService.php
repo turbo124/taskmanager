@@ -65,6 +65,46 @@ class QuoteService extends ServiceBase
         return $this->quote;
     }
 
+    public function reject(InvoiceRepository $invoice_repo, QuoteRepository $quote_repo): ?Quote
+    {
+        if ($this->quote->status_id != Quote::STATUS_SENT) {
+            return null;
+        }
+
+        $this->quote->setStatus(Quote::STATUS_REJECTED);
+        $this->quote->date_rejected = Carbon::now();
+        $this->quote->save();
+
+        event(new QuoteWasRejected($this->quote));
+
+        // trigger
+        $subject = trans('texts.quote_rejected_subject');
+        $body = trans('texts.quote_rejected_body');
+        $this->trigger($subject, $body, $quote_repo);
+
+        return $this->quote;
+    }
+
+    public function requestChange(InvoiceRepository $invoice_repo, QuoteRepository $quote_repo): ?Quote
+    {
+        if ($this->quote->status_id != Quote::STATUS_SENT) {
+            return null;
+        }
+
+        $this->quote->setStatus(Quote::STATUS_CHANGE_REQUESTED);
+        //$this->quote->date_rejected = Carbon::now();
+        $this->quote->save();
+
+        event(new QuoteChangeRequested($this->quote));
+
+        // trigger
+        $subject = trans('texts.quote_change_requested_subject');
+        $body = trans('texts.quote_change_requested_body');
+        $this->trigger($subject, $body, $quote_repo);
+
+        return $this->quote;
+    }
+
     /**
      * @param null $contact
      * @param bool $update
