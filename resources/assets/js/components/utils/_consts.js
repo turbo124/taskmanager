@@ -81,11 +81,15 @@ export const consts = {
     quote_status_viewed: 3,
     quote_status_converted: 5,
     quote_status_approved: 4,
+    quote_status_rejected: 6,
+    quote_status_change_requested: 7,
     purchase_order_status_expired: '-1',
     purchase_order_status_draft: 1,
     purchase_order_status_sent: 2,
     purchase_order_status_viewed: 3,
     purchase_order_status_approved: 4,
+    purchase_order_status_rejected: 5,
+    purchase_order_status_change_requested: 6,
     quote_status_expired_text: 'Expired',
     recurring_invoice_status_draft: 1,
     recurring_invoice_status_pending: 2,
@@ -163,10 +167,15 @@ export const consts = {
     notification_quote_sent: 'quote_sent',
     notification_order_sent: 'order_sent',
     notification_purchase_order_sent: 'purchase_order_sent',
+    notification_purchase_order_approved: 'purchase_order_approved',
+    notification_purchase_order_rejected: 'purchase_order_rejected',
+    notification_purchase_order_change_requested: 'purchase_order_change_requested',
     notification_invoice_viewed: 'invoice_viewed',
     notification_quote_viewed: 'quote_viewed',
     notification_credit_viewed: 'credit_viewed',
     notification_quote_approved: 'quote_approved',
+    notification_quote_rejected: 'quote_rejected',
+    notification_quote_change_requested: 'quote_change_requested',
     notification_order_created: 'order_created',
     notification_order_backordered: 'order_backordered',
     notification_order_held: 'order_held',
@@ -226,6 +235,8 @@ export const quoteStatuses = {
     [consts.quote_status_draft]: translations.draft,
     [consts.quote_status_sent]: translations.sent,
     [consts.quote_status_approved]: translations.status_approved,
+    [consts.quote_status_rejected]: translations.status_rejected,
+    [consts.quote_status_change_requested]: translations.status_change_requested,
     [consts.quote_status_converted]: translations.converted,
     [consts.quote_status_viewed]: translations.viewed,
     100: translations.expired
@@ -235,18 +246,22 @@ export const quoteStatusColors = {
     [consts.quote_status_draft]: 'secondary',
     [consts.quote_status_sent]: 'primary',
     [consts.quote_status_approved]: 'success',
+    [consts.quote_status_rejected]: 'danger',
+    [consts.quote_status_change_requested]: 'info',
     [consts.quote_status_converted]: 'success',
     [consts.quote_status_viewed]: 'info',
     100: 'danger'
 }
 
 export const purchaseOrderStatuses = {
-    [consts.quote_status_draft]: translations.draft,
-    [consts.quote_status_sent]: translations.sent,
-    [consts.quote_status_approved]: translations.status_approved,
+    [consts.purchase_order_status_draft]: translations.draft,
+    [consts.purchase_order_status_sent]: translations.sent,
+    [consts.purchase_order_status_approved]: translations.status_approved,
+    [consts.purchase_order_status_rejected]: translations.status_rejected,
+    [consts.purchase_order_status_change_requested]: translations.status_approved,
     [consts.quote_status_invoiced]: translations.invoiced,
     [consts.quote_status_on_order]: translations.on_order,
-    [consts.quote_status_viewed]: translations.viewed,
+    [consts.purchase_order_status_viewed]: translations.viewed,
     100: translations.expired
 }
 
@@ -254,6 +269,8 @@ export const purchaseOrderStatusColors = {
     [consts.purchase_order_status_draft]: 'secondary',
     [consts.purchase_order_status_sent]: 'primary',
     [consts.purchase_order_status_approved]: 'success',
+    [consts.purchase_order_status_rejected]: 'danger',
+    [consts.purchase_order_status_change_requested]: 'info',
     [consts.purchase_order_status_viewed]: 'info',
     100: 'danger'
 }
