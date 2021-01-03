@@ -27,7 +27,7 @@ class UpdateTaxRateRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name' => ['required'],
+            'name' => 'unique:tax_rates,name,' . $this->taxRate_id . ',id,account_id,' . $this->account_id,
             'rate' => ['required']
         ];
     }
