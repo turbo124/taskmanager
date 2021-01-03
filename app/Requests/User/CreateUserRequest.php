@@ -14,7 +14,7 @@ class CreateUserRequest extends BaseFormRequest
      */
     public function authorize()
     {
-        if(auth()->user()->account_user()->account->users->count() >= auth()->user()->account_user()->account->getNumberOfAllowedUsers()) {
+        if(auth()->user()->account_user()->account->domains->users->count() >= auth()->user()->account_user()->account->getNumberOfAllowedUsers()) {
             return false;
         }
 
