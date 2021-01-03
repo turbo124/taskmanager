@@ -11,6 +11,13 @@ class Domain extends Model
 {
     use SoftDeletes;
 
+    const SUBSCRIPTION_STANDARD = 1;
+    const SUBSCRIPTION_ADVANCED = 2;
+    const SUBSCRIPTION_FREE = 3;
+    
+    const SUBSCRIPTION_PERIOD_YEAR = 2;
+    const SUBSCRIPTION_PERIOD_MONTH = 1;
+
     /**
      * @var array
      */
