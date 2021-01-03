@@ -12,6 +12,7 @@ export default class TaxRateModel extends BaseModel {
             modal: false,
             name: '',
             rate: '',
+            account_id: JSON.parse(localStorage.getItem('appState')).user.account_id,
             loading: false,
             errors: [],
             message: ''
