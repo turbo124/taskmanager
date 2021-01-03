@@ -44,7 +44,8 @@ class EditTaxRate extends React.Component {
     handleClick () {
         const formData = {
             name: this.state.name,
-            rate: this.state.rate
+            rate: this.state.rate,
+            account_id: this.state.account_id
         }
 
         this.taxRateModel.save(formData).then(response => {
