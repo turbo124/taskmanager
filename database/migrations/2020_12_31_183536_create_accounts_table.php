@@ -27,9 +27,6 @@ class CreateAccountsTable extends Migration
             $table->string('slack_webhook_url')->nullable();
             $table->integer('transaction_fee')->default(0);
             $table->string('support_email')->nullable();
-            $table->date('subscription_expiry_date')->nullable();
-            $table->integer('subscription_plan')->nullable();
-            $table->integer('subscription_period')->default(0);
         });
     }
 
