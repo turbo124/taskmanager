@@ -222,4 +222,9 @@ class Account extends Model
     {
         return new AccountService($this);
     }
+
+    public function getNumberOfAllowedUsers()
+    {
+        return in_array($this->subscription_plan, [self::SUBSCRIPTION_FREE, self::SUBSCRIPTION_STANDARD]) ? 1 : $this->allowed_number_of_users;
+    }
 }
