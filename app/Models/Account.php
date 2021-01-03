@@ -22,15 +22,12 @@ class Account extends Model
 {
     use PresentableTrait, SoftDeletes, HasFactory;
 
-    const SUBSCRIPTION_STANDARD = 1;
-    const SUBSCRIPTION_ADVANCED = 2;
-    const SUBSCRIPTION_FREE = 3;
-    const SUBSCRIPTION_PERIOD_YEAR = 2;
-    const SUBSCRIPTION_PERIOD_MONTH = 1;
     protected $presenter = 'App\Presenters\AccountPresenter';
+    
     protected $dispatchesEvents = [
         'deleted' => AccountWasDeleted::class,
     ];
+
     protected $fillable = [
         'subdomain',
         'custom_fields',
@@ -225,11 +222,11 @@ class Account extends Model
 
     public function getNumberOfAllowedUsers()
     {
-        return in_array($this->domains->subscription_plan, [self::SUBSCRIPTION_FREE, self::SUBSCRIPTION_STANDARD]) ? 1 : $this->domains->allowed_number_of_users;
+        return in_array($this->domains->subscription_plan, [Domain::SUBSCRIPTION_FREE, Domain::SUBSCRIPTION_STANDARD]) ? 1 : $this->domains->allowed_number_of_users;
     }
 
     public function getNumberOfAllowedCustomers()
     {
-        return $this->domains->subscription_plan === self::SUBSCRIPTION_FREE ? 100 : 99999;
+        return $this->domains->subscription_plan === Domain::SUBSCRIPTION_FREE ? 100 : 99999;
     }
 }
