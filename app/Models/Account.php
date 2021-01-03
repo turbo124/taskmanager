@@ -227,4 +227,9 @@ class Account extends Model
     {
         return in_array($this->subscription_plan, [self::SUBSCRIPTION_FREE, self::SUBSCRIPTION_STANDARD]) ? 1 : $this->allowed_number_of_users;
     }
+
+    public function getNumberOfAllowedCustomers()
+    {
+        return $this->subscription_plan === self::SUBSCRIPTION_FREE ? 100 : 99999;
+    }
 }
