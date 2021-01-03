@@ -222,7 +222,7 @@ class Account extends Model
 
     public function getNumberOfAllowedUsers()
     {
-        return in_array($this->domains->subscription_plan, [Domain::SUBSCRIPTION_FREE, Domain::SUBSCRIPTION_STANDARD]) ? 1 : $this->domains->allowed_number_of_users;
+        return $this->domains->allowed_number_of_users;
     }
 
     public function getNumberOfAllowedCustomers()
