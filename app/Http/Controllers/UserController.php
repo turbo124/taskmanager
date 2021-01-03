@@ -72,10 +72,6 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        if(auth()->user()->account_user()->account->users->count() >= auth()->user()->account_user()->account->getNumberOfAllowedUsers()) {
-            return response()->json('Maximum number of allowed users reached');
-        }
-
         $user = $this->user_repo->save(
             $request->all(),
             UserFactory::create(auth()->user()->account_user()->account->domains->id)
