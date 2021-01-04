@@ -815,7 +815,9 @@ _localizedValues.en = {
     running_tasks: 'Running Tasks',
     recent_tasks: 'Recent Tasks',
     recent_expenses: 'Recent Expenses',
-    upcoming_expenses: 'Upcoming Expenses'
+    upcoming_expenses: 'Upcoming Expenses',
+    reject: 'Reject',
+    add_account: 'Add Account'
 }
 
 let language = []

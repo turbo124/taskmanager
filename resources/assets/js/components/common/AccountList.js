@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { FormGroup, Input } from 'reactstrap'
 import axios from 'axios'
+import { translations } from '../utils/_translations'
 
 export default class AccountList extends Component {
     constructor (props) {
@@ -55,13 +56,18 @@ export default class AccountList extends Component {
             return <option key={account.account.id} value={account.account.id}>{account.account.settings.name}</option>
         }) : null
 
+        const number_of_accounts = localStorage.getItem('number_of_accounts')
+        
         return (
             <React.Fragment>
                 <FormGroup style={{ width: '90%' }} className="mt-1 ml-2">
                     <Input value={this.state.account_id} type="select" onChange={this.handleChange} name="account_id"
                         id="account_id">
                         {columnList}
-                        <option value="add">Add Account</option>
+
+                        {!!number_of_accounts < 10 &&
+                        <option value="add">{translations.add_account}</option>
+                        }
                     </Input>
                 </FormGroup>
             </React.Fragment>

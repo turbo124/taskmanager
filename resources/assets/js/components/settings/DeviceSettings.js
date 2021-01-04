@@ -123,6 +123,7 @@ export default class DeviceSettings extends Component {
                     localStorage.setItem('gateways', JSON.stringify(response.data.data.gateways))
                     localStorage.setItem('tax_rates', JSON.stringify(response.data.data.tax_rates))
                     localStorage.setItem('users', JSON.stringify(response.data.data.users))
+                    localStorage.setItem('number_of_accounts', response.data.data.number_of_accounts)
 
                     this.setState({ success_message: 'Refresh completed', success: true })
                 }

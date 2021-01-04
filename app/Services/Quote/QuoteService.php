@@ -4,7 +4,9 @@ namespace App\Services\Quote;
 
 use App\Components\Pdf\InvoicePdf;
 use App\Events\Quote\PurchaseOrderWasApproved;
+use App\Events\Quote\QuoteChangeWasRequested;
 use App\Events\Quote\QuoteWasApproved;
+use App\Events\Quote\QuoteWasRejected;
 use App\Factory\QuoteToRecurringQuoteFactory;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\Invoice;
@@ -80,7 +82,7 @@ class QuoteService extends ServiceBase
         // trigger
         $subject = trans('texts.quote_rejected_subject');
         $body = trans('texts.quote_rejected_body');
-        $this->trigger($subject, $body, $quote_repo);
+        $this->sendEmail(null, $subject, $body);
 
         return $this->quote;
     }
@@ -95,7 +97,7 @@ class QuoteService extends ServiceBase
         //$this->quote->date_rejected = Carbon::now();
         $this->quote->save();
 
-        event(new QuoteChangeRequested($this->quote));
+        event(new QuoteChangeWasRequested($this->quote));
 
         // trigger
         $subject = trans('texts.quote_change_requested_subject');

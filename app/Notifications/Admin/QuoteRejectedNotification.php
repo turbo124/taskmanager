@@ -3,6 +3,7 @@
 namespace App\Notifications\Admin;
 
 use App\Mail\Admin\QuoteApproved;
+use App\Mail\Admin\QuoteRejected;
 use App\Models\Quote;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -53,7 +54,7 @@ class QuoteRejectedNotification extends Notification implements ShouldQueue
 
     /**
      * @param $notifiable
-     * @return QuoteApproved
+     * @return QuoteRejected
      */
     public function toMail($notifiable)
     {

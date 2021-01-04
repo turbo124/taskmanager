@@ -45,6 +45,7 @@ const axios = require('axios')
 const expires = localStorage.getItem('expires')
 
 if (new Date(expires) <= new Date()) {
+    alert('here')
     localStorage.removeItem('access_token')
     location.href = '/#/login'
 }
