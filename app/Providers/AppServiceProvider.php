@@ -6,8 +6,6 @@ use App\Components\Mail\CaseMailHandler;
 use App\Components\Mail\LeadMailHandler;
 use BeyondCode\Mailbox\Facades\Mailbox;
 use Illuminate\Support\ServiceProvider;
-use App\LeadMailHandler;
-use App\CaseMailHandler;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -66,6 +66,24 @@ export default class Notifications extends Component {
                 },
                 {
                     id: 4,
+                    value: consts.notification_purchase_order_approved,
+                    label: translations.purchase_order_approved,
+                    isChecked: false
+                },
+                {
+                    id: 4,
+                    value: consts.notification_purchase_order_rejected,
+                    label: translations.purchase_order_rejected,
+                    isChecked: false
+                },
+                {
+                    id: 4,
+                    value: consts.notification_purchase_order_change_requested,
+                    label: translations.purchase_order_change_requested,
+                    isChecked: false
+                },
+                {
+                    id: 4,
                     value: consts.notification_quote_sent,
                     label: translations.quote_sent,
                     isChecked: false
@@ -92,6 +110,18 @@ export default class Notifications extends Component {
                     id: 4,
                     value: consts.notification_quote_approved,
                     label: translations.quote_approved,
+                    isChecked: false
+                },
+                {
+                    id: 4,
+                    value: consts.notification_quote_rejected,
+                    label: translations.quote_rejected,
+                    isChecked: false
+                },
+                 {
+                    id: 4,
+                    value: consts.notification_quote_change_requested,
+                    label: translations.quote_change_requested,
                     isChecked: false
                 },
                 {

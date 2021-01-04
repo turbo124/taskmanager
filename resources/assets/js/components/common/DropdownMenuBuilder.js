@@ -216,6 +216,22 @@ export default class DropdownMenuBuilder extends Component {
                 message = `The ${this.props.model.entity} ${translations.approved}`
             }
 
+            if (action === 'reject') {
+                const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
+                this.props.invoices[index] = response
+                this.props.action(this.props.invoices)
+                this.props.reload(response)
+                message = `The ${this.props.model.entity} ${translations.rejected}`
+            }
+
+            if (action === 'request_change') {
+                const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
+                this.props.invoices[index] = response
+                this.props.action(this.props.invoices)
+                this.props.reload(response)
+                message = `The ${this.props.model.entity} ${translations.request_change}`
+            }
+
             if (action === 'mark_sent') {
                 const index = this.props.invoices.findIndex(invoice => invoice.id === this.props.model.fields.id)
                 this.props.invoices[index] = response
@@ -310,6 +326,16 @@ export default class DropdownMenuBuilder extends Component {
             case 'approve':
                 return <DropdownItem key={3} className="primary" onClick={() => this.changeStatus('approve')}>
                     <i className={`fa ${icons.approve} mr-2`}/>{translations.approve}
+                </DropdownItem>
+
+            case 'reject':
+                return <DropdownItem key={3} className="primary" onClick={() => this.changeStatus('reject')}>
+                    <i className={`fa ${icons.reject} mr-2`}/>{translations.reject}
+                </DropdownItem>
+
+            case 'request_change':
+                return <DropdownItem key={3} className="primary" onClick={() => this.changeStatus('request_change')}>
+                    <i className={`fa ${icons.request_change} mr-2`}/>{translations.request_change}
                 </DropdownItem>
 
             case 'markSent':

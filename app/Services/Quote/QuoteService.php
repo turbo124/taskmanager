@@ -4,7 +4,9 @@ namespace App\Services\Quote;
 
 use App\Components\Pdf\InvoicePdf;
 use App\Events\Quote\PurchaseOrderWasApproved;
+use App\Events\Quote\QuoteChangeWasRequested;
 use App\Events\Quote\QuoteWasApproved;
+use App\Events\Quote\QuoteWasRejected;
 use App\Factory\QuoteToRecurringQuoteFactory;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\Invoice;
@@ -60,6 +62,46 @@ class QuoteService extends ServiceBase
         // trigger
         $subject = trans('texts.quote_approved_subject');
         $body = trans('texts.quote_approved_body');
+        $this->trigger($subject, $body, $quote_repo);
+
+        return $this->quote;
+    }
+
+    public function reject(InvoiceRepository $invoice_repo, QuoteRepository $quote_repo): ?Quote
+    {
+        if ($this->quote->status_id != Quote::STATUS_SENT) {
+            return null;
+        }
+
+        $this->quote->setStatus(Quote::STATUS_REJECTED);
+        $this->quote->date_rejected = Carbon::now();
+        $this->quote->save();
+
+        event(new QuoteWasRejected($this->quote));
+
+        // trigger
+        $subject = trans('texts.quote_rejected_subject');
+        $body = trans('texts.quote_rejected_body');
+        $this->sendEmail(null, $subject, $body);
+
+        return $this->quote;
+    }
+
+    public function requestChange(InvoiceRepository $invoice_repo, QuoteRepository $quote_repo): ?Quote
+    {
+        if ($this->quote->status_id != Quote::STATUS_SENT) {
+            return null;
+        }
+
+        $this->quote->setStatus(Quote::STATUS_CHANGE_REQUESTED);
+        //$this->quote->date_rejected = Carbon::now();
+        $this->quote->save();
+
+        event(new QuoteChangeWasRequested($this->quote));
+
+        // trigger
+        $subject = trans('texts.quote_change_requested_subject');
+        $body = trans('texts.quote_change_requested_body');
         $this->trigger($subject, $body, $quote_repo);
 
         return $this->quote;

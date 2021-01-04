@@ -15,6 +15,10 @@ class CreateCustomerRequest extends BaseFormRequest
      */
     public function authorize()
     {
+        if(auth()->user()->account_user()->account->customers->count() >= auth()->user()->account_user()->account->getNumberOfAllowedCustomers()) {
+            return false;
+        }
+
         return auth()->user()->can('create', Customer::class);
     }
 

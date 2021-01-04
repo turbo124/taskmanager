@@ -289,6 +289,38 @@ class BaseController extends Controller
                 }
 
                 break;
+
+            case 'reject': //done
+                $quote = $this->entity_string === 'PurchaseOrder' ? $entity->service()->reject(
+                    new PurchaseOrderRepository($entity)
+                ) : $entity->service()->reject($this->invoice_repo, $this->quote_repo);
+
+                if (!$quote) {
+                    $message = 'Unable to reject this quote as it has expired.';
+                    $response = false;
+                } else {
+                    $quote->save();
+
+                    $response = $this->transformEntity($quote);
+                }
+
+                break;
+            case 'change_requested': //done
+                $quote = $this->entity_string === 'PurchaseOrder' ? $entity->service()->requestChange(
+                    new PurchaseOrderRepository($entity)
+                ) : $entity->service()->requestChange($this->invoice_repo, $this->quote_repo);
+
+                if (!$quote) {
+                    $message = 'Unable to update the quote as it has expired.';
+                    $response = false;
+                } else {
+                    $quote->save();
+
+                    $response = $this->transformEntity($quote);
+                }
+
+                break;
+
             case 'download': //done
                 $disk = config('filesystems.default');
                 $content = Storage::disk($disk)->get($entity->service()->generatePdf(null));
@@ -521,20 +553,21 @@ class BaseController extends Controller
         )->account->custom_fields : [];
 
         return [
-            'account_id'    => $default_account->id,
-            'custom_fields' => $custom_fields,
-            'id'            => $user->id,
-            'auth_token'    => $user->auth_token,
-            'name'          => $user->name,
-            'email'         => $user->email,
-            'accounts'      => $accounts,
-            'currencies'    => Currency::all(),
-            'languages'     => Language::all(),
-            'countries'     => Country::all(),
-            'payment_types' => PaymentMethod::all(),
-            'gateways'      => PaymentGateway::all(),
-            'tax_rates'     => TaxRate::all(),
-            'users'         => User::where('is_active', '=', 1)->get(
+            'account_id'         => $default_account->id,
+            'custom_fields'      => $custom_fields,
+            'id'                 => $user->id,
+            'auth_token'         => $user->auth_token,
+            'name'               => $user->name,
+            'email'              => $user->email,
+            'accounts'           => $accounts,
+            'number_of_accounts' => $user->accounts->count(),
+            'currencies'         => Currency::all(),
+            'languages'          => Language::all(),
+            'countries'          => Country::all(),
+            'payment_types'      => PaymentMethod::all(),
+            'gateways'           => PaymentGateway::all(),
+            'tax_rates'          => TaxRate::all(),
+            'users'              => User::where('is_active', '=', 1)->get(
                 ['first_name', 'last_name', 'phone_number', 'id']
             )
         ];

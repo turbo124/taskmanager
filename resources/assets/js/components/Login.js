@@ -100,6 +100,7 @@ class Login extends Component {
                     localStorage.setItem('custom_fields', JSON.stringify(response.data.data.custom_fields))
                     localStorage.setItem('users', JSON.stringify(response.data.data.users))
                     localStorage.setItem('access_token', userData.auth_token)
+                    localStorage.setItem('number_of_accounts', response.data.data.number_of_accounts)
                     localStorage.setItem('expires', d2)
                     localStorage.setItem('account_id', response.data.data.account_id)
                     this.setState({

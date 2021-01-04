@@ -26,6 +26,8 @@ class PurchaseOrder extends Model
     const STATUS_VIEWED = 3;
     const STATUS_APPROVED = 4;
     const STATUS_EXPIRED = -1;
+    const STATUS_REJECTED = 5;
+    const STATUS_CHANGE_REQUESTED = 6;
 
     protected $presenter = 'App\Presenters\QuotePresenter';
     protected $casts = [

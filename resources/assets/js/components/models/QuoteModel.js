@@ -232,8 +232,9 @@ export default class QuoteModel extends BaseModel {
             actions.push('getProducts')
         }
 
-        if (!this.isApproved) {
-            actions.push('approve')
+        if (this.isSent) {
+            actions.push('approve') 
+            actions.push('reject')
         }
 
         if (!this.fields.deleted_at && !this.isDraft) {

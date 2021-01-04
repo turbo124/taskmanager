@@ -20,6 +20,7 @@ export const icons = {
     customer: 'fa-user-circle-o',
     contact: 'fa-users',
     approve: 'fa-check-square',
+    reject: 'fa-ban',
     clone: 'fa-copy',
     delete: 'fa-trash',
     mark_paid: 'fa-credit-card',

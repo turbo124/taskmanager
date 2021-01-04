@@ -3,7 +3,9 @@
 namespace App\Services\PurchaseOrder;
 
 use App\Components\Pdf\PurchaseOrderPdf;
+use App\Events\PurchaseOrder\PurchaseOrderChangeWasRequested;
 use App\Events\PurchaseOrder\PurchaseOrderWasApproved;
+use App\Events\PurchaseOrder\PurchaseOrderWasRejected;
 use App\Factory\QuoteToRecurringPurchaseOrderFactory;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\Invoice;
@@ -54,6 +56,46 @@ class PurchaseOrderService extends ServiceBase
         // trigger
         $subject = trans('texts.purchase_order_approved_subject');
         $body = trans('texts.purchase_order_approved_body');
+        $this->trigger($subject, $body, $po_repo);
+
+        return $this->purchase_order;
+    }
+
+    public function reject(PurchaseOrderRepository $po_repo): ?PurchaseOrder
+    {
+        if ($this->purchase_order->status_id != PurchaseOrder::STATUS_SENT) {
+            return null;
+        }
+
+        $this->purchase_order->setStatus(PurchaseOrder::STATUS_REJECTED);
+        $this->purchase_order->date_rejected = Carbon::now();
+        $this->purchase_order->save();
+
+        event(new PurchaseOrderWasRejected($this->purchase_order));
+
+        // trigger
+        $subject = trans('texts.purchase_order_rejected_subject');
+        $body = trans('texts.purchase_order_rejected_body');
+        $this->trigger($subject, $body, $po_repo);
+
+        return $this->purchase_order;
+    }
+
+    public function requestChange(PurchaseOrderRepository $po_repo): ?PurchaseOrder
+    {
+        if ($this->purchase_order->status_id != PurchaseOrder::STATUS_SENT) {
+            return null;
+        }
+
+        $this->purchase_order->setStatus(PurchaseOrder::STATUS_CHANGE_REQUESTED);
+        //$this->purchase_order->date_approved = Carbon::now();
+        $this->purchase_order->save();
+
+        event(new PurchaseOrderChangeWasRequested($this->purchase_order));
+
+        // trigger
+        $subject = trans('texts.purchase_order_change_requested_subject');
+        $body = trans('texts.purchase_order_change_requested_body');
         $this->trigger($subject, $body, $po_repo);
 
         return $this->purchase_order;

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Components\InvoiceCalculator\LineItem;
 use App\Factory\InvoiceFactory;
 use App\Mail\Account\SubscriptionInvoice;
-use App\Models\Account;
+use App\Models\Domain;
 use App\Models\Invoice;
 use App\Repositories\InvoiceRepository;
 use Carbon\Carbon;
@@ -46,22 +46,22 @@ class SendSubscriptionRenewals extends Command
     public function handle()
     {
         // send 10 days before
-        $accounts = Account::whereRaw('DATEDIFF(subscription_expiry_date, CURRENT_DATE) = 10')
+        $domains = Domain::whereRaw('DATEDIFF(subscription_expiry_date, CURRENT_DATE) = 10')
                            ->whereIn(
                                'subscription_plan',
-                               array(Account::SUBSCRIPTION_STANDARD, Account::SUBSCRIPTION_ADVANCED)
+                               array(Domain::SUBSCRIPTION_STANDARD, Domain::SUBSCRIPTION_ADVANCED)
                            )
                            ->get();
 
-        foreach ($accounts as $account) {
-            $cost = $account->subscription_period === Account::SUBSCRIPTION_PERIOD_YEAR ? env(
+        foreach ($domains as $domain) {
+            $cost = $domain->subscription_period === Domain::SUBSCRIPTION_PERIOD_YEAR ? env(
                 'YEARLY_ACCOUNT_PRICE'
             ) : env('MONTHLY_ACCOUNT_PRICE');
             $due_date = Carbon::now()->addDays(10);
 
             $invoice = $this->createInvoice($account, $cost, $due_date);
 
-            Mail::to($account->support_email)->send(new SubscriptionInvoice($account, $invoice));
+            Mail::to($domain->support_email)->send(new SubscriptionInvoice($account, $invoice));
         }
     }
 
