@@ -4,7 +4,6 @@ namespace App\Search;
 
 use App\Models\Account;
 use App\Models\TaskStatus;
-use App\Repositories\CaseCategoryRepository;
 use App\Repositories\TaskStatusRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\TaskStatusTransformable;

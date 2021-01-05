@@ -3,7 +3,6 @@
 namespace App\Events\Company;
 
 use App\Models\Company;
-use App\Models\Expense;
 use App\Traits\SendSubscription;
 use Illuminate\Queue\SerializesModels;
 

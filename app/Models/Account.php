@@ -23,7 +23,7 @@ class Account extends Model
     use PresentableTrait, SoftDeletes, HasFactory;
 
     protected $presenter = 'App\Presenters\AccountPresenter';
-    
+
     protected $dispatchesEvents = [
         'deleted' => AccountWasDeleted::class,
     ];

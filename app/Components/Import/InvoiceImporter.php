@@ -17,6 +17,7 @@ class InvoiceImporter extends BaseCsvImporter
 {
     use ImportMapper;
 
+    protected $entity;
     private array $export_columns = [
         'number'        => 'Number',
         'customer_id'   => 'Customer name',
@@ -35,7 +36,6 @@ class InvoiceImporter extends BaseCsvImporter
         'shipping_cost' => 'shipping_cost',
         'tax_rate'      => 'tax_rate'
     ];
-
     /**
      * @var array|string[]
      */
@@ -57,34 +57,28 @@ class InvoiceImporter extends BaseCsvImporter
             'unit_tax'      => 'unit_tax',
             'quantity'      => 'quantity',
         ],
-        'invitations' => [
+        'invitations'   => [
             'contact email' => 'contact_id',
         ],
         'shipping_cost' => 'shipping_cost',
         'tax_rate'      => 'tax_rate'
     ];
-
     /**
      * @var Account
      */
     private Account $account;
-
     /**
      * @var User
      */
     private User $user;
-
     /**
      * @var Customer
      */
     private Customer $customer;
-
     /**
      * @var Export
      */
     private Export $export;
-
-    protected $entity;
 
     /**
      * InvoiceImporter constructor.

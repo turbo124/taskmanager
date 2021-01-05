@@ -16,6 +16,7 @@ class DealImporter extends BaseCsvImporter
     use ImportMapper;
     use DealTransformable;
 
+    protected $entity;
     private array $export_columns = [
         'name'          => 'name',
         'description'   => 'description',
@@ -25,7 +26,6 @@ class DealImporter extends BaseCsvImporter
         'public_notes'  => 'public notes',
         'private_notes' => 'private notes'
     ];
-
     /**
      * @var array|string[]
      */
@@ -40,23 +40,18 @@ class DealImporter extends BaseCsvImporter
         'customer name' => 'customer_id',
         'task status'   => 'task_status_id'
     ];
-
     /**
      * @var Account
      */
     private Account $account;
-
     /**
      * @var User
      */
     private User $user;
-
     /**
      * @var Export
      */
     private Export $export;
-
-    protected $entity;
 
     /**
      * InvoiceImporter constructor.

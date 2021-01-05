@@ -11,7 +11,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * Class ImportController
@@ -67,17 +66,17 @@ class ImportController extends Controller
                 new ImportCompleted(
                     [
                         'data' => [
-                            'errors' => $errors,
+                            'errors'  => $errors,
                             'message' => 'The ' . ucfirst(
                                     $request->input('import_type')
                                 ) . ' import failed with the following errors',
-                            'title' => ucfirst($request->input('import_type')) . ' Import Failed'
+                            'title'   => ucfirst($request->input('import_type')) . ' Import Failed'
                         ]
                     ]
                 )
             );
 
-           return response()->json(['errors' => $errors]);
+            return response()->json(['errors' => $errors]);
         }
 
         return response()->json($importer->getSuccess());

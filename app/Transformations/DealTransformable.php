@@ -34,6 +34,7 @@ trait DealTransformable
             'valued_at'      => $deal->valued_at,
             'source_type'    => $deal->source_type,
             'is_deleted'     => (bool)$deal->is_deleted,
+            'column_color'   => $deal->column_color ?: '',
             'custom_value1'  => $deal->custom_value1 ?: '',
             'custom_value2'  => $deal->custom_value2 ?: '',
             'custom_value3'  => $deal->custom_value3 ?: '',

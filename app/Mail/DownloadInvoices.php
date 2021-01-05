@@ -6,6 +6,7 @@ use App\Models\Account;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Laracasts\Presenter\Exceptions\PresenterException;
 
 class DownloadInvoices extends Mailable
 {
@@ -26,7 +27,7 @@ class DownloadInvoices extends Mailable
      * Build the message.
      *
      * @return $this
-     * @throws \Laracasts\Presenter\Exceptions\PresenterException
+     * @throws PresenterException
      */
     public function build()
     {

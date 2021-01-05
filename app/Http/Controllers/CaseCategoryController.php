@@ -11,7 +11,6 @@ use App\Requests\SearchRequest;
 use App\Search\CaseCategorySearch;
 use App\Transformations\CaseCategoryTransformable;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 use function request;
 

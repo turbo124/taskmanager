@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Repositories\Base\BaseRepository;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -48,7 +49,7 @@ class AttributeRepository extends BaseRepository
 
     /**
      * @return bool|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function deleteAttribute(): ?bool
     {

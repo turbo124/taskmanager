@@ -7,7 +7,7 @@ use App\Traits\SearchableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
@@ -31,7 +31,8 @@ class Project extends Model
         'public_notes',
         'due_date',
         'budgeted_hours',
-        'task_rate'
+        'task_rate',
+        'column_color'
     ];
 
     protected $casts = [
@@ -57,7 +58,7 @@ class Project extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function tasks()
     {

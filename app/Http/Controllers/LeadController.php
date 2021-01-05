@@ -6,14 +6,12 @@ use App\Events\Lead\LeadWasCreated;
 use App\Factory\Lead\CloneLeadToDealFactory;
 use App\Factory\Lead\CloneLeadToTaskFactory;
 use App\Factory\LeadFactory;
-use App\Models\CompanyToken;
 use App\Models\Deal;
 use App\Models\Lead;
 use App\Models\Project;
 use App\Models\Task;
 use App\Repositories\DealRepository;
 use App\Repositories\Interfaces\CustomerRepositoryInterface;
-use App\Repositories\Interfaces\MessageRepositoryInterface;
 use App\Repositories\LeadRepository;
 use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
@@ -65,7 +63,10 @@ class LeadController extends Controller
      */
     public function store(CreateLeadRequest $request)
     {
-       $lead = $this->lead_repo->createLead(LeadFactory::create(auth()->user()->account_user()->account, auth()->user()), $request->all());
+        $lead = $this->lead_repo->createLead(
+            LeadFactory::create(auth()->user()->account_user()->account, auth()->user()),
+            $request->all()
+        );
 
         event(new LeadWasCreated($lead));
         return response()->json($this->transformLead($lead));

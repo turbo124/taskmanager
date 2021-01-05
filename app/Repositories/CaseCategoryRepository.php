@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Account;
 use App\Models\CaseCategory;
-use App\Models\Category;
 use App\Repositories\Base\BaseRepository;
 use Exception;
 use Illuminate\Support\Collection;

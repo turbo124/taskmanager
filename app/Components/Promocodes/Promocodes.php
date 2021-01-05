@@ -7,7 +7,6 @@ use App\Models\Account;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Promocode;
-use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;

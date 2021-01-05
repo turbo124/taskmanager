@@ -42,6 +42,7 @@ trait ProjectTransformable
             'custom_value4'  => $project->custom_value4 ?: '',
             'tasks'          => $this->transformProjectTasks($project->tasks),
             'files'          => $this->transformTaskFiles($project->files),
+            'column_color'   => $project->column_color ?: '',
         ];
     }
 

@@ -6,6 +6,7 @@ use App\Components\Pdf\TaskPdf;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\Deal;
 use App\Services\ServiceBase;
+use ReflectionException;
 
 /**
  * Class TaskService
@@ -49,7 +50,7 @@ class DealService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {

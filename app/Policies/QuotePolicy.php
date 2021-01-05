@@ -13,51 +13,58 @@ class QuotePolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\Quote $quote
+     * @param User $user
+     * @param Quote $quote
      * @return mixed
      */
     public function view(User $user, Quote $quote)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $quote->user_id === $user->id || $user->hasPermissionTo('quotecontroller.show') || (!empty($quote->assigned_to) && $quote->assigned_to === $user->id);
+            )->is_owner || $quote->user_id === $user->id || $user->hasPermissionTo(
+                'quotecontroller.show'
+            ) || (!empty($quote->assigned_to) && $quote->assigned_to === $user->id);
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      * @param Quote $quote
      * @return mixed
      */
     public function delete(User $user, Quote $quote)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $quote->user_id === $user->id || $user->hasPermissionTo('quotecontroller.destroy') || (!empty($quote->assigned_to) && $quote->assigned_to === $user->id);
+            )->is_owner || $quote->user_id === $user->id || $user->hasPermissionTo(
+                'quotecontroller.destroy'
+            ) || (!empty($quote->assigned_to) && $quote->assigned_to === $user->id);
     }
 
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      * @param Quote $quote
      * @return mixed
      */
     public function update(User $user, Quote $quote)
     {
         return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $quote->user_id === $user->id || $user->hasPermissionTo('quotecontroller.update') || (!empty($quote->assigned_to) && $quote->assigned_to === $user->id);
+            )->is_owner || $quote->user_id === $user->id || $user->hasPermissionTo(
+                'quotecontroller.update'
+            ) || (!empty($quote->assigned_to) && $quote->assigned_to === $user->id);
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      * @return mixed
      */
     public function create(User $user)
     {
-        return $user->account_user()->is_admin || $user->account_user(
-            )->is_owner || $user->hasPermissionTo('quotecontroller.store');
+        return $user->account_user()->is_admin || $user->account_user()->is_owner || $user->hasPermissionTo(
+                'quotecontroller.store'
+            );
     }
 }

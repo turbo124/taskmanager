@@ -19,6 +19,7 @@ class CompanyImporter extends BaseCsvImporter
     use ImportMapper;
     use CompanyTransformable;
 
+    protected $entity;
     private array $export_columns = [
         'number'        => 'Number',
         'first_name'    => 'first name',
@@ -38,7 +39,6 @@ class CompanyImporter extends BaseCsvImporter
         'name'          => 'name',
         'description'   => 'description',
     ];
-
     /**
      * @var array|string[]
      */
@@ -64,23 +64,18 @@ class CompanyImporter extends BaseCsvImporter
             'contact phone' => 'phone'
         ]
     ];
-
     /**
      * @var Account
      */
     private Account $account;
-
     /**
      * @var User
      */
     private User $user;
-
     /**
      * @var Export
      */
     private Export $export;
-
-    protected $entity;
 
     /**
      * InvoiceImporter constructor.

@@ -9,6 +9,7 @@ use App\Jobs\Email\SendEmail;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\ContactInterface;
 use ReflectionClass;
+use ReflectionException;
 
 class ServiceBase
 {
@@ -25,7 +26,7 @@ class ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function generateDispatchNote($contact = null, $update = false)
     {
@@ -106,7 +107,7 @@ class ServiceBase
      * @param string $template
      * @param null $contact
      * @return bool
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function sendInvitationEmails(string $subject, string $body, string $template, $contact = null)
     {
@@ -146,7 +147,7 @@ class ServiceBase
      * @param array $footer
      * @param null $invitation
      * @return bool
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private function dispatchEmail(
         ContactInterface $contact,

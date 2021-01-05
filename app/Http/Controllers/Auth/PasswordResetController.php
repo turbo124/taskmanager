@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PasswordResetController extends Controller
@@ -15,7 +16,7 @@ class PasswordResetController extends Controller
      * Create token password reset
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse [string] message
+     * @return JsonResponse [string] message
      */
     public function create(Request $request)
     {
@@ -58,7 +59,7 @@ class PasswordResetController extends Controller
      * Find token password reset
      *
      * @param  [string] $token
-     * @return \Illuminate\Http\JsonResponse [string] message
+     * @return JsonResponse [string] message
      */
     public function find($token)
     {
@@ -87,7 +88,7 @@ class PasswordResetController extends Controller
      * Reset password
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse [string] message
+     * @return JsonResponse [string] message
      */
     public function reset(Request $request)
     {

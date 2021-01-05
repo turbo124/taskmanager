@@ -14,9 +14,11 @@ use App\Requests\Quote\UpdatePurchaseOrderRequest;
 use App\Requests\SearchRequest;
 use App\Search\PurchaseOrderSearch;
 use App\Transformations\PurchaseOrderTransformable;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use ReflectionException;
 
 /**
  * Class PurchaseOrderController
@@ -108,7 +110,7 @@ class PurchaseOrderController extends BaseController
      * @param $action
      * @return JsonResponse
      * @throws FileNotFoundException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function action(Request $request, PurchaseOrder $purchase_order, $action)
     {
@@ -129,7 +131,7 @@ class PurchaseOrderController extends BaseController
     /**
      * @param int $id
      * @return mixed
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function destroy(int $id)
     {

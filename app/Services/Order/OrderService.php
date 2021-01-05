@@ -14,6 +14,7 @@ use App\Models\Order;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\OrderRepository;
 use App\Services\ServiceBase;
+use ReflectionException;
 
 class OrderService extends ServiceBase
 {
@@ -41,7 +42,7 @@ class OrderService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {
@@ -74,7 +75,7 @@ class OrderService extends ServiceBase
      * @param OrderRepository $order_repo
      * @param bool $force_invoice
      * @return Order
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function dispatch(
         InvoiceRepository $invoice_repo,

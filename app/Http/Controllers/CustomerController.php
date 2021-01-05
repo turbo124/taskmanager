@@ -22,6 +22,7 @@ use App\Search\CustomerSearch;
 use App\Settings\CustomerSettings;
 use App\Transformations\CustomerTransformable;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 use function request;
@@ -180,8 +181,8 @@ class CustomerController extends Controller
 
     /**
      * @param CustomerRegistrationRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
+     * @return JsonResponse
      */
     public function register(CustomerRegistrationRequest $request)
     {

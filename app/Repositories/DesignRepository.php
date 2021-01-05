@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Customer;
 use App\Models\Design;
 use App\Repositories\Base\BaseRepository;
 

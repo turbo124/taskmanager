@@ -6,6 +6,7 @@ use App\Components\Pdf\InvoicePdf;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\Credit;
 use App\Services\ServiceBase;
+use ReflectionException;
 
 class CreditService extends ServiceBase
 {
@@ -28,7 +29,7 @@ class CreditService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {

@@ -14,8 +14,11 @@ use App\Requests\SearchRequest;
 use App\Search\CreditSearch;
 use App\Services\CreditService;
 use App\Transformations\CreditTransformable;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use ReflectionException;
 
 /**
  * Class CreditController
@@ -95,7 +98,7 @@ class CreditController extends BaseController
     /**
      * @param int $id
      * @return mixed
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function destroy(int $id)
     {
@@ -129,8 +132,8 @@ class CreditController extends BaseController
      * @param Credit $credit
      * @param $action
      * @return mixed
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     * @throws \ReflectionException
+     * @throws FileNotFoundException
+     * @throws ReflectionException
      */
     public function action(Request $request, Credit $credit, $action)
     {

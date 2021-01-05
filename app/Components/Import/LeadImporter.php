@@ -16,6 +16,7 @@ class LeadImporter extends BaseCsvImporter
     use ImportMapper;
     use LeadTransformable;
 
+    protected $entity;
     private array $export_columns = [
         'first_name'    => 'first name',
         'last_name'     => 'last name',
@@ -34,7 +35,6 @@ class LeadImporter extends BaseCsvImporter
         'description'   => 'description',
         'task status'   => 'task_status_id'
     ];
-
     /**
      * @var array|string[]
      */
@@ -56,23 +56,18 @@ class LeadImporter extends BaseCsvImporter
         'description'   => 'description',
         'task status'   => 'task_status_id'
     ];
-
     /**
      * @var Account
      */
     private Account $account;
-
     /**
      * @var User
      */
     private User $user;
-
     /**
      * @var Export
      */
     private Export $export;
-
-    protected $entity;
 
     /**
      * InvoiceImporter constructor.

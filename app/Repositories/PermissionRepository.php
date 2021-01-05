@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Permission;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\PermissionRepositoryInterface;
+use Exception;
 use Illuminate\Support\Collection;
 
 class PermissionRepository extends BaseRepository implements PermissionRepositoryInterface
@@ -68,7 +69,7 @@ class PermissionRepository extends BaseRepository implements PermissionRepositor
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function deletePermissionById(): bool
     {

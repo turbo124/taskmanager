@@ -161,6 +161,12 @@ class BaseSettings
             'default_value'    => true,
             'type'             => 'bool'
         ],
+        'calculate_expense_taxes'              => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
         'credit_payments_enabled'              => [
             'required'         => false,
             'translated_value' => '',

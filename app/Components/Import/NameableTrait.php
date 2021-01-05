@@ -5,6 +5,7 @@ namespace App\Components\Import;
 
 
 use ReflectionClass;
+use ReflectionException;
 
 trait NameableTrait
 {
@@ -15,7 +16,7 @@ trait NameableTrait
 
     /**
      * @return string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function __toString()
     {

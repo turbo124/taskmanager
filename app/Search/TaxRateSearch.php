@@ -4,7 +4,6 @@ namespace App\Search;
 
 use App\Models\Account;
 use App\Models\TaxRate;
-use App\Repositories\CompanyRepository;
 use App\Repositories\TaxRateRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\TaxRateTransformable;

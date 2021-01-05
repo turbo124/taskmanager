@@ -108,19 +108,6 @@ trait ImportMapper
         $this->success[] = $this->transformObject($result);
     }
 
-    private function save()
-    {
-        $factory = $this->factory($this->object);
-
-        if (!$factory) {
-            return false;
-        }
-
-        $repo = $this->repository();
-
-        return $repo->save($this->object, $factory);
-    }
-
     private function buildObject($items)
     {
         $object = [];
@@ -169,6 +156,18 @@ trait ImportMapper
         return $object;
     }
 
+    private function save()
+    {
+        $factory = $this->factory($this->object);
+
+        if (!$factory) {
+            return false;
+        }
+
+        $repo = $this->repository();
+
+        return $repo->save($this->object, $factory);
+    }
 
     /**
      *  Will be executed if a csv line did not pass validation

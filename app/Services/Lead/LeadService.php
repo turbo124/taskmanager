@@ -7,6 +7,7 @@ use App\Jobs\Pdf\CreatePdf;
 use App\Models\Lead;
 use App\Repositories\LeadRepository;
 use App\Services\ServiceBase;
+use ReflectionException;
 
 /**
  * Class TaskService
@@ -65,7 +66,7 @@ class LeadService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {

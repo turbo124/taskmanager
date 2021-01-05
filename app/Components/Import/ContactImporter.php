@@ -12,17 +12,16 @@ use App\Models\User;
 use App\Repositories\CustomerContactRepository;
 use App\Repositories\CustomerRepository;
 use App\Transformations\ContactTransformable;
-use App\Transformations\CustomerTransformable;
 
 class ContactImporter extends BaseCsvImporter
 {
     use ImportMapper;
 
     private array $export_columns = [
-        'first_name'    => 'first name',
-        'last_name'     => 'last name',
-        'email'         => 'email',
-        'phone'         => 'phone'
+        'first_name' => 'first name',
+        'last_name'  => 'last name',
+        'email'      => 'email',
+        'phone'      => 'phone'
     ];
 
     /**
@@ -115,8 +114,7 @@ class ContactImporter extends BaseCsvImporter
      */
     public function saveCallback(Customer $customer, array $data)
     {
-
-       //TODO
+        //TODO
     }
 
     public function export()

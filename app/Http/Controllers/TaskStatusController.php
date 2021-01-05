@@ -11,8 +11,8 @@ use App\Requests\TaskStatus\CreateTaskStatusRequest;
 use App\Requests\TaskStatus\UpdateTaskStatusRequest;
 use App\Search\TaskStatusSearch;
 use App\Transformations\TaskStatusTransformable;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 use function request;
 
@@ -73,7 +73,7 @@ class TaskStatusController extends Controller
      *
      * @param int $id
      * @return void
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function destroy(int $id)
     {

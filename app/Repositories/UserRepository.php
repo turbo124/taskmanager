@@ -126,7 +126,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         /*************** save new user ***************************/
         $user->fill($data);
 
-        if (isset($data['password']) && !empty($data['password']) && (empty($user->id) || auth()->user()->id === $user->id)) {
+        if (isset($data['password']) && !empty($data['password']) && (empty($user->id) || auth()->user(
+                )->id === $user->id)) {
             $user->password = Hash::make($data['password']);
         }
 

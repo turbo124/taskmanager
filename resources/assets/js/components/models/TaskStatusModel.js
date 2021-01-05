@@ -14,6 +14,7 @@ export default class TaskStatusModel extends BaseModel {
             modal: false,
             name: '',
             description: '',
+            column_color: '',
             loading: false,
             errors: []
         }

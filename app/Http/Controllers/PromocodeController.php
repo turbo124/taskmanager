@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Components\Promocodes\Promocodes;
+use App\Exceptions\InvalidPromocodeException;
 use App\Models\CompanyToken;
 use App\Models\Customer;
 use App\Models\Order;
@@ -158,7 +159,7 @@ class PromocodeController extends Controller
 
     /**
      * @param int $id
-     * @throws \App\Exceptions\InvalidPromocodeException
+     * @throws InvalidPromocodeException
      */
     public function destroy(int $id)
     {

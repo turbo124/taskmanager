@@ -14,6 +14,7 @@ use App\Settings\GroupSettings;
 use App\Traits\UploadableTrait;
 use App\Transformations\GroupTransformable;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -114,7 +115,7 @@ class GroupController extends Controller
     /**
      * @param int $id
      * @return JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function destroy(int $id)
     {

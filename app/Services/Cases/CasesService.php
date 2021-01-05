@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Services\ServiceBase;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use ReflectionException;
 
 /**
  * Class TaskService
@@ -53,7 +54,7 @@ class CasesService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {

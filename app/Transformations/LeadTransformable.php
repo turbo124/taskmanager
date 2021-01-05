@@ -44,6 +44,7 @@ trait LeadTransformable
             'public_notes'   => $lead->public_notes ?: '',
             'emails'         => $this->transformLeadEmails($lead->emails()),
             'is_deleted'     => (bool)$lead->is_deleted,
+            'column_color'   => $lead->column_color ?: '',
         ];
     }
 

@@ -6,6 +6,7 @@ use App\Jobs\ResetNumbers;
 use App\Traits\CalculateRecurring;
 use Exception;
 use ReflectionClass;
+use ReflectionException;
 
 class NumberGenerator
 {
@@ -62,7 +63,7 @@ class NumberGenerator
      * @param $resource
      * @param Customer|null $customer
      * @return bool
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private function setType($entity_object, $resource, Customer $customer = null)
     {

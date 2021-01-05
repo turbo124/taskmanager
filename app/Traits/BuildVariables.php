@@ -8,6 +8,7 @@ use App\Components\Pdf\InvoicePdf;
 use App\Components\Pdf\LeadPdf;
 use App\Components\Pdf\PurchaseOrderPdf;
 use App\Components\Pdf\TaskPdf;
+use ReflectionException;
 
 trait BuildVariables
 {
@@ -28,7 +29,7 @@ trait BuildVariables
      * @param $content
      * @param $entity
      * @return string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function parseVariables($content, $entity)
     {

@@ -3,9 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\ErrorLog;
-use App\Models\User;
 use App\Repositories\Base\BaseRepository;
-use Exception;
 use Illuminate\Support\Collection;
 
 class ErrorLogRepository extends BaseRepository

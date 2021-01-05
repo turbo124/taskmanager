@@ -37,9 +37,9 @@ class Quote extends Model
     const SUBSCRIPTION_TYPE = 5;
     const EXPENSE_TYPE = 6;
     const GATEWAY_FEE_TYPE = 7;
-    
+
     protected $presenter = 'App\Presenters\QuotePresenter';
-    
+
     protected $casts = [
         'customer_id' => 'integer',
         'account_id'  => 'integer',

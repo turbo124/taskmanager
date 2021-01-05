@@ -8,7 +8,6 @@ use App\Jobs\Inventory\ReverseInventory;
 use App\Models\Account;
 use App\Models\Credit;
 use App\Models\Customer;
-use App\Models\Payment;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\CreditRepositoryInterface;
 use App\Requests\SearchRequest;

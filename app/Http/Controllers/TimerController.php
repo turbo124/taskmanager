@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Factory\TimerFactory;
 use App\Models\Timer;
 use App\Repositories\TaskRepository;
 use App\Repositories\TimerRepository;
