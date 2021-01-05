@@ -19,6 +19,7 @@ class ExpenseImporter extends BaseCsvImporter
     use ImportMapper;
     use ExpenseTransformable;
 
+    protected $entity;
     private array $export_columns = [
         'expense_category_id' => 'expense category name',
         'company_id'          => 'company name',
@@ -33,7 +34,6 @@ class ExpenseImporter extends BaseCsvImporter
         'public_notes'        => 'public notes',
         'private_notes'       => 'private notes'
     ];
-
     /**
      * @var array|string[]
      */
@@ -51,23 +51,18 @@ class ExpenseImporter extends BaseCsvImporter
         'public notes'          => 'public_notes',
         'private notes'         => 'private_notes'
     ];
-
     /**
      * @var Account
      */
     private Account $account;
-
     /**
      * @var User
      */
     private User $user;
-
     /**
      * @var Export
      */
     private Export $export;
-
-    protected $entity;
 
     /**
      * InvoiceImporter constructor.

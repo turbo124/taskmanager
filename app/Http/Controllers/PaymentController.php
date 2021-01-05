@@ -22,6 +22,7 @@ use App\Requests\Payment\UpdatePaymentRequest;
 use App\Requests\SearchRequest;
 use App\Search\PaymentSearch;
 use App\Transformations\PaymentTransformable;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -104,7 +105,7 @@ class PaymentController extends Controller
      *
      * @param int $id
      * @return Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function destroy(int $id)
     {

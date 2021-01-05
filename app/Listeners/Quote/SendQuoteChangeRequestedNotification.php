@@ -2,7 +2,6 @@
 
 namespace App\Listeners\Quote;
 
-use App\Notifications\Admin\QuoteApprovedNotification;
 use App\Notifications\Admin\QuoteChangeRequestedNotification;
 use App\Traits\Notifications\UserNotifies;
 use Illuminate\Contracts\Queue\ShouldQueue;

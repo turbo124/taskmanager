@@ -11,9 +11,7 @@ use App\Requests\Project\CreateProjectRequest;
 use App\Requests\Project\UpdateProjectRequest;
 use App\Search\ProjectSearch;
 use App\Transformations\ProjectTransformable;
-use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller

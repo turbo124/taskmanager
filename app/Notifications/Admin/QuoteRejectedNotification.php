@@ -2,7 +2,6 @@
 
 namespace App\Notifications\Admin;
 
-use App\Mail\Admin\QuoteApproved;
 use App\Mail\Admin\QuoteRejected;
 use App\Models\Quote;
 use Illuminate\Bus\Queueable;

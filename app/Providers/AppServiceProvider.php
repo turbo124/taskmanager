@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
 //                $query->time
 //            );
 //        });
-      
+
         Mailbox::to('leads@tamtamcrm.com', LeadMailHandler::class);
         Mailbox::to('{hash}_cases+{number}@tamtamcrm.com', CaseMailHandler::class);
         Mailbox::to('{hash}_cases@tamtamcrm.com', CaseMailHandler::class);

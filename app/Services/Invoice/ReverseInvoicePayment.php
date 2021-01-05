@@ -5,9 +5,11 @@ namespace App\Services\Invoice;
 use App\Components\InvoiceCalculator\LineItem;
 use App\Events\Invoice\InvoiceWasReversed;
 use App\Factory\CreditFactory;
+use App\Models\Credit;
 use App\Models\Invoice;
 use App\Repositories\CreditRepository;
 use App\Repositories\PaymentRepository;
+use ReflectionException;
 
 /**
  * Class ReverseInvoicePayment
@@ -94,8 +96,8 @@ class ReverseInvoicePayment
 
     /**
      * @param float $total_paid
-     * @return \App\Models\Credit|null
-     * @throws \ReflectionException
+     * @return Credit|null
+     * @throws ReflectionException
      */
     private function createCreditNote(float $total_paid)
     {

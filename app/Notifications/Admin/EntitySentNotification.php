@@ -12,6 +12,7 @@ use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use ReflectionException;
 
 class EntitySentNotification extends Notification implements ShouldQueue
 {
@@ -49,8 +50,12 @@ class EntitySentNotification extends Notification implements ShouldQueue
      * @param AccountUser $account_user
      * @param string $message_type
      */
-    public function __construct(Invitation $invitation, $entity_name, AccountUser $account_user, string $message_type = '')
-    {
+    public function __construct(
+        Invitation $invitation,
+        $entity_name,
+        AccountUser $account_user,
+        string $message_type = ''
+    ) {
         $this->invitation = $invitation;
         $this->entity_name = $entity_name;
         $this->entity = $invitation->{$entity_name};
@@ -77,7 +82,7 @@ class EntitySentNotification extends Notification implements ShouldQueue
     /**
      * @param $notifiable
      * @return ObjectSent
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function toMail($notifiable)
     {
@@ -110,9 +115,9 @@ class EntitySentNotification extends Notification implements ShouldQueue
     private function getDataArray()
     {
         return [
-            'total'    => $this->entity->getFormattedTotal(),
+            'total' => $this->entity->getFormattedTotal(),
             'customer' => $this->contact->present()->name(),
-            'invoice'  => $this->entity->getNumber(),
+            'invoice' => $this->entity->getNumber(),
         ];
     }
 

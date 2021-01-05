@@ -12,9 +12,7 @@ use App\Requests\SearchRequest;
 use App\Search\CategorySearch;
 use App\Transformations\CategoryTransformable;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {

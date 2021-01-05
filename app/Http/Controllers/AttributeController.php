@@ -10,6 +10,7 @@ use App\Requests\Attribute\UpdateAttributeRequest;
 use App\Requests\SearchRequest;
 use App\Search\AttributeSearch;
 use App\Transformations\AttributeTransformable;
+use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
@@ -104,7 +105,7 @@ class AttributeController extends Controller
     /**
      * @param $id
      * @return bool|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function destroy($id)
     {

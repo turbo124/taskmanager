@@ -18,6 +18,7 @@ use App\Transformations\QuoteTransformable;
 use App\Transformations\TaskTransformable;
 use Illuminate\Http\JsonResponse;
 use ReflectionClass;
+use ReflectionException;
 
 class EmailController extends Controller
 {
@@ -40,7 +41,7 @@ class EmailController extends Controller
     /**
      * @param SendEmailRequest $request
      * @return JsonResponse
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function send(SendEmailRequest $request)
     {

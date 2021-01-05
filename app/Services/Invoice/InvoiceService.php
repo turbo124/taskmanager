@@ -7,13 +7,13 @@ use App\Events\Invoice\InvoiceWasPaid;
 use App\Factory\InvoiceToRecurringInvoiceFactory;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\Invoice;
-use App\Models\Order;
 use App\Models\RecurringInvoice;
 use App\Repositories\CreditRepository;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\PaymentRepository;
 use App\Repositories\RecurringInvoiceRepository;
 use App\Services\ServiceBase;
+use ReflectionException;
 
 /**
  * Class InvoiceService
@@ -76,7 +76,7 @@ class InvoiceService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {

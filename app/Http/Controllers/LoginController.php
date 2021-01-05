@@ -12,7 +12,12 @@ use App\Models\PaymentMethod;
 use App\Models\TaxRate;
 use App\Models\User;
 use App\Requests\LoginRequest;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
@@ -23,57 +28,6 @@ use Laravel\Socialite;
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
-
-    private function executeLogin($token)
-    {
-        $this->forced_includes = ['company_users'];
-
-        $user = auth()->user();
-        $user->auth_token = $token;
-        $user->save();
-
-        $default_account = $user->accounts->first()->domains->default_company;
-        //$user->setAccount($default_account);
-
-        $accounts = AccountUser::whereUserId($user->id)->with('account')->get()->toArray();
-
-        CompanyToken::updateOrCreate(
-            ['user_id' => $user->id],
-            [
-                'is_web'     => true,
-                'token'      => $token,
-                'user_id'    => $user->id,
-                'account_id' => $default_account->id,
-                'domain_id'  => $user->accounts->first()->domains->id
-            ]
-        );
-
-        return [
-            'success' => true,
-            'data'    => [
-                'redirect'           => 'http://taskman2.develop',
-                'account_id'         => $default_account->id,
-                'id'                 => $user->id,
-                'auth_token'         => $user->auth_token,
-                'name'               => $user->first_name . ' ' . $user->last_name,
-                'email'              => $user->email,
-                'accounts'           => json_encode($accounts),
-                'number_of_accounts' => $user->accounts->count(),
-                'currencies'         => json_encode(Currency::all()->toArray()),
-                'languages'          => json_encode(Language::all()->toArray()),
-                'countries'          => json_encode(Country::all()->toArray()),
-                'payment_types'      => json_encode(PaymentMethod::all()->toArray()),
-                'gateways'           => json_encode(PaymentGateway::all()->toArray()),
-                'tax_rates'          => json_encode(TaxRate::all()->toArray()),
-                'custom_fields'      => json_encode(auth()->user()->account_user()->account->custom_fields),
-                'users'              => json_encode(
-                    User::where('is_active', '=', 1)->get(
-                        ['first_name', 'last_name', 'phone_number', 'id']
-                    )->toArray()
-                )
-            ]
-        ];
-    }
 
     public function doLogin(LoginRequest $request)
     {
@@ -178,7 +132,7 @@ class LoginController extends Controller
     /**
      * Redirect the user to the GitHub authentication page.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function redirectToGoogle($social = 'google')
     {
@@ -190,7 +144,7 @@ class LoginController extends Controller
 
     /**
      * @param string $social
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return Application|JsonResponse|RedirectResponse|Redirector
      */
     public function handleGoogleCallback($social = 'google')
     {
@@ -225,6 +179,57 @@ class LoginController extends Controller
         } catch (Exception $e) {
             dd($e->getMessage());
         }
+    }
+
+    private function executeLogin($token)
+    {
+        $this->forced_includes = ['company_users'];
+
+        $user = auth()->user();
+        $user->auth_token = $token;
+        $user->save();
+
+        $default_account = $user->accounts->first()->domains->default_company;
+        //$user->setAccount($default_account);
+
+        $accounts = AccountUser::whereUserId($user->id)->with('account')->get()->toArray();
+
+        CompanyToken::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'is_web'     => true,
+                'token'      => $token,
+                'user_id'    => $user->id,
+                'account_id' => $default_account->id,
+                'domain_id'  => $user->accounts->first()->domains->id
+            ]
+        );
+
+        return [
+            'success' => true,
+            'data'    => [
+                'redirect'           => 'http://taskman2.develop',
+                'account_id'         => $default_account->id,
+                'id'                 => $user->id,
+                'auth_token'         => $user->auth_token,
+                'name'               => $user->first_name . ' ' . $user->last_name,
+                'email'              => $user->email,
+                'accounts'           => json_encode($accounts),
+                'number_of_accounts' => $user->accounts->count(),
+                'currencies'         => json_encode(Currency::all()->toArray()),
+                'languages'          => json_encode(Language::all()->toArray()),
+                'countries'          => json_encode(Country::all()->toArray()),
+                'payment_types'      => json_encode(PaymentMethod::all()->toArray()),
+                'gateways'           => json_encode(PaymentGateway::all()->toArray()),
+                'tax_rates'          => json_encode(TaxRate::all()->toArray()),
+                'custom_fields'      => json_encode(auth()->user()->account_user()->account->custom_fields),
+                'users'              => json_encode(
+                    User::where('is_active', '=', 1)->get(
+                        ['first_name', 'last_name', 'phone_number', 'id']
+                    )->toArray()
+                )
+            ]
+        ];
     }
 
 }

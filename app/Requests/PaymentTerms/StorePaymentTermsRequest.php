@@ -2,7 +2,6 @@
 
 namespace App\Requests\PaymentTerms;
 
-use App\Models\Expense;
 use App\Models\PaymentTerms;
 use App\Repositories\Base\BaseFormRequest;
 

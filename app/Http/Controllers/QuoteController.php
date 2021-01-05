@@ -17,9 +17,11 @@ use App\Requests\SearchRequest;
 use App\Search\QuoteSearch;
 use App\Transformations\QuoteTransformable;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use ReflectionException;
 
 /**
  * Class QuoteController
@@ -109,7 +111,7 @@ class QuoteController extends BaseController
      * @param $action
      * @return JsonResponse
      * @throws FileNotFoundException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function action(Request $request, Quote $quote, $action)
     {
@@ -152,7 +154,7 @@ class QuoteController extends BaseController
     /**
      * @param int $id
      * @return mixed
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function destroy(int $id)
     {

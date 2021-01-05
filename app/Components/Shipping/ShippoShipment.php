@@ -6,7 +6,6 @@ use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
-use Illuminate\Support\Collection;
 use Shippo;
 use Shippo_Get_Shipping_Rates;
 use Shippo_Shipment;

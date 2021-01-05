@@ -41,6 +41,7 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use ReflectionException;
 
 class TaskController extends Controller
 {
@@ -336,7 +337,7 @@ class TaskController extends Controller
      * @param $action
      * @return JsonResponse
      * @throws FileNotFoundException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function action(Request $request, Task $task, $action)
     {

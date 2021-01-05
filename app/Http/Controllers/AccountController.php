@@ -12,7 +12,6 @@ use App\Requests\Account\UpdateAccountRequest;
 use App\Settings\AccountSettings;
 use App\Traits\UploadableTrait;
 use App\Transformations\AccountTransformable;
-use Exception;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

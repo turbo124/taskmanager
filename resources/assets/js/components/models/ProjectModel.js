@@ -26,6 +26,7 @@ export default class ProjectModel extends BaseModel {
             assigned_to: '',
             budgeted_hours: '',
             task_rate: '',
+            column_color: '',
             count: 2,
             errors: [],
             customers: [],

@@ -16,6 +16,8 @@ use App\Requests\User\CreateUserRequest;
 use App\Requests\User\UpdateUserRequest;
 use App\Search\UserSearch;
 use App\Transformations\UserTransformable;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -107,7 +109,7 @@ class UserController extends Controller
      *
      * @param int $id
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function archive(int $id)
     {
@@ -124,7 +126,7 @@ class UserController extends Controller
     /**
      * @param int $id
      * @return JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function destroy(int $id)
     {

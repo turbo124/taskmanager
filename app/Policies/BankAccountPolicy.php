@@ -13,7 +13,7 @@ class BankAccountPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      * @param BankAccount $bank_account
      * @return mixed
      */
@@ -28,7 +28,7 @@ class BankAccountPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      * @param BankAccount $bank_account
      * @return mixed
      */
@@ -43,7 +43,7 @@ class BankAccountPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      * @param BankAccount $bank_account
      * @return mixed
      */
@@ -58,7 +58,7 @@ class BankAccountPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      * @return mixed
      */
     public function create(User $user)

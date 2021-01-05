@@ -6,7 +6,6 @@ use App\Models\Account;
 use App\Models\Company;
 use App\Models\Country;
 use App\Models\Customer;
-use App\Models\CustomerContact;
 use App\Models\Expense;
 use App\Models\Invoice;
 use App\Models\Product;
@@ -617,7 +616,10 @@ class PdfBuilder
 
     public function setNotes($notes): self
     {
-        $this->data['$entity.public_notes'] = ['value' => !empty($notes) ? nl2br($notes) : '&nbsp;', 'label' => trans('texts.public_notes')];
+        $this->data['$entity.public_notes'] = [
+            'value' => !empty($notes) ? nl2br($notes) : '&nbsp;',
+            'label' => trans('texts.public_notes')
+        ];
         return $this;
     }
 

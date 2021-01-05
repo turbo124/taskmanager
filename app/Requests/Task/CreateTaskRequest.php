@@ -26,16 +26,16 @@ class CreateTaskRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'source_type'  => 'nullable|numeric',
-            'rating'       => 'nullable|numeric',
-            'customer_id'  => 'nullable|numeric',
-            'name'         => 'required',
-            'description'  => 'required',
+            'source_type' => 'nullable|numeric',
+            'rating'      => 'nullable|numeric',
+            'customer_id' => 'nullable|numeric',
+            'name'        => 'required',
+            'description' => 'required',
             //'contributors' => 'required|array',
-            'due_date'     => 'required',
-            'start_date'   => 'nullable',
-            'project_id'   => 'nullable',
-            'number'       => [
+            'due_date'    => 'required',
+            'start_date'  => 'nullable',
+            'project_id'  => 'nullable',
+            'number'      => [
                 Rule::unique('tasks', 'number')->where(
                     function ($query) {
                         return $query->where('customer_id', $this->customer_id)->where('account_id', $this->account_id);

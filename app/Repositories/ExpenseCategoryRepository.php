@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Account;
-use App\Models\Category;
 use App\Models\ExpenseCategory;
 use App\Repositories\Base\BaseRepository;
 use Exception;

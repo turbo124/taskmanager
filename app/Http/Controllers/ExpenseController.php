@@ -14,6 +14,7 @@ use App\Requests\SearchRequest;
 use App\Search\ExpenseSearch;
 use App\Transformations\ExpenseTransformable;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -92,7 +93,7 @@ class ExpenseController extends Controller
     /**
      * @param int $id
      * @return JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function destroy(int $id)
     {

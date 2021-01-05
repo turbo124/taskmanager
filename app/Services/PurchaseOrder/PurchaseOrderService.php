@@ -18,6 +18,7 @@ use App\Repositories\PurchaseOrderRepository;
 use App\Services\PurchaseOrder\MarkSent;
 use App\Services\ServiceBase;
 use Carbon\Carbon;
+use ReflectionException;
 
 class PurchaseOrderService extends ServiceBase
 {
@@ -61,10 +62,19 @@ class PurchaseOrderService extends ServiceBase
         return $this->purchase_order;
     }
 
-    public function reject(PurchaseOrderRepository $po_repo): ?PurchaseOrder
+    /**
+     * @param PurchaseOrderRepository $po_repo
+     * @param array $data
+     * @return PurchaseOrder|null
+     */
+    public function reject(PurchaseOrderRepository $po_repo, array $data = []): ?PurchaseOrder
     {
         if ($this->purchase_order->status_id != PurchaseOrder::STATUS_SENT) {
             return null;
+        }
+
+        if (!empty($data['public_notes'])) {
+            $this->purchase_order->public_notes = $data['public_notes'];
         }
 
         $this->purchase_order->setStatus(PurchaseOrder::STATUS_REJECTED);
@@ -81,10 +91,19 @@ class PurchaseOrderService extends ServiceBase
         return $this->purchase_order;
     }
 
-    public function requestChange(PurchaseOrderRepository $po_repo): ?PurchaseOrder
+    /**
+     * @param PurchaseOrderRepository $po_repo
+     * @param array $data
+     * @return PurchaseOrder|null
+     */
+    public function requestChange(PurchaseOrderRepository $po_repo, array $data = []): ?PurchaseOrder
     {
         if ($this->purchase_order->status_id != PurchaseOrder::STATUS_SENT) {
             return null;
+        }
+
+        if (!empty($data['public_notes'])) {
+            $this->purchase_order->public_notes = $data['public_notes'];
         }
 
         $this->purchase_order->setStatus(PurchaseOrder::STATUS_CHANGE_REQUESTED);
@@ -105,7 +124,7 @@ class PurchaseOrderService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {

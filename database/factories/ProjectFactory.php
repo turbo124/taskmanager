@@ -44,6 +44,7 @@ class ProjectFactory extends Factory
             'custom_value2'  => $this->faker->numberBetween(1, 4),
             'custom_value3'  => $this->faker->numberBetween(1, 4),
             'custom_value4'  => $this->faker->numberBetween(1, 4),
+            'column_color'   => $this->faker->colorName,
         ];
     }
 }

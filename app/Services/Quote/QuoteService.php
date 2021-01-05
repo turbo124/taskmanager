@@ -20,6 +20,7 @@ use App\Repositories\RecurringQuoteRepository;
 use App\Services\Quote\MarkSent;
 use App\Services\ServiceBase;
 use Carbon\Carbon;
+use ReflectionException;
 
 class QuoteService extends ServiceBase
 {
@@ -67,10 +68,20 @@ class QuoteService extends ServiceBase
         return $this->quote;
     }
 
-    public function reject(InvoiceRepository $invoice_repo, QuoteRepository $quote_repo): ?Quote
+    /**
+     * @param InvoiceRepository $invoice_repo
+     * @param QuoteRepository $quote_repo
+     * @param array $data
+     * @return Quote|null
+     */
+    public function reject(InvoiceRepository $invoice_repo, QuoteRepository $quote_repo, array $data = []): ?Quote
     {
         if ($this->quote->status_id != Quote::STATUS_SENT) {
             return null;
+        }
+
+        if (!empty($data['public_notes'])) {
+            $this->quote->public_notes = $data['public_notes'];
         }
 
         $this->quote->setStatus(Quote::STATUS_REJECTED);
@@ -87,14 +98,42 @@ class QuoteService extends ServiceBase
         return $this->quote;
     }
 
-    public function requestChange(InvoiceRepository $invoice_repo, QuoteRepository $quote_repo): ?Quote
+    /**
+     * @param null $contact
+     * @param string $subject
+     * @param string $body
+     * @param string $template
+     * @return Quote|null
+     */
+    public function sendEmail($contact = null, $subject, $body, $template = 'quote'): ?Quote
     {
+        if (!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
+            return null;
+        }
+
+        return $this->quote;
+    }
+
+    /**
+     * @param InvoiceRepository $invoice_repo
+     * @param QuoteRepository $quote_repo
+     * @param array $data
+     * @return Quote|null
+     */
+    public function requestChange(
+        InvoiceRepository $invoice_repo,
+        QuoteRepository $quote_repo,
+        array $data = []
+    ): ?Quote {
         if ($this->quote->status_id != Quote::STATUS_SENT) {
             return null;
         }
 
+        if (!empty($data['public_notes'])) {
+            $this->quote->public_notes = $data['public_notes'];
+        }
+
         $this->quote->setStatus(Quote::STATUS_CHANGE_REQUESTED);
-        //$this->quote->date_rejected = Carbon::now();
         $this->quote->save();
 
         event(new QuoteChangeWasRequested($this->quote));
@@ -111,7 +150,7 @@ class QuoteService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {
@@ -120,22 +159,6 @@ class QuoteService extends ServiceBase
         }
 
         return CreatePdf::dispatchNow((new InvoicePdf($this->quote)), $this->quote, $contact, $update);
-    }
-
-    /**
-     * @param null $contact
-     * @param string $subject
-     * @param string $body
-     * @param string $template
-     * @return Quote|null
-     */
-    public function sendEmail($contact = null, $subject, $body, $template = 'quote'): ?Quote
-    {
-        if (!$this->sendInvitationEmails($subject, $body, $template, $contact)) {
-            return null;
-        }
-
-        return $this->quote;
     }
 
     /**
@@ -158,7 +181,7 @@ class QuoteService extends ServiceBase
     /**
      * @param InvoiceRepository $invoice_repository
      * @return Invoice|null
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function convertQuoteToInvoice(InvoiceRepository $invoice_repository): ?Invoice
     {

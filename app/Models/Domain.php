@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Domain extends Model
@@ -14,7 +14,7 @@ class Domain extends Model
     const SUBSCRIPTION_STANDARD = 1;
     const SUBSCRIPTION_ADVANCED = 2;
     const SUBSCRIPTION_FREE = 3;
-    
+
     const SUBSCRIPTION_PERIOD_YEAR = 2;
     const SUBSCRIPTION_PERIOD_MONTH = 1;
 
@@ -28,7 +28,7 @@ class Domain extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function default_company()
     {

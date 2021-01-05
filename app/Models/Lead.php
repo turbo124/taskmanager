@@ -56,7 +56,8 @@ class Lead extends Model
         'industry_id',
         'private_notes',
         'public_notes',
-        'task_status_id'
+        'task_status_id',
+        'column_color'
     ];
 
     public function setNumber()

@@ -67,6 +67,7 @@ trait TaskTransformable
             'invoice'              => $task->invoice,
             'include_documents'    => (bool)$task->include_documents,
             'status_name'          => !empty($task->taskStatus) ? $task->taskStatus->name : '',
+            'column_color'         => $task->column_color ?: '',
         ];
     }
 

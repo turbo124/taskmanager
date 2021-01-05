@@ -10,7 +10,7 @@ use App\Requests\TaxRate\CreateTaxRateRequest;
 use App\Requests\TaxRate\UpdateTaxRateRequest;
 use App\Search\TaxRateSearch;
 use App\Transformations\TaxRateTransformable;
-use Illuminate\Http\Request;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Response;
 
 class TaxRateController extends Controller
@@ -82,7 +82,7 @@ class TaxRateController extends Controller
     /**
      * @param int $id
      * @return mixed
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function destroy(int $id)
     {

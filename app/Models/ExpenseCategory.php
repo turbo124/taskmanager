@@ -15,6 +15,7 @@ class ExpenseCategory extends Model
 
     protected $fillable = [
         'name',
+        'column_color'
     ];
 
     /**

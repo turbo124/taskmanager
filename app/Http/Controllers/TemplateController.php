@@ -9,6 +9,7 @@ use App\Components\Pdf\TaskPdf;
 use App\Traits\MakesInvoiceHtml;
 use App\Utils\TemplateEngine;
 use Illuminate\Http\Response;
+use ReflectionException;
 
 
 class TemplateController extends Controller
@@ -23,7 +24,7 @@ class TemplateController extends Controller
      * Returns a template filled with entity variables
      *
      * @return Response
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function show()
     {

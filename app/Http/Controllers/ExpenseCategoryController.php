@@ -9,8 +9,8 @@ use App\Requests\ExpenseCategory\UpdateCategoryRequest;
 use App\Requests\SearchRequest;
 use App\Search\ExpenseCategorySearch;
 use App\Transformations\ExpenseCategoryTransformable;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 class ExpenseCategoryController extends Controller
 {
@@ -76,7 +76,7 @@ class ExpenseCategoryController extends Controller
      *
      * @param int $id
      * @return void
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function destroy(int $id)
     {

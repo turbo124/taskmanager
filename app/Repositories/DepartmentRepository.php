@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Department;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\DepartmentRepositoryInterface;
+use Exception;
 use Illuminate\Support\Collection;
 
 class DepartmentRepository extends BaseRepository implements DepartmentRepositoryInterface
@@ -39,7 +40,7 @@ class DepartmentRepository extends BaseRepository implements DepartmentRepositor
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function deleteDepartment(): bool
     {

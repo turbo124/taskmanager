@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\SupportMessage;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -12,7 +13,7 @@ class SupportController extends Controller
     /**
      * Send a support message.
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function __invoke(Request $request)
     {

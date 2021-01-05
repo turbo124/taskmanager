@@ -20,6 +20,7 @@ use App\Requests\SearchRequest;
 use App\Search\RecurringQuoteSearch;
 use App\Transformations\RecurringQuoteTransformable;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -126,7 +127,7 @@ class RecurringQuoteController extends BaseController
     /**
      * @param int $id
      * @return mixed
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function destroy(int $id)
     {

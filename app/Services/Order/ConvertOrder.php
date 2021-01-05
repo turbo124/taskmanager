@@ -6,6 +6,7 @@ use App\Factory\CloneOrderToInvoiceFactory;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Repositories\InvoiceRepository;
+use ReflectionException;
 
 class ConvertOrder
 {
@@ -32,7 +33,7 @@ class ConvertOrder
 
     /**
      * @return mixed
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function execute()
     {

@@ -13,6 +13,7 @@ export default class ExpenseCategoryModel extends BaseModel {
         this._fields = {
             modal: false,
             name: '',
+            column_color: '',
             loading: false,
             errors: []
         }

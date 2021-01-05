@@ -5,7 +5,6 @@ namespace App\Search;
 use App\Models\Account;
 use App\Models\CompanyGateway;
 use App\Repositories\CompanyGatewayRepository;
-use App\Repositories\InvoiceRepository;
 use App\Requests\SearchRequest;
 use App\Transformations\CompanyGatewayTransformable;
 use Illuminate\Pagination\LengthAwarePaginator;

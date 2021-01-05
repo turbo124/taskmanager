@@ -3,7 +3,6 @@
 namespace App\Requests\CompanyGateway;
 
 use App\Models\CompanyGateway;
-use App\Models\Customer;
 use App\Repositories\Base\BaseFormRequest;
 
 class StoreCompanyGatewayRequest extends BaseFormRequest

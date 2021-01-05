@@ -10,6 +10,7 @@ use App\Shop\Roles\Exceptions\CreateRoleErrorException;
 use App\Shop\Roles\Exceptions\DeleteRoleErrorException;
 use App\Shop\Roles\Exceptions\RoleNotFoundErrorException;
 use App\Shop\Roles\Exceptions\UpdateRoleErrorException;
+use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
 
@@ -83,7 +84,7 @@ class RoleRepository extends BaseRepository implements RoleRepositoryInterface
 
     /**
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function deleteRoleById(): bool
     {

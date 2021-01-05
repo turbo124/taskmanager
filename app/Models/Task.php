@@ -57,7 +57,8 @@ class Task extends Model
         'next_send_date',
         'recurring_frequency',
         'include_documents',
-        'task_rate'
+        'task_rate',
+        'column_color'
     ];
 
 

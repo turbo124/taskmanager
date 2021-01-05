@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Invoice;
 use App\Repositories\InvoiceRepository;
 use Illuminate\Console\Command;
+use ReflectionException;
 
 class AutobillInvoice extends Command
 {
@@ -36,7 +37,7 @@ class AutobillInvoice extends Command
      * Execute the console command.
      *
      * @return mixed
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function handle()
     {

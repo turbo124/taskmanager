@@ -56,10 +56,12 @@ class EntityViewedNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
+        $account_user = $this->invitation->account->account_users->where('user_id', '=', $notifiable->id)->first();
+
         return !empty($this->message_type)
             ? [$this->message_type]
             : [
-                $notifiable->account_user()->default_notification_type
+                $account_user->default_notification_type
             ];
     }
 

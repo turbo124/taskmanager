@@ -14,5 +14,5 @@ class BasePolicy
             )->is_owner || $entity->user_id === $user->id || (!empty($entity->assigned_to) && $entity->assigned_to === $user->id);
     }
 
-   
+
 }

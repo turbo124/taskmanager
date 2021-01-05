@@ -11,7 +11,6 @@ namespace App\Repositories;
 use App\Events\Lead\LeadWasCreated;
 use App\Events\Lead\LeadWasUpdated;
 use App\Models\Lead;
-use App\Models\Message;
 use App\Repositories\Base\BaseRepository;
 
 /**

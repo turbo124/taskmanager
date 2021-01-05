@@ -42,7 +42,8 @@ class Deal extends Model
         'custom_value3',
         'custom_value4',
         'public_notes',
-        'private_notes'
+        'private_notes',
+        'column_color'
     ];
 
     protected $presenter = 'App\Presenters\DealPresenter';

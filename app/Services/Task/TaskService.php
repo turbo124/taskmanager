@@ -6,6 +6,7 @@ use App\Components\Pdf\TaskPdf;
 use App\Factory\TimerFactory;
 use App\Jobs\Pdf\CreatePdf;
 use App\Models\Task;
+use App\Models\Timer;
 use App\Repositories\CustomerRepository;
 use App\Repositories\InvoiceSum;
 use App\Repositories\TaskRepository;
@@ -14,6 +15,7 @@ use App\Services\EntityManager;
 use App\Services\ServiceBase;
 use App\Services\Task\ConvertLead;
 use Illuminate\Http\Request;
+use ReflectionException;
 
 /**
  * Class TaskService
@@ -75,7 +77,7 @@ class TaskService extends ServiceBase
      * @param null $contact
      * @param bool $update
      * @return mixed|string
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function generatePdf($contact = null, $update = false)
     {
@@ -90,7 +92,7 @@ class TaskService extends ServiceBase
      * @param array $timers
      * @param Task $task
      * @param TimerRepository $timer_repository
-     * @return \App\Models\Timer|null
+     * @return Timer|null
      */
     public function saveTimers(array $timers, Task $task, TimerRepository $timer_repository)
     {

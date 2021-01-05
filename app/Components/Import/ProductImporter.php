@@ -11,7 +11,6 @@ use App\Factory\ProductFactory;
 use App\Models\Account;
 use App\Models\Brand;
 use App\Models\Category;
-use App\Models\Customer;
 use App\Models\Product;
 use App\Models\User;
 use App\Repositories\BrandRepository;
@@ -24,6 +23,7 @@ class ProductImporter extends BaseCsvImporter
     use ImportMapper;
     use ProductTransformable;
 
+    protected $entity;
     private array $export_columns = [
         'name'          => 'name',
         'description'   => 'description',
@@ -40,7 +40,6 @@ class ProductImporter extends BaseCsvImporter
         'public_notes'  => 'public notes',
         'private_notes' => 'private notes'
     ];
-
     /**
      * @var array|string[]
      */
@@ -60,23 +59,18 @@ class ProductImporter extends BaseCsvImporter
         'public notes'  => 'public_notes',
         'private notes' => 'private_notes'
     ];
-
     /**
      * @var Account
      */
     private Account $account;
-
     /**
      * @var User
      */
     private User $user;
-
     /**
      * @var Export
      */
     private Export $export;
-
-    protected $entity;
 
     /**
      * InvoiceImporter constructor.
@@ -249,6 +243,11 @@ class ProductImporter extends BaseCsvImporter
         return $this->export->getContent();
     }
 
+    public function getTemplate()
+    {
+        return asset('storage/templates/products.csv');
+    }
+
     /**
      * @param string $value
      * @return int
@@ -280,10 +279,5 @@ class ProductImporter extends BaseCsvImporter
         $brand = $this->brands[strtolower($value)];
 
         return $brand['id'];
-    }
-
-    public function getTemplate()
-    {
-        return asset('storage/templates/products.csv');
     }
 }

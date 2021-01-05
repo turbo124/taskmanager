@@ -247,10 +247,6 @@ use App\Listeners\Task\TaskRestored;
 use App\Listeners\Task\TaskUpdated;
 use App\Listeners\User\DeletedUser;
 use App\Listeners\User\SendUserEmailChangedEmail;
-use App\Notifications\Admin\PurchaseOrderChangeRequestedNotification;
-use App\Notifications\Admin\PurchaseOrderRejectedNotification;
-use App\Notifications\Admin\QuoteChangeRequestedNotification;
-use App\Notifications\Admin\QuoteRejectedNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider

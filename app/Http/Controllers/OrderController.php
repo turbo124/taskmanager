@@ -15,6 +15,7 @@ use App\Requests\SearchRequest;
 use App\Search\OrderSearch;
 use App\Transformations\OrderTransformable;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -121,7 +122,7 @@ class OrderController extends BaseController
     /**
      * @param int $id
      * @return mixed
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function destroy(int $id)
     {

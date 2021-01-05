@@ -14,9 +14,7 @@ use App\Requests\SearchRequest;
 use App\Search\CompanySearch;
 use App\Traits\UploadableTrait;
 use App\Transformations\CompanyTransformable;
-use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller

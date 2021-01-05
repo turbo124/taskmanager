@@ -47,11 +47,11 @@ class SendSubscriptionRenewals extends Command
     {
         // send 10 days before
         $domains = Domain::whereRaw('DATEDIFF(subscription_expiry_date, CURRENT_DATE) = 10')
-                           ->whereIn(
-                               'subscription_plan',
-                               array(Domain::SUBSCRIPTION_STANDARD, Domain::SUBSCRIPTION_ADVANCED)
-                           )
-                           ->get();
+                         ->whereIn(
+                             'subscription_plan',
+                             array(Domain::SUBSCRIPTION_STANDARD, Domain::SUBSCRIPTION_ADVANCED)
+                         )
+                         ->get();
 
         foreach ($domains as $domain) {
             $cost = $domain->subscription_period === Domain::SUBSCRIPTION_PERIOD_YEAR ? env(

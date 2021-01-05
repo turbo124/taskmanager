@@ -292,8 +292,9 @@ class BaseController extends Controller
 
             case 'reject': //done
                 $quote = $this->entity_string === 'PurchaseOrder' ? $entity->service()->reject(
-                    new PurchaseOrderRepository($entity)
-                ) : $entity->service()->reject($this->invoice_repo, $this->quote_repo);
+                    new PurchaseOrderRepository($entity),
+                    $request->all()
+                ) : $entity->service()->reject($this->invoice_repo, $this->quote_repo, $request->all());
 
                 if (!$quote) {
                     $message = 'Unable to reject this quote as it has expired.';
@@ -307,8 +308,9 @@ class BaseController extends Controller
                 break;
             case 'change_requested': //done
                 $quote = $this->entity_string === 'PurchaseOrder' ? $entity->service()->requestChange(
-                    new PurchaseOrderRepository($entity)
-                ) : $entity->service()->requestChange($this->invoice_repo, $this->quote_repo);
+                    new PurchaseOrderRepository($entity),
+                    $request->all()
+                ) : $entity->service()->requestChange($this->invoice_repo, $this->quote_repo, $request->all());
 
                 if (!$quote) {
                     $message = 'Unable to update the quote as it has expired.';
