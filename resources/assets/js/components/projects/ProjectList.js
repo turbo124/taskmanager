@@ -94,6 +94,7 @@ export default class ProjectList extends Component {
     userList (props) {
         const { projects, custom_fields, customers } = this.state
         return <ProjectItem showCheckboxes={props.showCheckboxes} projects={projects} customers={customers}
+            show_list={props.show_list}
             custom_fields={custom_fields}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
