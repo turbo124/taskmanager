@@ -95,6 +95,7 @@ export default class RecurringQuotes extends Component {
     userList (props) {
         const { invoices, custom_fields, customers, allQuotes } = this.state
         return <RecurringQuoteItem showCheckboxes={props.showCheckboxes} allQuotes={allQuotes} invoices={invoices}
+            show_list={props.show_list}
             viewId={props.viewId}
             customers={customers} custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
