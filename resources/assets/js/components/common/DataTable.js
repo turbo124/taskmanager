@@ -352,6 +352,7 @@ export default class DataTable extends Component {
         const table_dark = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' || false
 
         const list = this.props.userList({
+            displayAsTable: this.state. displayAsTable,
             bulk: this.state.bulk,
             ignoredColumns: this.state.ignoredColumns,
             toggleViewedEntity: this.toggleViewedEntity,
