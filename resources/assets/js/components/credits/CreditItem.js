@@ -75,6 +75,10 @@ export default class CreditItem extends Component {
                             <Input checked={isChecked} className={checkboxClass} value={credit.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
                             }
+                             {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={credit.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
                             {actionMenu}
                         </td>
                         {columnList}
