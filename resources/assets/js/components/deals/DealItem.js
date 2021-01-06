@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { Component } from 'react'
-import { Input } from 'reactstrap'
+import { Input, ListGroupItem } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
@@ -33,7 +33,7 @@ export default class DealItem extends Component {
     render () {
         const { deals, custom_fields, users, ignoredColumns } = this.props
         if (deals && deals.length && users.length) {
-            return deals.map(deal => {
+           return deals.map((deal, index) => {
                 const restoreButton = deal.deleted_at
                     ? <RestoreModal id={deal.id} entities={deals} updateState={this.props.addUserToState}
                         url={`/api/deals/restore/${deal.id}`}/> : null
@@ -54,14 +54,15 @@ export default class DealItem extends Component {
                 const columnList = Object.keys(deal).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <DealPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
+                    return <td key={key} onClick={() => this.props.toggleViewedEntity(deal, deal.number, editButton)}
+                        data-label={key}><DealPresenter toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={deal} custom_fields={custom_fields}
                         edit={editButton}
                         users={users}
                         customers={this.props.customers}
                         deals={deals}
                         action={this.props.action}
-                        deal={deal}/>
+                        deal={deal}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -71,14 +72,37 @@ export default class DealItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return <tr className={selectedRow} key={deal.id}>
+                return !this.props.show_list ? <tr className={selectedRow} key={deal.id}>
                     <td>
                         <Input checked={isChecked} className={checkboxClass} value={deal.id} type="checkbox"
                             onChange={this.props.onChangeBulk}/>
                         {actionMenu}
                     </td>
                     {columnList}
-                </tr>
+                </tr> :  : <ListGroupItem key={index}
+                    onClick={() => this.props.toggleViewedEntity(task, task.name, editButton)}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{<DealPresenter customers={customers} field="name" entity={deal}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}</h5>
+                        {<DealPresenter customers={customers}
+                            field="due_date" entity={deal} toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{<DealPresenter field="customer_id" entity={deal}
+                            edit={editButton}/>} </span>
+                        <span>{<DealPresenter field="status_field" entity={deal}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}</span>
+                    </div>
+                    {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={deal.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                    {actionMenu}
+                </ListGroupItem>
             })
         } else {
             return <tr>
