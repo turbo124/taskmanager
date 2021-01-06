@@ -14,6 +14,7 @@ export default class Customers extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isMobile: window.innerWidth <= 768,
             isOpen: window.innerWidth > 670,
             per_page: 5,
             view: {
