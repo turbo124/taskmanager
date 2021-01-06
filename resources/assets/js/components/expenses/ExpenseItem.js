@@ -98,6 +98,10 @@ export default class ExpenseItem extends Component {
                         <span>{<ExpensePresenter field="status_field" entity={expense} edit={editButton}
                             toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
                     </div>
+                     {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={expense.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
                     {actionMenu}
                 </ListGroupItem>
             })
