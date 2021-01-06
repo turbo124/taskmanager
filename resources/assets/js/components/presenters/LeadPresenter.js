@@ -12,6 +12,9 @@ export default function LeadPresenter (props) {
             const user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.user_id))
             return `${user[0].first_name} ${user[0].last_name}`
         }
+        case 'name': {
+            return `${entity.first_name} ${entity.last_name}`
+        }
         default:
             return entity[field]
     }
