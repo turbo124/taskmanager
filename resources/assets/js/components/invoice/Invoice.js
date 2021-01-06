@@ -84,6 +84,7 @@ export default class Invoice extends Component {
     userList (props) {
         const { invoices, customers, custom_fields } = this.state
         return <InvoiceItem showCheckboxes={props.showCheckboxes}
+            show_list={props.show_list}
             invoices={invoices} customers={customers}
             custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
