@@ -105,6 +105,10 @@ export default class InvoiceItem extends Component {
                         <span>{<InvoicePresenter field="status_field" entity={invoice} edit={editButton}
                             toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
                     </div>
+                     {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
                     {actionMenu}
                 </ListGroupItem>
             })
