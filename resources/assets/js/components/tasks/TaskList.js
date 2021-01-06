@@ -16,6 +16,7 @@ export default class TaskList extends Component {
         super(props)
 
         this.state = {
+            isMobile: window.innerWidth <= 768,
             isOpen: window.innerWidth > 670,
             dropdownButtonActions: ['download', 'mark_in_progress', 'create_invoice'],
             tasks: [],
