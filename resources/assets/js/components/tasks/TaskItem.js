@@ -97,15 +97,15 @@ export default class TaskItem extends Component {
                     onClick={() => this.props.toggleViewedEntity(task, task.name, editButton)}
                     className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{<TaskPresenter customers={customers} field="customer_id" entity={task}
+                        <h5 className="mb-1">{<TaskPresenter customers={customers} field="name" entity={task}
                             toggleViewedEntity={this.props.toggleViewedEntity}
                             edit={editButton}/>}</h5>
                         {<TaskPresenter customers={customers}
-                            field="name" entity={task} toggleViewedEntity={this.props.toggleViewedEntity}
+                            field="due_date" entity={task} toggleViewedEntity={this.props.toggleViewedEntity}
                             edit={editButton}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{task.number} . {<TaskPresenter field="due_date" entity={task}
+                        <span className="mb-1 text-muted">{<TaskPresenter field="customer_id" entity={task}
                             edit={editButton}/>} </span>
                         <span>{<TaskPresenter field="status_field" entity={task}
                             toggleViewedEntity={this.props.toggleViewedEntity}
