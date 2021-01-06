@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Badge, Input } from 'reactstrap'
+import { Badge, Input, ListGroupItem } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
@@ -39,7 +39,7 @@ export default class ProjectItem extends Component {
     render () {
         const { projects, custom_fields, customers, ignoredColumns } = this.props
         if (projects && projects.length) {
-            return projects.map(project => {
+            return projects.map((project, index) => {
                 const restoreButton = project.deleted_at
                     ? <RestoreModal id={project.id} entities={projects} updateState={this.props.addUserToState}
                         url={`/api/projects/restore/${project.id}`}/> : null
@@ -59,9 +59,10 @@ export default class ProjectItem extends Component {
                 const columnList = Object.keys(project).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <ProjectPresenter key={key} customers={this.props.customers} edit={editButton}
+                    return <td key={key} onClick={() => this.props.toggleViewedEntity(task, task.name, editButton)}
+                        data-label={key}><ProjectPresenter customers={this.props.customers} edit={editButton}
                         toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={project}/>
+                        field={key} entity={project}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -75,7 +76,7 @@ export default class ProjectItem extends Component {
                     color="warning">{translations.archived}</Badge>) : ((project.deleted_at && project.is_deleted) ? (
                     <Badge className="mr-2" color="danger">{translations.deleted}</Badge>) : (''))
 
-                return <tr className={selectedRow} key={project.id}>
+                return !this.props.show_list ? <tr className={selectedRow} key={project.id}>
                     <td>
                         <Input checked={isChecked} className={checkboxClass} value={project.id} type="checkbox"
                             onChange={this.props.onChangeBulk}/>
@@ -83,7 +84,27 @@ export default class ProjectItem extends Component {
                     </td>
                     {columnList}
                     {!!status && <td>{status}</td>}
-                </tr>
+                </tr> : <ListGroupItem key={index}
+                    onClick={() => this.props.toggleViewedEntity(project, project.name, editButton)}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{<ProjectPresenter customers={customers} field="name" entity={project}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}</h5>
+                        {<ProjectPresenter customers={customers}
+                            field="budgeted_hours" entity={project} toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{<ProjectPresenter field="customer_id" entity={project}
+                            edit={editButton}/>} </span>
+                    </div>
+                    {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                    {actionMenu}
+                </ListGroupItem>
             })
         } else {
             return <tr>
