@@ -75,6 +75,7 @@ export default class Order extends Component {
     userList (props) {
         const { orders, customers, custom_fields } = this.state
         return <OrderItem showCheckboxes={props.showCheckboxes}
+            show_list={props.show_list}
             orders={orders} customers={customers}
             custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} updateOrder={this.updateOrder}
