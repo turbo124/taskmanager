@@ -81,20 +81,24 @@ export default class LeadItem extends Component {
                     onClick={() => this.props.toggleViewedEntity(task, task.name, editButton)}
                     className="list-group-item-dark list-group-item-action flex-column align-items-start">
                     <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{<TaskPresenter customers={customers} field="customer_id" entity={task}
+                        <h5 className="mb-1">{<LeadPresenter field="name" entity={lead}
                             toggleViewedEntity={this.props.toggleViewedEntity}
                             edit={editButton}/>}</h5>
-                        {<TaskPresenter customers={customers}
-                            field="name" entity={task} toggleViewedEntity={this.props.toggleViewedEntity}
+                        {<LeadPresenter
+                            field="name" entity={lead} toggleViewedEntity={this.props.toggleViewedEntity}
                             edit={editButton}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
                         <span className="mb-1 text-muted">{task.number} . {<TaskPresenter field="due_date" entity={task}
                             edit={editButton}/>} </span>
-                        <span>{<TaskPresenter field="status_field" entity={task}
+                        <span>{<LeadPresenter field="status_field" entity={lead}
                             toggleViewedEntity={this.props.toggleViewedEntity}
                             edit={editButton}/>}</span>
                     </div>
+                     {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
                     {actionMenu}
                 </ListGroupItem>
             })
