@@ -108,6 +108,7 @@ export default class DealList extends Component {
         const { deals, custom_fields, users, customers } = this.state
 
         return <DealItem showCheckboxes={props.showCheckboxes} action={this.addUserToState} deals={deals} users={users}
+            show_list={props.show_list}
             custom_fields={custom_fields} customers={customers}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
