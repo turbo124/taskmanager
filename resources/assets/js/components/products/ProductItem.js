@@ -34,7 +34,7 @@ export default class ProductItem extends Component {
         const { products, custom_fields, companies, categories, ignoredColumns } = this.props
 
         if (products && products.length) {
-            return products.map(product => {
+            return products.map((product, index) => {
                 const restoreButton = product.deleted_at
                     ? <RestoreModal id={product.id} entities={products} updateState={this.props.addProductToState}
                         url={`/api/products/restore/${product.id}`}/> : null
@@ -59,9 +59,10 @@ export default class ProductItem extends Component {
                 const columnList = Object.keys(product).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <ProductPresenter key={key} companies={companies} edit={editButton}
+                    return <td key={key} onClick={() => this.props.toggleViewedEntity(task, task.name, editButton)}
+                        data-label={key}><ProductPresenter companies={companies} edit={editButton}
                         toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={product}/>
+                        field={key} entity={product}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -71,7 +72,7 @@ export default class ProductItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return <tr className={selectedRow} key={product.id}>
+                return !this.props.show_list ? <tr className={selectedRow} key={product.id}>
                     <td>
                         <Input checked={isChecked} className={checkboxClass} value={product.id} type="checkbox"
                             onChange={this.props.onChangeBulk}/>
@@ -79,7 +80,28 @@ export default class ProductItem extends Component {
                     </td>
                     {columnList}
                     {!!status && <td>{status}</td>}
-                </tr>
+                </tr> : <ListGroupItem key={index}
+                    onClick={() => this.props.toggleViewedEntity(task, task.name, editButton)}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{<ProductPresenter field="name" entity={product}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}</h5>
+                        {<ProductPresenter
+                            field="price" entity={product} toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{<ProductPresenter field="description" entity={product}
+                            edit={editButton}/>} </span>
+                       
+                    </div>
+                     {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={product.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                    {actionMenu}
+                </ListGroupItem>
             })
         } else {
             return <tr>
