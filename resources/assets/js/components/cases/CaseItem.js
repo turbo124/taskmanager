@@ -52,7 +52,7 @@ export default class CaseItem extends Component {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
                     return <td key={key}
-                        onClick={() => this.props.toggleViewedEntity(case_file, case_file.number, editButton)}
+                        onClick={() => this.props.toggleViewedEntity(case_file, case_file.subject, editButton)}
                         data-label={key}><CasePresenter key={key} customers={customers} edit={editButton}
                         toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={case_file}/></td>
