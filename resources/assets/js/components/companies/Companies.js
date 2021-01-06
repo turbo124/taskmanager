@@ -91,6 +91,7 @@ export default class Companies extends Component {
     userList (props) {
         const { brands, custom_fields, users } = this.state
         return <CompanyItem showCheckboxes={props.showCheckboxes} brands={brands} users={users}
+            show_list={props.show_list}
             custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
