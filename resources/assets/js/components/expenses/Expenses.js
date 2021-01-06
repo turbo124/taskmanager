@@ -156,6 +156,7 @@ export default class Expenses extends Component {
     expenseList (props) {
         const { expenses, customers, custom_fields, companies } = this.state
         return <ExpenseItem showCheckboxes={props.showCheckboxes} expenses={expenses} customers={customers}
+            show_list={props.show_list}
             viewId={props.viewId}
             companies={companies}
             custom_fields={custom_fields}
