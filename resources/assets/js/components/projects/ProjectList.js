@@ -14,6 +14,7 @@ export default class ProjectList extends Component {
         super(props)
 
         this.state = {
+            isMobile: window.innerWidth <= 768,
             isOpen: window.innerWidth > 670,
             customers: [],
             projects: [],
