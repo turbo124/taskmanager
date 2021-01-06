@@ -105,6 +105,7 @@ export default class Leads extends Component {
     userList (props) {
         const { leads, custom_fields, users } = this.state
         return <LeadItem showCheckboxes={props.showCheckboxes} leads={leads} users={users} custom_fields={custom_fields}
+            show_list={props.show_list}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
