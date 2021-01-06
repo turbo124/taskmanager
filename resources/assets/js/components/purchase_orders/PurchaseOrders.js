@@ -77,6 +77,7 @@ export default class PurchaseOrders extends Component {
     userList (props) {
         const { purchase_orders, custom_fields, companies } = this.state
         return <PurchaseOrderItem showCheckboxes={props.showCheckboxes} purchase_orders={purchase_orders}
+            show_list={props.show_list}
             companies={companies}
             custom_fields={custom_fields}
             viewId={props.viewId}
