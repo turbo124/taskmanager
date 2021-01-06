@@ -36,25 +36,25 @@ export default class RecurringInvoiceItem extends Component {
     render () {
         const { invoices, custom_fields, customers, allInvoices } = this.props
         if (invoices && invoices.length && customers.length) {
-            return invoices.map(user => {
-                const restoreButton = user.deleted_at
-                    ? <RestoreModal id={user.id} entities={invoices} updateState={this.props.updateInvoice}
-                        url={`/api/recurringInvoice/restore/${user.id}`}/> : null
+            return invoices.map((invoice, index) => {
+                const restoreButton = invoice.deleted_at
+                    ? <RestoreModal id={invoice.id} entities={invoices} updateState={this.props.updateInvoice}
+                        url={`/api/recurringInvoice/restore/${invoice.id}`}/> : null
 
-                const archiveButton = !user.deleted_at
-                    ? <DeleteModal archive={true} deleteFunction={this.deleteInvoice} id={user.id}/> : null
+                const archiveButton = !invoice.deleted_at
+                    ? <DeleteModal archive={true} deleteFunction={this.deleteInvoice} id={invoice.id}/> : null
 
-                const deleteButton = !user.deleted_at
-                    ? <DeleteModal archive={false} deleteFunction={this.deleteInvoice} id={user.id}/> : null
+                const deleteButton = !invoice.deleted_at
+                    ? <DeleteModal archive={false} deleteFunction={this.deleteInvoice} id={invoice.id}/> : null
 
-                const editButton = !user.deleted_at ? <UpdateRecurringInvoice
+                const editButton = !invoice.deleted_at ? <UpdateRecurringInvoice
                     allInvoices={allInvoices}
                     custom_fields={custom_fields}
                     customers={customers}
                     modal={true}
                     add={false}
-                    invoice={user}
-                    invoice_id={user.id}
+                    invoice={invoice}
+                    invoice_id={invoice.id}
                     action={this.props.updateInvoice}
                     invoices={invoices}
                 /> : null
@@ -62,9 +62,11 @@ export default class RecurringInvoiceItem extends Component {
                 const columnList = Object.keys(user).filter(key => {
                     return this.props.ignoredColumns && !this.props.ignoredColumns.includes(key)
                 }).map(key => {
-                    return <RecurringInvoicePresenter key={key} customers={customers} edit={editButton}
+                    return <td key={key}
+                        onClick={() => this.props.toggleViewedEntity(invoice, invoice.number, editButton)}
+                        data-label={key}><RecurringInvoicePresenter customers={customers} edit={editButton}
                         toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={user}/>
+                        field={key} entity={invoice}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -75,14 +77,38 @@ export default class RecurringInvoiceItem extends Component {
                         restore={restoreButton}/> : null
 
                 return (
-                    <tr className={selectedRow} key={user.id}>
+                    !this.props.show_list ? <tr className={selectedRow} key={user.id}>
                         <td>
                             <Input checked={isChecked} className={checkboxClass} value={user.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
                             {actionMenu}
                         </td>
                         {columnList}
-                    </tr>
+                    </tr> :  : <ListGroupItem key={index}
+                    onClick={() => this.props.toggleViewedEntity(invoice, invoice.number, editButton)}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1"> {<RecurringInvoicePresenter customers={customers} field="customer_id"
+                            entity={invoice}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}</h5>
+                        {<RecurringInvoicePresenter customers={customers}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            field="balance" entity={invoice} edit={editButton}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{invoice.number} . {<RecurringInvoicePresenter
+                            field="due_date" entity={invoice} toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>} </span>
+                        <span>{<RecurringInvoicePresenter field="status_field" entity={invoice} edit={editButton}
+                            toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                    </div>
+                     {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                    {actionMenu}
+                </ListGroupItem>
                 )
             })
         } else {
