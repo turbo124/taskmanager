@@ -8,22 +8,18 @@ export default function CustomerPresenter (props) {
 
     switch (field) {
         case 'id':
-            return <td data-label="Name"><Avatar name={entity.name}/></td>
+            return <Avatar name={entity.name}/>
         case 'date':
         case 'due_date':
         case 'created_at':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)} data-label={field}>
-                <FormatDate field={field} date={entity[field]}/></td>
+            return <FormatDate field={field} date={entity[field]}/>
         case 'balance':
             const text_color = entity[field] <= 0 ? 'text-danger' : 'text-success'
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)} data-label={field}>
-                <FormatMoney customer_id={entity.customer_id} className={text_color} customers={props.customers}
-                    amount={entity[field]}/></td>
+            return <FormatMoney customer_id={entity.customer_id} className={text_color} customers={props.customers}
+                    amount={entity[field]}/>
         case 'paid_to_date':
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)} data-label={field}>
-                <FormatMoney customer_id={entity.id} customers={props.customers} amount={entity[field]}/></td>
+            return <FormatMoney customer_id={entity.id} customers={props.customers} amount={entity[field]
         default:
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)} key={field}
-                data-label={field}>{entity[field]}</td>
+            return entity[field]
     }
 }
