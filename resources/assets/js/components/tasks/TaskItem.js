@@ -101,7 +101,7 @@ export default class TaskItem extends Component {
                             toggleViewedEntity={this.props.toggleViewedEntity}
                             edit={editButton}/>}</h5>
                         {<TaskPresenter customers={customers}
-                            field="due_date" entity={task} toggleViewedEntity={this.props.toggleViewedEntity}
+                            field="duration" entity={task} toggleViewedEntity={this.props.toggleViewedEntity}
                             edit={editButton}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
