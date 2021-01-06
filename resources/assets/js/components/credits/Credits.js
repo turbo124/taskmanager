@@ -115,6 +115,7 @@ export default class Credits extends Component {
     customerList (props) {
         const { credits, customers, custom_fields } = this.state
         return <CreditItem showCheckboxes={props.showCheckboxes} credits={credits} customers={customers}
+            show_list={props.show_list}
             custom_fields={custom_fields}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} updateCustomers={this.updateCustomers}
