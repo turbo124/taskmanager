@@ -146,6 +146,7 @@ export default class Payments extends Component {
     customerList (props) {
         const { payments, custom_fields, invoices, credits, customers } = this.state
         return <PaymentItem showCheckboxes={props.showCheckboxes} payments={payments} customers={customers}
+            show_list={props.show_list}
             viewId={props.viewId}
             credits={credits}
             invoices={invoices} custom_fields={custom_fields}
