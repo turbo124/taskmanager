@@ -107,6 +107,10 @@ export default class PurchaseOrderItem extends Component {
                         <span>{<PurchaseOrderPresenter field="status_field" entity={purchase_order} edit={editButton}
                             toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
                     </div>
+                    {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={purchase_order.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
                     {actionMenu}
                 </ListGroupItem>
             })
