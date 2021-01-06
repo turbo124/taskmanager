@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input } from 'reactstrap'
+import { Input, ListGroupItem } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
@@ -36,7 +36,7 @@ export default class RecurringQuoteItem extends Component {
     render () {
         const { invoices, custom_fields, customers, allQuotes } = this.props
         if (invoices && invoices.length && customers.length) {
-            return invoices.map(user => {
+           return invoices.map((user, index) => {
                 const restoreButton = user.deleted_at
                     ? <RestoreModal id={user.id} entities={invoices} updateState={this.props.updateInvoice}
                         url={`/api/recurringQuote/restore/${user.id}`}/> : null
@@ -61,9 +61,11 @@ export default class RecurringQuoteItem extends Component {
                 const columnList = Object.keys(user).filter(key => {
                     return this.props.ignoredColumns && !this.props.ignoredColumns.includes(key)
                 }).map(key => {
-                    return <RecurringQuotePresenter key={key} customers={customers} edit={editButton}
+                    return <td key={key}
+                        onClick={() => this.props.toggleViewedEntity(user, user.number, editButton)}
+                        data-label={key}><RecurringQuotePresenter customers={customers} edit={editButton}
                         toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={user}/>
+                        field={key} entity={user}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -74,14 +76,40 @@ export default class RecurringQuoteItem extends Component {
                         restore={restoreButton}/> : null
 
                 return (
-                    <tr className={selectedRow} key={user.id}>
+                    !this.props.show_list ? <tr className={selectedRow} key={user.id}>
                         <td>
                             <Input checked={isChecked} className={checkboxClass} value={user.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
                             {actionMenu}
                         </td>
                         {columnList}
-                    </tr>
+                    </tr> : <ListGroupItem onClick={() => this.props.toggleViewedEntity(user, user.number, editButton)}
+                    key={index}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{<RecurringQuotePresenter customers={customers} field="customer_id"
+                            entity={user}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}</h5>
+                        {<RecurringQuotePresenter customers={customers}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            field="balance" entity={user} edit={editButton}/>}
+                    </div>
+                    <div className="d-flex w-100 justify-content-between">
+                        <span className="mb-1 text-muted">{user.number} . {<RecurringQuotePresenter field="due_date"
+                            entity={user}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>} </span>
+                        <span>{<RecurringQuotePresenter field="status_field" entity={user}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}</span>
+                    </div>
+                    {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={user.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                    {actionMenu}
+                </ListGroupItem>
                 )
             })
         } else {
