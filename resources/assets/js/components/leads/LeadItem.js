@@ -38,7 +38,7 @@ export default class LeadItem extends Component {
     render () {
         const { leads, custom_fields, users, ignoredColumns } = this.props
         if (leads && leads.length) {
-            return leads.map(lead => {
+           return leads.map((lead, index) => {
                 const restoreButton = lead.deleted_at
                     ? <RestoreModal id={lead.id} entities={leads} updateState={this.props.addUserToState}
                         url={`/api/leads/restore/${lead.id}`}/> : null
@@ -58,7 +58,7 @@ export default class LeadItem extends Component {
                 const columnList = Object.keys(lead).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <td key={key} onClick={() => this.props.toggleViewedEntity(task, task.name, editButton)}
+                    return <td key={key} onClick={() => this.props.toggleViewedEntity(lead, lead.first_name, editButton)}
                         data-label={key}><LeadPresenter toggleViewedEntity={this.props.toggleViewedEntity}
                         field={key} entity={lead} edit={editButton}/></td>
                 })
