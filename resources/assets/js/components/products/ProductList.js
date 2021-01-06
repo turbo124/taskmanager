@@ -168,6 +168,7 @@ export default class ProductList extends Component {
         const { products, custom_fields, companies, categories } = this.state
 
         return <ProductItem showCheckboxes={props.showCheckboxes} products={products} categories={categories}
+            show_list={props.show_list}
             viewId={props.viewId}
             companies={companies} custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} addProductToState={this.addProductToState}
