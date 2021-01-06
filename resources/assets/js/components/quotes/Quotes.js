@@ -77,6 +77,7 @@ export default class Quotes extends Component {
     userList (props) {
         const { quotes, custom_fields, customers } = this.state
         return <QuoteItem showCheckboxes={props.showCheckboxes} quotes={quotes} customers={customers}
+            show_list={props.show_list}
             custom_fields={custom_fields}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
