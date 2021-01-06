@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Input } from 'reactstrap'
+import { Input, ListGroupItem } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
@@ -27,7 +27,7 @@ export default class CustomerItem extends Component {
     render () {
         const { customers, custom_fields, ignoredColumns } = this.props
         if (customers && customers.length) {
-            return customers.map(customer => {
+           return customers.map((customer, index) => {
                 const restoreButton = customer.deleted_at
                     ? <RestoreModal id={customer.id} entities={customers} updateState={this.props.updateCustomers}
                         url={`/api/customers/restore/${customer.id}`}/> : null
@@ -46,8 +46,10 @@ export default class CustomerItem extends Component {
                 const columnList = Object.keys(customer).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <CustomerPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={customer} edit={editButton}/>
+                    return <td key={key}
+                        onClick={() => this.props.toggleViewedEntity(customer, customer.name, editButton)}
+                        data-label={key}><CustomerPresenter toggleViewedEntity={this.props.toggleViewedEntity}
+                        field={key} entity={customer} edit={editButton}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -58,14 +60,32 @@ export default class CustomerItem extends Component {
                         restore={restoreButton}/> : null
 
                 return (
-                    <tr className={selectedRow} key={customer.id}>
+                    !this.props.show_list ? <tr className={selectedRow} key={customer.id}>
                         <td>
                             <Input checked={isChecked} className={checkboxClass} value={customer.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
                             {actionMenu}
                         </td>
                         {columnList}
-                    </tr>
+                    </tr> : <ListGroupItem onClick={() => this.props.toggleViewedEntity(quote, quote.number, editButton)}
+                    key={index}
+                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{<CustomerPresenter customers={customers} field="name"
+                            entity={customer}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            edit={editButton}/>}</h5>
+                        {<CustomerPresenter customers={customers}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            field="balance" entity={customer} edit={editButton}/>}
+                    </div>
+                   
+                    {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={customer.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                    {actionMenu}
+                </ListGroupItem>
                 )
             })
         } else {
