@@ -103,6 +103,10 @@ export default class OrderItem extends Component {
                         <span>{<OrderPresenter field="status_field" entity={order} edit={editButton}
                             toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
                     </div>
+                    {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={order.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
                     {actionMenu}
                 </ListGroupItem>
             })
