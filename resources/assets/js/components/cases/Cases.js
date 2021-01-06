@@ -91,6 +91,7 @@ export default class Cases extends Component {
     userList (props) {
         const { cases, customers } = this.state
         return <CaseItem showCheckboxes={props.showCheckboxes} customers={customers} cases={cases}
+            show_list={props.show_list}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
