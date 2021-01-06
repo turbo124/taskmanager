@@ -89,14 +89,14 @@ export default class LeadItem extends Component {
                             edit={editButton}/>}
                     </div>
                     <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{task.number} . {<TaskPresenter field="due_date" entity={task}
+                        <span className="mb-1 text-muted">{task.number} . {<LeadPresenter field="due_date" entity={lead}
                             edit={editButton}/>} </span>
                         <span>{<LeadPresenter field="status_field" entity={lead}
                             toggleViewedEntity={this.props.toggleViewedEntity}
                             edit={editButton}/>}</span>
                     </div>
                      {!!this.props.onChangeBulk &&
-                        <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
+                        <Input checked={isChecked} className={checkboxClass} value={lead.id} type="checkbox"
                             onChange={this.props.onChangeBulk}/>
                         }
                     {actionMenu}
