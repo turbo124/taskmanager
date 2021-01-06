@@ -42,6 +42,7 @@ class InvoicePdf extends PdfBuilder
              ->buildAccount($this->entity->account)
              ->setTerms($this->entity->terms)
              ->setFooter($this->entity->footer)
+             ->setUser($this->entity->user)
              ->setDiscount($customer, $this->entity->discount_total)
              ->setShippingCost($customer, $this->entity->shipping_cost)
              ->setVoucherCode(isset($this->entity->voucher_code) ? $this->entity->voucher_code : '')
@@ -75,19 +76,19 @@ class InvoicePdf extends PdfBuilder
      */
     public function buildTable($columns)
     {
-        $header = '';
-        $table_row = '';
+        $header = [];
+        $table_row = [];
 
         $labels = $this->getLabels();
         $values = $this->getValues();
 
-        foreach ($columns as $key => $column) {
-            $header .= '<td>' . $labels[$column . '_label'] . '</td>';
-            $table_row .= '<td class="table_header_td_class">' . $column . '</td>';
-        }
-
         if (empty($this->line_items)) {
             return [];
+        }
+
+        foreach ($columns as $key => $column) {
+            $header[$column] = '<td>' . $labels[$column . '_label'] . '</td>';
+            $table_row[$column] = '<td class="table_header_td_class">' . $column . '</td>';
         }
 
         $table_structure = [
@@ -109,10 +110,21 @@ class InvoicePdf extends PdfBuilder
 
         foreach ($types as $type) {
             if (!empty($this->line_items[$type])) {
-                $table_structure[$type]['header'] .= '<tr>' . strtr($header, $labels) . '</tr>';
+                $empty_columns = $this->checkIfEmpty($this->line_items, $type);
+
+                /********* Remove empty columns ***********************/
+                if(!empty($empty_columns) && $this->entity->customer->getSetting('dont_display_empty_pdf_columns') === true) {
+                    foreach (array_values($empty_columns) as $empty_column) {
+                        unset($header[$empty_column]);
+                        unset($table_row[$empty_column]);
+                    }
+                }
+
+                $table_structure[$type]['header'] .= '<tr>' . strtr(implode('', $header), $labels) . '</tr>';
 
                 foreach ($this->line_items[$type] as $data) {
-                    $tmp = strtr($table_row, $data);
+
+                    $tmp = strtr(implode('', $table_row), $data);
                     $tmp = strtr($tmp, $values);
 
                     $table_structure[$type]['body'] .= '<tr>' . $tmp . '</tr>';

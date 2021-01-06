@@ -2,7 +2,6 @@
 
 namespace App\Transformations;
 
-use App\Models\Audit;
 use App\Models\PaymentGateway;
 
 class GatewayTransformable

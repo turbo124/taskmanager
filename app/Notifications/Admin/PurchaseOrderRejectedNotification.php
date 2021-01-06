@@ -2,7 +2,6 @@
 
 namespace App\Notifications\Admin;
 
-use App\Mail\Admin\PurchaseOrderApproved;
 use App\Mail\Admin\PurchaseOrderRejected;
 use App\Models\PurchaseOrder;
 use Illuminate\Bus\Queueable;

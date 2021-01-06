@@ -817,7 +817,16 @@ _localizedValues.en = {
     recent_expenses: 'Recent Expenses',
     upcoming_expenses: 'Upcoming Expenses',
     reject: 'Reject',
-    add_account: 'Add Account'
+    add_account: 'Add Account',
+    hide_blank_columns: 'Hide Blank Columns',
+    all_pages_header: 'Show Header on',
+    all_pages_footer: 'Show Footer on',
+    first_page: 'First page',
+    all_pages: 'All pages',
+    last_page: 'Last page',
+    page_size: 'Page Size',
+    font_size: 'Font Size',
+    quote_design: 'Quote Design'
 }
 
 let language = []

@@ -13,6 +13,7 @@ use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Laracasts\Presenter\Exceptions\PresenterException;
 
 class ClientContactRequestCancellation extends Notification implements ShouldQueue
 {
@@ -71,7 +72,7 @@ class ClientContactRequestCancellation extends Notification implements ShouldQue
      *
      * @param mixed $notifiable
      * @return MailMessage
-     * @throws \Laracasts\Presenter\Exceptions\PresenterException
+     * @throws PresenterException
      */
     public function toMail($notifiable)
     {

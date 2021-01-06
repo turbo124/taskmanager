@@ -11,6 +11,7 @@ use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\Task;
+use App\Models\User;
 use App\Traits\DateFormatter;
 use App\Traits\Money;
 use ReflectionClass;
@@ -40,6 +41,31 @@ class PdfBuilder
     {
         $this->entity = $entity;
         $this->class = strtolower((new ReflectionClass($this->entity))->getShortName());
+    }
+
+    protected function checkIfEmpty(array $line_items, $type = null): array
+    {
+        $empty_values = [];
+
+        $rows = $type !== null ? $line_items[$type] : $line_items;
+
+        foreach ($rows as $row) {
+            foreach ($row as $column => $value) {
+                if (empty($value)) {
+                    $empty_values[$column] = !isset($empty[$column]) ? 1 : $empty[$column]++;
+                }
+            }
+        }
+
+        $return_array = [];
+
+        foreach ($empty_values as $empty_column => $empty_count) {
+            if ($empty_count === count($line_items[$type])) {
+                $return_array[] = $empty_column;
+            }
+        }
+
+        return $return_array;
     }
 
     public function buildContact($contact = null): self
@@ -434,6 +460,16 @@ class PdfBuilder
     public function setFooter(?string $footer): self
     {
         $this->data['$footer'] = ['value' => $footer ?: '&nbsp;', 'label' => ''];
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     * @return $this
+     * @throws \Laracasts\Presenter\Exceptions\PresenterException
+     */
+    public function setUser(User $user) {
+        $this->data['$user'] = ['value' => $user->present()->name() ?: '&nbsp;', 'label' => 'user'];
         return $this;
     }
 
