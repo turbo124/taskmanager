@@ -96,6 +96,7 @@ export default class RecurringInvoices extends Component {
     userList (props) {
         const { invoices, custom_fields, customers, allInvoices } = this.state
         return <RecurringInvoiceItem showCheckboxes={props.showCheckboxes} allInvoices={allInvoices} invoices={invoices}
+            show_list={props.show_list}
             viewId={props.viewId}
             customers={customers} custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
