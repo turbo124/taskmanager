@@ -12,6 +12,7 @@ export default class UserList extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isMobile: window.innerWidth <= 768,
             isOpen: window.innerWidth > 670,
             users: [],
             cachedData: [],
@@ -153,6 +154,7 @@ export default class UserList extends Component {
     userList (props) {
         const { users, departments, custom_fields, accounts } = this.state
         return <UserItem showCheckboxes={props.showCheckboxes} accounts={accounts} departments={departments}
+            show_list={props.show_list}
             viewId={props.viewId}
             users={users} custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
