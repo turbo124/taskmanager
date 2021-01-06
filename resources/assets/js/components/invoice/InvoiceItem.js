@@ -106,7 +106,7 @@ export default class InvoiceItem extends Component {
                             toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
                     </div>
                      {!!this.props.onChangeBulk &&
-                        <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
+                        <Input checked={isChecked} className={checkboxClass} value={invoice.id} type="checkbox"
                             onChange={this.props.onChangeBulk}/>
                         }
                     {actionMenu}
