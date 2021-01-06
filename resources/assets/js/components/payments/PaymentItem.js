@@ -127,6 +127,10 @@ export default class PaymentItem extends Component {
                         <span>{<PaymentPresenter field="status_field" entity={payment} edit={editButton}
                             toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
                     </div>
+                    {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={payment.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
                     {actionMenu}
                 </ListGroupItem>
             })
