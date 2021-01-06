@@ -2,7 +2,6 @@
 
 namespace App\Transformations;
 
-use App\Models\Email;
 use App\Models\ErrorLog;
 
 class ErrorLogTransformable

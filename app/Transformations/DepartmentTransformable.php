@@ -5,6 +5,7 @@ namespace App\Transformations;
 use App\Models\Department;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use Exception;
 
 trait DepartmentTransformable
 {
@@ -14,7 +15,7 @@ trait DepartmentTransformable
      *
      * @param Department $department
      * @return Department
-     * @throws \Exception
+     * @throws Exception
      */
     protected function transformDepartment(Department $department)
     {

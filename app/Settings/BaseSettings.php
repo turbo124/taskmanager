@@ -581,6 +581,12 @@ class BaseSettings
             'default_value'    => false,
             'type'             => 'bool'
         ],
+        'dont_display_empty_pdf_columns'       => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
         'all_pages_footer'                     => [
             'required'         => false,
             'translated_value' => '',

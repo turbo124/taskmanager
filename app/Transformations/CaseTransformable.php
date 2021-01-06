@@ -8,7 +8,6 @@ use App\Models\Cases;
 use App\Models\Email;
 use App\Models\File;
 use App\Models\Invitation;
-use App\Models\Subscription;
 
 trait CaseTransformable
 {

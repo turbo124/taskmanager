@@ -223,7 +223,7 @@ class InvoiceSettings extends Component {
                 },
                 {
                     name: 'credit_design_id',
-                    label: 'Credit Design',
+                    label: translations.credit_design,
                     type: 'select',
                     value: settings.credit_design_id,
                     options: design_options,
@@ -239,7 +239,7 @@ class InvoiceSettings extends Component {
                 },
                 {
                     name: 'quote_design_id',
-                    label: 'Quote Design',
+                    label: translations.quote_design,
                     type: 'select',
                     value: settings.quote_design_id,
                     options: design_options,
@@ -247,7 +247,7 @@ class InvoiceSettings extends Component {
                 },
                 {
                     name: 'page_size',
-                    label: 'Page Size',
+                    label: translations.page_size,
                     type: 'select',
                     value: settings.page_size,
                     options: [
@@ -289,34 +289,51 @@ class InvoiceSettings extends Component {
             [
                 {
                     name: 'all_pages_header',
-                    label: 'Show Header On',
+                    label: translations.all_pages_header,
                     type: 'select',
                     value: settings.all_pages_header,
                     options: [
                         {
                             value: 'true',
-                            text: 'All Pages'
+                            text: translations.all_pages
                         },
                         {
                             value: 'false',
-                            text: 'First Page'
+                            text: translations.first_page
                         }
                     ],
                     group: 1
                 },
                 {
                     name: 'all_pages_footer',
-                    label: 'Show Footer On',
+                    label: translations.all_pages_footer,
                     type: 'select',
                     value: settings.all_pages_footer,
                     options: [
                         {
                             value: 'true',
-                            text: 'All Pages'
+                            text: translations.all_pages
                         },
                         {
                             value: 'false',
-                            text: 'First Page'
+                            text: translations.first_page
+                        }
+                    ],
+                    group: 1
+                },
+                {
+                    name: 'dont_display_empty_pdf_columns',
+                    label: translations.hide_blank_columns,
+                    type: 'select',
+                    value: settings.dont_display_empty_pdf_columns,
+                    options: [
+                        {
+                            value: 'true',
+                            text: translations.yes
+                        },
+                        {
+                            value: 'false',
+                            text: translations.no
                         }
                     ],
                     group: 1
@@ -512,7 +529,12 @@ class InvoiceSettings extends Component {
 
                         <TabPane tabId="2">
                             <Card>
-                                <CardBody/>
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getInvoiceSettingFields()}
+                                    />
+                                </CardBody>
                             </Card>
                         </TabPane>
 
