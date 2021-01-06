@@ -111,6 +111,10 @@ export default class TaskItem extends Component {
                             toggleViewedEntity={this.props.toggleViewedEntity}
                             edit={editButton}/>}</span>
                     </div>
+                    {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
                     {actionMenu}
                 </ListGroupItem>
             })
