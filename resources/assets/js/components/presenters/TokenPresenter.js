@@ -1,5 +1,12 @@
 import React from 'react'
 
+export function getDefaultTableFields () {
+    return [
+        'name',
+        'user_id'
+    ]
+}
+
 export default function TokenPresenter (props) {
     const { field, entity } = props
     const user = props.users.length ? props.users.filter(user => user.id === parseInt(entity.user_id)) : []
