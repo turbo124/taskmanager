@@ -96,7 +96,7 @@ export default class CompanyItem extends Component {
                     }
                     {actionMenu}
 
-                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(quote, quote.number, editButton)}
+                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(brand, brand.name, editButton)}
                         key={index}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
@@ -113,7 +113,7 @@ export default class CompanyItem extends Component {
                     }
                     {actionMenu}
 
-                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(quote, quote.number, editButton)}
+                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(brand, brand.name, editButton)}
                         key={index}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
