@@ -6,16 +6,15 @@ export default function TokenPresenter (props) {
 
     switch (field) {
         case 'token':
-            return <td data-label={field}
-                onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)}>
-                {`${entity.token.substring(0, 10)}xxxxxxxxxx`} <br/>
+            return `${entity.token.substring(0, 10)}xxxxxxxxxx`} <br/>
                 {user.length &&
                 `${user[0].first_name} ${user[0].last_name}`
                 }
+        case 'user_id':
+            return user.length ? `${user[0].first_name} ${user[0].last_name}` : ''
 
             </td>
         default:
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)} key={field}
-                data-label={field}>{entity[field]}</td>
+            return entity[field]
     }
 }
