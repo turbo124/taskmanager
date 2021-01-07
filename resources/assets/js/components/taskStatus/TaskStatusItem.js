@@ -32,7 +32,7 @@ export default class TaskStatusItem extends Component {
     render () {
         const { statuses, ignoredColumns, customers } = this.props
         if (statuses && statuses.length) {
-            return statuses.map(taskStatus => {
+           return statuses.map((taskStatus, index) => {
                 const restoreButton = taskStatus.deleted_at
                     ? <RestoreModal id={taskStatus.id} entities={statuses} updateState={this.props.addUserToState}
                         url={`/api/statuses/restore/${taskStatus.id}`}/> : null
@@ -48,12 +48,13 @@ export default class TaskStatusItem extends Component {
                     action={this.props.addUserToState}
                 /> : null
 
-                const columnList = Object.keys(taskStatus).filter(key => {
+               const columnList = Object.keys(taskStatus).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <TaskStatusPresenter edit={editButton} key={key} customers={customers}
-                        toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={taskStatus}/>
+                    return <td key={key}
+                        onClick={() => this.props.toggleViewedEntity(taskStatus, taskStatus.name, editButton)}
+                        data-label={key}><TaskStatusPresenter toggleViewedEntity={this.props.toggleViewedEntity}
+                            field={key} entity={taskStatus} edit={editButton}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -63,14 +64,54 @@ export default class TaskStatusItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return <tr className={selectedRow} key={taskStatus.id}>
-                    <td>
-                        <Input checked={isChecked} className={checkboxClass} value={taskStatus.id} type="checkbox"
-                            onChange={this.props.onChangeBulk}/>
-                        {actionMenu}
-                    </td>
-                    {columnList}
-                </tr>
+                const is_mobile = window.innerWidth <= 768
+
+                if (!this.props.show_list) {
+                    return <tr className={selectedRow} key={taskStatus.id}>
+                        <td>
+                            <Input checked={isChecked} className={checkboxClass} value={taskStatus.id} type="checkbox"
+                                onChange={this.props.onChangeBulk}/>
+                            {actionMenu}
+                        </td>
+                        {columnList}
+                    </tr>
+                }
+
+                return is_mobile ? <div className="list-group-item-dark">
+                    {!!this.props.onChangeBulk &&
+                    <Input checked={isChecked} className={checkboxClass} value={taskStatus.id} type="checkbox"
+                        onChange={this.props.onChangeBulk}/>
+                    }
+                    {actionMenu}
+
+                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(taskStatus, taskStatus.name, editButton)}
+                        key={index}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<TaskStatusPresenter field="name"
+                                entity={taskStatus}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</h5>
+                        </div>
+                    </ListGroupItem>
+                </div> : <div className="list-group-item-dark">
+                    {!!this.props.onChangeBulk &&
+                    <Input checked={isChecked} className={checkboxClass} value={taskStatus.id} type="checkbox"
+                        onChange={this.props.onChangeBulk}/>
+                    }
+                    {actionMenu}
+
+                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(taskStatus, taskStatus.name, editButton)}
+                        key={index}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<TaskStatusPresenter field="name"
+                                entity={taskStatus}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</h5>
+                        </div>
+                    </ListGroupItem>
+                </div>
             })
         } else {
             return <tr>
