@@ -12,8 +12,6 @@ export default function TokenPresenter (props) {
                 }
         case 'user_id':
             return user.length ? `${user[0].first_name} ${user[0].last_name}` : ''
-
-            </td>
         default:
             return entity[field]
     }
