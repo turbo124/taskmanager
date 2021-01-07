@@ -7,6 +7,7 @@ import SubscriptionFilters from './SubscriptionFilters'
 import SubscriptionItem from './SubscriptionItem'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import { getDefaultTableFields } from '../presenters/TokenPresenter'
 
 export default class Subscriptions extends Component {
     constructor (props) {
@@ -28,7 +29,6 @@ export default class Subscriptions extends Component {
                 title: null
             },
             errors: [],
-            ignoredColumns: ['updated_at', 'is_deleted', 'user_id', 'account_id', 'id', 'entity_id', 'settings', 'deleted_at', 'created_at'],
             filters: {
                 searchText: '',
                 status: 'active',
@@ -61,6 +61,7 @@ export default class Subscriptions extends Component {
     userList (props) {
         const { subscriptions } = this.state
         return <SubscriptionItem showCheckboxes={props.showCheckboxes} subscriptions={subscriptions}
+            show_list={props.show_list}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
@@ -151,13 +152,13 @@ export default class Subscriptions extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Subscription"
                                     bulk_save_url="/api/subscriptions/bulk"
                                     view={view}
-                                    ignore={this.state.ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}
                                     updateState={this.addUserToState}
