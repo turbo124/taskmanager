@@ -7,6 +7,7 @@ import TaskStatusFilters from './TaskStatusFilters'
 import TaskStatusItem from './TaskStatusItem'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import { getDefaultTableFields } from '../presenters/TaskStatusPresenter'
 
 export default class Categories extends Component {
     constructor (props) {
@@ -28,7 +29,6 @@ export default class Categories extends Component {
                 title: null
             },
             errors: [],
-            ignoredColumns: ['id', 'category_id', 'parent_id', 'account_id', 'user_id', 'is_deleted', 'updated_at', 'status', 'deleted_at', 'created_at'],
             filters: {
                 searchText: '',
                 status: 'active',
@@ -139,9 +139,8 @@ export default class Categories extends Component {
                                 <TaskStatusFilters setFilterOpen={this.setFilterOpen.bind(this)}
                                     statuses={statuses}
                                     customers={customers}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterCategories}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
 
                                 <AddTaskStatus
                                     customers={customers}
@@ -172,6 +171,7 @@ export default class Categories extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     columnMapping={{ customer_id: 'CUSTOMER' }}
@@ -179,7 +179,6 @@ export default class Categories extends Component {
                                     entity_type="TaskStatus"
                                     bulk_save_url="/api/expense-statuses/bulk"
                                     view={view}
-                                    ignore={this.state.ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}
                                     updateState={this.addUserToState}

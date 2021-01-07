@@ -67,8 +67,10 @@ export default class ExpenseItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return !this.props.show_list ? (
-                    <tr className={selectedRow} key={index}>
+                const is_mobile = window.innerWidth <= 768
+
+                if (!this.props.show_list) {
+                    return <tr className={selectedRow} key={index}>
                         <td>
                             {!!this.props.onChangeBulk &&
                             <Input checked={isChecked} className={checkboxClass} value={expense.id} type="checkbox"
@@ -78,28 +80,61 @@ export default class ExpenseItem extends Component {
                         </td>
                         {columnList}
                     </tr>
-                ) : <ListGroupItem key={index}
-                    onClick={() => this.props.toggleViewedEntity(expense, expense.number, editButton)}
-                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{<ExpensePresenter customers={customers} field="customer_id"
-                            entity={expense}
-                            edit={editButton}
-                            toggleViewedEntity={this.props.toggleViewedEntity}/>}</h5>
-                        {<ExpensePresenter customers={customers}
-                            toggleViewedEntity={this.props.toggleViewedEntity}
-                            field="amount" entity={expense} edit={editButton}/>}
-                    </div>
-                    <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{expense.number} . {<ExpensePresenter field="date"
-                            entity={expense}
-                            edit={editButton}
-                            toggleViewedEntity={this.props.toggleViewedEntity}/>} </span>
-                        <span>{<ExpensePresenter field="status_field" entity={expense} edit={editButton}
-                            toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
-                    </div>
+                }
+
+                return !is_mobile ? <div className="list-group-item-dark">
+                    {!!this.props.onChangeBulk &&
+                    <Input checked={isChecked} className={checkboxClass} value={expense.id} type="checkbox"
+                        onChange={this.props.onChangeBulk}/>
+                    }
                     {actionMenu}
-                </ListGroupItem>
+                    <ListGroupItem key={index}
+                        onClick={() => this.props.toggleViewedEntity(expense, expense.number, editButton)}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<ExpensePresenter customers={customers} field="customer_id"
+                                entity={expense}
+                                edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</h5>
+                            <span className="mb-1">{expense.number} . {<ExpensePresenter field="date"
+                                entity={expense}
+                                edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/>} </span>
+                            {<ExpensePresenter customers={customers}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                field="amount" entity={expense} edit={editButton}/>}
+                            <span>{<ExpensePresenter field="status_field" entity={expense} edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                        </div>
+                    </ListGroupItem>
+                </div> : <div className="list-group-item-dark">
+                    {!!this.props.onChangeBulk &&
+                    <Input checked={isChecked} className={checkboxClass} value={expense.id} type="checkbox"
+                        onChange={this.props.onChangeBulk}/>
+                    }
+                    {actionMenu}
+                    <ListGroupItem key={index}
+                        onClick={() => this.props.toggleViewedEntity(expense, expense.number, editButton)}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<ExpensePresenter customers={customers} field="customer_id"
+                                entity={expense}
+                                edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</h5>
+                            {<ExpensePresenter customers={customers}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                field="amount" entity={expense} edit={editButton}/>}
+                        </div>
+                        <div className="d-flex w-100 justify-content-between">
+                            <span className="mb-1 text-muted">{expense.number} . {<ExpensePresenter field="date"
+                                entity={expense}
+                                edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/>} </span>
+                            <span>{<ExpensePresenter field="status_field" entity={expense} edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                        </div>
+                    </ListGroupItem>
+                </div>
             })
         } else {
             return <tr>

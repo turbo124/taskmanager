@@ -118,7 +118,7 @@ export default class Notifications extends Component {
                     label: translations.quote_rejected,
                     isChecked: false
                 },
-                 {
+                {
                     id: 4,
                     value: consts.notification_quote_change_requested,
                     label: translations.quote_change_requested,

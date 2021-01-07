@@ -233,7 +233,7 @@ export default class QuoteModel extends BaseModel {
         }
 
         if (this.isSent) {
-            actions.push('approve') 
+            actions.push('approve')
             actions.push('reject')
         }
 

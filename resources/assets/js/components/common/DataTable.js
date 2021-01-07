@@ -14,9 +14,10 @@ export default class DataTable extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            loadColumnList: true,
             bulk: [],
             showCheckboxes: false,
-            displayAsTable: false,
+            display_list: localStorage.getItem('display_list') === 'true' || false,
             showColumns: false,
             showCheckboxFilter: false,
             allSelected: false,
@@ -153,7 +154,9 @@ export default class DataTable extends Component {
         }
 
         if (event.target.id === 'toggle-table') {
-            this.setState({ displayAsTable: !this.state.displayAsTable })
+            this.setState({ display_list: !this.state.display_list }, () => {
+                localStorage.setItem('display_list', this.state.display_list)
+            })
         }
 
         if (event.target.id === 'toggle-columns') {
@@ -278,12 +281,29 @@ export default class DataTable extends Component {
                     data: data,
                     columns: columns
                     // progress: 0
-                }, () => this.props.updateState(data))
+                }, () => {
+                    this.props.updateState(data)
+                    this.buildColumnList()
+                })
             })
             .catch(error => {
                 this.setState(({ progress: 0 }))
                 this.props.setError('Failed to fetch the data. Please check network')
             })
+    }
+
+    buildColumnList () {
+        if (this.state.data && this.state.data.length && this.props.default_columns && this.state.loadColumnList) {
+            const allFields = []
+
+            Object.keys(this.state.data[0]).map((field) => {
+                if (!this.props.default_columns.includes(field)) {
+                    allFields.push(field)
+                }
+            })
+
+            this.setState({ ignoredColumns: allFields, loadColumnList: false })
+        }
     }
 
     checkAll (e) {
@@ -338,12 +358,14 @@ export default class DataTable extends Component {
         const columnFilter = this.state.entities.data && this.state.entities.data.length
             ? <DisplayColumns onChange2={this.updateIgnoredColumns}
                 columns={Object.keys(this.state.entities.data[0]).concat(this.state.ignoredColumns)}
-                ignored_columns={this.state.ignoredColumns}/> : null
+                ignored_columns={this.state.ignoredColumns}
+                default_columns={this.props.default_columns}/> : null
 
-        const table_class = this.state.displayAsTable || isMobile ? 'mt-2 data-table mobile' : 'mt-2 data-table'
+        const table_class = 'mt-2 data-table'
         const tableSort = !isMobile ? <TableSort fetchEntities={this.fetchEntities}
             columnMapping={this.props.columnMapping}
             columns={this.props.order ? this.props.order : this.state.columns}
+            default_columns={this.props.default_columns}
             ignore={this.state.ignoredColumns}
             disableSorting={this.props.disableSorting}
             sorted_column={this.state.sorted_column}
@@ -352,6 +374,7 @@ export default class DataTable extends Component {
         const table_dark = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' || false
 
         const list = this.props.userList({
+            show_list: this.state.display_list,
             bulk: this.state.bulk,
             ignoredColumns: this.state.ignoredColumns,
             toggleViewedEntity: this.toggleViewedEntity,
@@ -359,8 +382,8 @@ export default class DataTable extends Component {
             showCheckboxes: this.state.showCheckboxes,
             onChangeBulk: this.onChangeBulk
         })
-
-        const table = !this.props.hide_table
+        
+        const table = !this.props.hide_table && !this.state.display_list
             ? <Table className={table_class} responsive striped bordered hover dark={table_dark}>
                 {tableSort}
                 <tbody>

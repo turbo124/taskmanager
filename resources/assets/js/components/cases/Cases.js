@@ -8,12 +8,14 @@ import CaseItem from './CaseItem'
 import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import { getDefaultTableFields } from '../presenters/CasePresenter'
 
 export default class Cases extends Component {
     constructor (props) {
         super(props)
 
         this.state = {
+            isMobile: window.innerWidth <= 768,
             isOpen: window.innerWidth > 670,
             error: '',
             show_success: false,
@@ -30,7 +32,6 @@ export default class Cases extends Component {
                 title: null
             },
             errors: [],
-            ignoredColumns: ['assigned_to', 'contact_id', 'parent_id', 'link_value', 'invitations', 'emails', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'customer_name', 'files', 'private_notes', 'id', 'category_id', 'account_id', 'user_id', 'is_deleted', 'updated_at', 'settings', 'deleted_at', 'created_at'],
             filters: {
                 searchText: '',
                 status: 'active',
@@ -90,6 +91,7 @@ export default class Cases extends Component {
     userList (props) {
         const { cases, customers } = this.state
         return <CaseItem showCheckboxes={props.showCheckboxes} customers={customers} cases={cases}
+            show_list={props.show_list}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
@@ -143,9 +145,8 @@ export default class Cases extends Component {
                             <CardBody>
                                 <CaseFilters setFilterOpen={this.setFilterOpen.bind(this)} cases={cases}
                                     customers={customers}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterCases}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
 
                                 <AddCase
                                     customers={customers}
@@ -176,6 +177,7 @@ export default class Cases extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     customers={this.state.customers}
@@ -188,7 +190,6 @@ export default class Cases extends Component {
                                     entity_type="Case"
                                     bulk_save_url="/api/cases/bulk"
                                     view={view}
-                                    ignore={this.state.ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}
                                     updateState={this.addUserToState}

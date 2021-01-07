@@ -8,12 +8,14 @@ import LeadItem from './LeadItem'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import UserRepository from '../repositories/UserRepository'
+import { getDefaultTableFields } from '../presenters/LeadPresenter'
 
 export default class Leads extends Component {
     constructor (props) {
         super(props)
 
         this.state = {
+            isMobile: window.innerWidth <= 768,
             isOpen: window.innerWidth > 670,
             leads: [],
             cachedData: [],
@@ -39,39 +41,6 @@ export default class Leads extends Component {
                 end_date: ''
             },
             custom_fields: [],
-            ignoredColumns: [
-                'project',
-                'project_id',
-                'task_status_id',
-                'design_id',
-                'industry_id',
-                'emails',
-                'created_at',
-                'deleted_at',
-                'updated_at',
-                'address_1',
-                'address_2',
-                'is_deleted',
-                'archived_at',
-                'account_id',
-                'custom_value1',
-                'custom_value2',
-                'custom_value3',
-                'custom_value4',
-                'city',
-                'zip',
-                'source_type',
-                'valued_at',
-                'company_name',
-                'job_title',
-                'website',
-                'private_notes',
-                'public_notes',
-                'user_id',
-                'assigned_to',
-                'task_status',
-                'id'
-            ],
             showRestoreButton: false
         }
 
@@ -104,6 +73,7 @@ export default class Leads extends Component {
     userList (props) {
         const { leads, custom_fields, users } = this.state
         return <LeadItem showCheckboxes={props.showCheckboxes} leads={leads} users={users} custom_fields={custom_fields}
+            show_list={props.show_list}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
@@ -166,7 +136,7 @@ export default class Leads extends Component {
     }
 
     render () {
-        const { leads, users, custom_fields, ignoredColumns, view, isOpen, error_message, success_message, show_success } = this.state
+        const { leads, users, custom_fields, view, isOpen, error_message, success_message, show_success } = this.state
         const { status_id, searchText, start_date, end_date, user_id } = this.state.filters
         const fetchUrl = `/api/leads?search_term=${searchText}&user_id=${user_id}&status=${status_id}&start_date=${start_date}&end_date=${end_date}`
         const { error } = this.state
@@ -181,9 +151,8 @@ export default class Leads extends Component {
                         <Card>
                             <CardBody>
                                 <LeadFilters setFilterOpen={this.setFilterOpen.bind(this)} leads={leads}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterLeads}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
                                 <AddLead users={users} leads={leads} action={this.addUserToState}
                                     custom_fields={custom_fields}/>
                             </CardBody>
@@ -210,6 +179,7 @@ export default class Leads extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
@@ -218,7 +188,6 @@ export default class Leads extends Component {
                                     view={view}
                                     disableSorting={['id']}
                                     defaultColumn='name'
-                                    ignore={ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}
                                     updateState={this.addUserToState}

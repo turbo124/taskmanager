@@ -10,11 +10,13 @@ import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
 import CreditRepository from '../repositories/CreditRepository'
 import InvoiceRepository from '../repositories/InvoiceRepository'
+import { getDefaultTableFields } from '../presenters/PaymentPresenter'
 
 export default class Payments extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isMobile: window.innerWidth <= 768,
             isOpen: window.innerWidth > 670,
             error: '',
             show_success: false,
@@ -32,7 +34,6 @@ export default class Payments extends Component {
             custom_fields: [],
             dropdownButtonActions: ['download'],
             bulk: [],
-            ignoredColumns: ['is_deleted', 'company_gateway_id', 'account_id', 'customer_name', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'currency_id', 'exchange_rate', 'exchange_currency_id', 'paymentables', 'private_notes', 'created_at', 'user_id', 'id', 'customer', 'invoice_id', 'assigned_to', 'deleted_at', 'updated_at', 'type_id', 'refunded', 'is_manual', 'task_id', 'company_id', 'invitation_id'],
             filters: {
                 status_id: 'active',
                 customer_id: queryString.parse(this.props.location.search).customer_id || '',
@@ -145,6 +146,7 @@ export default class Payments extends Component {
     customerList (props) {
         const { payments, custom_fields, invoices, credits, customers } = this.state
         return <PaymentItem showCheckboxes={props.showCheckboxes} payments={payments} customers={customers}
+            show_list={props.show_list}
             viewId={props.viewId}
             credits={credits}
             invoices={invoices} custom_fields={custom_fields}
@@ -191,9 +193,8 @@ export default class Payments extends Component {
                         <CardBody>
                             <PaymentFilters setFilterOpen={this.setFilterOpen.bind(this)} customers={customers}
                                 payments={payments} invoices={invoices}
-                                updateIgnoredColumns={this.updateIgnoredColumns}
                                 filters={filters} filter={this.filterPayments}
-                                saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                saveBulk={this.saveBulk}/>
                             {addButton}
                         </CardBody>
                     </Card>
@@ -219,6 +220,7 @@ export default class Payments extends Component {
                     <Card>
                         <CardBody>
                             <DataTable
+                                default_columns={getDefaultTableFields()}
                                 setSuccess={this.setSuccess.bind(this)}
                                 setError={this.setError.bind(this)}
                                 customers={customers}
@@ -226,7 +228,6 @@ export default class Payments extends Component {
                                 entity_type="Payment"
                                 bulk_save_url="/api/payment/bulk"
                                 view={view}
-                                ignore={this.state.ignoredColumns}
                                 columnMapping={{ customer_id: 'CUSTOMER' }}
                                 // order={['id', 'number', 'date', 'customer_name', 'total', 'balance', 'status_id']}
                                 disableSorting={['id']}

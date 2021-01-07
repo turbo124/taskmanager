@@ -6,6 +6,7 @@ import TaxRateFilters from './TaxRateFilters'
 import TaxRateItem from './TaxRateItem'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import { getDefaultTableFields } from '../presenters/TaxRatePresenter'
 
 export default class TaxRates extends Component {
     constructor (props) {
@@ -28,11 +29,6 @@ export default class TaxRates extends Component {
                 viewedId: null,
                 title: null
             },
-            ignoredColumns: [
-                'created_at',
-                'deleted_at',
-                'updated_at'
-            ],
             errors: [],
             error: '',
             show_success: false,
@@ -110,9 +106,8 @@ export default class TaxRates extends Component {
                         <Card>
                             <CardBody>
                                 <TaxRateFilters setFilterOpen={this.setFilterOpen.bind(this)} taxRates={taxRates}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterTaxRates}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
                                 {addButton}
                             </CardBody>
                         </Card>
@@ -138,13 +133,13 @@ export default class TaxRates extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Tax Rate"
                                     bulk_save_url="/api/taxRate/bulk"
                                     view={view}
-                                    ignore={this.state.ignoredColumns}
                                     disableSorting={['id']}
                                     defaultColumn='name'
                                     userList={this.userList}

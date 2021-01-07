@@ -13,12 +13,14 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
+import { getDefaultTableFields } from '../presenters/InvoicePresenter'
 
 export default class Invoice extends Component {
     constructor (props) {
         super(props)
 
         this.state = {
+            isMobile: window.innerWidth <= 768,
             isOpen: window.innerWidth > 670,
             error: '',
             show_success: false,
@@ -37,7 +39,6 @@ export default class Invoice extends Component {
             bulk: [],
             dropdownButtonActions: ['email', 'download', 'cancel', 'archive', 'reverse', 'delete'],
             custom_fields: [],
-            ignoredColumns: ['is_deleted', 'viewed', 'tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'date_to_send', 'recurring_invoice_id', 'recurring', 'currency_id', 'exchange_rate', 'account_id', 'assigned_to', 'gateway_percentage', 'gateway_fee', 'files', 'audits', 'paymentables', 'customer_name', 'emails', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
             filters: {
                 status_id: '',
                 id: queryString.parse(this.props.location.search).id || '',
@@ -83,6 +84,7 @@ export default class Invoice extends Component {
     userList (props) {
         const { invoices, customers, custom_fields } = this.state
         return <InvoiceItem showCheckboxes={props.showCheckboxes}
+            show_list={props.show_list}
             invoices={invoices} customers={customers}
             custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
@@ -178,7 +180,7 @@ export default class Invoice extends Component {
                                 <InvoiceFilters setFilterOpen={this.setFilterOpen.bind(this)} invoices={invoices}
                                     customers={customers}
                                     filters={filters} filter={this.filterInvoices}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
                                 {addButton}
                             </CardBody>
                         </Card>
@@ -204,6 +206,7 @@ export default class Invoice extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     customers={customers}
@@ -211,7 +214,6 @@ export default class Invoice extends Component {
                                     entity_type="Invoice"
                                     bulk_save_url="/api/invoice/bulk"
                                     view={view}
-                                    ignore={this.state.ignoredColumns}
                                     columnMapping={{ customer_id: 'CUSTOMER' }}
                                     // order={['id', 'number', 'date', 'customer_name', 'total', 'balance', 'status_id']}
                                     disableSorting={['id']}

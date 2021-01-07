@@ -9,11 +9,13 @@ import CustomerRepository from '../repositories/CustomerRepository'
 import QuoteRepository from '../repositories/QuoteRepository'
 import queryString from 'query-string'
 import UpdateRecurringQuote from './edit/UpdateRecurringQuote'
+import { getDefaultTableFields } from '../presenters/RecurringQuotePresenter'
 
 export default class RecurringQuotes extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isMobile: window.innerWidth <= 768,
             isOpen: window.innerWidth > 670,
             error: '',
             show_success: false,
@@ -44,8 +46,7 @@ export default class RecurringQuotes extends Component {
             },
             showRestoreButton: false,
             entity_id: queryString.parse(this.props.location.search).entity_id || false,
-            entity_type: queryString.parse(this.props.location.search).entity_type || false,
-            ignoredColumns: ['is_deleted', 'viewed', 'due_date', 'is_never_ending', 'auto_billing_enabled', 'project_id', 'tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'schedule', 'grace_period', 'last_sent_date', 'quotes', 'currency_id', 'exchange_rate', 'gateway_fee', 'transaction_fee', 'shipping_cost', 'gateway_percentage', 'transaction_fee_tax', 'shipping_cost_tax', 'audits', 'invitations', 'files', 'id', 'custom_value1', 'invoice_id', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'use_inclusive_taxes', 'terms', 'footer', 'last_send_date', 'line_items', 'date_to_send', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total']
+            entity_type: queryString.parse(this.props.location.search).entity_type || false
 
         }
 
@@ -94,6 +95,7 @@ export default class RecurringQuotes extends Component {
     userList (props) {
         const { invoices, custom_fields, customers, allQuotes } = this.state
         return <RecurringQuoteItem showCheckboxes={props.showCheckboxes} allQuotes={allQuotes} invoices={invoices}
+            show_list={props.show_list}
             viewId={props.viewId}
             customers={customers} custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
@@ -189,10 +191,8 @@ export default class RecurringQuotes extends Component {
                                 <RecurringQuoteFilters customers={customers}
                                     setFilterOpen={this.setFilterOpen.bind(this)}
                                     invoices={invoices}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterInvoices}
-                                    saveBulk={this.saveBulk}
-                                    ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
                                 {addButton}
                             </CardBody>
                         </Card>
@@ -218,6 +218,7 @@ export default class RecurringQuotes extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     customers={this.state.customers}
@@ -229,7 +230,6 @@ export default class RecurringQuotes extends Component {
                                         customer_id: 'CUSTOMER',
                                         number_of_occurrrances: translations.cycles_remaining
                                     }}
-                                    ignore={this.state.ignoredColumns}
                                     disableSorting={['id']}
                                     defaultColumn='number'
                                     userList={this.userList}

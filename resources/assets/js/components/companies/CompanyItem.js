@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Badge, Input } from 'reactstrap'
+import { Badge, Input, ListGroupItem } from 'reactstrap'
 import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
@@ -39,7 +39,7 @@ export default class CompanyItem extends Component {
     render () {
         const { brands, custom_fields, users, ignoredColumns } = this.props
         if (brands && brands.length) {
-            return brands.map(brand => {
+            return brands.map((brand, index) => {
                 const restoreButton = brand.deleted_at
                     ? <RestoreModal id={brand.id} entities={brands} updateState={this.props.addUserToState}
                         url={`/api/companies/restore/${brand.id}`}/> : null
@@ -62,8 +62,10 @@ export default class CompanyItem extends Component {
                 const columnList = Object.keys(brand).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <CompanyPresenter key={key} toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={brand} edit={editButton}/>
+                    return <td key={key}
+                        onClick={() => this.props.toggleViewedEntity(brand, brand.number, editButton)}
+                        data-label={key}><CompanyPresenter toggleViewedEntity={this.props.toggleViewedEntity}
+                            field={key} entity={brand} edit={editButton}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -73,15 +75,55 @@ export default class CompanyItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return <tr className={selectedRow} key={brand.id}>
-                    <td>
-                        <Input checked={isChecked} className={checkboxClass} value={brand.id} type="checkbox"
-                            onChange={this.props.onChangeBulk}/>
-                        {actionMenu}
-                    </td>
-                    {!!status && <td>{status}</td>}
-                    {columnList}
-                </tr>
+                const is_mobile = window.innerWidth <= 768
+
+                if (!this.props.show_list) {
+                    return <tr className={selectedRow} key={brand.id}>
+                        <td>
+                            <Input checked={isChecked} className={checkboxClass} value={brand.id} type="checkbox"
+                                onChange={this.props.onChangeBulk}/>
+                            {actionMenu}
+                        </td>
+                        {!!status && <td>{status}</td>}
+                        {columnList}
+                    </tr>
+                }
+
+                return is_mobile ? <div className="list-group-item-dark">
+                    {!!this.props.onChangeBulk &&
+                    <Input checked={isChecked} className={checkboxClass} value={brand.id} type="checkbox"
+                        onChange={this.props.onChangeBulk}/>
+                    }
+                    {actionMenu}
+
+                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(quote, quote.number, editButton)}
+                        key={index}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<CompanyPresenter field="name"
+                                entity={brand}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</h5>
+                        </div>
+                    </ListGroupItem>
+                </div> : <div className="list-group-item-dark">
+                    {!!this.props.onChangeBulk &&
+                    <Input checked={isChecked} className={checkboxClass} value={brand.id} type="checkbox"
+                        onChange={this.props.onChangeBulk}/>
+                    }
+                    {actionMenu}
+
+                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(quote, quote.number, editButton)}
+                        key={index}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<CompanyPresenter field="name"
+                                entity={brand}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</h5>
+                        </div>
+                    </ListGroupItem>
+                </div>
             })
         } else {
             return <tr>

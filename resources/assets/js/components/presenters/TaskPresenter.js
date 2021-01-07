@@ -5,11 +5,23 @@ import FormatDate from '../common/FormatDate'
 import { translations } from '../utils/_translations'
 import { frequencyOptions } from '../utils/_consts'
 
+export function getDefaultTableFields () {
+    return [
+        'number',
+        'customer_id',
+        'due_date',
+        'name',
+        'description',
+        'status_name',
+        'duration'
+    ]
+}
+
 export default function TaskPresenter (props) {
     const { field, entity } = props
 
     const status = (entity.deleted_at)
-        ? (<Badge color="warning">{tra.archived}</Badge>)
+        ? (<Badge color="warning">{translations.archived}</Badge>)
         : ((entity.invoice_id) ? (<Badge color="success">{translations.invoiced}</Badge>)
             : (<Badge color="primary">{entity.status_name}</Badge>))
 

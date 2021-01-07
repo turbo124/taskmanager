@@ -9,11 +9,13 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
 import CompanyRepository from '../repositories/CompanyRepository'
+import { getDefaultTableFields } from '../presenters/ExpensePresenter'
 
 export default class Expenses extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isMobile: window.innerWidth <= 768,
             isOpen: window.innerWidth > 670,
             error: '',
             show_success: false,
@@ -41,55 +43,6 @@ export default class Expenses extends Component {
                 start_date: '',
                 end_date: ''
             },
-            ignoredColumns:
-                [
-                    'reference_number',
-                    'transaction_id',
-                    'tax_rate',
-                    'tax_rate_name',
-                    'tax_2', 'tax_3',
-                    'tax_rate_name_2',
-                    'tax_rate_name_3',
-                    'project_id',
-                    'category',
-                    'files',
-                    'customer_name',
-                    'user_id',
-                    'company_id',
-                    'invoice_currency_id',
-                    'converted_amount',
-                    'exchange_rate',
-                    'deleted_at',
-                    'recurring_expense_id',
-                    'currency_id',
-                    'type_id',
-                    'invoice_id',
-                    'assigned_to',
-                    'bank_id',
-                    'expense_category_id',
-                    'create_invoice',
-                    'include_documents',
-                    'public_notes',
-                    'private_notes',
-                    'archived_at',
-                    'created_at',
-                    'updated_at',
-                    'is_deleted',
-                    'payment_type_id',
-                    'custom_value1',
-                    'custom_value2',
-                    'custom_value3',
-                    'custom_value4',
-                    'tax_rate_name',
-                    'tax_rate',
-                    'is_recurring',
-                    'recurring_start_date',
-                    'recurring_end_date',
-                    'recurring_due_date',
-                    'last_sent_date',
-                    'next_send_date',
-                    'recurring_frequency'
-                ],
             custom_fields: [],
             customers: [],
             showRestoreButton: false,
@@ -155,6 +108,7 @@ export default class Expenses extends Component {
     expenseList (props) {
         const { expenses, customers, custom_fields, companies } = this.state
         return <ExpenseItem showCheckboxes={props.showCheckboxes} expenses={expenses} customers={customers}
+            show_list={props.show_list}
             viewId={props.viewId}
             companies={companies}
             custom_fields={custom_fields}
@@ -230,9 +184,8 @@ export default class Expenses extends Component {
                             <CardBody>
                                 <ExpenseFilters setFilterOpen={this.setFilterOpen.bind(this)} customers={customers}
                                     expenses={expenses} companies={companies}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterExpenses}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
                                 {addButton}
                             </CardBody>
                         </Card>
@@ -258,6 +211,7 @@ export default class Expenses extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     customers={customers}
@@ -265,11 +219,10 @@ export default class Expenses extends Component {
                                     entity_type="Expense"
                                     bulk_save_url="/api/expense/bulk"
                                     view={view}
-                                    columnMapping={{ customer_id: 'CUSTOMER' }}
+                                    columnMapping={{ customer_id: 'CUSTOMER', company_id: 'COMPANY' }}
                                     disableSorting={['id']}
                                     defaultColumn='amount'
                                     userList={this.expenseList}
-                                    ignore={this.state.ignoredColumns}
                                     fetchUrl={fetchUrl}
                                     updateState={this.updateExpenses}
                                 />

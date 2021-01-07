@@ -84,35 +84,74 @@ export default class TaskItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return !this.props.show_list ? <tr className={selectedRow} key={index}>
-                    <td>
-                        {!!this.props.onChangeBulk &&
-                        <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
-                            onChange={this.props.onChangeBulk}/>
-                        }
-                        {actionMenu}
-                    </td>
-                    {columnList}
-                </tr> : <ListGroupItem key={index}
-                    onClick={() => this.props.toggleViewedEntity(task, task.name, editButton)}
-                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{<TaskPresenter customers={customers} field="customer_id" entity={task}
-                            toggleViewedEntity={this.props.toggleViewedEntity}
-                            edit={editButton}/>}</h5>
-                        {<TaskPresenter customers={customers}
-                            field="name" entity={task} toggleViewedEntity={this.props.toggleViewedEntity}
-                            edit={editButton}/>}
-                    </div>
-                    <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{task.number} . {<TaskPresenter field="due_date" entity={task}
-                            edit={editButton}/>} </span>
-                        <span>{<TaskPresenter field="status_field" entity={task}
-                            toggleViewedEntity={this.props.toggleViewedEntity}
-                            edit={editButton}/>}</span>
-                    </div>
+                const is_mobile = window.innerWidth <= 768
+
+                if (!this.props.show_list) {
+                    return <tr className={selectedRow} key={index}>
+                        <td>
+                            {!!this.props.onChangeBulk &&
+                            <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
+                                onChange={this.props.onChangeBulk}/>
+                            }
+                            {actionMenu}
+                        </td>
+                        {columnList}
+                    </tr>
+                }
+
+                return !is_mobile ? <div className="list-group-item-dark">
+                    {!!this.props.onChangeBulk &&
+                    <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
+                        onChange={this.props.onChangeBulk}/>
+                    }
                     {actionMenu}
-                </ListGroupItem>
+                    <ListGroupItem key={index}
+                        onClick={() => this.props.toggleViewedEntity(task, task.name, editButton)}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<TaskPresenter customers={customers} field="name" entity={task}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</h5>
+                            <span className="mb-1">{<TaskPresenter customers={customers} field="customer_id"
+                                entity={task}
+                                edit={editButton}/>} </span>
+                            {<TaskPresenter customers={customers}
+                                field="duration" entity={task}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}
+                            <span>{<TaskPresenter field="status_field" entity={task}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</span>
+                        </div>
+                    </ListGroupItem>
+                </div> : <div className="list-group-item-dark">
+                    {!!this.props.onChangeBulk &&
+                    <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
+                        onChange={this.props.onChangeBulk}/>
+                    }
+                    {actionMenu}
+                    <ListGroupItem key={index}
+                        onClick={() => this.props.toggleViewedEntity(task, task.name, editButton)}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<TaskPresenter customers={customers} field="name" entity={task}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</h5>
+                            {<TaskPresenter customers={customers}
+                                field="duration" entity={task}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}
+                        </div>
+                        <div className="d-flex w-100 justify-content-between">
+                            <span className="mb-1 text-muted">{<TaskPresenter customers={customers} field="customer_id"
+                                entity={task}
+                                edit={editButton}/>} </span>
+                            <span>{<TaskPresenter field="status_field" entity={task}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</span>
+                        </div>
+                    </ListGroupItem>
+                </div>
             })
         } else {
             return <tr>

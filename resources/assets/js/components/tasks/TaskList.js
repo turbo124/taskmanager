@@ -10,12 +10,14 @@ import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
 import UserRepository from '../repositories/UserRepository'
 import EditTaskDesktop from './edit/EditTaskDesktop'
+import { getDefaultTableFields } from '../presenters/TaskPresenter'
 
 export default class TaskList extends Component {
     constructor (props) {
         super(props)
 
         this.state = {
+            isMobile: window.innerWidth <= 768,
             isOpen: window.innerWidth > 670,
             dropdownButtonActions: ['download', 'mark_in_progress', 'create_invoice'],
             tasks: [],
@@ -45,58 +47,6 @@ export default class TaskList extends Component {
                 end_date: ''
             },
             custom_fields: [],
-
-            ignoredColumns: [
-                'id',
-                'task_sort_order',
-                'include_documents',
-                'design_id',
-                'assigned_to',
-                'invoice_id',
-                'invoice',
-                'project',
-                'files',
-                'emails',
-                'task_rate',
-                'timers',
-                'public_notes',
-                'private_notes',
-                'deleted_at',
-                'users',
-                'customer',
-                'contributors',
-                'users',
-                'comments',
-                'is_completed',
-                'task_status_id',
-                'task_type',
-                'rating',
-                'customer_id',
-                'user_id',
-                'valued_at',
-                'rating',
-                'is_active',
-                'source_type',
-                'start_time',
-                'duration',
-                'custom_value1',
-                'custom_value2',
-                'custom_value3',
-                'custom_value4',
-                'is_deleted',
-                'time_log',
-                'project_id',
-                'is_running',
-                'task_status_sort_order',
-                'notes',
-                'is_recurring',
-                'recurring_start_date',
-                'recurring_end_date',
-                'recurring_due_date',
-                'last_sent_date',
-                'next_send_date',
-                'recurring_frequency'
-            ],
             showRestoreButton: false
         }
 
@@ -132,6 +82,7 @@ export default class TaskList extends Component {
         const { tasks, custom_fields, users, customers } = this.state
 
         return <TaskItem showCheckboxes={props.showCheckboxes} action={this.addUserToState} tasks={tasks} users={users}
+            show_list={props.show_list}
             custom_fields={custom_fields} customers={customers}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
@@ -246,9 +197,9 @@ export default class TaskList extends Component {
                             <CardBody>
                                 <TaskFilters customers={customers} setFilterOpen={this.setFilterOpen.bind(this)}
                                     users={users}
-                                    tasks={tasks} updateIgnoredColumns={this.updateIgnoredColumns}
+                                    tasks={tasks}
                                     filters={this.state.filters} filter={this.filterTasks}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
 
                                 {addButton}
                             </CardBody>
@@ -275,6 +226,7 @@ export default class TaskList extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     customers={customers}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
@@ -284,7 +236,6 @@ export default class TaskList extends Component {
                                     view={view}
                                     disableSorting={['id']}
                                     defaultColumn='name'
-                                    ignore={this.state.ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}
                                     updateState={this.addUserToState}

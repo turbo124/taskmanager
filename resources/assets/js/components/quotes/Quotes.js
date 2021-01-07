@@ -8,11 +8,13 @@ import QuoteFilters from './QuoteFilters'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import queryString from 'query-string'
+import { getDefaultTableFields } from '../presenters/QuotePresenter'
 
 export default class Quotes extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            isMobile: window.innerWidth <= 768,
             isOpen: window.innerWidth > 670,
             error: '',
             show_success: false,
@@ -42,9 +44,7 @@ export default class Quotes extends Component {
             },
             showRestoreButton: false,
             entity_id: queryString.parse(this.props.location.search).entity_id || false,
-            entity_type: queryString.parse(this.props.location.search).entity_type || false,
-            ignoredColumns: ['is_deleted', 'viewed', 'project_id', 'recurring_quote_id', 'tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'recurring', 'currency_id', 'exchange_rate', 'account_id', 'assigned_to', 'gateway_fee', 'gateway_percentage', 'files', 'shipping_cost_tax', 'audits', 'user_id', 'customer_name', 'emails', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'custom_surcharge_tax2', 'design_id', 'invitations', 'next_send_date', 'id', 'company_id', 'custom_value1', 'invoice_id', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'use_inclusive_taxes', 'terms', 'footer', 'last_sent_date', 'uses_inclusive_taxes', 'line_items', 'next_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total']
-
+            entity_type: queryString.parse(this.props.location.search).entity_type || false
         }
 
         this.updateInvoice = this.updateInvoice.bind(this)
@@ -76,6 +76,7 @@ export default class Quotes extends Component {
     userList (props) {
         const { quotes, custom_fields, customers } = this.state
         return <QuoteItem showCheckboxes={props.showCheckboxes} quotes={quotes} customers={customers}
+            show_list={props.show_list}
             custom_fields={custom_fields}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} updateInvoice={this.updateInvoice}
@@ -167,9 +168,8 @@ export default class Quotes extends Component {
                             <CardBody>
                                 <QuoteFilters setFilterOpen={this.setFilterOpen.bind(this)} quotes={quotes}
                                     customers={customers}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterInvoices}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
                                 {addButton}
                             </CardBody>
                         </Card>
@@ -195,6 +195,7 @@ export default class Quotes extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     customers={customers}
@@ -203,7 +204,6 @@ export default class Quotes extends Component {
                                     bulk_save_url="/api/quote/bulk"
                                     view={view}
                                     columnMapping={{ status_id: 'STATUS', customer_id: 'CUSTOMER' }}
-                                    ignore={this.state.ignoredColumns}
                                     disableSorting={['id']}
                                     defaultColumn='number'
                                     userList={this.userList}
