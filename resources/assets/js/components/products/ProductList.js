@@ -8,6 +8,7 @@ import ProductFilters from './ProductFilters'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CompanyRepository from '../repositories/CompanyRepository'
+import { getDefaultTableFields } from '../presenters/ProductPresenter'
 
 export default class ProductList extends Component {
     constructor (props) {
@@ -41,44 +42,6 @@ export default class ProductList extends Component {
                 start_date: '',
                 end_date: ''
             },
-            ignoredColumns: [
-                'is_deleted',
-                'ratings_count',
-                'account_id',
-                'reserved_stock',
-                'length',
-                'width',
-                'height',
-                'weight',
-                'mass_unit',
-                'distance_unit',
-                'reviews',
-                'features',
-                'attributes',
-                'deleted_at',
-                'created_at',
-                'cover',
-                'images',
-                'company_id',
-                'category_ids',
-                'status',
-                'range_from',
-                'range_to',
-                'payable_months',
-                'minimum_downpayment',
-                'number_of_years',
-                'assigned_to',
-                'user_id',
-                'notes',
-                'cost',
-                'quantity',
-                'interest_rate',
-                'price',
-                'custom_value1',
-                'custom_value2',
-                'custom_value3',
-                'custom_value4'
-            ],
             showRestoreButton: false
         }
 
@@ -215,9 +178,8 @@ export default class ProductList extends Component {
                             <CardBody>
                                 <ProductFilters setFilterOpen={this.setFilterOpen.bind(this)} companies={companies}
                                     products={products}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterProducts}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
                                 {addButton}
                             </CardBody>
                         </Card>
@@ -243,13 +205,13 @@ export default class ProductList extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Product"
                                     bulk_save_url="/api/product/bulk"
                                     view={view}
-                                    ignore={this.state.ignoredColumns}
                                     disableSorting={['id']}
                                     defaultColumn='name'
                                     userList={this.userList}

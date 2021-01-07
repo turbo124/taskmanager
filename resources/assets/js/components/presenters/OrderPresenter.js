@@ -6,6 +6,18 @@ import { orderStatusColors, orderStatuses } from '../utils/_consts'
 import OrderModel from '../models/OrderModel'
 import { translations } from '../utils/_translations'
 
+export function getDefaultTableFields () {
+    return [
+        'number',
+        'customer_id',
+        'date',
+        'due_date',
+        'total',
+        'balance',
+        'status_id'
+    ]
+}
+
 export default function OrderPresenter (props) {
     const { field, entity } = props
 

@@ -4,6 +4,17 @@ import { caseLinkTypes, casePriorities, casePriorityColors, caseStatusColors, ca
 import { translations } from '../utils/_translations'
 import FormatDate from '../common/FormatDate'
 
+export function getDefaultTableFields () {
+    return [
+        'number',
+        'customer_id',
+        'subject',
+        'due_date',
+        'priority_id',
+        'status_id'
+    ]
+}
+
 export default function CasePresenter (props) {
     const { field, entity } = props
 

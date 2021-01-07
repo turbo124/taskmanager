@@ -6,6 +6,18 @@ import { consts, invoiceStatusColors, invoiceStatuses } from '../utils/_consts'
 import InvoiceModel from '../models/InvoiceModel'
 import { translations } from '../utils/_translations'
 
+export function getDefaultTableFields () {
+    return [
+        'number',
+        'customer_id',
+        'date',
+        'due_date',
+        'total',
+        'balance',
+        'status_id'
+    ]
+}
+
 export default function InvoicePresenter (props) {
     const { field, entity } = props
 

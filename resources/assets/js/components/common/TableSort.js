@@ -8,15 +8,29 @@ export default class TableSort extends Component {
 
     tableHeads () {
         if (this.props.columns && this.props.columns.length) {
-            return this.props.columns.filter(column => {
-                return (!this.props.ignore || !this.props.ignore.length) || (this.props.ignore.length && !this.props.ignore.includes(column))
-            }).map(column => {
-                const sortedClass = (this.props.disableSorting && this.props.disableSorting.includes(column)) ? ('') : ((column === this.props.sorted_column) ? (`th-sm sorting_${this.props.order}`) : ('sorting_asc_disabled'))
-                return <th className={`table-head ${sortedClass}`} key={column}
-                    onClick={() => this.sortByColumn(column)}>
-                    {this.columnHead(column)}
-                </th>
-            })
+            if (this.props.default_columns && this.props.default_columns.length) {
+                return this.props.columns.filter(column => {
+                    return (!this.props.ignore || !this.props.ignore.length) || (this.props.ignore.length && this.props.default_columns.includes(column))
+                }).map(column => {
+                    const sortedClass = (this.props.disableSorting && this.props.disableSorting.includes(column)) ? ('') : ((column === this.props.sorted_column) ? (`th-sm sorting_${this.props.order}`) : ('sorting_asc_disabled'))
+                    return <th className={`table-head ${sortedClass}`} key={column}
+                        onClick={() => this.sortByColumn(column)}>
+                        {this.columnHead(column)}
+                    </th>
+                })
+            }
+
+            if (!this.props.default_columns) {
+                return this.props.columns.filter(column => {
+                    return (!this.props.ignore || !this.props.ignore.length) || (this.props.ignore.length && !this.props.ignore.includes(column))
+                }).map(column => {
+                    const sortedClass = (this.props.disableSorting && this.props.disableSorting.includes(column)) ? ('') : ((column === this.props.sorted_column) ? (`th-sm sorting_${this.props.order}`) : ('sorting_asc_disabled'))
+                    return <th className={`table-head ${sortedClass}`} key={column}
+                        onClick={() => this.sortByColumn(column)}>
+                        {this.columnHead(column)}
+                    </th>
+                })
+            }
         }
     }
 

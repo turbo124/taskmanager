@@ -9,6 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import queryString from 'query-string'
 import CompanyRepository from '../repositories/CompanyRepository'
+import { getDefaultTableFields } from '../presenters/CustomerPresenter'
 
 export default class Customers extends Component {
     constructor (props) {
@@ -35,42 +36,6 @@ export default class Customers extends Component {
                 start_date: '',
                 end_date: ''
             },
-            ignoredColumns: [
-                'is_deleted',
-                'error_logs',
-                'files',
-                'gateway_tokens',
-                'transactions',
-                'vat_number',
-                'public_notes',
-                'private_notes',
-                'industry_id',
-                'size_id',
-                'user_id',
-                'created_at',
-                'contacts',
-                'deleted_at',
-                'credit_balance',
-                'settings',
-                'assigned_user',
-                'company',
-                'customer_type',
-                'company_id',
-                'currency_id',
-                'customer_type',
-                'customerType',
-                'credit',
-                'default_payment_method',
-                'billing',
-                'shipping',
-                'currency',
-                'custom_value1',
-                'custom_value2',
-                'custom_value3',
-                'custom_value4',
-                'group_settings_id'
-                // 'phone'
-            ],
             custom_fields: [],
             error: '',
             show_success: false,
@@ -136,7 +101,7 @@ export default class Customers extends Component {
 
     customerList (props) {
         const { customers, custom_fields } = this.state
-        return <CustomerItem viewId={props.viewId} showCheckboxes={props.showCheckboxes} customers={customers} 
+        return <CustomerItem viewId={props.viewId} showCheckboxes={props.showCheckboxes} customers={customers}
             show_list={props.show_list}
             custom_fields={custom_fields}
             ignoredColumns={props.ignoredColumns} updateCustomers={this.updateCustomers}
@@ -182,9 +147,8 @@ export default class Customers extends Component {
                             <CardBody>
                                 <CustomerFilters setFilterOpen={this.setFilterOpen.bind(this)} companies={companies}
                                     customers={customers}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterCustomers}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
                                 {addButton}
                             </CardBody>
                         </Card>
@@ -210,6 +174,7 @@ export default class Customers extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
@@ -219,7 +184,6 @@ export default class Customers extends Component {
                                     disableSorting={['id']}
                                     defaultColumn='name'
                                     userList={this.customerList}
-                                    ignore={this.state.ignoredColumns}
                                     fetchUrl={fetchUrl}
                                     updateState={this.updateCustomers}
                                 />

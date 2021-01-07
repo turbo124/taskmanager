@@ -10,6 +10,7 @@ export default class DisplayColumns extends Component {
             values: [],
             initialState: [],
             errors: [],
+            default_columns: [],
             ignoredColumns: ['settings', 'deleted_at'],
             filters: {
                 status: 'active'
@@ -23,13 +24,24 @@ export default class DisplayColumns extends Component {
         const arrSelected = []
         const arrTest = []
         const columns = this.props.columns
-        columns.forEach(column => {
-            if (!this.props.ignored_columns.includes(column)) {
-                arrSelected.push({ label: column, value: column })
-            } else {
-                arrTest.push({ label: column, value: column })
-            }
-        })
+
+        if (this.props.default_columns && this.props.default_columns.length) {
+            columns.forEach(column => {
+                if (this.props.default_columns.includes(column)) {
+                    arrSelected.push({ label: column, value: column })
+                } else {
+                    arrTest.push({ label: column, value: column })
+                }
+            })
+        } else {
+            columns.forEach(column => {
+                if (!this.props.ignored_columns.includes(column)) {
+                    arrSelected.push({ label: column, value: column })
+                } else {
+                    arrTest.push({ label: column, value: column })
+                }
+            })
+        }
 
         this.setState({ values: arrTest, initialState: arrTest, selected: arrSelected }, function () {
             console.log('columns', this.state.values)

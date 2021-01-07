@@ -1,6 +1,17 @@
 import { Badge } from 'reactstrap'
 import React from 'react'
 import { translations } from '../utils/_translations'
+import FormatMoney from '../common/FormatMoney'
+
+export function getDefaultTableFields () {
+    return [
+        'name',
+        'description',
+        'price',
+        'sku',
+        'is_featured'
+    ]
+}
 
 export default function ProductPresenter (props) {
     const { field, entity } = props
@@ -8,6 +19,8 @@ export default function ProductPresenter (props) {
     const status = entity.deleted_at ? <Badge className="mr-2" color="warning">{translations.archived}</Badge> : null
 
     switch (field) {
+        case 'price':
+            return <FormatMoney amount={entity[field]}/>
         case 'status_field':
             return status
         case 'status_id':

@@ -1,6 +1,17 @@
 import React from 'react'
 import FormatDate from '../common/FormatDate'
 
+export function getDefaultTableFields () {
+    return [
+        'number',
+        'name',
+        'customer_id',
+        'due_date',
+        'budgeted_hours',
+        'task_rate'
+    ]
+}
+
 export default function ProjectPresenter (props) {
     const { field, entity } = props
 
@@ -18,6 +29,15 @@ export default function ProjectPresenter (props) {
         case 'due_date':
         case 'created_at':
             return <FormatDate field={field} date={entity[field]}/>
+        case 'customer_id': {
+            if (!entity[field]) {
+                return ''
+            }
+
+            const customerIndex = props.customers.findIndex(customer => customer.id === entity[field])
+            const customer = props.customers[customerIndex]
+            return customer.name
+        }
         default:
             return entity[field]
     }

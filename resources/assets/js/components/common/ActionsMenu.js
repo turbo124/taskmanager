@@ -25,8 +25,8 @@ export default class ActionsMenu extends Component {
                     {translations.action}
                 </UncontrolledTooltip>
 
-                <Dropdown isOpen={this.state.isOpen} toggle={this.toggle}>
-                    <DropdownToggle className="menu-button">
+                <Dropdown tag="a" isOpen={this.state.isOpen} toggle={this.toggle}>
+                    <DropdownToggle tag="a" className="menu-button">
                         <i id="actionsTooltip" className={`fa ${icons.ellipsis}`} aria-hidden="true" type="ellipsis"/>
                     </DropdownToggle>
                     <DropdownMenu persist={true}>

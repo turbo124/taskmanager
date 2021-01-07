@@ -5,6 +5,22 @@ import FormatDate from '../common/FormatDate'
 import { frequencyOptions, recurringQuoteStatusColors, recurringQuoteStatuses } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 
+export function getDefaultTableFields () {
+    return [
+        'number',
+        'customer_id',
+        'date',
+        'due_date',
+        'total',
+        'balance',
+        'status_id',
+        'quotes',
+        'frequency',
+        'date_to_send',
+        'number_of_occurances'
+    ]
+}
+
 export default function RecurringQuotePresenter (props) {
     const { field, entity } = props
 
@@ -27,10 +43,13 @@ export default function RecurringQuotePresenter (props) {
             return entity.is_never_ending ? translations.never_ending : entity.number_of_occurrances
         case 'frequency':
             return translations[frequencyOptions[entity.frequency]]
+        case 'exchange_rate':
+        case 'balance':
         case 'total':
-            return <FormatMoney
-                        customers={props.customers} customer_id={entity.customer_id}
-                        amount={entity.total}/>
+        case 'discount_total':
+        case 'tax_total':
+        case 'sub_total':
+            return <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/>
         case 'date':
         case 'due_date':
         case 'start_date':
@@ -39,7 +58,7 @@ export default function RecurringQuotePresenter (props) {
         case 'date_to_send':
         case 'expiry_date': {
             return <FormatDate
-                    field={field} date={entity[field]}/>
+                field={field} date={entity[field]}/>
         }
 
         case 'status_field':
@@ -61,7 +80,12 @@ export default function RecurringQuotePresenter (props) {
             return currency.length ? currency[0].iso_code : ''
         }
 
+        case 'quotes': {
+            const quotes = entity.quotes
+            return quotes && quotes.length > 0 ? Array.prototype.map.call(quotes, s => s.number).toString() : null
+        }
+
         default:
-            return entity[field]
+            return entity[field] || ''
     }
 }

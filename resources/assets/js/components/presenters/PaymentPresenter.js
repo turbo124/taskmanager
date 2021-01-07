@@ -6,6 +6,19 @@ import PaymentModel from '../models/PaymentModel'
 import { paymentStatusColors, paymentStatuses } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 
+export function getDefaultTableFields () {
+    return [
+        'number',
+        'customer_id',
+        'date',
+        'amount',
+        'reference_number',
+        'invoices',
+        'credits',
+        'status_id'
+    ]
+}
+
 export default function PaymentPresenter (props) {
     const { field, entity } = props
 

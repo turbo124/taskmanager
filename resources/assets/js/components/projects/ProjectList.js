@@ -8,6 +8,7 @@ import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
+import { getDefaultTableFields } from '../presenters/ProjectPresenter'
 
 export default class ProjectList extends Component {
     constructor (props) {
@@ -41,27 +42,6 @@ export default class ProjectList extends Component {
                 end_date: ''
             },
             custom_fields: [],
-            ignoredColumns: [
-                'files',
-                'tasks',
-                'created_at',
-                'deleted_at',
-                'updated_at',
-                'is_completed',
-                'customer_id',
-                'is_deleted',
-                'archived_at',
-                'task_rate',
-                'account_id',
-                'custom_value1',
-                'custom_value2',
-                'custom_value3',
-                'custom_value4',
-                'user_id',
-                'assigned_to',
-                'private_notes',
-                'public_notes'
-            ],
             showRestoreButton: false
         }
 
@@ -158,7 +138,7 @@ export default class ProjectList extends Component {
     }
 
     render () {
-        const { projects, customers, custom_fields, ignoredColumns, view, error, isOpen, error_message, success_message, show_success } = this.state
+        const { projects, customers, custom_fields, view, error, isOpen, error_message, success_message, show_success } = this.state
         const { status_id, customer_id, searchText, start_date, end_date, user_id } = this.state.filters
         const fetchUrl = `/api/projects?search_term=${searchText}&user_id=${user_id}&status=${status_id}&customer_id=${customer_id}&start_date=${start_date}&end_date=${end_date}`
         const margin_class = isOpen === false || (Object.prototype.hasOwnProperty.call(localStorage, 'datatable_collapsed') && localStorage.getItem('datatable_collapsed') === true)
@@ -173,9 +153,8 @@ export default class ProjectList extends Component {
                             <CardBody>
                                 <ProjectFilters customers={customers} setFilterOpen={this.setFilterOpen.bind(this)}
                                     projects={projects}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterProjects}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
                                 <AddProject customers={customers} projects={projects} action={this.addUserToState}
                                     custom_fields={custom_fields}/>
                             </CardBody>
@@ -202,6 +181,7 @@ export default class ProjectList extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     customers={customers}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
@@ -209,9 +189,9 @@ export default class ProjectList extends Component {
                                     entity_type="Project"
                                     bulk_save_url="/api/project/bulk"
                                     view={view}
+                                    columnMapping={{ customer_id: 'CUSTOMER' }}
                                     disableSorting={['id']}
                                     defaultColumn='name'
-                                    ignore={ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}
                                     updateState={this.addUserToState}

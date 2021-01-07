@@ -59,57 +59,89 @@ export default class RecurringInvoiceItem extends Component {
                     invoices={invoices}
                 /> : null
 
-                const columnList = Object.keys(user).filter(key => {
+                const columnList = Object.keys(invoice).filter(key => {
                     return this.props.ignoredColumns && !this.props.ignoredColumns.includes(key)
                 }).map(key => {
                     return <td key={key}
                         onClick={() => this.props.toggleViewedEntity(invoice, invoice.number, editButton)}
                         data-label={key}><RecurringInvoicePresenter customers={customers} edit={editButton}
-                        toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={invoice}/></td>
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            field={key} entity={invoice}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
-                const isChecked = this.props.bulk.includes(user.id)
-                const selectedRow = this.props.viewId === user.id ? 'table-row-selected' : ''
+                const isChecked = this.props.bulk.includes(invoice.id)
+                const selectedRow = this.props.viewId === invoice.id ? 'table-row-selected' : ''
                 const actionMenu = this.props.showCheckboxes !== true
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return (
-                    !this.props.show_list ? <tr className={selectedRow} key={user.id}>
+                const is_mobile = window.innerWidth <= 768
+
+                if (!this.props.show_list) {
+                    return <tr className={selectedRow} key={invoice.id}>
                         <td>
-                            <Input checked={isChecked} className={checkboxClass} value={user.id} type="checkbox"
+                            <Input checked={isChecked} className={checkboxClass} value={invoice.id} type="checkbox"
                                 onChange={this.props.onChangeBulk}/>
                             {actionMenu}
                         </td>
                         {columnList}
-                    </tr> :  : <ListGroupItem key={index}
-                    onClick={() => this.props.toggleViewedEntity(invoice, invoice.number, editButton)}
-                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1"> {<RecurringInvoicePresenter customers={customers} field="customer_id"
-                            entity={invoice}
-                            toggleViewedEntity={this.props.toggleViewedEntity}
-                            edit={editButton}/>}</h5>
-                        {<RecurringInvoicePresenter customers={customers}
-                            toggleViewedEntity={this.props.toggleViewedEntity}
-                            field="balance" entity={invoice} edit={editButton}/>}
-                    </div>
-                    <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{invoice.number} . {<RecurringInvoicePresenter
-                            field="due_date" entity={invoice} toggleViewedEntity={this.props.toggleViewedEntity}
-                            edit={editButton}/>} </span>
-                        <span>{<RecurringInvoicePresenter field="status_field" entity={invoice} edit={editButton}
-                            toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
-                    </div>
-                     {!!this.props.onChangeBulk &&
-                        <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
-                            onChange={this.props.onChangeBulk}/>
-                        }
+                    </tr>
+                }
+
+                return !is_mobile ? <div className="list-group-item-dark">
+                    {!!this.props.onChangeBulk &&
+                    <Input checked={isChecked} className={checkboxClass} value={invoice.id} type="checkbox"
+                        onChange={this.props.onChangeBulk}/>
+                    }
                     {actionMenu}
-                </ListGroupItem>
-                )
+                    <ListGroupItem key={index}
+                        onClick={() => this.props.toggleViewedEntity(invoice, invoice.number, editButton)}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1"> {<RecurringInvoicePresenter customers={customers} field="customer_id"
+                                entity={invoice}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</h5>
+                            <span className="mb-1">{invoice.number} . {<RecurringInvoicePresenter
+                                field="date_to_send" entity={invoice} toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>} </span>
+                            {<RecurringInvoicePresenter customers={customers}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                field={invoice.balance > 0 ? 'balance' : 'total'}
+                                entity={invoice} edit={editButton}/>}
+                            <span>{<RecurringInvoicePresenter field="status_field" entity={invoice} edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                        </div>
+                    </ListGroupItem>
+                </div> : <div className="list-group-item-dark">
+                    {!!this.props.onChangeBulk &&
+                    <Input checked={isChecked} className={checkboxClass} value={invoice.id} type="checkbox"
+                        onChange={this.props.onChangeBulk}/>
+                    }
+                    {actionMenu}
+                    <ListGroupItem key={index}
+                        onClick={() => this.props.toggleViewedEntity(invoice, invoice.number, editButton)}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1"> {<RecurringInvoicePresenter customers={customers} field="customer_id"
+                                entity={invoice}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</h5>
+                            {<RecurringInvoicePresenter customers={customers}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                field={invoice.balance > 0 ? 'balance' : 'total'}
+                                entity={invoice} edit={editButton}/>}
+                        </div>
+                        <div className="d-flex w-100 justify-content-between">
+                            <span className="mb-1 text-muted">{invoice.number} . {<RecurringInvoicePresenter
+                                field="date_to_send" entity={invoice} toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>} </span>
+                            <span>{<RecurringInvoicePresenter field="status_field" entity={invoice} edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                        </div>
+                    </ListGroupItem>
+                </div>
             })
         } else {
             return <tr>

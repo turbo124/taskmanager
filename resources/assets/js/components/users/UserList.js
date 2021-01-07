@@ -7,6 +7,7 @@ import UserItem from './UserItem'
 import UserFilters from './UserFilters'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import { getDefaultTableFields } from '../presenters/UserPresenter'
 
 export default class UserList extends Component {
     constructor (props) {
@@ -39,22 +40,6 @@ export default class UserList extends Component {
                 department_id: '',
                 searchText: ''
             },
-            ignoredColumns: [
-                'password',
-                'account_users',
-                'department',
-                'job_description',
-                'gender',
-                'dob',
-                'username',
-                'custom_value1',
-                'custom_value2',
-                'custom_value3',
-                'custom_value4',
-                'deleted_at',
-                'created_at',
-                'is_deleted'
-            ],
             showRestoreButton: false
         }
 
@@ -199,9 +184,8 @@ export default class UserList extends Component {
                             <CardBody>
                                 <UserFilters setFilterOpen={this.setFilterOpen.bind(this)} users={users}
                                     departments={departments}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={filters} filter={this.filterUsers}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
                                 {addButton}
                             </CardBody>
                         </Card>
@@ -227,6 +211,7 @@ export default class UserList extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
@@ -235,7 +220,6 @@ export default class UserList extends Component {
                                     view={view}
                                     disableSorting={['id']}
                                     defaultColumn='last_name'
-                                    ignore={this.state.ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}
                                     updateState={this.addUserToState}

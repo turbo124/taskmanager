@@ -8,6 +8,7 @@ import queryString from 'query-string'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
+import { getDefaultTableFields } from '../presenters/OrderPresenter'
 
 export default class Order extends Component {
     constructor (props) {
@@ -32,7 +33,6 @@ export default class Order extends Component {
             bulk: [],
             dropdownButtonActions: ['currency_id', 'exchange_rate', 'email', 'download', 'hold_order', 'unhold_order', 'archive', 'mark_sent', 'delete'],
             custom_fields: [],
-            ignoredColumns: ['is_deleted', 'viewed', 'project_id', 'assigned_to', 'currency_id', 'exchange_rate', 'tax_rate', 'tax_rate_name', 'tax_2', 'tax_3', 'tax_rate_name_2', 'tax_rate_name_3', 'account_id', 'gateway_fee', 'gateway_percentage', 'files', 'audits', 'invoice_id', 'customer_name', 'emails', 'transaction_fee', 'transaction_fee_tax', 'shipping_cost', 'shipping_cost_tax', 'design_id', 'invitations', 'id', 'user_id', 'status', 'company_id', 'custom_value1', 'custom_value2', 'custom_value3', 'custom_value4', 'updated_at', 'deleted_at', 'created_at', 'public_notes', 'private_notes', 'terms', 'footer', 'last_send_date', 'line_items', 'next_send_date', 'last_sent_date', 'first_name', 'last_name', 'tax_total', 'discount_total', 'sub_total'],
             filters: {
                 status_id: 'active',
                 user_id: queryString.parse(this.props.location.search).user_id || '',
@@ -166,7 +166,7 @@ export default class Order extends Component {
                                 <OrderFilters setFilterOpen={this.setFilterOpen.bind(this)} orders={orders}
                                     customers={customers}
                                     filters={filters} filter={this.filterOrders}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
                                 {addButton}
                             </CardBody>
                         </Card>
@@ -192,6 +192,7 @@ export default class Order extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     customers={customers}
@@ -199,7 +200,6 @@ export default class Order extends Component {
                                     entity_type="Order"
                                     bulk_save_url="/api/order/bulk"
                                     view={view}
-                                    ignore={this.state.ignoredColumns}
                                     columnMapping={{ customer_id: 'CUSTOMER' }}
                                     // order={['id', 'number', 'date', 'customer_name', 'total', 'balance', 'status_id']}
                                     disableSorting={['id']}

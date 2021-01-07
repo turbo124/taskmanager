@@ -1,5 +1,16 @@
 import React from 'react'
 
+export function getDefaultTableFields () {
+    return [
+        'number',
+        'name',
+        'phone_number',
+        'email',
+        'website',
+        'logo'
+    ]
+}
+
 export default function CompanyPresenter (props) {
     const { field, entity } = props
 

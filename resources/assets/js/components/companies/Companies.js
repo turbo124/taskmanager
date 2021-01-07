@@ -7,6 +7,7 @@ import CompanyItem from './CompanyItem'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import UserRepository from '../repositories/UserRepository'
+import { getDefaultTableFields } from '../presenters/CompanyPresenter'
 
 export default class Companies extends Component {
     constructor (props) {
@@ -38,31 +39,6 @@ export default class Companies extends Component {
                 end_date: ''
             },
             custom_fields: [],
-            ignoredColumns: [
-                'is_deleted',
-                'id',
-                'files',
-                'contacts',
-                'deleted_at',
-                'created_at',
-                'address_1',
-                'company_logo',
-                'address_2',
-                'postcode',
-                'town',
-                'city',
-                'token',
-                'currency_id',
-                'industry_id',
-                'country_id',
-                'user_id',
-                'assigned_to',
-                'private_notes',
-                'custom_value1',
-                'custom_value2',
-                'custom_value3',
-                'custom_value4'
-            ],
             showRestoreButton: false
         }
 
@@ -172,9 +148,8 @@ export default class Companies extends Component {
                         <Card>
                             <CardBody>
                                 <CompanyFilters setFilterOpen={this.setFilterOpen.bind(this)} brands={brands}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterCompanies}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
                                 {addButton}
                             </CardBody>
                         </Card>
@@ -200,6 +175,7 @@ export default class Companies extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}

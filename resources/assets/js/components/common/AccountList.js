@@ -57,7 +57,7 @@ export default class AccountList extends Component {
         }) : null
 
         const number_of_accounts = localStorage.getItem('number_of_accounts')
-        
+
         return (
             <React.Fragment>
                 <FormGroup style={{ width: '90%' }} className="mt-1 ml-2">

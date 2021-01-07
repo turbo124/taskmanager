@@ -1,25 +1,24 @@
-td {
-
-  .dropdown {
+.dropdown {
     //position: static;
 
-    .menu-button.btn-secondary {
+    .menu-button {
       color: $dark_grey;
       background-color: transparent !important;
       border: none;
-      transform: rotate(-90deg);
     }
 
     .menu-button i {
       font-size: 24px;
+      transform: rotate(-90deg);
     }
 
     .dropdown-menu .dropdown-item {
-      padding: 0px 24px !important;
+      padding: 0 24px !important;
 
 
       i {
         font-size: 18px !important;
+        transform: rotate(90deg);
       }
 
       i,
@@ -28,7 +27,6 @@ td {
       }
     }
   }
-}
 
 .bulk-options-menu .dropdown-item {
   padding: 5px 10px;

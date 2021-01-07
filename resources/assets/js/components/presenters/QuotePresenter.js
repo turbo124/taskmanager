@@ -6,6 +6,18 @@ import { quoteStatusColors, quoteStatuses } from '../utils/_consts'
 import QuoteModel from '../models/QuoteModel'
 import { translations } from '../utils/_translations'
 
+export function getDefaultTableFields () {
+    return [
+        'number',
+        'customer_id',
+        'date',
+        'due_date',
+        'total',
+        'balance',
+        'status_id'
+    ]
+}
+
 export default function QuotePresenter (props) {
     const { field, entity } = props
 

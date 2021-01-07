@@ -9,6 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
 import CustomerRepository from '../repositories/CustomerRepository'
 import UserRepository from '../repositories/UserRepository'
+import { getDefaultTableFields } from '../presenters/DealPresenter'
 
 export default class DealList extends Component {
     constructor (props) {
@@ -45,35 +46,6 @@ export default class DealList extends Component {
                 end_date: ''
             },
             custom_fields: [],
-
-            ignoredColumns: [
-                'design_id',
-                'project',
-                'project_id',
-                'files',
-                'emails',
-                'public_notes',
-                'private_notes',
-                'deleted_at',
-                'assigned_to',
-                'comments',
-                'is_completed',
-                'task_status_id',
-                'rating',
-                'customer_id',
-                'user_id',
-                'valued_at',
-                'rating',
-                'is_active',
-                'source_type',
-                'start_time',
-                'duration',
-                'custom_value1',
-                'custom_value2',
-                'custom_value3',
-                'custom_value4',
-                'is_deleted'
-            ],
             showRestoreButton: false
         }
 
@@ -212,9 +184,9 @@ export default class DealList extends Component {
                             <CardBody>
                                 <DealFilters setFilterOpen={this.setFilterOpen.bind(this)} customers={customers}
                                     users={users}
-                                    deals={deals} updateIgnoredColumns={this.updateIgnoredColumns}
+                                    deals={deals}
                                     filters={this.state.filters} filter={this.filterDeals}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
                                 {addButton}
                             </CardBody>
                         </Card>
@@ -240,6 +212,7 @@ export default class DealList extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     customers={customers}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
@@ -249,7 +222,6 @@ export default class DealList extends Component {
                                     view={view}
                                     disableSorting={['id']}
                                     defaultColumn='name'
-                                    ignore={this.state.ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}
                                     updateState={this.addUserToState}

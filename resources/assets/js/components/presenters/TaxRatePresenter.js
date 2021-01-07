@@ -1,6 +1,13 @@
 import React from 'react'
 import FormatDate from '../common/FormatDate'
 
+export function getDefaultTableFields () {
+    return [
+        'name',
+        'rate'
+    ]
+}
+
 export default function TaxRatePresenter (props) {
     const { field, entity } = props
 

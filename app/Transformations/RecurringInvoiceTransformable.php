@@ -34,6 +34,7 @@ trait RecurringInvoiceTransformable
             'auto_billing_enabled'  => (bool)$invoice->auto_billing_enabled,
             'number_of_occurrances' => (int)$invoice->number_of_occurrances,
             'is_never_ending'       => (bool)$invoice->is_never_ending,
+            'balance'               => (float)$invoice->balance,
             'total'                 => $invoice->total,
             'sub_total'             => $invoice->sub_total,
             'tax_total'             => $invoice->tax_total,

@@ -6,6 +6,18 @@ import { purchaseOrderStatusColors, purchaseOrderStatuses } from '../utils/_cons
 import PurchaseOrderModel from '../models/PurchaseOrderModel'
 import { translations } from '../utils/_translations'
 
+export function getDefaultTableFields () {
+    return [
+        'number',
+        'customer_id',
+        'date',
+        'due_date',
+        'total',
+        'balance',
+        'status_id'
+    ]
+}
+
 export default function PurchaseOrderPresenter (props) {
     const { field, entity } = props
 

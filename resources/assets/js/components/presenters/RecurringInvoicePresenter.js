@@ -5,6 +5,22 @@ import FormatDate from '../common/FormatDate'
 import { frequencyOptions, recurringInvoiceStatusColors, recurringInvoiceStatuses } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 
+export function getDefaultTableFields () {
+    return [
+        'number',
+        'customer_id',
+        'date',
+        'due_date',
+        'total',
+        'balance',
+        'status_id',
+        'invoices',
+        'frequency',
+        'date_to_send',
+        'number_of_occurances'
+    ]
+}
+
 export default function RecurringInvoicePresenter (props) {
     const { field, entity } = props
 
@@ -27,10 +43,13 @@ export default function RecurringInvoicePresenter (props) {
             return entity.is_never_ending ? translations.never_ending : entity.number_of_occurrances
         case 'frequency':
             return translations[frequencyOptions[entity.frequency]]
+        case 'exchange_rate':
+        case 'balance':
         case 'total':
-            return <FormatMoney
-                        customers={props.customers} customer_id={entity.customer_id}
-                        amount={entity.total}/>
+        case 'discount_total':
+        case 'tax_total':
+        case 'sub_total':
+            return <FormatMoney customer_id={entity.customer_id} customers={props.customers} amount={entity[field]}/>
         case 'date':
         case 'due_date':
         case 'created_at':
@@ -39,7 +58,7 @@ export default function RecurringInvoicePresenter (props) {
         case 'date_to_send':
         case 'expiry_date': {
             return <FormatDate
-                    field={field} date={entity[field]}/>
+                field={field} date={entity[field]}/>
         }
 
         case 'auto_billing_enabled':
@@ -51,8 +70,9 @@ export default function RecurringInvoicePresenter (props) {
             return status
 
         case 'customer_id': {
-            const index = props.customers.findIndex(customer => customer.id === entity[field])
-            const customer.name
+            const customerIndex = props.customers.findIndex(customer => customer.id === entity[field])
+            const customer = props.customers[customerIndex]
+            return customer.name
         }
 
         case 'currency_id': {
@@ -60,7 +80,12 @@ export default function RecurringInvoicePresenter (props) {
             return currency.length ? currency[0].iso_code : ''
         }
 
+        case 'invoices': {
+            const invoices = entity.invoices
+            return invoices && invoices.length > 0 ? Array.prototype.map.call(invoices, s => s.number).toString() : null
+        }
+
         default:
-            return entity[field]
+            return entity[field] || ''
     }
 }

@@ -5,6 +5,17 @@ import FormatDate from '../common/FormatDate'
 import { expenseStatusColors, expenseStatuses, frequencyOptions } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 
+export function getDefaultTableFields () {
+    return [
+        'number',
+        'status_id',
+        'company_id',
+        'customer_id',
+        'date',
+        'amount'
+    ]
+}
+
 export default function ExpensePresenter (props) {
     const { field, entity } = props
 
@@ -52,6 +63,10 @@ export default function ExpensePresenter (props) {
         }
 
         case 'company_id': {
+            if (!entity.company_id) {
+                return ''
+            }
+
             const companyIndex = props.companies.findIndex(company => company.id === entity[field])
             const company = props.companies[companyIndex]
             return company.name

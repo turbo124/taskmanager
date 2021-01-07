@@ -38,7 +38,7 @@ export default class LeadItem extends Component {
     render () {
         const { leads, custom_fields, users, ignoredColumns } = this.props
         if (leads && leads.length) {
-           return leads.map((lead, index) => {
+            return leads.map((lead, index) => {
                 const restoreButton = lead.deleted_at
                     ? <RestoreModal id={lead.id} entities={leads} updateState={this.props.addUserToState}
                         url={`/api/leads/restore/${lead.id}`}/> : null
@@ -58,9 +58,10 @@ export default class LeadItem extends Component {
                 const columnList = Object.keys(lead).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <td key={key} onClick={() => this.props.toggleViewedEntity(lead, lead.first_name, editButton)}
+                    return <td key={key}
+                        onClick={() => this.props.toggleViewedEntity(lead, lead.first_name, editButton)}
                         data-label={key}><LeadPresenter toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={lead} edit={editButton}/></td>
+                            field={key} entity={lead} edit={editButton}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -70,37 +71,68 @@ export default class LeadItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return !this.props.show_list ? <tr className={selectedRow} key={lead.id}>
-                    <td>
-                        <Input checked={isChecked} className={checkboxClass} value={lead.id} type="checkbox"
-                            onChange={this.props.onChangeBulk}/>
-                        {actionMenu}
-                    </td>
-                    {columnList}
-                </tr> : <ListGroupItem key={index}
-                    onClick={() => this.props.toggleViewedEntity(task, task.name, editButton)}
-                    className="list-group-item-dark list-group-item-action flex-column align-items-start">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{<LeadPresenter field="name" entity={lead}
-                            toggleViewedEntity={this.props.toggleViewedEntity}
-                            edit={editButton}/>}</h5>
-                        {<LeadPresenter
-                            field="name" entity={lead} toggleViewedEntity={this.props.toggleViewedEntity}
-                            edit={editButton}/>}
-                    </div>
-                    <div className="d-flex w-100 justify-content-between">
-                        <span className="mb-1 text-muted">{task.number} . {<LeadPresenter field="due_date" entity={lead}
-                            edit={editButton}/>} </span>
-                        <span>{<LeadPresenter field="status_field" entity={lead}
-                            toggleViewedEntity={this.props.toggleViewedEntity}
-                            edit={editButton}/>}</span>
-                    </div>
-                     {!!this.props.onChangeBulk &&
-                        <Input checked={isChecked} className={checkboxClass} value={lead.id} type="checkbox"
-                            onChange={this.props.onChangeBulk}/>
-                        }
+                const is_mobile = window.innerWidth <= 768
+
+                if (!this.props.show_list) {
+                    return <tr className={selectedRow} key={lead.id}>
+                        <td>
+                            <Input checked={isChecked} className={checkboxClass} value={lead.id} type="checkbox"
+                                onChange={this.props.onChangeBulk}/>
+                            {actionMenu}
+                        </td>
+                        {columnList}
+                    </tr>
+                }
+
+                return !is_mobile ? <div className="list-group-item-dark">
+                    {!!this.props.onChangeBulk &&
+                    <Input checked={isChecked} className={checkboxClass} value={lead.id} type="checkbox"
+                        onChange={this.props.onChangeBulk}/>
+                    }
                     {actionMenu}
-                </ListGroupItem>
+                    <ListGroupItem key={index}
+                        onClick={() => this.props.toggleViewedEntity(lead, lead.first_name + ' ' + lead.last_name, editButton)}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<LeadPresenter field="name" entity={lead}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</h5>
+                            {<LeadPresenter
+                                field="valued_at" entity={lead} toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}
+                            <span className="mb-1 text-muted">{<LeadPresenter field="email" entity={lead}
+                                edit={editButton}/>} </span>
+                            <span>{<LeadPresenter field="status_field" entity={lead}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</span>
+                        </div>
+                    </ListGroupItem>
+                </div> : <div className="list-group-item-dark">
+                    {!!this.props.onChangeBulk &&
+                    <Input checked={isChecked} className={checkboxClass} value={lead.id} type="checkbox"
+                        onChange={this.props.onChangeBulk}/>
+                    }
+                    {actionMenu}
+                    <ListGroupItem key={index}
+                        onClick={() => this.props.toggleViewedEntity(lead, lead.first_name + ' ' + lead.last_name, editButton)}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<LeadPresenter field="name" entity={lead}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</h5>
+                            {<LeadPresenter
+                                field="valued_at" entity={lead} toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}
+                        </div>
+                        <div className="d-flex w-100 justify-content-between">
+                            <span className="mb-1 text-muted">{<LeadPresenter field="email" entity={lead}
+                                edit={editButton}/>} </span>
+                            <span>{<LeadPresenter field="status_field" entity={lead}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</span>
+                        </div>
+                    </ListGroupItem>
+                </div>
             })
         } else {
             return <tr>
