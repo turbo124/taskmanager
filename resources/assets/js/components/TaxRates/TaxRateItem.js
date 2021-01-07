@@ -36,7 +36,7 @@ export default class TaxRateItem extends Component {
     render () {
         const { taxRates, ignoredColumns } = this.props
         if (taxRates && taxRates.length) {
-            return taxRates.map(taxRate => {
+           return taxRates.map((taxRate, index) => {
                 const restoreButton = taxRate.deleted_at
                     ? <RestoreModal id={taxRate.id} entities={taxRates} updateState={this.props.addUserToState}
                         url={`/api/taxRate/restore/${taxRate.id}`}/> : null
@@ -54,9 +54,10 @@ export default class TaxRateItem extends Component {
                 const columnList = Object.keys(taxRate).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <TaxRatePresenter edit={editButton} key={key}
-                        toggleViewedEntity={this.props.toggleViewedEntity}
-                        field={key} entity={taxRate}/>
+                    return <td key={key}
+                        onClick={() => this.props.toggleViewedEntity(taxRate, taxRate.name, editButton)}
+                        data-label={key}><TaxRatePresenter toggleViewedEntity={this.props.toggleViewedEntity}
+                            field={key} entity={taxRate} edit={editButton}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -66,14 +67,63 @@ export default class TaxRateItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return <tr className={selectedRow} key={taxRate.id}>
-                    <td>
-                        <Input checked={isChecked} className={checkboxClass} value={taxRate.id} type="checkbox"
-                            onChange={this.props.onChangeBulk}/>
-                        {actionMenu}
-                    </td>
-                    {columnList}
-                </tr>
+                const is_mobile = window.innerWidth <= 768
+
+                if (!this.props.show_list) {
+                    return <tr className={selectedRow} key={taxRate.id}>
+                        <td>
+                            <Input checked={isChecked} className={checkboxClass} value={taxRate.id} type="checkbox"
+                                onChange={this.props.onChangeBulk}/>
+                            {actionMenu}
+                        </td>
+                        {columnList}
+                    </tr>
+                }
+
+                return is_mobile ? <div className="list-group-item-dark">
+                    {!!this.props.onChangeBulk &&
+                    <Input checked={isChecked} className={checkboxClass} value={taxRate.id} type="checkbox"
+                        onChange={this.props.onChangeBulk}/>
+                    }
+                    {actionMenu}
+
+                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(taxRate, taxRate.name, editButton)}
+                        key={index}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<TaxRatePresenter field="name"
+                                entity={taxRate}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>} .
+                                {<TaxRatePresenter field="rate"
+                                entity={taxRate}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>} </h5>
+                        </div>
+                    </ListGroupItem>
+                </div> : <div className="list-group-item-dark">
+                    {!!this.props.onChangeBulk &&
+                    <Input checked={isChecked} className={checkboxClass} value={taxRate.id} type="checkbox"
+                        onChange={this.props.onChangeBulk}/>
+                    }
+                    {actionMenu}
+
+                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(taxRate, taxRate.name, editButton)}
+                        key={index}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<TaxRatePresenter field="name"
+                                entity={taxRate}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>} . 
+                                {<TaxRatePresenter field="rate"
+                                entity={taxRate}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}
+                            </h5>
+                        </div>
+                    </ListGroupItem>
+                </div>
             })
         } else {
             return <tr>
