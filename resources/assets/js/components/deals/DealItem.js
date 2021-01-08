@@ -6,6 +6,7 @@ import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditDeal from './edit/EditDeal'
 import DealPresenter from '../presenters/DealPresenter'
+import LeadPresenter from '../presenters/LeadPresenter'
 
 export default class DealItem extends Component {
     constructor (props) {
@@ -85,37 +86,50 @@ export default class DealItem extends Component {
                     </tr>
                 }
 
-                return !is_mobile ? <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={deal.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                return !is_mobile ? <div className="list-group-item-dark d-flex d-inline">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={deal.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(deal, deal.name, editButton)}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<DealPresenter customers={customers} field="name" entity={deal}
+                            <h5 style={{ minWidth: '300px' }} className="mb-1">{<DealPresenter customers={customers} field="name" entity={deal}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/>}</h5>
-                            {<DealPresenter customers={customers}
-                                field="due_date" entity={deal}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}
-                            <span className="mb-1 text-muted">{<DealPresenter field="customer_id" customers={customers}
+                            <span><DealPresenter field="customer_id" customers={customers}
                                 entity={deal}
-                                edit={editButton}/>} </span>
-                            <span>{<DealPresenter field="status_field" entity={deal}
+                                edit={editButton}/>
+                            <br />
+                            {!!deal.project && deal.project.name &&
+                                <DealPresenter field="project" entity={deal}
+                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                    edit={editButton}/>
+                            }
+                            </span>
+                            <span>
+                                <DealPresenter customers={customers}
+                                    field="due_date" entity={deal}
+                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                    edit={editButton}/>
+                            </span>
+                            <span><DealPresenter field="status_field" entity={deal}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</span>
+                                edit={editButton}/></span>
                         </div>
                     </ListGroupItem>
                 </div> : <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={deal.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={deal.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(deal, deal.name, editButton)}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">

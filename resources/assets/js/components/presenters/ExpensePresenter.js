@@ -19,10 +19,13 @@ export function getDefaultTableFields () {
 export default function ExpensePresenter (props) {
     const { field, entity } = props
 
+    const color = entity.category && entity.category.column_color && entity.category.column_color.length ? entity.category.column_color : ''
+    const status_chip = color.length ? <span className="badge" style={{ backgroundColor: color, color: '#FFFFFF' }}>{expenseStatuses[entity.status_id]}</span> : <Badge color={expenseStatusColors[entity.status_id]}>{expenseStatuses[entity.status_id]}</Badge>
+
     const status = (entity.deleted_at && !entity.is_deleted) ? (<Badge className="mr-2"
         color="warning">{translations.archived}</Badge>) : ((entity.deleted_at && entity.is_deleted) ? (
         <Badge className="mr-2" color="danger">{translations.deleted}</Badge>) : (
-        <Badge color={expenseStatusColors[entity.status_id]}>{expenseStatuses[entity.status_id]}</Badge>))
+        status_chip))
 
     const paymentInvoices = entity.invoices && Object.keys(entity.invoices).length > 0 ? Array.prototype.map.call(entity.invoices, s => s.number).toString() : null
 

@@ -89,7 +89,8 @@ export default class AddDeal extends React.Component {
             custom_value3: this.state.custom_value3,
             custom_value4: this.state.custom_value4,
             public_notes: this.state.public_notes,
-            private_notes: this.state.private_notes
+            private_notes: this.state.private_notes,
+            column_color: this.state.column_color
         }
 
         this.dealModel.save(data).then(response => {
@@ -134,7 +135,7 @@ export default class AddDeal extends React.Component {
                 <div>
                     <AddButtons toggle={this.toggle}/>
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                        <DefaultModalHeader toggle={this.toggle} title={translations.add_task}/>
+                        <DefaultModalHeader toggle={this.toggle} title={translations.add_deal}/>
 
                         <ModalBody className={theme}>
                             {form}

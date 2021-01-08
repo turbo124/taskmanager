@@ -140,7 +140,8 @@ class EditTask extends Component {
             public_notes: this.state.public_notes,
             private_notes: this.state.private_notes,
             project_id: this.state.project_id,
-            task_status_id: this.state.task_status_id
+            task_status_id: this.state.task_status_id,
+            column_color: this.state.column_color
         }
     }
 

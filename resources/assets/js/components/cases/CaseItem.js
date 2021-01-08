@@ -78,12 +78,15 @@ export default class CaseItem extends Component {
                     </tr>
                 }
 
-                return is_mobile ? <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={case_file.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                return is_mobile ? <div className="list-group-item-dark d-flex d-inline">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={case_file.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
+
                     <ListGroupItem
                         onClick={() => this.props.toggleViewedEntity(case_file, case_file.subject, editButton)}
                         key={index}
@@ -112,12 +115,15 @@ export default class CaseItem extends Component {
                                 edit={editButton}/>}</span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={case_file.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                </div> : <div className="list-group-item-dark d-flex d-inline">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={case_file.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
+
                     <ListGroupItem
                         onClick={() => this.props.toggleViewedEntity(case_file, case_file.subject, editButton)}
                         key={index}
@@ -130,12 +136,12 @@ export default class CaseItem extends Component {
                             {<CasePresenter customers={customers}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 field="due_date" entity={case_file} edit={editButton}/>}
-                            <span className="mb-1 text-muted">{<CasePresenter field="customer_id" customers={customers}
+                            <span className="mb-1">{<CasePresenter field="customer_id" customers={customers}
                                 entity={case_file}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/>} </span>
 
-                            <span className="mb-1 text-muted">{<CasePresenter field="priority_field"
+                            <span className="mb-1">{<CasePresenter field="priority_field"
                                 entity={case_file}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/>} </span>

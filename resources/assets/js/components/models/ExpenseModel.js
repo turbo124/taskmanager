@@ -23,6 +23,7 @@ export default class ExpenseModel extends BaseModel {
             modal: false,
             number: '',
             amount: 0,
+            amount_before_tax: 0,
             assigned_to: '',
             custom_value1: '',
             custom_value2: '',

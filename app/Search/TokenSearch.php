@@ -18,7 +18,7 @@ class TokenSearch extends BaseSearch
 
     private TokenRepository $token_repo;
 
-    private Token $model;
+    private CompanyToken $model;
 
     /**
      * TokenSearch constructor.

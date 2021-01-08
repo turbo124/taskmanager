@@ -85,6 +85,7 @@ export default class Categories extends Component {
     userList (props) {
         const { statuses, customers } = this.state
         return <TaskStatusItem showCheckboxes={props.showCheckboxes} customers={customers} statuses={statuses}
+            show_list={props.show_list}
             viewId={props.viewId}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}

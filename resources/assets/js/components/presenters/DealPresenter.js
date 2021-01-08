@@ -16,8 +16,10 @@ export function getDefaultTableFields () {
 export default function DealPresenter (props) {
     const { field, entity } = props
 
+    const color = entity.task_status && entity.task_status.column_color && entity.task_status.column_color.length ? entity.task_status.column_color : '#20a8d8'
+
     const status = (entity.deleted_at) ? <Badge color="warning">{translations.archived}</Badge>
-        : <Badge color="primary">{entity.status_name}</Badge>
+        : <span style={{ backgroundColor: color, color: '#FFFFFF' }} className="badge">{entity.status_name}</span>
 
     switch (field) {
         case 'assigned_to': {
@@ -42,6 +44,8 @@ export default function DealPresenter (props) {
             const customer = props.customers[customerIndex]
             return customer.name
         }
+        case 'project':
+            return props.entity.project && props.entity.project.name ? props.entity.project.name : ''
         default:
             return entity[field]
     }

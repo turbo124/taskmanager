@@ -89,50 +89,56 @@ export default class ProjectItem extends Component {
                         {!!status && <td>{status}</td>}
                     </tr>
                 }
-                return !is_mobile ? <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={project.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={project.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(project, project.name, editButton)}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<ProjectPresenter customers={customers} field="name" entity={project}
+                            <h5 className="mb-1"><ProjectPresenter customers={customers} field="name" entity={project}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            <span className="mb-1">{<ProjectPresenter customers={customers} field="customer_id"
+                                edit={editButton}/></h5>
+                            <span className="mb-1"><ProjectPresenter customers={customers} field="customer_id"
                                 entity={project}
-                                edit={editButton}/>} </span>
-                            {<ProjectPresenter customers={customers}
-                                field="budgeted_hours" entity={project}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}
+                                edit={editButton}/></span>
+                            <span>
+                                <ProjectPresenter customers={customers}
+                                    field="budgeted_hours" entity={project}
+                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                    edit={editButton}/>
+                            </span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={project.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                </div> : <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={project.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(project, project.name, editButton)}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<ProjectPresenter customers={customers} field="name" entity={project}
+                            <h5 className="mb-1"><ProjectPresenter customers={customers} field="name" entity={project}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            {<ProjectPresenter customers={customers}
+                                edit={editButton}/></h5>
+                            <ProjectPresenter customers={customers}
                                 field="budgeted_hours" entity={project}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}
+                                edit={editButton}/>
                         </div>
                         <div className="d-flex w-100 justify-content-between">
-                            <span className="mb-1 text-muted">{<ProjectPresenter customers={customers}
+                            <span className="mb-1 text-muted"><ProjectPresenter customers={customers}
                                 field="customer_id" entity={project}
-                                edit={editButton}/>} </span>
+                                edit={editButton}/></span>
                         </div>
                     </ListGroupItem>
                 </div>

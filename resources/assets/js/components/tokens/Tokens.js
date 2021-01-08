@@ -7,6 +7,7 @@ import TokenFilters from './TokenFilters'
 import TokenItem from './TokenItem'
 import Snackbar from '@material-ui/core/Snackbar'
 import { translations } from '../utils/_translations'
+import { getDefaultTableFields } from '../presenters/TokenPresenter'
 
 export default class Tokens extends Component {
     constructor (props) {
@@ -29,7 +30,6 @@ export default class Tokens extends Component {
                 title: null
             },
             errors: [],
-            ignoredColumns: ['settings', 'deleted_at', 'created_at', 'updated_at', 'archived_at', 'is_deleted'],
             filters: {
                 searchText: '',
                 status: 'active',
@@ -68,6 +68,7 @@ export default class Tokens extends Component {
         const { tokens, users } = this.state
         return <TokenItem showCheckboxes={props.showCheckboxes} tokens={tokens} users={users}
             viewId={props.viewId}
+            show_list={props.show_list}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             bulk={props.bulk}
@@ -155,13 +156,13 @@ export default class Tokens extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={getDefaultTableFields()}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Token"
                                     bulk_save_url="/api/tokens/bulk"
                                     view={view}
-                                    ignore={this.state.ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}
                                     updateState={this.addUserToState}

@@ -7,6 +7,7 @@ import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
 import DesignDropdown from '../../common/dropdowns/DesignDropdown'
 import { icons } from '../../utils/_icons'
 import SwitchWithIcon from '../../common/SwitchWithIcon'
+import ColorPickerNew from '../../common/ColorPickerNew'
 
 export default function TaskDetails (props) {
     let userContent
@@ -86,6 +87,16 @@ export default function TaskDetails (props) {
             </FormGroup>
 
             {userOptions}
+
+            <ColorPickerNew color={props.task.column_color} onChange={(color) => {
+                const e = {}
+                e.target = {
+                    name: 'column_color',
+                    value: color
+                }
+
+                props.handleInput(e)
+            }}/>
 
             <FormGroup>
                 <Label>{translations.status}</Label>

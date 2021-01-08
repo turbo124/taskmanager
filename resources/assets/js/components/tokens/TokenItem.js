@@ -4,7 +4,7 @@ import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditToken from './edit/EditToken'
-import { Input } from 'reactstrap'
+import { Input, ListGroupItem } from 'reactstrap'
 import TokenPresenter from '../presenters/TokenPresenter'
 
 export default class TokenItem extends Component {
@@ -32,7 +32,7 @@ export default class TokenItem extends Component {
     render () {
         const { tokens, ignoredColumns } = this.props
         if (tokens && tokens.length) {
-            return tokens.map(token => {
+            return tokens.map((token, index) => {
                 const restoreButton = token.deleted_at
                     ? <RestoreModal id={token.id} entities={tokens} updateState={this.props.addUserToState}
                         url={`/api/tokens/restore/${token.id}`}/> : null
@@ -50,10 +50,11 @@ export default class TokenItem extends Component {
                 const columnList = Object.keys(token).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
-                    return <TokenPresenter edit={editButton} key={key}
-                        toggleViewedEntity={this.props.toggleViewedEntity}
-                        users={this.props.users}
-                        field={key} entity={token}/>
+                    return <td key={key}
+                        onClick={() => this.props.toggleViewedEntity(token, token.name, editButton)}
+                        data-label={key}><TokenPresenter edit={editButton}
+                            toggleViewedEntity={this.props.toggleViewedEntity}
+                            field={key} entity={token}/></td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -63,14 +64,68 @@ export default class TokenItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return <tr className={selectedRow} key={token.id}>
-                    <td>
+                const is_mobile = window.innerWidth <= 768
+
+                if (!this.props.show_list) {
+                    return <tr className={selectedRow} key={token.id}>
+                        <td>
+                            <Input checked={isChecked} className={checkboxClass} value={token.id} type="checkbox"
+                                onChange={this.props.onChangeBulk}/>
+                            {actionMenu}
+                        </td>
+                        {columnList}
+                    </tr>
+                }
+
+                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={token.id} type="checkbox"
                             onChange={this.props.onChangeBulk}/>
+                        }
                         {actionMenu}
-                    </td>
-                    {columnList}
-                </tr>
+                    </div>
+                    <ListGroupItem
+                        onClick={() => this.props.toggleViewedEntity(token, token.name, editButton)}
+                        key={index}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<TokenPresenter field="name"
+                                entity={token}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</h5><br/>
+                            <span className="mb-1">{<TokenPresenter field="user_id"
+                                entity={token}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>} </span>
+                        </div>
+                    </ListGroupItem>
+                </div> : <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={token.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
+                    <ListGroupItem
+                        onClick={() => this.props.toggleViewedEntity(token, token.name, editButton)}
+                        key={index}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<TokenPresenter field="name"
+                                entity={token}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}</h5>
+                        </div>
+                        <div className="d-flex w-100 justify-content-between">
+                            <span className="mb-1 text-muted">{<TokenPresenter field="user_id"
+                                entity={token}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>} </span>
+                        </div>
+                    </ListGroupItem>
+                </div>
             })
         } else {
             return <tr>

@@ -27,6 +27,7 @@ trait LeadTransformable
             'source_type'    => $lead->source_type,
             'task_status_id' => $lead->task_status_id,
             'status_name'    => !empty($lead->taskStatus) ? $lead->taskStatus->name : '',
+            'task_status'    => $lead->taskStatus,
             'address_1'      => $lead->address_1,
             'address_2'      => $lead->address_2,
             'city'           => $lead->city,

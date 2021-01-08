@@ -4,6 +4,7 @@ import CustomerDropdown from '../../common/dropdowns/CustomerDropdown'
 import { translations } from '../../utils/_translations'
 import UserDropdown from '../../common/dropdowns/UserDropdown'
 import Datepicker from '../../common/Datepicker'
+import ColorPickerNew from '../../common/ColorPickerNew'
 
 export default function Details (props) {
     return (<React.Fragment>
@@ -74,6 +75,16 @@ export default function Details (props) {
                 onChange={props.handleInput}
             />
         </FormGroup>
+
+        <ColorPickerNew color={props.project.column_color} onChange={(color) => {
+            const e = {}
+            e.target = {
+                name: 'column_color',
+                value: color
+            }
+
+            props.handleInput(e)
+        }}/>
 
         <FormGroup>
             <Label for="public_notes">{translations.public_notes}:</Label>

@@ -88,40 +88,46 @@ export default class QuoteItem extends Component {
                         {columnList}
                     </tr>
                 }
-                return !is_mobile ? <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={quote.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={quote.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem onClick={() => this.props.toggleViewedEntity(quote, quote.number, editButton)}
                         key={index}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<QuotePresenter customers={customers} field="customer_id"
+                            <h5 className="mb-1"><QuotePresenter customers={customers} field="customer_id"
                                 entity={quote}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            <span className="mb-1">{quote.number} . {<QuotePresenter
+                                edit={editButton}/></h5>
+                            <span className="mb-1">{quote.number} . <QuotePresenter
                                 field={quote.due_date.length ? 'due_date' : 'date'}
                                 entity={quote}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
-                            {<QuotePresenter customers={customers}
+                                edit={editButton}/></span>
+                            <span>
+                                <QuotePresenter customers={customers}
+                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                    field={quote.balance > 0 ? 'balance' : 'total'} entity={quote}
+                                    edit={editButton}/>
+                            </span>
+                            <span><QuotePresenter field="status_field" entity={quote}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                field={quote.balance > 0 ? 'balance' : 'total'} entity={quote}
-                                edit={editButton}/>}
-                            <span>{<QuotePresenter field="status_field" entity={quote}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</span>
+                                edit={editButton}/></span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={quote.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                </div> : <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={quote.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem onClick={() => this.props.toggleViewedEntity(quote, quote.number, editButton)}
                         key={index}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
@@ -130,20 +136,22 @@ export default class QuoteItem extends Component {
                                 entity={quote}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/>}</h5>
-                            {<QuotePresenter customers={customers}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                field={quote.balance > 0 ? 'balance' : 'total'} entity={quote}
-                                edit={editButton}/>}
+                            <span>
+                                <QuotePresenter customers={customers}
+                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                    field={quote.balance > 0 ? 'balance' : 'total'} entity={quote}
+                                    edit={editButton}/>
+                            </span>
                         </div>
                         <div className="d-flex w-100 justify-content-between">
-                            <span className="mb-1 text-muted">{quote.number} . {<QuotePresenter
+                            <span className="mb-1 text-muted">{quote.number} . <QuotePresenter
                                 field={quote.due_date.length ? 'due_date' : 'date'}
                                 entity={quote}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
-                            <span>{<QuotePresenter field="status_field" entity={quote}
+                                edit={editButton}/></span>
+                            <span><QuotePresenter field="status_field" entity={quote}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</span>
+                                edit={editButton}/></span>
                         </div>
                     </ListGroupItem>
                 </div>

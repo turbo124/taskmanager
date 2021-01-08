@@ -4,7 +4,7 @@ import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditGroup from './edit/EditGroup'
-import { Input } from 'reactstrap'
+import { Input, ListGroupItem } from 'reactstrap'
 
 export default class GroupItem extends Component {
     constructor (props) {
@@ -31,7 +31,7 @@ export default class GroupItem extends Component {
     render () {
         const { groups, ignoredColumns } = this.props
         if (groups && groups.length) {
-            return groups.map(group => {
+            return groups.map((group, index) => {
                 const restoreButton = group.deleted_at
                     ? <RestoreModal id={group.id} entities={groups} updateState={this.props.addUserToState}
                         url={`/api/groups/restore/${group.id}`}/> : null
@@ -56,16 +56,59 @@ export default class GroupItem extends Component {
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
                 const isChecked = this.props.bulk.includes(group.id)
+                const selectedRow = this.props.viewId === group.id ? 'table-row-selected' : ''
+                const actionMenu = this.props.showCheckboxes !== true
+                    ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                        restore={restoreButton}/> : null
 
-                return <tr key={group.id}>
-                    <td>
+                const is_mobile = window.innerWidth <= 768
+
+                if (!this.props.show_list) {
+                    return <tr className={selectedRow} key={group.id}>
+                        <td>
+                            <Input checked={isChecked} className={checkboxClass} value={group.id} type="checkbox"
+                                onChange={this.props.onChangeBulk}/>
+                            {actionMenu}
+                        </td>
+                        {columnList}
+                    </tr>
+                }
+
+                return is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={group.id} type="checkbox"
                             onChange={this.props.onChangeBulk}/>
-                        <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
-                            restore={restoreButton}/>
-                    </td>
-                    {columnList}
-                </tr>
+                        }
+                        {actionMenu}
+                    </div>
+
+                    <ListGroupItem
+                        onClick={() => this.props.toggleViewedEntity(group, group.name, editButton)}
+                        key={index}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{group.name}</h5>
+                        </div>
+                    </ListGroupItem>
+                </div> : <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={group.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
+
+                    <ListGroupItem
+                        onClick={() => this.props.toggleViewedEntity(group, group.name, editButton)}
+                        key={index}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{group.name}</h5>
+                        </div>
+                    </ListGroupItem>
+                </div>
             })
         } else {
             return <tr>

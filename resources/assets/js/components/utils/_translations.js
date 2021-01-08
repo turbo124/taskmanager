@@ -397,6 +397,8 @@ _localizedValues.en = {
     notifications: 'Notifications',
     permissions: 'Permissions',
     add_task: 'Add Task',
+    add_deal: 'Add Deal',
+    edit_deal: 'Edit Deal',
     details: 'Details',
     edit_payment: 'Edit Payment',
     add_payment: 'Add Payment',
@@ -826,7 +828,8 @@ _localizedValues.en = {
     last_page: 'Last page',
     page_size: 'Page Size',
     font_size: 'Font Size',
-    quote_design: 'Quote Design'
+    quote_design: 'Quote Design',
+    colour: 'Colour'
 }
 
 let language = []

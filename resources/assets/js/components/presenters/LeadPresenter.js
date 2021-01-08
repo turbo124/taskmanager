@@ -2,6 +2,7 @@ import React from 'react'
 import { Badge } from 'reactstrap'
 import { translations } from '../utils/_translations'
 import FormatMoney from '../common/FormatMoney'
+import { convertHexStringToColor } from '../utils/_colors'
 
 export function getDefaultTableFields () {
     return [
@@ -18,8 +19,10 @@ export function getDefaultTableFields () {
 export default function LeadPresenter (props) {
     const { field, entity } = props
 
+    const color = entity.task_status && entity.task_status.column_color && entity.task_status.column_color.length ? entity.task_status.column_color : '#20a8d8'
+
     const status = (entity.deleted_at) ? <Badge color="warning">{translations.archived}</Badge>
-        : <Badge color="primary">{entity.status_name}</Badge>
+        : <span style={{ backgroundColor: color, color: '#ffffff' }} className="badge">{entity.status_name.length ? entity.status_name : translations.logged}</span>
 
     switch (field) {
         case 'assigned_to': {
@@ -38,6 +41,8 @@ export default function LeadPresenter (props) {
         case 'name': {
             return `${entity.first_name} ${entity.last_name}`
         }
+        case 'project':
+            return props.entity.project && props.entity.project.name ? props.entity.project.name : ''
         default:
             return entity[field]
     }

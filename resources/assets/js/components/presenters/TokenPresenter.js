@@ -1,21 +1,28 @@
 import React from 'react'
 
+export function getDefaultTableFields () {
+    return [
+        'name',
+        'user_id'
+    ]
+}
+
 export default function TokenPresenter (props) {
     const { field, entity } = props
-    const user = props.users.length ? props.users.filter(user => user.id === parseInt(entity.user_id)) : []
+    const users = JSON.parse(localStorage.getItem('users'))
+    const user = users.length ? users.filter(user => parseInt(user.id) === parseInt(entity.user_id)) : []
 
     switch (field) {
         case 'token':
-            return <td data-label={field}
-                onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)}>
+            return <span>
                 {`${entity.token.substring(0, 10)}xxxxxxxxxx`} <br/>
                 {user.length &&
                 `${user[0].first_name} ${user[0].last_name}`
                 }
-
-            </td>
+            </span>
+        case 'user_id':
+            return user.length ? `${user[0].first_name} ${user[0].last_name}` : ''
         default:
-            return <td onClick={() => props.toggleViewedEntity(entity, entity.name, props.edit)} key={field}
-                data-label={field}>{entity[field]}</td>
+            return entity[field]
     }
 }

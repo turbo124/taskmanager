@@ -92,57 +92,66 @@ export default class PurchaseOrderItem extends Component {
                     </tr>
                 }
 
-                return !is_mobile ? <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={purchase_order.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={purchase_order.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(purchase_order, purchase_order.number, editButton)}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1"> {<PurchaseOrderPresenter companies={companies} field="company_id"
+                            <h5> <PurchaseOrderPresenter companies={companies} field="company_id"
                                 entity={purchase_order}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            {<PurchaseOrderPresenter companies={companies}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                field={purchase_order.balance > 0 ? 'balance' : 'total'}
-                                entity={purchase_order} edit={editButton}/>}
-                            <span className="mb-1 text-muted">{purchase_order.number} . {<PurchaseOrderPresenter
+                                edit={editButton}/></h5>
+                            <span>
+                                <PurchaseOrderPresenter companies={companies}
+                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                    field={purchase_order.balance > 0 ? 'balance' : 'total'}
+                                    entity={purchase_order} edit={editButton}/>
+                            </span>
+                            <span>{purchase_order.number} . <PurchaseOrderPresenter
                                 field={purchase_order.due_date.length ? 'due_date' : 'date'} entity={purchase_order}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
-                            <span>{<PurchaseOrderPresenter field="status_field" entity={purchase_order}
+                                edit={editButton}/></span>
+                            <span><PurchaseOrderPresenter field="status_field" entity={purchase_order}
                                 edit={editButton}
-                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                                toggleViewedEntity={this.props.toggleViewedEntity}/></span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={purchase_order.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                </div> : <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={purchase_order.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(purchase_order, purchase_order.number, editButton)}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1"> {<PurchaseOrderPresenter companies={companies} field="company_id"
+                            <h5> <PurchaseOrderPresenter companies={companies} field="company_id"
                                 entity={purchase_order}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            {<PurchaseOrderPresenter companies={companies}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                field={purchase_order.balance > 0 ? 'balance' : 'total'}
-                                entity={purchase_order} edit={editButton}/>}
+                                edit={editButton}/></h5>
+                            <span>
+                                <PurchaseOrderPresenter companies={companies}
+                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                    field={purchase_order.balance > 0 ? 'balance' : 'total'}
+                                    entity={purchase_order} edit={editButton}/>
+                            </span>
+
                         </div>
                         <div className="d-flex w-100 justify-content-between">
-                            <span className="mb-1 text-muted">{purchase_order.number} . {<PurchaseOrderPresenter
+                            <span>{purchase_order.number} . <PurchaseOrderPresenter
                                 field={purchase_order.due_date.length ? 'due_date' : 'date'} entity={purchase_order}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
+                                edit={editButton}/></span>
                             <span>{<PurchaseOrderPresenter field="status_field" entity={purchase_order}
                                 edit={editButton}
                                 toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>

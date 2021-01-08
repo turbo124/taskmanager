@@ -88,58 +88,66 @@ export default class CreditItem extends Component {
                         {columnList}
                     </tr>
                 }
-                return is_mobile ? <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={credit.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                return is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={credit.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(credit, credit.number, editButton)}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1"> {<CreditPresenter customers={customers} field="customer_id"
+                            <h5> <CreditPresenter customers={customers} field="customer_id"
                                 entity={credit}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            {<CreditPresenter customers={customers}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                field={credit.balance > 0 ? 'balance' : 'total'} entity={credit}
-                                edit={editButton}/>}
+                                edit={editButton}/></h5>
+                            <span>
+                                <CreditPresenter customers={customers}
+                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                    field={credit.balance > 0 ? 'balance' : 'total'} entity={credit}
+                                    edit={editButton}/>
+                            </span>
                         </div>
                         <div className="d-flex w-100 justify-content-between">
-                            <span className="mb-1 text-muted">{credit.number} . {<CreditPresenter
+                            <span>{credit.number} . <CreditPresenter
                                 field={credit.due_date.length ? 'due_date' : 'date'} entity={credit}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
-                            <span>{<CreditPresenter field="status_field" entity={credit} edit={editButton}
-                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                                edit={editButton}/></span>
+                            <span><CreditPresenter field="status_field" entity={credit} edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/></span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={credit.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                </div> : <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={credit.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(credit, credit.number, editButton)}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1"> {<CreditPresenter customers={customers} field="customer_id"
+                            <h5 className="mb-1"><CreditPresenter customers={customers} field="customer_id"
                                 entity={credit}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            {<CreditPresenter customers={customers}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                field={credit.balance > 0 ? 'balance' : 'total'} entity={credit}
-                                edit={editButton}/>}
-                            <span className="mb-1 text-muted">{credit.number} . {<CreditPresenter
+                                edit={editButton}/></h5>
+                            <span>
+                                <CreditPresenter customers={customers}
+                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                    field={credit.balance > 0 ? 'balance' : 'total'} entity={credit}
+                                    edit={editButton}/>
+                            </span>
+                            <span className="mb-1 text-muted">{credit.number} . <CreditPresenter
                                 field={credit.due_date.length ? 'due_date' : 'date'} entity={credit}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
-                            <span>{<CreditPresenter field="status_field" entity={credit} edit={editButton}
-                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                                edit={editButton}/></span>
+                            <span><CreditPresenter field="status_field" entity={credit} edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/></span>
                         </div>
                     </ListGroupItem>
                 </div>
