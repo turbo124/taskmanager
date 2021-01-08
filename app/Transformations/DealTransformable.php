@@ -44,6 +44,7 @@ trait DealTransformable
             'files'          => $this->transformDealFiles($deal->files),
             'emails'         => $this->transformDealEmails($deal->emails()),
             'status_name'    => !empty($deal->taskStatus) ? $deal->taskStatus->name : '',
+            'task_status'    => $deal->taskStatus
         ];
     }
 

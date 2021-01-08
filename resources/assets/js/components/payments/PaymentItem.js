@@ -111,12 +111,14 @@ export default class PaymentItem extends Component {
                     </tr>
                 }
 
-                return !is_mobile ? <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={payment.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={payment.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(payment, payment.number, editButton)}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
@@ -136,12 +138,14 @@ export default class PaymentItem extends Component {
                                 toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={payment.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                </div> : <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={payment.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(payment, payment.number, editButton)}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">

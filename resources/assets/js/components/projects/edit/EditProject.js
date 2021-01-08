@@ -67,6 +67,7 @@ class EditProject extends React.Component {
 
     getFormData () {
         return {
+            column_color: this.state.column_color,
             name: this.state.name,
             description: this.state.description,
             customer_id: this.state.customer_id,

@@ -37,6 +37,7 @@ import TaskStatusDropdown from '../../common/dropdowns/TaskStatusDropdown'
 import UserDropdown from '../../common/dropdowns/UserDropdown'
 import TaskTimeDesktop from './TaskTimeDesktop'
 import AddButtons from '../../common/AddButtons'
+import ColorPickerNew from '../../common/ColorPickerNew'
 
 export default class EditTaskDesktop extends Component {
     constructor (props) {
@@ -379,6 +380,10 @@ export default class EditTaskDesktop extends Component {
                                             onChange={this.handleChange.bind(this)}/>
                                         {this.renderErrorFor('description')}
                                     </FormGroup>
+
+                                    <ColorPickerNew color={this.state.column_color} onChange={(color) => {
+                                        this.setState({ column_color: color })
+                                    }}/>
                                 </CardBody>
                             </Card>
                         </Col>

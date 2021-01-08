@@ -4,7 +4,7 @@ import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditSubscription from './edit/EditSubscription'
-import { Input } from 'reactstrap'
+import { Input, ListGroupItem } from 'reactstrap'
 import SubscriptionPresenter from '../presenters/SubscriptionPresenter'
 
 export default class SubscriptionItem extends Component {
@@ -32,7 +32,7 @@ export default class SubscriptionItem extends Component {
     render () {
         const { subscriptions, ignoredColumns } = this.props
         if (subscriptions && subscriptions.length) {
-           return subscriptions.map((subscription, index) => {
+            return subscriptions.map((subscription, index) => {
                 const restoreButton = subscription.deleted_at
                     ? <RestoreModal id={subscription.id} entities={subscriptions} updateState={this.props.addUserToState}
                         url={`/api/subscriptions/restore/${subscription.id}`}/> : null
@@ -47,12 +47,13 @@ export default class SubscriptionItem extends Component {
                     action={this.props.addUserToState}
                 /> : null
 
-               const columnList = Object.keys(subscription).filter(key => {
+                const columnList = Object.keys(subscription).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
                     return <td key={key}
                         onClick={() => this.props.toggleViewedEntity(subscription, subscription.target_url, editButton)}
-                        data-label={key}><SubscriptionPresenter toggleViewedEntity={this.props.toggleViewedEntity}
+                        data-label={key}><SubscriptionPresenter
+                            toggleViewedEntity={this.props.toggleViewedEntity}
                             field={key} entity={subscription} edit={editButton}/></td>
                 })
 
@@ -76,14 +77,48 @@ export default class SubscriptionItem extends Component {
                     </tr>
                 }
 
-                return is_mobile ? <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={subscription.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={subscription.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
 
-                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(subscription, subscription.target_url, editButton)}
+                    <ListGroupItem
+                        onClick={() => this.props.toggleViewedEntity(subscription, subscription.target_url, editButton)}
+                        key={index}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<SubscriptionPresenter field="name"
+                                entity={subscription}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}
+                            </h5>
+                            <h5 className="mb-1">{<SubscriptionPresenter field="target_url"
+                                entity={subscription}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}
+                            </h5>
+                            <h5>
+                                {<SubscriptionPresenter field="event_id"
+                                    entity={subscription}
+                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                    edit={editButton}/>} </h5>
+                        </div>
+                    </ListGroupItem>
+                </div> : <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={subscription.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
+
+                    <ListGroupItem
+                        onClick={() => this.props.toggleViewedEntity(subscription, subscription.target_url, editButton)}
                         key={index}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
@@ -91,28 +126,7 @@ export default class SubscriptionItem extends Component {
                                 entity={subscription}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/>} .
-                                {<SubscriptionPresenter field="event_id"
-                                entity={subscription}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </h5>
-                        </div>
-                    </ListGroupItem>
-                </div> : <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={subscription.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
-
-                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(subscription, subscription.target_url, editButton)}
-                        key={index}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
-                        <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<SubscriptionPresenter field="target_url"
-                                entity={subscription}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} . 
-                                {<SubscriptionPresenter field="event_id"
+                            {<SubscriptionPresenter field="event_id"
                                 entity={subscription}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/>}

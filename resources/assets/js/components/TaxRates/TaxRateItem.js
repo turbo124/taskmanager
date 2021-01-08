@@ -4,7 +4,7 @@ import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditTaxRate from './edit/EditTaxRate'
 import axios from 'axios'
-import { Input } from 'reactstrap'
+import { Input, ListGroupItem } from 'reactstrap'
 import TaxRatePresenter from '../presenters/TaxRatePresenter'
 
 export default class TaxRateItem extends Component {
@@ -36,7 +36,7 @@ export default class TaxRateItem extends Component {
     render () {
         const { taxRates, ignoredColumns } = this.props
         if (taxRates && taxRates.length) {
-           return taxRates.map((taxRate, index) => {
+            return taxRates.map((taxRate, index) => {
                 const restoreButton = taxRate.deleted_at
                     ? <RestoreModal id={taxRate.id} entities={taxRates} updateState={this.props.addUserToState}
                         url={`/api/taxRate/restore/${taxRate.id}`}/> : null
@@ -80,12 +80,38 @@ export default class TaxRateItem extends Component {
                     </tr>
                 }
 
-                return is_mobile ? <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={taxRate.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                return is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={taxRate.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
+
+                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(taxRate, taxRate.name, editButton)}
+                        key={index}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{<TaxRatePresenter field="name"
+                                entity={taxRate}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}
+                            {<TaxRatePresenter field="rate"
+                                entity={taxRate}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>}
+                            </h5>
+                        </div>
+                    </ListGroupItem>
+                </div> : <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={taxRate.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
 
                     <ListGroupItem onClick={() => this.props.toggleViewedEntity(taxRate, taxRate.name, editButton)}
                         key={index}
@@ -95,28 +121,7 @@ export default class TaxRateItem extends Component {
                                 entity={taxRate}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/>} .
-                                {<TaxRatePresenter field="rate"
-                                entity={taxRate}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </h5>
-                        </div>
-                    </ListGroupItem>
-                </div> : <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={taxRate.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
-
-                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(taxRate, taxRate.name, editButton)}
-                        key={index}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
-                        <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<TaxRatePresenter field="name"
-                                entity={taxRate}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} . 
-                                {<TaxRatePresenter field="rate"
+                            {<TaxRatePresenter field="rate"
                                 entity={taxRate}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/>}

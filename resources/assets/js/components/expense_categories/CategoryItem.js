@@ -4,7 +4,7 @@ import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditCategory from './edit/EditCategory'
-import { Input } from 'reactstrap'
+import { Input, ListGroupItem } from 'reactstrap'
 import CategoryPresenter from '../presenters/CategoryPresenter'
 
 export default class CategoryItem extends Component {
@@ -32,7 +32,7 @@ export default class CategoryItem extends Component {
     render () {
         const { categories, ignoredColumns, customers } = this.props
         if (categories && categories.length) {
-            return categories.map(category => {
+            return categories.map((category, index) => {
                 const restoreButton = category.deleted_at
                     ? <RestoreModal id={category.id} entities={categories} updateState={this.props.addUserToState}
                         url={`/api/categories/restore/${category.id}`}/> : null
@@ -63,14 +63,54 @@ export default class CategoryItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                return <tr className={selectedRow} key={category.id}>
-                    <td>
+                const is_mobile = window.innerWidth <= 768
+
+                if (!this.props.show_list) {
+                    return <tr className={selectedRow} key={category.id}>
+                        <td>
+                            <Input checked={isChecked} className={checkboxClass} value={category.id} type="checkbox"
+                                onChange={this.props.onChangeBulk}/>
+                            {actionMenu}
+                        </td>
+                        {columnList}
+                    </tr>
+                }
+
+                return is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={category.id} type="checkbox"
                             onChange={this.props.onChangeBulk}/>
+                        }
                         {actionMenu}
-                    </td>
-                    {columnList}
-                </tr>
+                    </div>
+
+                    <ListGroupItem
+                        onClick={() => this.props.toggleViewedEntity(category, category.name, editButton)}
+                        key={index}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{category.name}</h5>
+                        </div>
+                    </ListGroupItem>
+                </div> : <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={category.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
+
+                    <ListGroupItem
+                        onClick={() => this.props.toggleViewedEntity(category, category.name, editButton)}
+                        key={index}
+                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{category.name}</h5>
+                        </div>
+                    </ListGroupItem>
+                </div>
             })
         } else {
             return <tr>

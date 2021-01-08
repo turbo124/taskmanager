@@ -29,7 +29,6 @@ export default class Groups extends Component {
             show_success: false,
             error_message: translations.unexpected_error,
             success_message: translations.success_message,
-            ignoredColumns: ['settings', 'deleted_at', 'created_at', 'is_deleted'],
             filters: {
                 group_id: queryString.parse(this.props.location.search).group_id || '',
                 searchText: '',
@@ -78,6 +77,7 @@ export default class Groups extends Component {
     userList (props) {
         const { groups } = this.state
         return <GroupItem showCheckboxes={props.showCheckboxes} groups={groups}
+            show_list={props.show_list}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             viewId={props.viewId}
@@ -121,8 +121,7 @@ export default class Groups extends Component {
                                 <GroupFilters setFilterOpen={this.setFilterOpen.bind(this)} groups={groups}
                                     updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterGroups}
-                                    saveBulk={this.saveBulk}
-                                    ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
 
                                 <AddGroup
                                     groups={groups}
@@ -153,13 +152,13 @@ export default class Groups extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={['name']}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Group"
                                     bulk_save_url="/api/group/bulk"
                                     view={view}
-                                    ignore={this.state.ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}
                                     updateState={this.addUserToState}

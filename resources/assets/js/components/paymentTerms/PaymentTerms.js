@@ -28,7 +28,6 @@ export default class PaymentTerms extends Component {
                 title: null
             },
             errors: [],
-            ignoredColumns: ['settings', 'deleted_at', 'created_at'],
             filters: {
                 searchText: '',
                 status: 'active',
@@ -65,6 +64,7 @@ export default class PaymentTerms extends Component {
     userList (props) {
         const { paymentTerms } = this.state
         return <PaymentTermItem showCheckboxes={props.showCheckboxes} paymentTerms={paymentTerms}
+            show_list={props.show_list}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             viewId={props.viewId}
@@ -118,10 +118,8 @@ export default class PaymentTerms extends Component {
                             <CardBody>
                                 <PaymentTermFilters setFilterOpen={this.setFilterOpen.bind(this)}
                                     paymentTerms={paymentTerms}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterPaymentTerms}
-                                    saveBulk={this.saveBulk}
-                                    ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
 
                                 <AddPaymentTerm
                                     payment_terms={paymentTerms}
@@ -151,13 +149,13 @@ export default class PaymentTerms extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={['name']}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     dropdownButtonActions={this.state.dropdownButtonActions}
                                     entity_type="Group"
                                     bulk_save_url="/api/payment_terms/bulk"
                                     view={view}
-                                    ignore={this.state.ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}
                                     updateState={this.addUserToState}

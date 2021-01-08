@@ -5,6 +5,7 @@ import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import ExpenseCategoryModel from '../../models/ExpenseCategoryModel'
+import ColorPickerNew from '../../common/ColorPickerNew'
 
 class AddCategory extends React.Component {
     constructor (props) {
@@ -47,7 +48,10 @@ class AddCategory extends React.Component {
     }
 
     handleClick () {
-        this.categoryModel.save({ name: this.state.name }).then(response => {
+        this.categoryModel.save({
+            name: this.state.name,
+            column_color: this.state.column_color
+        }).then(response => {
             if (!response) {
                 this.setState({ errors: this.categoryModel.errors, message: this.categoryModel.error_message })
                 return
@@ -82,6 +86,10 @@ class AddCategory extends React.Component {
                                 id="name" placeholder={translations.name} onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('name')}
                         </FormGroup>
+
+                        <ColorPickerNew color={this.state.column_color} onChange={(color) => {
+                            this.setState({ column_color: color })
+                        }}/>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}

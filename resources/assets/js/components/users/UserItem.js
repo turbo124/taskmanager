@@ -80,12 +80,14 @@ export default class UserItem extends Component {
                     </tr>
                 }
 
-                return !is_mobile ? <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={user.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={user.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem
                         onClick={() => this.props.toggleViewedEntity(user, `${user.first_name} ${user.last_name}`, editButton)}
                         key={index}
@@ -101,12 +103,14 @@ export default class UserItem extends Component {
                                 edit={editButton}/>} </span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={user.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                </div> : <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={user.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem
                         onClick={() => this.props.toggleViewedEntity(user, `${user.first_name} ${user.last_name}`, editButton)}
                         key={index}

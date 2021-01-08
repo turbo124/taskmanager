@@ -231,3 +231,10 @@ table.mobile td:last-child {
   }
 }
 
+.list-action {
+  padding: 10px;
+  .dropdown-item {
+    line-height: 38px
+  }
+}
+

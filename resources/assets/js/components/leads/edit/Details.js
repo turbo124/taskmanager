@@ -5,6 +5,7 @@ import { translations } from '../../utils/_translations'
 import TaskStatusDropdown from '../../common/dropdowns/TaskStatusDropdown'
 import DesignDropdown from '../../common/dropdowns/DesignDropdown'
 import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
+import ColorPickerNew from "../../common/ColorPickerNew";
 
 export default class Details extends React.Component {
     constructor (props) {
@@ -105,6 +106,16 @@ export default class Details extends React.Component {
                         </FormGroup>
 
                         {sourceTypeOptions}
+
+                        <ColorPickerNew color={this.props.lead.column_color} onChange={(color) => {
+                            const e = {}
+                            e.target = {
+                                name: 'column_color',
+                                value: color
+                            }
+
+                            this.props.handleInputChanges(e)
+                        }}/>
 
                         <FormGroup>
                             <Label>{translations.status}</Label>

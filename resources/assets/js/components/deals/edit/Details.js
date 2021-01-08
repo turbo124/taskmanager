@@ -7,6 +7,7 @@ import Datepicker from '../../common/Datepicker'
 import TaskStatusDropdown from '../../common/dropdowns/TaskStatusDropdown'
 import DesignDropdown from '../../common/dropdowns/DesignDropdown'
 import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
+import ColorPickerNew from '../../common/ColorPickerNew'
 
 export default class Details extends React.Component {
     constructor (props) {
@@ -139,6 +140,16 @@ export default class Details extends React.Component {
                                 project={this.props.deal.project_id} name="project_id"
                             />
                         </FormGroup>
+
+                        <ColorPickerNew color={this.props.deal.column_color} onChange={(color) => {
+                            const e = {}
+                            e.target = {
+                                name: 'column_color',
+                                value: color
+                            }
+
+                            this.props.handleInput(e)
+                        }}/>
 
                         {sourceTypeOptions}
                     </CardBody>

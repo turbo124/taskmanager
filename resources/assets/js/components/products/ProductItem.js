@@ -87,47 +87,52 @@ export default class ProductItem extends Component {
                     </tr>
                 }
 
-                return !is_mobile ? <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={product.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={product.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(product, product.name, editButton)}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<ProductPresenter field="name" entity={product}
+                            <h5 className="mb-1"><ProductPresenter field="name" entity={product}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            <span className="mb-1">{<ProductPresenter field="description" entity={product}
-                                edit={editButton}/>} </span>
-                            {<ProductPresenter
-                                field="price" entity={product} toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}
-
+                                edit={editButton}/></h5>
+                            <span className="mb-1"><ProductPresenter field="description" entity={product}
+                                edit={editButton}/> </span>
+                            <span>
+                                <ProductPresenter
+                                    field="price" entity={product} toggleViewedEntity={this.props.toggleViewedEntity}
+                                    edit={editButton}/>
+                            </span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={product.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                </div> : <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={product.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(product, product.name, editButton)}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<ProductPresenter field="name" entity={product}
+                            <h5 className="mb-1"><ProductPresenter field="name" entity={product}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            {<ProductPresenter
+                                edit={editButton}/></h5>
+                            <ProductPresenter
                                 field="price" entity={product} toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}
+                                edit={editButton}/>
                         </div>
                         <div className="d-flex w-100 justify-content-between">
-                            <span className="mb-1 text-muted">{<ProductPresenter field="description" entity={product}
-                                edit={editButton}/>} </span>
+                            <span className="mb-1 text-muted"><ProductPresenter field="description" entity={product}
+                                edit={editButton}/> </span>
 
                         </div>
                     </ListGroupItem>

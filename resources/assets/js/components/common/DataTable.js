@@ -382,7 +382,7 @@ export default class DataTable extends Component {
             showCheckboxes: this.state.showCheckboxes,
             onChangeBulk: this.onChangeBulk
         })
-        
+
         const table = !this.props.hide_table && !this.state.display_list
             ? <Table className={table_class} responsive striped bordered hover dark={table_dark}>
                 {tableSort}

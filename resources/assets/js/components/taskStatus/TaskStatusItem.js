@@ -4,7 +4,7 @@ import RestoreModal from '../common/RestoreModal'
 import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditTaskStatus from './edit/EditTaskStatus'
-import { Input } from 'reactstrap'
+import { Input, ListGroupItem } from 'reactstrap'
 import TaskStatusPresenter from '../presenters/TaskStatusPresenter'
 
 export default class TaskStatusItem extends Component {
@@ -32,7 +32,7 @@ export default class TaskStatusItem extends Component {
     render () {
         const { statuses, ignoredColumns, customers } = this.props
         if (statuses && statuses.length) {
-           return statuses.map((taskStatus, index) => {
+            return statuses.map((taskStatus, index) => {
                 const restoreButton = taskStatus.deleted_at
                     ? <RestoreModal id={taskStatus.id} entities={statuses} updateState={this.props.addUserToState}
                         url={`/api/statuses/restore/${taskStatus.id}`}/> : null
@@ -48,13 +48,14 @@ export default class TaskStatusItem extends Component {
                     action={this.props.addUserToState}
                 /> : null
 
-               const columnList = Object.keys(taskStatus).filter(key => {
+                const columnList = Object.keys(taskStatus).filter(key => {
                     return ignoredColumns && !ignoredColumns.includes(key)
                 }).map(key => {
                     return <td key={key}
                         onClick={() => this.props.toggleViewedEntity(taskStatus, taskStatus.name, editButton)}
                         data-label={key}><TaskStatusPresenter toggleViewedEntity={this.props.toggleViewedEntity}
-                            field={key} entity={taskStatus} edit={editButton}/></td>
+                            field={key} entity={taskStatus} edit={editButton}/>
+                    </td>
                 })
 
                 const checkboxClass = this.props.showCheckboxes === true ? '' : 'd-none'
@@ -77,14 +78,17 @@ export default class TaskStatusItem extends Component {
                     </tr>
                 }
 
-                return is_mobile ? <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={taskStatus.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                return is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={taskStatus.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
 
-                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(taskStatus, taskStatus.name, editButton)}
+                    <ListGroupItem
+                        onClick={() => this.props.toggleViewedEntity(taskStatus, taskStatus.name, editButton)}
                         key={index}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
@@ -94,14 +98,17 @@ export default class TaskStatusItem extends Component {
                                 edit={editButton}/>}</h5>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={taskStatus.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                </div> : <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={taskStatus.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
 
-                    <ListGroupItem onClick={() => this.props.toggleViewedEntity(taskStatus, taskStatus.name, editButton)}
+                    <ListGroupItem
+                        onClick={() => this.props.toggleViewedEntity(taskStatus, taskStatus.name, editButton)}
                         key={index}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">

@@ -90,58 +90,66 @@ export default class InvoiceItem extends Component {
                     </tr>
                 }
 
-                return !is_mobile ? <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={invoice.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={invoice.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(invoice, invoice.number, editButton)}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1"> {<InvoicePresenter customers={customers} field="customer_id"
+                            <h5> <InvoicePresenter customers={customers} field="customer_id"
                                 entity={invoice}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            <span className="mb-1">{invoice.number} . {<InvoicePresenter
+                                edit={editButton}/></h5>
+                            <span>{invoice.number} . <InvoicePresenter
                                 field={invoice.due_date.length ? 'due_date' : 'date'} entity={invoice}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
-                            {<InvoicePresenter customers={customers}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                field={invoice.balance > 0 ? 'balance' : 'total'} entity={invoice}
-                                edit={editButton}/>}
-                            <span>{<InvoicePresenter field="status_field" entity={invoice} edit={editButton}
-                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                                edit={editButton}/></span>
+                            <span>
+                                <InvoicePresenter customers={customers}
+                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                    field={invoice.balance > 0 ? 'balance' : 'total'} entity={invoice}
+                                    edit={editButton}/>
+                            </span>
+                            <span><InvoicePresenter field="status_field" entity={invoice} edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/></span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="list-group-item-dark">
-                    {!!this.props.onChangeBulk &&
-                    <Input checked={isChecked} className={checkboxClass} value={invoice.id} type="checkbox"
-                        onChange={this.props.onChangeBulk}/>
-                    }
-                    {actionMenu}
+                </div> : <div className="d-flex d-inline list-group-item-dark">
+                    <div className="list-action">
+                        {!!this.props.onChangeBulk &&
+                        <Input checked={isChecked} className={checkboxClass} value={invoice.id} type="checkbox"
+                            onChange={this.props.onChangeBulk}/>
+                        }
+                        {actionMenu}
+                    </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(invoice, invoice.number, editButton)}
                         className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1"> {<InvoicePresenter customers={customers} field="customer_id"
+                            <h5 className="mb-1"><InvoicePresenter customers={customers} field="customer_id"
                                 entity={invoice}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            {<InvoicePresenter customers={customers}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                field={invoice.balance > 0 ? 'balance' : 'total'} entity={invoice}
-                                edit={editButton}/>}
+                                edit={editButton}/></h5>
+                            <span>
+                                <InvoicePresenter customers={customers}
+                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                    field={invoice.balance > 0 ? 'balance' : 'total'} entity={invoice}
+                                    edit={editButton}/>
+                            </span>
                         </div>
                         <div className="d-flex w-100 justify-content-between">
-                            <span className="mb-1 text-muted">{invoice.number} . {<InvoicePresenter
+                            <span className="mb-1 text-muted">{invoice.number} . <InvoicePresenter
                                 field={invoice.due_date.length ? 'due_date' : 'date'} entity={invoice}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
-                            <span>{<InvoicePresenter field="status_field" entity={invoice} edit={editButton}
-                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                                edit={editButton}/></span>
+                            <span><InvoicePresenter field="status_field" entity={invoice} edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/></span>
                         </div>
                     </ListGroupItem>
                 </div>

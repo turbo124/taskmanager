@@ -32,6 +32,7 @@ trait TaskTransformable
             'due_date'             => $task->due_date,
             'start_date'           => $task->start_date ?: '',
             'is_completed'         => $task->is_completed,
+            'task_status'          => $task->taskStatus,
             'task_status_id'       => (int)$task->task_status_id,
             'deleted_at'           => $task->deleted_at,
             'customer'             => $this->transformCustomer($task->customer),

@@ -28,7 +28,6 @@ export default class Categories extends Component {
                 title: null
             },
             errors: [],
-            ignoredColumns: ['id', 'category_id', 'parent_id', 'account_id', 'user_id', 'is_deleted', 'updated_at', 'status', 'deleted_at', 'created_at'],
             filters: {
                 searchText: '',
                 status: 'active',
@@ -86,6 +85,7 @@ export default class Categories extends Component {
         const { categories, customers } = this.state
         return <CategoryItem showCheckboxes={props.showCheckboxes} customers={customers} categories={categories}
             viewId={props.viewId}
+            show_list={props.show_list}
             ignoredColumns={props.ignoredColumns} addUserToState={this.addUserToState}
             toggleViewedEntity={props.toggleViewedEntity}
             bulk={props.bulk}
@@ -139,9 +139,8 @@ export default class Categories extends Component {
                                 <CategoryFilters setFilterOpen={this.setFilterOpen.bind(this)}
                                     categories={categories}
                                     customers={customers}
-                                    updateIgnoredColumns={this.updateIgnoredColumns}
                                     filters={this.state.filters} filter={this.filterCategories}
-                                    saveBulk={this.saveBulk} ignoredColumns={this.state.ignoredColumns}/>
+                                    saveBulk={this.saveBulk}/>
 
                                 <AddCategory
                                     customers={customers}
@@ -172,6 +171,7 @@ export default class Categories extends Component {
                         <Card>
                             <CardBody>
                                 <DataTable
+                                    default_columns={['name', 'column_color']}
                                     setSuccess={this.setSuccess.bind(this)}
                                     setError={this.setError.bind(this)}
                                     columnMapping={{ customer_id: 'CUSTOMER' }}
@@ -179,7 +179,6 @@ export default class Categories extends Component {
                                     entity_type="ExpenseCategory"
                                     bulk_save_url="/api/expense-categories/bulk"
                                     view={view}
-                                    ignore={this.state.ignoredColumns}
                                     userList={this.userList}
                                     fetchUrl={fetchUrl}
                                     updateState={this.addUserToState}

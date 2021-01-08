@@ -5,6 +5,7 @@ import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import TaskStatusModel from '../../models/TaskStatusModel'
+import ColorPickerNew from "../../common/ColorPickerNew";
 
 class EditTaskStatus extends React.Component {
     constructor (props) {
@@ -49,7 +50,8 @@ class EditTaskStatus extends React.Component {
     getFormData () {
         return {
             name: this.state.name,
-            description: this.state.description
+            description: this.state.description,
+            column_color: this.state.column_color
         }
     }
 
@@ -109,6 +111,10 @@ class EditTaskStatus extends React.Component {
                                 placeholder={translations.description} onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('description')}
                         </FormGroup>
+
+                        <ColorPickerNew color={this.state.column_color} onChange={(color) => {
+                            this.setState({ column_color: color })
+                        }}/>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
