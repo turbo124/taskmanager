@@ -37,6 +37,7 @@ trait CaseTransformable
             'link_product_value' => (int)$cases->link_product_value,
             'status_id'          => (int)$cases->status_id,
             'category_id'        => (int)$cases->category_id,
+            'category'           => $cases->category,
             'priority_id'        => (int)$cases->priority_id,
             'files'              => $this->transformCaseFiles($cases->files),
             'emails'             => $this->transformCaseEmails($cases->emails()),
