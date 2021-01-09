@@ -18,10 +18,13 @@ export function getDefaultTableFields () {
 export default function CasePresenter (props) {
     const { field, entity } = props
 
+    const color = entity.category && entity.category.column_color && entity.category.column_color.length ? entity.category.column_color : ''
+    const status_chip = color.length ? <span className="badge" style={{ backgroundColor: color, color: '#FFFFFF' }}>{caseStatuses[entity.status_id]}</span> : <Badge color={caseStatusColors[entity.status_id]}>{caseStatuses[entity.status_id]}</Badge>
+
     const status = (entity.deleted_at && !entity.is_deleted) ? (<Badge className="mr-2"
         color="warning">{translations.archived}</Badge>) : ((entity.deleted_at && entity.is_deleted) ? (
         <Badge className="mr-2" color="danger">{translations.deleted}</Badge>) : (
-        <Badge color={caseStatusColors[entity.status_id]}>{caseStatuses[entity.status_id]}</Badge>))
+        status_chip))
 
     const priority = <Badge
         color={casePriorityColors[entity.priority_id]}>{casePriorities[entity.priority_id]}</Badge>
