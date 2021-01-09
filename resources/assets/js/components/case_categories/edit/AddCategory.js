@@ -5,6 +5,7 @@ import AddButtons from '../../common/AddButtons'
 import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
+import ColorPickerNew from '../../common/ColorPickerNew'
 
 class AddCategory extends React.Component {
     constructor (props) {
@@ -49,7 +50,7 @@ class AddCategory extends React.Component {
     }
 
     handleClick () {
-        axios.post('/api/case-categories', { name: this.state.name })
+        axios.post('/api/case-categories', { name: this.state.name, column_color: this.state.column_color })
             .then((response) => {
                 this.toggle()
                 const newUser = response.data
@@ -90,6 +91,10 @@ class AddCategory extends React.Component {
                                 id="name" placeholder={translations.name} onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('name')}
                         </FormGroup>
+
+                        <ColorPickerNew color={this.state.column_color} onChange={(color) => {
+                            this.setState({ column_color: color })
+                        }}/>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
