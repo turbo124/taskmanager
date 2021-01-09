@@ -534,7 +534,7 @@ class PdfBuilder
 
     public function setDatetime($datetime): self
     {
-        $this->data['$date'] = [
+        $this->data['$datetime'] = [
             'value' => $this->formatDatetime($this->entity, $datetime) ?: '&nbsp;',
             'label' => trans('texts.datetime')
         ];
