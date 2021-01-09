@@ -15,6 +15,7 @@ class CaseCategory extends Model
 
     protected $fillable = [
         'name',
+        'column_color'
     ];
 
     /**
