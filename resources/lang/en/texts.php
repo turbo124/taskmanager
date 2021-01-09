@@ -135,6 +135,7 @@ return [
     'website'                                              => 'Website',
     'customer_name'                                        => 'Customer Name',
     'date'                                                 => 'Date',
+    'datetime'                                             => 'Date',
     'discount'                                             => 'Discount',
     'shipping'                                             => 'Shipping',
     'voucher'                                              => 'Voucher',
