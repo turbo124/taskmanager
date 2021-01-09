@@ -14,9 +14,10 @@ trait CaseCategoryTransformable
     protected function transformCategory(CaseCategory $category)
     {
         return [
-            'id'        => (int)$category->id,
-            'name'      => $category->name,
-            'parent_id' => $category->parent_id,
+            'id'            => (int)$category->id,
+            'name'          => $category->name,
+            'column_color'  => $category->column_color ?: '',
+            'parent_id'     => $category->parent_id,
         ];
     }
 
