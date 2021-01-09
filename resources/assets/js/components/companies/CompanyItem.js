@@ -12,7 +12,24 @@ export default class CompanyItem extends Component {
     constructor (props) {
         super(props)
 
+        this.state = {
+            width: window.innerWidth,
+        }
+
         this.deleteBrand = this.deleteBrand.bind(this)
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+    }
+
+    componentWillMount () {
+        window.addEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    handleWindowSizeChange () {
+        this.setState({ width: window.innerWidth });
     }
 
     deleteBrand (id, archive = false) {
@@ -75,7 +92,7 @@ export default class CompanyItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                const is_mobile = window.innerWidth <= 768
+                const is_mobile = this.state.width <= 500
 
                 if (!this.props.show_list) {
                     return <tr className={selectedRow} key={brand.id}>
