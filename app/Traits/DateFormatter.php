@@ -10,20 +10,38 @@ use Exception;
 trait DateFormatter
 {
 
-    public function formatDate($entity, $value)
+    private function getDateFormat($entity)
     {
-        $date_format = (get_class($entity) === 'App\Models\Customer')
-            ? $this->entity->getSetting(
+        return (get_class($entity) === 'App\Models\Customer')
+            ? $entity->getSetting(
                 'date_format'
             )
-            : ((!empty($this->entity->customer)) ? $this->entity->customer->getSetting(
+            : ((!empty($entity->customer)) ? $entity->customer->getSetting(
                 'date_format'
-            ) : $this->entity->account->settings->date_format);
+            ) : $entity->account->settings->date_format);
+    }
 
-        $date_format = $this->convertDateFormat($date_format);
+    public function formatDate($entity, $value)
+    {
+       $date_format = $this->getDateFormat($entity);
+       $date_format = $this->convertDateFormat($date_format);
 
         try {
             return Carbon::parse($value)->format($date_format);
+        } catch (Exception $e) {
+            return '';
+        }
+
+        return '';
+    }
+
+    public function formatDatetime($entity, $value)
+    {
+        $date_format = $this->getDateFormat($entity);
+        $date_format = $this->convertDateFormat($date_format);
+
+        try {
+            return Carbon::createFromTimestamp($value)->format($date_format . " g:i a");
         } catch (Exception $e) {
             return '';
         }
