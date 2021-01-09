@@ -12,7 +12,24 @@ export default class ProjectItem extends Component {
     constructor (props) {
         super(props)
 
+        this.state = {
+            width: window.innerWidth,
+        }
+
         this.deleteProject = this.deleteProject.bind(this)
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+    }
+
+    componentWillMount () {
+        window.addEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    handleWindowSizeChange () {
+        this.setState({ width: window.innerWidth });
     }
 
     deleteProject (id, archive = false) {
@@ -76,7 +93,7 @@ export default class ProjectItem extends Component {
                     color="warning">{translations.archived}</Badge>) : ((project.deleted_at && project.is_deleted) ? (
                     <Badge className="mr-2" color="danger">{translations.deleted}</Badge>) : (''))
 
-                const is_mobile = window.innerWidth <= 768
+                const is_mobile = this.state.width <= 500
 
                 if (!this.props.show_list) {
                     return <tr className={selectedRow} key={project.id}>
