@@ -12,7 +12,24 @@ export default class TaskItem extends Component {
     constructor (props) {
         super(props)
 
+        this.state = {
+            width: window.innerWidth,
+        }
+
         this.deleteTask = this.deleteTask.bind(this)
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+    }
+
+    componentWillMount () {
+        window.addEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    handleWindowSizeChange () {
+        this.setState({ width: window.innerWidth });
     }
 
     deleteTask (id, archive = false) {
@@ -33,7 +50,7 @@ export default class TaskItem extends Component {
 
     render () {
         const { tasks, custom_fields, users, ignoredColumns, customers } = this.props
-        const is_mobile = window.innerWidth <= 768
+        const is_mobile = this.state.width <= 500
 
         if (tasks && tasks.length && users.length) {
             return tasks.map((task, index) => {
@@ -157,18 +174,18 @@ export default class TaskItem extends Component {
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/>
                             }
-                            {<TaskPresenter customers={customers}
+                            <TaskPresenter customers={customers}
                                 field="duration" entity={task}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}
+                                edit={editButton}/>
                         </div>
                         <div className="d-flex w-100 justify-content-between">
                             <span className="mb-1 text-muted">{<TaskPresenter customers={customers} field="customer_id"
                                 entity={task}
                                 edit={editButton}/>} </span>
-                            <span>{<TaskPresenter field="status_field" entity={task}
+                            <span><TaskPresenter field="status_field" entity={task}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</span>
+                                edit={editButton}/></span>
                         </div>
                     </ListGroupItem>
                 </div>
