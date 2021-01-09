@@ -11,7 +11,24 @@ export default class TaxRateItem extends Component {
     constructor (props) {
         super(props)
 
+        this.state = {
+            width: window.innerWidth,
+        }
+
         this.deleteTaxRate = this.deleteTaxRate.bind(this)
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+    }
+
+    componentWillMount () {
+        window.addEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    handleWindowSizeChange () {
+        this.setState({ width: window.innerWidth });
     }
 
     deleteTaxRate (id, archive = false) {
