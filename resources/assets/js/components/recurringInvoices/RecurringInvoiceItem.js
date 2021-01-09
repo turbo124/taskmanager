@@ -11,7 +11,24 @@ export default class RecurringInvoiceItem extends Component {
     constructor (props) {
         super(props)
 
+        this.state = {
+            width: window.innerWidth,
+        }
+
         this.deleteInvoice = this.deleteInvoice.bind(this)
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+    }
+
+    componentWillMount () {
+        window.addEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange);
+    }
+
+    handleWindowSizeChange () {
+        this.setState({ width: window.innerWidth });
     }
 
     deleteInvoice (id, archive = false) {
@@ -76,7 +93,7 @@ export default class RecurringInvoiceItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                const is_mobile = window.innerWidth <= 768
+                const is_mobile = this.state.width <= 500
 
                 if (!this.props.show_list) {
                     return <tr className={selectedRow} key={invoice.id}>
