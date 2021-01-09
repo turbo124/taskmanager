@@ -71,6 +71,7 @@ class PdfColumns
         'order'         => [
             '$order.number'      => '<span>$order.number_label: $order.number</span>',
             '$order.po_number'   => '<span>$order.po_number_label: $order.po_number</span>',
+            '$order.order_datetime'  => '<span>$order.datetime_label: $order.datetime</span>',
             '$order.order_date'  => '<span>$order.date_label: $order.date</span>',
             '$order.due_date'    => '<span>$order.due_date_label: $order.due_date</span>',
             '$order.balance'     => '<span>$order.balance_due_label: $order.balance_due</span>',
@@ -103,6 +104,7 @@ class PdfColumns
         'invoice'       => [
             '$invoice.number'        => '<span>$invoice.number_label: $invoice.number</span>',
             '$invoice.po_number'     => '<span>$invoice.po_number_label: $invoice.po_number</span>',
+            '$invoice.invoice_datetime'  => '<span>$invoice.datetime_label: $invoice.datetime</span>',
             '$invoice.invoice_date'  => '<span>$invoice.date_label: $invoice.date</span>',
             '$invoice.due_date'      => '<span>$invoice.due_date_label: $invoice.due_date</span>',
             '$invoice.balance'       => '<span>$invoice.balance_due_label: $invoice.balance_due</span>',
@@ -120,12 +122,14 @@ class PdfColumns
         'dispatch_note' => [
             '$invoice.number'        => '<span>$invoice.number_label: $invoice.number</span>',
             '$invoice.po_number'     => '<span>$invoice.po_number_label: $invoice.po_number</span>',
+            '$invoice.invoice_datetime'  => '<span>$invoice.datetime_label: $invoice.datetime</span>',
             '$invoice.invoice_date'  => '<span>$invoice.date_label: $invoice.date</span>',
             '$invoice.invoice_total' => '<span>$invoice.total_label: $invoice.total</span>'
         ],
         'quote'         => [
             '$quote.number'      => '<span>$invoice.number_label: $invoice.number</span>',
-            '$quote.po_number'   => '<span>$quote.po_number_label: $quote.po_number</span>',
+            '$quote.po_number'   => '<span>$quote.po_number_label: $quote.po_number</span>', 
+            '$quote.quote_datetime'  => '<span>$quote.datetime_label: $quote.datetime</span>',
             '$quote.quote_date'  => '<span>$quote.date_label: $quote.date</span>',
             '$quote.valid_until' => '<span>$quote.due_date_label: $quote.due_date</span>',
             '$quote.balance_due' => '<span>$quote.balance_due_label: $quote.balance_due</span>',
@@ -144,7 +148,8 @@ class PdfColumns
         'purchase_order' => [
             '$purchaseorder.number'      => '<span>$invoice.number_label: $invoice.number</span>',
             '$purchaseorder.po_number'   => '<span>$purchaseorder.po_number_label: $purchaseorder.po_number</span>',
-            '$purchaseorder.quote_date'  => '<span>$purchaseorder.date_label: $purchaseorder.date</span>',
+            '$purchaseorder.purchaseorder_datetime'  => '<span>$purchaseorder.datetime_label: $purchaseorder.datetime</span>',
+            '$purchaseorder.purchaseorder_date'  => '<span>$purchaseorder.date_label: $purchaseorder.date</span>',
             '$purchaseorder.valid_until' => '<span>$purchaseorder.due_date_label: $purchaseorder.due_date</span>',
             '$purchaseorder.balance_due' => '<span>$purchaseorder.balance_due_label: $purchaseorder.balance_due</span>',
             '$purchaseorder.quote_total' => '<span>$purchaseorder.total_label: $purchaseorder.total</span>',
@@ -162,6 +167,7 @@ class PdfColumns
         'credit' => [
             '$credit.number'        => '<span>$credit.number_label: $credit.number</span>',
             '$credit.po_number'     => '<span>$credit.po_number_label: $credit.po_number</span>',
+            '$credit.credit_datetime'   => '<span>$credit.datetime_label: $credit.datetime</span>',
             '$credit.credit_date'   => '<span>$credit.date_label: $credit.date</span>',
             '$credit.due_date'      => '<span>$credit.due_date_label: $credit.due_date</span>',
             '$credit.balance'       => '<span>$credit.balance_due_label: $credit.balance_due</span>',
