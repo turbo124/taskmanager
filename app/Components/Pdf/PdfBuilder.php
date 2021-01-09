@@ -532,6 +532,19 @@ class PdfBuilder
         return $this;
     }
 
+    public function setDatetime($datetime): self
+    {
+        $this->data['$date'] = [
+            'value' => $this->formatDatetime($this->entity, $datetime) ?: '&nbsp;',
+            'label' => trans('texts.datetime')
+        ];
+        $this->data['$' . $this->class . '.datetime'] = [
+            'value' => $this->formatDatetime($this->entity, $datetime) ?: '&nbsp;',
+            'label' => trans('texts.datetime')
+        ];
+        return $this;
+    }
+
     public function setInvoiceCustomValues(): self
     {
         $this->data['$' . $this->class . '.custom1'] = [
