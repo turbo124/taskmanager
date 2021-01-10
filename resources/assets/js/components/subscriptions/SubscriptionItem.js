@@ -82,6 +82,8 @@ export default class SubscriptionItem extends Component {
                         restore={restoreButton}/> : null
 
                 const is_mobile = this.state.width <= 500
+                const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
+                    ? 'list-group-item-dark' : ''
 
                 if (!this.props.show_list) {
                     return <tr className={selectedRow} key={subscription.id}>
@@ -94,7 +96,7 @@ export default class SubscriptionItem extends Component {
                     </tr>
                 }
 
-                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                return !is_mobile ? <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={subscription.id} type="checkbox"
@@ -106,26 +108,26 @@ export default class SubscriptionItem extends Component {
                     <ListGroupItem
                         onClick={() => this.props.toggleViewedEntity(subscription, subscription.target_url, editButton)}
                         key={index}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<SubscriptionPresenter field="name"
+                            <h5 className="mb-1"><SubscriptionPresenter field="name"
                                 entity={subscription}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}
+                                edit={editButton}/>
                             </h5>
-                            <h5 className="mb-1">{<SubscriptionPresenter field="target_url"
+                            <h5 className="mb-1"><SubscriptionPresenter field="target_url"
                                 entity={subscription}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}
+                                edit={editButton}/>
                             </h5>
                             <h5>
-                                {<SubscriptionPresenter field="event_id"
+                                <SubscriptionPresenter field="event_id"
                                     entity={subscription}
                                     toggleViewedEntity={this.props.toggleViewedEntity}
-                                    edit={editButton}/>} </h5>
+                                    edit={editButton}/></h5>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="d-flex d-inline list-group-item-dark">
+                </div> : <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={subscription.id} type="checkbox"
@@ -137,16 +139,16 @@ export default class SubscriptionItem extends Component {
                     <ListGroupItem
                         onClick={() => this.props.toggleViewedEntity(subscription, subscription.target_url, editButton)}
                         key={index}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<SubscriptionPresenter field="target_url"
+                            <h5 className="mb-1"><SubscriptionPresenter field="target_url"
                                 entity={subscription}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} .
-                            {<SubscriptionPresenter field="event_id"
+                                edit={editButton}/> .
+                            <SubscriptionPresenter field="event_id"
                                 entity={subscription}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}
+                                edit={editButton}/>
                             </h5>
                         </div>
                     </ListGroupItem>
