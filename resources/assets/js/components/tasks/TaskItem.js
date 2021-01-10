@@ -51,6 +51,8 @@ export default class TaskItem extends Component {
     render () {
         const { tasks, custom_fields, users, ignoredColumns, customers } = this.props
         const is_mobile = this.state.width <= 500
+        const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
+                    ? 'list-group-item-dark' : ''
 
         if (tasks && tasks.length && users.length) {
             return tasks.map((task, index) => {
@@ -101,7 +103,7 @@ export default class TaskItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                const is_mobile = window.innerWidth <= 768
+                //const is_mobile = window.innerWidth <= 768
 
                 if (!this.props.show_list) {
                     return <tr className={selectedRow} key={index}>
@@ -116,7 +118,7 @@ export default class TaskItem extends Component {
                     </tr>
                 }
 
-                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                return !is_mobile ? <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
@@ -126,7 +128,7 @@ export default class TaskItem extends Component {
                     </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(task, task.name, editButton)}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
                             <h5 style={{ minWidth: '300px' }} className="mb-1">{<TaskPresenter customers={customers} field="name" entity={task}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
@@ -153,7 +155,7 @@ export default class TaskItem extends Component {
                                 edit={editButton}/></span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="d-flex d-inline list-group-item-dark">
+                </div> : <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
@@ -163,7 +165,7 @@ export default class TaskItem extends Component {
                     </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(task, task.name, editButton)}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
                             <h5 className="mb-1">{<TaskPresenter customers={customers} field="name" entity={task}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
