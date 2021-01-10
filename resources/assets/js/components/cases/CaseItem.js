@@ -83,6 +83,7 @@ export default class CaseItem extends Component {
                         restore={restoreButton}/> : null
 
                 const is_mobile = this.state.width <= 500
+                const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
                 if (!this.props.show_list) {
                     return <tr className={selectedRow} key={case_file.id}>
@@ -95,7 +96,7 @@ export default class CaseItem extends Component {
                     </tr>
                 }
 
-                return is_mobile ? <div className="list-group-item-dark d-flex d-inline">
+                return is_mobile ? <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={case_file.id} type="checkbox"
@@ -107,32 +108,32 @@ export default class CaseItem extends Component {
                     <ListGroupItem
                         onClick={() => this.props.toggleViewedEntity(case_file, case_file.subject, editButton)}
                         key={index}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<CasePresenter customers={customers} field="subject"
+                            <h5 className="mb-1"><CasePresenter customers={customers} field="subject"
                                 entity={case_file}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            {<CasePresenter customers={customers}
+                                edit={editButton}/></h5>
+                            <CasePresenter customers={customers}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                field="due_date" entity={case_file} edit={editButton}/>}
+                                field="due_date" entity={case_file} edit={editButton}/>
                         </div>
                         <div className="d-flex w-100 justify-content-between">
-                            <span className="mb-1 text-muted">{<CasePresenter field="customer_id" customers={customers}
+                            <span className="mb-1 text-muted"><CasePresenter field="customer_id" customers={customers}
                                 entity={case_file}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
+                                edit={editButton}/></span>
 
-                            <span className="mb-1 text-muted">{<CasePresenter field="priority_field"
+                            <span className="mb-1"><CasePresenter field="priority_field"
                                 entity={case_file}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
-                            <span>{<CasePresenter field="status_field" entity={case_file}
+                                edit={editButton}/></span>
+                            <span><CasePresenter field="status_field" entity={case_file}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</span>
+                                edit={editButton}/></span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="list-group-item-dark d-flex d-inline">
+                </div> : <div className= className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={case_file.id} type="checkbox"
@@ -144,27 +145,27 @@ export default class CaseItem extends Component {
                     <ListGroupItem
                         onClick={() => this.props.toggleViewedEntity(case_file, case_file.subject, editButton)}
                         key={index}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<CasePresenter customers={customers} field="subject"
+                            <h5 className="mb-1"><CasePresenter customers={customers} field="subject"
                                 entity={case_file}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            {<CasePresenter customers={customers}
+                                edit={editButton}/></h5>
+                            <CasePresenter customers={customers}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                field="due_date" entity={case_file} edit={editButton}/>}
-                            <span className="mb-1">{<CasePresenter field="customer_id" customers={customers}
+                                field="due_date" entity={case_file} edit={editButton}/>
+                            <span className="mb-1"><CasePresenter field="customer_id" customers={customers}
                                 entity={case_file}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
+                                edit={editButton}/></span>
 
-                            <span className="mb-1">{<CasePresenter field="priority_field"
+                            <span className="mb-1"><CasePresenter field="priority_field"
                                 entity={case_file}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
-                            <span>{<CasePresenter field="status_field" entity={case_file}
+                                edit={editButton}/></span>
+                            <span><CasePresenter field="status_field" entity={case_file}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</span>
+                                edit={editButton}/></span>
                         </div>
                     </ListGroupItem>
                 </div>
