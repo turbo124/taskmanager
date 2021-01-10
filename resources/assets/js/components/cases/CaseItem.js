@@ -83,7 +83,8 @@ export default class CaseItem extends Component {
                         restore={restoreButton}/> : null
 
                 const is_mobile = this.state.width <= 500
-                const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
+                const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
+                    ? 'list-group-item-dark' : ''
 
                 if (!this.props.show_list) {
                     return <tr className={selectedRow} key={case_file.id}>
