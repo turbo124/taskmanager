@@ -11,7 +11,24 @@ export default class TaskStatusItem extends Component {
     constructor (props) {
         super(props)
 
+        this.state = {
+            width: window.innerWidth
+        }
+
         this.deleteTaskStatus = this.deleteTaskStatus.bind(this)
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+    }
+
+    componentWillMount () {
+        window.addEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    handleWindowSizeChange () {
+        this.setState({ width: window.innerWidth })
     }
 
     deleteTaskStatus (id, archive = false) {
@@ -65,7 +82,9 @@ export default class TaskStatusItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                const is_mobile = window.innerWidth <= 768
+                const is_mobile = this.state.width <= 768
+                const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
+                    ? 'list-group-item-dark' : ''
 
                 if (!this.props.show_list) {
                     return <tr className={selectedRow} key={taskStatus.id}>
@@ -78,7 +97,7 @@ export default class TaskStatusItem extends Component {
                     </tr>
                 }
 
-                return is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                return is_mobile ? <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={taskStatus.id} type="checkbox"
@@ -90,15 +109,15 @@ export default class TaskStatusItem extends Component {
                     <ListGroupItem
                         onClick={() => this.props.toggleViewedEntity(taskStatus, taskStatus.name, editButton)}
                         key={index}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<TaskStatusPresenter field="name"
+                            <h5 className="mb-1"><TaskStatusPresenter field="name"
                                 entity={taskStatus}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
+                                edit={editButton}/></h5>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="d-flex d-inline list-group-item-dark">
+                </div> : <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={taskStatus.id} type="checkbox"
@@ -110,12 +129,12 @@ export default class TaskStatusItem extends Component {
                     <ListGroupItem
                         onClick={() => this.props.toggleViewedEntity(taskStatus, taskStatus.name, editButton)}
                         key={index}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<TaskStatusPresenter field="name"
+                            <h5 className="mb-1"><TaskStatusPresenter field="name"
                                 entity={taskStatus}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
+                                edit={editButton}/></h5>
                         </div>
                     </ListGroupItem>
                 </div>

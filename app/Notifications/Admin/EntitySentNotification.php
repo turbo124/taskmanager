@@ -115,9 +115,9 @@ class EntitySentNotification extends Notification implements ShouldQueue
     private function getDataArray()
     {
         return [
-            'total' => $this->entity->getFormattedTotal(),
+            'total'    => $this->entity->getFormattedTotal(),
             'customer' => $this->contact->present()->name(),
-            'invoice' => $this->entity->getNumber(),
+            'invoice'  => $this->entity->getNumber(),
         ];
     }
 

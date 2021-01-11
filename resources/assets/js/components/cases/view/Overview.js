@@ -61,6 +61,10 @@ export default function Overview (props) {
         fields.priority = this.props.priority
     }
 
+    if (props.entity.category && Object.keys(props.entity.category).length) {
+        fields.category = props.entity.category.name
+    }
+
     let user = null
 
     if (props.entity.assigned_to) {

@@ -11,7 +11,24 @@ export default class CustomerItem extends Component {
     constructor (props) {
         super(props)
 
+        this.state = {
+            width: window.innerWidth
+        }
+
         this.deleteCustomer = this.deleteCustomer.bind(this)
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+    }
+
+    componentWillMount () {
+        window.addEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    handleWindowSizeChange () {
+        this.setState({ width: window.innerWidth })
     }
 
     deleteCustomer (id, archive = false) {
@@ -60,7 +77,9 @@ export default class CustomerItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                const is_mobile = window.innerWidth <= 768
+                const is_mobile = this.state.width <= 500
+                const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
+                    ? 'list-group-item-dark' : ''
 
                 if (!this.props.show_list) {
                     return <tr className={selectedRow} key={customer.id}>
@@ -73,7 +92,7 @@ export default class CustomerItem extends Component {
                     </tr>
                 }
 
-                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                return !is_mobile ? <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={customer.id} type="checkbox"
@@ -83,7 +102,7 @@ export default class CustomerItem extends Component {
                     </div>
                     <ListGroupItem onClick={() => this.props.toggleViewedEntity(quote, quote.number, editButton)}
                         key={index}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
                             {<CustomerPresenter customers={customers}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
@@ -97,7 +116,7 @@ export default class CustomerItem extends Component {
                                 field="balance" entity={customer} edit={editButton}/>}
                         </div>
                     </ListGroupItem>
-                </div> : <div className="d-flex d-inline list-group-item-dark">
+                </div> : <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={customer.id} type="checkbox"
@@ -107,7 +126,7 @@ export default class CustomerItem extends Component {
                     </div>
                     <ListGroupItem onClick={() => this.props.toggleViewedEntity(quote, quote.number, editButton)}
                         key={index}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
                             <h5 className="mb-1">{<CustomerPresenter customers={customers} field="name"
                                 entity={customer}

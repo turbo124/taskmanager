@@ -5,7 +5,7 @@ import { translations } from '../../utils/_translations'
 import TaskStatusDropdown from '../../common/dropdowns/TaskStatusDropdown'
 import DesignDropdown from '../../common/dropdowns/DesignDropdown'
 import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
-import ColorPickerNew from "../../common/ColorPickerNew";
+import ColorPickerNew from '../../common/ColorPickerNew'
 
 export default class Details extends React.Component {
     constructor (props) {

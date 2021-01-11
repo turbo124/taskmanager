@@ -12,7 +12,24 @@ export default class ProjectItem extends Component {
     constructor (props) {
         super(props)
 
+        this.state = {
+            width: window.innerWidth
+        }
+
         this.deleteProject = this.deleteProject.bind(this)
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+    }
+
+    componentWillMount () {
+        window.addEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    handleWindowSizeChange () {
+        this.setState({ width: window.innerWidth })
     }
 
     deleteProject (id, archive = false) {
@@ -76,7 +93,9 @@ export default class ProjectItem extends Component {
                     color="warning">{translations.archived}</Badge>) : ((project.deleted_at && project.is_deleted) ? (
                     <Badge className="mr-2" color="danger">{translations.deleted}</Badge>) : (''))
 
-                const is_mobile = window.innerWidth <= 768
+                const is_mobile = this.state.width <= 768
+                const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
+                    ? 'list-group-item-dark' : ''
 
                 if (!this.props.show_list) {
                     return <tr className={selectedRow} key={project.id}>
@@ -89,7 +108,7 @@ export default class ProjectItem extends Component {
                         {!!status && <td>{status}</td>}
                     </tr>
                 }
-                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                return !is_mobile ? <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={project.id} type="checkbox"
@@ -99,15 +118,15 @@ export default class ProjectItem extends Component {
                     </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(project, project.name, editButton)}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1"><ProjectPresenter customers={customers} field="name" entity={project}
+                            <h5 className="col-5"><ProjectPresenter customers={customers} field="name" entity={project}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/></h5>
-                            <span className="mb-1"><ProjectPresenter customers={customers} field="customer_id"
+                            <span className="col-4"><ProjectPresenter customers={customers} field="customer_id"
                                 entity={project}
                                 edit={editButton}/></span>
-                            <span>
+                            <span className="col-2">
                                 <ProjectPresenter customers={customers}
                                     field="budgeted_hours" entity={project}
                                     toggleViewedEntity={this.props.toggleViewedEntity}
@@ -115,7 +134,7 @@ export default class ProjectItem extends Component {
                             </span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="d-flex d-inline list-group-item-dark">
+                </div> : <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={project.id} type="checkbox"
@@ -125,7 +144,7 @@ export default class ProjectItem extends Component {
                     </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(project, project.name, editButton)}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
                             <h5 className="mb-1"><ProjectPresenter customers={customers} field="name" entity={project}
                                 toggleViewedEntity={this.props.toggleViewedEntity}

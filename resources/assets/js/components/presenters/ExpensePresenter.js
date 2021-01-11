@@ -4,6 +4,7 @@ import FormatMoney from '../common/FormatMoney'
 import FormatDate from '../common/FormatDate'
 import { expenseStatusColors, expenseStatuses, frequencyOptions } from '../utils/_consts'
 import { translations } from '../utils/_translations'
+import { contrast } from '../utils/_colors'
 
 export function getDefaultTableFields () {
     return [
@@ -20,7 +21,11 @@ export default function ExpensePresenter (props) {
     const { field, entity } = props
 
     const color = entity.category && entity.category.column_color && entity.category.column_color.length ? entity.category.column_color : ''
-    const status_chip = color.length ? <span className="badge" style={{ backgroundColor: color, color: '#FFFFFF' }}>{expenseStatuses[entity.status_id]}</span> : <Badge color={expenseStatusColors[entity.status_id]}>{expenseStatuses[entity.status_id]}</Badge>
+    const status_chip = color.length ? <span className="badge" style={{
+        backgroundColor: color,
+        color: contrast(color)
+    }}>{expenseStatuses[entity.status_id]}</span>
+        : <Badge color={expenseStatusColors[entity.status_id]}>{expenseStatuses[entity.status_id]}</Badge>
 
     const status = (entity.deleted_at && !entity.is_deleted) ? (<Badge className="mr-2"
         color="warning">{translations.archived}</Badge>) : ((entity.deleted_at && entity.is_deleted) ? (
@@ -49,7 +54,7 @@ export default function ExpensePresenter (props) {
         case 'date':
         case 'created_at':
         case 'payment_date': {
-            return <FormatDate field={field} date={entity[field]}/>
+            return !entity[field] || !entity[field].length || entity[field] === '0000-00-00' ? '' : <FormatDate field={field} date={entity[field]}/>
         }
 
         case 'status_id':

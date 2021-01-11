@@ -14,6 +14,7 @@ use App\Models\Task;
 use App\Models\User;
 use App\Traits\DateFormatter;
 use App\Traits\Money;
+use Laracasts\Presenter\Exceptions\PresenterException;
 use ReflectionClass;
 use ReflectionException;
 
@@ -41,31 +42,6 @@ class PdfBuilder
     {
         $this->entity = $entity;
         $this->class = strtolower((new ReflectionClass($this->entity))->getShortName());
-    }
-
-    protected function checkIfEmpty(array $line_items, $type = null): array
-    {
-        $empty_values = [];
-
-        $rows = $type !== null ? $line_items[$type] : $line_items;
-
-        foreach ($rows as $row) {
-            foreach ($row as $column => $value) {
-                if (empty($value)) {
-                    $empty_values[$column] = !isset($empty[$column]) ? 1 : $empty[$column]++;
-                }
-            }
-        }
-
-        $return_array = [];
-
-        foreach ($empty_values as $empty_column => $empty_count) {
-            if ($empty_count === count($line_items[$type])) {
-                $return_array[] = $empty_column;
-            }
-        }
-
-        return $return_array;
     }
 
     public function buildContact($contact = null): self
@@ -466,10 +442,14 @@ class PdfBuilder
     /**
      * @param User $user
      * @return $this
-     * @throws \Laracasts\Presenter\Exceptions\PresenterException
+     * @throws PresenterException
      */
-    public function setUser(User $user) {
-        $this->data['$user'] = ['value' => $user->present()->name() ?: '&nbsp;', 'label' => 'user'];
+    public function setUser(User $user)
+    {
+        $this->data['$' . $this->class . '.agent'] = [
+            'value' => $user->present()->name() ?: '&nbsp;',
+            'label' => trans('texts.agent')
+        ];
         return $this;
     }
 
@@ -536,12 +516,13 @@ class PdfBuilder
     {
         $this->data['$datetime'] = [
             'value' => $this->formatDatetime($this->entity, $datetime) ?: '&nbsp;',
-            'label' => trans('texts.datetime')
+            'label' => trans('texts.date_created')
         ];
         $this->data['$' . $this->class . '.datetime'] = [
             'value' => $this->formatDatetime($this->entity, $datetime) ?: '&nbsp;',
-            'label' => trans('texts.datetime')
+            'label' => trans('texts.date_created')
         ];
+      
         return $this;
     }
 
@@ -812,6 +793,31 @@ class PdfBuilder
     public function getEntity()
     {
         return $this->entity;
+    }
+
+    protected function checkIfEmpty(array $line_items, $type = null): array
+    {
+        $empty_values = [];
+
+        $rows = $type !== null ? $line_items[$type] : $line_items;
+
+        foreach ($rows as $row) {
+            foreach ($row as $column => $value) {
+                if (empty($value)) {
+                    $empty_values[$column] = !isset($empty[$column]) ? 1 : $empty[$column]++;
+                }
+            }
+        }
+
+        $return_array = [];
+
+        foreach ($empty_values as $empty_column => $empty_count) {
+            if ($empty_count === count($line_items[$type])) {
+                $return_array[] = $empty_column;
+            }
+        }
+
+        return $return_array;
     }
 
     protected function setDefaults(Customer $customer): self

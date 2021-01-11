@@ -81,6 +81,14 @@ class Cases extends Model
         return $this->morphMany(File::class, 'fileable');
     }
 
+    /**
+     * @return BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(CaseCategory::class)->withTrashed();
+    }
+
     public function service(): CasesService
     {
         return new CasesService($this);

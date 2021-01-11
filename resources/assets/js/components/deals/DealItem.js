@@ -6,13 +6,29 @@ import DeleteModal from '../common/DeleteModal'
 import ActionsMenu from '../common/ActionsMenu'
 import EditDeal from './edit/EditDeal'
 import DealPresenter from '../presenters/DealPresenter'
-import LeadPresenter from '../presenters/LeadPresenter'
 
 export default class DealItem extends Component {
     constructor (props) {
         super(props)
 
+        this.state = {
+            width: window.innerWidth
+        }
+
         this.deleteDeal = this.deleteDeal.bind(this)
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+    }
+
+    componentWillMount () {
+        window.addEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    handleWindowSizeChange () {
+        this.setState({ width: window.innerWidth })
     }
 
     deleteDeal (id, archive = false) {
@@ -73,7 +89,9 @@ export default class DealItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                const is_mobile = window.innerWidth <= 768
+                const is_mobile = this.state.width <= 768
+                const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
+                    ? 'list-group-item-dark' : ''
 
                 if (!this.props.show_list) {
                     return <tr className={selectedRow} key={deal.id}>
@@ -86,7 +104,7 @@ export default class DealItem extends Component {
                     </tr>
                 }
 
-                return !is_mobile ? <div className="list-group-item-dark d-flex d-inline">
+                return !is_mobile ? <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={deal.id} type="checkbox"
@@ -96,33 +114,33 @@ export default class DealItem extends Component {
                     </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(deal, deal.name, editButton)}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 style={{ minWidth: '300px' }} className="mb-1">{<DealPresenter customers={customers} field="name" entity={deal}
+                            <h5 className="col-4">{<DealPresenter customers={customers} field="name" entity={deal}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/>}</h5>
-                            <span><DealPresenter field="customer_id" customers={customers}
+                            <span className="col-4"><DealPresenter field="customer_id" customers={customers}
                                 entity={deal}
                                 edit={editButton}/>
-                            <br />
+                            <br/>
                             {!!deal.project && deal.project.name &&
                                 <DealPresenter field="project" entity={deal}
                                     toggleViewedEntity={this.props.toggleViewedEntity}
                                     edit={editButton}/>
                             }
                             </span>
-                            <span>
+                            <span className="col-2">
                                 <DealPresenter customers={customers}
                                     field="due_date" entity={deal}
                                     toggleViewedEntity={this.props.toggleViewedEntity}
                                     edit={editButton}/>
                             </span>
-                            <span><DealPresenter field="status_field" entity={deal}
+                            <span className="col-2"><DealPresenter field="status_field" entity={deal}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/></span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="list-group-item-dark">
+                </div> : <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={deal.id} type="checkbox"
@@ -132,7 +150,7 @@ export default class DealItem extends Component {
                     </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(deal, deal.name, editButton)}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
                             <h5 className="mb-1">{<DealPresenter customers={customers} field="name" entity={deal}
                                 toggleViewedEntity={this.props.toggleViewedEntity}

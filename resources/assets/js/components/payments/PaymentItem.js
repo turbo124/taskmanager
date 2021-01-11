@@ -13,7 +13,24 @@ export default class PaymentItem extends Component {
     constructor (props) {
         super(props)
 
+        this.state = {
+            width: window.innerWidth
+        }
+
         this.deletePayment = this.deletePayment.bind(this)
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+    }
+
+    componentWillMount () {
+        window.addEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    handleWindowSizeChange () {
+        this.setState({ width: window.innerWidth })
     }
 
     deletePayment (id, archive = true) {
@@ -96,7 +113,9 @@ export default class PaymentItem extends Component {
                     ? <ActionsMenu refund={refundButton} edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                const is_mobile = window.innerWidth <= 768
+                const is_mobile = this.state.width <= 768
+                const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
+                    ? 'list-group-item-dark' : ''
 
                 if (!this.props.show_list) {
                     return <tr className={selectedRow} key={index}>
@@ -111,7 +130,7 @@ export default class PaymentItem extends Component {
                     </tr>
                 }
 
-                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                return !is_mobile ? <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={payment.id} type="checkbox"
@@ -121,24 +140,24 @@ export default class PaymentItem extends Component {
                     </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(payment, payment.number, editButton)}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1"> {<PaymentPresenter customers={customers} field="customer_id"
+                            <h5 className="mb-1"><PaymentPresenter customers={customers} field="customer_id"
                                 entity={payment}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            {<PaymentPresenter customers={customers}
+                                edit={editButton}/></h5>
+                            <span><PaymentPresenter customers={customers}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                field="amount" entity={payment} edit={editButton}/>}
-                            <span className="mb-1">{payment.number} . {<PaymentPresenter field="date"
+                                field="amount" entity={payment} edit={editButton}/></span>
+                            <span className="mb-1">{payment.number} . <PaymentPresenter field="date"
                                 entity={payment}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
-                            <span>{<PaymentPresenter field="status_field" entity={payment} edit={editButton}
-                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                                edit={editButton}/></span>
+                            <span><PaymentPresenter field="status_field" entity={payment} edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/></span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="d-flex d-inline list-group-item-dark">
+                </div> : <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={payment.id} type="checkbox"
@@ -148,23 +167,23 @@ export default class PaymentItem extends Component {
                     </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(payment, payment.number, editButton)}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1"> {<PaymentPresenter customers={customers} field="customer_id"
+                            <h5 className="mb-1"><PaymentPresenter customers={customers} field="customer_id"
                                 entity={payment}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>}</h5>
-                            {<PaymentPresenter customers={customers}
+                                edit={editButton}/></h5>
+                            <PaymentPresenter customers={customers}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                field="amount" entity={payment} edit={editButton}/>}
+                                field="amount" entity={payment} edit={editButton}/>
                         </div>
                         <div className="d-flex w-100 justify-content-between">
-                            <span className="mb-1 text-muted">{payment.number} . {<PaymentPresenter field="date"
+                            <span className="mb-1 text-muted">{payment.number} . <PaymentPresenter field="date"
                                 entity={payment}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
-                            <span>{<PaymentPresenter field="status_field" entity={payment} edit={editButton}
-                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                                edit={editButton}/></span>
+                            <span><PaymentPresenter field="status_field" entity={payment} edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/></span>
                         </div>
                     </ListGroupItem>
                 </div>

@@ -11,7 +11,24 @@ export default class OrderItem extends Component {
     constructor (props) {
         super(props)
 
+        this.state = {
+            width: window.innerWidth
+        }
+
         this.deleteOrder = this.deleteOrder.bind(this)
+        this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
+    }
+
+    componentWillMount () {
+        window.addEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener('resize', this.handleWindowSizeChange)
+    }
+
+    handleWindowSizeChange () {
+        this.setState({ width: window.innerWidth })
     }
 
     deleteOrder (id, archive = false) {
@@ -74,7 +91,9 @@ export default class OrderItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                const is_mobile = window.innerWidth <= 768
+                const is_mobile = this.state.width <= 768
+                const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
+                    ? 'list-group-item-dark' : ''
 
                 if (!this.props.show_list) {
                     return <tr className={selectedRow} key={index}>
@@ -89,7 +108,7 @@ export default class OrderItem extends Component {
                     </tr>
                 }
 
-                return !is_mobile ? <div className="d-flex d-inline list-group-item-dark">
+                return !is_mobile ? <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={order.id} type="checkbox"
@@ -99,27 +118,28 @@ export default class OrderItem extends Component {
                     </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(order, order.number, editButton)}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5> <OrderPresenter customers={customers} field="customer_id"
+                            <h5 className="col-4"><OrderPresenter customers={customers} field="customer_id"
                                 entity={order}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/></h5>
-                            <span>
+                            <span className="col-4">{order.number} . {<OrderPresenter
+                                field={order.due_date.length ? 'due_date' : 'date'} entity={order}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/>} </span>
+                            <span className="col-2">
                                 <OrderPresenter customers={customers}
                                     toggleViewedEntity={this.props.toggleViewedEntity}
                                     field={order.balance > 0 ? 'balance' : 'total'} entity={order}
                                     edit={editButton}/>
                             </span>
-                            <span>{order.number} . {<OrderPresenter
-                                field={order.due_date.length ? 'due_date' : 'date'} entity={order}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/>} </span>
-                            <span><OrderPresenter field="status_field" entity={order} edit={editButton}
+                            <span className="col-2"><OrderPresenter field="status_field" entity={order}
+                                edit={editButton}
                                 toggleViewedEntity={this.props.toggleViewedEntity}/></span>
                         </div>
                     </ListGroupItem>
-                </div> : <div className="d-flex d-inline list-group-item-dark">
+                </div> : <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={order.id} type="checkbox"
@@ -129,9 +149,9 @@ export default class OrderItem extends Component {
                     </div>
                     <ListGroupItem key={index}
                         onClick={() => this.props.toggleViewedEntity(order, order.number, editButton)}
-                        className="border-top-0 list-group-item-dark list-group-item-action flex-column align-items-start">
+                        className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1"> <OrderPresenter customers={customers} field="customer_id"
+                            <h5 className="mb-1"><OrderPresenter customers={customers} field="customer_id"
                                 entity={order}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/></h5>

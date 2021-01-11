@@ -5,6 +5,7 @@ import { icons } from '../../utils/_icons'
 import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
+import ColorPickerNew from '../../common/ColorPickerNew'
 
 class EditCategory extends React.Component {
     constructor (props) {
@@ -50,7 +51,10 @@ class EditCategory extends React.Component {
     }
 
     handleClick () {
-        axios.put(`/api/case-categories/${this.state.id}`, { name: this.state.name })
+        axios.put(`/api/case-categories/${this.state.id}`, {
+            name: this.state.name,
+            column_color: this.state.column_color
+        })
             .then((response) => {
                 this.toggle()
                 const index = this.props.categories.findIndex(category => category.id === this.state.id)
@@ -92,6 +96,10 @@ class EditCategory extends React.Component {
                                 placeholder={translations.name} onChange={this.handleInput.bind(this)}/>
                             {this.renderErrorFor('name')}
                         </FormGroup>
+
+                        <ColorPickerNew color={this.state.column_color} onChange={(color) => {
+                            this.setState({ column_color: color })
+                        }}/>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}

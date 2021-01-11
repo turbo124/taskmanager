@@ -2,6 +2,7 @@ import React from 'react'
 import FormatDate from '../common/FormatDate'
 import { Badge } from 'reactstrap'
 import { translations } from '../utils/_translations'
+import { contrast } from '../utils/_colors'
 
 export function getDefaultTableFields () {
     return [
@@ -19,7 +20,7 @@ export default function DealPresenter (props) {
     const color = entity.task_status && entity.task_status.column_color && entity.task_status.column_color.length ? entity.task_status.column_color : '#20a8d8'
 
     const status = (entity.deleted_at) ? <Badge color="warning">{translations.archived}</Badge>
-        : <span style={{ backgroundColor: color, color: '#FFFFFF' }} className="badge">{entity.status_name}</span>
+        : <span style={{ backgroundColor: color, color: contrast(color) }} className="badge">{entity.status_name}</span>
 
     switch (field) {
         case 'assigned_to': {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { CirclePicker } from 'react-color'
-import { Button, FormGroup, Label, Modal, ModalBody, ModalFooter, Input } from 'reactstrap'
+import { FormGroup, Input, Label, Modal, ModalBody, ModalFooter } from 'reactstrap'
 import { translations } from '../utils/_translations'
 
 export default class ColorPickerNew extends Component {
@@ -41,11 +41,15 @@ export default class ColorPickerNew extends Component {
                     <Label>{this.props.label || translations.colour}  </Label>
                     <Input value={this.state.color} placeholder="#000000" type="text" onChange={(e) => {
                         this.setState({ color: e.target.value })
-                    }} />
+                    }}/>
                 </FormGroup>
 
                 <div className="d-flex d-inline-flex justify-content-between">
-                    <div className="mr-2" style={{ width: '60px', height: '20px', backgroundColor: `${this.props.color && this.props.color.length ? this.props.color : '#CCC'}` }} />
+                    <div className="mr-2" style={{
+                        width: '60px',
+                        height: '20px',
+                        backgroundColor: `${this.props.color && this.props.color.length ? this.props.color : '#CCC'}`
+                    }}/>
                     <a onClick={(e) => {
                         this.setState({ show: !this.state.show })
                     }}><i className="fa fa-paint-brush" style={{ fontSize: '20px' }}/> </a>

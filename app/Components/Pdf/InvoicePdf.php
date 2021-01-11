@@ -33,6 +33,7 @@ class InvoicePdf extends PdfBuilder
         $this->setDefaults($customer)
              ->buildContact($contact)
              ->setTaxes($customer)
+             ->setDatetime($this->entity->created_at)
              ->setDate($this->entity->date)
              ->setDueDate($this->entity->due_date)
              ->setNumber($this->entity->number)
@@ -113,7 +114,9 @@ class InvoicePdf extends PdfBuilder
                 $empty_columns = $this->checkIfEmpty($this->line_items, $type);
 
                 /********* Remove empty columns ***********************/
-                if(!empty($empty_columns) && $this->entity->customer->getSetting('dont_display_empty_pdf_columns') === true) {
+                if (!empty($empty_columns) && $this->entity->customer->getSetting(
+                        'dont_display_empty_pdf_columns'
+                    ) === true) {
                     foreach (array_values($empty_columns) as $empty_column) {
                         unset($header[$empty_column]);
                         unset($table_row[$empty_column]);
@@ -123,7 +126,6 @@ class InvoicePdf extends PdfBuilder
                 $table_structure[$type]['header'] .= '<tr>' . strtr(implode('', $header), $labels) . '</tr>';
 
                 foreach ($this->line_items[$type] as $data) {
-
                     $tmp = strtr(implode('', $table_row), $data);
                     $tmp = strtr($tmp, $values);
 

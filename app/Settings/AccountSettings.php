@@ -69,6 +69,8 @@ class AccountSettings extends BaseSettings
             'invoice'          => [
                 '$invoice.invoice_number',
                 '$invoice.po_number',
+                '$invoice.invoice_datetime',
+                '$invoice.invoice_agent',
                 '$invoice.invoice_date',
                 '$invoice.due_date',
                 '$invoice.balance_due',
@@ -90,6 +92,8 @@ class AccountSettings extends BaseSettings
                 '$order.order_number',
                 '$order.po_number',
                 '$order.order_date',
+                '$order.order_datetime',
+                '$order.order_agent',
                 '$order.due_date',
                 '$order.balance_due',
                 '$order.order_total',
@@ -97,6 +101,8 @@ class AccountSettings extends BaseSettings
             'quote'            => [
                 '$quote.quote_number',
                 '$quote.po_number',
+                '$quote.quote_datetime',
+                '$quote.quote_agent',
                 '$quote.quote_date',
                 '$quote.valid_until',
                 '$quote.balance_due',
@@ -105,7 +111,9 @@ class AccountSettings extends BaseSettings
             'purchase_order'   => [
                 '$purchaseorder.quote_number',
                 '$purchaseorder.po_number',
-                '$purchaseorder.quote_date',
+                '$purchaseorder.purchaseorder_datetime',
+                '$purchaseorder.purchaseorder_agent',
+                '$purchaseorder.purchaseorder_date',
                 '$purchaseorder.valid_until',
                 '$purchaseorder.balance_due',
                 '$purchaseorder.quote_total',
@@ -114,6 +122,8 @@ class AccountSettings extends BaseSettings
             'credit'                => [
                 '$credit.credit_number',
                 '$credit.po_number',
+                '$credit.credit_datetime',
+                '$credit.credit_agent',
                 '$credit.credit_date',
                 '$credit.credit_balance',
                 '$credit.credit_amount',
