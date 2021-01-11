@@ -109,9 +109,8 @@ export default class ExpenseSettings extends Component {
     getExpenseFields () {
         const settings = this.state.settings
 
-        return [
-            [
-                {
+        const fields = [
+            {
                     name: 'expense_approval_required',
                     label: translations.expense_approval_required,
                     icon: `fa ${icons.envelope}`,
@@ -165,8 +164,43 @@ export default class ExpenseSettings extends Component {
                     help_text: translations.convert_expense_currency_help,
                     group: 1
                 }
-            ]
         ]
+
+        if(settings.show_tax_rate1 === true || settings.show_tax_rate2 === true || settings.show_tax_rate3 === true) {
+            fields.push(
+                {
+                    name: 'expense_taxes_calculated_by_amount',
+                    label: translations.enter_taxes,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'true',
+                            text: translations.by_amount
+                        },
+                        {
+                            value: 'false',
+                            text: translations.by_rate
+                        }
+                    ],
+                    value: settings.expense_taxes_calculated_by_amount,
+                    group: 1
+                }
+            )
+
+            fields.push(
+                {
+                    name: 'expenses_have_inclusive_taxes',
+                    label: translations.inclusive_taxes,
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.expenses_have_inclusive_taxes,
+                    help_text: translations.expenses_have_inclusive_taxes,
+                    group: 1
+                }
+            )
+        }
+
+        return [fields]
     }
 
     handleClose () {
