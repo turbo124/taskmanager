@@ -34,6 +34,9 @@ export default class ExpenseModel extends BaseModel {
             tax_rate: 0,
             tax_1: 0,
             tax_2: 0,
+            tax_amount1: 0,
+            tax_amount2: 0,
+            tax_amount3: 0,
             tax_total: 0,
             tax_rate_name_2: '',
             tax_rate_name_3: '',
@@ -109,6 +112,10 @@ export default class ExpenseModel extends BaseModel {
 
         if (this.fields.expenses_have_inclusive_taxes) {
             return total;
+        }
+
+        if (this.fields.tax_amount1 > 0 || this.fields.tax_amount2 > 0 || this.fields.tax_amount3 > 0) {
+            return total += this.fields.tax_amount1 + this.fields.tax_amount2 + this.fields.tax_amount3
         }
 
         if (this.fields.tax_rate && this.fields.tax_rate > 0) {
