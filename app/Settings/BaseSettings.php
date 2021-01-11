@@ -167,7 +167,13 @@ class BaseSettings
             'default_value'    => false,
             'type'             => 'bool'
         ],
-        'calculate_expense_taxes_by_amount'              => [
+        'expense_taxes_calculated_by_amount' => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
+        'expenses_have_inclusive_taxes'              => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => false,
