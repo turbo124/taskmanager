@@ -29,7 +29,7 @@ export default class TaxRateField extends Component {
                         this.props.onAmountChanged(e)
                     }} />
                 </FormGroup>
-            </Form>
+            </div>
         )
     }
 }
