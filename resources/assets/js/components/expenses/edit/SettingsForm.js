@@ -120,6 +120,10 @@ export default class SettingsForm extends React.Component {
             </CardHeader>
 
             <CardBody>
+                {this.props.model.calculate_expense_taxes &&
+                    amount_field
+                }
+
                {tax_form}
 
                {!this.account_settings.calculate_expense_taxes && 
