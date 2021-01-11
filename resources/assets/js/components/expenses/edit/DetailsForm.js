@@ -24,11 +24,6 @@ export default class DetailsForm extends React.Component {
         return (<Card>
             <CardHeader>{translations.settings}</CardHeader>
             <CardBody>
-               
-                {this.props.model.amountIsPretax &&
-                    amount_field
-                }
-
                 <FormGroup className="mr-2">
                     <Label for="date">{translations.date}(*):</Label>
                     <Datepicker className="form-control" name="date" date={this.props.expense.date}
