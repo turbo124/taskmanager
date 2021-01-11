@@ -51,7 +51,10 @@ class EditCategory extends React.Component {
     }
 
     handleClick () {
-        axios.put(`/api/case-categories/${this.state.id}`, { name: this.state.name, column_color: this.state.column_color })
+        axios.put(`/api/case-categories/${this.state.id}`, {
+            name: this.state.name,
+            column_color: this.state.column_color
+        })
             .then((response) => {
                 this.toggle()
                 const index = this.props.categories.findIndex(category => category.id === this.state.id)

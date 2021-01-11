@@ -13,7 +13,7 @@ export default class TaskItem extends Component {
         super(props)
 
         this.state = {
-            width: window.innerWidth,
+            width: window.innerWidth
         }
 
         this.deleteTask = this.deleteTask.bind(this)
@@ -21,15 +21,15 @@ export default class TaskItem extends Component {
     }
 
     componentWillMount () {
-        window.addEventListener('resize', this.handleWindowSizeChange);
+        window.addEventListener('resize', this.handleWindowSizeChange)
     }
 
     componentWillUnmount () {
-        window.removeEventListener('resize', this.handleWindowSizeChange);
+        window.removeEventListener('resize', this.handleWindowSizeChange)
     }
 
     handleWindowSizeChange () {
-        this.setState({ width: window.innerWidth });
+        this.setState({ width: window.innerWidth })
     }
 
     deleteTask (id, archive = false) {
@@ -50,9 +50,9 @@ export default class TaskItem extends Component {
 
     render () {
         const { tasks, custom_fields, users, ignoredColumns, customers } = this.props
-        const is_mobile = this.state.width <= 500
+        const is_mobile = this.state.width <= 768
         const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
-                    ? 'list-group-item-dark' : ''
+            ? 'list-group-item-dark' : ''
 
         if (tasks && tasks.length && users.length) {
             return tasks.map((task, index) => {
@@ -103,8 +103,6 @@ export default class TaskItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                //const is_mobile = window.innerWidth <= 768
-
                 if (!this.props.show_list) {
                     return <tr className={selectedRow} key={index}>
                         <td>
@@ -130,10 +128,10 @@ export default class TaskItem extends Component {
                         onClick={() => this.props.toggleViewedEntity(task, task.name, editButton)}
                         className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 style={{ minWidth: '300px' }} className="mb-1">{<TaskPresenter customers={customers} field="name" entity={task}
+                            <h5 className="col-5">{<TaskPresenter customers={customers} field="name" entity={task}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/>}</h5>
-                            <span className="mb-1">{<TaskPresenter customers={customers} field="customer_id"
+                            <span className="col-4">{<TaskPresenter customers={customers} field="customer_id"
                                 entity={task}
                                 edit={editButton}/>}
                             <br/>
@@ -144,13 +142,13 @@ export default class TaskItem extends Component {
                                     edit={editButton}/>
                             }
                             </span>
-                            <span>
+                            <span className="col-2">
                                 <TaskPresenter customers={customers}
                                     field="duration" entity={task}
                                     toggleViewedEntity={this.props.toggleViewedEntity}
                                     edit={editButton}/>
                             </span>
-                            <span><TaskPresenter field="status_field" entity={task}
+                            <span className="col-1"><TaskPresenter field="status_field" entity={task}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/></span>
                         </div>

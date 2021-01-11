@@ -12,7 +12,7 @@ export default class RecurringQuoteItem extends Component {
         super(props)
 
         this.state = {
-            width: window.innerWidth,
+            width: window.innerWidth
         }
 
         this.deleteInvoice = this.deleteInvoice.bind(this)
@@ -20,15 +20,15 @@ export default class RecurringQuoteItem extends Component {
     }
 
     componentWillMount () {
-        window.addEventListener('resize', this.handleWindowSizeChange);
+        window.addEventListener('resize', this.handleWindowSizeChange)
     }
 
     componentWillUnmount () {
-        window.removeEventListener('resize', this.handleWindowSizeChange);
+        window.removeEventListener('resize', this.handleWindowSizeChange)
     }
 
     handleWindowSizeChange () {
-        this.setState({ width: window.innerWidth });
+        this.setState({ width: window.innerWidth })
     }
 
     deleteInvoice (id, archive = false) {
@@ -92,7 +92,7 @@ export default class RecurringQuoteItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                const is_mobile = this.state.width <= 500
+                const is_mobile = this.state.width <= 768
                 const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
                     ? 'list-group-item-dark' : ''
 
@@ -119,21 +119,21 @@ export default class RecurringQuoteItem extends Component {
                         key={index}
                         className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5><RecurringQuotePresenter customers={customers} field="customer_id"
+                            <h5 className="col-4"><RecurringQuotePresenter customers={customers} field="customer_id"
                                 entity={user}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/></h5>
-                            <span>
+                            <span className="col-4">{user.number} . <RecurringQuotePresenter field="due_date"
+                                entity={user}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/></span>
+                            <span className="col-2">
                                 <RecurringQuotePresenter customers={customers}
                                     toggleViewedEntity={this.props.toggleViewedEntity}
                                     field={user.balance > 0 ? 'balance' : 'total'} entity={user}
                                     edit={editButton}/>
                             </span>
-                            <span>{user.number} . <RecurringQuotePresenter field="due_date"
-                                entity={user}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/></span>
-                            <span><RecurringQuotePresenter field="status_field" entity={user}
+                            <span className="col-2"><RecurringQuotePresenter field="status_field" entity={user}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/></span>
                         </div>

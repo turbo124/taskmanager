@@ -12,7 +12,7 @@ export default class LeadItem extends Component {
         super(props)
 
         this.state = {
-            width: window.innerWidth,
+            width: window.innerWidth
         }
 
         this.deleteLead = this.deleteLead.bind(this)
@@ -20,15 +20,15 @@ export default class LeadItem extends Component {
     }
 
     componentWillMount () {
-        window.addEventListener('resize', this.handleWindowSizeChange);
+        window.addEventListener('resize', this.handleWindowSizeChange)
     }
 
     componentWillUnmount () {
-        window.removeEventListener('resize', this.handleWindowSizeChange);
+        window.removeEventListener('resize', this.handleWindowSizeChange)
     }
 
     handleWindowSizeChange () {
-        this.setState({ width: window.innerWidth });
+        this.setState({ width: window.innerWidth })
     }
 
     deleteLead (id, archive = false) {
@@ -88,7 +88,7 @@ export default class LeadItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                const is_mobile = this.state.width <= 500
+                const is_mobile = this.state.width <= 768
                 const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
                     ? 'list-group-item-dark' : ''
 
@@ -115,29 +115,29 @@ export default class LeadItem extends Component {
                         onClick={() => this.props.toggleViewedEntity(lead, lead.first_name + ' ' + lead.last_name, editButton)}
                         className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <span>
-                                <h5 style={{ minWidth: '300px' }} className="mb-1"><LeadPresenter field="name" entity={lead}
+                            <span className="col-4">
+                                <h5><LeadPresenter field="name" entity={lead}
                                     toggleViewedEntity={this.props.toggleViewedEntity}
                                     edit={editButton}/>
                                 </h5>
                                 {!!lead.project && lead.project.name &&
-                                    <LeadPresenter field="project" entity={lead}
-                                        toggleViewedEntity={this.props.toggleViewedEntity}
-                                        edit={editButton}/>
+                                <LeadPresenter field="project" entity={lead}
+                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                    edit={editButton}/>
 
                                 }
                             </span>
 
-                            <span style={{ minWidth: '300px' }} className="mb-1"><LeadPresenter field="email" entity={lead}
+                            <span className="col-4"><LeadPresenter field="email" entity={lead}
                                 edit={editButton}/>
                             </span>
-                            <span>
+                            <span className="col-2">
                                 <LeadPresenter
                                     field="valued_at" entity={lead} toggleViewedEntity={this.props.toggleViewedEntity}
                                     edit={editButton}/>
                             </span>
 
-                            <span><LeadPresenter field="status_field" entity={lead}
+                            <span className="col-2"><LeadPresenter field="status_field" entity={lead}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/></span>
                         </div>

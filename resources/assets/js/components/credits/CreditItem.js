@@ -12,7 +12,7 @@ export default class CreditItem extends Component {
         super(props)
 
         this.state = {
-            width: window.innerWidth,
+            width: window.innerWidth
         }
 
         this.deleteCredit = this.deleteCredit.bind(this)
@@ -20,15 +20,15 @@ export default class CreditItem extends Component {
     }
 
     componentWillMount () {
-        window.addEventListener('resize', this.handleWindowSizeChange);
+        window.addEventListener('resize', this.handleWindowSizeChange)
     }
 
     componentWillUnmount () {
-        window.removeEventListener('resize', this.handleWindowSizeChange);
+        window.removeEventListener('resize', this.handleWindowSizeChange)
     }
 
     handleWindowSizeChange () {
-        this.setState({ width: window.innerWidth });
+        this.setState({ width: window.innerWidth })
     }
 
     deleteCredit (id, archive = false) {
@@ -87,7 +87,7 @@ export default class CreditItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                const is_mobile = this.state.width <= 500
+                const is_mobile = this.state.width < 768
                 const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
                 if (!this.props.show_list) {
@@ -118,7 +118,7 @@ export default class CreditItem extends Component {
                         onClick={() => this.props.toggleViewedEntity(credit, credit.number, editButton)}
                         className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5> <CreditPresenter customers={customers} field="customer_id"
+                            <h5><CreditPresenter customers={customers} field="customer_id"
                                 entity={credit}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/></h5>
@@ -150,21 +150,22 @@ export default class CreditItem extends Component {
                         onClick={() => this.props.toggleViewedEntity(credit, credit.number, editButton)}
                         className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1"><CreditPresenter customers={customers} field="customer_id"
+                            <h5 className="col-4"><CreditPresenter customers={customers} field="customer_id"
                                 entity={credit}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/></h5>
-                            <span>
+                            <span className="col-4">{credit.number} . <CreditPresenter
+                                field={credit.due_date.length ? 'due_date' : 'date'} entity={credit}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/></span>
+                            <span className="col-2">
                                 <CreditPresenter customers={customers}
                                     toggleViewedEntity={this.props.toggleViewedEntity}
                                     field={credit.balance > 0 ? 'balance' : 'total'} entity={credit}
                                     edit={editButton}/>
                             </span>
-                            <span className="mb-1 text-muted">{credit.number} . <CreditPresenter
-                                field={credit.due_date.length ? 'due_date' : 'date'} entity={credit}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/></span>
-                            <span><CreditPresenter field="status_field" entity={credit} edit={editButton}
+                            <span className="col-2"><CreditPresenter field="status_field" entity={credit}
+                                edit={editButton}
                                 toggleViewedEntity={this.props.toggleViewedEntity}/></span>
                         </div>
                     </ListGroupItem>

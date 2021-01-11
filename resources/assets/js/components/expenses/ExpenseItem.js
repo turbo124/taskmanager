@@ -12,7 +12,7 @@ export default class ExpenseItem extends Component {
         super(props)
 
         this.state = {
-            width: window.innerWidth,
+            width: window.innerWidth
         }
 
         this.deleteExpense = this.deleteExpense.bind(this)
@@ -20,15 +20,15 @@ export default class ExpenseItem extends Component {
     }
 
     componentWillMount () {
-        window.addEventListener('resize', this.handleWindowSizeChange);
+        window.addEventListener('resize', this.handleWindowSizeChange)
     }
 
     componentWillUnmount () {
-        window.removeEventListener('resize', this.handleWindowSizeChange);
+        window.removeEventListener('resize', this.handleWindowSizeChange)
     }
 
     handleWindowSizeChange () {
-        this.setState({ width: window.innerWidth });
+        this.setState({ width: window.innerWidth })
     }
 
     deleteExpense (id, archive = false) {
@@ -113,19 +113,21 @@ export default class ExpenseItem extends Component {
                         onClick={() => this.props.toggleViewedEntity(expense, expense.number, editButton)}
                         className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{<ExpensePresenter customers={customers} field="customer_id"
+                            <h5 className="col-5"><ExpensePresenter customers={customers} field="customer_id"
                                 entity={expense}
                                 edit={editButton}
-                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</h5>
-                            <span className="mb-1">{expense.number} . {<ExpensePresenter field="date"
+                                toggleViewedEntity={this.props.toggleViewedEntity}/></h5>
+                            <span className="col-4">{expense.number} . <ExpensePresenter field="date"
                                 entity={expense}
                                 edit={editButton}
-                                toggleViewedEntity={this.props.toggleViewedEntity}/>} </span>
-                            {<ExpensePresenter customers={customers}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                field="amount" entity={expense} edit={editButton}/>}
-                            <span>{<ExpensePresenter field="status_field" entity={expense} edit={editButton}
-                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                                toggleViewedEntity={this.props.toggleViewedEntity}/></span>
+                            <span className="col-2">
+                                <ExpensePresenter customers={customers}
+                                    toggleViewedEntity={this.props.toggleViewedEntity}
+                                    field="amount" entity={expense} edit={editButton}/>
+                            </span>
+                            <span className="col-2"><ExpensePresenter field="status_field" entity={expense} edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/></span>
                         </div>
                     </ListGroupItem>
                 </div> : <div className={`d-flex d-inline ${list_class}`}>
@@ -144,17 +146,17 @@ export default class ExpenseItem extends Component {
                                 entity={expense}
                                 edit={editButton}
                                 toggleViewedEntity={this.props.toggleViewedEntity}/>}</h5>
-                            {<ExpensePresenter customers={customers}
+                            <ExpensePresenter customers={customers}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
-                                field="amount" entity={expense} edit={editButton}/>}
+                                field="amount" entity={expense} edit={editButton}/>
                         </div>
                         <div className="d-flex w-100 justify-content-between">
-                            <span className="mb-1 text-muted">{expense.number} . {<ExpensePresenter field="date"
+                            <span className="mb-1 text-muted">{expense.number} . <ExpensePresenter field="date"
                                 entity={expense}
                                 edit={editButton}
-                                toggleViewedEntity={this.props.toggleViewedEntity}/>} </span>
-                            <span>{<ExpensePresenter field="status_field" entity={expense} edit={editButton}
-                                toggleViewedEntity={this.props.toggleViewedEntity}/>}</span>
+                                toggleViewedEntity={this.props.toggleViewedEntity}/></span>
+                            <span><ExpensePresenter field="status_field" entity={expense} edit={editButton}
+                                toggleViewedEntity={this.props.toggleViewedEntity}/></span>
                         </div>
                     </ListGroupItem>
                 </div>

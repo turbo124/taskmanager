@@ -4,7 +4,7 @@ import ViewTask from '../tasks/ViewTask'
 import FormatDate from '../common/FormatDate'
 import { translations } from '../utils/_translations'
 import { frequencyOptions } from '../utils/_consts'
-import { convertHexStringToColor } from '../utils/_colors'
+import { contrast } from '../utils/_colors'
 
 export function getDefaultTableFields () {
     return [
@@ -26,7 +26,8 @@ export default function TaskPresenter (props) {
     const status = (entity.deleted_at)
         ? (<Badge color="warning">{translations.archived}</Badge>)
         : ((entity.invoice_id) ? (<Badge color="success">{translations.invoiced}</Badge>)
-            : (<span style={{ backgroundColor: color, color: '#ffffff' }} className="badge">{entity.status_name.length ? entity.status_name : translations.logged}</span>))
+            : (<span style={{ backgroundColor: color, color: contrast(color) }}
+                className="badge">{entity.status_name.length ? entity.status_name : translations.logged}</span>))
 
     switch (field) {
         case 'assigned_to': {

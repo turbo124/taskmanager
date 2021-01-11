@@ -20,6 +20,7 @@ class CreateCaseCategoriesTable extends Migration
             $table->unsignedInteger('account_id')->index('account_id');
             $table->unsignedInteger('user_id')->index('user_id');
             $table->timestamps();
+            $table->string('column_color', 100)->nullable();
         });
     }
 

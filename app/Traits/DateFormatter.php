@@ -10,21 +10,10 @@ use Exception;
 trait DateFormatter
 {
 
-    private function getDateFormat($entity)
-    {
-        return (get_class($entity) === 'App\Models\Customer')
-            ? $entity->getSetting(
-                'date_format'
-            )
-            : ((!empty($entity->customer)) ? $entity->customer->getSetting(
-                'date_format'
-            ) : $entity->account->settings->date_format);
-    }
-
     public function formatDate($entity, $value)
     {
-       $date_format = $this->getDateFormat($entity);
-       $date_format = $this->convertDateFormat($date_format);
+        $date_format = $this->getDateFormat($entity);
+        $date_format = $this->convertDateFormat($date_format);
 
         try {
             return Carbon::parse($value)->format($date_format);
@@ -35,18 +24,15 @@ trait DateFormatter
         return '';
     }
 
-    public function formatDatetime($entity, $value)
+    private function getDateFormat($entity)
     {
-        $date_format = $this->getDateFormat($entity);
-        $date_format = $this->convertDateFormat($date_format);
-
-        try {
-            return Carbon::createFromTimestamp($value)->format($date_format . " g:i a");
-        } catch (Exception $e) {
-            return '';
-        }
-
-        return '';
+        return (get_class($entity) === 'App\Models\Customer')
+            ? $entity->getSetting(
+                'date_format'
+            )
+            : ((!empty($entity->customer)) ? $entity->customer->getSetting(
+                'date_format'
+            ) : $entity->account->settings->date_format);
     }
 
     private function convertDateFormat($date_format)
@@ -61,6 +47,20 @@ trait DateFormatter
         }
 
         return $date_format;
+    }
+
+    public function formatDatetime($entity, $value)
+    {
+        $date_format = $this->getDateFormat($entity);
+        $date_format = $this->convertDateFormat($date_format);
+
+        try {
+            return Carbon::parse($value)->format($date_format . ' g:i a');
+        } catch (Exception $e) {
+            return '';
+        }
+
+        return '';
     }
 
 }

@@ -1,47 +1,32 @@
-function rgbToYIQ({r, g, b}) {
-    return ((r * 299) + (g * 587) + (b * 114)) / 1000;
-  }
+function rgbToYIQ ({ r, g, b }) {
+    return ((r * 299) + (g * 587) + (b * 114)) / 1000
+}
 
-  function hexToRgb(hex) {
+function hexToRgb (hex) {
     if (!hex || hex === undefined || hex === '') {
-      return undefined;
+        return undefined
     }
 
     const result =
-          /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 
     return result ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16)
-    } : undefined;
-  }
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : undefined
+}
 
-  export function contrast(colorHex, threshold = 128) {
+export function contrast (colorHex, threshold = 128) {
     if (colorHex === undefined) {
-      return '#000';
+        return '#000'
     }
 
-    const rgb = hexToRgb(colorHex);
+    const rgb = hexToRgb(colorHex)
 
     if (rgb === undefined) {
-      return '#000';
+        return '#000'
     }
 
-    return rgbToYIQ(rgb) >= threshold ? '#000' : '#fff';
-  }
-
-export function convertHexStringToColor (value) {
-    if (value == null) {
-        return null
-    }
-    value = value.replaceAll('#', '')
-    if (value.length !== 6) {
-        return null
-    }
-    try {
-        return parseInt(value, 16) + 0xFF000000
-    } catch (e) {
-        return null
-    }
+    return rgbToYIQ(rgb) >= threshold ? '#000' : '#fff'
 }

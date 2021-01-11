@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'agent'                                                => 'Agent',
     'products'                                             => 'Products',
     'tasks'                                                => 'Tasks',
     'expenses'                                             => 'Expenses',
@@ -135,7 +136,7 @@ return [
     'website'                                              => 'Website',
     'customer_name'                                        => 'Customer Name',
     'date'                                                 => 'Date',
-    'datetime'                                             => 'Date',
+    'date_created'                                         => 'Date Created',
     'discount'                                             => 'Discount',
     'shipping'                                             => 'Shipping',
     'voucher'                                              => 'Voucher',

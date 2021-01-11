@@ -13,7 +13,7 @@ export default class ProductItem extends Component {
         super(props)
 
         this.state = {
-            width: window.innerWidth,
+            width: window.innerWidth
         }
 
         this.deleteProduct = this.deleteProduct.bind(this)
@@ -21,15 +21,15 @@ export default class ProductItem extends Component {
     }
 
     componentWillMount () {
-        window.addEventListener('resize', this.handleWindowSizeChange);
+        window.addEventListener('resize', this.handleWindowSizeChange)
     }
 
     componentWillUnmount () {
-        window.removeEventListener('resize', this.handleWindowSizeChange);
+        window.removeEventListener('resize', this.handleWindowSizeChange)
     }
 
     handleWindowSizeChange () {
-        this.setState({ width: window.innerWidth });
+        this.setState({ width: window.innerWidth })
     }
 
     deleteProduct (id, archive = false) {
@@ -90,7 +90,7 @@ export default class ProductItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                const is_mobile = this.state.width <= 500
+                const is_mobile = this.state.width <= 768
                 const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
                     ? 'list-group-item-dark' : ''
 
@@ -118,12 +118,12 @@ export default class ProductItem extends Component {
                         onClick={() => this.props.toggleViewedEntity(product, product.name, editButton)}
                         className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1"><ProductPresenter field="name" entity={product}
+                            <h5 className="col-5"><ProductPresenter field="name" entity={product}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/></h5>
-                            <span className="mb-1"><ProductPresenter field="description" entity={product}
+                            <span className="col-5"><ProductPresenter field="description" entity={product}
                                 edit={editButton}/> </span>
-                            <span>
+                            <span className="col-2">
                                 <ProductPresenter
                                     field="price" entity={product} toggleViewedEntity={this.props.toggleViewedEntity}
                                     edit={editButton}/>

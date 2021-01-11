@@ -3,6 +3,7 @@ import React from 'react'
 import { caseLinkTypes, casePriorities, casePriorityColors, caseStatusColors, caseStatuses } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 import FormatDate from '../common/FormatDate'
+import { contrast } from '../utils/_colors'
 
 export function getDefaultTableFields () {
     return [
@@ -19,7 +20,12 @@ export default function CasePresenter (props) {
     const { field, entity } = props
 
     const color = entity.category && entity.category.column_color && entity.category.column_color.length ? entity.category.column_color : ''
-    const status_chip = color.length ? <span className="badge" style={{ backgroundColor: color, color: '#FFFFFF' }}>{caseStatuses[entity.status_id]}</span> : <Badge color={caseStatusColors[entity.status_id]}>{caseStatuses[entity.status_id]}</Badge>
+
+    const status_chip = color.length ? <span className="badge" style={{
+        backgroundColor: color,
+        color: contrast(color)
+    }}>{caseStatuses[entity.status_id]}</span>
+        : <Badge color={caseStatusColors[entity.status_id]}>{caseStatuses[entity.status_id]}</Badge>
 
     const status = (entity.deleted_at && !entity.is_deleted) ? (<Badge className="mr-2"
         color="warning">{translations.archived}</Badge>) : ((entity.deleted_at && entity.is_deleted) ? (

@@ -14,7 +14,7 @@ export default class PaymentItem extends Component {
         super(props)
 
         this.state = {
-            width: window.innerWidth,
+            width: window.innerWidth
         }
 
         this.deletePayment = this.deletePayment.bind(this)
@@ -22,15 +22,15 @@ export default class PaymentItem extends Component {
     }
 
     componentWillMount () {
-        window.addEventListener('resize', this.handleWindowSizeChange);
+        window.addEventListener('resize', this.handleWindowSizeChange)
     }
 
     componentWillUnmount () {
-        window.removeEventListener('resize', this.handleWindowSizeChange);
+        window.removeEventListener('resize', this.handleWindowSizeChange)
     }
 
     handleWindowSizeChange () {
-        this.setState({ width: window.innerWidth });
+        this.setState({ width: window.innerWidth })
     }
 
     deletePayment (id, archive = true) {
@@ -113,7 +113,7 @@ export default class PaymentItem extends Component {
                     ? <ActionsMenu refund={refundButton} edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                const is_mobile = this.state.width <= 500
+                const is_mobile = this.state.width <= 768
                 const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
                     ? 'list-group-item-dark' : ''
 
@@ -146,7 +146,7 @@ export default class PaymentItem extends Component {
                                 entity={payment}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/></h5>
-                             <span><PaymentPresenter customers={customers}
+                            <span><PaymentPresenter customers={customers}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 field="amount" entity={payment} edit={editButton}/></span>
                             <span className="mb-1">{payment.number} . <PaymentPresenter field="date"

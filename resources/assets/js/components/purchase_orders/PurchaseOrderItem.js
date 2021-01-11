@@ -12,7 +12,7 @@ export default class PurchaseOrderItem extends Component {
         super(props)
 
         this.state = {
-            width: window.innerWidth,
+            width: window.innerWidth
         }
 
         this.deletePurchaseOrder = this.deletePurchaseOrder.bind(this)
@@ -20,15 +20,15 @@ export default class PurchaseOrderItem extends Component {
     }
 
     componentWillMount () {
-        window.addEventListener('resize', this.handleWindowSizeChange);
+        window.addEventListener('resize', this.handleWindowSizeChange)
     }
 
     componentWillUnmount () {
-        window.removeEventListener('resize', this.handleWindowSizeChange);
+        window.removeEventListener('resize', this.handleWindowSizeChange)
     }
 
     handleWindowSizeChange () {
-        this.setState({ width: window.innerWidth });
+        this.setState({ width: window.innerWidth })
     }
 
     deletePurchaseOrder (id, archive = false) {
@@ -95,7 +95,7 @@ export default class PurchaseOrderItem extends Component {
                     ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
                         restore={restoreButton}/> : null
 
-                const is_mobile = this.state.width <= 500
+                const is_mobile = this.state.width <= 768
                 const list_class = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
                     ? 'list-group-item-dark' : ''
 
@@ -123,21 +123,21 @@ export default class PurchaseOrderItem extends Component {
                         onClick={() => this.props.toggleViewedEntity(purchase_order, purchase_order.number, editButton)}
                         className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5> <PurchaseOrderPresenter companies={companies} field="company_id"
+                            <h5 className="col-4"><PurchaseOrderPresenter companies={companies} field="company_id"
                                 entity={purchase_order}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/></h5>
-                            <span>
+                            <span className="col-4">{purchase_order.number} . <PurchaseOrderPresenter
+                                field={purchase_order.due_date.length ? 'due_date' : 'date'} entity={purchase_order}
+                                toggleViewedEntity={this.props.toggleViewedEntity}
+                                edit={editButton}/></span>
+                            <span className="col-2">
                                 <PurchaseOrderPresenter companies={companies}
                                     toggleViewedEntity={this.props.toggleViewedEntity}
                                     field={purchase_order.balance > 0 ? 'balance' : 'total'}
                                     entity={purchase_order} edit={editButton}/>
                             </span>
-                            <span>{purchase_order.number} . <PurchaseOrderPresenter
-                                field={purchase_order.due_date.length ? 'due_date' : 'date'} entity={purchase_order}
-                                toggleViewedEntity={this.props.toggleViewedEntity}
-                                edit={editButton}/></span>
-                            <span><PurchaseOrderPresenter field="status_field" entity={purchase_order}
+                            <span className="col-2"><PurchaseOrderPresenter field="status_field" entity={purchase_order}
                                 edit={editButton}
                                 toggleViewedEntity={this.props.toggleViewedEntity}/></span>
                         </div>
@@ -154,7 +154,7 @@ export default class PurchaseOrderItem extends Component {
                         onClick={() => this.props.toggleViewedEntity(purchase_order, purchase_order.number, editButton)}
                         className={`border-top-0 list-group-item-action flex-column align-items-start ${list_class}`}>
                         <div className="d-flex w-100 justify-content-between">
-                            <h5> <PurchaseOrderPresenter companies={companies} field="company_id"
+                            <h5><PurchaseOrderPresenter companies={companies} field="company_id"
                                 entity={purchase_order}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/></h5>

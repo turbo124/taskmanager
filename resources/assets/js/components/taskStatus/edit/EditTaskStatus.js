@@ -5,7 +5,7 @@ import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import TaskStatusModel from '../../models/TaskStatusModel'
-import ColorPickerNew from "../../common/ColorPickerNew";
+import ColorPickerNew from '../../common/ColorPickerNew'
 
 class EditTaskStatus extends React.Component {
     constructor (props) {
