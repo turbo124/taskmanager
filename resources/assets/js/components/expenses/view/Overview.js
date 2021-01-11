@@ -108,9 +108,9 @@ export default function Overview (props) {
     }
 
     const header = props.model.isConverted
-        ? <ViewEntityHeader heading_1={translations.amount} value_1={props.model.amountWithTax}
+        ? <ViewEntityHeader heading_1={translations.amount} value_1={props.model.grossAmount}
             heading_2={translations.converted} value_2={props.model.convertedAmountWithTax}/>
-        : <ViewEntityHeader heading_1={translations.amount} value_1={props.model.amountWithTax}/>
+        : <ViewEntityHeader heading_1={translations.amount} value_1={props.model.grossAmount}/>
 
     return <React.Fragment>
         {header}
