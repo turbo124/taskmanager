@@ -32,8 +32,8 @@ export default class ExpenseModel extends BaseModel {
             public_notes: '',
             private_notes: '',
             tax_rate: 0,
-            tax_1: 0,
             tax_2: 0,
+            tax_3:  0,
             tax_amount1: 0,
             tax_amount2: 0,
             tax_amount3: 0,
@@ -137,12 +137,12 @@ export default class ExpenseModel extends BaseModel {
         if (this.fields.tax_rate && this.fields.tax_rate > 0) {
             total += this.fields.amount * this.fields.tax_rate / 100
         }
-        if (this.fields.tax_1 && this.fields.tax_1 > 0) {
-            total += this.fields.amount * this.fields.tax_1 / 100
+        if (this.fields.tax_1 && this.fields.tax_2 > 0) {
+            total += this.fields.amount * this.fields.tax_2 / 100
         }
 
-        if (this.fields.tax_2 && this.fields.tax_2 > 0) {
-            total += this.fields.amount * this.fields.tax_2 / 100
+        if (this.fields.tax_3 && this.fields.tax_3 > 0) {
+            total += this.fields.amount * this.fields.tax_3 / 100
         }
 
         return total
