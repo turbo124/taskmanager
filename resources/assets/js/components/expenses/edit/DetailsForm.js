@@ -11,6 +11,14 @@ import ProjectDropdown from '../../common/dropdowns/ProjectDropdown'
 import CurrencyDropdown from '../../common/dropdowns/CurrencyDropdown'
 
 export default class DetailsForm extends React.Component {
+        constructor (props) {
+        super(props)
+
+        const account_id = JSON.parse(localStorage.getItem('appState')).user.account_id
+        const user_account = JSON.parse(localStorage.getItem('appState')).accounts.filter(account => account.account_id === parseInt(account_id))
+        this.account_settings = user_account[0].account.settings
+    }
+
     render () {
         const tax_form = []
         if(this.account_settings.show_tax_rate1) {
