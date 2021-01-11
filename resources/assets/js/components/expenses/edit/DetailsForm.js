@@ -84,6 +84,16 @@ export default class DetailsForm extends React.Component {
         return (<Card>
             <CardHeader>{translations.settings}</CardHeader>
             <CardBody>
+                {this.account_settings.calculate_expense_taxes &&
+                    amount_field
+                }
+
+               {tax_form}
+
+               {!this.account_settings.calculate_expense_taxes && 
+                   amount_field
+               }
+
                 <FormGroup className="mr-2">
                     <Label for="date">{translations.date}(*):</Label>
                     <Datepicker className="form-control" name="date" date={this.props.expense.date}
