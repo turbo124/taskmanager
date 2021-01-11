@@ -34,6 +34,7 @@ export default function ExpensePresenter (props) {
 
     const paymentInvoices = entity.invoices && Object.keys(entity.invoices).length > 0 ? Array.prototype.map.call(entity.invoices, s => s.number).toString() : null
 
+    const expenseModel = new ExpenseModel(entity, props.customers)
     switch (field) {
         case 'assigned_to': {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.assigned_to))
@@ -48,7 +49,7 @@ export default function ExpensePresenter (props) {
         case 'amount':
             return <FormatMoney
                 customers={props.customers} customer_id={entity.customer_id}
-                amount={entity.amount}/>
+                amount={expenseModel.grossAmount}/>
         case 'status_field':
             return status
         case 'date':
