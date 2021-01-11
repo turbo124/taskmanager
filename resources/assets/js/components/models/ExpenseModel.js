@@ -107,6 +107,13 @@ export default class ExpenseModel extends BaseModel {
         this.fields.customer_id = customer_id
     }
 
+    get netAmount () {
+        return this.fields.expenses_have_inclusive_taxes ? this.fields.amount - this.amountWithTax : this.fields.amount;
+    }
+
+    get grossAmount () {
+        return this.fields.expenses_have_inclusive_taxes ? this.fields.amount : this.fields.amount + this.amountWithTax;
+
     get amountWithTax () {
         let total = this.fields.amount
 
@@ -149,7 +156,7 @@ export default class ExpenseModel extends BaseModel {
     }
 
     get convertedAmountWithTax () {
-        return Math.round((this.amountWithTax * this.exchange_rate), 2)
+        return Math.round((this.grossAmount * this.exchange_rate), 2)
     }
 
     get currencyId () {
