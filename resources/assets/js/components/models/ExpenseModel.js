@@ -69,7 +69,8 @@ export default class ExpenseModel extends BaseModel {
             recurring_due_date: '',
             last_sent_date: '',
             next_send_date: '',
-            recurring_frequency: 0
+            recurring_frequency: 0,
+            expenses_have_inclusive_taxes:this.settings.expenses_have_inclusive_taxes || false,
         }
 
         if (data !== null) {
