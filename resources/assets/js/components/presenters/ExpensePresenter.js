@@ -51,11 +51,11 @@ export default function ExpensePresenter (props) {
                 customers={props.customers} customer_id={entity.customer_id}
                 amount={expenseModel.netAmount}/>
       case 'amount':
-       <FormatMoney
+          return <FormatMoney
                 customers={props.customers} customer_id={entity.customer_id}
                 amount={expenseModel.grossAmount}/>
       case 'taxAmount':
-        <FormatMoney
+          return <FormatMoney
                 customers={props.customers} customer_id={entity.customer_id}
                 amount={expenseModel.amountWithTax}/>
         case 'status_field':
