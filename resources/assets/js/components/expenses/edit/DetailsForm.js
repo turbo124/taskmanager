@@ -12,10 +12,7 @@ import CurrencyDropdown from '../../common/dropdowns/CurrencyDropdown'
 
 export default class DetailsForm extends React.Component {
     render () {
-        return (<Card>
-            <CardHeader>{translations.settings}</CardHeader>
-            <CardBody>
-                <FormGroup className="mb-3">
+        const amount_field = <FormGroup className="mb-3">
                     <Label>{translations.amount}</Label>
                     <Input value={this.props.expense.amount}
                         className={this.props.hasErrorFor('amount') ? 'is-invalid' : ''}
@@ -23,6 +20,14 @@ export default class DetailsForm extends React.Component {
                         onChange={this.props.handleInput}/>
                     {this.props.renderErrorFor('amount')}
                 </FormGroup>
+
+        return (<Card>
+            <CardHeader>{translations.settings}</CardHeader>
+            <CardBody>
+               
+                {this.props.model.amountIsPretax &&
+                    amount_field
+                }
 
                 <FormGroup className="mr-2">
                     <Label for="date">{translations.date}(*):</Label>
