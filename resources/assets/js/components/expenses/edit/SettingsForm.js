@@ -62,58 +62,6 @@ export default class SettingsForm extends React.Component {
     }
 
     render () {
-        const tax_form = []
-        if(this.account_settings.show_tax_rate1) {
-            if (this.account_settings.expense_taxes_calculated_by_amount) {
-                tax_form.push(<TaxRateField value={this.props.expense.tax_amount1, name={this.props.expense.tax_rate_name
-                  onNameChanged={(e) => this.setState({ tax_rate_name: e.value })}
-                  onAmountChanged: (e) => this.setState({ tax_amount1: e.value })}
-                />)
-            } else {
-                tax_form.push(<FormGroup>
-                        <Label>{translations.tax}</Label>
-                        <TaxRateDropdown
-                            name="tax_rate"
-                            handleInputChanges={this.props.handleInput}
-                        />
-                    </FormGroup>)
-           }
-      }
-
-      if(this.account_settings.show_tax_rate2) {
-            if (this.account_settings.expense_taxes_calculated_by_amount) {
-                tax_form.push(<TaxRateField value={this.props.expense.tax_amount2, name={this.props.expense.tax_rate_name_2
-                  onNameChanged={(e) => this.setState({ tax_rate_name_2: e.value })}
-                  onAmountChanged: (e) => this.setState({ tax_amount2: e.value })}
-                />)
-            } else {
-                tax_form.push(<FormGroup>
-                        <Label>{translations.tax}</Label>
-                        <TaxRateDropdown
-                            name="tax_2"
-                            handleInputChanges={this.props.handleInput}
-                        />
-                    </FormGroup>)
-           }
-      }
-
-      if(this.account_settings.show_tax_rate3) {
-            if (this.account_settings.expense_taxes_calculated_by_amount) {
-                tax_form.push(<TaxRateField value={this.props.expense.tax_amount3, name={this.props.expense.tax_rate_name_3
-                  onNameChanged={(e) => this.setState({ tax_rate_name_3: e.value })}
-                  onAmountChanged: (e) => this.setState({ tax_amount3: e.value })}
-                />)
-            } else {
-                tax_form.push(<FormGroup>
-                        <Label>{translations.tax}</Label>
-                        <TaxRateDropdown
-                            name="tax_3"
-                            handleInputChanges={this.props.handleInput}
-                        />
-                    </FormGroup>)
-           }
-      }
-
         return (<Card>
             <CardHeader>
                 {translations.settings}
