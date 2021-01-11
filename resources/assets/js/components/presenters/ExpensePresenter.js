@@ -46,10 +46,18 @@ export default function ExpensePresenter (props) {
         }
         case 'frequency':
             return translations[frequencyOptions[entity.frequency]]
-        case 'amount':
-            return <FormatMoney
+        case 'netAmount':
+        return <FormatMoney
+                customers={props.customers} customer_id={entity.customer_id}
+                amount={expenseModel.netAmount}/>
+      case 'amount':
+       <FormatMoney
                 customers={props.customers} customer_id={entity.customer_id}
                 amount={expenseModel.grossAmount}/>
+      case 'taxAmount':
+        <FormatMoney
+                customers={props.customers} customer_id={entity.customer_id}
+                amount={expenseModel.amountWithTax}/>
         case 'status_field':
             return status
         case 'date':
