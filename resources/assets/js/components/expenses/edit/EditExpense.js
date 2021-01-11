@@ -275,6 +275,12 @@ class EditExpense extends React.Component {
                             </TabPane>
                         </TabContent>
 
+                        <div className="col-12">
+                            <div>
+                                {translations.expense_total}: <FormatMoney amount={this.model.amountWithTax} />
+                            </div>
+                        </div>
+
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}
