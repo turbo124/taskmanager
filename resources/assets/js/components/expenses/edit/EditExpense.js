@@ -277,7 +277,7 @@ class EditExpense extends React.Component {
 
                         <div className="col-12">
                             <div>
-                                {translations.expense_total}: <FormatMoney amount={this.model.amountWithTax} />
+                                {translations.expense_total}: <FormatMoney amount={this.model.grossAmount} />
                             </div>
                         </div>
 
