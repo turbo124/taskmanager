@@ -118,6 +118,22 @@ export default class ExpenseModel extends BaseModel {
             return total += this.fields.tax_amount1 + this.fields.tax_amount2 + this.fields.tax_amount3
         }
 
+        if (this.fields.expenses_have_inclusive_taxes) {
+            if (this.fields.tax_rate && this.fields.tax_rate > 0) {
+                total += this.fields.amount - (this.fields.amount / (1 + (this.fields.tax_rate / 100)))
+            }
+        
+            if (this.fields.tax_1 && this.fields.tax_1 > 0) {
+                total += this.fields.amount - (this.fields.amount / (1 + (this.fields.tax_1 / 100)))
+            }
+
+            if (this.fields.tax_2 && this.fields.tax_2 > 0) {
+                total += this.fields.amount - (this.fields.amount / (1 + (this.fields.tax_2 / 100)))
+            }
+
+            return total
+        }
+
         if (this.fields.tax_rate && this.fields.tax_rate > 0) {
             total += this.fields.amount * this.fields.tax_rate / 100
         }
