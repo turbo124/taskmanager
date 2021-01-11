@@ -522,7 +522,7 @@ class PdfBuilder
             'value' => $this->formatDatetime($this->entity, $datetime) ?: '&nbsp;',
             'label' => trans('texts.date_created')
         ];
-
+      
         return $this;
     }
 
