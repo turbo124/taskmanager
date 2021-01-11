@@ -3,7 +3,7 @@ import moment from 'moment'
 import BaseModel, { LineItem } from './BaseModel'
 import { consts } from '../utils/_consts'
 
-export const purchase_order_pdf_fields = ['$purchaseorder.number', '$purchaseorder.po_number', '$purchaseorder.quote_date', '$purchaseorder.valid_until', '$purchaseorder.balance_due',
+export const purchase_order_pdf_fields = ['$purchaseorder.number', '$purchaseorder.po_number', '$purchaseorder.quote_date', '$purchaseorder.valid_until', '$purchaseorder.balance_due', '$purchaseorder.purchaseorder_datetime', '$purchaseorder.purchaseorder_agent',
     '$purchaseorder.quote_total', '$purchaseorder.partial_due', '$purchaseorder.custom1', '$purchaseorder.custom2', '$purchaseorder.custom3', '$purchaseorder.custom4', '$quote.surcharge1',
     '$quote.surcharge2', '$invoice.surcharge3', '$invoice.surcharge4'
 ]
