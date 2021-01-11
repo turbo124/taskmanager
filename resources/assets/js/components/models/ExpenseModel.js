@@ -129,7 +129,7 @@ export default class ExpenseModel extends BaseModel {
             total += this.fields.amount * this.fields.tax_2 / 100
         }
 
-        return Math.round(total, 2)
+        return total
     }
 
     get convertedAmountWithTax () {
