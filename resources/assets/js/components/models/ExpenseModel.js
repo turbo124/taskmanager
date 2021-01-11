@@ -70,7 +70,7 @@ export default class ExpenseModel extends BaseModel {
             last_sent_date: '',
             next_send_date: '',
             recurring_frequency: 0,
-            expenses_have_inclusive_taxes:this.settings.expenses_have_inclusive_taxes || false,
+            expenses_have_inclusive_taxes: this.settings.expenses_have_inclusive_taxes || false,
         }
 
         if (data !== null) {
@@ -106,6 +106,10 @@ export default class ExpenseModel extends BaseModel {
 
     get amountWithTax () {
         let total = this.fields.amount
+
+        if (this.fields.expenses_have_inclusive_taxes) {
+            return total;
+        }
 
         if (this.fields.tax_rate && this.fields.tax_rate > 0) {
             total += this.fields.amount * this.fields.tax_rate / 100
