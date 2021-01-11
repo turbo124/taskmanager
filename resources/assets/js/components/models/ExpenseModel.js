@@ -92,7 +92,7 @@ export default class ExpenseModel extends BaseModel {
     }
 
     get convertedAmount () {
-        return parseFloat((this.fields.amount * this.exchange_rate).toFixed(2))
+        return parseFloat((this.grossAmount * this.exchange_rate).toFixed(2))
     }
 
     get convertedNetAmount () {
