@@ -829,7 +829,8 @@ _localizedValues.en = {
     page_size: 'Page Size',
     font_size: 'Font Size',
     quote_design: 'Quote Design',
-    colour: 'Colour'
+    colour: 'Colour',
+    expense_total: 'Expense Total'
 }
 
 let language = []
