@@ -112,11 +112,12 @@ export default class ExpenseModel extends BaseModel {
     }
 
     get netAmount () {
-        return this.fields.expenses_have_inclusive_taxes ? this.fields.amount - this.amountWithTax : this.fields.amount;
+        return this.fields.expenses_have_inclusive_taxes ? this.fields.amount - this.amountWithTax : this.fields.amount
     }
 
     get grossAmount () {
-        return this.fields.expenses_have_inclusive_taxes ? this.fields.amount : this.fields.amount + this.amountWithTax;
+        return this.fields.expenses_have_inclusive_taxes ? this.fields.amount : this.fields.amount + this.amountWithTax
+    }
 
     get amountWithTax () {
         let total = this.fields.amount
