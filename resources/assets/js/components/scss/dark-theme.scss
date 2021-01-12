@@ -628,10 +628,16 @@ $color_iron_approx: #d6d6d6;
     border-top: 1px solid $color_tuna_approx;
   }
 
+  .list-action {
+    .dropdown-item {
+      padding: 10px 20px !important;
+    }
+  }
+
   .dropdown-item {
     display: block;
     width: 100%;
-    padding: .25rem 1.5rem;
+    padding: .01rem 1.5rem !important;
     clear: both;
     font-weight: 400;
     color: $color_mystic_approx;
@@ -640,7 +646,6 @@ $color_iron_approx: #d6d6d6;
     background-color: transparent;
     border: 0;
     position: relative;
-    padding: 10px 20px;
     border-bottom: 1px solid $color_shark_approx;
 
     &:hover {
@@ -3068,5 +3073,9 @@ $color_iron_approx: #d6d6d6;
       border: 1px solid #808080 !important;
     }
   }
+}
+
+.select__input input {
+  color: $white !important;
 }
 

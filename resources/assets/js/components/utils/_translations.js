@@ -830,7 +830,18 @@ _localizedValues.en = {
     font_size: 'Font Size',
     quote_design: 'Quote Design',
     colour: 'Colour',
-    expense_total: 'Expense Total'
+    expense_total: 'Expense Total',
+    enter_taxes: 'Enter Taxes',
+    by_rate: 'By Rate',
+    by_amount: 'By Amount',
+    enter_amount: 'Enter Amount',
+    before_taxes: 'Before Taxes',
+    after_taxes: 'After Taxes',
+    tax_name: 'Tax Name',
+    tax_name1: 'Tax Name 1',
+    tax_name2: 'Tax Name 2',
+    tax_name3: 'Tax Name 3',
+    tax_amount: 'Tax'
 }
 
 let language = []

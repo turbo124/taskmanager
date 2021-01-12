@@ -33,7 +33,7 @@ export default class InvoiceReducer {
 
         const line_item = {
             expense_id: parseInt(this.entity_id),
-            unit_price: expenseModel.convertedNetAmount,
+            unit_price: this.settings.inclusive_taxes === true ? expenseModel.convertedAmount : expenseModel.convertedNetAmount,
             quantity: this.settings.has_minimum_quantity === true ? 1 : null,
             type_id: consts.line_item_expense,
             notes: expense.category && Object.keys(expense.category).length ? expense.category.name : '',

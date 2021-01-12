@@ -5,7 +5,6 @@ import PaymentTypeDropdown from '../../common/dropdowns/PaymentTypeDropdown'
 import Datepicker from '../../common/Datepicker'
 import { translations } from '../../utils/_translations'
 import { icons } from '../../utils/_icons'
-import TaxRateDropdown from '../../common/dropdowns/TaxRateDropdown'
 import SwitchWithIcon from '../../common/SwitchWithIcon'
 
 export default class SettingsForm extends React.Component {

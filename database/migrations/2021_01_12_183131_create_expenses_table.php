@@ -64,6 +64,8 @@ class CreateExpensesTable extends Migration
             $table->dateTime('date_approved')->nullable();
             $table->decimal('amount_before_tax', 13)->default(0.00);
             $table->tinyInteger('is_amount_discount')->default(0);
+            $table->tinyInteger('tax_is_amount')->default(0);
+            $table->tinyInteger('amount_includes_tax')->default(0);
         });
     }
 

@@ -5,6 +5,7 @@ import FormatDate from '../common/FormatDate'
 import { expenseStatusColors, expenseStatuses, frequencyOptions } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 import { contrast } from '../utils/_colors'
+import ExpenseModel from '../models/ExpenseModel'
 
 export function getDefaultTableFields () {
     return [
@@ -46,16 +47,16 @@ export default function ExpensePresenter (props) {
         }
         case 'frequency':
             return translations[frequencyOptions[entity.frequency]]
-        case 'netAmount':
-        return <FormatMoney
+        case 'net_amount':
+            return <FormatMoney
                 customers={props.customers} customer_id={entity.customer_id}
                 amount={expenseModel.netAmount}/>
-      case 'amount':
-          return <FormatMoney
+        case 'amount':
+            return <FormatMoney
                 customers={props.customers} customer_id={entity.customer_id}
                 amount={expenseModel.grossAmount}/>
-      case 'taxAmount':
-          return <FormatMoney
+        case 'tax_amount':
+            return <FormatMoney
                 customers={props.customers} customer_id={entity.customer_id}
                 amount={expenseModel.amountWithTax}/>
         case 'status_field':
@@ -63,7 +64,8 @@ export default function ExpensePresenter (props) {
         case 'date':
         case 'created_at':
         case 'payment_date': {
-            return !entity[field] || !entity[field].length || entity[field] === '0000-00-00' ? '' : <FormatDate field={field} date={entity[field]}/>
+            return !entity[field] || !entity[field].length || entity[field] === '0000-00-00' ? ''
+                : <FormatDate field={field} date={entity[field]}/>
         }
 
         case 'status_id':

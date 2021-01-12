@@ -87,7 +87,8 @@ export default class ProductItem extends Component {
                 const isChecked = this.props.bulk.includes(product.id)
                 const selectedRow = this.props.viewId === product.id ? 'table-row-selected' : ''
                 const actionMenu = this.props.showCheckboxes !== true
-                    ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                    ? <ActionsMenu show_list={this.props.show_list} edit={editButton} delete={deleteButton}
+                        archive={archiveButton}
                         restore={restoreButton}/> : null
 
                 const is_mobile = this.state.width <= 768

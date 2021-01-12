@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row } from 'reactstrap'
+import { ListGroup, ListGroupItem, Row } from 'reactstrap'
 import ViewEntityHeader from '../../common/entityContainers/ViewEntityHeader'
 import { translations } from '../../utils/_translations'
 import InfoMessage from '../../common/entityContainers/InfoMessage'
@@ -10,14 +10,56 @@ import ExpensePresenter from '../../presenters/ExpensePresenter'
 import FormatDate from '../../common/FormatDate'
 import FormatMoney from '../../common/FormatMoney'
 import { frequencyOptions } from '../../utils/_consts'
+import { formatPercentage } from '../../utils/_formatting'
 
 export default function Overview (props) {
     const listClass = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true') ? 'list-group-item-dark' : ''
 
     const category = props.categories.length ? props.categories.filter(category => category.id === parseInt(props.entity.expense_category_id)) : []
-    const convertedAmount = props.model.convertedAmount
     const customer = props.customers.filter(customer => customer.id === parseInt(props.entity.customer_id))
+    const payment_type = props.entity.payment_type_id && props.entity.payment_type_id.toString().length ? JSON.parse(localStorage.getItem('payment_types')).filter(payment_type => payment_type.id === parseInt(props.entity.payment_type_id)) : []
 
+    console.log('model', props.model.fields)
+
+    const tax = []
+    if (props.model.fields.expense_taxes_calculated_by_amount) {
+        if (props.model.fields.tax_rate_name.length) {
+            tax.push(<ListGroupItem
+                className={`justify-content-between d-flex align-items-center ${listClass}`}><span>{props.model.fields.tax_rate_name}</span>
+                <FormatMoney amount={props.model.fields.tax_amount1} customers={props.customers}
+                    customer_id={props.entity.customer_id}/></ListGroupItem>)
+        }
+        if (props.model.fields.tax_rate_name_2.length) {
+            tax.push(<ListGroupItem
+                className={`justify-content-between d-flex align-items-center ${listClass}`}><span>{props.model.fields.tax_rate_name_2}</span>
+                <FormatMoney amount={props.model.fields.tax_amount2} customers={props.customers}
+                    customer_id={props.entity.customer_id}/></ListGroupItem>)
+        }
+        if (props.model.fields.tax_rate_name_3.length) {
+            tax.push(<ListGroupItem
+                className={`justify-content-between d-flex align-items-center ${listClass}`}><span>{props.model.fields.tax_rate_name_3}</span><FormatMoney
+                    amount={props.model.fields.tax_amount3} customers={props.customers}
+                    customer_id={props.entity.customer_id}/></ListGroupItem>)
+        }
+    } else {
+        if (props.model.fields.tax_rate_name.length) {
+            tax.push(<ListGroupItem
+                className={`justify-content-between d-flex align-items-center ${listClass}`}><span>{props.model.fields.tax_rate_name}</span>
+                <span>{formatPercentage(props.model.fields.tax_rate)}</span></ListGroupItem>)
+        }
+
+        if (props.model.fields.tax_rate_name_2.length) {
+            tax.push(<ListGroupItem
+                className={`justify-content-between d-flex align-items-center ${listClass}`}><span>{props.model.fields.tax_rate_name_2}</span>
+                <span>{formatPercentage(props.model.fields.tax_2)}</span></ListGroupItem>)
+        }
+
+        if (props.model.fields.tax_rate_name_3.length) {
+            tax.push(<ListGroupItem
+                className={`justify-content-between d-flex align-items-center ${listClass}`}><span>{props.model.fields.tax_rate_name_3}</span>
+                <span>{formatPercentage(props.model.fields.tax_3)}</span></ListGroupItem>)
+        }
+    }
     const fields = []
 
     if (props.entity.date.length) {
@@ -26,6 +68,10 @@ export default function Overview (props) {
 
     if (props.entity.reference_number.length) {
         fields.reference_number = props.entity.reference_number
+    }
+
+    if (payment_type.length) {
+        fields.payment_type = payment_type[0].name
     }
 
     if (props.model.isConverted) {
@@ -45,11 +91,11 @@ export default function Overview (props) {
         fields.category = category[0].name
     }
 
-    const tax_total = props.model.calculateTaxes(false)
-
-    if (tax_total > 0) {
-        fields.tax = <FormatMoney amount={tax_total} customers={this.props.customers}/>
-    }
+    // const tax_total = props.model.calculateTaxes(false)
+    //
+    // if (tax_total > 0) {
+    //     fields.tax = <FormatMoney amount={tax_total} customers={this.props.customers}/>
+    // }
 
     if (props.entity.custom_value1.length) {
         const label1 = props.model.getCustomFieldLabel('Expense', 'custom_value1')
@@ -141,6 +187,8 @@ export default function Overview (props) {
         }
 
         <FieldGrid fields={fields}/>
+
+        {tax.length && <ListGroup>{tax}</ListGroup>}
 
         {!!Object.keys(recurring).length &&
         <div>
