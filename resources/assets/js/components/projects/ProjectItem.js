@@ -86,7 +86,8 @@ export default class ProjectItem extends Component {
                 const isChecked = this.props.bulk.includes(project.id)
                 const selectedRow = this.props.viewId === project.id ? 'table-row-selected' : ''
                 const actionMenu = this.props.showCheckboxes !== true
-                    ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                    ? <ActionsMenu show_list={this.props.show_list} edit={editButton} delete={deleteButton}
+                        archive={archiveButton}
                         restore={restoreButton}/> : null
 
                 const status = (project.deleted_at && !project.is_deleted) ? (<Badge className="mr-2"

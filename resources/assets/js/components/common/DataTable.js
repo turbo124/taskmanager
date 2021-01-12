@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Collapse, Progress, Spinner, Table } from 'reactstrap'
+import { Collapse, Progress, Spinner, Table, ListGroup } from 'reactstrap'
 import PaginationBuilder from './PaginationBuilder'
 import TableSort from './TableSort'
 import ViewEntity from './ViewEntity'
@@ -389,7 +389,7 @@ export default class DataTable extends Component {
                 <tbody>
                     {list}
                 </tbody>
-            </Table> : list
+            </Table> : <ListGroup className="mt-3 mb-3">{list}</ListGroup>
 
         return (
             <React.Fragment>

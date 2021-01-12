@@ -100,7 +100,8 @@ export default class TaskItem extends Component {
                 const isChecked = this.props.bulk.includes(task.id)
                 const selectedRow = this.props.viewId === task.id ? 'table-row-selected' : ''
                 const actionMenu = this.props.showCheckboxes !== true
-                    ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                    ? <ActionsMenu show_list={this.props.show_list} edit={editButton} delete={deleteButton}
+                        archive={archiveButton}
                         restore={restoreButton}/> : null
 
                 if (!this.props.show_list) {

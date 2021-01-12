@@ -167,6 +167,18 @@ class BaseSettings
             'default_value'    => false,
             'type'             => 'bool'
         ],
+        'expense_taxes_calculated_by_amount' => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
+        'expenses_have_inclusive_taxes'              => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => false,
+            'type'             => 'bool'
+        ],
         'credit_payments_enabled'              => [
             'required'         => false,
             'translated_value' => '',

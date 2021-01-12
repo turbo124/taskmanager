@@ -10,6 +10,7 @@ import { translations } from '../../utils/_translations'
 import DefaultModalHeader from '../../common/ModalHeader'
 import DefaultModalFooter from '../../common/ModalFooter'
 import { getExchangeRateWithMap } from '../../utils/_money'
+import FormatMoney from '../../common/FormatMoney'
 
 class AddExpense extends React.Component {
     constructor (props) {
@@ -53,28 +54,46 @@ class AddExpense extends React.Component {
             this.setState({ exchange_rate: exchange_rate })
         }
 
+        if (e.target.name === 'amount') {
+            this.expenseModel.amount = e.target.value
+        }
+
         if (e.target.name === 'tax_rate' || e.target.name === 'tax_2' || e.target.name === 'tax_3') {
             const name = e.target.options[e.target.selectedIndex].getAttribute('data-name')
             const rate = e.target.options[e.target.selectedIndex].getAttribute('data-rate')
             const tax_rate_name = e.target.name === 'tax_rate' ? 'tax_rate_name' : `tax_rate_name_${e.target.name.split('_')[1]}`
 
             this.setState({
+                total: this.state.total,
                 [e.target.name]: rate,
                 [tax_rate_name]: name,
                 changesMade: true
             }, () => {
-                localStorage.setItem('invoiceForm', JSON.stringify(this.state))
-                this.expenseModel.calculateTotals(this.state)
+                localStorage.setItem('expenseForm', JSON.stringify(this.state))
+                this.expenseModel.setTaxValues(this.state)
+
+                const amount_with_tax = this.expenseModel.amountWithTax
+                this.setState({ amount_with_tax: amount_with_tax })
             })
 
             return
         }
 
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
+        const update_tax = e.target.name === 'tax_amount1' || e.target.name === 'tax_amount2' || e.target.name === 'tax_amount3'
 
         this.setState({
             [e.target.name]: value
-        }, () => localStorage.setItem('expenseForm', JSON.stringify(this.state)))
+        }, () => {
+            localStorage.setItem('expenseForm', JSON.stringify(this.state))
+
+            if (update_tax) {
+                this.expenseModel.setTaxValues(this.state)
+
+                const amount_with_tax = this.expenseModel.amountWithTax
+                this.setState({ amount_with_tax: amount_with_tax })
+            }
+        })
     }
 
     toggleTab (tab) {
@@ -127,13 +146,15 @@ class AddExpense extends React.Component {
             custom_value2: this.state.custom_value2,
             custom_value3: this.state.custom_value3,
             custom_value4: this.state.custom_value4,
-            tax_rate: this.state.tax_rate,
-            tax_2: this.state.tax_2,
-            tax_3: this.state.tax_3,
+            tax_rate: this.expenseModel.fields.expense_taxes_calculated_by_amount === true ? this.state.tax_amount1 : this.state.tax_rate,
+            tax_2: this.expenseModel.fields.expense_taxes_calculated_by_amount === true ? this.state.tax_amount2 : this.state.tax_2,
+            tax_3: this.expenseModel.fields.expense_taxes_calculated_by_amount === true ? this.state.tax_amount3 : this.state.tax_3,
             tax_rate_name_2: this.state.tax_rate_name_2,
             tax_rate_name_3: this.state.tax_rate_name_3,
             tax_rate_name: this.state.tax_rate_name,
-            tax_total: this.state.tax_total
+            tax_total: this.state.tax_total,
+            tax_is_amount: this.expenseModel.fields.expense_taxes_calculated_by_amount === true,
+            amount_includes_tax: false
         }
 
         this.expenseModel.save(data).then(response => {
@@ -154,6 +175,7 @@ class AddExpense extends React.Component {
             errors: []
         }, () => {
             if (!this.state.modal) {
+                alert('mike')
                 this.setState(this.initialState, () => localStorage.removeItem('expenseForm'))
             }
         })
@@ -209,7 +231,7 @@ class AddExpense extends React.Component {
                         <TabContent activeTab={this.state.activeTab}>
                             <TabPane tabId="1">
                                 <DetailsForm renderErrorFor={this.renderErrorFor} hasErrorFor={this.hasErrorFor}
-                                    errors={this.state.errors}
+                                    errors={this.state.errors} model={this.expenseModel}
                                     expense={this.state}
                                     handleInput={this.handleInput}
                                     customers={this.props.customers} companies={this.props.companies}/>
@@ -233,6 +255,14 @@ class AddExpense extends React.Component {
                                     private_notes={this.state.private_notes} handleInput={this.handleInput}/>
                             </TabPane>
                         </TabContent>
+
+                        <div className="col-12">
+                            <div>
+                                {translations.expense_total}: <FormatMoney customers={this.props.customers}
+                                    customer_id={this.state.customer_id}
+                                    amount={this.expenseModel.grossAmount}/>
+                            </div>
+                        </div>
                     </ModalBody>
 
                     <DefaultModalFooter show_success={true} toggle={this.toggle}

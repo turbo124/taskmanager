@@ -5,7 +5,6 @@ import PaymentTypeDropdown from '../../common/dropdowns/PaymentTypeDropdown'
 import Datepicker from '../../common/Datepicker'
 import { translations } from '../../utils/_translations'
 import { icons } from '../../utils/_icons'
-import TaxRateDropdown from '../../common/dropdowns/TaxRateDropdown'
 import SwitchWithIcon from '../../common/SwitchWithIcon'
 
 export default class SettingsForm extends React.Component {
@@ -68,36 +67,6 @@ export default class SettingsForm extends React.Component {
             </CardHeader>
 
             <CardBody>
-                {this.account_settings.show_tax_rate1 &&
-                    <FormGroup>
-                        <Label>{translations.tax}</Label>
-                        <TaxRateDropdown
-                            name="tax_rate"
-                            handleInputChanges={this.props.handleInput}
-                        />
-                    </FormGroup>
-                }
-
-                {this.account_settings.show_tax_rate2 &&
-                    <FormGroup>
-                        <Label>{translations.tax}</Label>
-                        <TaxRateDropdown
-                            name="tax_2"
-                            handleInputChanges={this.props.handleInput}
-                        />
-                    </FormGroup>
-                }
-
-                {this.account_settings.show_tax_rate3 &&
-                    <FormGroup>
-                        <Label>{translations.tax}</Label>
-                        <TaxRateDropdown
-                            name="tax_3"
-                            handleInputChanges={this.props.handleInput}
-                        />
-                    </FormGroup>
-                }
-
                 <SwitchWithIcon
                     icon={icons.customer}
                     label={translations.create_expense_invoice}

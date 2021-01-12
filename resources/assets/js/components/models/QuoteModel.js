@@ -3,7 +3,7 @@ import moment from 'moment'
 import BaseModel, { LineItem } from './BaseModel'
 import { consts } from '../utils/_consts'
 
-export const quote_pdf_fields = ['$quote.number', '$quote.po_number', '$quote.quote_date', '$quote.valid_until', '$quote.balance_due',
+export const quote_pdf_fields = ['$quote.number', '$quote.po_number', '$quote.quote_date', '$quote.valid_until', '$quote.balance_due', '$quote.quote_datetime', '$quote.quote_agent',
     '$quote.quote_total', '$quote.partial_due', '$quote.custom1', '$quote.custom2', '$quote.custom3', '$quote.custom4', '$quote.surcharge1',
     '$quote.surcharge2', '$invoice.surcharge3', '$invoice.surcharge4'
 ]

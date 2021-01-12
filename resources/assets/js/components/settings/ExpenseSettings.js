@@ -109,64 +109,98 @@ export default class ExpenseSettings extends Component {
     getExpenseFields () {
         const settings = this.state.settings
 
-        return [
-            [
+        const fields = [
+            {
+                name: 'expense_approval_required',
+                label: translations.expense_approval_required,
+                icon: `fa ${icons.envelope}`,
+                type: 'switch',
+                value: settings.expense_approval_required,
+                help_text: translations.expense_approval_required_help,
+                group: 1
+            },
+            {
+                name: 'expense_auto_create_invoice',
+                label: translations.expense_auto_create_invoice,
+                icon: `fa ${icons.envelope}`,
+                type: 'switch',
+                value: settings.expense_auto_create_invoice,
+                help_text: translations.expense_auto_create_invoice_help,
+                group: 1
+            },
+            {
+                name: 'create_expense_invoice',
+                label: translations.create_expense_invoice,
+                icon: `fa ${icons.envelope}`,
+                type: 'switch',
+                value: settings.create_expense_invoice,
+                help_text: translations.create_expense_invoice_help,
+                group: 1
+            },
+            {
+                name: 'include_expense_documents',
+                label: translations.include_expense_documents,
+                icon: `fa ${icons.archive}`,
+                type: 'switch',
+                value: settings.include_expense_documents,
+                help_text: translations.include_expense_documents_help,
+                group: 1
+            },
+            {
+                name: 'create_expense_payment',
+                label: translations.create_expense_payment,
+                icon: `fa ${icons.archive}`,
+                type: 'switch',
+                value: settings.create_expense_payment,
+                help_text: translations.create_expense_payment_help,
+                group: 1
+            },
+            {
+                name: 'convert_expense_currency',
+                label: translations.convert_expense_currency,
+                icon: `fa ${icons.archive}`,
+                type: 'switch',
+                value: settings.convert_expense_currency,
+                help_text: translations.convert_expense_currency_help,
+                group: 1
+            }
+        ]
+
+        if (settings.show_tax_rate1 === true || settings.show_tax_rate2 === true || settings.show_tax_rate3 === true) {
+            fields.push(
                 {
-                    name: 'expense_approval_required',
-                    label: translations.expense_approval_required,
-                    icon: `fa ${icons.envelope}`,
-                    type: 'switch',
-                    value: settings.expense_approval_required,
-                    help_text: translations.expense_approval_required_help,
-                    group: 1
-                },
-                {
-                    name: 'expense_auto_create_invoice',
-                    label: translations.expense_auto_create_invoice,
-                    icon: `fa ${icons.envelope}`,
-                    type: 'switch',
-                    value: settings.expense_auto_create_invoice,
-                    help_text: translations.expense_auto_create_invoice_help,
-                    group: 1
-                },
-                {
-                    name: 'create_expense_invoice',
-                    label: translations.create_expense_invoice,
-                    icon: `fa ${icons.envelope}`,
-                    type: 'switch',
-                    value: settings.create_expense_invoice,
-                    help_text: translations.create_expense_invoice_help,
-                    group: 1
-                },
-                {
-                    name: 'include_expense_documents',
-                    label: translations.include_expense_documents,
-                    icon: `fa ${icons.archive}`,
-                    type: 'switch',
-                    value: settings.include_expense_documents,
-                    help_text: translations.include_expense_documents_help,
-                    group: 1
-                },
-                {
-                    name: 'create_expense_payment',
-                    label: translations.create_expense_payment,
-                    icon: `fa ${icons.archive}`,
-                    type: 'switch',
-                    value: settings.create_expense_payment,
-                    help_text: translations.create_expense_payment_help,
-                    group: 1
-                },
-                {
-                    name: 'convert_expense_currency',
-                    label: translations.convert_expense_currency,
-                    icon: `fa ${icons.archive}`,
-                    type: 'switch',
-                    value: settings.convert_expense_currency,
-                    help_text: translations.convert_expense_currency_help,
+                    name: 'expense_taxes_calculated_by_amount',
+                    label: translations.enter_taxes,
+                    type: 'select',
+                    options: [
+                        {
+                            value: 'true',
+                            text: translations.by_amount
+                        },
+                        {
+                            value: 'false',
+                            text: translations.by_rate
+                        }
+                    ],
+                    value: settings.expense_taxes_calculated_by_amount,
                     group: 1
                 }
-            ]
-        ]
+            )
+
+            fields.push(
+                {
+                    name: 'expenses_have_inclusive_taxes',
+                    label: translations.inclusive_taxes,
+                    icon: `fa ${icons.archive}`,
+                    type: 'switch',
+                    value: settings.expenses_have_inclusive_taxes,
+                    help_text: translations.expenses_have_inclusive_taxes,
+                    group: 1
+                }
+            )
+        }
+
+        return [fields]
     }
 
     handleClose () {

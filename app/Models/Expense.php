@@ -60,7 +60,9 @@ class Expense extends Model
         'last_sent_date',
         'next_send_date',
         'recurring_frequency',
-        'invoice_id'
+        'invoice_id',
+        'tax_is_amount',
+        'amount_includes_tax'
     ];
 
     protected $casts = [

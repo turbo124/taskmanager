@@ -5,6 +5,7 @@ import FormatDate from '../common/FormatDate'
 import { expenseStatusColors, expenseStatuses, frequencyOptions } from '../utils/_consts'
 import { translations } from '../utils/_translations'
 import { contrast } from '../utils/_colors'
+import ExpenseModel from '../models/ExpenseModel'
 
 export function getDefaultTableFields () {
     return [
@@ -34,6 +35,7 @@ export default function ExpensePresenter (props) {
 
     const paymentInvoices = entity.invoices && Object.keys(entity.invoices).length > 0 ? Array.prototype.map.call(entity.invoices, s => s.number).toString() : null
 
+    const expenseModel = new ExpenseModel(entity, props.customers)
     switch (field) {
         case 'assigned_to': {
             const assigned_user = JSON.parse(localStorage.getItem('users')).filter(user => user.id === parseInt(props.entity.assigned_to))
@@ -45,16 +47,25 @@ export default function ExpensePresenter (props) {
         }
         case 'frequency':
             return translations[frequencyOptions[entity.frequency]]
+        case 'net_amount':
+            return <FormatMoney
+                customers={props.customers} customer_id={entity.customer_id}
+                amount={expenseModel.netAmount}/>
         case 'amount':
             return <FormatMoney
                 customers={props.customers} customer_id={entity.customer_id}
-                amount={entity.amount}/>
+                amount={expenseModel.grossAmount}/>
+        case 'tax_amount':
+            return <FormatMoney
+                customers={props.customers} customer_id={entity.customer_id}
+                amount={expenseModel.amountWithTax}/>
         case 'status_field':
             return status
         case 'date':
         case 'created_at':
         case 'payment_date': {
-            return !entity[field] || !entity[field].length || entity[field] === '0000-00-00' ? '' : <FormatDate field={field} date={entity[field]}/>
+            return !entity[field] || !entity[field].length || entity[field] === '0000-00-00' ? ''
+                : <FormatDate field={field} date={entity[field]}/>
         }
 
         case 'status_id':

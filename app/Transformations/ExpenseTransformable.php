@@ -62,8 +62,8 @@ trait ExpenseTransformable
             'category'             => $expense->category,
             'tax_2'                => (float)$expense->tax_2,
             'tax_3'                => (float)$expense->tax_3,
-            'tax_rate_name_2'      => $expense->tax_rate_name_2,
-            'tax_rate_name_3'      => $expense->tax_rate_name_3,
+            'tax_rate_name_2'      => $expense->tax_rate_name_2 ?: '',
+            'tax_rate_name_3'      => $expense->tax_rate_name_3 ?: '',
         ];
     }
 

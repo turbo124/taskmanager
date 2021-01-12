@@ -81,7 +81,8 @@ export default class ExpenseItem extends Component {
                 const isChecked = this.props.bulk.includes(expense.id)
                 const selectedRow = this.props.viewId === expense.id ? 'table-row-selected' : ''
                 const actionMenu = this.props.showCheckboxes !== true
-                    ? <ActionsMenu edit={editButton} delete={deleteButton} archive={archiveButton}
+                    ? <ActionsMenu show_list={this.props.show_list} edit={editButton} delete={deleteButton}
+                        archive={archiveButton}
                         restore={restoreButton}/> : null
 
                 const is_mobile = this.state.width <= 500
@@ -116,7 +117,8 @@ export default class ExpenseItem extends Component {
                             <h5 className="col-5"><ExpensePresenter customers={customers} field="customer_id"
                                 entity={expense}
                                 edit={editButton}
-                                toggleViewedEntity={this.props.toggleViewedEntity}/></h5>
+                                toggleViewedEntity={this.props.toggleViewedEntity}/>
+                            </h5>
                             <span className="col-4">{expense.number} . <ExpensePresenter field="date"
                                 entity={expense}
                                 edit={editButton}
@@ -126,7 +128,8 @@ export default class ExpenseItem extends Component {
                                     toggleViewedEntity={this.props.toggleViewedEntity}
                                     field="amount" entity={expense} edit={editButton}/>
                             </span>
-                            <span className="col-2"><ExpensePresenter field="status_field" entity={expense} edit={editButton}
+                            <span className="col-2"><ExpensePresenter field="status_field" entity={expense}
+                                edit={editButton}
                                 toggleViewedEntity={this.props.toggleViewedEntity}/></span>
                         </div>
                     </ListGroupItem>

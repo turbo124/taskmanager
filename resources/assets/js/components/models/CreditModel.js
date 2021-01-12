@@ -3,7 +3,7 @@ import moment from 'moment'
 import BaseModel, { LineItem } from './BaseModel'
 import { consts } from '../utils/_consts'
 
-export const credit_pdf_fields = ['$credit.number', '$credit.po_number', '$credit.credit_date', '$credit.credit_amount',
+export const credit_pdf_fields = ['$credit.number', '$credit.po_number', '$credit.credit_date', '$credit.credit_amount', '$credit.credit_datetime', '$credit.credit_agent',
     '$credit.balance', '$credit.partial_due', '$credit.custom1', '$credit.custom2', '$credit.custom3', '$credit.custom4',
     '$credit.surcharge1', '$credit.surcharge2', '$credit.surcharge3', '$credit.surcharge4'
 ]
