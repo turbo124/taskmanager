@@ -64,7 +64,8 @@ export default class SupportModal extends Component {
             ? <SuccessMessage message="Your message has been sent successfully"/> : null
         const errorMessage = this.state.showErrorMessage === true ? <ErrorMessage
             message="Your message could not be sent"/> : null
-        const color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? '#fff' : '#000'
+        const color = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
+            ? '#fff' : '#000'
 
         return (
             <React.Fragment>

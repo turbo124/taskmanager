@@ -185,6 +185,7 @@ class LoginController extends Controller
     {
         $this->forced_includes = ['company_users'];
 
+        $token = JWTAuth::fromUser(auth()->user());
         $user = auth()->user();
         $user->auth_token = $token;
         $user->save();

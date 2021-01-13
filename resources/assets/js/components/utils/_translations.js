@@ -402,6 +402,7 @@ _localizedValues.en = {
     details: 'Details',
     edit_payment: 'Edit Payment',
     add_payment: 'Add Payment',
+    default_documents: 'Default Documents',
     documents: 'Documents',
     settings: 'Settings',
     notes: 'Notes',
@@ -841,7 +842,12 @@ _localizedValues.en = {
     tax_name1: 'Tax Name 1',
     tax_name2: 'Tax Name 2',
     tax_name3: 'Tax Name 3',
-    tax_amount: 'Tax'
+    tax_amount: 'Tax',
+    portal_documents_enabled: 'Uploads',
+    portal_dashboard_enabled: 'Dashboard',
+    portal_tasks_enabled: 'Tasks',
+    portal_cases_enabled: 'Cases',
+    portal_documents_enabled_help_text: 'Allow customers to upload documents in portal'
 }
 
 let language = []

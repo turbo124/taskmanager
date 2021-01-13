@@ -3,7 +3,8 @@ import { Card, CardBody } from 'reactstrap'
 import FormatMoney from '../FormatMoney'
 
 export default function ViewEntityHeader (props) {
-    const text_color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'text-white' : 'text-dark'
+    const text_color = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
+        ? '#fff' : '#000'
 
     return <Card body outline color="primary">
         <CardBody className={text_color}>

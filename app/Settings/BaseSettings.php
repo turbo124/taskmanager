@@ -167,13 +167,13 @@ class BaseSettings
             'default_value'    => false,
             'type'             => 'bool'
         ],
-        'expense_taxes_calculated_by_amount' => [
+        'expense_taxes_calculated_by_amount'   => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => false,
             'type'             => 'bool'
         ],
-        'expenses_have_inclusive_taxes'              => [
+        'expenses_have_inclusive_taxes'        => [
             'required'         => false,
             'translated_value' => '',
             'default_value'    => false,
@@ -213,6 +213,30 @@ class BaseSettings
             'required'         => false,
             'translated_value' => '',
             'default_value'    => false,
+            'type'             => 'bool'
+        ],
+        'portal_documents_enabled'             => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'portal_dashboard_enabled'             => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'portal_tasks_enabled'                 => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
+            'type'             => 'bool'
+        ],
+        'portal_cases_enabled'                 => [
+            'required'         => false,
+            'translated_value' => '',
+            'default_value'    => true,
             'type'             => 'bool'
         ],
         'display_invoice_terms'                => [

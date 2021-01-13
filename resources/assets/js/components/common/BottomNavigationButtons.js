@@ -4,8 +4,10 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 
 export default class BottomNavigationButtons extends Component {
     render () {
-        const text_color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'text-white' : 'text-dark'
-        const bg_color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'bg-dark' : 'bg-light'
+        const text_color = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
+            ? 'text-light' : 'text-dark'
+        const bg_color = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
+            ? 'bg-dark' : 'bg-light'
 
         return (
             <React.Fragment>

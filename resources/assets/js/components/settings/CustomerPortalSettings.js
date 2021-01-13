@@ -97,14 +97,16 @@ export default class CustomerPortalSettings extends Component {
                     label: translations.customer_signup_terms,
                     type: 'textarea',
                     placeholder: translations.customer_signup_terms,
-                    value: settings.portal_terms
+                    value: settings.portal_terms,
+                    inputClass: 'textarea-lg'
                 },
                 {
                     name: 'portal_privacy_policy',
                     label: translations.portal_privacy_policy,
                     type: 'textarea',
                     placeholder: translations.portal_privacy_policy,
-                    value: settings.portal_privacy_policy
+                    value: settings.portal_privacy_policy,
+                    inputClass: 'textarea-lg'
                 },
                 {
                     name: 'portal_dashboard_message',
@@ -112,6 +114,47 @@ export default class CustomerPortalSettings extends Component {
                     type: 'textarea',
                     placeholder: translations.dashboard_message,
                     value: settings.portal_dashboard_message
+                }
+            ]
+        ]
+    }
+
+    getEnabledModuleFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'portal_documents_enabled',
+                    label: translations.portal_documents_enabled,
+                    type: 'switch',
+                    placeholder: translations.portal_documents_enabled,
+                    value: settings.portal_documents_enabled,
+                    help_text: translations.portal_documents_enabled_help_text
+                },
+                {
+                    name: 'portal_dashboard_enabled',
+                    label: translations.portal_dashboard_enabled,
+                    type: 'switch',
+                    placeholder: translations.portal_dashboard_enabled,
+                    value: settings.portal_dashboard_enabled
+                    // help_text: translations.portal_dashboard_enabled_help_text
+                },
+                {
+                    name: 'portal_tasks_enabled',
+                    label: translations.portal_tasks_enabled,
+                    type: 'switch',
+                    placeholder: translations.portal_tasks_enabled,
+                    value: settings.portal_tasks_enabled
+                    // help_text: translations.portal_tasks_enabled_help_text
+                },
+                {
+                    name: 'portal_cases_enabled',
+                    label: translations.portal_cases_enabled,
+                    type: 'switch',
+                    placeholder: translations.portal_cases_enabled,
+                    value: settings.portal_cases_enabled
+                    // help_text: translations.portal_tasks_enabled_help_text
                 }
             ]
         ]
@@ -264,6 +307,15 @@ export default class CustomerPortalSettings extends Component {
                 <div className="settings-container settings-container-narrow fixed-margin-mobile">
                     <TabContent activeTab={this.state.activeTab}>
                         <TabPane tabId="1">
+                            <Card className="mb-2">
+                                <CardBody>
+                                    <FormBuilder
+                                        handleChange={this.handleSettingsChange}
+                                        formFieldsRows={this.getEnabledModuleFields()}
+                                    />
+                                </CardBody>
+                            </Card>
+
                             <Card>
                                 <CardBody>
                                     <FormBuilder

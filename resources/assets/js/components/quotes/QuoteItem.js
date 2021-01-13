@@ -108,7 +108,7 @@ export default class QuoteItem extends Component {
                         {columnList}
                     </tr>
                 }
-                return !is_mobile ? <div className={`d-flex d-inline ${list_class}`}>
+                return !is_mobile && !this.props.force_mobile ? <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={quote.id} type="checkbox"

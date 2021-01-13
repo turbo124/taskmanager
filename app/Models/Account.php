@@ -168,6 +168,11 @@ class Account extends Model
         return Country::find($this->settings->country_id);
     }
 
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
     /**
      * @return BelongsTo
      */

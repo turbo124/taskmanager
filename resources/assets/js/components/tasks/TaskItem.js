@@ -117,7 +117,7 @@ export default class TaskItem extends Component {
                     </tr>
                 }
 
-                return !is_mobile ? <div className={`d-flex d-inline ${list_class}`}>
+                return !is_mobile && !this.props.force_mobile ? <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={task.id} type="checkbox"
@@ -169,7 +169,7 @@ export default class TaskItem extends Component {
                             <h5 className="mb-1">{<TaskPresenter customers={customers} field="name" entity={task}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
                                 edit={editButton}/>}</h5>
-                            {!!task.project && task.project.length.length &&
+                            {!!task.project && task.project.length &&
                             <TaskPresenter customers={customers}
                                 field="project" entity={task}
                                 toggleViewedEntity={this.props.toggleViewedEntity}
