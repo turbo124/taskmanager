@@ -63,6 +63,120 @@ class CustomerSettings extends Component {
         }))
     }
 
+
+getCustomerPortalFields () {
+        const settings = this.state.settings
+
+        return [
+            [
+                {
+                    name: 'portal_documents_enabled',
+                    label: translations.portal_documents_enabled,
+                    type: 'switch',
+                    placeholder: translations.portal_documents_enabled,
+                    value: settings.portal_documents_enabled,
+                    help_text: translations.portal_documents_enabled_help_text
+                },
+                {
+                    name: 'portal_dashboard_enabled',
+                    label: translations.portal_dashboard_enabled,
+                    type: 'switch',
+                    placeholder: translations.portal_dashboard_enabled,
+                    value: settings.portal_dashboard_enabled
+                    // help_text: translations.portal_dashboard_enabled_help_text
+                },
+                {
+                    name: 'portal_tasks_enabled',
+                    label: translations.portal_tasks_enabled,
+                    type: 'switch',
+                    placeholder: translations.portal_tasks_enabled,
+                    value: settings.portal_tasks_enabled
+                    // help_text: translations.portal_tasks_enabled_help_text
+                },
+                {
+                    name: 'portal_cases_enabled',
+                    label: translations.portal_cases_enabled,
+                    type: 'switch',
+                    placeholder: translations.portal_cases_enabled,
+                    value: settings.portal_cases_enabled
+                    // help_text: translations.portal_tasks_enabled_help_text
+                },
+                {
+                    name: 'under_payments_allowed',
+                    label: translations.under_payments_allowed,
+                    type: 'switch',
+                    placeholder: translations.under_payments_allowed,
+                    value: settings.under_payments_allowed,
+                    help_text: translations.under_payments_allowed_help_text
+                },
+                {
+                    name: 'over_payments_allowed',
+                    label: translations.over_payments_allowed,
+                    type: 'switch',
+                    placeholder: translations.over_payments_allowed,
+                    value: settings.over_payments_allowed,
+                    help_text: translations.over_payments_allowed_help_text
+                },
+                {
+                    name: 'minimum_amount_required',
+                    label: translations.minimum_amount_required,
+                    type: 'text',
+                    placeholder: translations.minimum_amount_required,
+                    value: settings.minimum_amount_required
+                },
+                {
+                    name: 'credit_payments_enabled',
+                    label: translations.credit_payments_enabled,
+                    type: 'switch',
+                    placeholder: translations.credit_payments_enabled,
+                    value: settings.credit_payments_enabled,
+                    help_text: translations.over_payments_allowed_help_text
+                },
+                {
+                    icon: `fa ${icons.shield}`,
+                    name: 'require_customer_portal_login',
+                    label: translations.enable_portal_password,
+                    type: 'switch',
+                    placeholder: translations.enable_portal_password_help,
+                    value: settings.require_customer_portal_login,
+                    help_text: translations.customer_registration_help_text
+                },
+                {
+                    name: 'display_invoice_terms',
+                    label: translations.display_invoice_terms,
+                    icon: `fa ${icons.checkbox_o}`,
+                    type: 'switch',
+                    placeholder: translations.display_invoice_terms,
+                    value: settings.display_invoice_terms
+                },
+                {
+                    name: 'display_quote_terms',
+                    label: translations.display_quote_terms,
+                    icon: `fa ${icons.checkbox_o}`,
+                    type: 'switch',
+                    placeholder: translations.display_quote_terms,
+                    value: settings.display_quote_terms
+                },
+                {
+                    name: 'display_invoice_signature',
+                    label: translations.display_invoice_signature,
+                    icon: `fa ${icons.pencil}`,
+                    type: 'switch',
+                    placeholder: translations.display_invoice_signature,
+                    value: settings.display_invoice_signature
+                },
+                {
+                    name: 'display_quote_signature',
+                    label: translations.display_quote_signature,
+                    icon: `fa ${icons.pencil}`,
+                    type: 'switch',
+                    placeholder: translations.display_quote_signature,
+                    value: settings.display_quote_signature
+                }
+            ]
+        ]
+    }
+
     getFormFields () {
         const settings = this.state.settings
 
@@ -1279,6 +1393,16 @@ class CustomerSettings extends Component {
                         </NavLink>
                     </NavItem>
                     }
+
+                    <NavItem>
+                        <NavLink
+                            className={this.state.activeTab === '18' ? 'active' : ''}
+                            onClick={(e) => {
+                                this.toggleTab('18', e)
+                            }}>
+                            {translations.customer_portal}
+                        </NavLink>
+                    </NavItem>
                 </Nav>
 
                 <TabContent activeTab={this.state.activeTab}>
@@ -1539,6 +1663,17 @@ class CustomerSettings extends Component {
                                 <FormBuilder
                                     handleChange={this.handleSettingsChange}
                                     formFieldsRows={this.getCompanyNumberFields()}
+                                />
+                            </CardBody>
+                        </Card>
+                    </TabPane>
+
+                    <TabPane tabId="18">
+                        <Card>
+                            <CardBody>
+                                <FormBuilder
+                                    handleChange={this.handleSettingsChange}
+                                    formFieldsRows={this.getCustomerPortalFields()}
                                 />
                             </CardBody>
                         </Card>
