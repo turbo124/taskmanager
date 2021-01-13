@@ -32,7 +32,7 @@ echo '</pre>';
     var d2 = new Date ( d1 )
     d2.setMinutes ( d1.getMinutes () + 154.8 )
 
-    alert(location.href)
+    alert ( location.href )
 
     // save app state with user date in local storage
     localStorage.appState = JSON.stringify ( appState )
@@ -45,8 +45,9 @@ echo '</pre>';
     localStorage.setItem ( 'custom_fields', JSON.stringify (<?php echo $data['custom_fields'] ?>) )
     localStorage.setItem ( 'users', JSON.stringify (<?php echo $data['users'] ?>) )
     localStorage.setItem ( 'access_token', userData.auth_token )
-    localStorage.setItem('number_of_accounts', response.data.data.number_of_accounts)
+    localStorage.setItem ( 'number_of_accounts', <?php echo $data['number_of_accounts']?>)
     localStorage.setItem ( 'expires', d2 )
     localStorage.setItem ( 'account_id', <?php echo $data['account_id'] ?>)
-    window.location.href = '<?php echo $data['redirect'] ?>/#/'
+    const url = localStorage.getItem ( 'domain' ) || '<?php echo $data['redirect'] ?>'
+    window.location.replace(`${url}/#/`)
 </script>

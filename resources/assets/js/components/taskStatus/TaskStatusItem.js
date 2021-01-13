@@ -98,7 +98,7 @@ export default class TaskStatusItem extends Component {
                     </tr>
                 }
 
-                return is_mobile ? <div className={`d-flex d-inline ${list_class}`}>
+                return is_mobile || this.props.force_mobile ? <div className={`d-flex d-inline ${list_class}`}>
                     <div className="list-action">
                         {!!this.props.onChangeBulk &&
                         <Input checked={isChecked} className={checkboxClass} value={taskStatus.id} type="checkbox"

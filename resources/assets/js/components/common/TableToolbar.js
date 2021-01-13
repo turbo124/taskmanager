@@ -5,8 +5,8 @@ import { UncontrolledTooltip } from 'reactstrap'
 import { translations } from '../utils/_translations'
 
 export default function TableToolbar (props) {
-    const text_color = localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true' ? 'text-white' : 'text-dark'
-
+    const text_color = !Object.prototype.hasOwnProperty.call(localStorage, 'dark_theme') || (localStorage.getItem('dark_theme') && localStorage.getItem('dark_theme') === 'true')
+        ? 'text-white' : 'text-dark'
     return (
         <React.Fragment>
             <UncontrolledTooltip placement="top" target="refresh">

@@ -1773,7 +1773,7 @@ export default class Dashboard extends Component {
         const overdue_invoices = this.state.customers.length && arrOverdueInvoices.length
             ? <InvoiceItem showCheckboxes={false} updateInvoice={(entities) => {
                 this.addUserToState('invoices', entities)
-            }} invoices={arrOverdueInvoices} show_list={true} users={[]}
+            }} invoices={arrOverdueInvoices} force_mobile={true} show_list={true} users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
@@ -1787,7 +1787,7 @@ export default class Dashboard extends Component {
         const recent_invoices = this.state.customers.length && arrRecentInvoices.length
             ? <InvoiceItem showCheckboxes={false} updateInvoice={(entities) => {
                 this.addUserToState('invoices', entities)
-            }} invoices={arrRecentInvoices} show_list={true} users={[]}
+            }} invoices={arrRecentInvoices} force_mobile={true} show_list={true} users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
@@ -1798,7 +1798,7 @@ export default class Dashboard extends Component {
             onChangeBulk={null}/> : null
 
         const recent_tasks = this.state.customers.length && arrRecentTasks.length
-            ? <TaskItem showCheckboxes={false} action={(entities) => {
+            ? <TaskItem showCheckboxes={false} force_mobile={true} action={(entities) => {
                 this.addUserToState('tasks', entities)
             }} tasks={arrRecentTasks} show_list={true} users={JSON.parse(localStorage.getItem('users'))}
             custom_fields={[]} customers={this.state.customers}
@@ -1813,7 +1813,8 @@ export default class Dashboard extends Component {
         const running_tasks = this.state.customers.length && arrRunningTasks.length
             ? <TaskItem showCheckboxes={false} action={(entities) => {
                 this.addUserToState('tasks', entities)
-            }} tasks={arrRunningTasks} show_list={true} users={JSON.parse(localStorage.getItem('users'))}
+            }} tasks={arrRunningTasks} force_mobile={true} show_list={true}
+            users={JSON.parse(localStorage.getItem('users'))}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
@@ -1826,7 +1827,7 @@ export default class Dashboard extends Component {
         const recent_expenses = this.state.customers.length && arrRecentExpenses.length
             ? <ExpenseItem showCheckboxes={false} updateExpenses={(entities) => {
                 this.addUserToState('expenses', entities)
-            }} expenses={arrRecentExpenses} show_list={true} users={[]}
+            }} expenses={arrRecentExpenses} force_mobile={true} show_list={true} users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
@@ -1839,7 +1840,7 @@ export default class Dashboard extends Component {
         const overdue_quotes = this.state.customers.length && arrOverdueQuotes.length
             ? <QuoteItem showCheckboxes={false} updateInvoice={(entities) => {
                 this.addUserToState('quotes', entities)
-            }} quotes={arrOverdueQuotes} show_list={true} users={[]}
+            }} quotes={arrOverdueQuotes} force_mobile={true} show_list={true} users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
@@ -1852,7 +1853,7 @@ export default class Dashboard extends Component {
         const recent_quotes = this.state.customers.length && arrRecentQuotes.length
             ? <QuoteItem showCheckboxes={false} updateInvoice={(entities) => {
                 this.addUserToState('quotes', entities)
-            }} quotes={arrRecentQuotes} show_list={true} users={[]}
+            }} quotes={arrRecentQuotes} force_mobile={true} show_list={true} users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
@@ -1865,7 +1866,7 @@ export default class Dashboard extends Component {
         const overdue_orders = this.state.customers.length && arrOverdueOrders.length
             ? <OrderItem showCheckboxes={false} updateOrder={(entities) => {
                 this.addUserToState('orders', entities)
-            }} orders={arrOverdueOrders} show_list={true} users={[]}
+            }} orders={arrOverdueOrders} force_mobile={true} show_list={true} users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
@@ -1878,7 +1879,7 @@ export default class Dashboard extends Component {
         const recent_orders = this.state.customers.length && arrRecentOrders.length
             ? <OrderItem showCheckboxes={false} updateOrder={(entities) => {
                 this.addUserToState('orders', entities)
-            }} orders={arrRecentOrders} show_list={true} users={[]}
+            }} orders={arrRecentOrders} force_mobile={true} show_list={true} users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}
             ignoredColumns={this.state.ignoredColumns}
@@ -1891,7 +1892,8 @@ export default class Dashboard extends Component {
         const recent_payments = this.state.customers.length && arrRecentPayments.length
             ? <PaymentItem showCheckboxes={false} updateCustomers={(entities) => {
                 this.addUserToState('payments', entities)
-            }} payments={arrRecentPayments} credits={this.state.credits} invoices={this.state.invoices} show_list={true}
+            }} payments={arrRecentPayments} force_mobile={true} credits={this.state.credits}
+            invoices={this.state.invoices} show_list={true}
             users={[]}
             custom_fields={[]} customers={this.state.customers}
             viewId={this.state.viewId}

@@ -249,7 +249,7 @@ class CustomFieldSettings extends Component {
         const tabContent = []
         const tabItems = []
 
-        if (customers && this.modules.customers === true) {
+        if (customers && this.modules && this.modules.customers === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
                     <CardBody>
@@ -279,7 +279,7 @@ class CustomFieldSettings extends Component {
             tabCounter++
         }
 
-        if (product && this.modules.products === true) {
+        if (product && this.modules && this.modules.products === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
                     <CardBody>
@@ -310,7 +310,7 @@ class CustomFieldSettings extends Component {
             tabCounter++
         }
 
-        if (invoices && this.modules.invoices === true) {
+        if (invoices && this.modules && this.modules.invoices === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
                     <CardBody>
@@ -341,7 +341,7 @@ class CustomFieldSettings extends Component {
             tabCounter++
         }
 
-        if (payments && this.modules.payments === true) {
+        if (payments && this.modules && this.modules.payments === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
                     <CardBody>
@@ -372,7 +372,7 @@ class CustomFieldSettings extends Component {
             tabCounter++
         }
 
-        if (companies && this.modules.companies === true) {
+        if (companies && this.modules && this.modules.companies === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
                     <CardBody>
@@ -403,7 +403,7 @@ class CustomFieldSettings extends Component {
             tabCounter++
         }
 
-        if (quotes && this.modules.quotes === true) {
+        if (quotes && this.modules && this.modules.quotes === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
                     <CardBody>
@@ -434,7 +434,7 @@ class CustomFieldSettings extends Component {
             tabCounter++
         }
 
-        if (credits && this.modules.credits === true) {
+        if (credits && this.modules && this.modules.credits === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
                     <CardBody>
@@ -465,7 +465,7 @@ class CustomFieldSettings extends Component {
             tabCounter++
         }
 
-        if (tasks && this.modules.tasks === true) {
+        if (tasks && this.modules && this.modules.tasks === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
                     <CardBody>
@@ -496,7 +496,7 @@ class CustomFieldSettings extends Component {
             tabCounter++
         }
 
-        if (expenses && this.modules.expenses === true) {
+        if (expenses && this.modules && this.modules.expenses === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
                     <CardBody>
@@ -527,7 +527,7 @@ class CustomFieldSettings extends Component {
             tabCounter++
         }
 
-        if (orders && this.modules.orders === true) {
+        if (orders && this.modules && this.modules.orders === true) {
             tabContent.push(<TabPane tabId={String(tabCounter)}>
                 <Card>
                     <CardBody>

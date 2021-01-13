@@ -1,6 +1,18 @@
 import React, { Component } from 'react'
 import FormBuilder from './FormBuilder'
-import { Card, CardBody, CustomInput, FormGroup, Label, Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
+import {
+    Card,
+    CardBody,
+    CardHeader,
+    CustomInput,
+    FormGroup,
+    Label,
+    Nav,
+    NavItem,
+    NavLink,
+    TabContent,
+    TabPane
+} from 'reactstrap'
 import axios from 'axios'
 import { translations } from '../utils/_translations'
 import { icons } from '../utils/_icons'
@@ -8,6 +20,7 @@ import BlockButton from '../common/BlockButton'
 import SnackbarMessage from '../common/SnackbarMessage'
 import Header from './Header'
 import AccountRepository from '../repositories/AccountRepository'
+import FileUploads from '../documents/FileUploads'
 
 class Settings extends Component {
     constructor (props) {
@@ -354,7 +367,7 @@ class Settings extends Component {
 
         const modules = JSON.parse(localStorage.getItem('modules'))
 
-        if (modules.invoices) {
+        if (modules && modules.invoices) {
             defaults.push({
                 name: 'invoice_terms',
                 label: translations.invoice_terms,
@@ -373,7 +386,7 @@ class Settings extends Component {
             })
         }
 
-        if (modules.quotes) {
+        if (modules && modules.quotes) {
             defaults.push({
                 name: 'quote_terms',
                 label: translations.quote_terms,
@@ -393,7 +406,7 @@ class Settings extends Component {
             })
         }
 
-        if (modules.credits) {
+        if (modules && modules.credits) {
             defaults.push({
                 name: 'credit_terms',
                 label: translations.credit_terms,
@@ -413,7 +426,7 @@ class Settings extends Component {
             })
         }
 
-        if (modules.orders) {
+        if (modules && modules.orders) {
             defaults.push({
                 name: 'order_terms',
                 label: translations.order_terms,
@@ -479,6 +492,16 @@ class Settings extends Component {
                         this.toggle('4')
                     }}>
                     {translations.defaults}
+                </NavLink>
+            </NavItem>
+
+            <NavItem>
+                <NavLink
+                    className={this.state.activeTab === '5' ? 'active' : ''}
+                    onClick={() => {
+                        this.toggle('5')
+                    }}>
+                    {translations.documents}
                 </NavLink>
             </NavItem>
         </Nav>
@@ -560,6 +583,16 @@ class Settings extends Component {
                                         handleChange={this.handleSettingsChange}
                                         formFieldsRows={this.getDefaultFields()}
                                     />
+                                </CardBody>
+                            </Card>
+                        </TabPane>
+
+                        <TabPane tabId="5">
+                            <Card>
+                                <CardHeader>{translations.default_documents}</CardHeader>
+                                <CardBody>
+                                    <FileUploads entity_type="Account" entity={this.state}
+                                        user_id={this.state.user_id}/>
                                 </CardBody>
                             </Card>
                         </TabPane>

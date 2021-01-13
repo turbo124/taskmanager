@@ -702,6 +702,16 @@ $color_iron_approx: #d6d6d6;
     }
   }
 
+  .modal-body .dropdown-item {
+    padding: 8px 20px !important;
+  }
+
+  .settings-menu {
+    .dropdown-item {
+      padding: 8px 20px !important;
+    }
+  }
+
   .dropdown-header {
     display: block;
     padding: 0 1.5rem;

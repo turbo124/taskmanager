@@ -615,7 +615,7 @@ export default class DropdownMenuBuilder extends Component {
                         {translations.action}
                     </DropdownToggle>
 
-                    <DropdownMenu className="text-white">
+                    <DropdownMenu className="text-white settings-menu">
                         {actions}
                     </DropdownMenu>
                 </Dropdown>

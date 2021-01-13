@@ -15,6 +15,21 @@ class FileUpload extends Component {
             loaded: 0,
             customer_can_view: false
         }
+
+        this.allowed_extensions = [
+            'png',
+            'svg',
+            'jpeg',
+            'gif',
+            'jpg',
+            'bmp',
+            'txt',
+            'doc',
+            'docx',
+            'xls',
+            'xlsx',
+            'pdf'
+        ]
     }
 
     checkFileSize (event) {
@@ -36,12 +51,14 @@ class FileUpload extends Component {
     checkMimeType (event) {
         const files = event.target.files
         const err = []
-        const types = ['image/png', 'image/jpeg', 'image/gif', 'application/pdf']
         for (let x = 0; x < files.length; x++) {
-            if (types.every(type => files[x].type !== type)) {
+            const extension = files[x].name.split('.').pop()
+
+            if (!this.allowed_extensions.includes(extension)) {
                 err[x] = files[x].type + ' is not a supported format\n'
             }
         }
+
         for (var z = 0; z < err.length; z++) {
             toast.error(err[z])
             event.target.value = null
@@ -99,9 +116,12 @@ class FileUpload extends Component {
                         this.props.addFile(file)
                     ))
                 }
+
+                this.setState({ selectedFile: [] })
                 toast.success('upload success')
             })
             .catch(err => { // then print response status
+                this.setState({ selectedFile: [] })
                 console.warn(err)
                 toast.error('upload fail')
             })
@@ -125,7 +145,7 @@ class FileUpload extends Component {
                 <div className="row">
                     <div className="col-12">
                         <div className="form-group files">
-                            <span className="btn btn-default btn-file img-select-btn">
+                            <span className="btn btn-primary btn-file img-select-btn">
                                 <span>{translations.browse}</span>
                                 <input type="file" multiple name="img-file-input"
                                     onChange={this.onChangeHandler.bind(this)}/>
@@ -160,9 +180,11 @@ class FileUpload extends Component {
                                 value={this.state.loaded}>{Math.round(this.state.loaded, 2)}%</Progress>
                         </div>
 
+                        {!!this.state.selectedFile.length &&
                         <button type="button" className="btn btn-success btn-block col-4 pull-right"
                             onClick={this.onClickHandler.bind(this)}>{translations.upload}
                         </button>
+                        }
 
                         <div className="Files">
                             {file_list}

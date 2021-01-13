@@ -47,7 +47,7 @@ export default class BaseModel {
     }
 
     isModuleEnabled (module) {
-        return JSON.parse(localStorage.getItem('modules'))[module]
+        return Object.prototype.hasOwnProperty.call(localStorage, 'modules') && JSON.parse(localStorage.getItem('modules'))[module]
     }
 
     getCustomFieldLabel (entity, field) {
